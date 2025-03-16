@@ -39,7 +39,7 @@
           <artifactId>exec-maven-plugin</artifactId>
           <version>3.5.0</version>
           <configuration>
-            <mainClass>edu.student.itson.dissof.presentacion.App</mainClass>
+            <mainClass>edu.student.itson.dissof.megazarl.presentacion.App</mainClass>
           </configuration>
         </plugin>
         <plugin>
