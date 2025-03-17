@@ -6,5 +6,7 @@ package edu.student.itson.dissof.megazarl.presentacion;
 public class App {
     public static void main(String[] args) {
         System.out.println("Hello World!");
+        Direccion direccion = new Direccion();
+        direccion.setVisible(true);
     }
 }
