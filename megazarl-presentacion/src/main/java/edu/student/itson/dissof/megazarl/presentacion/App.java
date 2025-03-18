@@ -43,7 +43,7 @@ public class App {
             }
         }
     }
-            
+
     public static void main(String[] args) {
         // Cuando ya no se necesite, remover el método, este comentario, y su
         // prosiguiente línea es suficiente.
