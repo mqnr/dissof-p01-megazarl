@@ -17,6 +17,7 @@ public class App {
             System.out.println("1. Dirección");
             System.out.println("2. Información producto");
             System.out.println("3. Mensaje");
+            System.out.println("4. Carrito compras");
 
             if (scanner.hasNextInt()) {
                 int seleccion = scanner.nextInt();
@@ -33,6 +34,10 @@ public class App {
                     }
                     case 3 -> {
                         new Mensaje().setVisible(true);
+                        return;
+                    }
+                    case 4 -> {
+                        new CarritoCompras().setVisible(true);
                         return;
                     }
                     default -> System.out.println("Opción inválida.");
