@@ -21,6 +21,8 @@ public class CarritoCompras extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(900, 600);
         setLocationRelativeTo(null);
+        Image iconoPropio = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logoApp.png")).getScaledInstance(90, 90, Image.SCALE_SMOOTH);
+        setIconImage(iconoPropio);
 
         // Panel principal con BorderLayout
         JPanel panelPrincipal = new JPanel(new BorderLayout());
