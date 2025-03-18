@@ -335,12 +335,12 @@ public class CarritoCompras extends JFrame {
 
         JLabel imagenProductoRecomendado = new JLabel();
         // TODO: CAMBIAR
-        ImageIcon iconRecomendado = new ImageIcon(getClass().getResource("/sandia.png"));
+        ImageIcon iconRecomendado = new ImageIcon(getClass().getResource("/sandia_verde_grande.png"));
         // Redimensionar
         imagen = iconRecomendado.getImage();
-        redimensionada = imagen.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+        redimensionada = imagen.getScaledInstance(120, 70, Image.SCALE_SMOOTH);
         imagenProductoRecomendado.setIcon(new ImageIcon(redimensionada));
-        imagenProductoRecomendado.setPreferredSize(new Dimension(80, 80));
+        imagenProductoRecomendado.setPreferredSize(new Dimension(120, 70));
 
         JPanel panelDetallesRecomendaciones = new JPanel();
         panelDetallesRecomendaciones.setLayout(new BoxLayout(panelDetallesRecomendaciones, BoxLayout.Y_AXIS));
