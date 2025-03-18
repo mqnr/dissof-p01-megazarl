@@ -32,23 +32,26 @@ public class CarritoCompras extends JFrame {
     }
 
     private JPanel crearPanelCabecera() {
-        JPanel panelCabecera = new JPanel(new BorderLayout());
+        // Panel principal de cabecera con 2 filas
+        JPanel panelCabecera = new JPanel(new GridLayout(2, 1));
         panelCabecera.setBackground(CABECERA_VERDE);
-        panelCabecera.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        // Lado izquierdo: el perfil de usuario
+        // Primera fila: Perfil a la izquierda, Logo en el centro
+        JPanel filaSuperior = new JPanel(new BorderLayout());
+        filaSuperior.setBackground(CABECERA_VERDE);
+        filaSuperior.setBorder(BorderFactory.createEmptyBorder(10, 20, 5, 20));
+
+        // Panel de perfil (lado izquierdo de la fila superior)
         JPanel panelPerfil = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelPerfil.setOpaque(false);
 
         JLabel labelIconoPerfil = new JLabel();
-
         // Cargar perfil de usuario de recursos
         ImageIcon iconoPerfil = new ImageIcon(getClass().getResource("/logoUsuario.png"));
         // Redimensionar
         Image img = iconoPerfil.getImage();
         Image redimensionada = img.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
         labelIconoPerfil.setIcon(new ImageIcon(redimensionada));
-
         labelIconoPerfil.setPreferredSize(new Dimension(60, 60));
 
         JLabel labelNombreUsuario = new JLabel("Juan Pérez");
@@ -58,52 +61,60 @@ public class CarritoCompras extends JFrame {
         panelPerfil.add(labelIconoPerfil);
         panelPerfil.add(labelNombreUsuario);
 
-        // Centro: Logo
-        JPanel panelLogo = new JPanel();
+        // Panel del logo (centro de la fila superior)
+        JPanel panelLogo = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panelLogo.setOpaque(false);
 
         JLabel labelLogo = new JLabel();
-
         // Cargar logo
         ImageIcon iconLogo = new ImageIcon(getClass().getResource("/banner.png"));
         labelLogo.setIcon(iconLogo);
-
         panelLogo.add(labelLogo);
 
-        // Derecha: Búsqueda y carrito
-        JPanel panelDerecho = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        panelDerecho.setOpaque(false);
+        // Panel vacío para el lado derecho de la fila superior para equilibrar el diseño
+        JPanel panelDerechoVacio = new JPanel();
+        panelDerechoVacio.setOpaque(false);
+        panelDerechoVacio.setPreferredSize(new Dimension(panelPerfil.getPreferredSize().width, 60));
 
-        // Panel de ubicación
-        JPanel panelUbicacion = new JPanel();
-        panelUbicacion.setLayout(new BoxLayout(panelUbicacion, BoxLayout.Y_AXIS));
+        filaSuperior.add(panelPerfil, BorderLayout.WEST);
+        filaSuperior.add(panelLogo, BorderLayout.CENTER);
+        filaSuperior.add(panelDerechoVacio, BorderLayout.EAST);
+
+        // Segunda fila: Ubicación, Búsqueda, Carrito
+        JPanel filaInferior = new JPanel(new BorderLayout());
+        filaInferior.setBackground(CABECERA_VERDE);
+        filaInferior.setBorder(BorderFactory.createEmptyBorder(5, 20, 10, 20));
+
+        JPanel panelUbicacion = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelUbicacion.setOpaque(false);
 
         JLabel iconoUbicacion = new JLabel(emojiUbicacion);
         iconoUbicacion.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 20));
 
+        JPanel panelTexto = new JPanel();
+        panelTexto.setLayout(new BoxLayout(panelTexto, BoxLayout.Y_AXIS));
+        panelTexto.setOpaque(false);
+
         JLabel tituloUbicacion = new JLabel("Ubicación de envío");
         tituloUbicacion.setForeground(Color.WHITE);
         tituloUbicacion.setFont(new Font("Arial", Font.BOLD, 12));
+        tituloUbicacion.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         JLabel direccionUbicacion = new JLabel("Antonio Caso S/N y E. Kino...");
         direccionUbicacion.setForeground(Color.WHITE);
         direccionUbicacion.setFont(new Font("Arial", Font.PLAIN, 10));
+        direccionUbicacion.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        JPanel panelTextoIcono = new JPanel(new BorderLayout());
-        panelTextoIcono.setOpaque(false);
-        panelTextoIcono.add(iconoUbicacion, BorderLayout.WEST);
-
-        JPanel panelTexto = new JPanel();
-        panelTexto.setLayout(new BoxLayout(panelTexto, BoxLayout.Y_AXIS));
-        panelTexto.setOpaque(false);
         panelTexto.add(tituloUbicacion);
         panelTexto.add(direccionUbicacion);
 
-        panelTextoIcono.add(panelTexto, BorderLayout.CENTER);
-        panelUbicacion.add(panelTextoIcono);
+        panelUbicacion.add(iconoUbicacion);
+        panelUbicacion.add(panelTexto);
 
-        // Barra de búsqueda
+        // Panel central con barra de búsqueda
+        JPanel panelCentral = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelCentral.setOpaque(false);
+
         JTextField campoBusqueda = new JTextField("Sandía");
         campoBusqueda.setPreferredSize(new Dimension(200, 30));
 
@@ -118,7 +129,12 @@ public class CarritoCompras extends JFrame {
         panelBusqueda.add(campoBusqueda, BorderLayout.CENTER);
         panelBusqueda.add(botonBusqueda, BorderLayout.EAST);
 
-        // Botón de carrito
+        panelCentral.add(panelBusqueda);
+
+        // Panel de carrito (lado derecho de la fila inferior)
+        JPanel panelCarrito = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panelCarrito.setOpaque(false);
+
         JButton botonCarrito = new ButtonBuilder()
                 .withText(emojiCarrito + " 0")
                 .withFont(new Font("Segoe UI Emoji", Font.BOLD, 16))
@@ -126,16 +142,16 @@ public class CarritoCompras extends JFrame {
                 .withPreferredSize(80, 40)
                 .build();
 
-        panelDerecho.add(panelUbicacion);
-        panelDerecho.add(Box.createHorizontalStrut(20));
-        panelDerecho.add(panelBusqueda);
-        panelDerecho.add(Box.createHorizontalStrut(20));
-        panelDerecho.add(botonCarrito);
+        panelCarrito.add(botonCarrito);
 
-        // Añadir todos los componentes a la cabecera
-        panelCabecera.add(panelPerfil, BorderLayout.WEST);
-        panelCabecera.add(panelLogo, BorderLayout.CENTER);
-        panelCabecera.add(panelDerecho, BorderLayout.EAST);
+        // Añadir componentes a la fila inferior
+        filaInferior.add(panelUbicacion, BorderLayout.WEST);
+        filaInferior.add(panelCentral, BorderLayout.CENTER);
+        filaInferior.add(panelCarrito, BorderLayout.EAST);
+
+        // Añadir ambas filas al panel de cabecera
+        panelCabecera.add(filaSuperior);
+        panelCabecera.add(filaInferior);
 
         return panelCabecera;
     }
