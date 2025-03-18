@@ -1,5 +1,6 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
+import edu.student.itson.dissof.megazarl.presentacion.utilgui.ButtonBuilder;
 import javax.swing.*;
 import java.awt.*;
 
@@ -100,18 +101,22 @@ public class CarritoCompras extends JFrame {
         JTextField campoBusqueda = new JTextField("Sandía");
         campoBusqueda.setPreferredSize(new Dimension(200, 30));
 
-        JButton botonBusqueda = new JButton("🔍");
-        botonBusqueda.setPreferredSize(new Dimension(30, 30));
+        JButton botonBusqueda = new ButtonBuilder()
+                .withText("🔍")
+                .withPreferredSize(30, 30)
+                .build();
 
         JPanel panelBusqueda = new JPanel(new BorderLayout());
         panelBusqueda.add(campoBusqueda, BorderLayout.CENTER);
         panelBusqueda.add(botonBusqueda, BorderLayout.EAST);
 
-        // Botón de carritobutton
-        JButton botonCarrito = new JButton("🛒 0");
-        botonCarrito.setFont(new Font("Arial", Font.BOLD, 16));
-        botonCarrito.setBackground(BOTON_AMARILLO);
-        botonCarrito.setPreferredSize(new Dimension(80, 40));
+        // Botón de carrito
+        JButton botonCarrito = new ButtonBuilder()
+                .withText("🛒 0")
+                .withFont(new Font("Arial", Font.BOLD, 16))
+                .withBackground(BOTON_AMARILLO)
+                .withPreferredSize(80, 40)
+                .build();
 
         panelDerecho.add(panelUbicacion);
         panelDerecho.add(Box.createHorizontalStrut(20));
@@ -189,18 +194,24 @@ public class CarritoCompras extends JFrame {
         JCheckBox checkboxSeleccion = new JCheckBox();
         checkboxSeleccion.setSelected(true);
 
-        JButton botonDecrementar = new JButton("-");
-        botonDecrementar.setPreferredSize(new Dimension(30, 30));
+        JButton botonDecrementar = new ButtonBuilder()
+                .withText("-")
+                .withPreferredSize(30, 30)
+                .build();
 
         JTextField campoCantidad = new JTextField("1");
         campoCantidad.setPreferredSize(new Dimension(40, 30));
         campoCantidad.setHorizontalAlignment(JTextField.CENTER);
 
-        JButton botonIncrementar = new JButton("+");
-        botonIncrementar.setPreferredSize(new Dimension(30, 30));
+        JButton botonIncrementar = new ButtonBuilder()
+                .withText("+")
+                .withPreferredSize(30, 30)
+                .build();
 
-        JButton botonEliminar = new JButton("🗑");
-        botonEliminar.setPreferredSize(new Dimension(40, 30));
+        JButton botonEliminar = new ButtonBuilder()
+                .withText("🗑")
+                .withPreferredSize(40, 30)
+                .build();
 
         panelControles.add(checkboxSeleccion);
         panelControles.add(botonDecrementar);
@@ -233,18 +244,13 @@ public class CarritoCompras extends JFrame {
         // Botones de abajo
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
 
-        JButton botonContinuarComprando = new JButton("Seguir comprando");
-        botonContinuarComprando.setFont(new Font("Arial", Font.BOLD, 14));
-        botonContinuarComprando.setBackground(BOTON_AMARILLO);
-        botonContinuarComprando.setPreferredSize(new Dimension(180, 40));
+        ButtonBuilder btn = new ButtonBuilder()
+                .withFont(new Font("Arial", Font.BOLD, 14))
+                .withBackground(BOTON_AMARILLO)
+                .withPreferredSize(180, 40);
 
-        JButton botonFinalizar = new JButton("Finalizar la compra");
-        botonFinalizar.setFont(new Font("Arial", Font.BOLD, 14));
-        botonFinalizar.setBackground(BOTON_AMARILLO);
-        botonFinalizar.setPreferredSize(new Dimension(180, 40));
-
-        panelBotones.add(botonContinuarComprando);
-        panelBotones.add(botonFinalizar);
+        panelBotones.add(btn.withText("Seguir comprando").build());
+        panelBotones.add(btn.withText("Finalizar la compra").build());
 
         // Añadir todos al panel del carrito
         panelCarrito.add(panelCarritoCabecera, BorderLayout.NORTH);
