@@ -10,6 +10,12 @@ public class CarritoCompras extends JFrame {
     private final Color GRIS_CLARO = new Color(240, 240, 240);
     private final Color BOTON_AMARILLO = new Color(248, 241, 132);
 
+    // Emojis
+    private final String emojiLupa = new String(Character.toChars(0x1F50D));
+    private final String emojiCarrito = new String(Character.toChars(0x1F6D2));
+    private final String emojiUbicacion = new String(Character.toChars(0x1F4CD));
+    private final String emojiBasura = new String(Character.toChars(0x1F5D1));
+
     public CarritoCompras() {
         setTitle("Semillas MEGAZARL - Carrito");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -73,8 +79,8 @@ public class CarritoCompras extends JFrame {
         panelUbicacion.setLayout(new BoxLayout(panelUbicacion, BoxLayout.Y_AXIS));
         panelUbicacion.setOpaque(false);
 
-        JLabel iconUbicacion = new JLabel("()");
-        iconUbicacion.setFont(new Font("Arial", Font.PLAIN, 20));
+        JLabel iconoUbicacion = new JLabel(emojiUbicacion);
+        iconoUbicacion.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 20));
 
         JLabel tituloUbicacion = new JLabel("Ubicación de envío");
         tituloUbicacion.setForeground(Color.WHITE);
@@ -86,7 +92,7 @@ public class CarritoCompras extends JFrame {
 
         JPanel panelTextoIcono = new JPanel(new BorderLayout());
         panelTextoIcono.setOpaque(false);
-        panelTextoIcono.add(iconUbicacion, BorderLayout.WEST);
+        panelTextoIcono.add(iconoUbicacion, BorderLayout.WEST);
 
         JPanel panelTexto = new JPanel();
         panelTexto.setLayout(new BoxLayout(panelTexto, BoxLayout.Y_AXIS));
@@ -102,8 +108,10 @@ public class CarritoCompras extends JFrame {
         campoBusqueda.setPreferredSize(new Dimension(200, 30));
 
         JButton botonBusqueda = new ButtonBuilder()
-                .withText("🔍")
+                .withText(emojiLupa)
+                .withFont(new Font("Segoe UI Emoji", Font.PLAIN, 12))
                 .withPreferredSize(30, 30)
+                .withEmptyMargin()
                 .build();
 
         JPanel panelBusqueda = new JPanel(new BorderLayout());
@@ -112,8 +120,8 @@ public class CarritoCompras extends JFrame {
 
         // Botón de carrito
         JButton botonCarrito = new ButtonBuilder()
-                .withText("🛒 0")
-                .withFont(new Font("Arial", Font.BOLD, 16))
+                .withText(emojiCarrito + " 0")
+                .withFont(new Font("Segoe UI Emoji", Font.BOLD, 16))
                 .withBackground(BOTON_AMARILLO)
                 .withPreferredSize(80, 40)
                 .build();
@@ -197,6 +205,7 @@ public class CarritoCompras extends JFrame {
         JButton botonDecrementar = new ButtonBuilder()
                 .withText("-")
                 .withPreferredSize(30, 30)
+                .withEmptyMargin()
                 .build();
 
         JTextField campoCantidad = new JTextField("1");
@@ -206,11 +215,14 @@ public class CarritoCompras extends JFrame {
         JButton botonIncrementar = new ButtonBuilder()
                 .withText("+")
                 .withPreferredSize(30, 30)
+                .withEmptyMargin()
                 .build();
 
         JButton botonEliminar = new ButtonBuilder()
-                .withText("🗑")
+                .withText(emojiBasura)
+                .withFont(new Font("Segoe UI Emoji", Font.PLAIN, 14))
                 .withPreferredSize(40, 30)
+                .withEmptyMargin()
                 .build();
 
         panelControles.add(checkboxSeleccion);

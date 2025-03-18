@@ -6,12 +6,14 @@ package edu.student.itson.dissof.megazarl.presentacion.utilgui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Insets;
 import javax.swing.JButton;
 
 public class ButtonBuilder implements Builder<JButton> {
     private String text;
     private Color background;
     private Font font;
+    private Insets margin;
     private Dimension preferredSize;
 
     public ButtonBuilder() {
@@ -32,6 +34,11 @@ public class ButtonBuilder implements Builder<JButton> {
         return this;
     }
 
+    public ButtonBuilder withEmptyMargin() {
+        this.margin = new Insets(0, 0, 0, 0);
+        return this;
+    }
+
     public ButtonBuilder withPreferredSize(int width, int height) {
         this.preferredSize = new Dimension(width, height);
         return this;
@@ -46,6 +53,10 @@ public class ButtonBuilder implements Builder<JButton> {
 
         if (font != null) {
             button.setFont(font);
+        }
+
+        if (margin != null) {
+            button.setMargin(margin);
         }
 
         if (preferredSize != null) {
