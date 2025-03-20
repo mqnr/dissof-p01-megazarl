@@ -1,6 +1,4 @@
-
 package edu.student.itson.dissof.megazarl.presentacion;
-
 
 import edu.student.itson.dissof.megazarl.negocio.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.negocio.carritocompras.ICarritoCompras;
@@ -19,23 +17,22 @@ import edu.student.itson.dissof.megazarl.negocio.modelos.Producto;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ICarrito;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 
-
-
 public class ControlCompra {
-    
+
     private IProductosVenta productosVenta;
     private IInformacionProducto informacionProducto;
     private ISeleccionPaqueteria seleccionPaqueteria;
     private ICarrito carrito;
     private IMensaje mensaje;
-    
+
     private IAdministradorProductos administradorProductos;
     private ICarritoCompras carritoCompras;
 
-    public ControlCompra() {}
-    
+    public ControlCompra() {
+    }
+
     public void setVistas(IProductosVenta productosVenta, IInformacionProducto informacionProducto, ISeleccionPaqueteria seleccionPaqueteria,
-            ICarrito carrito, IMensaje mensaje, IAdministradorProductos administradorProductos, ICarritoCompras carritoCompras){
+            ICarrito carrito, IMensaje mensaje, IAdministradorProductos administradorProductos, ICarritoCompras carritoCompras) {
         this.productosVenta = productosVenta;
         this.informacionProducto = informacionProducto;
         this.seleccionPaqueteria = seleccionPaqueteria;
@@ -45,27 +42,26 @@ public class ControlCompra {
         this.mensaje = mensaje;
     }
 
-    public void iniciarCompra(){
+    public void iniciarCompra() {
         List<HashMap<String, Object>> listaInformacionProductosInicio = obtenerProductosVenta();
         productosVenta.setProductos(listaInformacionProductosInicio);
         productosVenta.hacerVisible(true);
     }
-    
-    public void mostrarProductosVenta(JFrame frameActual){
+
+    public void mostrarProductosVenta(JFrame frameActual) {
         frameActual.dispose();
         List<HashMap<String, Object>> listaInformacionProductosInicio = obtenerProductosVenta();
         productosVenta.setProductos(listaInformacionProductosInicio);
         productosVenta.hacerVisible(true);
     }
-    
-    
-    public List<HashMap<String, Object>> obtenerProductosVenta(){
-         
+
+    public List<HashMap<String, Object>> obtenerProductosVenta() {
+
         List<ProductoInicioDTO> listaProductoInicioDTO = administradorProductos.obtenerProductosVenta();
-        
+
         List<HashMap<String, Object>> listaInformacionProductosInicio = new LinkedList<>();
-        
-        for(ProductoInicioDTO productoInicioDTO: listaProductoInicioDTO){
+
+        for (ProductoInicioDTO productoInicioDTO : listaProductoInicioDTO) {
             HashMap<String, Object> mapaInformacionProductoInicio = new HashMap<>();
             mapaInformacionProductoInicio.put("Id", productoInicioDTO.getId());
             mapaInformacionProductoInicio.put("Nombre", productoInicioDTO.getNombre());
@@ -74,27 +70,27 @@ public class ControlCompra {
             mapaInformacionProductoInicio.put("MilesSemillas", productoInicioDTO.getMilesSemillas());
             mapaInformacionProductoInicio.put("DireccionImagenProducto", productoInicioDTO.getDireccionImagenProducto());
             mapaInformacionProductoInicio.put("DireccionImagenProveedor", productoInicioDTO.getDireccionImagenProveedor());
-            
+
             listaInformacionProductosInicio.add(mapaInformacionProductoInicio);
         }
-        
-       return listaInformacionProductosInicio;
+
+        return listaInformacionProductosInicio;
     }
-    
-    public void mostrarInformacionProducto(Integer idProducto, JFrame frameActual){     
+
+    public void mostrarInformacionProducto(Integer idProducto, JFrame frameActual) {
         HashMap<String, Object> mapaInformacionProducto = this.obtenerInformacionProducto(idProducto);
         informacionProducto.setProducto(mapaInformacionProducto);
         frameActual.dispose();
         informacionProducto.hacerVisible(true);
     }
-    
-    public HashMap<String, Object> obtenerInformacionProducto(Integer idProducto){
-        
+
+    public HashMap<String, Object> obtenerInformacionProducto(Integer idProducto) {
+
         InformacionProductoDTO informacionProductoDTO = administradorProductos.obtenerInformacionProducto(idProducto);
-        
+
         HashMap<String, Object> mapaInformacionProducto = new HashMap<>();
-        
-        if(informacionProductoDTO != null){
+
+        if (informacionProductoDTO != null) {
             mapaInformacionProducto.put("Id", informacionProductoDTO.getId());
             mapaInformacionProducto.put("Nombre", informacionProductoDTO.getNombre());
             mapaInformacionProducto.put("Variedad", informacionProductoDTO.getVariedad());
@@ -107,23 +103,23 @@ public class ControlCompra {
         }
 
         return mapaInformacionProducto;
-        
+
     }
-    
-    public void mostrarCarritoCompras(Integer idCliente, JFrame frameActual){
+
+    public void mostrarCarritoCompras(Integer idCliente, JFrame frameActual) {
         List<HashMap<String, Object>> listaInformacionProductosCarrito = this.obtenerInformacionProductosCarrito(idCliente);
         carrito.setProductos(listaInformacionProductosCarrito);
         carrito.hacerVisible(true);
         frameActual.dispose();
     }
-    
-    public List<HashMap<String, Object>> obtenerInformacionProductosCarrito(Integer idCliente){
-        
+
+    public List<HashMap<String, Object>> obtenerInformacionProductosCarrito(Integer idCliente) {
+
         List<InformacionProductoCarritoDTO> listaInformacionProductoCarritoDTO = carritoCompras.obtenerProductos(idCliente);
-        
+
         List<HashMap<String, Object>> listaInformacionProductosCarrito = new LinkedList<>();
-        
-        for(InformacionProductoCarritoDTO informacionProductoCarrito: listaInformacionProductoCarritoDTO){
+
+        for (InformacionProductoCarritoDTO informacionProductoCarrito : listaInformacionProductoCarritoDTO) {
             HashMap<String, Object> mapaInformacionProductoCarrito = new HashMap<>();
             mapaInformacionProductoCarrito.put("Id", informacionProductoCarrito.getId());
             mapaInformacionProductoCarrito.put("Nombre", informacionProductoCarrito.getNombre());
@@ -131,32 +127,32 @@ public class ControlCompra {
             mapaInformacionProductoCarrito.put("Precio", informacionProductoCarrito.getPrecio());
             mapaInformacionProductoCarrito.put("MilesSemillas", informacionProductoCarrito.getMilesSemillas());
             mapaInformacionProductoCarrito.put("DireccionImagenProducto", informacionProductoCarrito.getDireccionImagenProducto());
-            
+
             listaInformacionProductosCarrito.add(mapaInformacionProductoCarrito);
         }
-        
-       return listaInformacionProductosCarrito;
+
+        return listaInformacionProductosCarrito;
     }
-    
-    public void agregarProductoCarrito(Integer idCliente, Integer idProducto){
-        
+
+    public void agregarProductoCarrito(Integer idCliente, Integer idProducto) {
+
         Producto productoAgregar = administradorProductos.obtenerProductoPorId(idProducto);
         carritoCompras.agregarProducto(idCliente, productoAgregar);
     }
-    
-    public void mostrarSeleccionPaqueteria(JFrame frameActual){
+
+    public void mostrarSeleccionPaqueteria(JFrame frameActual) {
         List<String> direccionesImagenesPaqueteria = this.obtenerPaqueterias();
         seleccionPaqueteria.setPaqueterias(direccionesImagenesPaqueteria);
         frameActual.dispose();
         seleccionPaqueteria.hacerVisible(true);
     }
-    
-    public List<String> obtenerPaqueterias(){
+
+    public List<String> obtenerPaqueterias() {
         // TODO: Obtener de subsistema
         return Arrays.asList("/dhl.png", "/fedex.png", "/pcp.png", "/ups.png", "/estafeta.png");
     }
-    
-    public void mostrarConfirmacionPedido(JFrame frameActual){
+
+    public void mostrarConfirmacionPedido(JFrame frameActual) {
         frameActual.dispose();
         mensaje.hacerVisible(true);
     }

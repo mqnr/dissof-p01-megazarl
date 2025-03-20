@@ -1,8 +1,7 @@
-
 package edu.student.itson.dissof.megazarl.negocio.modelos;
 
-
 public class Cliente {
+
     private Integer id;
     private String nombre;
     private String apellidoMaterno;
@@ -46,6 +45,4 @@ public class Cliente {
     public void setApellidoPaterno(String apellidoPaterno) {
         this.apellidoPaterno = apellidoPaterno;
     }
-    
-    
 }

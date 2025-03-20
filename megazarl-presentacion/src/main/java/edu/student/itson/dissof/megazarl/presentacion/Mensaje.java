@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 
-public class Mensaje extends JFrame implements IMensaje{
+public class Mensaje extends JFrame implements IMensaje {
 
     private ControlCompra control;
     // Colores
@@ -63,7 +63,7 @@ public class Mensaje extends JFrame implements IMensaje{
         JLabel labelIconoPerfil = new JLabel();
         ImageIcon iconoPerfil = new ImageIcon(getClass().getResource("/logoUsuario.png"));
         labelIconoPerfil.setIcon(new ImageIcon(iconoPerfil.getImage()
-            .getScaledInstance(60, 60, Image.SCALE_SMOOTH)));
+                .getScaledInstance(60, 60, Image.SCALE_SMOOTH)));
         labelIconoPerfil.setPreferredSize(new Dimension(60, 60));
 
         JLabel labelNombreUsuario = new JLabel("Juan Pérez");
@@ -144,7 +144,7 @@ public class Mensaje extends JFrame implements IMensaje{
         btnAceptar.setBackground(BOTON_AMARILLO);
         btnAceptar.setPreferredSize(new Dimension(150, 40));
         panelBoton.add(btnAceptar);
-        
+
         btnAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -169,6 +169,7 @@ public class Mensaje extends JFrame implements IMensaje{
 
     // Clase interna para paneles redondeados
     class RoundedPanel extends JPanel {
+
         private final int cornerRadius;
         private Color backgroundColor;
 
@@ -193,7 +194,7 @@ public class Mensaje extends JFrame implements IMensaje{
             } else {
                 graphics.setColor(getBackground());
             }
-            
+
             graphics.fillRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);
         }
     }

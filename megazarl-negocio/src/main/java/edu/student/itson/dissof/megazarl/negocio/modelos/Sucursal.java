@@ -1,11 +1,9 @@
-
 package edu.student.itson.dissof.megazarl.negocio.modelos;
 
 import java.util.Objects;
 
-
 public class Sucursal {
-    
+
     private Integer id;
     private String nombre;
     private Float tiempoMatriz;
@@ -61,7 +59,4 @@ public class Sucursal {
         final Sucursal other = (Sucursal) obj;
         return Objects.equals(this.id, other.id);
     }
-    
-    
-    
 }

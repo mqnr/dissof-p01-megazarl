@@ -1,10 +1,9 @@
-
 package edu.student.itson.dissof.megazarl.negocio.modelos;
 
 import java.util.Objects;
 
-
 public class Producto {
+
     private Integer id;
     private Integer idProveedor;
     private String nombre;
@@ -119,11 +118,6 @@ public class Producto {
         this.arregloProductoInventario = arregloProductoInventario;
     }
 
-    
-
-    
-    
-
     @Override
     public int hashCode() {
         int hash = 7;
@@ -145,9 +139,4 @@ public class Producto {
         final Producto other = (Producto) obj;
         return Objects.equals(this.id, other.id);
     }
-
-    
-    
-    
-    
 }

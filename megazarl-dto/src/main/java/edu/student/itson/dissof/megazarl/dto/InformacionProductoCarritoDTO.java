@@ -1,9 +1,7 @@
-
 package edu.student.itson.dissof.megazarl.dto;
 
-
 public class InformacionProductoCarritoDTO {
-    
+
     private Integer id;
     private String nombre;
     private String variedad;
@@ -49,6 +47,4 @@ public class InformacionProductoCarritoDTO {
     public String getDireccionImagenProducto() {
         return direccionImagenProducto;
     }
-    
-    
 }

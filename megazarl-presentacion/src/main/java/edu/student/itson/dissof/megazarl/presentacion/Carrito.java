@@ -8,8 +8,8 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ICarrito;
 
-public class Carrito extends JFrame implements ICarrito{
-    
+public class Carrito extends JFrame implements ICarrito {
+
     private ControlCompra control;
     private Integer idCliente;
     private Encabezado encabezado;
@@ -31,12 +31,12 @@ public class Carrito extends JFrame implements ICarrito{
 
         this.control = control;
         this.idCliente = idCliente;
-        
+
         // Panel principal con BorderLayout
         panelPrincipal = new JPanel(new BorderLayout());
 
         encabezado = new Encabezado();
-                
+
         panelPrincipal.add(encabezado, BorderLayout.NORTH);
 
         setContentPane(panelPrincipal);
@@ -44,7 +44,7 @@ public class Carrito extends JFrame implements ICarrito{
 
     @Override
     public void setProductos(java.util.List<HashMap<String, Object>> listaInformacionProductos) {
-        
+
         JPanel panelContenedorCarrito = new JPanel(new BorderLayout());
         panelContenedorCarrito.setBackground(GRIS_CLARO);
         panelContenedorCarrito.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -70,22 +70,21 @@ public class Carrito extends JFrame implements ICarrito{
         panelCarritoCabecera.add(labelCarritoTitulo);
         panelCarritoCabecera.add(labelPrecio);
 
-        
         JPanel panelItemsCarrito = new JPanel();
         panelItemsCarrito.setLayout(new BoxLayout(panelItemsCarrito, BoxLayout.Y_AXIS));
-        
-        JScrollPane scrollPaneItemsCarrito = new JScrollPane(panelItemsCarrito, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
+
+        JScrollPane scrollPaneItemsCarrito = new JScrollPane(panelItemsCarrito, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        
-        for(HashMap<String, Object> informacionProducto: listaInformacionProductos){
-            
+
+        for (HashMap<String, Object> informacionProducto : listaInformacionProductos) {
+
             // Item del carrito
             JPanel panelItemCarrito = new JPanel(new BorderLayout());
             panelItemCarrito.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
             // Imagen del producto
             JLabel imagenProducto = new JLabel();
-            ImageIcon iconProducto = new ImageIcon(getClass().getResource((String)informacionProducto.get("DireccionImagenProducto")));
+            ImageIcon iconProducto = new ImageIcon(getClass().getResource((String) informacionProducto.get("DireccionImagenProducto")));
             // Redimensionar
             Image imagen = iconProducto.getImage();
             Image redimensionada = imagen.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
@@ -104,7 +103,7 @@ public class Carrito extends JFrame implements ICarrito{
             labelNombreProducto.setFont(new Font("Arial", Font.BOLD, 16));
             labelNombreProducto.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-            JLabel labelProveedor = new JLabel("Proveedor: "+ informacionProducto.get("NombreProveedor"));
+            JLabel labelProveedor = new JLabel("Proveedor: " + informacionProducto.get("NombreProveedor"));
             labelProveedor.setFont(new Font("Arial", Font.PLAIN, 14));
             labelProveedor.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -165,12 +164,11 @@ public class Carrito extends JFrame implements ICarrito{
             panelItemCarrito.add(imagenProducto, BorderLayout.WEST);
             panelItemCarrito.add(panelDetallesProducto, BorderLayout.CENTER);
             panelItemCarrito.add(panelPrecio, BorderLayout.EAST);
-            
+
             panelItemsCarrito.add(panelItemCarrito);
-            
+
         }
-        
-        
+
         // Botones de abajo
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
 
@@ -181,23 +179,23 @@ public class Carrito extends JFrame implements ICarrito{
 
         JButton btnSeguirComprando = btn.withText("Seguir comprando").build();
         JButton btnFinalizarCompra = btn.withText("Finalizar la compra").build();
-        
+
         panelBotones.add(btnSeguirComprando);
         panelBotones.add(btnFinalizarCompra);
-        
+
         btnSeguirComprando.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    control.mostrarProductosVenta(Carrito.this);
-                }
-            });
-        
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                control.mostrarProductosVenta(Carrito.this);
+            }
+        });
+
         btnFinalizarCompra.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    control.mostrarSeleccionPaqueteria(Carrito.this);
-                }
-            });
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                control.mostrarSeleccionPaqueteria(Carrito.this);
+            }
+        });
 
         // Añadir todos al panel del carrito
         panelCarrito.add(panelCarritoCabecera, BorderLayout.NORTH);
@@ -317,5 +315,4 @@ public class Carrito extends JFrame implements ICarrito{
     public void hacerVisible(boolean visible) {
         setVisible(visible);
     }
-    
 }

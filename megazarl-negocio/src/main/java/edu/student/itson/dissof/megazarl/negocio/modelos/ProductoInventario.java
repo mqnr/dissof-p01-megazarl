@@ -1,10 +1,9 @@
-
 package edu.student.itson.dissof.megazarl.negocio.modelos;
 
 import java.util.Objects;
 
-
 public class ProductoInventario {
+
     private Integer id;
     private Integer idProducto;
     private Integer idSucursal;
@@ -70,7 +69,4 @@ public class ProductoInventario {
         final ProductoInventario other = (ProductoInventario) obj;
         return Objects.equals(this.id, other.id);
     }
-    
-    
-    
 }

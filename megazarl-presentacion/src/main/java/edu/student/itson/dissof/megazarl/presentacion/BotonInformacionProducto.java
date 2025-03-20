@@ -1,6 +1,4 @@
-
 package edu.student.itson.dissof.megazarl.presentacion;
-
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,9 +17,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+public class BotonInformacionProducto extends JButton {
 
-public class BotonInformacionProducto extends JButton{
-    
     private final int ALTO_BOTON;
     private final int ANCHO_BOTON;
     private final int MARGEN_VERTICAL_COMPONENTES;
@@ -39,11 +36,11 @@ public class BotonInformacionProducto extends JButton{
     private final Color COLOR_FONDO_SELECCIONADO;
     private final Color COLOR_FONDO_SOBRE;
     private Color colorFondoActual;
-    
-    public BotonInformacionProducto(int altoBoton, int anchoBoton, Color colorFondo, Color colorFondoSeleccionado, Color colorFondoSobre, 
-            int margenVerticalComponentes, int margenHorizontalComponentes, Integer idProducto, String direccionImagenProducto, 
-            String nombreProducto, String variedadProducto, Integer milesSemillas, Float precioProducto, String direccionImagenProveedor, int anchoImagenProveedor, 
-            int altoImagenProveedor){
+
+    public BotonInformacionProducto(int altoBoton, int anchoBoton, Color colorFondo, Color colorFondoSeleccionado, Color colorFondoSobre,
+            int margenVerticalComponentes, int margenHorizontalComponentes, Integer idProducto, String direccionImagenProducto,
+            String nombreProducto, String variedadProducto, Integer milesSemillas, Float precioProducto, String direccionImagenProveedor, int anchoImagenProveedor,
+            int altoImagenProveedor) {
         this.ALTO_BOTON = altoBoton;
         this.ANCHO_BOTON = anchoBoton;
         this.MARGEN_VERTICAL_COMPONENTES = margenVerticalComponentes;
@@ -63,20 +60,20 @@ public class BotonInformacionProducto extends JButton{
         this.colorFondoActual = colorFondo;
         this.initComponentes();
     }
-    
-    private void initComponentes(){
+
+    private void initComponentes() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        
-        this.setPreferredSize(new Dimension(ANCHO_BOTON,ALTO_BOTON));
+
+        this.setPreferredSize(new Dimension(ANCHO_BOTON, ALTO_BOTON));
         this.setBackground(COLOR_FONDO);
-        
+
         FlowLayout layoutComponentesInformacionProducto = new FlowLayout(FlowLayout.LEFT);
         layoutComponentesInformacionProducto.setHgap(MARGEN_VERTICAL_COMPONENTES);
         layoutComponentesInformacionProducto.setVgap(MARGEN_HORIZONTAL_COMPONENTES);
-        
+
         // Imagen de producto.
         ImageIcon iconoProducto = new ImageIcon(this.getClass().getResource(DIRECCION_IMAGEN_PRODUCTO));
-        Image imagenProducto = iconoProducto.getImage().getScaledInstance(ANCHO_BOTON - 15, ALTO_BOTON/2,Image.SCALE_SMOOTH);
+        Image imagenProducto = iconoProducto.getImage().getScaledInstance(ANCHO_BOTON - 15, ALTO_BOTON / 2, Image.SCALE_SMOOTH);
         ImageIcon nuevoIconoProducto = new ImageIcon(imagenProducto);
 
         JLabel etqImagenProducto = new JLabel(nuevoIconoProducto);
@@ -88,8 +85,6 @@ public class BotonInformacionProducto extends JButton{
         this.add(panelImagenProducto);
 
         Font fuenteEtqNombreVariedadCantidadProducto = new Font("Arial", Font.BOLD, 17);
-
-
 
         // Nombre y variedad del producto.
         JLabel etqNombreVariedadProducto = new JLabel(NOMBRE_PRODUCTO + " " + VARIEDAD_PRODUCTO);
@@ -116,7 +111,7 @@ public class BotonInformacionProducto extends JButton{
         String parteEnteraPrecioProdcuto = partesPrecio[0];
         String parteDecimalPrecioProducto = partesPrecio[1];
 
-        JLabel etqParteEnteraPrecioProducto = new JLabel("$" + parteEnteraPrecioProdcuto + "."); 
+        JLabel etqParteEnteraPrecioProducto = new JLabel("$" + parteEnteraPrecioProdcuto + ".");
         Font fuenteEtqParteEnteraPrecioProducto = new Font("Arial", Font.BOLD, 20);
         etqParteEnteraPrecioProducto.setFont(fuenteEtqParteEnteraPrecioProducto);
 
@@ -132,9 +127,7 @@ public class BotonInformacionProducto extends JButton{
 
         this.add(panelPrecioProducto);
 
-
         // ImagenProveedor
-
         ImageIcon iconoProveedor = new ImageIcon(this.getClass().getResource(DIRECCION_IMAGEN_PROVEEDOR));
         Image imagenProveedor = iconoProveedor.getImage().getScaledInstance(ANCHO_IMAGEN_PROVEEDOR, ALTO_IMAGEN_PROVEEDOR, Image.SCALE_SMOOTH);
         ImageIcon nuevoIconoProveedor = new ImageIcon(imagenProveedor);
@@ -146,13 +139,12 @@ public class BotonInformacionProducto extends JButton{
         panelImagenProveedor.add(etqImagenProveedor);
 
         this.add(panelImagenProveedor);
-        
-        
+
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 colorFondoActual = COLOR_FONDO_SELECCIONADO;
-                repaint(); 
+                repaint();
             }
 
             @Override
@@ -160,27 +152,27 @@ public class BotonInformacionProducto extends JButton{
                 colorFondoActual = COLOR_FONDO_SOBRE;
                 repaint();
             }
-            
+
             @Override
             public void mouseExited(MouseEvent e) {
                 colorFondoActual = COLOR_FONDO;
                 repaint();
             }
         });
-        
+
     }
-    
-    private void mostrarProducto(){
-        
+
+    private void mostrarProducto() {
+
     }
-    
+
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        
+
         this.setBorderPainted(false);
         this.setContentAreaFilled(false);
-        
+
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         RoundRectangle2D bordeBoton = new RoundRectangle2D.Float(0, 0, this.getWidth(), this.getHeight(), 20, 20);
@@ -188,16 +180,12 @@ public class BotonInformacionProducto extends JButton{
         g2d.setPaint(colorFondoActual);
 
         g2d.fill(bordeBoton);
-        
+
         g2d.draw(bordeBoton);
-        
+
     }
 
     public Integer getId_Producto() {
         return ID_PRODUCTO;
     }
-    
-    
-
-    
 }

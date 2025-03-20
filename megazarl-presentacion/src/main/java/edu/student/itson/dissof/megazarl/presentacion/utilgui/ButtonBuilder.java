@@ -10,6 +10,7 @@ import java.awt.Insets;
 import javax.swing.JButton;
 
 public class ButtonBuilder implements Builder<JButton> {
+
     private String text;
     private Color background;
     private Font font;
