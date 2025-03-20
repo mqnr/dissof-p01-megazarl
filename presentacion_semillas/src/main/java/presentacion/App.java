@@ -1,57 +1,35 @@
 package presentacion;
 
-import java.util.Scanner;
+import administradorProductos.FAdministradorProductos;
+import administradorProductos.IAdministradorProductos;
+import carritoCompras.FCarritoCompras;
+import carritoCompras.ICarritoCompras;
+import presentacion.interfaces.IInformacionProducto;
+import presentacion.interfaces.IProductosVenta;
+import presentacion.interfaces.ISeleccionPaqueteria;
+import presentacion.interfaces.ICarrito;
+import presentacion.interfaces.IMensaje;
 
 public class App {
-    /**
-     * Solicita al usuario seleccionar una opción y muestra la pantalla
-     * correspondiente.
-     * 
-     * <p>Este es un método temporal.
-     * 
-     * @param scanner Objeto Scanner para leer la entrada del usuario
-     */
-//    private static void elegirYDesplegarPantalla(Scanner scanner) {
-//        while (true) {
-//            System.out.println("Elige una pantalla que desplegar:");
-//            System.out.println("1. Dirección");
-//            System.out.println("2. Información producto");
-//            System.out.println("3. Mensaje");
-//            System.out.println("4. Carrito compras");
-//
-//            if (scanner.hasNextInt()) {
-//                int seleccion = scanner.nextInt();
-//                scanner.nextLine(); // Consumir el carácter de nueva línea
-//
-//                switch (seleccion) {
-//                    case 1 -> {
-//                        new Direccion().setVisible(true);
-//                        return;
-//                    }
-//                    case 2 -> {
-//                        new InformacionProducto().setVisible(true);
-//                        return;
-//                    }
-//                    case 3 -> {
-//                        new Mensaje().setVisible(true);
-//                        return;
-//                    }
-//                    case 4 -> {
-//                        new CarritoCompras().setVisible(true);
-//                        return;
-//                    }
-//                    default -> System.out.println("Opción inválida.");
-//                }
-//            } else {
-//                System.out.println("Entrada inválida. Debes usar un número.");
-//                scanner.nextLine();
-//            }
-//        }
-//    }
 
-//    public static void main(String[] args) {
-//        // Cuando ya no se necesite, remover el método, este comentario, y su
-//        // prosiguiente línea es suficiente.
-//        elegirYDesplegarPantalla(new Scanner(System.in));
-//    }
+    public static void main(String[] args) {
+        Integer idCliente = 3;
+        // Se crea el control con el contructor por defecto.
+        ControlCompra controlCompra = new ControlCompra();
+
+        // Se crean las vistas de la clase de presentación, del tipo de una interfaz definida.
+        IProductosVenta productosVenta = new ProductosVenta(controlCompra, idCliente);
+        IInformacionProducto informacionProducto = new InformacionProducto(controlCompra, idCliente);
+        ISeleccionPaqueteria seleccionPaqueteria = new SeleccionPaqueteria(controlCompra);
+        ICarrito carrito = new Carrito(controlCompra, idCliente);
+        IMensaje mensaje = new Mensaje(controlCompra);
+
+        // Se crean los subsistemas a utilziar:
+        IAdministradorProductos subsistemaAdministradorProductos = new FAdministradorProductos();
+        ICarritoCompras subsistemaCarritoCompras = new FCarritoCompras();
+
+        // Se agregan las vistas creadas como atributos del 
+        controlCompra.setVistas(productosVenta, informacionProducto, seleccionPaqueteria, carrito, mensaje, subsistemaAdministradorProductos, subsistemaCarritoCompras);
+        controlCompra.iniciarCompra();
+    }
 }
