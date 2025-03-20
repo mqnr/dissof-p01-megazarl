@@ -11,11 +11,9 @@
   <name>megazarl</name>
 
   <modules>
-    <module>dto_negocios</module>
-    <module>presentacion_semillas</module>
-    <module>negocios_AdministradorProductos</module>
-    <module>objetos_negocio</module>
-    <module>negocios_CarritoCompras</module>
+    <module>megazarl-dto</module>
+    <module>megazarl-negocio</module>
+    <module>megazarl-presentacion</module>
   </modules>
 
   <properties>
