@@ -1,4 +1,4 @@
-# Semillas Megazarl
+# Semillas MEGAZARL
 
 Sistema de compra y venta de semillas.
 
