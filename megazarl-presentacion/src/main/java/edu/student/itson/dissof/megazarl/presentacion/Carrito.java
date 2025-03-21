@@ -166,30 +166,22 @@ public class Carrito extends JFrame implements ICarrito {
         // Botones de abajo
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
 
-        ButtonBuilder btn = new ButtonBuilder()
+        ButtonBuilder builderBotonesInferiores = new ButtonBuilder()
                 .withFont(new Font("Arial", Font.BOLD, 14))
                 .withBackground(BOTON_AMARILLO)
                 .withPreferredSize(180, 40);
 
-        JButton btnSeguirComprando = btn.withText("Seguir comprando").build();
-        JButton btnFinalizarCompra = btn.withText("Finalizar la compra").build();
+        JButton botonSeguirComprando = builderBotonesInferiores
+                .withText("Seguir comprando")
+                .onClick(e -> control.mostrarProductosVenta(Carrito.this))
+                .build();
+        JButton botonFinalizarCompra = builderBotonesInferiores
+                .withText("Finalizar la compra")
+                .onClick(e -> control.mostrarSeleccionPaqueteria(Carrito.this))
+                .build();
 
-        panelBotones.add(btnSeguirComprando);
-        panelBotones.add(btnFinalizarCompra);
-
-        btnSeguirComprando.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                control.mostrarProductosVenta(Carrito.this);
-            }
-        });
-
-        btnFinalizarCompra.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                control.mostrarSeleccionPaqueteria(Carrito.this);
-            }
-        });
+        panelBotones.add(botonSeguirComprando);
+        panelBotones.add(botonFinalizarCompra);
 
         // Añadir todos al panel del carrito
         panelCarrito.add(panelCarritoCabecera, BorderLayout.NORTH);
