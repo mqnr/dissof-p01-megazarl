@@ -1,11 +1,14 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
-import edu.student.itson.dissof.megazarl.negocio.administradorproductos.IAdministradorProductos;
-import edu.student.itson.dissof.megazarl.negocio.carritocompras.ICarritoCompras;
 import edu.student.itson.dissof.megazarl.dto.InformacionProductoCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.ProductoInicioDTO;
+import edu.student.itson.dissof.megazarl.negocio.administradorproductos.IAdministradorProductos;
+import edu.student.itson.dissof.megazarl.negocio.carritocompras.ICarritoCompras;
+import edu.student.itson.dissof.megazarl.negocio.modelos.Producto;
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.ICarrito;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IInformacionProducto;
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IProductosVenta;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ISeleccionPaqueteria;
 import java.util.Arrays;
@@ -13,9 +16,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JFrame;
-import edu.student.itson.dissof.megazarl.negocio.modelos.Producto;
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.ICarrito;
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 
 public class ControlCompra {
 
@@ -56,7 +56,6 @@ public class ControlCompra {
     }
 
     public List<HashMap<String, Object>> obtenerProductosVenta() {
-
         List<ProductoInicioDTO> listaProductoInicioDTO = administradorProductos.obtenerProductosVenta();
 
         List<HashMap<String, Object>> listaInformacionProductosInicio = new LinkedList<>();
@@ -85,7 +84,6 @@ public class ControlCompra {
     }
 
     public HashMap<String, Object> obtenerInformacionProducto(Integer idProducto) {
-
         InformacionProductoDTO informacionProductoDTO = administradorProductos.obtenerInformacionProducto(idProducto);
 
         HashMap<String, Object> mapaInformacionProducto = new HashMap<>();
@@ -103,7 +101,6 @@ public class ControlCompra {
         }
 
         return mapaInformacionProducto;
-
     }
 
     public void mostrarCarritoCompras(Integer idCliente, JFrame frameActual) {
@@ -114,7 +111,6 @@ public class ControlCompra {
     }
 
     public List<HashMap<String, Object>> obtenerInformacionProductosCarrito(Integer idCliente) {
-
         List<InformacionProductoCarritoDTO> listaInformacionProductoCarritoDTO = carritoCompras.obtenerProductos(idCliente);
 
         List<HashMap<String, Object>> listaInformacionProductosCarrito = new LinkedList<>();
@@ -135,7 +131,6 @@ public class ControlCompra {
     }
 
     public void agregarProductoCarrito(Integer idCliente, Integer idProducto) {
-
         Producto productoAgregar = administradorProductos.obtenerProductoPorId(idProducto);
         carritoCompras.agregarProducto(idCliente, productoAgregar);
     }

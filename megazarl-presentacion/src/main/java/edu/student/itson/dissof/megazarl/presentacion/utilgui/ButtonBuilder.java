@@ -7,6 +7,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 
 public class ButtonBuilder implements Builder<JButton> {
@@ -14,8 +17,9 @@ public class ButtonBuilder implements Builder<JButton> {
     private String text;
     private Color background;
     private Font font;
-    private Insets margin;
     private Dimension preferredSize;
+    private List<ActionListener> actionListeners = new ArrayList<>();
+    private Insets margin;
 
     public ButtonBuilder() {
     }
@@ -45,6 +49,11 @@ public class ButtonBuilder implements Builder<JButton> {
         return this;
     }
 
+    public ButtonBuilder onClick(ActionListener listener) {
+        this.actionListeners.add(listener);
+        return this;
+    }
+
     public JButton build() {
         JButton button = (text != null) ? new JButton(text) : new JButton();
 
@@ -56,12 +65,16 @@ public class ButtonBuilder implements Builder<JButton> {
             button.setFont(font);
         }
 
-        if (margin != null) {
-            button.setMargin(margin);
-        }
-
         if (preferredSize != null) {
             button.setPreferredSize(preferredSize);
+        }
+
+        for (ActionListener listener : actionListeners) {
+            button.addActionListener(listener);
+        }
+
+        if (margin != null) {
+            button.setMargin(margin);
         }
 
         return button;
