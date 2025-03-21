@@ -1,17 +1,12 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IProductosVenta;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 import java.util.List;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.IProductosVenta;
+import java.util.Map;
+import javax.swing.*;
 
 public class ProductosVenta extends JFrame implements IProductosVenta {
 
@@ -75,7 +70,7 @@ public class ProductosVenta extends JFrame implements IProductosVenta {
     }
 
     @Override
-    public void setProductos(List<HashMap<String, Object>> listaInformacionProductos) {
+    public void setProductos(List<Map<String, Object>> listaInformacionProductos) {
         panelProductos.removeAll();
 
         ActionListener listenerBotonInformacionProducto = new ActionListener() {
@@ -89,8 +84,7 @@ public class ProductosVenta extends JFrame implements IProductosVenta {
         panelProductos.setPreferredSize(new Dimension(this.getWidth(), Math.ceilDiv(listaInformacionProductos.size(), 5)
                 * ALTO_BOTON_INFORMACION_PRODUCTO + MARGEN_VERTICAL_PRODUCTOS * (Math.ceilDiv(listaInformacionProductos.size(), 5) + 1)));
 
-        for (HashMap<String, Object> informacionProductoInicio : listaInformacionProductos) {
-
+        for (Map<String, Object> informacionProductoInicio : listaInformacionProductos) {
             BotonInformacionProducto botonInformacionProducto = new BotonInformacionProducto(ALTO_BOTON_INFORMACION_PRODUCTO,
                     ANCHO_BOTON_INFORMACION_PRODUCTO, COLOR_BOTON_FONDO, COLOR_BOTON_FONDO_SELECCIONADO,
                     COLOR_BOTON_FONDO_SOBRE, MARGEN_VERTICAL_COMPONENTES,
@@ -103,9 +97,7 @@ public class ProductosVenta extends JFrame implements IProductosVenta {
 
             botonInformacionProducto.addActionListener(listenerBotonInformacionProducto);
             panelProductos.add(botonInformacionProducto);
-
         }
-
     }
 
     @Override

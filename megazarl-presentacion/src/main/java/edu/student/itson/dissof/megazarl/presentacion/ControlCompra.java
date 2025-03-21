@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JFrame;
 
 public class ControlCompra {
@@ -43,25 +44,25 @@ public class ControlCompra {
     }
 
     public void iniciarCompra() {
-        List<HashMap<String, Object>> listaInformacionProductosInicio = obtenerProductosVenta();
+        List<Map<String, Object>> listaInformacionProductosInicio = obtenerProductosVenta();
         productosVenta.setProductos(listaInformacionProductosInicio);
         productosVenta.hacerVisible(true);
     }
 
     public void mostrarProductosVenta(JFrame frameActual) {
         frameActual.dispose();
-        List<HashMap<String, Object>> listaInformacionProductosInicio = obtenerProductosVenta();
+        List<Map<String, Object>> listaInformacionProductosInicio = obtenerProductosVenta();
         productosVenta.setProductos(listaInformacionProductosInicio);
         productosVenta.hacerVisible(true);
     }
 
-    public List<HashMap<String, Object>> obtenerProductosVenta() {
+    public List<Map<String, Object>> obtenerProductosVenta() {
         List<ProductoInicioDTO> listaProductoInicioDTO = administradorProductos.obtenerProductosVenta();
 
-        List<HashMap<String, Object>> listaInformacionProductosInicio = new LinkedList<>();
+        List<Map<String, Object>> listaInformacionProductosInicio = new LinkedList<>();
 
         for (ProductoInicioDTO productoInicioDTO : listaProductoInicioDTO) {
-            HashMap<String, Object> mapaInformacionProductoInicio = new HashMap<>();
+            Map<String, Object> mapaInformacionProductoInicio = new HashMap<>();
             mapaInformacionProductoInicio.put("Id", productoInicioDTO.getId());
             mapaInformacionProductoInicio.put("Nombre", productoInicioDTO.getNombre());
             mapaInformacionProductoInicio.put("Variedad", productoInicioDTO.getVariedad());
@@ -77,16 +78,16 @@ public class ControlCompra {
     }
 
     public void mostrarInformacionProducto(Integer idProducto, JFrame frameActual) {
-        HashMap<String, Object> mapaInformacionProducto = this.obtenerInformacionProducto(idProducto);
+        Map<String, Object> mapaInformacionProducto = this.obtenerInformacionProducto(idProducto);
         informacionProducto.setProducto(mapaInformacionProducto);
         frameActual.dispose();
         informacionProducto.hacerVisible(true);
     }
 
-    public HashMap<String, Object> obtenerInformacionProducto(Integer idProducto) {
+    public Map<String, Object> obtenerInformacionProducto(Integer idProducto) {
         InformacionProductoDTO informacionProductoDTO = administradorProductos.obtenerInformacionProducto(idProducto);
 
-        HashMap<String, Object> mapaInformacionProducto = new HashMap<>();
+        Map<String, Object> mapaInformacionProducto = new HashMap<>();
 
         if (informacionProductoDTO != null) {
             mapaInformacionProducto.put("Id", informacionProductoDTO.getId());
@@ -104,19 +105,19 @@ public class ControlCompra {
     }
 
     public void mostrarCarritoCompras(Integer idCliente, JFrame frameActual) {
-        List<HashMap<String, Object>> listaInformacionProductosCarrito = this.obtenerInformacionProductosCarrito(idCliente);
+        List<Map<String, Object>> listaInformacionProductosCarrito = this.obtenerInformacionProductosCarrito(idCliente);
         carrito.setProductos(listaInformacionProductosCarrito);
         carrito.hacerVisible(true);
         frameActual.dispose();
     }
 
-    public List<HashMap<String, Object>> obtenerInformacionProductosCarrito(Integer idCliente) {
+    public List<Map<String, Object>> obtenerInformacionProductosCarrito(Integer idCliente) {
         List<InformacionProductoCarritoDTO> listaInformacionProductoCarritoDTO = carritoCompras.obtenerProductos(idCliente);
 
-        List<HashMap<String, Object>> listaInformacionProductosCarrito = new LinkedList<>();
+        List<Map<String, Object>> listaInformacionProductosCarrito = new LinkedList<>();
 
         for (InformacionProductoCarritoDTO informacionProductoCarrito : listaInformacionProductoCarritoDTO) {
-            HashMap<String, Object> mapaInformacionProductoCarrito = new HashMap<>();
+            Map<String, Object> mapaInformacionProductoCarrito = new HashMap<>();
             mapaInformacionProductoCarrito.put("Id", informacionProductoCarrito.getId());
             mapaInformacionProductoCarrito.put("Nombre", informacionProductoCarrito.getNombre());
             mapaInformacionProductoCarrito.put("Variedad", informacionProductoCarrito.getVariedad());

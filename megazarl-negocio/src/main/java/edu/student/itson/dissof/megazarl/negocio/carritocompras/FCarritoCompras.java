@@ -1,14 +1,15 @@
 package edu.student.itson.dissof.megazarl.negocio.carritocompras;
 
 import edu.student.itson.dissof.megazarl.dto.InformacionProductoCarritoDTO;
+import edu.student.itson.dissof.megazarl.negocio.modelos.Producto;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import edu.student.itson.dissof.megazarl.negocio.modelos.Producto;
+import java.util.Map;
 
 public class FCarritoCompras implements ICarritoCompras {
 
-    private HashMap<Integer, List<Producto>> mapaClientesProductos = new HashMap<>();
+    private Map<Integer, List<Producto>> mapaClientesProductos = new HashMap<>();
 
     @Override
     public List<InformacionProductoCarritoDTO> obtenerProductos(Integer idCliente) {

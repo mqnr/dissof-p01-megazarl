@@ -1,13 +1,13 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IInformacionProducto;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.IInformacionProducto;
 
 public class InformacionProducto extends JFrame implements IInformacionProducto {
 
@@ -76,7 +76,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto 
     }
 
     @Override
-    public void setProducto(HashMap<String, Object> informacionProducto) {
+    public void setProducto(Map<String, Object> informacionProducto) {
         panelImagen.removeAll();
         panelDetalles.removeAll();
 
