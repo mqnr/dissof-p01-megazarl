@@ -1,9 +1,9 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
-import edu.student.itson.dissof.megazarl.negocio.administradorproductos.FAdministradorProductos;
-import edu.student.itson.dissof.megazarl.negocio.administradorproductos.IAdministradorProductos;
-import edu.student.itson.dissof.megazarl.negocio.carritocompras.FCarritoCompras;
-import edu.student.itson.dissof.megazarl.negocio.carritocompras.ICarritoCompras;
+import edu.student.itson.dissof.megazarl.administradorproductos.FAdministradorProductos;
+import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
+import edu.student.itson.dissof.megazarl.carritocompras.FCarritoCompras;
+import edu.student.itson.dissof.megazarl.carritocompras.ICarritoCompras;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IInformacionProducto;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IProductosVenta;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ISeleccionPaqueteria;

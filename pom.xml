@@ -12,7 +12,9 @@
 
   <modules>
     <module>megazarl-dto</module>
-    <module>megazarl-negocio</module>
+    <module>megazarl-objetos-negocio</module>
+    <module>megazarl-administrador-productos</module>
+    <module>megazarl-carrito-compras</module>
     <module>megazarl-presentacion</module>
   </modules>
 
