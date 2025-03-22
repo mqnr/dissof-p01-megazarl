@@ -220,17 +220,18 @@ public class Carrito extends JFrame implements ICarrito {
         // Botones de abajo
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
 
-        ButtonBuilder builderBotonesInferiores = new ButtonBuilder()
+        JButton botonSeguirComprando = new ButtonBuilder()
                 .withFont(new Font("Arial", Font.BOLD, 14))
                 .withBackground(BOTON_AMARILLO)
-                .withPreferredSize(180, 40);
-
-        JButton botonSeguirComprando = builderBotonesInferiores
+                .withPreferredSize(180, 40)
                 .withText("Seguir comprando")
                 .onClick(e -> control.mostrarProductosVenta(Carrito.this))
                 .build();
 
-        JButton botonFinalizarCompra = builderBotonesInferiores
+        JButton botonFinalizarCompra = new ButtonBuilder()
+                .withFont(new Font("Arial", Font.BOLD, 14))
+                .withBackground(BOTON_AMARILLO)
+                .withPreferredSize(180, 40)
                 .withText("Finalizar la compra")
                 .onClick(e -> control.mostrarSeleccionPaqueteria(Carrito.this))
                 .build();
