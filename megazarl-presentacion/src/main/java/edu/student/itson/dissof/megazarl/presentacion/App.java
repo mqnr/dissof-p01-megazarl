@@ -9,11 +9,22 @@ import edu.student.itson.dissof.megazarl.presentacion.interfaces.IProductosVenta
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ISeleccionPaqueteria;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ICarrito;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class App {
 
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
+            JOptionPane.showMessageDialog(null,
+                    "No se pudo cargar el tema del sistema. Se usará el tema por defecto.",
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
+        }
         SwingUtilities.invokeLater(() -> {
             Integer idCliente = 3;
             // Se crea el control con el contructor por defecto.
