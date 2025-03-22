@@ -5,18 +5,38 @@ public class InformacionProductoCarritoDTO {
     private Integer id;
     private String nombre;
     private String variedad;
-    private Float precio;
+    private Double precio;
     private Integer milesSemillas;
+    private Integer cantidad;
     private String nombreProveedor;
     private String direccionImagenProducto;
 
-    public InformacionProductoCarritoDTO(Integer id, String nombre, String variedad, Float precio, Integer milesSemillas, String nombreProveedor, String direccionImagenProducto) {
+    public InformacionProductoCarritoDTO(Integer id, Integer cantidad) {
         this.id = id;
+        this.cantidad = cantidad;
+    }
+
+    public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public void setVariedad(String variedad) {
         this.variedad = variedad;
+    }
+
+    public void setPrecio(Double precio) {
         this.precio = precio;
+    }
+
+    public void setMilesSemillas(Integer milesSemillas) {
         this.milesSemillas = milesSemillas;
+    }
+
+    public void setNombreProveedor(String nombreProveedor) {
         this.nombreProveedor = nombreProveedor;
+    }
+
+    public void setDireccionImagenProducto(String direccionImagenProducto) {
         this.direccionImagenProducto = direccionImagenProducto;
     }
 
@@ -32,12 +52,16 @@ public class InformacionProductoCarritoDTO {
         return variedad;
     }
 
-    public Float getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
     public Integer getMilesSemillas() {
         return milesSemillas;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
     }
 
     public String getNombreProveedor() {
@@ -47,4 +71,7 @@ public class InformacionProductoCarritoDTO {
     public String getDireccionImagenProducto() {
         return direccionImagenProducto;
     }
+
+    
+    
 }

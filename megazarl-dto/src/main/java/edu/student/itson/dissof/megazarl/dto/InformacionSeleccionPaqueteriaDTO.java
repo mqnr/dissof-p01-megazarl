@@ -1,11 +1,11 @@
 package edu.student.itson.dissof.megazarl.dto;
 
-public class SeleccionPaqueteriaDTO {
+public class InformacionSeleccionPaqueteriaDTO {
 
     private Integer idPaqueteria;
     private String direccionImagenPaqueteria;
 
-    public SeleccionPaqueteriaDTO(Integer idPaqueteria, String direccionImagenPaqueteria) {
+    public InformacionSeleccionPaqueteriaDTO(Integer idPaqueteria, String direccionImagenPaqueteria) {
         this.idPaqueteria = idPaqueteria;
         this.direccionImagenPaqueteria = direccionImagenPaqueteria;
     }

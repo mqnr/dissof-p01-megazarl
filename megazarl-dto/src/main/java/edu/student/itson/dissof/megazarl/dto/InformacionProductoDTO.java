@@ -6,13 +6,13 @@ public class InformacionProductoDTO {
     private String nombre;
     private String variedad;
     private String descripcion;
-    private Float precio;
+    private Double precio;
     private Integer milesSemillas;
     private String nombreProveedor;
     private String direccionImagenProducto;
     private String direccionImagenProveedor;
 
-    public InformacionProductoDTO(Integer id, String nombre, String variedad, String descripcion, Float precio, Integer milesSemillas, String nombreProveedor, String direccionImagenProducto, String direccionImagenProveedor) {
+    public InformacionProductoDTO(Integer id, String nombre, String variedad, String descripcion, Double precio, Integer milesSemillas, String nombreProveedor, String direccionImagenProducto, String direccionImagenProveedor) {
         this.id = id;
         this.nombre = nombre;
         this.variedad = variedad;
@@ -40,7 +40,7 @@ public class InformacionProductoDTO {
         return descripcion;
     }
 
-    public Float getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 

@@ -7,12 +7,14 @@ public class ProductoInventario {
     private Integer id;
     private Integer idProducto;
     private Integer idSucursal;
+    private Float tiempoEnvioMatriz;
     private Integer cantidad;
 
-    public ProductoInventario(Integer id, Integer idProducto, Integer idSucursal, Integer cantidad) {
+    public ProductoInventario(Integer id, Integer idProducto, Integer idSucursal, Float tiempoEnvioMatriz, Integer cantidad) {
         this.id = id;
         this.idProducto = idProducto;
         this.idSucursal = idSucursal;
+        this.tiempoEnvioMatriz = tiempoEnvioMatriz;
         this.cantidad = cantidad;
     }
 
@@ -40,6 +42,14 @@ public class ProductoInventario {
         this.idSucursal = idSucursal;
     }
 
+    public Float getTiempoEnvioMatriz() {
+        return tiempoEnvioMatriz;
+    }
+
+    public void setTiempoEnvioMatriz(Float tiempoEnvioMatriz) {
+        this.tiempoEnvioMatriz = tiempoEnvioMatriz;
+    }
+
     public Integer getCantidad() {
         return cantidad;
     }
@@ -51,7 +61,7 @@ public class ProductoInventario {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 19 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -69,4 +79,7 @@ public class ProductoInventario {
         final ProductoInventario other = (ProductoInventario) obj;
         return Objects.equals(this.id, other.id);
     }
+
+    
+    
 }

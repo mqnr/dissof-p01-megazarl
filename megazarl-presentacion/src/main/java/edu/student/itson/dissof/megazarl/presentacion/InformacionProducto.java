@@ -1,19 +1,19 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.IInformacionProducto;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IInformacionProducto;
+import java.util.Map;
 
 public class InformacionProducto extends JFrame implements IInformacionProducto {
 
     private ControlCompra control;
-    private int cantidadLogica = 0;
-    private JLabel cantidadLabel = new JLabel("0");
+    private int cantidad;
+    private JLabel cantidadLabel;
     private Integer idCliente;
     private Integer idProducto;
 
@@ -26,6 +26,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto 
     private JPanel panelProducto2;
     private JPanel panelDetalles;
 
+    private JButton botonAgregarCarrito;
     private JButton btnMenos;
     private JButton btnMas;
 
@@ -33,8 +34,8 @@ public class InformacionProducto extends JFrame implements IInformacionProducto 
 
     public InformacionProducto(ControlCompra control, Integer idCliente) {
         initComponents();
-        this.control = control;
         this.idCliente = idCliente;
+        this.control = control;
     }
 
     private void initComponents() {
@@ -45,7 +46,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        encabezado = new Encabezado();
+        encabezado = new Encabezado(this.control);
         this.add(encabezado, BorderLayout.NORTH);
 
         panelGeneral = new JPanel();
@@ -72,6 +73,8 @@ public class InformacionProducto extends JFrame implements IInformacionProducto 
         panelDetalles.setOpaque(false);
         panelDetalles.setLayout(new BoxLayout(panelDetalles, BoxLayout.Y_AXIS));
         panelProducto2.add(panelDetalles);
+        
+        cantidadLabel = new JLabel();
 
     }
 
@@ -79,7 +82,9 @@ public class InformacionProducto extends JFrame implements IInformacionProducto 
     public void setProducto(Map<String, Object> informacionProducto) {
         panelImagen.removeAll();
         panelDetalles.removeAll();
-
+        cantidad = 0;
+        cantidadLabel.setText("0");
+        
         // Imagen principal
         ImageIcon iconoImagenProducto = new ImageIcon(getClass().getResource((String) informacionProducto.get("DireccionImagenProducto")));
         Image imagenProducto = iconoImagenProducto.getImage().getScaledInstance(440, 400, Image.SCALE_SMOOTH);
@@ -215,15 +220,15 @@ public class InformacionProducto extends JFrame implements IInformacionProducto 
         panelContador = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         panelContador.setOpaque(false);
 
-        JButton menos = new JButton("-");
-        menos.addActionListener(e -> actualizarCantidad(-1));
+        btnMenos = new JButton("-");
+        btnMenos.addActionListener(e -> actualizarCantidad(-1));
 
-        JButton mas = new JButton("+");
-        mas.addActionListener(e -> actualizarCantidad(1));
+        btnMas = new JButton("+");
+        btnMas.addActionListener(e -> actualizarCantidad(1));
 
-        panelContador.add(menos);
+        panelContador.add(btnMenos);
         panelContador.add(cantidadLabel);
-        panelContador.add(mas);
+        panelContador.add(btnMas);
 
         panelSeleccionCantidad2.add(panelContador);
 
@@ -246,11 +251,12 @@ public class InformacionProducto extends JFrame implements IInformacionProducto 
         botonVolver.setAlignmentX(Component.LEFT_ALIGNMENT);
         panelBotones.add(botonVolver);
 
-        JButton botonAgregarCarrito = new JButton("Agregar al carrito");
+        botonAgregarCarrito = new JButton("Agregar al carrito");
         botonAgregarCarrito.setFont(new Font("Segoe UI", Font.BOLD, 16));
         botonAgregarCarrito.setBackground(new Color(0, 204, 0));
         botonAgregarCarrito.setAlignmentX(Component.LEFT_ALIGNMENT);
         panelBotones.add(botonAgregarCarrito);
+        botonAgregarCarrito.setEnabled(false);
 
         panelDetalles.add(panelBotones);
 
@@ -266,7 +272,8 @@ public class InformacionProducto extends JFrame implements IInformacionProducto 
         botonAgregarCarrito.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                control.agregarProductoCarrito(idCliente, InformacionProducto.this.idProducto);
+                control.agregarProductoCarrito(idCliente, InformacionProducto.this.idProducto, 
+                        Integer.parseInt(cantidadLabel.getText()));
                 control.mostrarCarritoCompras(idCliente, InformacionProducto.this);
             }
         });
@@ -274,14 +281,32 @@ public class InformacionProducto extends JFrame implements IInformacionProducto 
     }
 
     private void actualizarCantidad(int cambio) {
-        cantidadLogica = Math.max(0, cantidadLogica + cambio);
-        cantidadLabel.setText(String.valueOf(cantidadLogica));
+        cantidad = Math.max(0, cantidad + cambio);
+        cantidadLabel.setText(String.valueOf(cantidad));
+        if(cantidad>0)
+            botonAgregarCarrito.setEnabled(true);
+        else
+            botonAgregarCarrito.setEnabled(false);
     }
 
     @Override
     public void hacerVisible(boolean visible) {
         setVisible(visible);
     }
+
+    @Override
+    public void actualizarBtnCarritoEncabezado() {
+        encabezado.actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
+    }
+    
+    @Override
+    public void mostrarNombreApellidoClienteEncabezado() {
+        
+        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
+        
+        encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
+    }
+    
 
     class PanelRedondeado extends JPanel {
 

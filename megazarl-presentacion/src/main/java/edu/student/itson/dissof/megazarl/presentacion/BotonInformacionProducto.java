@@ -28,7 +28,7 @@ public class BotonInformacionProducto extends JButton {
     private final String NOMBRE_PRODUCTO;
     private final String VARIEDAD_PRODUCTO;
     private final Integer MILES_SEMILLAS;
-    private final Float PRECIO_PRODUCTO;
+    private final Double PRECIO_PRODUCTO;
     private final String DIRECCION_IMAGEN_PROVEEDOR;
     private final int ANCHO_IMAGEN_PROVEEDOR;
     private final int ALTO_IMAGEN_PROVEEDOR;
@@ -39,7 +39,7 @@ public class BotonInformacionProducto extends JButton {
 
     public BotonInformacionProducto(int altoBoton, int anchoBoton, Color colorFondo, Color colorFondoSeleccionado, Color colorFondoSobre,
             int margenVerticalComponentes, int margenHorizontalComponentes, Integer idProducto, String direccionImagenProducto,
-            String nombreProducto, String variedadProducto, Integer milesSemillas, Float precioProducto, String direccionImagenProveedor, int anchoImagenProveedor,
+            String nombreProducto, String variedadProducto, Integer milesSemillas, Double precioProducto, String direccionImagenProveedor, int anchoImagenProveedor,
             int altoImagenProveedor) {
         this.ALTO_BOTON = altoBoton;
         this.ANCHO_BOTON = anchoBoton;
@@ -162,9 +162,6 @@ public class BotonInformacionProducto extends JButton {
 
     }
 
-    private void mostrarProducto() {
-
-    }
 
     @Override
     public void paintComponent(Graphics g) {

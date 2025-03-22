@@ -1,6 +1,7 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
-import java.util.Objects;
+import java.util.List;
+
 
 public class Producto {
 
@@ -10,13 +11,14 @@ public class Producto {
     private String variedad;
     private String descripcion;
     private Integer milesSemillas;
-    private Float precio;
+    private Double precio;
+    private Double pesoKg;
     private String nombreProveedor;
     private String direccionImagenProducto;
     private String direccionImagenProveedor;
-    private ProductoInventario[] arregloProductoInventario;
+    private List<ProductoInventario> listaProductoInventario;
 
-    public Producto(Integer id, Integer idProveedor, String nombre, String variedad, String descripcion, Integer milesSemillas, Float precio, String nombreProveedor, String direccionImagenProducto, String direccionImagenProveedor, ProductoInventario[] arregloProductoInventario) {
+    public Producto(Integer id, Integer idProveedor, String nombre, String variedad, String descripcion, Integer milesSemillas, Double precio, Double pesoKg, String nombreProveedor, String direccionImagenProducto, String direccionImagenProveedor, List<ProductoInventario> listaProductoInventario) {
         this.id = id;
         this.idProveedor = idProveedor;
         this.nombre = nombre;
@@ -24,10 +26,11 @@ public class Producto {
         this.descripcion = descripcion;
         this.milesSemillas = milesSemillas;
         this.precio = precio;
+        this.pesoKg = pesoKg;
         this.nombreProveedor = nombreProveedor;
         this.direccionImagenProducto = direccionImagenProducto;
         this.direccionImagenProveedor = direccionImagenProveedor;
-        this.arregloProductoInventario = arregloProductoInventario;
+        this.listaProductoInventario = listaProductoInventario;
     }
 
     public Integer getId() {
@@ -78,12 +81,20 @@ public class Producto {
         this.milesSemillas = milesSemillas;
     }
 
-    public Float getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Float precio) {
+    public void setPrecio(Double precio) {
         this.precio = precio;
+    }
+
+    public Double getPesoKg() {
+        return pesoKg;
+    }
+
+    public void setPesoKg(Double pesoKg) {
+        this.pesoKg = pesoKg;
     }
 
     public String getNombreProveedor() {
@@ -110,33 +121,16 @@ public class Producto {
         this.direccionImagenProveedor = direccionImagenProveedor;
     }
 
-    public ProductoInventario[] getArregloProductoInventario() {
-        return arregloProductoInventario;
+    public List<ProductoInventario> getListaProductoInventario() {
+        return listaProductoInventario;
     }
 
-    public void setArregloProductoInventario(ProductoInventario[] arregloProductoInventario) {
-        this.arregloProductoInventario = arregloProductoInventario;
+    public void setListaProductoInventario(List<ProductoInventario> listaProductoInventario) {
+        this.listaProductoInventario = listaProductoInventario;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.id);
-        return hash;
-    }
+    
+   
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Producto other = (Producto) obj;
-        return Objects.equals(this.id, other.id);
-    }
+    
 }

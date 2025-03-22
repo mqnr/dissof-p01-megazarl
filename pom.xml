@@ -13,7 +13,10 @@
   <modules>
     <module>megazarl-dto</module>
     <module>megazarl-objetos-negocio</module>
+    <module>megazarl-administrador-clientes</module>
     <module>megazarl-administrador-productos</module>
+    <module>megazarl-administrador-paqueterias</module>
+    <module>megazarl-administrador-pedidos</module>
     <module>megazarl-carrito-compras</module>
     <module>megazarl-presentacion</module>
   </modules>

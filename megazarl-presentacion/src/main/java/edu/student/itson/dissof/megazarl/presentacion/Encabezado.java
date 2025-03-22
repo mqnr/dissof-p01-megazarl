@@ -14,8 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import edu.student.itson.dissof.megazarl.presentacion.utilgui.ButtonBuilder;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Encabezado extends JPanel {
+public class Encabezado extends JPanel{
 
     private JPanel panelFila1;
     private JPanel panelFila2;
@@ -46,11 +48,16 @@ public class Encabezado extends JPanel {
     private final Color BOTON_AMARILLO = new Color(248, 241, 132);
 
     JButton btnActualizarDireccionEnvio;
-
     JButton btnCarritoCompras;
+    JButton botonBusqueda;
+    
+    private ControlCompra control;
+    
 
-    public Encabezado() {
+    public Encabezado(ControlCompra control) {
+        this.control = control;
         this.initCompoents();
+        
     }
 
     private void initCompoents() {
@@ -120,7 +127,7 @@ public class Encabezado extends JPanel {
         ImageIcon nuevoInconoUsuario = new ImageIcon(imagenUsuario);
 
         this.etqImagenUsuario = new JLabel(nuevoInconoUsuario);
-        this.etqNombreUsuario = new JLabel("Juan Pérez");
+        this.etqNombreUsuario = new JLabel();
         Font fuenteEtqNombreUsuario = new Font("Arial", Font.BOLD, 20);
         etqNombreUsuario.setFont(fuenteEtqNombreUsuario);
         etqNombreUsuario.setForeground(Color.WHITE);
@@ -137,13 +144,7 @@ public class Encabezado extends JPanel {
 
         this.panelLogotipo2.add(etqLogotipoEmpresa);
 
-        // Botón de Carrito de Compras:    
-        btnCarritoCompras = new ButtonBuilder()
-                .withText(EMOJI_CARRITO + " 0")
-                .withFont(new Font("Segoe UI Emoji", Font.BOLD, 16))
-                .withBackground(BOTON_AMARILLO)
-                .withPreferredSize(80, 40)
-                .build();
+        this.cargarBtnCarrito();
 
         panelBtnCarrito2.add(btnCarritoCompras);
 
@@ -184,14 +185,53 @@ public class Encabezado extends JPanel {
 
         campoBusquedaProductos.setColumns(20);
 
-        JButton botonBusqueda = new ButtonBuilder()
+        this.cargarBtnBusqueda();
+
+        panelBusqueda2.add(campoBusquedaProductos);
+        panelBusqueda2.add(botonBusqueda);
+        
+    }
+    
+    private void cargarBtnBusqueda(){
+        
+        botonBusqueda = new ButtonBuilder()
                 .withText(EMOJI_LUPA)
                 .withFont(new Font("Segoe UI Emoji", Font.PLAIN, 12))
                 .withPreferredSize(30, 30)
                 .withEmptyMargin()
                 .build();
-
-        panelBusqueda2.add(campoBusquedaProductos);
-        panelBusqueda2.add(botonBusqueda);
+        
+        botonBusqueda.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!campoBusquedaProductos.getText().isBlank()){
+                    control.mostrarProductosBusqueda(campoBusquedaProductos.getText());
+                }
+            }
+        });
     }
+    
+    private void cargarBtnCarrito(){
+        // Botón de Carrito de Compras:    
+        btnCarritoCompras = new ButtonBuilder()
+                .withText(EMOJI_CARRITO)
+                .withFont(new Font("Segoe UI Emoji", Font.BOLD, 16))
+                .withBackground(BOTON_AMARILLO)
+                .withPreferredSize(80, 40)
+                .build();
+        
+    }
+    
+    public void actualizarCantidadProductosBtnCarrito(String stringCantidad){
+        this.btnCarritoCompras.setText(stringCantidad +  "  " + EMOJI_CARRITO);
+    }
+    
+    public String getTextoCampoBusqueda(){
+        return this.campoBusquedaProductos.getText();
+    }
+    
+    public void setNombreApellidoCliente(String nombreApellidoCliente){
+        this.etqNombreUsuario.setText(nombreApellidoCliente);
+    }
+
 }

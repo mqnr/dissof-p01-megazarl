@@ -10,9 +10,20 @@ import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 public class Mensaje extends JFrame implements IMensaje {
 
     private ControlCompra control;
+    
+    private JPanel panelMensaje;
+    
+    private JLabel lblLinea;
+    
+    private JPanel panelIcono;
+    
+    JPanel panelTexto;
+            
     // Colores
+    private Color fondoMensaje;
+    
     private final Color VERDE_CABECERA = new Color(43, 189, 126);
-    private final Color FONDO_MENSAJE = new Color(235, 255, 229);
+    
     private final Color BOTON_AMARILLO = new Color(235, 255, 197);
 
     // Recursos
@@ -22,20 +33,19 @@ public class Mensaje extends JFrame implements IMensaje {
 
     public Mensaje(ControlCompra control) {
         configurarVentana();
-        initUI();
+        initComponents();
         this.control = control;
     }
 
     private void configurarVentana() {
         setTitle("Mensaje");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(937, 676);
         setLocationRelativeTo(null);
         setResizable(false);
         setIconImage(iconoPropio);
     }
 
-    private void initUI() {
+    private void initComponents() {
         JPanel panelPrincipal = new JPanel(new BorderLayout());
         panelPrincipal.setBackground(new Color(217, 217, 255));
 
@@ -90,38 +100,32 @@ public class Mensaje extends JFrame implements IMensaje {
     }
 
     private JPanel crearCuerpoMensaje() {
+        
         // Panel contenedor principal con márgenes
         JPanel contenedorPrincipal = new JPanel(new BorderLayout());
         contenedorPrincipal.setBackground(new Color(217, 217, 255)); // Color del fondo principal
         contenedorPrincipal.setBorder(BorderFactory.createEmptyBorder(40, 80, 40, 80)); // Margen superior, izquierdo, inferior, derecho
 
         // Panel del mensaje
-        JPanel panelMensaje = new JPanel(new BorderLayout(30, 0));
-        panelMensaje.setBackground(FONDO_MENSAJE);
+        panelMensaje = new JPanel(new BorderLayout(30, 0));
         panelMensaje.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30)); // Padding interno
 
         // Icono de verificación (centrado verticalmente)
-        JPanel panelIcono = new JPanel(new GridBagLayout());
+        panelIcono = new JPanel(new GridBagLayout());
         panelIcono.setOpaque(false);
-        panelIcono.add(new JLabel(redimensionarIcono("/checksquare.png", 100, 100)));
 
         // Texto del mensaje (centrado)
-        JPanel panelTexto = new JPanel();
+        panelTexto = new JPanel();
         panelTexto.setLayout(new BoxLayout(panelTexto, BoxLayout.Y_AXIS));
         panelTexto.setOpaque(false);
 
-        JLabel lblLinea1 = new JLabel("Pedido realizado con éxito, puede consultar su estatus desde");
-        JLabel lblLinea2 = new JLabel("el apartado Mis Pedidos, en el menú principal");
-
-        for (JLabel lbl : new JLabel[]{lblLinea1, lblLinea2}) {
-            lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-            lbl.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrado horizontal
-        }
+        lblLinea = new JLabel();
+        lblLinea.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        lblLinea.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Añadir espacio vertical flexible arriba y abajo
         panelTexto.add(Box.createVerticalGlue());
-        panelTexto.add(lblLinea1);
-        panelTexto.add(lblLinea2);
+        panelTexto.add(lblLinea);
         panelTexto.add(Box.createVerticalGlue());
 
         // Ensamblar componentes
@@ -160,6 +164,22 @@ public class Mensaje extends JFrame implements IMensaje {
         Image imagenRedimensionada = iconoOriginal.getImage()
                 .getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
         return new ImageIcon(imagenRedimensionada);
+    }
+    
+    @Override
+    public void setColorFondo(Color colorFondo){
+        panelMensaje.setBackground(colorFondo);
+    }
+    
+    @Override
+    public void setImagen(String direccionImagen){
+        panelIcono.removeAll();
+        panelIcono.add(new JLabel(redimensionarIcono(direccionImagen, 100, 100)));
+    }
+    
+    @Override
+    public void setTexto(String texto){
+        lblLinea.setText(texto);
     }
 
     @Override

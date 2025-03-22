@@ -1,12 +1,21 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.IProductosVenta;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IProductosVenta;
+import java.util.LinkedList;
 import java.util.Map;
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 
 public class ProductosVenta extends JFrame implements IProductosVenta {
 
@@ -19,6 +28,9 @@ public class ProductosVenta extends JFrame implements IProductosVenta {
     private JPanel panelProductos;
 
     private JScrollPane scrollPaneProductos;
+    
+    private String variedadSeleccionada;
+    private String proveedorSeleccionado;
 
     private final int MARGEN_VERTICAL_PRODUCTOS = 10;
     private final int MARGEN_HORIZONTAL_PRODUCTOS = 10;
@@ -39,8 +51,8 @@ public class ProductosVenta extends JFrame implements IProductosVenta {
     private final int MARGEN_HORIZONTAL_COMPONENTES = 1;
 
     public ProductosVenta(ControlCompra control, Integer idCliente) {
-        this.initComponents();
         this.control = control;
+        this.initComponents();
         this.idCliente = idCliente;
     }
 
@@ -50,12 +62,18 @@ public class ProductosVenta extends JFrame implements IProductosVenta {
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
 
-        encabezado = new Encabezado();
+        encabezado = new Encabezado(this.control);
         this.add(encabezado, BorderLayout.NORTH);
 
         panelGeneral = new JPanel(new BorderLayout());
         this.add(panelGeneral, BorderLayout.CENTER);
 
+    }
+
+    @Override
+    public void setProductosTodos(List<Map<String, Object>> listaInformacionProductos) {
+        
+        panelGeneral.removeAll();
         FlowLayout layoutPanelProductos = new FlowLayout(FlowLayout.LEFT);
         layoutPanelProductos.setVgap(MARGEN_VERTICAL_PRODUCTOS);
         layoutPanelProductos.setHgap(MARGEN_HORIZONTAL_PRODUCTOS);
@@ -67,11 +85,6 @@ public class ProductosVenta extends JFrame implements IProductosVenta {
         scrollPaneProductos = new JScrollPane(panelProductos, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         panelGeneral.add(scrollPaneProductos, BorderLayout.CENTER);
-    }
-
-    @Override
-    public void setProductos(List<Map<String, Object>> listaInformacionProductos) {
-        panelProductos.removeAll();
 
         ActionListener listenerBotonInformacionProducto = new ActionListener() {
             @Override
@@ -85,18 +98,160 @@ public class ProductosVenta extends JFrame implements IProductosVenta {
                 * ALTO_BOTON_INFORMACION_PRODUCTO + MARGEN_VERTICAL_PRODUCTOS * (Math.ceilDiv(listaInformacionProductos.size(), 5) + 1)));
 
         for (Map<String, Object> informacionProductoInicio : listaInformacionProductos) {
+
             BotonInformacionProducto botonInformacionProducto = new BotonInformacionProducto(ALTO_BOTON_INFORMACION_PRODUCTO,
                     ANCHO_BOTON_INFORMACION_PRODUCTO, COLOR_BOTON_FONDO, COLOR_BOTON_FONDO_SELECCIONADO,
                     COLOR_BOTON_FONDO_SOBRE, MARGEN_VERTICAL_COMPONENTES,
                     MARGEN_HORIZONTAL_COMPONENTES, (Integer) informacionProductoInicio.get("Id"),
                     (String) informacionProductoInicio.get("DireccionImagenProducto"),
                     (String) informacionProductoInicio.get("Nombre"), (String) informacionProductoInicio.get("Variedad"),
-                    (Integer) informacionProductoInicio.get("MilesSemillas"), (Float) informacionProductoInicio.get("Precio"),
+                    (Integer) informacionProductoInicio.get("MilesSemillas"), (Double)informacionProductoInicio.get("Precio"),
                     (String) informacionProductoInicio.get("DireccionImagenProveedor"),
                     ANCHO_IMAGEN_PROVEEDOR, ALTO_IMAGEN_PROVEEDOR);
 
             botonInformacionProducto.addActionListener(listenerBotonInformacionProducto);
             panelProductos.add(botonInformacionProducto);
+
+        }
+
+    }
+    
+    @Override
+    public void setProductosBusqueda(List<Map<String, Object>> listaInformacionProductos){
+        panelGeneral.removeAll();
+        
+        FlowLayout layoutPanelProductos = new FlowLayout(FlowLayout.LEFT);
+        layoutPanelProductos.setVgap(MARGEN_VERTICAL_PRODUCTOS);
+        layoutPanelProductos.setHgap(MARGEN_HORIZONTAL_PRODUCTOS);
+
+        panelProductos = new JPanel(layoutPanelProductos);
+
+        panelProductos.setBackground(COLOR_PANEL_PRODUCTOS);
+
+        scrollPaneProductos = new JScrollPane(panelProductos, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        panelGeneral.add(scrollPaneProductos, BorderLayout.CENTER);
+        
+        JPanel panelFiltro = new JPanel();
+        
+        panelFiltro.setLayout(new BoxLayout(panelFiltro, BoxLayout.Y_AXIS));
+        
+        JLabel labelFiltrarVariedad = new JLabel("Selecciona una variedad");
+        JLabel labelFiltrarProveedor = new JLabel("Selecciona un proveedor");
+        
+        this.variedadSeleccionada = "----------";
+        this.proveedorSeleccionado = "----------";
+        
+        // Ciclo para obtener variedades de productos:
+        List<String> listaVariedadesProductos = new LinkedList<>();
+        listaVariedadesProductos.add("Seleccione una variedad");
+        
+        // Ciclo para obener variedades de productos:
+        List<String> listaProveedoresProductos = new LinkedList<>();
+        listaProveedoresProductos.add("Seleccione un proveedor");
+        
+        for(Map<String, Object> informacionProducto: listaInformacionProductos){
+            if(!listaVariedadesProductos.contains(informacionProducto.get("Variedad"))){
+                listaVariedadesProductos.add((String)informacionProducto.get("Variedad"));
+            }
+            
+            if(!listaProveedoresProductos.contains(informacionProducto.get("Proveedor"))){
+                listaProveedoresProductos.add((String)informacionProducto.get("Proveedor"));
+            }
+        }
+        
+        Object[] arregloVariedades = listaVariedadesProductos.toArray();
+        Object[] arregloProveedores = listaProveedoresProductos.toArray();
+        
+        JComboBox comboBoxOpcionesFiltroVariedad = new JComboBox(arregloVariedades);
+        JComboBox comboBoxOpcionesFiltroProveedor = new JComboBox(arregloProveedores);
+        
+        JPanel panelFiltro1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelFiltro1.add(labelFiltrarVariedad);
+        panelFiltro1.add(comboBoxOpcionesFiltroVariedad);
+        
+        JPanel panelFiltro2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelFiltro2.add(labelFiltrarProveedor);
+        panelFiltro2.add(comboBoxOpcionesFiltroProveedor);
+        
+        panelFiltro.add(panelFiltro1);
+        panelFiltro.add(panelFiltro2);
+        
+        String nombreProductoActual = encabezado.getTextoCampoBusqueda();
+        
+        comboBoxOpcionesFiltroVariedad.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                variedadSeleccionada = (String) comboBoxOpcionesFiltroVariedad.getSelectedItem();
+                
+                if(variedadSeleccionada.equals("----------") 
+                        && proveedorSeleccionado.equals("----------")){
+                    
+                    control.obtenerProductosBusqueda(encabezado.getTextoCampoBusqueda());
+                    
+                } else if (!variedadSeleccionada.equals("----------")
+                        && proveedorSeleccionado.equals("----------")){
+                    
+                    control.obtenerProductosBusqueda(encabezado.getTextoCampoBusqueda(), variedadSeleccionada);
+                } else{
+                    control.obtenerProductosBusqueda(encabezado.getTextoCampoBusqueda(), variedadSeleccionada,
+                            proveedorSeleccionado);
+                }
+            }
+        });
+        
+        comboBoxOpcionesFiltroProveedor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                proveedorSeleccionado = (String) comboBoxOpcionesFiltroVariedad.getSelectedItem();
+                
+                if(variedadSeleccionada.equals("Selecciones una variedad") 
+                        && proveedorSeleccionado.equals("Seleccione un proveedor")){
+                    
+                    control.obtenerProductosBusqueda(encabezado.getTextoCampoBusqueda());
+                    
+                } else if (!variedadSeleccionada.equals("Selecciones una variedad")
+                        && proveedorSeleccionado.equals("Seleccione un proveedor")){
+                    
+                    control.obtenerProductosBusqueda(encabezado.getTextoCampoBusqueda(), variedadSeleccionada);
+                } else{
+                    control.obtenerProductosBusqueda(encabezado.getTextoCampoBusqueda(), variedadSeleccionada,
+                            proveedorSeleccionado);
+                }
+            }
+        });
+
+        
+        panelGeneral.add(panelFiltro, BorderLayout.WEST);
+        
+        
+        // Productos
+        ActionListener listenerBotonInformacionProducto = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BotonInformacionProducto botonInformacionProducto = (BotonInformacionProducto) e.getSource();
+                mostrarInformacionProducto(botonInformacionProducto.getId_Producto());
+            }
+        };
+
+        panelProductos.setPreferredSize(new Dimension(this.getWidth(), Math.ceilDiv(listaInformacionProductos.size(), 3)
+                * ALTO_BOTON_INFORMACION_PRODUCTO + MARGEN_VERTICAL_PRODUCTOS * (Math.ceilDiv(listaInformacionProductos.size(), 3) + 1)));
+
+        for (Map<String, Object> informacionProductoInicio : listaInformacionProductos) {
+
+            BotonInformacionProducto botonInformacionProducto = new BotonInformacionProducto(ALTO_BOTON_INFORMACION_PRODUCTO,
+                    ANCHO_BOTON_INFORMACION_PRODUCTO, COLOR_BOTON_FONDO, COLOR_BOTON_FONDO_SELECCIONADO,
+                    COLOR_BOTON_FONDO_SOBRE, MARGEN_VERTICAL_COMPONENTES,
+                    MARGEN_HORIZONTAL_COMPONENTES, (Integer) informacionProductoInicio.get("Id"),
+                    (String) informacionProductoInicio.get("DireccionImagenProducto"),
+                    (String) informacionProductoInicio.get("Nombre"), (String) informacionProductoInicio.get("Variedad"),
+                    (Integer) informacionProductoInicio.get("MilesSemillas"), (Double) informacionProductoInicio.get("Precio"),
+                    (String) informacionProductoInicio.get("DireccionImagenProveedor"),
+                    ANCHO_IMAGEN_PROVEEDOR, ALTO_IMAGEN_PROVEEDOR);
+
+            botonInformacionProducto.addActionListener(listenerBotonInformacionProducto);
+            panelProductos.add(botonInformacionProducto);
+
         }
     }
 
@@ -108,5 +263,18 @@ public class ProductosVenta extends JFrame implements IProductosVenta {
     @Override
     public void hacerVisible(boolean visible) {
         setVisible(visible);
+    }
+
+    @Override
+    public void actualizarBtnCarritoEncabezado() {
+        encabezado.actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
+    }
+    
+    @Override
+    public void mostrarNombreApellidoClienteEncabezado() {
+        
+        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
+        
+        encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
     }
 }

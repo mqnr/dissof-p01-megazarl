@@ -24,6 +24,8 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria 
     private JPanel panelPaqueterias;
     private JPanel panelCostoEnvio;
     private JPanel panelBotones;
+    
+    private Integer idCliente;
 
     private int ANCHO_IMAGEN_PAQUETERIA = 160;
     private int ALTO_IMAGEN_PAQUETERIA = 110;
@@ -32,10 +34,12 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria 
     private int MARGEN_HORIZONTAL_IMAGENES_PAQUETERIA = 10;
 
     private final ControlCompra control;
+    
 
-    public SeleccionPaqueteria(ControlCompra control) {
+    public SeleccionPaqueteria(ControlCompra control, Integer idCliente) {
         initComponents();
         this.control = control;
+        this.idCliente = idCliente;
     }
 
     private void initComponents() {
@@ -47,7 +51,7 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria 
         this.setResizable(false);
         this.setLayout(new BorderLayout());
 
-        encabezado = new Encabezado();
+        encabezado = new Encabezado(this.control);
         this.add(encabezado, BorderLayout.NORTH);
 
         panelCentral = new JPanel();
@@ -160,5 +164,13 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria 
     @Override
     public void hacerVisible(boolean visible) {
         setVisible(visible);
+    }
+
+    @Override
+    public void mostrarNombreApellidoClienteEncabezado() {
+        
+        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
+        
+        encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
     }
 }
