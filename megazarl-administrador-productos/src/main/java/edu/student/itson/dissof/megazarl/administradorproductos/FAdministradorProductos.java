@@ -16,7 +16,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
     private HashMap<Integer, Integer> mapaIdsProductosCantidades;
              
     
-    public FAdministradorProductos(HashMap<Integer, Integer> listaProductos){
+    public FAdministradorProductos(HashMap<Integer, Integer> mapaIdsProductosCantidades){
         this.mapaIdsProductosCantidades = mapaIdsProductosCantidades;
     }
 
@@ -366,8 +366,6 @@ public class FAdministradorProductos implements IAdministradorProductos {
                         "/seminis.png",
                         Arrays.asList(
                                 new ProductoInventario(1, 1, 1, 4.5f, 10),
-                                new ProductoInventario(2, 1, 2, 2f, 3),
-                                new ProductoInventario(3, 1, 3, 10f, 0),
                                 new ProductoInventario(1, 1, 4, 3f, 0)));
                 break;
             case 6:
@@ -402,7 +400,6 @@ public class FAdministradorProductos implements IAdministradorProductos {
                         "/melonHibridoCruiser.png",
                         "/enzaZaden.png",
                         Arrays.asList(
-                                new ProductoInventario(15, 2, 1, 10.4f, 0),
                                 new ProductoInventario(16, 2, 2, 5.5f, 1),
                                 new ProductoInventario(17, 2, 3, 4.5f, 3),
                                 new ProductoInventario(18, 2, 4, 2.3f, 12)));

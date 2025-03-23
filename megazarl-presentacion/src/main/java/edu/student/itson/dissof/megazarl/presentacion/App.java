@@ -9,12 +9,7 @@ import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorPr
 import edu.student.itson.dissof.megazarl.carritocompras.FCarritoCompras;
 import edu.student.itson.dissof.megazarl.carritocompras.ICarritoCompras;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.ICarrito;
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.IEncabezado;
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.IInformacionProducto;
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.IProductosVenta;
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.ISeleccionPaqueteria;
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -42,12 +37,11 @@ public class App {
             ControlCompra controlCompra = new ControlCompra();
 
             // Se crean las vistas de la clase de presentación, del tipo de una interfaz definida.
-            IEncabezado encabezado = new Encabezado(controlCompra, idCliente);
-            IProductosVenta productosVenta = new ProductosVenta(controlCompra, idCliente,encabezado.obtenerEncabezado());
-            IInformacionProducto informacionProducto = new InformacionProducto(controlCompra, idCliente, encabezado.obtenerEncabezado());
-            ISeleccionPaqueteria seleccionPaqueteria = new SeleccionPaqueteria(controlCompra, idCliente, encabezado.obtenerEncabezado());
-            ICarrito carrito = new Carrito(controlCompra, idCliente, encabezado.obtenerEncabezado());
-            IMensaje mensaje = new Mensaje(controlCompra);
+            IVista productosVenta = new ProductosVenta(controlCompra, idCliente);
+            IVista informacionProducto = new InformacionProducto(controlCompra, idCliente);
+            IVista seleccionPaqueteria = new SeleccionPaqueteria(controlCompra, idCliente);
+            IVista carrito = new Carrito(controlCompra, idCliente);
+            IVista mensaje = new Mensaje(controlCompra, idCliente);
 
             // Se crean los subsistemas a utilziar:
             HashMap<Integer, Integer> mapaProductosDisponibilidad = new HashMap<>();
@@ -116,7 +110,6 @@ public class App {
                 seleccionPaqueteria, 
                 carrito, 
                 mensaje, 
-                encabezado,
                 subsistemaAdministradorProductos, 
                 subsistemaCarritoCompras, 
                 subsistemaAdministradorClientes);

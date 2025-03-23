@@ -1,13 +1,13 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.IEncabezado;
+
 import edu.student.itson.dissof.megazarl.presentacion.utilgui.ButtonBuilder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class Encabezado extends JPanel implements IEncabezado {
+public class Encabezado extends JPanel {
 
     private JPanel panelFila1;
     private JPanel panelFila2;
@@ -223,20 +223,5 @@ public class Encabezado extends JPanel implements IEncabezado {
         this.etqNombreUsuario.setText(nombreApellidoCliente);
     }
 
-    @Override
-    public void actualizarBtnCarritoEncabezado() {
-        actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
-    }
-
-    @Override
-    public void mostrarNombreApellidoClienteEncabezado() {
-        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
-
-        setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
-    }
-
-    @Override
-    public Encabezado obtenerEncabezado() {
-        return this;
-    }
+    
 }

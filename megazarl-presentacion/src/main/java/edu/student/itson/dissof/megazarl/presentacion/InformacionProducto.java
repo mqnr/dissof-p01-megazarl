@@ -1,6 +1,5 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.IEncabezado;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IInformacionProducto;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.awt.*;
@@ -34,8 +33,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
 
     private final int MARGEN_VERTICAL_PANELS = 250;
 
-    public InformacionProducto(ControlCompra control, Integer idCliente, JPanel encabezado) {
-        this.encabezado = this.encabezado;
+    public InformacionProducto(ControlCompra control, Integer idCliente) {
         initComponents();
         this.idCliente = idCliente;
         this.control = control;
@@ -48,6 +46,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     
+        encabezado = new Encabezado(control, idCliente);
         this.add(encabezado, BorderLayout.NORTH);
 
         panelGeneral = new JPanel();
@@ -299,6 +298,18 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
         dispose();
     }
 
+    @Override
+    public void actualizarBtnCarritoEncabezado() {
+        encabezado.actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
+    }
+
+    @Override
+    public void mostrarNombreApellidoClienteEncabezado() {
+        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
+
+        encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
+    }
+    
     class PanelRedondeado extends JPanel {
 
         private int radioEsquinas;

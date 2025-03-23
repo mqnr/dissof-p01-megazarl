@@ -11,7 +11,6 @@ import edu.student.itson.dissof.megazarl.dto.NombreApellidoClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.ProductoInicioDTO;
 import edu.student.itson.dissof.megazarl.dto.TiempoEstimadoPreparacionEnvioPedidoDTO;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ICarrito;
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.IEncabezado;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IInformacionProducto;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IProductosVenta;
@@ -28,12 +27,11 @@ import javax.swing.JOptionPane;
 
 public class ControlCompra {
 
-    private IProductosVenta productosVenta;
-    private IInformacionProducto informacionProducto;
-    private ISeleccionPaqueteria seleccionPaqueteria;
-    private ICarrito carrito;
-    private IMensaje mensaje;
-    private IEncabezado encabezado;
+    private IVista productosVenta;
+    private IVista informacionProducto;
+    private IVista seleccionPaqueteria;
+    private IVista carrito;
+    private IVista mensaje;
     private IAdministradorClientes administradorClientes;
     private IAdministradorProductos administradorProductos;
     private ICarritoCompras carritoCompras;
@@ -42,12 +40,11 @@ public class ControlCompra {
     }
 
     public void setVistas(
-            IProductosVenta productosVenta,
-            IInformacionProducto informacionProducto,
-            ISeleccionPaqueteria seleccionPaqueteria,
-            ICarrito carrito,
-            IMensaje mensaje,
-            IEncabezado encabezado,
+            IVista productosVenta,
+            IVista informacionProducto,
+            IVista seleccionPaqueteria,
+            IVista carrito,
+            IVista mensaje,
             IAdministradorProductos administradorProductos,
             ICarritoCompras carritoCompras,
             IAdministradorClientes administradorClientes) {
@@ -64,33 +61,33 @@ public class ControlCompra {
 
     public void iniciarCompra() {
         List<Map<String, Object>> listaInformacionProductosInicio = obtenerProductosVenta();
-        encabezado.actualizarBtnCarritoEncabezado();
-        encabezado.mostrarNombreApellidoClienteEncabezado();
-        productosVenta.setProductosTodos(listaInformacionProductosInicio);
-        ((IVista)productosVenta).hacerVisible(true);
+        productosVenta.actualizarBtnCarritoEncabezado();
+        productosVenta.mostrarNombreApellidoClienteEncabezado();
+        ((IProductosVenta)productosVenta).setProductosTodos(listaInformacionProductosInicio);
+        productosVenta.hacerVisible(true);
     }
 
     public void mostrarProductosVenta(IVista vistaActual) {
         vistaActual.cerrar();
         List<Map<String, Object>> listaInformacionProductosInicio = obtenerProductosVenta();
-        encabezado.actualizarBtnCarritoEncabezado();
-        encabezado.mostrarNombreApellidoClienteEncabezado();
-        productosVenta.setProductosTodos(listaInformacionProductosInicio);
-        ((IVista)productosVenta).hacerVisible(true);
+        productosVenta.actualizarBtnCarritoEncabezado();
+        productosVenta.mostrarNombreApellidoClienteEncabezado();
+        ((IProductosVenta)productosVenta).setProductosTodos(listaInformacionProductosInicio);
+        productosVenta.hacerVisible(true);
     }
 
     public void mostrarProductosBusqueda(String nombreProducto) {
         List<Map<String, Object>> listaInformacionProductosBusqueda = obtenerProductosBusqueda(nombreProducto);
         if (listaInformacionProductosBusqueda.isEmpty()) {
-            mensaje.setTexto("Búsqueda inválida");
-            mensaje.setImagen("/lupaBusquedaInvalida.png");
-            mensaje.setColorFondo(new Color(255, 191, 169));
-            ((IVista)mensaje).hacerVisible(true);
+            ((IMensaje)mensaje).setTexto("Búsqueda inválida");
+            ((IMensaje)mensaje).setImagen("/lupaBusquedaInvalida.png");
+            ((IMensaje)mensaje).setColorFondo(new Color(255, 191, 169));
+            mensaje.hacerVisible(true);
         } else {
-            encabezado.actualizarBtnCarritoEncabezado();
-            encabezado.mostrarNombreApellidoClienteEncabezado();
-            productosVenta.setProductosBusqueda(listaInformacionProductosBusqueda);
-            ((IVista)productosVenta).hacerVisible(true);
+            productosVenta.actualizarBtnCarritoEncabezado();
+            productosVenta.mostrarNombreApellidoClienteEncabezado();
+            ((IProductosVenta)productosVenta).setProductosBusqueda(listaInformacionProductosBusqueda);
+            productosVenta.hacerVisible(true);
         }
 
     }
@@ -118,10 +115,10 @@ public class ControlCompra {
 
     public void mostrarProductosBusqueda(String nombreProducto, String nombreVariedad) {
         List<Map<String, Object>> listaInformacionProductosBusqueda = obtenerProductosBusqueda(nombreProducto, nombreVariedad);
-        encabezado.actualizarBtnCarritoEncabezado();
-        encabezado.mostrarNombreApellidoClienteEncabezado();
-        productosVenta.setProductosBusqueda(listaInformacionProductosBusqueda);
-        ((IVista)productosVenta).hacerVisible(true);
+        productosVenta.actualizarBtnCarritoEncabezado();
+        productosVenta.mostrarNombreApellidoClienteEncabezado();
+        ((IProductosVenta)productosVenta).setProductosBusqueda(listaInformacionProductosBusqueda);
+        productosVenta.hacerVisible(true);
     }
 
     public List<Map<String, Object>> obtenerProductosBusqueda(String nombreProducto, String nombreVariedad) {
@@ -147,9 +144,9 @@ public class ControlCompra {
 
     public void mostrarProductosBusqueda(String nombreProducto, String nombreVariedad, String nombreProveeedor) {
         List<Map<String, Object>> listaInformacionProductosBusqueda = obtenerProductosBusqueda(nombreProducto, nombreVariedad, nombreProveeedor);
-        encabezado.actualizarBtnCarritoEncabezado();
-        encabezado.mostrarNombreApellidoClienteEncabezado();
-        productosVenta.setProductosBusqueda(listaInformacionProductosBusqueda);
+        productosVenta.actualizarBtnCarritoEncabezado();
+        productosVenta.mostrarNombreApellidoClienteEncabezado();
+        ((IProductosVenta)productosVenta).setProductosBusqueda(listaInformacionProductosBusqueda);
         ((IVista)productosVenta).hacerVisible(true);
     }
 
@@ -197,11 +194,11 @@ public class ControlCompra {
 
     public void mostrarInformacionProducto(Integer idProducto, IVista vistaActual) {
         Map<String, Object> mapaInformacionProducto = this.obtenerInformacionProducto(idProducto);
-        encabezado.actualizarBtnCarritoEncabezado();
-        encabezado.mostrarNombreApellidoClienteEncabezado();
-        informacionProducto.setProducto(mapaInformacionProducto);
+        informacionProducto.actualizarBtnCarritoEncabezado();
+        informacionProducto.mostrarNombreApellidoClienteEncabezado();
+        ((IInformacionProducto)informacionProducto).setProducto(mapaInformacionProducto);
         vistaActual.cerrar();
-        ((IVista)informacionProducto).hacerVisible(true);
+        informacionProducto.hacerVisible(true);
     }
 
     public Map<String, Object> obtenerInformacionProducto(Integer idProducto) {
@@ -226,24 +223,26 @@ public class ControlCompra {
 
     public void mostrarCarritoCompras(Integer idCliente, IVista vistaActual) {
         List<Map<String, Object>> listaInformacionProductosCarrito = this.obtenerInformacionProductosCarrito(idCliente);
-        encabezado.actualizarBtnCarritoEncabezado();
-        encabezado.mostrarNombreApellidoClienteEncabezado();
-        carrito.setProductos(listaInformacionProductosCarrito);
+        carrito.actualizarBtnCarritoEncabezado();
+        carrito.mostrarNombreApellidoClienteEncabezado();
+        ((ICarrito)carrito).setProductos(listaInformacionProductosCarrito);
         vistaActual.cerrar();
-        ((IVista)carrito).hacerVisible(true);
+        carrito.hacerVisible(true);
     }
 
     public List<Map<String, Object>> obtenerInformacionProductosCarrito(Integer idCliente) {
         List<InformacionProductoCarritoDTO> listaInformacionProductoCarritoDTO = carritoCompras.obtenerProductos(idCliente);
 
         for (InformacionProductoCarritoDTO informacionProductoCarritoDTO : listaInformacionProductoCarritoDTO) {
+            
             InformacionProductoDTO informacionProductoInicioDTO = administradorProductos.obtenerInformacionProducto(idCliente);
+            
             informacionProductoCarritoDTO.setNombre(informacionProductoInicioDTO.getNombre());
-            informacionProductoCarritoDTO.setVariedad(informacionProductoCarritoDTO.getVariedad());
-            informacionProductoCarritoDTO.setPrecio(informacionProductoCarritoDTO.getPrecio());
-            informacionProductoCarritoDTO.setMilesSemillas(informacionProductoCarritoDTO.getMilesSemillas());
-            informacionProductoCarritoDTO.setNombreProveedor(informacionProductoCarritoDTO.getNombreProveedor());
-            informacionProductoCarritoDTO.setDireccionImagenProducto(informacionProductoCarritoDTO.getDireccionImagenProducto());
+            informacionProductoCarritoDTO.setVariedad(informacionProductoInicioDTO.getVariedad());
+            informacionProductoCarritoDTO.setPrecio(informacionProductoInicioDTO.getPrecio());
+            informacionProductoCarritoDTO.setMilesSemillas(informacionProductoInicioDTO.getMilesSemillas());
+            informacionProductoCarritoDTO.setNombreProveedor(informacionProductoInicioDTO.getNombreProveedor());
+            informacionProductoCarritoDTO.setDireccionImagenProducto(informacionProductoInicioDTO.getDireccionImagenProducto());
         }
 
         List<Map<String, Object>> listaInformacionProductosCarrito = new LinkedList<>();
@@ -314,7 +313,7 @@ public class ControlCompra {
 
     public void mostrarSeleccionPaqueteria(JFrame frameActual) {
         List<String> direccionesImagenesPaqueteria = this.obtenerPaqueterias();
-        seleccionPaqueteria.setPaqueterias(direccionesImagenesPaqueteria);
+        ((ISeleccionPaqueteria)seleccionPaqueteria).setPaqueterias(direccionesImagenesPaqueteria);
         frameActual.dispose();
         ((IVista)seleccionPaqueteria).hacerVisible(true);
     }

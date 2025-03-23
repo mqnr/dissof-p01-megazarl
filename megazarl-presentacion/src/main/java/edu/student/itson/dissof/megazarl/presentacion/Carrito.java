@@ -25,7 +25,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
     // Emojis
     private final String emojiBasura = new String(Character.toChars(0x1F5D1));
 
-    public Carrito(ControlCompra control, Integer idCliente, Encabezado encabezado) {
+    public Carrito(ControlCompra control, Integer idCliente) {
         setTitle("Semillas MEGAZARL - Carrito");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);
@@ -35,8 +35,9 @@ public class Carrito extends JFrame implements ICarrito, IVista {
 
         this.control = control;
         this.idCliente = idCliente;
-        this.encabezado = encabezado;
 
+        
+        encabezado = new Encabezado(control, idCliente);
         // Panel principal con BorderLayout
         panelPrincipal = new JPanel(new BorderLayout());
 
@@ -350,6 +351,18 @@ public class Carrito extends JFrame implements ICarrito, IVista {
     @Override
     public void cerrar(){
         dispose();
+    }
+
+    @Override
+    public void actualizarBtnCarritoEncabezado() {
+        encabezado.actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
+    }
+
+    @Override
+    public void mostrarNombreApellidoClienteEncabezado() {
+        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
+
+        encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
     }
 
 }

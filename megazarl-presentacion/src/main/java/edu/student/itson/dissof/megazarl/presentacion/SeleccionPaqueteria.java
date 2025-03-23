@@ -31,8 +31,7 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
 
     private final ControlCompra control;
 
-    public SeleccionPaqueteria(ControlCompra control, Integer idCliente, Encabezado encabezado) {
-        this.encabezado = encabezado;
+    public SeleccionPaqueteria(ControlCompra control, Integer idCliente) {
         initComponents();
         this.control = control;
         this.idCliente = idCliente;
@@ -45,7 +44,9 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setLayout(new BorderLayout());
-
+        
+        encabezado = new Encabezado(control, idCliente);
+                
         this.add(encabezado, BorderLayout.NORTH);
 
         panelCentral = new JPanel();
@@ -155,6 +156,18 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
         });
     }
 
+    @Override
+    public void actualizarBtnCarritoEncabezado() {
+        encabezado.actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
+    }
+
+    @Override
+    public void mostrarNombreApellidoClienteEncabezado() {
+        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
+
+        encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
+    }
+    
     @Override
     public void hacerVisible(boolean visible) {
         setVisible(visible);

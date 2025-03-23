@@ -1,6 +1,5 @@
 package edu.student.itson.dissof.megazarl.administradorproductos;
 
-import edu.student.itson.dissof.megazarl.dto.InformacionProductoCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.ProductoInicioDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;

@@ -10,6 +10,10 @@ import javax.swing.*;
 public class Mensaje extends JFrame implements IMensaje, IVista {
 
     private ControlCompra control;
+    
+    private Integer idCliente;
+    
+    private Encabezado encabezado;
 
     private JPanel panelMensaje;
 
@@ -31,7 +35,7 @@ public class Mensaje extends JFrame implements IMensaje, IVista {
             .getImage(getClass().getResource("/logoApp.png"))
             .getScaledInstance(90, 90, Image.SCALE_SMOOTH);
 
-    public Mensaje(ControlCompra control) {
+    public Mensaje(ControlCompra control, Integer idCliente) {
         configurarVentana();
         initComponents();
         this.control = control;
@@ -48,6 +52,8 @@ public class Mensaje extends JFrame implements IMensaje, IVista {
     private void initComponents() {
         JPanel panelPrincipal = new JPanel(new BorderLayout());
         panelPrincipal.setBackground(new Color(217, 217, 255));
+        
+        encabezado = new Encabezado(control, idCliente);
 
         panelPrincipal.add(crearCabecera(), BorderLayout.NORTH);
         panelPrincipal.add(crearCuerpoMensaje(), BorderLayout.CENTER);
@@ -189,6 +195,18 @@ public class Mensaje extends JFrame implements IMensaje, IVista {
     @Override
     public void cerrar() {
         dispose();
+    }
+    
+    @Override
+    public void actualizarBtnCarritoEncabezado() {
+        encabezado.actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
+    }
+
+    @Override
+    public void mostrarNombreApellidoClienteEncabezado() {
+        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
+
+        encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
     }
 
     // Clase interna para paneles redondeados

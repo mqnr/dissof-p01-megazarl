@@ -43,9 +43,8 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
     private final int MARGEN_VERTICAL_COMPONENTES = 1;
     private final int MARGEN_HORIZONTAL_COMPONENTES = 1;
 
-    public ProductosVenta(ControlCompra control, Integer idCliente, Encabezado encabezado) {
+    public ProductosVenta(ControlCompra control, Integer idCliente) {
         this.control = control;
-        this.encabezado = encabezado;
         this.initComponents();
         this.idCliente = idCliente;
     }
@@ -56,6 +55,7 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
         
+        encabezado = new Encabezado(control, idCliente);
         this.add(encabezado, BorderLayout.NORTH);
 
         panelGeneral = new JPanel(new BorderLayout());
@@ -245,6 +245,18 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
     @Override
     public void mostrarInformacionProducto(Integer idProducto) {
         this.control.mostrarInformacionProducto(idProducto, this);
+    }
+    
+    @Override
+    public void actualizarBtnCarritoEncabezado() {
+        encabezado.actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
+    }
+
+    @Override
+    public void mostrarNombreApellidoClienteEncabezado() {
+        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
+
+        encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
     }
 
     @Override
