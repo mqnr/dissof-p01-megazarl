@@ -8,16 +8,16 @@ import java.util.List;
 
 public interface ICarritoCompras {
 
-    public abstract List<InformacionProductoCarritoDTO> obtenerProductos(Integer idCliente);
+    List<InformacionProductoCarritoDTO> obtenerProductos(Integer idCliente);
 
-    public abstract void agregarProducto(Integer idCliente, Integer idProducto, int cantidad);
+    void agregarProducto(Integer idCliente, Integer idProducto, int cantidad);
     
-    public abstract void eliminarProducto(Integer idCliente, Integer idProducto, int cantidad);
+    void eliminarProducto(Integer idCliente, Integer idProducto, int cantidad);
     
-    public abstract int obtenerNumeroProductos(Integer idCliente) throws ClienteNoExisteException;
+    int obtenerNumeroProductos(Integer idCliente) throws ClienteNoExisteException;
 
-    public abstract MontoMinimoEnvioGratuitoDTO obtenerInformacionMontoEnvioMinimoGratuito();
+    MontoMinimoEnvioGratuitoDTO obtenerInformacionMontoEnvioMinimoGratuito();
     
-    public abstract TiempoEstimadoPreparacionEnvioPedidoDTO obtenerTiempoEstimadoPreparacionProductos(Integer idCliente);
+    TiempoEstimadoPreparacionEnvioPedidoDTO obtenerTiempoEstimadoPreparacionProductos(Integer idCliente);
     
 }

@@ -8,25 +8,25 @@ import java.util.List;
 
 public interface IAdministradorProductos {
 
-    public abstract List<ProductoInicioDTO> obtenerProductosVenta();
+    List<ProductoInicioDTO> obtenerProductosVenta();
 
-    public abstract InformacionProductoDTO obtenerInformacionProducto(Integer idProducto);
+    InformacionProductoDTO obtenerInformacionProducto(Integer idProducto);
 
-    public abstract List<ProductoInicioDTO> obtenerProductosBusqueda(String nombreProducto);
+    List<ProductoInicioDTO> obtenerProductosBusqueda(String nombreProducto);
 
-    public abstract List<ProductoInicioDTO> obtenerProductosBusqueda(
+    List<ProductoInicioDTO> obtenerProductosBusqueda(
             String nombreProducto,
             String variedadProducto);
 
-    public abstract List<ProductoInicioDTO> obtenerProductosBusqueda(
+    List<ProductoInicioDTO> obtenerProductosBusqueda(
             String nombreProducto,
             String variedadProducto,
             String nombreProveedor);
 
-    public abstract InformacionProductoCarritoDTO obtenerInformacionProductoCarrito(
+    InformacionProductoCarritoDTO obtenerInformacionProductoCarrito(
             InformacionProductoCarritoDTO informacionProductoCarritoDTO);
 
-    public abstract List<ProductoInventario> obtenerListaProductoInventario(Integer idProducto);
+    List<ProductoInventario> obtenerListaProductoInventario(Integer idProducto);
 
-    public abstract double obtenerCostoProducto(Integer idProducto);
+    double obtenerCostoProducto(Integer idProducto);
 }

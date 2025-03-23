@@ -5,15 +5,15 @@ import java.util.Map;
 
 public interface IProductosVenta {
 
-    public abstract void setProductosTodos(List<Map<String, Object>> listaInformacionProductos);
+    void setProductosTodos(List<Map<String, Object>> listaInformacionProductos);
 
-    public abstract void setProductosBusqueda(List<Map<String, Object>> listaInformacionProductos);
+    void setProductosBusqueda(List<Map<String, Object>> listaInformacionProductos);
 
-    public abstract void mostrarInformacionProducto(Integer idProducto);
+    void mostrarInformacionProducto(Integer idProducto);
 
-    public abstract void actualizarBtnCarritoEncabezado();
+    void actualizarBtnCarritoEncabezado();
 
-    public abstract void mostrarNombreApellidoClienteEncabezado();
+    void mostrarNombreApellidoClienteEncabezado();
 
-    public abstract void hacerVisible(boolean visible);
+    void hacerVisible(boolean visible);
 }

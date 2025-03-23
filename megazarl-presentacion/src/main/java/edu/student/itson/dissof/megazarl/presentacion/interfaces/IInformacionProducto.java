@@ -4,11 +4,11 @@ import java.util.Map;
 
 public interface IInformacionProducto {
 
-    public abstract void setProducto(Map<String, Object> informacionProducto);
+    void setProducto(Map<String, Object> informacionProducto);
 
-    public abstract void actualizarBtnCarritoEncabezado();
+    void actualizarBtnCarritoEncabezado();
 
-    public abstract void mostrarNombreApellidoClienteEncabezado();
+    void mostrarNombreApellidoClienteEncabezado();
 
-    public abstract void hacerVisible(boolean visible);
+    void hacerVisible(boolean visible);
 }

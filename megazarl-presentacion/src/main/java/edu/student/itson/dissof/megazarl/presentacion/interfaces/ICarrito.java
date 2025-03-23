@@ -5,11 +5,11 @@ import java.util.Map;
 
 public interface ICarrito {
 
-    public abstract void setProductos(List<Map<String, Object>> listaInformacionProductosCarrito);
+    void setProductos(List<Map<String, Object>> listaInformacionProductosCarrito);
 
-    public abstract void actualizarBtnCarritoEncabezado();
+    void actualizarBtnCarritoEncabezado();
 
-    public abstract void mostrarNombreApellidoClienteEncabezado();
+    void mostrarNombreApellidoClienteEncabezado();
 
-    public abstract void hacerVisible(boolean visible);
+    void hacerVisible(boolean visible);
 }

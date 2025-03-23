@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface IAdministradorPedidos {
 
-    public abstract float obtenerTiempoEstimadoPreparacion(List<InformacionProductoCalculoTiempoPreparacionDTO> listaInformacionProductoCalculoTiempoPreparacionDTO);
+    float obtenerTiempoEstimadoPreparacion(List<InformacionProductoCalculoTiempoPreparacionDTO> listaInformacionProductoCalculoTiempoPreparacionDTO);
 }

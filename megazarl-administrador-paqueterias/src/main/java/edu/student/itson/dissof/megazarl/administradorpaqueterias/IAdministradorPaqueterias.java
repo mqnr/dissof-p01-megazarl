@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface IAdministradorPaqueterias {
 
-    public abstract List<InformacionSeleccionPaqueteriaDTO> obtenerPaqueterias();
+    List<InformacionSeleccionPaqueteriaDTO> obtenerPaqueterias();
 }
