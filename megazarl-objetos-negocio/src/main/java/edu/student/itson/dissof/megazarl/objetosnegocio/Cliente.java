@@ -75,8 +75,4 @@ public class Cliente {
     public void setNumeroDomicilio(String numeroDomicilio) {
         this.numeroDomicilio = numeroDomicilio;
     }
-
-    
-
-    
 }

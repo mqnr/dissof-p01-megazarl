@@ -5,9 +5,8 @@ import java.util.List;
 public interface ISeleccionPaqueteria {
 
     public abstract void setPaqueterias(List<String> direccionesImagenesPaqueteria);
-    
+
     public abstract void mostrarNombreApellidoClienteEncabezado();
-    
+
     public abstract void hacerVisible(boolean visible);
-    
 }

@@ -1,7 +1,7 @@
-
 package edu.student.itson.dissof.megazarl.dto;
 
 public class InformacionProductoCalculoTiempoPreparacionDTO {
+
     private Integer idProducto;
     private Integer cantidad;
 
@@ -25,6 +25,4 @@ public class InformacionProductoCalculoTiempoPreparacionDTO {
     public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
-    
-    
 }

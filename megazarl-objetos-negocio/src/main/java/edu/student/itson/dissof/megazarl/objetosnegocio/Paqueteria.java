@@ -1,7 +1,7 @@
-
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 public class Paqueteria {
+
     private Integer id;
     private String nombre;
     private String direccionImagenPaqueteria;
@@ -35,7 +35,4 @@ public class Paqueteria {
     public Double getCobroHora() {
         return cobroHora;
     }
-
-   
-    
 }

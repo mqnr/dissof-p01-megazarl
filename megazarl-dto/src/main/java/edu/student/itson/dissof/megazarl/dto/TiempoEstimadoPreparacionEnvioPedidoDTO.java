@@ -1,8 +1,7 @@
-
 package edu.student.itson.dissof.megazarl.dto;
 
-
 public class TiempoEstimadoPreparacionEnvioPedidoDTO {
+
     private int diasLimiteInferior;
     private int diasLimiteSuperior;
 
@@ -18,6 +17,4 @@ public class TiempoEstimadoPreparacionEnvioPedidoDTO {
     public int getDiasLimiteSuperior() {
         return diasLimiteSuperior;
     }
-    
-    
 }

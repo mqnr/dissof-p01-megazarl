@@ -2,7 +2,6 @@ package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import java.util.List;
 
-
 public class Producto {
 
     private Integer id;
@@ -128,9 +127,4 @@ public class Producto {
     public void setListaProductoInventario(List<ProductoInventario> listaProductoInventario) {
         this.listaProductoInventario = listaProductoInventario;
     }
-
-    
-   
-
-    
 }

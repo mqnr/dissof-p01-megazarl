@@ -71,7 +71,4 @@ public class InformacionProductoCarritoDTO {
     public String getDireccionImagenProducto() {
         return direccionImagenProducto;
     }
-
-    
-    
 }

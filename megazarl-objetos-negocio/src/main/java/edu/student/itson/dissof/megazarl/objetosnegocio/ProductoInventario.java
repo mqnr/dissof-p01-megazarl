@@ -79,7 +79,4 @@ public class ProductoInventario {
         final ProductoInventario other = (ProductoInventario) obj;
         return Objects.equals(this.id, other.id);
     }
-
-    
-    
 }

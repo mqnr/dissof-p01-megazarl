@@ -1,17 +1,12 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Image;
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.ISeleccionPaqueteria;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
 import java.util.List;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.ISeleccionPaqueteria;
 
 public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria {
 
@@ -24,7 +19,7 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria 
     private JPanel panelPaqueterias;
     private JPanel panelCostoEnvio;
     private JPanel panelBotones;
-    
+
     private Integer idCliente;
 
     private int ANCHO_IMAGEN_PAQUETERIA = 160;
@@ -34,7 +29,6 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria 
     private int MARGEN_HORIZONTAL_IMAGENES_PAQUETERIA = 10;
 
     private final ControlCompra control;
-    
 
     public SeleccionPaqueteria(ControlCompra control, Integer idCliente) {
         initComponents();
@@ -43,7 +37,6 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria 
     }
 
     private void initComponents() {
-
         this.setTitle("Selección de Paquetería");
         this.setSize(1200, 800);
         this.setLocationRelativeTo(null);
@@ -168,9 +161,8 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria 
 
     @Override
     public void mostrarNombreApellidoClienteEncabezado() {
-        
         String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
-        
+
         encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
     }
 }

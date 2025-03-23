@@ -1,8 +1,7 @@
-
 package edu.student.itson.dissof.megazarl.dto;
 
-
 public class MontoMinimoEnvioGratuitoDTO {
+
     private double montoMinimo;
     private double montoActual;
 
@@ -18,8 +17,4 @@ public class MontoMinimoEnvioGratuitoDTO {
     public double getMontoActual() {
         return montoActual;
     }
-
-    
-    
-    
 }

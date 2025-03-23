@@ -1,18 +1,8 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.LayoutManager;
-import java.awt.RenderingHints;
-import java.awt.Toolkit;
+import java.awt.*;
 import javax.swing.JPanel;
 
-/**
- * @author Yuri Germán García López - 252583
- */
 public class Direccion extends javax.swing.JFrame {
 
     public Direccion() {

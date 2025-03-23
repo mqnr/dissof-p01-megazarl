@@ -1,29 +1,28 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
-import javax.swing.*;
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 import java.awt.*;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
+import javax.swing.*;
 
 public class Mensaje extends JFrame implements IMensaje {
 
     private ControlCompra control;
-    
+
     private JPanel panelMensaje;
-    
+
     private JLabel lblLinea;
-    
+
     private JPanel panelIcono;
-    
+
     JPanel panelTexto;
-            
+
     // Colores
     private Color fondoMensaje;
-    
+
     private final Color VERDE_CABECERA = new Color(43, 189, 126);
-    
+
     private final Color BOTON_AMARILLO = new Color(235, 255, 197);
 
     // Recursos
@@ -100,7 +99,6 @@ public class Mensaje extends JFrame implements IMensaje {
     }
 
     private JPanel crearCuerpoMensaje() {
-        
         // Panel contenedor principal con márgenes
         JPanel contenedorPrincipal = new JPanel(new BorderLayout());
         contenedorPrincipal.setBackground(new Color(217, 217, 255)); // Color del fondo principal
@@ -165,20 +163,20 @@ public class Mensaje extends JFrame implements IMensaje {
                 .getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
         return new ImageIcon(imagenRedimensionada);
     }
-    
+
     @Override
-    public void setColorFondo(Color colorFondo){
+    public void setColorFondo(Color colorFondo) {
         panelMensaje.setBackground(colorFondo);
     }
-    
+
     @Override
-    public void setImagen(String direccionImagen){
+    public void setImagen(String direccionImagen) {
         panelIcono.removeAll();
         panelIcono.add(new JLabel(redimensionarIcono(direccionImagen, 100, 100)));
     }
-    
+
     @Override
-    public void setTexto(String texto){
+    public void setTexto(String texto) {
         lblLinea.setText(texto);
     }
 

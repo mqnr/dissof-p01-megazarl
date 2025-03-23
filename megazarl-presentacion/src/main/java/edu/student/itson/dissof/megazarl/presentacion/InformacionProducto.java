@@ -1,13 +1,13 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IInformacionProducto;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.IInformacionProducto;
-import java.util.Map;
 
 public class InformacionProducto extends JFrame implements IInformacionProducto {
 
@@ -39,7 +39,6 @@ public class InformacionProducto extends JFrame implements IInformacionProducto 
     }
 
     private void initComponents() {
-
         setTitle("Información del producto");
         setSize(1200, 800);
         setResizable(false);
@@ -73,9 +72,8 @@ public class InformacionProducto extends JFrame implements IInformacionProducto 
         panelDetalles.setOpaque(false);
         panelDetalles.setLayout(new BoxLayout(panelDetalles, BoxLayout.Y_AXIS));
         panelProducto2.add(panelDetalles);
-        
-        cantidadLabel = new JLabel();
 
+        cantidadLabel = new JLabel();
     }
 
     @Override
@@ -84,7 +82,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto 
         panelDetalles.removeAll();
         cantidad = 0;
         cantidadLabel.setText("0");
-        
+
         // Imagen principal
         ImageIcon iconoImagenProducto = new ImageIcon(getClass().getResource((String) informacionProducto.get("DireccionImagenProducto")));
         Image imagenProducto = iconoImagenProducto.getImage().getScaledInstance(440, 400, Image.SCALE_SMOOTH);
@@ -272,21 +270,21 @@ public class InformacionProducto extends JFrame implements IInformacionProducto 
         botonAgregarCarrito.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                control.agregarProductoCarrito(idCliente, InformacionProducto.this.idProducto, 
+                control.agregarProductoCarrito(idCliente, InformacionProducto.this.idProducto,
                         Integer.parseInt(cantidadLabel.getText()));
                 control.mostrarCarritoCompras(idCliente, InformacionProducto.this);
             }
         });
-
     }
 
     private void actualizarCantidad(int cambio) {
         cantidad = Math.max(0, cantidad + cambio);
         cantidadLabel.setText(String.valueOf(cantidad));
-        if(cantidad>0)
+        if (cantidad > 0) {
             botonAgregarCarrito.setEnabled(true);
-        else
+        } else {
             botonAgregarCarrito.setEnabled(false);
+        }
     }
 
     @Override
@@ -298,15 +296,13 @@ public class InformacionProducto extends JFrame implements IInformacionProducto 
     public void actualizarBtnCarritoEncabezado() {
         encabezado.actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
     }
-    
+
     @Override
     public void mostrarNombreApellidoClienteEncabezado() {
-        
         String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
-        
+
         encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
     }
-    
 
     class PanelRedondeado extends JPanel {
 
