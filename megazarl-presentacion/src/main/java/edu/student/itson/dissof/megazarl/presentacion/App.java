@@ -8,6 +8,7 @@ import edu.student.itson.dissof.megazarl.administradorproductos.FAdministradorPr
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.carritocompras.FCarritoCompras;
 import edu.student.itson.dissof.megazarl.carritocompras.ICarritoCompras;
+import edu.student.itson.dissof.megazarl.mock.repositorios.RepositorioClientesMock;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Producto;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
@@ -16,6 +17,7 @@ import edu.student.itson.dissof.megazarl.presentacion.interfaces.IInformacionPro
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IProductosVenta;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ISeleccionPaqueteria;
+import edu.student.itson.dissof.megazarl.repositorio.RepositorioClientes;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -71,13 +73,16 @@ public class App {
 
             IAdministradorProductos subsistemaAdministradorProductos = new FAdministradorProductos(listaProductos);
 
-            List<Cliente> listaClientes = Arrays.asList(
-                    new Cliente(1, "Juan", "Pérez", "Hernández", "85000", "Guerrero", "200"),
-                    new Cliente(2, "José", "Juárez", "Gastélum", "70000", "Tamaulipas", "150"),
-                    new Cliente(3, "María", "Ibarra", "García", "24000", "Morelos", "1000"),
-                    new Cliente(4, "Ana", "Martínez", "López", "30000", "Tabasco", "5034"),
-                    new Cliente(5, "Ricardo", "González", "Gómez", "10000", "Miguel Alemán", "431"));
-            IAdministradorClientes subsistemaAdministradorClientes = new FAdministradorClientes(listaClientes);
+            RepositorioClientes repositorioClientes = new RepositorioClientesMock(
+                    List.of(
+                            new Cliente(1, "Juan", "Pérez", "Hernández", "85000", "Guerrero", "200"),
+                            new Cliente(2, "José", "Juárez", "Gastélum", "70000", "Tamaulipas", "150"),
+                            new Cliente(3, "María", "Ibarra", "García", "24000", "Morelos", "1000"),
+                            new Cliente(4, "Ana", "Martínez", "López", "30000", "Tabasco", "5034"),
+                            new Cliente(5, "Ricardo", "González", "Gómez", "10000", "Miguel Alemán", "431")
+                    )
+            );
+            IAdministradorClientes subsistemaAdministradorClientes = new FAdministradorClientes(repositorioClientes);
 
             IAdministradorPedidos subsAdministradorPedidos = new FAdministradorPedidos(subsistemaAdministradorProductos);
 
