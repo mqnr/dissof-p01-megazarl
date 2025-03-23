@@ -15,30 +15,26 @@ public class FAdministradorClientes implements IAdministradorClientes {
 
     @Override
     public boolean validarIdCliente(Integer idCliente) {
-        return this.buscarCliente(idCliente).getId().equals(idCliente);
+        return buscarCliente(idCliente) != null;
     }
 
     @Override
     public NombreApellidoClienteDTO obtenerNombreApellidoPaternoCliente(Integer id) throws ClienteNoExisteException {
-        if (this.validarIdCliente(id)) {
-            for (Cliente cliente : clientes) {
-                if (cliente.getId().equals(id)) {
-                    NombreApellidoClienteDTO nombreApellidoClienteDTO = new NombreApellidoClienteDTO(
-                            cliente.getNombre(), cliente.getApellidoMaterno());
-                    return nombreApellidoClienteDTO;
-                }
-            }
+        Cliente cliente = buscarCliente(id);
+        if (cliente == null) {
+            throw new ClienteNoExisteException();            
         }
-        throw new ClienteNoExisteException("El Id del cliente no es válido.");
+        
+        return new NombreApellidoClienteDTO(
+                cliente.getNombre(),
+                cliente.getApellidoMaterno()
+        );
     }
 
     private Cliente buscarCliente(Integer idCliente) {
-        for (Cliente cliente : clientes) {
-            if (cliente.getId().equals(idCliente)) {
-                return cliente;
-            }
-        }
-
-        return null;
+        return clientes.stream()
+                .filter(cliente -> cliente.getId().equals(idCliente))
+                .findFirst()
+                .orElse(null);
     }
 }
