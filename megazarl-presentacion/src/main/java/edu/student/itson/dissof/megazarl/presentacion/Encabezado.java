@@ -1,12 +1,13 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IEncabezado;
 import edu.student.itson.dissof.megazarl.presentacion.utilgui.ButtonBuilder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class Encabezado extends JPanel {
+public class Encabezado extends JPanel implements IEncabezado {
 
     private JPanel panelFila1;
     private JPanel panelFila2;
@@ -36,14 +37,17 @@ public class Encabezado extends JPanel {
     private final String EMOJI_LUPA = new String(Character.toChars(0x1F50D));
     private final Color BOTON_AMARILLO = new Color(248, 241, 132);
 
+    private Integer idCliente;
+    
     JButton btnActualizarDireccionEnvio;
     JButton btnCarritoCompras;
     JButton botonBusqueda;
 
     private ControlCompra control;
 
-    public Encabezado(ControlCompra control) {
+    public Encabezado(ControlCompra control, Integer idCliente) {
         this.control = control;
+        this.idCliente = idCliente;
         this.initCompoents();
     }
 
@@ -217,5 +221,22 @@ public class Encabezado extends JPanel {
 
     public void setNombreApellidoCliente(String nombreApellidoCliente) {
         this.etqNombreUsuario.setText(nombreApellidoCliente);
+    }
+
+    @Override
+    public void actualizarBtnCarritoEncabezado() {
+        actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
+    }
+
+    @Override
+    public void mostrarNombreApellidoClienteEncabezado() {
+        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
+
+        setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
+    }
+
+    @Override
+    public Encabezado obtenerEncabezado() {
+        return this;
     }
 }

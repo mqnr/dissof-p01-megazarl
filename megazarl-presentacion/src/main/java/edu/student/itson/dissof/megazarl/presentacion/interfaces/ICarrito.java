@@ -5,11 +5,7 @@ import java.util.Map;
 
 public interface ICarrito {
 
-    void setProductos(List<Map<String, Object>> listaInformacionProductosCarrito);
+    public abstract void setProductos(List<Map<String, Object>> listaInformacionProductosCarrito);
 
-    void actualizarBtnCarritoEncabezado();
 
-    void mostrarNombreApellidoClienteEncabezado();
-
-    void hacerVisible(boolean visible);
 }

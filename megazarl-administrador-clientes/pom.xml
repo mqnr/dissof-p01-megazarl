@@ -27,10 +27,5 @@
       <artifactId>megazarl-objetos-negocio</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>megazarl-repositorio</artifactId>
-      <version>${project.version}</version>
-    </dependency>
   </dependencies>
 </project>

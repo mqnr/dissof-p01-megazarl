@@ -11,10 +11,12 @@ import edu.student.itson.dissof.megazarl.dto.NombreApellidoClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.ProductoInicioDTO;
 import edu.student.itson.dissof.megazarl.dto.TiempoEstimadoPreparacionEnvioPedidoDTO;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ICarrito;
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IEncabezado;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IInformacionProducto;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IProductosVenta;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ISeleccionPaqueteria;
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.awt.Color;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,6 +33,7 @@ public class ControlCompra {
     private ISeleccionPaqueteria seleccionPaqueteria;
     private ICarrito carrito;
     private IMensaje mensaje;
+    private IEncabezado encabezado;
     private IAdministradorClientes administradorClientes;
     private IAdministradorProductos administradorProductos;
     private ICarritoCompras carritoCompras;
@@ -44,6 +47,7 @@ public class ControlCompra {
             ISeleccionPaqueteria seleccionPaqueteria,
             ICarrito carrito,
             IMensaje mensaje,
+            IEncabezado encabezado,
             IAdministradorProductos administradorProductos,
             ICarritoCompras carritoCompras,
             IAdministradorClientes administradorClientes) {
@@ -60,19 +64,19 @@ public class ControlCompra {
 
     public void iniciarCompra() {
         List<Map<String, Object>> listaInformacionProductosInicio = obtenerProductosVenta();
-        productosVenta.actualizarBtnCarritoEncabezado();
-        productosVenta.mostrarNombreApellidoClienteEncabezado();
+        encabezado.actualizarBtnCarritoEncabezado();
+        encabezado.mostrarNombreApellidoClienteEncabezado();
         productosVenta.setProductosTodos(listaInformacionProductosInicio);
-        productosVenta.hacerVisible(true);
+        ((IVista)productosVenta).hacerVisible(true);
     }
 
-    public void mostrarProductosVenta(JFrame frameActual) {
-        frameActual.dispose();
+    public void mostrarProductosVenta(IVista vistaActual) {
+        vistaActual.cerrar();
         List<Map<String, Object>> listaInformacionProductosInicio = obtenerProductosVenta();
-        productosVenta.actualizarBtnCarritoEncabezado();
-        productosVenta.mostrarNombreApellidoClienteEncabezado();
+        encabezado.actualizarBtnCarritoEncabezado();
+        encabezado.mostrarNombreApellidoClienteEncabezado();
         productosVenta.setProductosTodos(listaInformacionProductosInicio);
-        productosVenta.hacerVisible(true);
+        ((IVista)productosVenta).hacerVisible(true);
     }
 
     public void mostrarProductosBusqueda(String nombreProducto) {
@@ -81,12 +85,12 @@ public class ControlCompra {
             mensaje.setTexto("Búsqueda inválida");
             mensaje.setImagen("/lupaBusquedaInvalida.png");
             mensaje.setColorFondo(new Color(255, 191, 169));
-            mensaje.hacerVisible(true);
+            ((IVista)mensaje).hacerVisible(true);
         } else {
-            productosVenta.actualizarBtnCarritoEncabezado();
-            productosVenta.mostrarNombreApellidoClienteEncabezado();
+            encabezado.actualizarBtnCarritoEncabezado();
+            encabezado.mostrarNombreApellidoClienteEncabezado();
             productosVenta.setProductosBusqueda(listaInformacionProductosBusqueda);
-            productosVenta.hacerVisible(true);
+            ((IVista)productosVenta).hacerVisible(true);
         }
 
     }
@@ -114,10 +118,10 @@ public class ControlCompra {
 
     public void mostrarProductosBusqueda(String nombreProducto, String nombreVariedad) {
         List<Map<String, Object>> listaInformacionProductosBusqueda = obtenerProductosBusqueda(nombreProducto, nombreVariedad);
-        productosVenta.actualizarBtnCarritoEncabezado();
-        productosVenta.mostrarNombreApellidoClienteEncabezado();
+        encabezado.actualizarBtnCarritoEncabezado();
+        encabezado.mostrarNombreApellidoClienteEncabezado();
         productosVenta.setProductosBusqueda(listaInformacionProductosBusqueda);
-        productosVenta.hacerVisible(true);
+        ((IVista)productosVenta).hacerVisible(true);
     }
 
     public List<Map<String, Object>> obtenerProductosBusqueda(String nombreProducto, String nombreVariedad) {
@@ -143,10 +147,10 @@ public class ControlCompra {
 
     public void mostrarProductosBusqueda(String nombreProducto, String nombreVariedad, String nombreProveeedor) {
         List<Map<String, Object>> listaInformacionProductosBusqueda = obtenerProductosBusqueda(nombreProducto, nombreVariedad, nombreProveeedor);
-        productosVenta.actualizarBtnCarritoEncabezado();
-        productosVenta.mostrarNombreApellidoClienteEncabezado();
+        encabezado.actualizarBtnCarritoEncabezado();
+        encabezado.mostrarNombreApellidoClienteEncabezado();
         productosVenta.setProductosBusqueda(listaInformacionProductosBusqueda);
-        productosVenta.hacerVisible(true);
+        ((IVista)productosVenta).hacerVisible(true);
     }
 
     public List<Map<String, Object>> obtenerProductosBusqueda(String nombreProducto, String nombreVariedad, String nombreProveeedor) {
@@ -191,13 +195,13 @@ public class ControlCompra {
         return listaInformacionProductosInicio;
     }
 
-    public void mostrarInformacionProducto(Integer idProducto, JFrame frameActual) {
+    public void mostrarInformacionProducto(Integer idProducto, IVista vistaActual) {
         Map<String, Object> mapaInformacionProducto = this.obtenerInformacionProducto(idProducto);
-        informacionProducto.actualizarBtnCarritoEncabezado();
-        informacionProducto.mostrarNombreApellidoClienteEncabezado();
+        encabezado.actualizarBtnCarritoEncabezado();
+        encabezado.mostrarNombreApellidoClienteEncabezado();
         informacionProducto.setProducto(mapaInformacionProducto);
-        frameActual.dispose();
-        informacionProducto.hacerVisible(true);
+        vistaActual.cerrar();
+        ((IVista)informacionProducto).hacerVisible(true);
     }
 
     public Map<String, Object> obtenerInformacionProducto(Integer idProducto) {
@@ -220,20 +224,26 @@ public class ControlCompra {
         return mapaInformacionProducto;
     }
 
-    public void mostrarCarritoCompras(Integer idCliente, JFrame frameActual) {
+    public void mostrarCarritoCompras(Integer idCliente, IVista vistaActual) {
         List<Map<String, Object>> listaInformacionProductosCarrito = this.obtenerInformacionProductosCarrito(idCliente);
-        carrito.actualizarBtnCarritoEncabezado();
-        carrito.mostrarNombreApellidoClienteEncabezado();
+        encabezado.actualizarBtnCarritoEncabezado();
+        encabezado.mostrarNombreApellidoClienteEncabezado();
         carrito.setProductos(listaInformacionProductosCarrito);
-        frameActual.dispose();
-        carrito.hacerVisible(true);
+        vistaActual.cerrar();
+        ((IVista)carrito).hacerVisible(true);
     }
 
     public List<Map<String, Object>> obtenerInformacionProductosCarrito(Integer idCliente) {
         List<InformacionProductoCarritoDTO> listaInformacionProductoCarritoDTO = carritoCompras.obtenerProductos(idCliente);
 
         for (InformacionProductoCarritoDTO informacionProductoCarritoDTO : listaInformacionProductoCarritoDTO) {
-            informacionProductoCarritoDTO = administradorProductos.obtenerInformacionProductoCarrito(informacionProductoCarritoDTO);
+            InformacionProductoDTO informacionProductoInicioDTO = administradorProductos.obtenerInformacionProducto(idCliente);
+            informacionProductoCarritoDTO.setNombre(informacionProductoInicioDTO.getNombre());
+            informacionProductoCarritoDTO.setVariedad(informacionProductoCarritoDTO.getVariedad());
+            informacionProductoCarritoDTO.setPrecio(informacionProductoCarritoDTO.getPrecio());
+            informacionProductoCarritoDTO.setMilesSemillas(informacionProductoCarritoDTO.getMilesSemillas());
+            informacionProductoCarritoDTO.setNombreProveedor(informacionProductoCarritoDTO.getNombreProveedor());
+            informacionProductoCarritoDTO.setDireccionImagenProducto(informacionProductoCarritoDTO.getDireccionImagenProducto());
         }
 
         List<Map<String, Object>> listaInformacionProductosCarrito = new LinkedList<>();
@@ -262,6 +272,7 @@ public class ControlCompra {
 
     public void eliminarProductoCarrito(Integer idCliente, Integer idProducto, int cantidad) {
         carritoCompras.eliminarProducto(idCliente, idProducto, cantidad);
+        mostrarCarritoCompras(idCliente, (IVista)carrito);
 
     }
 
@@ -305,7 +316,7 @@ public class ControlCompra {
         List<String> direccionesImagenesPaqueteria = this.obtenerPaqueterias();
         seleccionPaqueteria.setPaqueterias(direccionesImagenesPaqueteria);
         frameActual.dispose();
-        seleccionPaqueteria.hacerVisible(true);
+        ((IVista)seleccionPaqueteria).hacerVisible(true);
     }
 
     public List<String> obtenerPaqueterias() {
@@ -315,6 +326,6 @@ public class ControlCompra {
 
     public void mostrarConfirmacionPedido(JFrame frameActual) {
         frameActual.dispose();
-        mensaje.hacerVisible(true);
+        ((IVista)mensaje).hacerVisible(true);
     }
 }

@@ -1,6 +1,7 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ISeleccionPaqueteria;
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +9,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria {
+public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria, IVista {
 
     private Encabezado encabezado;
 
@@ -30,7 +31,8 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria 
 
     private final ControlCompra control;
 
-    public SeleccionPaqueteria(ControlCompra control, Integer idCliente) {
+    public SeleccionPaqueteria(ControlCompra control, Integer idCliente, Encabezado encabezado) {
+        this.encabezado = encabezado;
         initComponents();
         this.control = control;
         this.idCliente = idCliente;
@@ -44,7 +46,6 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria 
         this.setResizable(false);
         this.setLayout(new BorderLayout());
 
-        encabezado = new Encabezado(this.control);
         this.add(encabezado, BorderLayout.NORTH);
 
         panelCentral = new JPanel();
@@ -160,9 +161,7 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria 
     }
 
     @Override
-    public void mostrarNombreApellidoClienteEncabezado() {
-        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
-
-        encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
+    public void cerrar() {
+        dispose();
     }
 }

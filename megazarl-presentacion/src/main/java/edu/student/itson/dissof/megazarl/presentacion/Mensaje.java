@@ -1,12 +1,13 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class Mensaje extends JFrame implements IMensaje {
+public class Mensaje extends JFrame implements IMensaje, IVista {
 
     private ControlCompra control;
 
@@ -183,6 +184,11 @@ public class Mensaje extends JFrame implements IMensaje {
     @Override
     public void hacerVisible(boolean visible) {
         setVisible(visible);
+    }
+
+    @Override
+    public void cerrar() {
+        dispose();
     }
 
     // Clase interna para paneles redondeados

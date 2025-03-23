@@ -1,6 +1,7 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IProductosVenta;
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.*;
 
-public class ProductosVenta extends JFrame implements IProductosVenta {
+public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
 
     private final ControlCompra control;
     private Integer idCliente;
@@ -42,8 +43,9 @@ public class ProductosVenta extends JFrame implements IProductosVenta {
     private final int MARGEN_VERTICAL_COMPONENTES = 1;
     private final int MARGEN_HORIZONTAL_COMPONENTES = 1;
 
-    public ProductosVenta(ControlCompra control, Integer idCliente) {
+    public ProductosVenta(ControlCompra control, Integer idCliente, Encabezado encabezado) {
         this.control = control;
+        this.encabezado = encabezado;
         this.initComponents();
         this.idCliente = idCliente;
     }
@@ -53,8 +55,7 @@ public class ProductosVenta extends JFrame implements IProductosVenta {
         this.setSize(1200, 800);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
-
-        encabezado = new Encabezado(this.control);
+        
         this.add(encabezado, BorderLayout.NORTH);
 
         panelGeneral = new JPanel(new BorderLayout());
@@ -252,14 +253,7 @@ public class ProductosVenta extends JFrame implements IProductosVenta {
     }
 
     @Override
-    public void actualizarBtnCarritoEncabezado() {
-        encabezado.actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
-    }
-
-    @Override
-    public void mostrarNombreApellidoClienteEncabezado() {
-        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
-
-        encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
+    public void cerrar() {
+        dispose();
     }
 }

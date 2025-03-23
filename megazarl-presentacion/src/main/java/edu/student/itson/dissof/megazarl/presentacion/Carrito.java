@@ -1,6 +1,7 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ICarrito;
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import edu.student.itson.dissof.megazarl.presentacion.utilgui.ButtonBuilder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.*;
 
-public class Carrito extends JFrame implements ICarrito {
+public class Carrito extends JFrame implements ICarrito, IVista {
 
     private ControlCompra control;
     private Integer idCliente;
@@ -24,7 +25,7 @@ public class Carrito extends JFrame implements ICarrito {
     // Emojis
     private final String emojiBasura = new String(Character.toChars(0x1F5D1));
 
-    public Carrito(ControlCompra control, Integer idCliente) {
+    public Carrito(ControlCompra control, Integer idCliente, Encabezado encabezado) {
         setTitle("Semillas MEGAZARL - Carrito");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);
@@ -34,8 +35,8 @@ public class Carrito extends JFrame implements ICarrito {
 
         this.control = control;
         this.idCliente = idCliente;
+        this.encabezado = encabezado;
 
-        encabezado = new Encabezado(this.control);
         // Panel principal con BorderLayout
         panelPrincipal = new JPanel(new BorderLayout());
 
@@ -148,7 +149,6 @@ public class Carrito extends JFrame implements ICarrito {
                     public void actionPerformed(ActionEvent e) {
                         control.eliminarProductoCarrito(idCliente, (Integer) informacionProducto.get("Id"),
                                 (Integer) informacionProducto.get("Cantidad"));
-                        control.mostrarCarritoCompras(idCliente, Carrito.this);
                     }
                 });
 
@@ -346,16 +346,10 @@ public class Carrito extends JFrame implements ICarrito {
     public void hacerVisible(boolean visible) {
         setVisible(visible);
     }
-
+    
     @Override
-    public void actualizarBtnCarritoEncabezado() {
-        encabezado.actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
+    public void cerrar(){
+        dispose();
     }
 
-    @Override
-    public void mostrarNombreApellidoClienteEncabezado() {
-        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
-
-        encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
-    }
 }

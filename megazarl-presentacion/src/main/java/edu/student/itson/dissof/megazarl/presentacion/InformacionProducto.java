@@ -1,6 +1,8 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IEncabezado;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IInformacionProducto;
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
 
-public class InformacionProducto extends JFrame implements IInformacionProducto {
+public class InformacionProducto extends JFrame implements IInformacionProducto, IVista {
 
     private ControlCompra control;
     private int cantidad;
@@ -32,7 +34,8 @@ public class InformacionProducto extends JFrame implements IInformacionProducto 
 
     private final int MARGEN_VERTICAL_PANELS = 250;
 
-    public InformacionProducto(ControlCompra control, Integer idCliente) {
+    public InformacionProducto(ControlCompra control, Integer idCliente, JPanel encabezado) {
+        this.encabezado = this.encabezado;
         initComponents();
         this.idCliente = idCliente;
         this.control = control;
@@ -44,8 +47,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto 
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        encabezado = new Encabezado(this.control);
+    
         this.add(encabezado, BorderLayout.NORTH);
 
         panelGeneral = new JPanel();
@@ -293,15 +295,8 @@ public class InformacionProducto extends JFrame implements IInformacionProducto 
     }
 
     @Override
-    public void actualizarBtnCarritoEncabezado() {
-        encabezado.actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
-    }
-
-    @Override
-    public void mostrarNombreApellidoClienteEncabezado() {
-        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
-
-        encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
+    public void cerrar() {
+        dispose();
     }
 
     class PanelRedondeado extends JPanel {

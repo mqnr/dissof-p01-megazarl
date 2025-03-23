@@ -10,5 +10,4 @@ public interface IMensaje {
 
     void setTexto(String texto);
 
-    void hacerVisible(boolean visible);
 }

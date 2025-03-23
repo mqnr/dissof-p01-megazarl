@@ -11,9 +11,4 @@ public interface IProductosVenta {
 
     void mostrarInformacionProducto(Integer idProducto);
 
-    void actualizarBtnCarritoEncabezado();
-
-    void mostrarNombreApellidoClienteEncabezado();
-
-    void hacerVisible(boolean visible);
 }

@@ -6,7 +6,5 @@ public interface ISeleccionPaqueteria {
 
     void setPaqueterias(List<String> direccionesImagenesPaqueteria);
 
-    void mostrarNombreApellidoClienteEncabezado();
 
-    void hacerVisible(boolean visible);
 }

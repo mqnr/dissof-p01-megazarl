@@ -23,9 +23,6 @@ public interface IAdministradorProductos {
             String variedadProducto,
             String nombreProveedor);
 
-    InformacionProductoCarritoDTO obtenerInformacionProductoCarrito(
-            InformacionProductoCarritoDTO informacionProductoCarritoDTO);
-
     List<ProductoInventario> obtenerListaProductoInventario(Integer idProducto);
 
     double obtenerCostoProducto(Integer idProducto);
