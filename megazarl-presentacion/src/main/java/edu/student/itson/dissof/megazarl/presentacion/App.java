@@ -1,7 +1,7 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
-import edu.student.itson.dissof.megazarl.administrador.sucursales.FAdministradorSucursales;
-import edu.student.itson.dissof.megazarl.administrador.sucursales.IAdministradorSucursales;
+import edu.student.itson.dissof.megazarl.administradorsucursales.FAdministradorSucursales;
+import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.administradorclientes.FAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.FAdministradorPaqueterias;
@@ -14,7 +14,7 @@ import edu.student.itson.dissof.megazarl.carritocompras.FCarritoCompras;
 import edu.student.itson.dissof.megazarl.carritocompras.ICarritoCompras;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
-import java.time.LocalDateTime;
+
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;

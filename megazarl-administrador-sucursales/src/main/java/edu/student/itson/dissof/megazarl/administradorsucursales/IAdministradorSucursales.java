@@ -1,5 +1,5 @@
 
-package edu.student.itson.dissof.megazarl.administrador.sucursales;
+package edu.student.itson.dissof.megazarl.administradorsucursales;
 
 import edu.student.itson.dissof.megazarl.dto.CodigosSucursalesDTO;
 

@@ -1,13 +1,12 @@
 package edu.student.itson.dissof.megazarl.administradorpaqueterias;
 
-import edu.student.itson.dissof.megazarl.administrador.sucursales.IAdministradorSucursales;
+import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.dto.DireccionClienteProductosEnvioDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionSeleccionPaqueteriaDTO;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
 
