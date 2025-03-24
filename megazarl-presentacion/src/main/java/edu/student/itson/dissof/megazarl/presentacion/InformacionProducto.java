@@ -35,9 +35,9 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
     private final int MARGEN_VERTICAL_PANELS = 250;
 
     public InformacionProducto(ControlCompra control, Integer idCliente) {
-        initComponents();
         this.idCliente = idCliente;
         this.control = control;
+        initComponents();
     }
 
     private void initComponents() {

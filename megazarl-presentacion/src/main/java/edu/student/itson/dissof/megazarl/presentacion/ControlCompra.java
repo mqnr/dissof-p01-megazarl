@@ -44,7 +44,15 @@ public class ControlCompra {
     private IAdministradorPaqueterias admiAdministradorPaqueterias;
     private IAdministradorSucursales adminAdminisrtadorSucursales;
 
-    public ControlCompra() {
+    // ¿Por qué pasarle únicamente el administrador de clientes en el constructor? Porque a todas las vistas se les pasa
+    // un ControlCompra, y estas a su vez inicializan un Encabezado, el cual depende del ControlCompra (y
+    // transitivamente del FAdministradorClientes) para obtener la dirección del cliente a mostrar. Sin embargo, ya que
+    // no se agregaban los subsistemas como atributos hasta el final (en setVistas), esto resultaba en un
+    // NullPointerException.
+    // Pienso que deberíamos o inicializar todos los subsistemas en el constructor o ninguno; así
+    // que en cualquier caso, esta es una solución temporal.
+    public ControlCompra(IAdministradorClientes administradorClientes) {
+        this.administradorClientes = administradorClientes;
     }
 
     public void setVistas(
@@ -56,7 +64,6 @@ public class ControlCompra {
             IVista direccion,
             IAdministradorProductos administradorProductos,
             ICarritoCompras carritoCompras,
-            IAdministradorClientes administradorClientes,
             IAdministradorPaqueterias admiAdministradorPaqueterias,
             IAdministradorSucursales adminAdminisrtadorSucursales) {
 
@@ -68,7 +75,6 @@ public class ControlCompra {
         this.direccion = direccion;
         this.administradorProductos = administradorProductos;
         this.carritoCompras = carritoCompras;
-        this.administradorClientes = administradorClientes;
         this.admiAdministradorPaqueterias = admiAdministradorPaqueterias;
         this.adminAdminisrtadorSucursales = adminAdminisrtadorSucursales;
         

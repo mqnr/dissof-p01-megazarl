@@ -41,9 +41,9 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
     private Integer codigoPaqueteriaSeleccionada;
 
     public SeleccionPaqueteria(ControlCompra control, Integer idCliente) {
-        initComponents();
         this.control = control;
         this.idCliente = idCliente;
+        initComponents();
     }
 
     private void initComponents() {

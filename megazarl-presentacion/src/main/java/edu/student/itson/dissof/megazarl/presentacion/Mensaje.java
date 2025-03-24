@@ -36,9 +36,10 @@ public class Mensaje extends JFrame implements IMensaje, IVista {
             .getScaledInstance(90, 90, Image.SCALE_SMOOTH);
 
     public Mensaje(ControlCompra control, Integer idCliente) {
+        this.control = control;
+        this.idCliente = idCliente;
         configurarVentana();
         initComponents();
-        this.control = control;
     }
 
     private void configurarVentana() {

@@ -37,8 +37,8 @@ public class App {
             
             
             Integer idCliente = 3;
-            // Se crea el control con el contructor por defecto.
-            ControlCompra controlCompra = new ControlCompra();
+            IAdministradorClientes subsistemaAdministradorClientes = new FAdministradorClientes();
+            ControlCompra controlCompra = new ControlCompra(subsistemaAdministradorClientes);
 
             // Se crean las vistas de la clase de presentación, del tipo de una interfaz definida.
             IVista productosVenta = new ProductosVenta(controlCompra, idCliente);
@@ -106,8 +106,6 @@ public class App {
                         "Miguel Alemán", 
                         "431")
             );
-            
-            IAdministradorClientes subsistemaAdministradorClientes = new FAdministradorClientes();
 
             IAdministradorPedidos subsAdministradorPedidos = new FAdministradorPedidos(subsistemaAdministradorProductos);
 
@@ -129,8 +127,7 @@ public class App {
                 mensaje, 
                 direccion,
                 subsistemaAdministradorProductos, 
-                subsistemaCarritoCompras, 
-                subsistemaAdministradorClientes,
+                subsistemaCarritoCompras,
                 subsistemaAdministradorPaqueterias,
                 subsistemaAdministradorSucursales);
                 

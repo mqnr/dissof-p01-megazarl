@@ -45,8 +45,8 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
 
     public ProductosVenta(ControlCompra control, Integer idCliente) {
         this.control = control;
-        this.initComponents();
         this.idCliente = idCliente;
+        this.initComponents();
     }
 
     private void initComponents() {
