@@ -91,7 +91,8 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
 
         for (Map<String, Object> informacionProductoInicio : listaInformacionProductos) {
 
-            BotonInformacionProducto botonInformacionProducto = new BotonInformacionProducto(ALTO_BOTON_INFORMACION_PRODUCTO,
+            if(!informacionProductoInicio.isEmpty()){
+                BotonInformacionProducto botonInformacionProducto = new BotonInformacionProducto(ALTO_BOTON_INFORMACION_PRODUCTO,
                     ANCHO_BOTON_INFORMACION_PRODUCTO, COLOR_BOTON_FONDO, COLOR_BOTON_FONDO_SELECCIONADO,
                     COLOR_BOTON_FONDO_SOBRE, MARGEN_VERTICAL_COMPONENTES,
                     MARGEN_HORIZONTAL_COMPONENTES, (Integer) informacionProductoInicio.get("Id"),
@@ -100,9 +101,13 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
                     (Integer) informacionProductoInicio.get("MilesSemillas"), (Double) informacionProductoInicio.get("Precio"),
                     (String) informacionProductoInicio.get("DireccionImagenProveedor"),
                     ANCHO_IMAGEN_PROVEEDOR, ALTO_IMAGEN_PROVEEDOR);
+                
+                botonInformacionProducto.addActionListener(listenerBotonInformacionProducto);
+                panelProductos.add(botonInformacionProducto);
+            }
+            
 
-            botonInformacionProducto.addActionListener(listenerBotonInformacionProducto);
-            panelProductos.add(botonInformacionProducto);
+            
         }
     }
 
@@ -267,5 +272,10 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
     @Override
     public void cerrar() {
         dispose();
+    }
+
+    @Override
+    public void actualizarDireccionCliente(String direccion) {
+        this.encabezado.setDireccionCliente(direccion);
     }
 }

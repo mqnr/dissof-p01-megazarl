@@ -1,13 +1,14 @@
 package edu.student.itson.dissof.megazarl.carritocompras;
 
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
-import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClienteNoExisteException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.IAdministradorPedidos;
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.dto.InformacionProductoCalculoTiempoPreparacionDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionProductoCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.MontoMinimoEnvioGratuitoDTO;
+import edu.student.itson.dissof.megazarl.dto.ProductoCarritoCantidadIdDTO;
 import edu.student.itson.dissof.megazarl.dto.TiempoEstimadoPreparacionEnvioPedidoDTO;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class FCarritoCompras implements ICarritoCompras {
     private IAdministradorPedidos administradorPedidos;
     private HashMap<Integer, HashMap<Integer, Integer>> mapaClientesProductos = new HashMap<>();
     private Double montoMinimoEnvioGratuito;
+    
 
     public FCarritoCompras(Double montoMinimoEnvioGratuito, IAdministradorClientes administradorClientes, IAdministradorProductos administradorProductos,
             IAdministradorPedidos administradorPedidos) {
@@ -60,32 +62,66 @@ public class FCarritoCompras implements ICarritoCompras {
     }
 
     @Override
-    public void agregarProducto(Integer idCliente, Integer idProducto, int cantidad) {
-        mapaClientesProductos.putIfAbsent(idCliente, new HashMap<>());
+    public boolean agregarProducto(Integer idCliente, Integer idProducto, int cantidad){
+        
+        boolean productoAgregado = false;
+        
+        if(administradorClientes.validarIdCliente(idCliente) 
+                && administradorProductos.validarProducto(idProducto) 
+                && administradorProductos.cosultarInventarioProducto(idProducto)> 0){
+            
+            if(mapaClientesProductos.get(idCliente) == null){
+            HashMap <Integer, Integer> nuevoCarrito = new HashMap<>();
+            nuevoCarrito.put(idProducto, 0);
+            mapaClientesProductos.put(idCliente, nuevoCarrito);
+            
+            } else if(mapaClientesProductos.get(idCliente).get(idProducto) == null){
+                mapaClientesProductos.get(idCliente).put(idProducto, 0);
+            }
 
-        int cantidadPrevia = 0;
-        if (mapaClientesProductos.get(idCliente).get(idProducto) != null) {
-            cantidadPrevia = mapaClientesProductos.get(idCliente).get(idProducto);
+            int cantidadPrevia = mapaClientesProductos.get(idCliente).get(idProducto);
+            mapaClientesProductos.get(idCliente).put(idProducto, cantidadPrevia + cantidad);
+            
+            productoAgregado = true;
+            
+            
         }
-
-        mapaClientesProductos.get(idCliente).put(idProducto, cantidadPrevia + cantidad);
+        
+        return productoAgregado;
+        
     }
+    
 
     @Override
-    public void eliminarProducto(Integer idCliente, Integer idProducto, int cantidad) {
-        if (mapaClientesProductos.get(idCliente) != null && !mapaClientesProductos.get(idCliente).isEmpty()) {
-            int cantidadPrevia = mapaClientesProductos.get(idCliente).get(idProducto);
+    public boolean eliminarProducto(Integer idCliente, Integer idProducto, int cantidad) {
+        
+         boolean productoEliminado = false;
+        
+        if(administradorClientes.validarIdCliente(idCliente) 
+                && administradorProductos.validarProducto(idProducto)){
+            
+            if (mapaClientesProductos.get(idCliente) != null && !mapaClientesProductos.get(idCliente).isEmpty()) {
+                int cantidadPrevia = mapaClientesProductos.get(idCliente).get(idProducto);
 
-            if (cantidad <= cantidadPrevia) {
-                mapaClientesProductos.get(idCliente).put(idProducto, cantidadPrevia - cantidad);
+                if (cantidad <= cantidadPrevia) {
+                    mapaClientesProductos.get(idCliente).put(idProducto, cantidadPrevia - cantidad);
+                    administradorProductos.desapartarProductoInventario(idProducto);
+                    productoEliminado = true;
+                }
             }
         }
+        
+ 
+        
+        
+        
+        return productoEliminado;
     }
 
     @Override
-    public int obtenerNumeroProductos(Integer idCliente) throws ClienteNoExisteException {
+    public Integer obtenerNumeroProductos(Integer idCliente){
         if (!administradorClientes.validarIdCliente(idCliente)) {
-            throw new ClienteNoExisteException("El Id del cliente es inválido.");
+            return null;
         }
 
         int numeroProductos = 0;
@@ -105,24 +141,27 @@ public class FCarritoCompras implements ICarritoCompras {
 
     @Override
     public TiempoEstimadoPreparacionEnvioPedidoDTO obtenerTiempoEstimadoPreparacionProductos(Integer idCliente) {
-        // Añadir excepción
+        
         TiempoEstimadoPreparacionEnvioPedidoDTO tiempoEstimadoPreparacionEnvioPedidoDTO = null;
 
         Boolean clienteTieneCarrito = mapaClientesProductos.containsKey(idCliente);
 
         if (clienteTieneCarrito) {
             List<InformacionProductoCalculoTiempoPreparacionDTO> listaInformacionProductoCalculoTiempoPreparacionDTO = new LinkedList<>();
-            HashMap<Integer, Integer> mapaProductosCliente = mapaClientesProductos.get(idCliente);
-
-            for (HashMap.Entry<Integer, Integer> productoCantidad : mapaProductosCliente.entrySet()) {
 
                 listaInformacionProductoCalculoTiempoPreparacionDTO.add(
                         new InformacionProductoCalculoTiempoPreparacionDTO(
-                                productoCantidad.getKey(),
-                                productoCantidad.getValue()
+                                6,
+                                4
                         )
                 );
-            }
+
+                listaInformacionProductoCalculoTiempoPreparacionDTO.add(
+                        new InformacionProductoCalculoTiempoPreparacionDTO(
+                                2,
+                                3
+                        )
+                );
 
             double horasEstimadas = administradorPedidos.obtenerTiempoEstimadoPreparacion(listaInformacionProductoCalculoTiempoPreparacionDTO);
 
@@ -130,10 +169,24 @@ public class FCarritoCompras implements ICarritoCompras {
 
             tiempoEstimadoPreparacionEnvioPedidoDTO
                     = new TiempoEstimadoPreparacionEnvioPedidoDTO((int) Math.ceil(diasEstimados), (int) Math.ceil(diasEstimados + 5));
-        }
+       }
 
         return tiempoEstimadoPreparacionEnvioPedidoDTO;
     }
+    
+    @Override
+    public ProductoCarritoCantidadIdDTO obtenerIdsProductosInventario(Integer idCliente){
+        if(idCliente == 3){
+            List<Integer> codigosProductos = Arrays.asList(9, 7, 16, 17, 18);
+            
+            ProductoCarritoCantidadIdDTO productoCarritoCantidadIdDTO = new ProductoCarritoCantidadIdDTO(codigosProductos);
+            
+            return productoCarritoCantidadIdDTO;
+        }
+        
+        return null;
+    }
+    
 
     private double obtenerMontoTotalCarrito() {
         double montoTotal = 0;
@@ -147,4 +200,5 @@ public class FCarritoCompras implements ICarritoCompras {
 
         return montoTotal;
     }
+    
 }

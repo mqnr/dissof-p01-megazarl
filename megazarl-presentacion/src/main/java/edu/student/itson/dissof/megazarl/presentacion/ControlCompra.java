@@ -1,29 +1,34 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
+import edu.student.itson.dissof.megazarl.administrador.sucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
-import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClienteNoExisteException;
+import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.carritocompras.ICarritoCompras;
+import edu.student.itson.dissof.megazarl.dto.CodigosSucursalesDTO;
+import edu.student.itson.dissof.megazarl.dto.DireccionClienteProductosEnvioDTO;
+import edu.student.itson.dissof.megazarl.dto.DireccionEntradaDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionProductoCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.InformacionSeleccionPaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.MontoMinimoEnvioGratuitoDTO;
 import edu.student.itson.dissof.megazarl.dto.NombreApellidoClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.ProductoCarritoCantidadIdDTO;
 import edu.student.itson.dissof.megazarl.dto.ProductoInicioDTO;
 import edu.student.itson.dissof.megazarl.dto.TiempoEstimadoPreparacionEnvioPedidoDTO;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ICarrito;
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IDireccion;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IInformacionProducto;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IProductosVenta;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ISeleccionPaqueteria;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.awt.Color;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 public class ControlCompra {
 
@@ -32,9 +37,12 @@ public class ControlCompra {
     private IVista seleccionPaqueteria;
     private IVista carrito;
     private IVista mensaje;
+    private IVista direccion;
     private IAdministradorClientes administradorClientes;
     private IAdministradorProductos administradorProductos;
     private ICarritoCompras carritoCompras;
+    private IAdministradorPaqueterias admiAdministradorPaqueterias;
+    private IAdministradorSucursales adminAdminisrtadorSucursales;
 
     public ControlCompra() {
     }
@@ -45,20 +53,27 @@ public class ControlCompra {
             IVista seleccionPaqueteria,
             IVista carrito,
             IVista mensaje,
+            IVista direccion,
             IAdministradorProductos administradorProductos,
             ICarritoCompras carritoCompras,
-            IAdministradorClientes administradorClientes) {
+            IAdministradorClientes administradorClientes,
+            IAdministradorPaqueterias admiAdministradorPaqueterias,
+            IAdministradorSucursales adminAdminisrtadorSucursales) {
 
         this.productosVenta = productosVenta;
         this.informacionProducto = informacionProducto;
         this.seleccionPaqueteria = seleccionPaqueteria;
         this.carrito = carrito;
         this.mensaje = mensaje;
+        this.direccion = direccion;
         this.administradorProductos = administradorProductos;
         this.carritoCompras = carritoCompras;
         this.administradorClientes = administradorClientes;
+        this.admiAdministradorPaqueterias = admiAdministradorPaqueterias;
+        this.adminAdminisrtadorSucursales = adminAdminisrtadorSucursales;
+        
     }
-
+    
     public void iniciarCompra() {
         List<Map<String, Object>> listaInformacionProductosInicio = obtenerProductosVenta();
         productosVenta.actualizarBtnCarritoEncabezado();
@@ -227,27 +242,42 @@ public class ControlCompra {
         carrito.mostrarNombreApellidoClienteEncabezado();
         ((ICarrito)carrito).setProductos(listaInformacionProductosCarrito);
         vistaActual.cerrar();
-        carrito.hacerVisible(true);
+        carrito.hacerVisible(true);      
+    }
+    
+    public void mostrarCarritoCompras(Integer idCliente) {
+        List<Map<String, Object>> listaInformacionProductosCarrito = this.obtenerInformacionProductosCarrito(idCliente);
+        carrito.actualizarBtnCarritoEncabezado();
+        carrito.mostrarNombreApellidoClienteEncabezado();
+        ((ICarrito)carrito).setProductos(listaInformacionProductosCarrito);
+        carrito.hacerVisible(true);      
     }
 
     public List<Map<String, Object>> obtenerInformacionProductosCarrito(Integer idCliente) {
+        
         List<InformacionProductoCarritoDTO> listaInformacionProductoCarritoDTO = carritoCompras.obtenerProductos(idCliente);
 
         for (InformacionProductoCarritoDTO informacionProductoCarritoDTO : listaInformacionProductoCarritoDTO) {
             
-            InformacionProductoDTO informacionProductoInicioDTO = administradorProductos.obtenerInformacionProducto(idCliente);
+            InformacionProductoDTO informacionProductoInicioDTO = 
+                    administradorProductos.obtenerInformacionProducto(informacionProductoCarritoDTO.getId());
             
+
             informacionProductoCarritoDTO.setNombre(informacionProductoInicioDTO.getNombre());
             informacionProductoCarritoDTO.setVariedad(informacionProductoInicioDTO.getVariedad());
             informacionProductoCarritoDTO.setPrecio(informacionProductoInicioDTO.getPrecio());
             informacionProductoCarritoDTO.setMilesSemillas(informacionProductoInicioDTO.getMilesSemillas());
             informacionProductoCarritoDTO.setNombreProveedor(informacionProductoInicioDTO.getNombreProveedor());
             informacionProductoCarritoDTO.setDireccionImagenProducto(informacionProductoInicioDTO.getDireccionImagenProducto());
+            
+            
         }
 
         List<Map<String, Object>> listaInformacionProductosCarrito = new LinkedList<>();
-
+        
         for (InformacionProductoCarritoDTO informacionProductoCarrito : listaInformacionProductoCarritoDTO) {
+            
+  
             Map<String, Object> mapaInformacionProductoCarrito = new HashMap<>();
             mapaInformacionProductoCarrito.put("Id", informacionProductoCarrito.getId());
             mapaInformacionProductoCarrito.put("Nombre", informacionProductoCarrito.getNombre());
@@ -259,30 +289,52 @@ public class ControlCompra {
             mapaInformacionProductoCarrito.put("DireccionImagenProducto", informacionProductoCarrito.getDireccionImagenProducto());
 
             listaInformacionProductosCarrito.add(mapaInformacionProductoCarrito);
+
+            
         }
 
         return listaInformacionProductosCarrito;
     }
+    
+    public int verificarExistenciasProducto(Integer idProducto){
+        
+        return administradorProductos.cosultarInventarioProducto(idProducto);
+        
+    }
 
-    public void agregarProductoCarrito(Integer idCliente, Integer idProducto, int cantidad) {
-        carritoCompras.agregarProducto(idCliente, idProducto, cantidad);
+    public boolean agregarProductoCarrito(Integer idCliente, Integer idProducto, int cantidad) {
+
+        boolean productoAgregado = false;
+        if(carritoCompras.agregarProducto(idCliente, idProducto, cantidad)){
+                if (administradorProductos.eliminarProductoInventario(idProducto, cantidad)){
+                    mostrarCarritoCompras(idCliente, (IVista)carrito);
+                    productoAgregado = true;
+                }
+        }
+                
+        return productoAgregado;
 
     }
 
-    public void eliminarProductoCarrito(Integer idCliente, Integer idProducto, int cantidad) {
-        carritoCompras.eliminarProducto(idCliente, idProducto, cantidad);
-        mostrarCarritoCompras(idCliente, (IVista)carrito);
+    public boolean eliminarProductoCarrito(Integer idCliente, Integer idProducto, int cantidad) {
+        
+        boolean productoEliminado = false;
+        if(carritoCompras.eliminarProducto(idCliente, idProducto, cantidad)){
+
+            mostrarCarritoCompras(idCliente, (IVista)carrito);
+            productoEliminado = true;
+   
+
+        }
+        
+        return productoEliminado;
 
     }
 
     public Integer obtenerNumeroProductosCarrito(Integer idCliente) {
-        try {
-            return carritoCompras.obtenerNumeroProductos(idCliente);
-        } catch (ClienteNoExisteException ex) {
-            // TODO: Modificar manejo de excepción
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            return null;
-        }
+
+        return carritoCompras.obtenerNumeroProductos(idCliente);
+
     }
 
     public Double[] obtenerInformacionMontoEnvioGratuito() {
@@ -292,39 +344,138 @@ public class ControlCompra {
     }
 
     public String[] obtenerNombreApellidoCliente(Integer idCliente) {
-        try {
-            NombreApellidoClienteDTO nombreApellidoClienteDTO = this.administradorClientes.obtenerNombreApellidoPaternoCliente(idCliente);
-            String[] nombreApellidoCliente = {nombreApellidoClienteDTO.getNombresCliente(), nombreApellidoClienteDTO.getApellidoMaternoCliente()};
-            return nombreApellidoCliente;
-        } catch (ClienteNoExisteException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            return null;
-        }
+
+        NombreApellidoClienteDTO nombreApellidoClienteDTO = this.administradorClientes.obtenerNombreApellidoPaternoCliente(idCliente);
+        String[] nombreApellidoCliente = {nombreApellidoClienteDTO.getNombresCliente(), nombreApellidoClienteDTO.getApellidoMaternoCliente()};
+        return nombreApellidoCliente;
+
     }
 
     public int[] obtenerRangoDiasFechaEstimadaPreparacion(Integer idCliente) {
         TiempoEstimadoPreparacionEnvioPedidoDTO tiempoEstimadoPreparacionEnvioPedidoDTO = carritoCompras.obtenerTiempoEstimadoPreparacionProductos(idCliente);
-
-        int[] rangoDiasEstimadoPreparacion = {tiempoEstimadoPreparacionEnvioPedidoDTO.getDiasLimiteInferior(),
+  
+        if(tiempoEstimadoPreparacionEnvioPedidoDTO != null){
+            int[] rangoDiasEstimadoPreparacion = {tiempoEstimadoPreparacionEnvioPedidoDTO.getDiasLimiteInferior(),
             tiempoEstimadoPreparacionEnvioPedidoDTO.getDiasLimiteSuperior()};
-
-        return rangoDiasEstimadoPreparacion;
+            
+            return rangoDiasEstimadoPreparacion;
+        }
+        return null;
+        
+        
     }
 
-    public void mostrarSeleccionPaqueteria(JFrame frameActual) {
-        List<String> direccionesImagenesPaqueteria = this.obtenerPaqueterias();
-        ((ISeleccionPaqueteria)seleccionPaqueteria).setPaqueterias(direccionesImagenesPaqueteria);
-        frameActual.dispose();
+    public void mostrarSeleccionPaqueteria(Integer idCliente, boolean envioGratis, IVista vistaActual) {
+        
+        HashMap<Integer, String> datosPaqueterias = this.obtenerPaqueterias();
+        String[] datosDireccionCliente = recuperarDatosDireccionCliente(Integer.SIZE);
+        ((ISeleccionPaqueteria)seleccionPaqueteria).setCalleEnvio(datosDireccionCliente[0]);
+        ((ISeleccionPaqueteria)seleccionPaqueteria).setNumeroEnvio(datosDireccionCliente[1]);
+        ((ISeleccionPaqueteria)seleccionPaqueteria).setColoniaEnvio(datosDireccionCliente[2]);
+        ((ISeleccionPaqueteria)seleccionPaqueteria).setCodigoPostalEnvio(datosDireccionCliente[3]);
+        ((ISeleccionPaqueteria)seleccionPaqueteria).setEnvioGratis(envioGratis);
+        ((ISeleccionPaqueteria)seleccionPaqueteria).setPaqueterias(datosPaqueterias);
+        vistaActual.cerrar();
         ((IVista)seleccionPaqueteria).hacerVisible(true);
     }
+    
+    public String[] recuperarDatosDireccionCliente(Integer idCliente){
+        String calleCliente = administradorClientes.obtenerCalleCliente(idCliente);
+        String numeroCliente =  administradorClientes.obtenerNumeroCliente(idCliente);
+        String coloniaCliente = administradorClientes.obtenerColoniaCliente(idCliente);
+        String codigoPostalCliente = administradorClientes.obtenerCodigoPostalCliente(idCliente);
+        
+        String[] datosDireccionCliente = {calleCliente, numeroCliente,coloniaCliente, codigoPostalCliente};
+        
+        return datosDireccionCliente;
+    }
 
-    public List<String> obtenerPaqueterias() {
-        // TODO: Obtener de subsistema
-        return Arrays.asList("/dhl.png", "/fedex.png", "/pcp.png", "/ups.png", "/estafeta.png");
+    public HashMap<Integer, String> obtenerPaqueterias() {
+        List<InformacionSeleccionPaqueteriaDTO> listaInformacionSeleccionPaqueteriaDTO = admiAdministradorPaqueterias.obtenerPaqueterias();
+        
+        HashMap<Integer, String> datosPaqueterias = new HashMap<>();
+        
+        for(InformacionSeleccionPaqueteriaDTO informacionSeleccionPaqueteriaDTO: listaInformacionSeleccionPaqueteriaDTO){
+            datosPaqueterias.put(informacionSeleccionPaqueteriaDTO.getIdPaqueteria(), informacionSeleccionPaqueteriaDTO.getDireccionImagenPaqueteria());
+        }
+        
+        return datosPaqueterias;
+    }
+    
+    public double obtenerCostoEnvioPaqueteria(Integer idCliente, Integer idPqueteia){
+        
+        String codigoPostalCliente = administradorClientes.obtenerCodigoPostalCliente(idCliente);
+        String calleCliente = administradorClientes.obtenerCalleCliente(idCliente);
+        String numeroCliente =  administradorClientes.obtenerNumeroCliente(idCliente);
+
+        ProductoCarritoCantidadIdDTO productoCarritoCantidadIdDTO = carritoCompras.obtenerIdsProductosInventario(idCliente);
+        
+        List<Integer> listaIdsProductosInventarioCarrito = productoCarritoCantidadIdDTO.getCodigosProductos();
+
+
+        CodigosSucursalesDTO codigosSucursalesDTO = adminAdminisrtadorSucursales.obtenerCodigosSucursales();
+        List<Integer> codigosSucursales = codigosSucursalesDTO.getCodigosSucursales();
+        
+        
+        HashMap<Integer, Double> idsPesosProductosKg = new HashMap<>();
+        HashMap<Integer, Double> idsTiemposProductosMatriz = new HashMap<>();
+        HashMap<Integer, String> idsCodigosPostalesSucursales = new HashMap<>();
+                
+        for(Integer idProductoInventarioCarrito : listaIdsProductosInventarioCarrito){
+            
+            idsPesosProductosKg.put(idProductoInventarioCarrito, 
+                    administradorProductos.obtenerPesoProductoInventario(idProductoInventarioCarrito));
+            idsTiemposProductosMatriz.put(idProductoInventarioCarrito, 
+                    administradorProductos.obtenerTiempoMatrzProductoInventario(idProductoInventarioCarrito));
+        }
+        
+        for(Integer idSucursal: codigosSucursales){
+            idsCodigosPostalesSucursales.put(idSucursal, adminAdminisrtadorSucursales.obtenerCodigoPostal(idSucursal));
+        }
+        
+        
+        
+        DireccionClienteProductosEnvioDTO direccionClienteProductosEnvioDTO =
+                new DireccionClienteProductosEnvioDTO(
+                        idPqueteia, 
+                        idCliente, 
+                        codigoPostalCliente, 
+                        calleCliente,
+                        numeroCliente, 
+                        idsPesosProductosKg, 
+                        idsTiemposProductosMatriz, 
+                        idsCodigosPostalesSucursales);
+        
+        return admiAdministradorPaqueterias.obtenerCostoEnvio(direccionClienteProductosEnvioDTO);
     }
 
     public void mostrarConfirmacionPedido(JFrame frameActual) {
         frameActual.dispose();
         ((IVista)mensaje).hacerVisible(true);
+    }
+    
+    public void mostrarActualizacionDireccionEnvio(Integer idCliente){
+        String calleEnvio = administradorClientes.obtenerCalleCliente(idCliente);
+        String numeroEnvio =  administradorClientes.obtenerNumeroCliente(idCliente);
+        String codigoPostalEnvio = administradorClientes.obtenerCodigoPostalCliente(idCliente);
+        String estadoEnvio = administradorClientes.obtenerEstadoCliente(idCliente);
+        String ciudadEnvio =  administradorClientes.obtenerCiudadCliente(idCliente);
+        ((IDireccion)direccion).setCodigoPostalEnvio(codigoPostalEnvio);
+        ((IDireccion)direccion).setCalleEnvio(calleEnvio);
+        ((IDireccion)direccion).setNumeroEnvio(numeroEnvio);
+        ((IDireccion)direccion).setCiudadEnvio(ciudadEnvio);
+        ((IDireccion)direccion).setEstadoEnvio(estadoEnvio);
+        direccion.actualizarBtnCarritoEncabezado();
+        direccion.hacerVisible(true);
+    }
+    
+    public void registrarUsuario(List<String> datosCliente){
+        DireccionEntradaDTO direccionEntradaDTO = 
+                new DireccionEntradaDTO(
+                        datosCliente.get(0), 
+                        datosCliente.get(1),
+                        datosCliente.get(2));
+        
+        administradorClientes.registrarCliente(direccionEntradaDTO);
     }
 }

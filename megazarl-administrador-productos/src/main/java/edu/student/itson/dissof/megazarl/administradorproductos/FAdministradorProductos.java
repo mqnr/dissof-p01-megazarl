@@ -1,7 +1,5 @@
 package edu.student.itson.dissof.megazarl.administradorproductos;
 
-import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
-import edu.student.itson.dissof.megazarl.dto.InformacionProductoCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.ProductoInicioDTO;
 import java.util.LinkedList;
@@ -9,19 +7,124 @@ import java.util.List;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Producto;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.time.LocalDateTime;
+import java.util.Collections;
 
 public class FAdministradorProductos implements IAdministradorProductos {
 
-    private HashMap<Integer, Integer> mapaIdsProductosCantidades;
-             
+
+    private List<Integer> listaCodigosProductos;
+    private List<Integer> listaCantidadProductosInventario;
+    private List<List<Boolean>> listasProductosApartados;
     
-    public FAdministradorProductos(HashMap<Integer, Integer> mapaIdsProductosCantidades){
-        this.mapaIdsProductosCantidades = mapaIdsProductosCantidades;
+    
+    public FAdministradorProductos(List<Integer> listaCodigosProductos, 
+            List<Integer> listaCantidadProductosInventario, 
+            List<List<Boolean>> listasFechasHoraApartado){
+        
+        this.listaCodigosProductos = listaCodigosProductos;
+        this.listaCantidadProductosInventario = listaCantidadProductosInventario;
+        this.listasProductosApartados = listasFechasHoraApartado;
     }
 
-    public void cosultarInventarioProducto(Integer idProducto){
+    @Override
+    public int cosultarInventarioProducto(Integer idProducto){
         
+        if(validarProducto(idProducto)){
+            
+            int indiceIdProducto = listaCodigosProductos.indexOf(idProducto);
+            int disponibilidadProducto = listaCantidadProductosInventario.get(indiceIdProducto);
+            
+            int cantitadProductosApartados = 0;
+            
+            for(Boolean productoApartado: listasProductosApartados.get(indiceIdProducto)){
+                
+                if(productoApartado != null && productoApartado){
+                    cantitadProductosApartados++;
+                }   
+            }
+            
+            return disponibilidadProducto - cantitadProductosApartados;
+            
+        } else{
+            return -1;
+        }
+    }
+    
+    
+    @Override
+    public boolean apartarProductoInventario(Integer idProducto){
+        
+        boolean apartadoExitoso = false;
+    
+        if (validarProducto(idProducto)) {
+            
+            if(cosultarInventarioProducto(idProducto) > 0){
+                int indiceIdProducto = listaCodigosProductos.indexOf(idProducto);
+
+                if (listaCantidadProductosInventario.get(indiceIdProducto) > 0) {
+
+                    List<Boolean> productosApartados = listasProductosApartados.get(indiceIdProducto);
+
+
+                    for (int i = 0; i < productosApartados.size(); i++) {
+                        
+                        Boolean productoApartado = productosApartados.get(i);
+
+                        if (productoApartado != null && !productoApartado) {
+
+                            productosApartados.set(i, true);
+
+                            apartadoExitoso = true;
+
+                            break;
+                        }
+                    }
+                }
+            }
+            
+        }
+
+        return apartadoExitoso;
+    }
+    
+    
+    @Override
+    public boolean desapartarProductoInventario(Integer idProducto){
+        
+        boolean desapartadoExitoso = false;
+    
+        if (validarProducto(idProducto)) {
+            
+            int indiceIdProducto = listaCodigosProductos.indexOf(idProducto);
+
+            List<Boolean> productosApartados = listasProductosApartados.get(indiceIdProducto);
+
+            for (int i = 0; i < productosApartados.size(); i++) {
+
+                Boolean productoApartado = productosApartados.get(i);
+
+
+                if (productoApartado != null && productoApartado) {
+
+                    productosApartados.set(i, false);
+
+                    desapartadoExitoso = true;
+
+                    break;
+                }
+            }
+
+        }
+
+
+        return desapartadoExitoso;
+    }
+   
+    
+    @Override
+    public boolean validarProducto(Integer idProducto){
+        return (idProducto == 1 || idProducto == 6 || idProducto == 2);    
     }
     
     @Override
@@ -29,10 +132,10 @@ public class FAdministradorProductos implements IAdministradorProductos {
 
         List<ProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
 
-        for(HashMap.Entry<Integer, Integer> productoDisponibiliad: mapaIdsProductosCantidades.entrySet()){
-
-            int idProducto = productoDisponibiliad.getKey();
-            int cantidadProducto = productoDisponibiliad.getValue();
+        for(int i = 0; i < listaCodigosProductos.size(); i++){
+            
+            int idProducto = listaCodigosProductos.get(i);
+            int cantidadProducto = cosultarInventarioProducto(idProducto);
 
             if(idProducto == 1 && cantidadProducto > 0){
                 listaProductoInicioDTO.add(
@@ -82,17 +185,16 @@ public class FAdministradorProductos implements IAdministradorProductos {
     
     
     @Override
-    
     public List<ProductoInicioDTO> obtenerProductosBusqueda(String nombreProducto){
         
          List<ProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
          
         String nombreProductoMinusculas = nombreProducto.toLowerCase();
         
-        for(HashMap.Entry<Integer, Integer> productoDisponibiliad: mapaIdsProductosCantidades.entrySet()){
-
-            int idProducto = productoDisponibiliad.getKey();
-            int cantidadProducto = productoDisponibiliad.getValue();
+        for(int i = 0; i < listaCodigosProductos.size(); i++){
+            
+            int idProducto = listaCodigosProductos.get(i);
+            int cantidadProducto = cosultarInventarioProducto(idProducto);
 
             if(idProducto == 1 && cantidadProducto > 0 && nombreProductoMinusculas.contains("sandia")){
                 listaProductoInicioDTO.add(
@@ -147,10 +249,10 @@ public class FAdministradorProductos implements IAdministradorProductos {
 
         List<ProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
 
-        for(HashMap.Entry<Integer, Integer> productoDisponibiliad: mapaIdsProductosCantidades.entrySet()){
-
-            int idProducto = productoDisponibiliad.getKey();
-            int cantidadProducto = productoDisponibiliad.getValue();
+        for(int i = 0; i < listaCodigosProductos.size(); i++){
+            
+            int idProducto = listaCodigosProductos.get(i);
+            int cantidadProducto = cosultarInventarioProducto(idProducto);
 
             if(idProducto == 1 && cantidadProducto > 0 && nombreProductoMinusculas.contains("sandia") 
                     && variedadProductoMinusculas.equals("summer breeze")){
@@ -198,8 +300,6 @@ public class FAdministradorProductos implements IAdministradorProductos {
         }
         
         return listaProductoInicioDTO;
-            
-
     }
     
     
@@ -212,10 +312,10 @@ public class FAdministradorProductos implements IAdministradorProductos {
 
         List<ProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
 
-        for(HashMap.Entry<Integer, Integer> productoDisponibiliad: mapaIdsProductosCantidades.entrySet()){
-
-            int idProducto = productoDisponibiliad.getKey();
-            int cantidadProducto = productoDisponibiliad.getValue();
+        for(int i = 0; i < listaCodigosProductos.size(); i++){
+            
+            int idProducto = listaCodigosProductos.get(i);
+            int cantidadProducto = cosultarInventarioProducto(idProducto);
 
             if(idProducto == 1 && cantidadProducto > 0 && nombreProductoMinusculas.contains("sandia")
                     && variedadProductoMinusculas.contains("summer breeze")
@@ -276,68 +376,77 @@ public class FAdministradorProductos implements IAdministradorProductos {
     public InformacionProductoDTO obtenerInformacionProducto(Integer idProducto) {
 
         InformacionProductoDTO informacionProductoDTO = null;
+     
+        int cantidadProducto = cosultarInventarioProducto(idProducto);
 
-        for(HashMap.Entry<Integer, Integer> productoDisponibiliad: mapaIdsProductosCantidades.entrySet()){
+        if(idProducto == 1){
 
-            int idProductoActual = productoDisponibiliad.getKey();
-            int cantidadProducto = productoDisponibiliad.getValue();
+            informacionProductoDTO = new InformacionProductoDTO(
+                1, 
+                "Sandía", 
+                "Summer Breeze", 
+                "Summer Breeze es una Sandia Triploide o sin semilla de madurez "
+                + "intermedio precoz y buena capacidad y amarre de frutos de alta calidad para el mercado de exportacion.",
+                9400d,
+                5, 
+                "Seminis",
+                "/sandiaSummerBreeze.png", 
+                "/seminis.png");
 
-            if(idProductoActual == 1 && cantidadProducto > 0){
+        } else if(idProducto == 6){
+            informacionProductoDTO = new InformacionProductoDTO(
+                    6, 
+                    "Chile", 
+                    "Mixteco", 
+                    "Planta de porte vigoroso, potencial de rebrote que le brinda alto potencial de rendimiento."
+                    + " Forma de fruto ligeramente conca de color oscuro de 4 1/2 a 5 pulgada. Frutos de paredes gruesas con buen llenado. Variedad con "
+                    + "alto potencial de rendimiento, resistencia a BLS y planta vigorosa.",
+                    24300d,
+                    25, 
+                    "Harris Moran",
+                    "/chileMixteco.png", 
+                    "/harrisMoran.png"
 
-                informacionProductoDTO = new InformacionProductoDTO(
-                    1, 
-                    "Sandía", 
-                    "Summer Breeze", 
-                    "Summer Breeze es una Sandia Triploide o sin semilla de madurez "
-                    + "intermedio precoz y buena capacidad y amarre de frutos de alta calidad para el mercado de exportacion.",
-                    9400d,
-                    5, 
-                    "Seminis",
-                    "/sandiaSummerBreeze.png", 
-                    "/seminis.png");
+            );
 
-            } else if(idProducto == 6 && cantidadProducto > 0){
-                informacionProductoDTO = new InformacionProductoDTO(
-                        6, 
-                        "Chile", 
-                        "Mixteco", 
-                        "Planta de porte vigoroso, potencial de rebrote que le brinda alto potencial de rendimiento."
-                        + " Forma de fruto ligeramente conca de color oscuro de 4 1/2 a 5 pulgada. Frutos de paredes gruesas con buen llenado. Variedad con "
-                        + "alto potencial de rendimiento, resistencia a BLS y planta vigorosa.",
-                        24300d,
-                        25, 
-                        "Harris Moran",
-                        "/chileMixteco.png", 
-                        "/harrisMoran.png"
+        } else if(idProducto == 2){
 
-                );
-                
-            } else if(idProducto == 2 && cantidadProducto > 0){
-
-                informacionProductoDTO = new InformacionProductoDTO(
-                        2, 
-                        "Melón", 
-                        "Híbrido Cruiser", 
-                        "Semilla de melón híbrido Cruiser F1, de amplia adaptabilidad y altos rendimientos, "
-                        + "frutos grandes (9) y muy uniformes, de alta calidad de empaque. Mantiene tamaños en bajas temperaturas. Su pulpa es firme y crujiente "
-                        + "de excelente color. De madurez relativa precoz.",
-                        7200d,
-                        10, 
-                        "Enza Zaden",
-                        "/melonHibridoCruiser.png", 
-                        "/enzaZaden.png");
-            }
+            informacionProductoDTO = new InformacionProductoDTO(
+                    2, 
+                    "Melón", 
+                    "Híbrido Cruiser", 
+                    "Semilla de melón híbrido Cruiser F1, de amplia adaptabilidad y altos rendimientos, "
+                    + "frutos grandes (9) y muy uniformes, de alta calidad de empaque. Mantiene tamaños en bajas temperaturas. Su pulpa es firme y crujiente "
+                    + "de excelente color. De madurez relativa precoz.",
+                    7200d,
+                    10, 
+                    "Enza Zaden",
+                    "/melonHibridoCruiser.png", 
+                    "/enzaZaden.png");
         }
+
         return informacionProductoDTO;
         
     }
    
     @Override
-    public List<ProductoInventario> obtenerListaProductoInventario(Integer idProducto){
+    public List<Float> obtenerTiempoMatrizProductosInventario(Integer idProducto){
         
-        Producto producto = this.obtenerProductoPorId(idProducto);
+        List<Float> listaTiempoMatrizProductosInventario = new LinkedList<>(); 
         
-        return producto.getListaProductoInventario();
+        if(idProducto == 2){
+            listaTiempoMatrizProductosInventario.add(5.4f);
+            listaTiempoMatrizProductosInventario.add(5.6f);
+        }
+        
+        if(idProducto == 6){
+            listaTiempoMatrizProductosInventario.add(5.8f);
+            listaTiempoMatrizProductosInventario.add(7.4f);
+            listaTiempoMatrizProductosInventario.add(12.3f);
+        }
+        
+        
+        return listaTiempoMatrizProductosInventario;
     }
     
      @Override
@@ -346,6 +455,49 @@ public class FAdministradorProductos implements IAdministradorProductos {
         
         return producto.getPrecio();
     }
+    
+    @Override
+    public boolean eliminarProductoInventario(Integer idProducto, Integer cantidad){
+        
+        boolean productoEliminado =  false;
+        
+        if(validarProducto(idProducto)){
+            
+            int disponibilidadActual = cosultarInventarioProducto(idProducto);
+            
+            if(disponibilidadActual >= cantidad){
+                
+                int nuevaCantidad = disponibilidadActual - cantidad;
+                
+                int indiceIdProducto = listaCodigosProductos.indexOf(idProducto);
+                
+                listaCantidadProductosInventario.set(indiceIdProducto, nuevaCantidad);
+
+                List<Boolean> productosApartados = listasProductosApartados.get(indiceIdProducto);
+                
+                for(Boolean productoApartado: productosApartados){
+                    
+                    if(productoApartado != null && !productoApartado){
+                        
+                        productosApartados.set(productosApartados.indexOf(productoApartado), null);
+                        
+                        listasProductosApartados.set(indiceIdProducto, productosApartados);
+                        
+                        productoEliminado =  true;
+                        
+                        break;
+                        
+                    }
+                }
+                
+            }  
+        }
+        
+        return productoEliminado;
+        
+    }    
+    
+    
     
     private Producto obtenerProductoPorId(Integer idProducto){
         Producto producto = null;
@@ -366,7 +518,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
                         "/seminis.png",
                         Arrays.asList(
                                 new ProductoInventario(1, 1, 1, 4.5f, 10),
-                                new ProductoInventario(1, 1, 4, 3f, 0)));
+                                new ProductoInventario(2, 1, 4, 3f, 0)));
                 break;
             case 6:
                 producto = new Producto(
@@ -385,9 +537,9 @@ public class FAdministradorProductos implements IAdministradorProductos {
                         "/harrisMoran.png",
                         Arrays.asList(
                                 new ProductoInventario(6, 6, 1, 12.3f, 15),
-                                new ProductoInventario(7, 6, 2, 5.4f, 20),
+                                new ProductoInventario(7, 6, 2, 7.4f, 20),
                                 new ProductoInventario(8, 6, 3, 15f, 2),
-                                new ProductoInventario(9, 6, 4, 5.6f, 0)));
+                                new ProductoInventario(9, 6, 4, 5.8f, 0)));
                 break;
             case 2:
                 producto = new Producto(
@@ -407,6 +559,49 @@ public class FAdministradorProductos implements IAdministradorProductos {
         }
         
         return producto;
+    }
+    
+    @Override
+    public Double obtenerPesoProductoInventario(Integer idProductoInventario){
+        if(idProductoInventario == 18){
+            return 2.1;
+        } else if(idProductoInventario == 17){
+            return 3d;
+        } else if(idProductoInventario == 16){
+           return 2.78;
+        } else if(idProductoInventario == 17){
+           return 4.3;
+        } else if(idProductoInventario == 17){
+           return 1.5;
+        } else if(idProductoInventario == 17){
+           return 2.34;
+        }
+        return null;
+    }
+    
+    public Double obtenerTiempoMatrzProductoInventario(Integer idProductoInventario){
+        if(idProductoInventario == 2.3){
+            return 2.1;
+        } else if(idProductoInventario == 4.5){
+            return 3d;
+        } else if(idProductoInventario == 5.5){
+           return 2.78;
+        } else if(idProductoInventario == 2.1){
+           return 4.3;
+        } else if(idProductoInventario == 7.8){
+           return 1.5;
+        } else if(idProductoInventario == 5.023){
+           return 2.34;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean validarProductoInventario(Integer idProductoInventario) {
+        
+        return (idProductoInventario == 1 || idProductoInventario == 2 || idProductoInventario == 6
+                || idProductoInventario == 7 || idProductoInventario == 8 ||
+                 idProductoInventario == 9 || idProductoInventario == 16 | idProductoInventario == 17 | idProductoInventario == 18);
     }
 
 }

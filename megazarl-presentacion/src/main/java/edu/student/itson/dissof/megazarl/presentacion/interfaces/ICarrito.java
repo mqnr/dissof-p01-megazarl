@@ -7,5 +7,4 @@ public interface ICarrito {
 
     public abstract void setProductos(List<Map<String, Object>> listaInformacionProductosCarrito);
 
-
 }

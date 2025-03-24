@@ -28,6 +28,8 @@ public class Encabezado extends JPanel {
     private JLabel etqImagenUsuario;
 
     private JLabel etqLogotipoEmpresa;
+    
+    private JLabel direccionUbicacion;
 
     private JTextField campoBusquedaProductos;
 
@@ -155,7 +157,10 @@ public class Encabezado extends JPanel {
         tituloUbicacion.setFont(new Font("Arial", Font.BOLD, 12));
         tituloUbicacion.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        JLabel direccionUbicacion = new JLabel("Antonio Caso S/N y E. Kino...");
+        String[] datosDir = control.recuperarDatosDireccionCliente(idCliente);
+ 
+        
+        direccionUbicacion = new JLabel();
         direccionUbicacion.setForeground(Color.WHITE);
         direccionUbicacion.setFont(new Font("Arial", Font.PLAIN, 10));
         direccionUbicacion.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -208,9 +213,37 @@ public class Encabezado extends JPanel {
                 .withBackground(BOTON_AMARILLO)
                 .withPreferredSize(80, 40)
                 .build();
+        
+        btnCarritoCompras.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                control.mostrarCarritoCompras(idCliente);
+            }
+        });
+
+    }
+    
+    private void cargarBtnActualizarDireccionEnvio() {
+        
+        btnCarritoCompras = new ButtonBuilder()
+                .withText(EMOJI_CARRITO)
+                .withFont(new Font("Segoe UI Emoji", Font.BOLD, 16))
+                .withBackground(BOTON_AMARILLO)
+                .withPreferredSize(80, 40)
+                .build();
+        // Botón de dirección de envío:    
+        btnActualizarDireccionEnvio.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                control.mostrarCarritoCompras(idCliente);
+            }
+        });
 
     }
 
+    public void setDireccionCliente(String direccion){
+        this.direccionUbicacion.setText(direccion);
+    }
     public void actualizarCantidadProductosBtnCarrito(String stringCantidad) {
         this.btnCarritoCompras.setText(stringCantidad + "  " + EMOJI_CARRITO);
     }

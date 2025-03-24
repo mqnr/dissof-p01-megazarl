@@ -5,6 +5,7 @@ import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -20,8 +21,14 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
     private JPanel panelPaqueterias;
     private JPanel panelCostoEnvio;
     private JPanel panelBotones;
-
+    private JLabel labelCosto;
     private Integer idCliente;
+    private boolean envioGratis;
+    
+    private String calleEnvio;
+    private String numeroEnvio;
+    private String coloniaEnvio;
+    private String codigoPostalEnvio;
 
     private int ANCHO_IMAGEN_PAQUETERIA = 160;
     private int ALTO_IMAGEN_PAQUETERIA = 110;
@@ -30,6 +37,8 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
     private int MARGEN_HORIZONTAL_IMAGENES_PAQUETERIA = 10;
 
     private final ControlCompra control;
+    
+    private Integer codigoPaqueteriaSeleccionada;
 
     public SeleccionPaqueteria(ControlCompra control, Integer idCliente) {
         initComponents();
@@ -78,7 +87,7 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
 
         JLabel etqTituloDireccionEnvio = new JLabel("Dirección de envío: ");
         etqTituloDireccionEnvio.setFont(new Font("Arial", Font.BOLD, 20));
-        JLabel etqDireccion = new JLabel("Dirección de Envío: Antonio Caso 2266, Villa Itson, C.P. 85130");
+        JLabel etqDireccion = new JLabel("Dirección de Envío: "+ calleEnvio + " " + numeroEnvio + " " + coloniaEnvio + " , C.P." + codigoPostalEnvio);
         etqDireccion.setFont(new Font("Arial", Font.BOLD, 18));
 
         JPanel panelDireccionEnvioFila = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -94,17 +103,19 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
     }
 
     @Override
-    public void setPaqueterias(List<String> direccionesImagenesPaqueteria) {
+    public void setPaqueterias(HashMap<Integer, String> datosPaqueterias) {
         panelPaqueterias.removeAll();
         panelCostoEnvio.removeAll();
         panelBotones.removeAll();
 
         ButtonGroup grupoPaqueterias = new ButtonGroup();
 
-        panelPaqueterias.setLayout(new GridLayout(Math.ceilDiv(direccionesImagenesPaqueteria.size(), 5), 5));
+        panelPaqueterias.setLayout(new GridLayout(Math.ceilDiv(datosPaqueterias.size(), 5), 5));
 
-        for (String direccionImagenPaqueteria : direccionesImagenesPaqueteria) {
+        for (HashMap.Entry<Integer, String> datosPaqueteria : datosPaqueterias.entrySet()) {
 
+            String direccionImagenPaqueteria = datosPaqueteria.getValue();
+            
             JPanel panelRadioImagenPaqueteria = new JPanel(new BorderLayout());
 
             ImageIcon iconoImagenPaqueteria = new ImageIcon(this.getClass().getResource(direccionImagenPaqueteria));
@@ -117,6 +128,18 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
 
             JPanel panelRadioPaquteria = new JPanel(new FlowLayout(FlowLayout.CENTER));
             panelRadioPaquteria.add(radioPaqueteria);
+            
+            radioPaqueteria.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(!envioGratis){
+                        Double costoEnvio = control.obtenerCostoEnvioPaqueteria(idCliente, datosPaqueteria.getKey());
+                        labelCosto.setText("Costo de envío: $" + String.format("%.2f",costoEnvio));
+                    }
+                    codigoPaqueteriaSeleccionada = datosPaqueteria.getKey();
+                        
+                }
+            });
 
             panelRadioImagenPaqueteria.add(etqImagenPaqueteria, BorderLayout.NORTH);
             panelRadioImagenPaqueteria.add(panelRadioPaquteria, BorderLayout.CENTER);
@@ -128,8 +151,11 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
 
         panelCentral.add(scrollPanePaqueterias);
 
-        // Costo de envío
-        JLabel labelCosto = new JLabel("Costo de envío: Gratuito");
+        
+        labelCosto = new JLabel();
+        if(envioGratis){
+            labelCosto.setText("Costo de envío: Gratuito");
+        }
         labelCosto.setFont(new Font("Arial", Font.PLAIN, 18));
         panelCostoEnvio.add(labelCosto);
 
@@ -156,6 +182,37 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
         });
     }
 
+    @Override
+    public void actualizarDireccionCliente(String direccion) {
+        this.encabezado.setDireccionCliente(direccion);
+    }
+    
+    @Override
+    public void setEnvioGratis(boolean envioGratis){
+        this.envioGratis = envioGratis;
+    }
+    
+    @Override
+    public void setNumeroEnvio(String numeroEnvio){
+        this.numeroEnvio = numeroEnvio;
+    }
+    
+    @Override
+    public void setColoniaEnvio(String coloniaEnvio){
+        this.coloniaEnvio = coloniaEnvio;
+    }
+    
+    @Override
+    public void setCodigoPostalEnvio(String codigoPostalEnvio){
+        this.codigoPostalEnvio = codigoPostalEnvio;
+    }
+    
+    @Override
+    public void setCalleEnvio(String coloniaEnvio){
+        this.coloniaEnvio = coloniaEnvio;
+    }
+
+    
     @Override
     public void actualizarBtnCarritoEncabezado() {
         encabezado.actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));

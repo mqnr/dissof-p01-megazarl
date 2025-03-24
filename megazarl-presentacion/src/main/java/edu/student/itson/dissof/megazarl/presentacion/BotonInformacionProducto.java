@@ -25,6 +25,8 @@ public class BotonInformacionProducto extends JButton {
     private final Color COLOR_FONDO_SOBRE;
     private Color colorFondoActual;
 
+    
+    
     public BotonInformacionProducto(int altoBoton, int anchoBoton, Color colorFondo, Color colorFondoSeleccionado, Color colorFondoSobre,
             int margenVerticalComponentes, int margenHorizontalComponentes, Integer idProducto, String direccionImagenProducto,
             String nombreProducto, String variedadProducto, Integer milesSemillas, Double precioProducto, String direccionImagenProveedor, int anchoImagenProveedor,

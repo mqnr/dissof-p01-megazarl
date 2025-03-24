@@ -17,6 +17,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
     private Encabezado encabezado;
     private JPanel panelPrincipal;
     private JPanel panelContenedorCarrito;
+    private boolean envioGratis = false;
 
     // Colores
     private final Color GRIS_CLARO = new Color(240, 240, 240);
@@ -86,122 +87,155 @@ public class Carrito extends JFrame implements ICarrito, IVista {
         int numeroTotalProductos = 0;
         for (Map<String, Object> informacionProducto : listaInformacionProductos) {
 
-            Integer cantidadProducto = (Integer) informacionProducto.get("Cantidad");
+            if(informacionProducto != null){
+                Integer cantidadProducto = (Integer) informacionProducto.get("Cantidad");
 
-            if (cantidadProducto > 0) {
-                numeroTotalProductos += cantidadProducto;
+                if (cantidadProducto > 0) {
+                    numeroTotalProductos += cantidadProducto;
 
-                JLabel cantidadLabel = new JLabel(String.valueOf(cantidadProducto));
+                    JLabel cantidadLabel = new JLabel(String.valueOf(cantidadProducto));
 
-                // Item del carrito
-                JPanel panelItemCarrito = new JPanel(new BorderLayout());
-                panelItemCarrito.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+                    // Item del carrito
+                    JPanel panelItemCarrito = new JPanel(new BorderLayout());
+                    panelItemCarrito.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-                // Imagen del producto
-                JLabel imagenProducto = new JLabel();
-                ImageIcon iconProducto = new ImageIcon(getClass().getResource((String) informacionProducto.get("DireccionImagenProducto")));
-                // Redimensionar
-                Image imagen = iconProducto.getImage();
-                Image redimensionada = imagen.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-                imagenProducto.setIcon(new ImageIcon(redimensionada));
+                    // Imagen del producto
+                    JLabel imagenProducto = new JLabel();
+                    ImageIcon iconProducto = new ImageIcon(getClass().getResource((String) informacionProducto.get("DireccionImagenProducto")));
+                    // Redimensionar
+                    Image imagen = iconProducto.getImage();
+                    Image redimensionada = imagen.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+                    imagenProducto.setIcon(new ImageIcon(redimensionada));
 
-                imagenProducto.setPreferredSize(new Dimension(150, 150));
-                imagenProducto.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 20));
+                    imagenProducto.setPreferredSize(new Dimension(150, 150));
+                    imagenProducto.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 20));
 
-                // Detalles de producto
-                JPanel panelDetallesProducto = new JPanel();
-                panelDetallesProducto.setLayout(new BoxLayout(panelDetallesProducto, BoxLayout.Y_AXIS));
-                panelDetallesProducto.setAlignmentX(Component.LEFT_ALIGNMENT);
-                panelDetallesProducto.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+                    // Detalles de producto
+                    JPanel panelDetallesProducto = new JPanel();
+                    panelDetallesProducto.setLayout(new BoxLayout(panelDetallesProducto, BoxLayout.Y_AXIS));
+                    panelDetallesProducto.setAlignmentX(Component.LEFT_ALIGNMENT);
+                    panelDetallesProducto.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 
-                JLabel labelNombreProducto = new JLabel((String) informacionProducto.get("Nombre") + " " + informacionProducto.get("Variedad"));
-                labelNombreProducto.setFont(new Font("Arial", Font.BOLD, 16));
-                labelNombreProducto.setAlignmentX(Component.LEFT_ALIGNMENT);
+                    JLabel labelNombreProducto = new JLabel((String) informacionProducto.get("Nombre") + " " + informacionProducto.get("Variedad"));
+                    labelNombreProducto.setFont(new Font("Arial", Font.BOLD, 16));
+                    labelNombreProducto.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-                JLabel labelProveedor = new JLabel("Proveedor: " + informacionProducto.get("NombreProveedor"));
-                labelProveedor.setFont(new Font("Arial", Font.PLAIN, 14));
-                labelProveedor.setAlignmentX(Component.LEFT_ALIGNMENT);
+                    JLabel labelProveedor = new JLabel("Proveedor: " + informacionProducto.get("NombreProveedor"));
+                    labelProveedor.setFont(new Font("Arial", Font.PLAIN, 14));
+                    labelProveedor.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-                // Checkbox y cantidad
-                JPanel panelControles = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
-                panelControles.setAlignmentX(Component.LEFT_ALIGNMENT);
+                    // Checkbox y cantidad
+                    JPanel panelControles = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+                    panelControles.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-                JButton btnMenos = new ButtonBuilder()
-                        .withText("-")
-                        .withPreferredSize(30, 30)
-                        .withEmptyMargin()
-                        .build();
+                    JLabel avisoMaximoProductos = new JLabel();
+                    avisoMaximoProductos.setFont(new Font("Segoe UI", Font.BOLD, 13));
+                    avisoMaximoProductos.setForeground(new Color(225, 49, 12));
+                    
+                    JButton btnMenos = new ButtonBuilder()
+                            .withText("-")
+                            .withPreferredSize(30, 30)
+                            .withEmptyMargin()
+                            .build();
 
-                JButton btnMas = new ButtonBuilder()
-                        .withText("+")
-                        .withPreferredSize(30, 30)
-                        .withEmptyMargin()
-                        .build();
+                    JButton btnMas = new ButtonBuilder()
+                            .withText("+")
+                            .withPreferredSize(30, 30)
+                            .withEmptyMargin()
+                            .build();
 
-                JButton btnEliminar = new ButtonBuilder()
-                        .withText(emojiBasura)
-                        .withFont(new Font("Segoe UI Emoji", Font.PLAIN, 14))
-                        .withPreferredSize(40, 30)
-                        .withEmptyMargin()
-                        .build();
+                    JButton btnEliminar = new ButtonBuilder()
+                            .withText(emojiBasura)
+                            .withFont(new Font("Segoe UI Emoji", Font.PLAIN, 14))
+                            .withPreferredSize(40, 30)
+                            .withEmptyMargin()
+                            .build();
 
-                btnEliminar.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        control.eliminarProductoCarrito(idCliente, (Integer) informacionProducto.get("Id"),
-                                (Integer) informacionProducto.get("Cantidad"));
-                    }
-                });
+                    btnEliminar.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            control.eliminarProductoCarrito(idCliente, (Integer) informacionProducto.get("Id"),
+                                    (Integer) informacionProducto.get("Cantidad"));
+                        }
+                    });
 
-                btnMas.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        control.agregarProductoCarrito(idCliente, (Integer) informacionProducto.get("Id"), 1);
-                        control.mostrarCarritoCompras(idCliente, Carrito.this);
-                    }
-                });
+                    btnMas.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+ 
+                            
+                            int disponibilidadProducto = control.verificarExistenciasProducto((Integer) informacionProducto.get("Id"));
+                            control.agregarProductoCarrito(idCliente, (Integer) informacionProducto.get("Id"), 1);
+                            
+                            if(disponibilidadProducto < Integer.parseInt(cantidadLabel.getText())){
+                                btnMas.setEnabled(false);
+                                avisoMaximoProductos.setText("No hay más existencias");
+                            
+                            } else{
+                                avisoMaximoProductos.setText("");
+                            }
 
-                btnMenos.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        control.eliminarProductoCarrito(idCliente, (Integer) informacionProducto.get("Id"), 1);
-                        control.mostrarCarritoCompras(idCliente, Carrito.this);
-                    }
-                });
+                            if(Integer.parseInt(cantidadLabel.getText()) > 0){
+                                btnMenos.setEnabled(true);
+                            }  
+                                
+                        }
+                    });
 
-                panelControles.add(btnMenos);
-                panelControles.add(cantidadLabel);
-                panelControles.add(btnMas);
-                panelControles.add(btnEliminar);
+                    btnMenos.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                              
+                            control.eliminarProductoCarrito(idCliente, (Integer) informacionProducto.get("Id"), 1);
+                            
+                            
+                            if(control.verificarExistenciasProducto((Integer) informacionProducto.get("Id")) > Integer.parseInt(cantidadLabel.getText())){
+                                btnMas.setEnabled(true);
+                                avisoMaximoProductos.setText("");
+                            }
 
-                panelDetallesProducto.add(labelNombreProducto);
-                panelDetallesProducto.add(Box.createVerticalStrut(5));
-                panelDetallesProducto.add(labelProveedor);
-                panelDetallesProducto.add(Box.createVerticalStrut(10));
-                panelDetallesProducto.add(panelControles);
+                            if(Integer.parseInt(cantidadLabel.getText()) == 0){
+                                btnMenos.setEnabled(false);
+                            }  
+                        }
+                    });
 
-                // Precio
-                JPanel panelPrecio = new JPanel();
-                panelPrecio.setLayout(new BoxLayout(panelPrecio, BoxLayout.Y_AXIS));
-                panelPrecio.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+                    panelControles.add(btnMenos);
+                    panelControles.add(cantidadLabel);
+                    panelControles.add(btnMas);
+                    panelControles.add(btnEliminar);
+                    panelControles.add(avisoMaximoProductos);
 
-                Double precioProducto = (Double) informacionProducto.get("Precio");
+                    panelDetallesProducto.add(labelNombreProducto);
+                    panelDetallesProducto.add(Box.createVerticalStrut(5));
+                    panelDetallesProducto.add(labelProveedor);
+                    panelDetallesProducto.add(Box.createVerticalStrut(10));
+                    panelDetallesProducto.add(panelControles);
 
-                JLabel labelPrecioItem = new JLabel(String.format("$%.2f",
-                        precioProducto * cantidadProducto
-                ));
+                    // Precio
+                    JPanel panelPrecio = new JPanel();
+                    panelPrecio.setLayout(new BoxLayout(panelPrecio, BoxLayout.Y_AXIS));
+                    panelPrecio.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 
-                labelPrecioItem.setFont(new Font("Arial", Font.BOLD, 16));
-                labelPrecioItem.setAlignmentX(Component.RIGHT_ALIGNMENT);
+                    Double precioProducto = (Double) informacionProducto.get("Precio");
 
-                panelPrecio.add(labelPrecioItem);
+                    JLabel labelPrecioItem = new JLabel(String.format("$%.2f",
+                            precioProducto * cantidadProducto
+                    ));
 
-                // Añadir componentes a panel de ítems de carrito
-                panelItemCarrito.add(imagenProducto, BorderLayout.WEST);
-                panelItemCarrito.add(panelDetallesProducto, BorderLayout.CENTER);
-                panelItemCarrito.add(panelPrecio, BorderLayout.EAST);
+                    labelPrecioItem.setFont(new Font("Arial", Font.BOLD, 16));
+                    labelPrecioItem.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-                panelItemsCarrito.add(panelItemCarrito);
+                    panelPrecio.add(labelPrecioItem);
+
+                    // Añadir componentes a panel de ítems de carrito
+                    panelItemCarrito.add(imagenProducto, BorderLayout.WEST);
+                    panelItemCarrito.add(panelDetallesProducto, BorderLayout.CENTER);
+                    panelItemCarrito.add(panelPrecio, BorderLayout.EAST);
+
+                    panelItemsCarrito.add(panelItemCarrito);
+                }
+
             }
         }
 
@@ -221,7 +255,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
                 .withBackground(BOTON_AMARILLO)
                 .withPreferredSize(180, 40)
                 .withText("Finalizar la compra")
-                .onClick(e -> control.mostrarSeleccionPaqueteria(Carrito.this))
+                .onClick(e -> control.mostrarSeleccionPaqueteria(idCliente, envioGratis, Carrito.this))
                 .build();
 
         panelBotones.add(botonSeguirComprando);
@@ -268,10 +302,12 @@ public class Carrito extends JFrame implements ICarrito, IVista {
         JLabel labelEnvioGratis = new JLabel();
 
         if (montoActual >= montoEnvioGratuito) {
+            this.envioGratis = true;
             labelEnvio.setText("El pedido califica para");
             panelBannerPrecio.setBackground(new Color(50, 220, 150));
 
         } else {
+            this.envioGratis = false;
             labelEnvio.setText("El pedido no califica para");
             panelBannerPrecio.setBackground(new Color(255, 164, 133));
         }
@@ -314,21 +350,32 @@ public class Carrito extends JFrame implements ICarrito, IVista {
 
         // Sección de tiempo estimado de preparación:
         JPanel tiempoEstimadoPreparacion = new JPanel();
-        tiempoEstimadoPreparacion.setLayout(new BoxLayout(tiempoEstimadoPreparacion, BoxLayout.Y_AXIS));
+        tiempoEstimadoPreparacion.setLayout(new BorderLayout());
         tiempoEstimadoPreparacion.setBackground(Color.WHITE);
-        tiempoEstimadoPreparacion.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
 
-        JLabel tiempoEstimadoPreparacionLabel = new JLabel("Tiempo estimado de preparación de pedido: ");
-        tiempoEstimadoPreparacionLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        tiempoEstimadoPreparacionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-//        int[] rangoDias = this.control.obtenerRangoDiasFechaEstimadaPreparacion(idCliente);
-//        JLabel rangoDiasLabel = new JLabel("De " + rangoDias[0] + " a " + rangoDias[1]);
-//        rangoDiasLabel.setFont(new Font("Arial", Font.BOLD, 14));
-//        rangoDiasLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JLabel tiempoEstimadoPreparacionLabel1 = new JLabel("Tiempo estimado de");
+        JLabel tiempoEstimadoPreparacionLabel2 = new JLabel("preparación de pedido: ");
+        tiempoEstimadoPreparacionLabel1.setFont(new Font("Arial", Font.BOLD, 14));
+        tiempoEstimadoPreparacionLabel1.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tiempoEstimadoPreparacionLabel2.setFont(new Font("Arial", Font.BOLD, 14));
+        tiempoEstimadoPreparacionLabel2.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        tiempoEstimadoPreparacion.add(tiempoEstimadoPreparacionLabel);
-//        tiempoEstimadoPreparacion.add(rangoDiasLabel);
+        tiempoEstimadoPreparacionLabel1.setAlignmentY(Component.CENTER_ALIGNMENT);
+        tiempoEstimadoPreparacionLabel2.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+        int[] rangoDias = this.control.obtenerRangoDiasFechaEstimadaPreparacion(idCliente);
+        JLabel rangoDiasLabel = new JLabel("De " + rangoDias[0] + " a " + rangoDias[1] + " días.");
+        rangoDiasLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        rangoDiasLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        rangoDiasLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
+        
+        JPanel panelAux = new JPanel (new FlowLayout(FlowLayout.CENTER));
+        panelAux.setOpaque(false);
+        
+        tiempoEstimadoPreparacion.add(panelAux);
+        panelAux.add(tiempoEstimadoPreparacionLabel1);
+        panelAux.add(tiempoEstimadoPreparacionLabel2);
+        panelAux.add(rangoDiasLabel);
 
         panelLateral.add(panelBannerPrecio);
         panelLateral.add(panelEnvio);
@@ -343,6 +390,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
         panelPrincipal.add(panelContenedorCarrito, BorderLayout.CENTER);
     }
 
+    
     @Override
     public void hacerVisible(boolean visible) {
         setVisible(visible);
@@ -364,5 +412,11 @@ public class Carrito extends JFrame implements ICarrito, IVista {
 
         encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
     }
+    
+    @Override
+    public void actualizarDireccionCliente(String direccion) {
+        this.encabezado.setDireccionCliente(direccion);
+    }
+    
 
 }

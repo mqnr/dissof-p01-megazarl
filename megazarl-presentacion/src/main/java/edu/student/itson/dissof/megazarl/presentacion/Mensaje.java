@@ -208,6 +208,11 @@ public class Mensaje extends JFrame implements IMensaje, IVista {
 
         encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
     }
+    
+    @Override
+    public void actualizarDireccionCliente(String direccion) {
+        this.encabezado.setDireccionCliente(direccion);
+    }
 
     // Clase interna para paneles redondeados
     class RoundedPanel extends JPanel {

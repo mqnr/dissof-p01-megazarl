@@ -26,6 +26,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
     private JPanel panelImagen;
     private JPanel panelProducto2;
     private JPanel panelDetalles;
+    private JLabel avisoMaximoProductos;
 
     private JButton botonAgregarCarrito;
     private JButton btnMenos;
@@ -220,14 +221,53 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
         panelContador.setOpaque(false);
 
         btnMenos = new JButton("-");
-        btnMenos.addActionListener(e -> actualizarCantidad(-1));
 
+        btnMenos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actualizarCantidad(-1);
+                
+                if(control.verificarExistenciasProducto(idProducto) > Integer.parseInt(cantidadLabel.getText())){
+                    btnMas.setEnabled(true);
+                    avisoMaximoProductos.setText("");
+                }
+                
+                if(Integer.parseInt(cantidadLabel.getText()) == 0){
+                    btnMenos.setEnabled(false);
+                }  
+            }
+        });
+
+        
         btnMas = new JButton("+");
-        btnMas.addActionListener(e -> actualizarCantidad(1));
+        
+        avisoMaximoProductos = new JLabel();
+        avisoMaximoProductos.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        avisoMaximoProductos.setForeground(new Color(225, 49, 12));
+                
+        btnMas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actualizarCantidad(1);
+                
+                if(control.verificarExistenciasProducto(idProducto) <= Integer.parseInt(cantidadLabel.getText())){
+                    btnMas.setEnabled(false);
+                    avisoMaximoProductos.setText("No hay más existencias");
+                    
+                } else{
+                    avisoMaximoProductos.setText("");
+                }
+                
+                if(Integer.parseInt(cantidadLabel.getText()) > 0){
+                    btnMenos.setEnabled(true);
+                }  
+            }
+        });
 
         panelContador.add(btnMenos);
         panelContador.add(cantidadLabel);
         panelContador.add(btnMas);
+        panelContador.add(avisoMaximoProductos);
 
         panelSeleccionCantidad2.add(panelContador);
 
@@ -273,7 +313,6 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
             public void actionPerformed(ActionEvent e) {
                 control.agregarProductoCarrito(idCliente, InformacionProducto.this.idProducto,
                         Integer.parseInt(cantidadLabel.getText()));
-                control.mostrarCarritoCompras(idCliente, InformacionProducto.this);
             }
         });
     }
@@ -308,6 +347,11 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
         String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
 
         encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
+    }
+    
+    @Override
+    public void actualizarDireccionCliente(String direccion) {
+        this.encabezado.setDireccionCliente(direccion);
     }
     
     class PanelRedondeado extends JPanel {

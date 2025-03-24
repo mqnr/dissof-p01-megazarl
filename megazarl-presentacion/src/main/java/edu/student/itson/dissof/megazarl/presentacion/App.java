@@ -1,7 +1,11 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
+import edu.student.itson.dissof.megazarl.administrador.sucursales.FAdministradorSucursales;
+import edu.student.itson.dissof.megazarl.administrador.sucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.administradorclientes.FAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
+import edu.student.itson.dissof.megazarl.administradorpaqueterias.FAdministradorPaqueterias;
+import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorpedidos.FAdministradorPedidos;
 import edu.student.itson.dissof.megazarl.administradorpedidos.IAdministradorPedidos;
 import edu.student.itson.dissof.megazarl.administradorproductos.FAdministradorProductos;
@@ -10,8 +14,8 @@ import edu.student.itson.dissof.megazarl.carritocompras.FCarritoCompras;
 import edu.student.itson.dissof.megazarl.carritocompras.ICarritoCompras;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -42,16 +46,23 @@ public class App {
             IVista seleccionPaqueteria = new SeleccionPaqueteria(controlCompra, idCliente);
             IVista carrito = new Carrito(controlCompra, idCliente);
             IVista mensaje = new Mensaje(controlCompra, idCliente);
+            IVista direccion = new Direccion(controlCompra, idCliente);
 
             // Se crean los subsistemas a utilziar:
-            HashMap<Integer, Integer> mapaProductosDisponibilidad = new HashMap<>();
+            List<Integer> listaCodigosProductos = Arrays.asList(1,6,2);
+            List<Integer> listaCantidadProductosInventario = Arrays.asList(2,4,3);
+            List<List<Boolean>> listaFechasHora = Arrays.asList(
+                    Arrays.asList(false, false),
+                    Arrays.asList(false, false,false, false),
+                    Arrays.asList(false, false,false)
             
-            mapaProductosDisponibilidad.put(1, 2);
-            mapaProductosDisponibilidad.put(6, 4);
-            mapaProductosDisponibilidad.put(2, 3);
+            );
             
 
-            IAdministradorProductos subsistemaAdministradorProductos = new FAdministradorProductos(mapaProductosDisponibilidad);
+            IAdministradorProductos subsistemaAdministradorProductos = new FAdministradorProductos(
+                listaCodigosProductos, 
+                listaCantidadProductosInventario,
+                listaFechasHora);
 
             List<Cliente> listaClientes = Arrays.asList(
                 new Cliente(
@@ -103,6 +114,12 @@ public class App {
             ICarritoCompras subsistemaCarritoCompras = new FCarritoCompras((double) 100000, subsistemaAdministradorClientes, subsistemaAdministradorProductos,
                     subsAdministradorPedidos);
 
+            IAdministradorSucursales subsistemaAdministradorSucursales =  new FAdministradorSucursales();
+            
+            IAdministradorPaqueterias subsistemaAdministradorPaqueterias = new FAdministradorPaqueterias(
+                    subsistemaAdministradorClientes,
+                    subsistemaAdministradorSucursales, 
+                    subsistemaAdministradorProductos);
             // Se agregan las vistas creadas como atributos del control de presentación.
             controlCompra.setVistas(
                 productosVenta, 
@@ -110,9 +127,13 @@ public class App {
                 seleccionPaqueteria, 
                 carrito, 
                 mensaje, 
+                direccion,
                 subsistemaAdministradorProductos, 
                 subsistemaCarritoCompras, 
-                subsistemaAdministradorClientes);
+                subsistemaAdministradorClientes,
+                subsistemaAdministradorPaqueterias,
+                subsistemaAdministradorSucursales);
+                
                 controlCompra.iniciarCompra();
         });
     }

@@ -1,17 +1,94 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IDireccion;
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.awt.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Direccion extends javax.swing.JFrame {
+public class Direccion extends JFrame implements IVista, IDireccion {
 
-    public Direccion() {
+    private Encabezado encabezado;
+    private ControlCompra control;
+    private Integer idCliente;
+    
+    private String codigoPostalEnvio;
+    private String numeroEnvio;
+    private String calleEnvio;
+    private String ciudadEnvio;
+    private String estadoEnvio;
+    
+    
+    
+    public Direccion(ControlCompra control, Integer idCliente) {
         initComponents();
         setIconImage(iconoPropio);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setTitle("Actualizar de usuario");
 
+    }
+    
+    public void guardarUsuario(){
+        LinkedList<String> datosCliente = new LinkedList<>();
+        datosCliente.add(txtNumero.getText());
+        datosCliente.add(txtCalle.getText());
+        datosCliente.add(txtCodigoPostal.getText());
+
+    }
+    
+    @Override
+    public void setCodigoPostalEnvio(String codigoPostalEnvio){
+        this.codigoPostalEnvio = codigoPostalEnvio;
+        this.txtCodigoPostal.setText(codigoPostalEnvio);
+    }
+    
+    @Override
+    public void setCalleEnvio(String calleEnvio){
+        this.calleEnvio = calleEnvio;
+        this.txtCalle.setText(calleEnvio);
+    }
+    
+    @Override
+    public void setNumeroEnvio(String numeroEnvio){
+        this.numeroEnvio = numeroEnvio;
+        this.txtNumero.setText(numeroEnvio);
+    }
+    
+    @Override
+    public void setEstadoEnvio(String estadoEnvio){
+        this.estadoEnvio = estadoEnvio;
+        this.txtEstado.setText(estadoEnvio);
+    }
+    
+    @Override
+    public void setCiudadEnvio(String ciudadEnvio){
+        this.ciudadEnvio = ciudadEnvio;
+        this.txtCiudad.setText(estadoEnvio);
+    }
+    
+    @Override
+    public void actualizarBtnCarritoEncabezado() {
+        encabezado.actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
+    }
+
+    @Override
+    public void mostrarNombreApellidoClienteEncabezado() {
+        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
+
+        encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
+    }
+
+    @Override
+    public void hacerVisible(boolean visible) {
+        setVisible(visible);
+    }
+
+    @Override
+    public void cerrar() {
+        dispose();
     }
 
     /**
@@ -195,6 +272,11 @@ public class Direccion extends javax.swing.JFrame {
         btnGuardar.setBackground(new java.awt.Color(235, 255, 197));
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
         pnlPrincipal.setLayout(pnlPrincipalLayout);
@@ -246,6 +328,10 @@ public class Direccion extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
@@ -270,6 +356,11 @@ public class Direccion extends javax.swing.JFrame {
     private javax.swing.JTextField txtNumero;
     // End of variables declaration//GEN-END:variables
 
+    @Override
+    public void actualizarDireccionCliente(String direccion) {
+        this.encabezado.setDireccionCliente(direccion);
+    }
+    
     class RoundedPanel extends JPanel {
 
         private Color backgroundColor;

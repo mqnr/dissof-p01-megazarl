@@ -19,6 +19,7 @@
     <module>megazarl-administrador-pedidos</module>
     <module>megazarl-carrito-compras</module>
     <module>megazarl-presentacion</module>
+    <module>megazarl-administrador-sucursales</module>
   </modules>
 
   <properties>
@@ -88,4 +89,5 @@
       </plugins>
     </pluginManagement>
   </build>
+
 </project>
