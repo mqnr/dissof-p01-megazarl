@@ -54,7 +54,7 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
         this.setResizable(false);
         this.setLayout(new BorderLayout());
         
-        encabezado = new Encabezado(control, idCliente);
+        encabezado = new Encabezado(control, idCliente, this);
                 
         this.add(encabezado, BorderLayout.NORTH);
 
@@ -85,9 +85,11 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
         panelDireccionEnvio.setBorder(new EmptyBorder(15, 15, 15, 15));
         panelDireccionEnvio.setLayout(new BoxLayout(panelDireccionEnvio, BoxLayout.Y_AXIS));
 
+        String[] datosDireccionCliente = control.recuperarDatosDireccionCliente(idCliente);
         JLabel etqTituloDireccionEnvio = new JLabel("Dirección de envío: ");
         etqTituloDireccionEnvio.setFont(new Font("Arial", Font.BOLD, 20));
-        JLabel etqDireccion = new JLabel("Dirección de Envío: "+ calleEnvio + " " + numeroEnvio + " " + coloniaEnvio + " , C.P." + codigoPostalEnvio);
+        JLabel etqDireccion = new JLabel("Dirección de Envío: "+ datosDireccionCliente[0] + " " + datosDireccionCliente[1] + " " 
+                + datosDireccionCliente[2] + " , C.P." + datosDireccionCliente[3]);
         etqDireccion.setFont(new Font("Arial", Font.BOLD, 18));
 
         JPanel panelDireccionEnvioFila = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -182,10 +184,6 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
         });
     }
 
-    @Override
-    public void actualizarDireccionCliente(String direccion) {
-        this.encabezado.setDireccionCliente(direccion);
-    }
     
     @Override
     public void setEnvioGratis(boolean envioGratis){
@@ -214,15 +212,11 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
 
     
     @Override
-    public void actualizarBtnCarritoEncabezado() {
-        encabezado.actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
-    }
-
-    @Override
-    public void mostrarNombreApellidoClienteEncabezado() {
-        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
-
-        encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
+    public void actualizarDatosEncabezado() {
+        encabezado.mostrarDireccionCliente();
+        encabezado.mostrarNombreApellidoCliente();
+        encabezado.ocultarBarraBusqueda();
+        encabezado.ocultarBtnNumeroCarritoCompras();
     }
     
     @Override

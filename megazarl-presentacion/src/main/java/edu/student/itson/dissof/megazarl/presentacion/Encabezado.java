@@ -1,6 +1,7 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
 
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import edu.student.itson.dissof.megazarl.presentacion.utilgui.ButtonBuilder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,6 +10,7 @@ import javax.swing.*;
 
 public class Encabezado extends JPanel {
 
+    private IVista vistaPadre;
     private JPanel panelFila1;
     private JPanel panelFila2;
     private JPanel panelImagenNombreUsuario;
@@ -32,12 +34,12 @@ public class Encabezado extends JPanel {
     private JLabel direccionUbicacion;
 
     private JTextField campoBusquedaProductos;
+    
+    private Color COLOR_BTNS_CARRITO_DIRECCION = new Color(255, 247, 190);
 
     private final int MARGEN_VERTICAL_COMPONENTES = 40;
     private final String EMOJI_CARRITO = new String(Character.toChars(0x1F6D2));
-    private final String EMOJI_UBICACION = new String(Character.toChars(0x1F4CD));
     private final String EMOJI_LUPA = new String(Character.toChars(0x1F50D));
-    private final Color BOTON_AMARILLO = new Color(248, 241, 132);
 
     private Integer idCliente;
     
@@ -47,9 +49,10 @@ public class Encabezado extends JPanel {
 
     private ControlCompra control;
 
-    public Encabezado(ControlCompra control, Integer idCliente) {
+    public Encabezado(ControlCompra control, Integer idCliente, IVista vistaPadre) {
         this.control = control;
         this.idCliente = idCliente;
+        this.vistaPadre = vistaPadre;
         this.initCompoents();
     }
 
@@ -113,14 +116,16 @@ public class Encabezado extends JPanel {
         panelBusqueda.add(panelBusqueda2);
         panelBtnCarrito.add(panelBtnCarrito2);
 
+        panelBtnCarrito2.add(cargarBtnCarrito());
+        
         // Imagen e icono de usuario
         ImageIcon iconoUsuario = new ImageIcon(this.getClass().getResource("/usuarioIcono.png"));
         Image imagenUsuario = iconoUsuario.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 
         ImageIcon nuevoInconoUsuario = new ImageIcon(imagenUsuario);
 
-        this.etqImagenUsuario = new JLabel(nuevoInconoUsuario);
-        this.etqNombreUsuario = new JLabel();
+        etqImagenUsuario = new JLabel(nuevoInconoUsuario);
+        etqNombreUsuario = new JLabel();
         Font fuenteEtqNombreUsuario = new Font("Arial", Font.BOLD, 20);
         etqNombreUsuario.setFont(fuenteEtqNombreUsuario);
         etqNombreUsuario.setForeground(Color.WHITE);
@@ -133,31 +138,24 @@ public class Encabezado extends JPanel {
         Image imagenLogoEmpresa = iconoLogoEmpresa.getImage().getScaledInstance(400, 100, Image.SCALE_SMOOTH);
         ImageIcon nuevoIconoLogoEmpresa = new ImageIcon(imagenLogoEmpresa);
 
-        this.etqLogotipoEmpresa = new JLabel(nuevoIconoLogoEmpresa);
+        etqLogotipoEmpresa = new JLabel(nuevoIconoLogoEmpresa);
 
-        this.panelLogotipo2.add(etqLogotipoEmpresa);
-
-        this.cargarBtnCarrito();
-
-        panelBtnCarrito2.add(btnCarritoCompras);
+        panelLogotipo2.add(etqLogotipoEmpresa);
 
         // Botón para cambiar de dirección de envío:
         JPanel panelUbicacion = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelUbicacion.setOpaque(false);
 
-        JLabel iconoUbicacion = new JLabel(EMOJI_UBICACION);
-        iconoUbicacion.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 20));
-
         JPanel panelTexto = new JPanel();
         panelTexto.setLayout(new BoxLayout(panelTexto, BoxLayout.Y_AXIS));
         panelTexto.setOpaque(false);
 
+        panelBtnDireccion2.add(cargarBtnActualizarDireccionEnvio());
+        
         JLabel tituloUbicacion = new JLabel("Ubicación de envío");
         tituloUbicacion.setForeground(Color.WHITE);
         tituloUbicacion.setFont(new Font("Arial", Font.BOLD, 12));
         tituloUbicacion.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        String[] datosDir = control.recuperarDatosDireccionCliente(idCliente);
  
         
         direccionUbicacion = new JLabel();
@@ -165,13 +163,17 @@ public class Encabezado extends JPanel {
         direccionUbicacion.setFont(new Font("Arial", Font.PLAIN, 10));
         direccionUbicacion.setAlignmentX(Component.LEFT_ALIGNMENT);
 
+        tituloUbicacion.setForeground(Color.BLACK);
+        direccionUbicacion.setForeground(Color.BLACK);
+        
         panelTexto.add(tituloUbicacion);
         panelTexto.add(direccionUbicacion);
+        
+        btnActualizarDireccionEnvio.add(panelTexto);
+        
 
-        panelUbicacion.add(iconoUbicacion);
-        panelUbicacion.add(panelTexto);
-
-        panelBtnDireccion2.add(panelUbicacion);
+        
+        
         // Campo de texto para búsqueda:
         campoBusquedaProductos = new JTextField();
 
@@ -180,81 +182,105 @@ public class Encabezado extends JPanel {
         campoBusquedaProductos.setFont(fuenteCampoBusqueda);
 
         campoBusquedaProductos.setColumns(20);
-
-        this.cargarBtnBusqueda();
-
+        
         panelBusqueda2.add(campoBusquedaProductos);
-        panelBusqueda2.add(botonBusqueda);
+        
+        panelBusqueda2.add(cargarBtnBusqueda());
+
     }
 
-    private void cargarBtnBusqueda() {
-        botonBusqueda = new ButtonBuilder()
-                .withText(EMOJI_LUPA)
-                .withFont(new Font("Segoe UI Emoji", Font.PLAIN, 12))
-                .withPreferredSize(30, 30)
-                .withEmptyMargin()
-                .build();
-
-        botonBusqueda.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!campoBusquedaProductos.getText().isBlank()) {
-                    control.mostrarProductosBusqueda(campoBusquedaProductos.getText());
-                }
-            }
-        });
-    }
-
-    private void cargarBtnCarrito() {
+    private JButton cargarBtnCarrito() {
         // Botón de Carrito de Compras:    
         btnCarritoCompras = new ButtonBuilder()
                 .withText(EMOJI_CARRITO)
                 .withFont(new Font("Segoe UI Emoji", Font.BOLD, 16))
-                .withBackground(BOTON_AMARILLO)
+                .withBackground(COLOR_BTNS_CARRITO_DIRECCION)
                 .withPreferredSize(80, 40)
+                .onClick(e -> control.mostrarCarritoCompras(idCliente, vistaPadre))
                 .build();
         
-        btnCarritoCompras.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                control.mostrarCarritoCompras(idCliente);
-            }
-        });
+        return btnCarritoCompras;
 
     }
     
-    private void cargarBtnActualizarDireccionEnvio() {
+    private JButton cargarBtnActualizarDireccionEnvio() {
         
-        btnCarritoCompras = new ButtonBuilder()
-                .withText(EMOJI_CARRITO)
+        btnActualizarDireccionEnvio = new ButtonBuilder()
                 .withFont(new Font("Segoe UI Emoji", Font.BOLD, 16))
-                .withBackground(BOTON_AMARILLO)
-                .withPreferredSize(80, 40)
+                .withBackground(COLOR_BTNS_CARRITO_DIRECCION)
+                .withPreferredSize(170, 50)
+                .onClick(e -> control.mostrarActualizacionDireccionEnvio(idCliente, vistaPadre))
                 .build();
-        // Botón de dirección de envío:    
-        btnActualizarDireccionEnvio.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                control.mostrarCarritoCompras(idCliente);
-            }
-        });
+        
+        return btnActualizarDireccionEnvio;
 
     }
-
-    public void setDireccionCliente(String direccion){
-        this.direccionUbicacion.setText(direccion);
+    
+    public void ocultarBtnActualizarDireccionEnvio() {
+        btnActualizarDireccionEnvio.setVisible(false);
     }
-    public void actualizarCantidadProductosBtnCarrito(String stringCantidad) {
-        this.btnCarritoCompras.setText(stringCantidad + "  " + EMOJI_CARRITO);
+    
+     private JButton cargarBtnBusqueda(){
+        
+        botonBusqueda = new ButtonBuilder()
+                .withText(EMOJI_LUPA)
+                .withFont(new Font("Segoe UI Emoji", Font.PLAIN, 12))
+                .withBackground(COLOR_BTNS_CARRITO_DIRECCION)
+                .withPreferredSize(30, 30)
+                .withEmptyMargin()
+                .onClick(e -> control.mostrarProductosBusqueda(campoBusquedaProductos.getText()))
+                .build();
+        
+        
+        return botonBusqueda;
     }
 
+    public void mostrarBarraBusqueda(){
+        panelBusqueda2.setVisible(true);
+        botonBusqueda.setVisible(true);
+    }
+        
+    public void ocultarBarraBusqueda(){
+        panelBusqueda2.setVisible(false);
+        botonBusqueda.setVisible(false);
+    }
+    
     public String getTextoCampoBusqueda() {
         return this.campoBusquedaProductos.getText();
     }
-
-    public void setNombreApellidoCliente(String nombreApellidoCliente) {
-        this.etqNombreUsuario.setText(nombreApellidoCliente);
+    
+    public void mostrarDireccionCliente(){
+        
+        String[] datosDireccionCliente = control.recuperarDatosDireccionCliente(idCliente);
+        String direccionCliente  = "Calle " 
+                + datosDireccionCliente[0] + ", #" 
+                + datosDireccionCliente[1] + ", " 
+                + datosDireccionCliente[2] + ", CP." 
+                + datosDireccionCliente[3]; 
+        
+        direccionUbicacion.setText(direccionCliente);
+        
+        btnActualizarDireccionEnvio.setVisible(true);
+    }
+    
+    public void ocultarDireccionCliente(){
+        btnActualizarDireccionEnvio.setVisible(false);
     }
 
+    public void mostrarNombreApellidoCliente() {
+        String[] datosApellidoNombreCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
+        String nombreApellidoCliente = datosApellidoNombreCliente[0] + datosApellidoNombreCliente[1];
+        this.etqNombreUsuario.setText(nombreApellidoCliente);
+    }
     
+    public void mostrarBtnNumeroCarritoCompras() {
+        int cantidadProductosCarrito = control.obtenerNumeroProductosCarrito(idCliente);
+        btnCarritoCompras.setVisible(true);
+        btnCarritoCompras.setText(cantidadProductosCarrito + "  " + EMOJI_CARRITO);
+    }
+    
+    public void ocultarBtnNumeroCarritoCompras() {
+        btnCarritoCompras.setVisible(false);
+    }
+
 }

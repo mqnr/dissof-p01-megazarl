@@ -47,7 +47,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     
-        encabezado = new Encabezado(control, idCliente);
+        encabezado = new Encabezado(control, idCliente, this);
         this.add(encabezado, BorderLayout.NORTH);
 
         panelGeneral = new JPanel();
@@ -312,7 +312,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
             @Override
             public void actionPerformed(ActionEvent e) {
                 control.agregarProductoCarrito(idCliente, InformacionProducto.this.idProducto,
-                        Integer.parseInt(cantidadLabel.getText()));
+                        Integer.parseInt(cantidadLabel.getText()), InformacionProducto.this);
             }
         });
     }
@@ -338,20 +338,11 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
     }
 
     @Override
-    public void actualizarBtnCarritoEncabezado() {
-        encabezado.actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
-    }
-
-    @Override
-    public void mostrarNombreApellidoClienteEncabezado() {
-        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
-
-        encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
-    }
-    
-    @Override
-    public void actualizarDireccionCliente(String direccion) {
-        this.encabezado.setDireccionCliente(direccion);
+    public void actualizarDatosEncabezado() {
+        encabezado.mostrarDireccionCliente();
+        encabezado.mostrarNombreApellidoCliente();
+        encabezado.mostrarBtnNumeroCarritoCompras();
+        encabezado.ocultarBarraBusqueda();
     }
     
     class PanelRedondeado extends JPanel {

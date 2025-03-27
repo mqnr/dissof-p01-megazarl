@@ -1,20 +1,19 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class Mensaje extends JFrame implements IMensaje, IVista {
+public class Mensaje extends JFrame implements IMensaje{
 
     private ControlCompra control;
     
     private Integer idCliente;
-    
-    private Encabezado encabezado;
 
+    private JPanel panelPrincipal;
+    
     private JPanel panelMensaje;
 
     private JLabel lblLinea;
@@ -24,9 +23,6 @@ public class Mensaje extends JFrame implements IMensaje, IVista {
     JPanel panelTexto;
 
     // Colores
-    private Color fondoMensaje;
-
-    private final Color VERDE_CABECERA = new Color(43, 189, 126);
 
     private final Color BOTON_AMARILLO = new Color(235, 255, 197);
 
@@ -49,72 +45,26 @@ public class Mensaje extends JFrame implements IMensaje, IVista {
         setResizable(false);
         setIconImage(iconoPropio);
     }
-
+    
     private void initComponents() {
-        JPanel panelPrincipal = new JPanel(new BorderLayout());
-        panelPrincipal.setBackground(new Color(217, 217, 255));
+        panelPrincipal = new JPanel(new BorderLayout());
         
-        encabezado = new Encabezado(control, idCliente);
-
-        panelPrincipal.add(crearCabecera(), BorderLayout.NORTH);
         panelPrincipal.add(crearCuerpoMensaje(), BorderLayout.CENTER);
         panelPrincipal.add(crearPanelBoton(), BorderLayout.SOUTH);
 
         setContentPane(panelPrincipal);
     }
 
-    private JPanel crearCabecera() {
-        // Panel principal de cabecera
-        JPanel panelCabecera = new JPanel(new BorderLayout());
-        panelCabecera.setBackground(VERDE_CABECERA);
-        panelCabecera.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Ajuste de padding
-
-        // Fila con perfil y logo
-        JPanel fila = new JPanel(new BorderLayout());
-        fila.setBackground(VERDE_CABECERA);
-
-        // Panel de perfil (izquierda)
-        JPanel panelPerfil = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
-        panelPerfil.setOpaque(false);
-
-        JLabel labelIconoPerfil = new JLabel();
-        ImageIcon iconoPerfil = new ImageIcon(getClass().getResource("/logoUsuario.png"));
-        labelIconoPerfil.setIcon(new ImageIcon(iconoPerfil.getImage()
-                .getScaledInstance(60, 60, Image.SCALE_SMOOTH)));
-        labelIconoPerfil.setPreferredSize(new Dimension(60, 60));
-
-        JLabel labelNombreUsuario = new JLabel("Juan Pérez");
-        labelNombreUsuario.setForeground(Color.WHITE);
-        labelNombreUsuario.setFont(new Font("Arial", Font.BOLD, 16));
-
-        panelPerfil.add(labelIconoPerfil);
-        panelPerfil.add(labelNombreUsuario);
-
-        // Panel del logo (centro)
-        JPanel panelLogo = new JPanel();
-        panelLogo.setOpaque(false);
-
-        JLabel labelLogo = new JLabel(new ImageIcon(getClass().getResource("/banner.png")));
-        panelLogo.add(labelLogo);
-
-        // Componentes en la fila
-        fila.add(panelPerfil, BorderLayout.WEST);
-        fila.add(panelLogo, BorderLayout.CENTER);
-
-        panelCabecera.add(fila, BorderLayout.NORTH);
-
-        return panelCabecera;
-    }
-
     private JPanel crearCuerpoMensaje() {
         // Panel contenedor principal con márgenes
         JPanel contenedorPrincipal = new JPanel(new BorderLayout());
-        contenedorPrincipal.setBackground(new Color(217, 217, 255)); // Color del fondo principal
+        contenedorPrincipal.setOpaque(false);
         contenedorPrincipal.setBorder(BorderFactory.createEmptyBorder(40, 80, 40, 80)); // Margen superior, izquierdo, inferior, derecho
 
         // Panel del mensaje
         panelMensaje = new JPanel(new BorderLayout(30, 0));
         panelMensaje.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30)); // Padding interno
+        panelMensaje.setOpaque(false);
 
         // Icono de verificación (centrado verticalmente)
         panelIcono = new JPanel(new GridBagLayout());
@@ -146,11 +96,11 @@ public class Mensaje extends JFrame implements IMensaje, IVista {
 
     private JPanel crearPanelBoton() {
         JPanel panelBoton = new JPanel();
-        panelBoton.setBackground(new Color(217, 217, 255));
         panelBoton.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
+        panelBoton.setOpaque(false);
 
         JButton btnAceptar = new JButton("Aceptar");
-        btnAceptar.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        btnAceptar.setFont(new Font("Segoe UI", Font.BOLD, 15));
         btnAceptar.setBackground(BOTON_AMARILLO);
         btnAceptar.setPreferredSize(new Dimension(150, 40));
         panelBoton.add(btnAceptar);
@@ -158,7 +108,7 @@ public class Mensaje extends JFrame implements IMensaje, IVista {
         btnAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                control.mostrarProductosVenta(Mensaje.this);
+                cerrarMensaje();
             }
         });
 
@@ -174,7 +124,7 @@ public class Mensaje extends JFrame implements IMensaje, IVista {
 
     @Override
     public void setColorFondo(Color colorFondo) {
-        panelMensaje.setBackground(colorFondo);
+        panelPrincipal.setBackground(colorFondo);
     }
 
     @Override
@@ -189,32 +139,15 @@ public class Mensaje extends JFrame implements IMensaje, IVista {
     }
 
     @Override
-    public void hacerVisible(boolean visible) {
-        setVisible(visible);
+    public void mostrarMensaje() {
+        setVisible(true);
     }
 
     @Override
-    public void cerrar() {
+    public void cerrarMensaje() {
         dispose();
     }
     
-    @Override
-    public void actualizarBtnCarritoEncabezado() {
-        encabezado.actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
-    }
-
-    @Override
-    public void mostrarNombreApellidoClienteEncabezado() {
-        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
-
-        encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
-    }
-    
-    @Override
-    public void actualizarDireccionCliente(String direccion) {
-        this.encabezado.setDireccionCliente(direccion);
-    }
-
     // Clase interna para paneles redondeados
     class RoundedPanel extends JPanel {
 

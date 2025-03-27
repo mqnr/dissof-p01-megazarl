@@ -8,18 +8,28 @@ public class ProductoInicioDTO {
     private Double precio;
     private Integer milesSemillas;
     private String direccionImagenProducto;
-    private String direccionImagenProveedor;
+    private Integer idProveedor;
+    private String nombreProveedor;
+    private String direccionImagenProvedor;
 
-    public ProductoInicioDTO(Integer id, String nombre, String variedad, Double precio, Integer milesSemillas, String direccionImagenProducto, String direccionImagenProveedor) {
+    public ProductoInicioDTO(Integer id, String nombre, String variedad, Double precio, Integer milesSemillas, String direccionImagenProducto, Integer idProveedor) {
         this.id = id;
         this.nombre = nombre;
         this.variedad = variedad;
         this.precio = precio;
         this.milesSemillas = milesSemillas;
         this.direccionImagenProducto = direccionImagenProducto;
-        this.direccionImagenProveedor = direccionImagenProveedor;
+        this.idProveedor = idProveedor;
     }
 
+    public void setNombreProveedor(String nombreProveedor) {
+        this.nombreProveedor = nombreProveedor;
+    }
+
+    public void setDireccionImagenProvedor(String direccionImagenProvedor) {
+        this.direccionImagenProvedor = direccionImagenProvedor;
+    }
+ 
     public Integer getId() {
         return id;
     }
@@ -44,7 +54,20 @@ public class ProductoInicioDTO {
         return direccionImagenProducto;
     }
 
-    public String getDireccionImagenProveedor() {
-        return direccionImagenProveedor;
+    public Integer getIdProveedor() {
+        return idProveedor;
     }
+
+    public String getNombreProveedor() {
+        return nombreProveedor;
+    }
+
+    public String getDireccionImagenProvedor() {
+        return direccionImagenProvedor;
+    }
+
+    
+   
+
+    
 }

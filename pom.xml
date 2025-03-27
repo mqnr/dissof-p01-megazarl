@@ -20,6 +20,7 @@
     <module>megazarl-carrito-compras</module>
     <module>megazarl-presentacion</module>
     <module>megazarl-administrador-sucursales</module>
+    <module>megazarl-administrador-proveedores</module>
   </modules>
 
   <properties>

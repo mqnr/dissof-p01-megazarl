@@ -1,15 +1,17 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
+import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.carritocompras.ICarritoCompras;
 import edu.student.itson.dissof.megazarl.dto.CodigosSucursalesDTO;
+import edu.student.itson.dissof.megazarl.dto.DetallesDerivadosDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.DireccionClienteProductosEnvioDTO;
 import edu.student.itson.dissof.megazarl.dto.DireccionEntradaDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionProductoCarritoDTO;
-import edu.student.itson.dissof.megazarl.dto.InformacionProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.InformacionProductoVentaDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionSeleccionPaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.MontoMinimoEnvioGratuitoDTO;
 import edu.student.itson.dissof.megazarl.dto.NombreApellidoClienteDTO;
@@ -36,13 +38,18 @@ public class ControlCompra {
     private IVista informacionProducto;
     private IVista seleccionPaqueteria;
     private IVista carrito;
-    private IVista mensaje;
+    private IMensaje mensaje;
     private IVista direccion;
     private IAdministradorClientes administradorClientes;
     private IAdministradorProductos administradorProductos;
     private ICarritoCompras carritoCompras;
-    private IAdministradorPaqueterias admiAdministradorPaqueterias;
-    private IAdministradorSucursales adminAdminisrtadorSucursales;
+    private IAdministradorPaqueterias administradorPaqueterias;
+    private IAdministradorSucursales adminisrtadorSucursales;
+    private IAdministradorProveedores administradorProveedores;
+    
+    private Color COLOR_MENSAJE_EXITOSO = new Color(204, 255, 190);
+    private Color COLOR_MENSAJE_ERROR = new Color(255, 195, 195);
+    private Color COLOR_MENSAJE_ADVERTENCIA = new Color(255, 195, 195);
 
     // ¿Por qué pasarle únicamente el administrador de clientes en el constructor? Porque a todas las vistas se les pasa
     // un ControlCompra, y estas a su vez inicializan un Encabezado, el cual depende del ControlCompra (y
@@ -51,8 +58,22 @@ public class ControlCompra {
     // NullPointerException.
     // Pienso que deberíamos o inicializar todos los subsistemas en el constructor o ninguno; así
     // que en cualquier caso, esta es una solución temporal.
-    public ControlCompra(IAdministradorClientes administradorClientes) {
+    public ControlCompra(
+        IAdministradorClientes administradorClientes,
+        IAdministradorProductos administradorProductos,
+        ICarritoCompras carritoCompras,
+        IAdministradorPaqueterias administradorPaqueterias,
+        IAdministradorSucursales administradorSucursales,
+        IAdministradorProveedores administradorProveedores){
+        
         this.administradorClientes = administradorClientes;
+        this.administradorProductos = administradorProductos;
+        this.administradorPaqueterias = administradorPaqueterias;
+        this.carritoCompras = carritoCompras;
+        this.administradorPaqueterias = administradorPaqueterias;
+        this.adminisrtadorSucursales = administradorSucursales;
+        this.administradorProveedores = administradorProveedores;
+        
     }
 
     public void setVistas(
@@ -60,12 +81,8 @@ public class ControlCompra {
             IVista informacionProducto,
             IVista seleccionPaqueteria,
             IVista carrito,
-            IVista mensaje,
-            IVista direccion,
-            IAdministradorProductos administradorProductos,
-            ICarritoCompras carritoCompras,
-            IAdministradorPaqueterias admiAdministradorPaqueterias,
-            IAdministradorSucursales adminAdminisrtadorSucursales) {
+            IMensaje mensaje,
+            IVista direccion) {
 
         this.productosVenta = productosVenta;
         this.informacionProducto = informacionProducto;
@@ -73,17 +90,12 @@ public class ControlCompra {
         this.carrito = carrito;
         this.mensaje = mensaje;
         this.direccion = direccion;
-        this.administradorProductos = administradorProductos;
-        this.carritoCompras = carritoCompras;
-        this.admiAdministradorPaqueterias = admiAdministradorPaqueterias;
-        this.adminAdminisrtadorSucursales = adminAdminisrtadorSucursales;
         
     }
     
     public void iniciarCompra() {
         List<Map<String, Object>> listaInformacionProductosInicio = obtenerProductosVenta();
-        productosVenta.actualizarBtnCarritoEncabezado();
-        productosVenta.mostrarNombreApellidoClienteEncabezado();
+        productosVenta.actualizarDatosEncabezado();
         ((IProductosVenta)productosVenta).setProductosTodos(listaInformacionProductosInicio);
         productosVenta.hacerVisible(true);
     }
@@ -91,8 +103,7 @@ public class ControlCompra {
     public void mostrarProductosVenta(IVista vistaActual) {
         vistaActual.cerrar();
         List<Map<String, Object>> listaInformacionProductosInicio = obtenerProductosVenta();
-        productosVenta.actualizarBtnCarritoEncabezado();
-        productosVenta.mostrarNombreApellidoClienteEncabezado();
+        productosVenta.actualizarDatosEncabezado();
         ((IProductosVenta)productosVenta).setProductosTodos(listaInformacionProductosInicio);
         productosVenta.hacerVisible(true);
     }
@@ -100,17 +111,12 @@ public class ControlCompra {
     public void mostrarProductosBusqueda(String nombreProducto) {
         List<Map<String, Object>> listaInformacionProductosBusqueda = obtenerProductosBusqueda(nombreProducto);
         if (listaInformacionProductosBusqueda.isEmpty()) {
-            ((IMensaje)mensaje).setTexto("Búsqueda inválida");
-            ((IMensaje)mensaje).setImagen("/lupaBusquedaInvalida.png");
-            ((IMensaje)mensaje).setColorFondo(new Color(255, 191, 169));
-            mensaje.hacerVisible(true);
+            mostrarMensaje("Busqueda inválida", COLOR_MENSAJE_ADVERTENCIA);
         } else {
-            productosVenta.actualizarBtnCarritoEncabezado();
-            productosVenta.mostrarNombreApellidoClienteEncabezado();
+            productosVenta.actualizarDatosEncabezado();
             ((IProductosVenta)productosVenta).setProductosBusqueda(listaInformacionProductosBusqueda);
             productosVenta.hacerVisible(true);
         }
-
     }
 
     public List<Map<String, Object>> obtenerProductosBusqueda(String nombreProducto) {
@@ -126,7 +132,15 @@ public class ControlCompra {
             mapaInformacionProductoInicio.put("Precio", productoInicioDTO.getPrecio());
             mapaInformacionProductoInicio.put("MilesSemillas", productoInicioDTO.getMilesSemillas());
             mapaInformacionProductoInicio.put("DireccionImagenProducto", productoInicioDTO.getDireccionImagenProducto());
-            mapaInformacionProductoInicio.put("DireccionImagenProveedor", productoInicioDTO.getDireccionImagenProveedor());
+            
+            String nombreProveedor = obtenerNombreProveedor(productoInicioDTO.getIdProveedor());
+            productoInicioDTO.setNombreProveedor(nombreProveedor);
+            
+            String direccionImagenProveedor = obtenerDireccionImagenProveedor(productoInicioDTO.getIdProveedor()); 
+            productoInicioDTO.setDireccionImagenProvedor(productoInicioDTO.getDireccionImagenProvedor());
+            
+            mapaInformacionProductoInicio.put("DireccionImagenProveedor", direccionImagenProveedor);
+            mapaInformacionProductoInicio.put("NombreProveedor", nombreProveedor);
 
             listaInformacionProductosBusqueda.add(mapaInformacionProductoInicio);
         }
@@ -136,8 +150,7 @@ public class ControlCompra {
 
     public void mostrarProductosBusqueda(String nombreProducto, String nombreVariedad) {
         List<Map<String, Object>> listaInformacionProductosBusqueda = obtenerProductosBusqueda(nombreProducto, nombreVariedad);
-        productosVenta.actualizarBtnCarritoEncabezado();
-        productosVenta.mostrarNombreApellidoClienteEncabezado();
+        productosVenta.actualizarDatosEncabezado();
         ((IProductosVenta)productosVenta).setProductosBusqueda(listaInformacionProductosBusqueda);
         productosVenta.hacerVisible(true);
     }
@@ -155,7 +168,15 @@ public class ControlCompra {
             mapaInformacionProductoInicio.put("Precio", productoInicioDTO.getPrecio());
             mapaInformacionProductoInicio.put("MilesSemillas", productoInicioDTO.getMilesSemillas());
             mapaInformacionProductoInicio.put("DireccionImagenProducto", productoInicioDTO.getDireccionImagenProducto());
-            mapaInformacionProductoInicio.put("DireccionImagenProveedor", productoInicioDTO.getDireccionImagenProveedor());
+            
+            String nombreProveedor = obtenerNombreProveedor(productoInicioDTO.getIdProveedor());
+            productoInicioDTO.setNombreProveedor(nombreProveedor);
+                   
+            String direccionImagenProveedor = obtenerDireccionImagenProveedor(productoInicioDTO.getIdProveedor()); 
+            productoInicioDTO.setDireccionImagenProvedor(productoInicioDTO.getDireccionImagenProvedor());
+            
+            mapaInformacionProductoInicio.put("DireccionImagenProveedor", direccionImagenProveedor);
+            mapaInformacionProductoInicio.put("NombreProveedor", nombreProveedor);
 
             listaInformacionProductosBusqueda.add(mapaInformacionProductoInicio);
         }
@@ -165,8 +186,7 @@ public class ControlCompra {
 
     public void mostrarProductosBusqueda(String nombreProducto, String nombreVariedad, String nombreProveeedor) {
         List<Map<String, Object>> listaInformacionProductosBusqueda = obtenerProductosBusqueda(nombreProducto, nombreVariedad, nombreProveeedor);
-        productosVenta.actualizarBtnCarritoEncabezado();
-        productosVenta.mostrarNombreApellidoClienteEncabezado();
+        productosVenta.actualizarDatosEncabezado();
         ((IProductosVenta)productosVenta).setProductosBusqueda(listaInformacionProductosBusqueda);
         ((IVista)productosVenta).hacerVisible(true);
     }
@@ -184,7 +204,15 @@ public class ControlCompra {
             mapaInformacionProductoInicio.put("Precio", productoInicioDTO.getPrecio());
             mapaInformacionProductoInicio.put("MilesSemillas", productoInicioDTO.getMilesSemillas());
             mapaInformacionProductoInicio.put("DireccionImagenProducto", productoInicioDTO.getDireccionImagenProducto());
-            mapaInformacionProductoInicio.put("DireccionImagenProveedor", productoInicioDTO.getDireccionImagenProveedor());
+            
+            String nombreProveedor = obtenerNombreProveedor(productoInicioDTO.getIdProveedor());
+            productoInicioDTO.setNombreProveedor(nombreProveedor);
+            
+            String direccionImagenProveedor = obtenerDireccionImagenProveedor(productoInicioDTO.getIdProveedor()); 
+            productoInicioDTO.setDireccionImagenProvedor(productoInicioDTO.getDireccionImagenProvedor());
+            
+            mapaInformacionProductoInicio.put("DireccionImagenProveedor", direccionImagenProveedor);
+            mapaInformacionProductoInicio.put("NombreProveedor", nombreProveedor);
 
             listaInformacionProductosBusqueda.add(mapaInformacionProductoInicio);
         }
@@ -205,7 +233,15 @@ public class ControlCompra {
             mapaInformacionProductoInicio.put("Precio", productoInicioDTO.getPrecio());
             mapaInformacionProductoInicio.put("MilesSemillas", productoInicioDTO.getMilesSemillas());
             mapaInformacionProductoInicio.put("DireccionImagenProducto", productoInicioDTO.getDireccionImagenProducto());
-            mapaInformacionProductoInicio.put("DireccionImagenProveedor", productoInicioDTO.getDireccionImagenProveedor());
+            
+            String nombreProveedor = obtenerNombreProveedor(productoInicioDTO.getIdProveedor());
+            productoInicioDTO.setNombreProveedor(nombreProveedor);
+                
+            String direccionImagenProveedor = obtenerDireccionImagenProveedor(productoInicioDTO.getIdProveedor()); 
+            productoInicioDTO.setDireccionImagenProvedor(productoInicioDTO.getDireccionImagenProvedor());
+            
+            mapaInformacionProductoInicio.put("DireccionImagenProveedor", direccionImagenProveedor);
+            mapaInformacionProductoInicio.put("NombreProveedor", nombreProveedor);
 
             listaInformacionProductosInicio.add(mapaInformacionProductoInicio);
         }
@@ -215,15 +251,14 @@ public class ControlCompra {
 
     public void mostrarInformacionProducto(Integer idProducto, IVista vistaActual) {
         Map<String, Object> mapaInformacionProducto = this.obtenerInformacionProducto(idProducto);
-        informacionProducto.actualizarBtnCarritoEncabezado();
-        informacionProducto.mostrarNombreApellidoClienteEncabezado();
+        informacionProducto.actualizarDatosEncabezado();
         ((IInformacionProducto)informacionProducto).setProducto(mapaInformacionProducto);
         vistaActual.cerrar();
         informacionProducto.hacerVisible(true);
     }
 
     public Map<String, Object> obtenerInformacionProducto(Integer idProducto) {
-        InformacionProductoDTO informacionProductoDTO = administradorProductos.obtenerInformacionProducto(idProducto);
+        InformacionProductoVentaDTO informacionProductoDTO = administradorProductos.obtenerInformacionProducto(idProducto);
 
         Map<String, Object> mapaInformacionProducto = new HashMap<>();
 
@@ -234,29 +269,46 @@ public class ControlCompra {
             mapaInformacionProducto.put("Descripcion", informacionProductoDTO.getDescripcion());
             mapaInformacionProducto.put("Precio", informacionProductoDTO.getPrecio());
             mapaInformacionProducto.put("MilesSemillas", informacionProductoDTO.getMilesSemillas());
-            mapaInformacionProducto.put("NombreProveedor", informacionProductoDTO.getNombreProveedor());
             mapaInformacionProducto.put("DireccionImagenProducto", informacionProductoDTO.getDireccionImagenProducto());
+            
+            String nombreProveedor = obtenerNombreProveedor(informacionProductoDTO.getIdProveedor()); 
+            informacionProductoDTO.setNombreProveedor(nombreProveedor);
+            
+            String direccionImagenProveedor = obtenerDireccionImagenProveedor(informacionProductoDTO.getIdProveedor());
+            informacionProductoDTO.setDireccionImagenProveedor(direccionImagenProveedor);
+             
+            mapaInformacionProducto.put("NombreProveedor", informacionProductoDTO.getNombreProveedor());
             mapaInformacionProducto.put("DireccionImagenProveedor", informacionProductoDTO.getDireccionImagenProveedor());
         }
 
         return mapaInformacionProducto;
     }
 
+    
     public void mostrarCarritoCompras(Integer idCliente, IVista vistaActual) {
         List<Map<String, Object>> listaInformacionProductosCarrito = this.obtenerInformacionProductosCarrito(idCliente);
-        carrito.actualizarBtnCarritoEncabezado();
-        carrito.mostrarNombreApellidoClienteEncabezado();
-        ((ICarrito)carrito).setProductos(listaInformacionProductosCarrito);
-        vistaActual.cerrar();
-        carrito.hacerVisible(true);      
+        if(!listaInformacionProductosCarrito.isEmpty()){
+            carrito.actualizarDatosEncabezado();
+            ((ICarrito)carrito).setProductos(listaInformacionProductosCarrito);
+            vistaActual.cerrar();
+            carrito.hacerVisible(true);      
+        } else{
+            mostrarMensaje("No se han agregado productos al carrito.", new Color(255, 239, 178));
+        }
+        
     }
     
     public void mostrarCarritoCompras(Integer idCliente) {
         List<Map<String, Object>> listaInformacionProductosCarrito = this.obtenerInformacionProductosCarrito(idCliente);
-        carrito.actualizarBtnCarritoEncabezado();
-        carrito.mostrarNombreApellidoClienteEncabezado();
-        ((ICarrito)carrito).setProductos(listaInformacionProductosCarrito);
-        carrito.hacerVisible(true);      
+        
+        if(!listaInformacionProductosCarrito.isEmpty()){
+            carrito.actualizarDatosEncabezado();
+            ((ICarrito)carrito).setProductos(listaInformacionProductosCarrito);
+            carrito.hacerVisible(true);  
+        } else{
+            mostrarMensaje("No se han agregado productos al carrito.", new Color(255, 239, 178));
+        }
+            
     }
 
     public List<Map<String, Object>> obtenerInformacionProductosCarrito(Integer idCliente) {
@@ -265,7 +317,7 @@ public class ControlCompra {
 
         for (InformacionProductoCarritoDTO informacionProductoCarritoDTO : listaInformacionProductoCarritoDTO) {
             
-            InformacionProductoDTO informacionProductoInicioDTO = 
+            InformacionProductoVentaDTO informacionProductoInicioDTO = 
                     administradorProductos.obtenerInformacionProducto(informacionProductoCarritoDTO.getId());
             
 
@@ -302,18 +354,33 @@ public class ControlCompra {
         return listaInformacionProductosCarrito;
     }
     
+    public String obtenerDireccionImagenProveedor(Integer idProveedor){
+        
+        String direccionImagenProveedor = administradorProveedores.obtenerDireccionImagenProveedor(idProveedor);
+        
+        return direccionImagenProveedor;
+        
+    }
+    
+    public String obtenerNombreProveedor(Integer idProveedor){
+        
+        String nombreProveedor = administradorProveedores.obtenerNombreProveedor(idProveedor);
+        
+        return nombreProveedor;
+    }
+    
     public int verificarExistenciasProducto(Integer idProducto){
         
         return administradorProductos.cosultarInventarioProducto(idProducto);
         
     }
 
-    public boolean agregarProductoCarrito(Integer idCliente, Integer idProducto, int cantidad) {
+    public boolean agregarProductoCarrito(Integer idCliente, Integer idProducto, int cantidad, IVista vistaActual) {
 
         boolean productoAgregado = false;
         if(carritoCompras.agregarProducto(idCliente, idProducto, cantidad)){
                 if (administradorProductos.eliminarProductoInventario(idProducto, cantidad)){
-                    mostrarCarritoCompras(idCliente, (IVista)carrito);
+                    mostrarCarritoCompras(idCliente, vistaActual);
                     productoAgregado = true;
                 }
         }
@@ -326,9 +393,11 @@ public class ControlCompra {
         
         boolean productoEliminado = false;
         if(carritoCompras.eliminarProducto(idCliente, idProducto, cantidad)){
-
-            mostrarCarritoCompras(idCliente, (IVista)carrito);
+            
             productoEliminado = true;
+            
+            mostrarCarritoCompras(idCliente, (IVista)carrito);
+            
    
 
         }
@@ -382,6 +451,7 @@ public class ControlCompra {
         ((ISeleccionPaqueteria)seleccionPaqueteria).setEnvioGratis(envioGratis);
         ((ISeleccionPaqueteria)seleccionPaqueteria).setPaqueterias(datosPaqueterias);
         vistaActual.cerrar();
+        seleccionPaqueteria.actualizarDatosEncabezado();
         ((IVista)seleccionPaqueteria).hacerVisible(true);
     }
     
@@ -397,7 +467,7 @@ public class ControlCompra {
     }
 
     public HashMap<Integer, String> obtenerPaqueterias() {
-        List<InformacionSeleccionPaqueteriaDTO> listaInformacionSeleccionPaqueteriaDTO = admiAdministradorPaqueterias.obtenerPaqueterias();
+        List<InformacionSeleccionPaqueteriaDTO> listaInformacionSeleccionPaqueteriaDTO = administradorPaqueterias.obtenerPaqueterias();
         
         HashMap<Integer, String> datosPaqueterias = new HashMap<>();
         
@@ -419,7 +489,7 @@ public class ControlCompra {
         List<Integer> listaIdsProductosInventarioCarrito = productoCarritoCantidadIdDTO.getCodigosProductos();
 
 
-        CodigosSucursalesDTO codigosSucursalesDTO = adminAdminisrtadorSucursales.obtenerCodigosSucursales();
+        CodigosSucursalesDTO codigosSucursalesDTO = adminisrtadorSucursales.obtenerCodigosSucursales();
         List<Integer> codigosSucursales = codigosSucursalesDTO.getCodigosSucursales();
         
         
@@ -436,7 +506,7 @@ public class ControlCompra {
         }
         
         for(Integer idSucursal: codigosSucursales){
-            idsCodigosPostalesSucursales.put(idSucursal, adminAdminisrtadorSucursales.obtenerCodigoPostal(idSucursal));
+            idsCodigosPostalesSucursales.put(idSucursal, adminisrtadorSucursales.obtenerCodigoPostal(idSucursal));
         }
         
         
@@ -452,15 +522,15 @@ public class ControlCompra {
                         idsTiemposProductosMatriz, 
                         idsCodigosPostalesSucursales);
         
-        return admiAdministradorPaqueterias.obtenerCostoEnvio(direccionClienteProductosEnvioDTO);
+        return administradorPaqueterias.obtenerCostoEnvio(direccionClienteProductosEnvioDTO);
     }
 
     public void mostrarConfirmacionPedido(JFrame frameActual) {
         frameActual.dispose();
-        ((IVista)mensaje).hacerVisible(true);
+        mostrarMensaje("Se ha registrado su pedido", COLOR_MENSAJE_EXITOSO);
     }
     
-    public void mostrarActualizacionDireccionEnvio(Integer idCliente){
+    public void mostrarActualizacionDireccionEnvio(Integer idCliente, IVista vistaActual){
         String calleEnvio = administradorClientes.obtenerCalleCliente(idCliente);
         String numeroEnvio =  administradorClientes.obtenerNumeroCliente(idCliente);
         String codigoPostalEnvio = administradorClientes.obtenerCodigoPostalCliente(idCliente);
@@ -471,17 +541,64 @@ public class ControlCompra {
         ((IDireccion)direccion).setNumeroEnvio(numeroEnvio);
         ((IDireccion)direccion).setCiudadEnvio(ciudadEnvio);
         ((IDireccion)direccion).setEstadoEnvio(estadoEnvio);
-        direccion.actualizarBtnCarritoEncabezado();
+        vistaActual.cerrar();
+        direccion.actualizarDatosEncabezado();
         direccion.hacerVisible(true);
     }
     
-    public void registrarUsuario(List<String> datosCliente){
+    
+    // Quitar recuperacion como responsabilidad del administrador de clientes.
+    public String[] obtenerDatosDireccionDerivados(String codigoPostal){
+        DetallesDerivadosDireccionDTO derivadosDireccionDTO = 
+                administradorClientes.obtenerDatosDireccionDerivado(codigoPostal);
+        
+        if(derivadosDireccionDTO != null){
+            String[] datosDireccionDerivadosCliente = {derivadosDireccionDTO.getColonia(), 
+                derivadosDireccionDTO.getCiudad(), derivadosDireccionDTO.getEstado()};
+            
+            return datosDireccionDerivadosCliente;
+        }
+        
+        return null;
+        
+    }
+    
+    public String[] obtenerDatosDireccionDerivados(Integer idCliente){
+        
+        String coloniaCliente = administradorClientes.obtenerColoniaCliente(idCliente);
+        String estadoCliente = administradorClientes.obtenerEstadoCliente(idCliente);
+        String ciudadCliente = administradorClientes.obtenerCiudadCliente(idCliente);
+        
+        if(coloniaCliente != null && estadoCliente != null && ciudadCliente != null){
+            String[] datosDireccionDerivadosCliente = {coloniaCliente, ciudadCliente, estadoCliente};
+            
+            return datosDireccionDerivadosCliente;
+        }
+        
+        return null;
+        
+        
+    }
+   
+    public void actualizarDatosDireccionCliente(List<Object> datosCliente, IVista vistaActual){
         DireccionEntradaDTO direccionEntradaDTO = 
                 new DireccionEntradaDTO(
-                        datosCliente.get(0), 
-                        datosCliente.get(1),
-                        datosCliente.get(2));
+                        (Integer)datosCliente.get(0), 
+                        (String)datosCliente.get(1),
+                        (String)datosCliente.get(2),
+                        (String)datosCliente.get(3));
         
-        administradorClientes.registrarCliente(direccionEntradaDTO);
+        if(administradorClientes.actualizarDireccionCliente(direccionEntradaDTO)){
+            mostrarProductosVenta(vistaActual);
+            mostrarMensaje("Se ha actualizado su dirección", COLOR_MENSAJE_EXITOSO);
+        } else{
+            mostrarMensaje("Ha ocurrido un error al momento de actualizar su dirección", COLOR_MENSAJE_ERROR);
+        }
+    }
+    
+    public void mostrarMensaje(String mensajeMostrar, Color color){
+        ((IMensaje)mensaje).setTexto(mensajeMostrar);
+        ((IMensaje)mensaje).setColorFondo(color);
+        mensaje.mostrarMensaje();
     }
 }

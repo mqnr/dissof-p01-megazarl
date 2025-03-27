@@ -2,18 +2,24 @@
 package edu.student.itson.dissof.megazarl.dto;
 
 public class DireccionEntradaDTO {
-    private String numeroExterior;
+    private Integer idCliente;
+    private String numero;
     private String calle;
     private String codigoPostal;
 
-    public DireccionEntradaDTO(String numeroExterior, String calle, String codigoPostal) {
-        this.numeroExterior = numeroExterior;
+    public DireccionEntradaDTO(Integer idCliente, String numero, String calle, String codigoPostal) {
+        this.idCliente = idCliente;
+        this.numero = numero;
         this.calle = calle;
         this.codigoPostal = codigoPostal;
     }
 
-    public String getNumeroExterior() {
-        return numeroExterior;
+    public Integer getIdCliente() {
+        return idCliente;
+    }
+
+    public String getNumero() {
+        return numero;
     }
 
     public String getCalle() {
@@ -23,6 +29,8 @@ public class DireccionEntradaDTO {
     public String getCodigoPostal() {
         return codigoPostal;
     }
+
+    
     
     
             

@@ -4,10 +4,14 @@ import java.awt.Color;
 
 public interface IMensaje {
 
-    void setColorFondo(Color colorFondo);
+    public abstract void setColorFondo(Color colorFondo);
 
-    void setImagen(String direccionImagen);
+    public abstract void setImagen(String direccionImagen);
 
-    void setTexto(String texto);
+    public abstract void setTexto(String texto);
+    
+    public abstract void mostrarMensaje();
+    
+    public abstract void cerrarMensaje();
 
 }

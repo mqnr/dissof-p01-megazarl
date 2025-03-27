@@ -1,14 +1,12 @@
 package edu.student.itson.dissof.megazarl.administradorproductos;
 
-import edu.student.itson.dissof.megazarl.dto.InformacionProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.InformacionProductoVentaDTO;
 import edu.student.itson.dissof.megazarl.dto.ProductoInicioDTO;
 import java.util.LinkedList;
 import java.util.List;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Producto;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
 import java.util.Arrays;
-import java.time.LocalDateTime;
-import java.util.Collections;
 
 public class FAdministradorProductos implements IAdministradorProductos {
 
@@ -139,14 +137,14 @@ public class FAdministradorProductos implements IAdministradorProductos {
 
             if(idProducto == 1 && cantidadProducto > 0){
                 listaProductoInicioDTO.add(
-                new ProductoInicioDTO(
-                    1, 
-                    "Sandía", 
-                    "Summer Breeze", 
-                    9400d,
-                    5, 
-                    "/sandiaSummerBreeze.png", 
-                    "/seminis.png")
+                    new ProductoInicioDTO(
+                        1, 
+                        "Sandía", 
+                        "Summer Breeze", 
+                        9400d,
+                        5, 
+                        "/sandiaSummerBreeze.png", 
+                        10)
 
                 );
 
@@ -160,7 +158,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
                         24300d,
                         25, 
                         "/chileMixteco.png", 
-                        "/harrisMoran.png")
+                        20)
 
                 );
             } else if(idProducto == 2 && cantidadProducto > 0){
@@ -172,7 +170,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
                         7200d,
                         10, 
                         "/melonHibridoCruiser.png", 
-                        "/enzaZaden.png")
+                        30)
 
                     );
             }
@@ -205,7 +203,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
                     9400d,
                     5, 
                     "/sandiaSummerBreeze.png", 
-                    "/seminis.png")
+                    10)
 
                 );
 
@@ -218,7 +216,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
                         24300d,
                         25, 
                         "/chileMixteco.png", 
-                        "/harrisMoran.png")
+                        20)
 
                 );
             } else if(idProducto == 2 && cantidadProducto > 0 && nombreProductoMinusculas.contains("melon")) {
@@ -230,7 +228,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
                         7200d,
                         10, 
                         "/melonHibridoCruiser.png", 
-                        "/enzaZaden.png")
+                        30)
 
                     );
             }
@@ -264,7 +262,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
                     9400d,
                     5, 
                     "/sandiaSummerBreeze.png", 
-                    "/seminis.png")
+                    10)
 
                 );
 
@@ -277,8 +275,8 @@ public class FAdministradorProductos implements IAdministradorProductos {
                         "Mixteco", 
                         24300d,
                         25, 
-                        "/chileMixteco.png", 
-                        "/harrisMoran.png")
+                        "/chileMixteco.png",
+                        20)
 
                 );
             } else if(idProducto == 2 && cantidadProducto > 0 && nombreProductoMinusculas.contains("melon")
@@ -292,7 +290,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
                         7200d,
                         10, 
                         "/melonHibridoCruiser.png", 
-                        "/enzaZaden.png")
+                        30)
 
                     );
             }
@@ -322,14 +320,14 @@ public class FAdministradorProductos implements IAdministradorProductos {
                     && nombreProveedorMinusculas.contains("seminis")){
 
                 listaProductoInicioDTO.add(
-                new ProductoInicioDTO(
-                    1, 
-                    "Sandía", 
-                    "Summer Breeze", 
-                    9400d,
-                    5, 
-                    "/sandiaSummerBreeze.png", 
-                    "/seminis.png")
+                    new ProductoInicioDTO(
+                        1, 
+                        "Sandía", 
+                        "Summer Breeze", 
+                        9400d,
+                        5, 
+                        "/sandiaSummerBreeze.png", 
+                        10)
 
                 );
 
@@ -344,8 +342,8 @@ public class FAdministradorProductos implements IAdministradorProductos {
                         "Mixteco", 
                         24300d,
                         25, 
-                        "/chileMixteco.png", 
-                        "/harrisMoran.png")
+                        "/chileMixteco.png",
+                        20)
 
                 );
             } else if(idProducto == 2 && cantidadProducto > 0 && nombreProductoMinusculas.contains("melon")
@@ -359,8 +357,8 @@ public class FAdministradorProductos implements IAdministradorProductos {
                         "Híbrido Cruiser", 
                         7200d,
                         10, 
-                        "/melonHibridoCruiser.png", 
-                        "/enzaZaden.png")
+                        "/melonHibridoCruiser.png",
+                        30)
 
                     );
             }
@@ -373,28 +371,27 @@ public class FAdministradorProductos implements IAdministradorProductos {
     
     
     @Override 
-    public InformacionProductoDTO obtenerInformacionProducto(Integer idProducto) {
+    public InformacionProductoVentaDTO obtenerInformacionProducto(Integer idProducto) {
 
-        InformacionProductoDTO informacionProductoDTO = null;
+        InformacionProductoVentaDTO informacionProductoDTO = null;
      
         int cantidadProducto = cosultarInventarioProducto(idProducto);
 
         if(idProducto == 1){
 
-            informacionProductoDTO = new InformacionProductoDTO(
+            informacionProductoDTO = new InformacionProductoVentaDTO(
                 1, 
                 "Sandía", 
                 "Summer Breeze", 
                 "Summer Breeze es una Sandia Triploide o sin semilla de madurez "
                 + "intermedio precoz y buena capacidad y amarre de frutos de alta calidad para el mercado de exportacion.",
                 9400d,
-                5, 
-                "Seminis",
-                "/sandiaSummerBreeze.png", 
-                "/seminis.png");
+                5,
+                "/sandiaSummerBreeze.png",
+                10);
 
         } else if(idProducto == 6){
-            informacionProductoDTO = new InformacionProductoDTO(
+            informacionProductoDTO = new InformacionProductoVentaDTO(
                     6, 
                     "Chile", 
                     "Mixteco", 
@@ -403,15 +400,14 @@ public class FAdministradorProductos implements IAdministradorProductos {
                     + "alto potencial de rendimiento, resistencia a BLS y planta vigorosa.",
                     24300d,
                     25, 
-                    "Harris Moran",
-                    "/chileMixteco.png", 
-                    "/harrisMoran.png"
+                    "/chileMixteco.png",
+                    20
 
             );
 
         } else if(idProducto == 2){
 
-            informacionProductoDTO = new InformacionProductoDTO(
+            informacionProductoDTO = new InformacionProductoVentaDTO(
                     2, 
                     "Melón", 
                     "Híbrido Cruiser", 
@@ -419,10 +415,9 @@ public class FAdministradorProductos implements IAdministradorProductos {
                     + "frutos grandes (9) y muy uniformes, de alta calidad de empaque. Mantiene tamaños en bajas temperaturas. Su pulpa es firme y crujiente "
                     + "de excelente color. De madurez relativa precoz.",
                     7200d,
-                    10, 
-                    "Enza Zaden",
-                    "/melonHibridoCruiser.png", 
-                    "/enzaZaden.png");
+                    10,
+                    "/melonHibridoCruiser.png",
+                    30);
         }
 
         return informacionProductoDTO;

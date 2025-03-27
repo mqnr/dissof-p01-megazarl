@@ -1,6 +1,6 @@
 package edu.student.itson.dissof.megazarl.administradorproductos;
 
-import edu.student.itson.dissof.megazarl.dto.InformacionProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.InformacionProductoVentaDTO;
 import edu.student.itson.dissof.megazarl.dto.ProductoInicioDTO;
 import java.util.List;
 
@@ -12,7 +12,7 @@ public interface IAdministradorProductos {
             
     public abstract List<ProductoInicioDTO> obtenerProductosVenta();
 
-    public abstract InformacionProductoDTO obtenerInformacionProducto(Integer idProducto);
+    public abstract InformacionProductoVentaDTO obtenerInformacionProducto(Integer idProducto);
 
     public abstract List<ProductoInicioDTO> obtenerProductosBusqueda(String nombreProducto);
 

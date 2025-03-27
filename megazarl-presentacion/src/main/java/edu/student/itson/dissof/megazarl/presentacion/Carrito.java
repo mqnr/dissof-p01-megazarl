@@ -38,7 +38,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
         this.idCliente = idCliente;
 
         
-        encabezado = new Encabezado(control, idCliente);
+        encabezado = new Encabezado(control, idCliente, this);
         // Panel principal con BorderLayout
         panelPrincipal = new JPanel(new BorderLayout());
 
@@ -165,7 +165,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
  
                             
                             int disponibilidadProducto = control.verificarExistenciasProducto((Integer) informacionProducto.get("Id"));
-                            control.agregarProductoCarrito(idCliente, (Integer) informacionProducto.get("Id"), 1);
+                            control.agregarProductoCarrito(idCliente, (Integer) informacionProducto.get("Id"), 1, Carrito.this);
                             
                             if(disponibilidadProducto < Integer.parseInt(cantidadLabel.getText())){
                                 btnMas.setEnabled(false);
@@ -363,8 +363,11 @@ public class Carrito extends JFrame implements ICarrito, IVista {
         tiempoEstimadoPreparacionLabel1.setAlignmentY(Component.CENTER_ALIGNMENT);
         tiempoEstimadoPreparacionLabel2.setAlignmentY(Component.CENTER_ALIGNMENT);
 
+        
         int[] rangoDias = this.control.obtenerRangoDiasFechaEstimadaPreparacion(idCliente);
-        JLabel rangoDiasLabel = new JLabel("De " + rangoDias[0] + " a " + rangoDias[1] + " días.");
+        
+        JLabel rangoDiasLabel = new JLabel();
+        
         rangoDiasLabel.setFont(new Font("Arial", Font.BOLD, 14));
         rangoDiasLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         rangoDiasLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
@@ -402,20 +405,11 @@ public class Carrito extends JFrame implements ICarrito, IVista {
     }
 
     @Override
-    public void actualizarBtnCarritoEncabezado() {
-        encabezado.actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
-    }
-
-    @Override
-    public void mostrarNombreApellidoClienteEncabezado() {
-        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
-
-        encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
-    }
-    
-    @Override
-    public void actualizarDireccionCliente(String direccion) {
-        this.encabezado.setDireccionCliente(direccion);
+    public void actualizarDatosEncabezado() {
+        encabezado.mostrarDireccionCliente();
+        encabezado.mostrarNombreApellidoCliente();
+        encabezado.mostrarBtnNumeroCarritoCompras(); 
+        encabezado.ocultarBarraBusqueda();
     }
     
 

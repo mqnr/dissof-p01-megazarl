@@ -39,6 +39,8 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
     private final Color COLOR_BOTON_FONDO_SOBRE = new Color(211, 207, 174);
 
     private final Color COLOR_PANEL_PRODUCTOS = new Color(227, 227, 227);
+    
+    private final Color COLOR_PANELES_FILTRO = new Color(243, 243, 243);
 
     private final int MARGEN_VERTICAL_COMPONENTES = 1;
     private final int MARGEN_HORIZONTAL_COMPONENTES = 1;
@@ -55,7 +57,7 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
         
-        encabezado = new Encabezado(control, idCliente);
+        encabezado = new Encabezado(control, idCliente, this);
         this.add(encabezado, BorderLayout.NORTH);
 
         panelGeneral = new JPanel(new BorderLayout());
@@ -132,26 +134,34 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
         panelFiltro.setLayout(new BoxLayout(panelFiltro, BoxLayout.Y_AXIS));
 
         JLabel labelFiltrarVariedad = new JLabel("Selecciona una variedad");
+        labelFiltrarVariedad.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        labelFiltrarVariedad.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
         JLabel labelFiltrarProveedor = new JLabel("Selecciona un proveedor");
+        labelFiltrarProveedor.setAlignmentX(Component.CENTER_ALIGNMENT);
+        labelFiltrarProveedor.setFont(new Font("Segoe UI", Font.BOLD, 15));
 
         this.variedadSeleccionada = "----------";
         this.proveedorSeleccionado = "----------";
 
         // Ciclo para obtener variedades de productos:
         List<String> listaVariedadesProductos = new LinkedList<>();
-        listaVariedadesProductos.add("Seleccione una variedad");
+        listaVariedadesProductos.add("----------");
 
         // Ciclo para obener variedades de productos:
         List<String> listaProveedoresProductos = new LinkedList<>();
-        listaProveedoresProductos.add("Seleccione un proveedor");
+        listaProveedoresProductos.add("----------");
 
         for (Map<String, Object> informacionProducto : listaInformacionProductos) {
-            if (!listaVariedadesProductos.contains(informacionProducto.get("Variedad"))) {
-                listaVariedadesProductos.add((String) informacionProducto.get("Variedad"));
+            
+            String variedad = (String)informacionProducto.get("Variedad");
+            if (!listaVariedadesProductos.contains(variedad)) {
+                listaVariedadesProductos.add(variedad);
             }
 
-            if (!listaProveedoresProductos.contains(informacionProducto.get("Proveedor"))) {
-                listaProveedoresProductos.add((String) informacionProducto.get("Proveedor"));
+            String proveedor = (String)informacionProducto.get("NombreProveedor");
+            if (!listaProveedoresProductos.contains(proveedor)) {
+                listaProveedoresProductos.add(proveedor);
             }
         }
 
@@ -159,18 +169,49 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
         Object[] arregloProveedores = listaProveedoresProductos.toArray();
 
         JComboBox comboBoxOpcionesFiltroVariedad = new JComboBox(arregloVariedades);
+        comboBoxOpcionesFiltroVariedad.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        
         JComboBox comboBoxOpcionesFiltroProveedor = new JComboBox(arregloProveedores);
+        comboBoxOpcionesFiltroProveedor.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        
 
-        JPanel panelFiltro1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panelFiltro1.add(labelFiltrarVariedad);
-        panelFiltro1.add(comboBoxOpcionesFiltroVariedad);
+        // Panel de filtro por variedad
+        
+        JPanel panelFiltroVariedad = new JPanel();
+        panelFiltroVariedad.setLayout(new BoxLayout(panelFiltroVariedad, BoxLayout.Y_AXIS));
+        panelFiltroVariedad.setOpaque(false);
+        
+        JPanel panelContenedorComboBoxVariedad = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelContenedorComboBoxVariedad.setOpaque(false);
+        
+        JPanel panelSeparadorFiltroVariedad = new JPanel();
+        panelSeparadorFiltroVariedad.setOpaque(false);
+        
+        panelFiltroVariedad.add(panelSeparadorFiltroVariedad);
+        panelFiltroVariedad.add(labelFiltrarVariedad);
+        panelContenedorComboBoxVariedad.add(comboBoxOpcionesFiltroVariedad);
+        panelFiltroVariedad.add(panelContenedorComboBoxVariedad);
 
-        JPanel panelFiltro2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panelFiltro2.add(labelFiltrarProveedor);
-        panelFiltro2.add(comboBoxOpcionesFiltroProveedor);
+        
+        // Panel de filtro por proveedor
+        JPanel panelFiltroProveedor = new JPanel();
+        panelFiltroProveedor.setLayout(new BoxLayout(panelFiltroProveedor, BoxLayout.Y_AXIS));
+        panelFiltroProveedor.setOpaque(false);
+       
+        JPanel panelContenedorComboBoxProveedor = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelContenedorComboBoxProveedor.setOpaque(false);
+        
+        JPanel panelSeparadorFiltroProveedor = new JPanel();
+        panelSeparadorFiltroProveedor.setOpaque(false);
+        
+        panelFiltroProveedor.add(panelSeparadorFiltroProveedor);
+        panelFiltroProveedor.add(labelFiltrarProveedor);
+        panelContenedorComboBoxProveedor.add(comboBoxOpcionesFiltroProveedor);
+        panelFiltroProveedor.add(panelContenedorComboBoxProveedor);
 
-        panelFiltro.add(panelFiltro1);
-        panelFiltro.add(panelFiltro2);
+        panelFiltro.add(panelFiltroVariedad);
+        panelFiltro.add(panelFiltroProveedor);
+        panelFiltro.setBackground(COLOR_PANELES_FILTRO);
 
         String nombreProductoActual = encabezado.getTextoCampoBusqueda();
 
@@ -180,17 +221,23 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
                 variedadSeleccionada = (String) comboBoxOpcionesFiltroVariedad.getSelectedItem();
 
                 if (variedadSeleccionada.equals("----------")
-                        && proveedorSeleccionado.equals("----------")) {
+                        && variedadSeleccionada.equals("----------")) {
 
                     control.obtenerProductosBusqueda(encabezado.getTextoCampoBusqueda());
 
                 } else if (!variedadSeleccionada.equals("----------")
                         && proveedorSeleccionado.equals("----------")) {
 
-                    control.obtenerProductosBusqueda(encabezado.getTextoCampoBusqueda(), variedadSeleccionada);
-                } else {
+                    control.obtenerProductosBusqueda(encabezado.getTextoCampoBusqueda(), proveedorSeleccionado);
+                    
+                } else if (variedadSeleccionada.equals("----------")
+                        && !proveedorSeleccionado.equals("----------")){
+                    
+                     control.obtenerProductosBusqueda(encabezado.getTextoCampoBusqueda(), variedadSeleccionada);
+                    
+                } else{
                     control.obtenerProductosBusqueda(encabezado.getTextoCampoBusqueda(), variedadSeleccionada,
-                            proveedorSeleccionado);
+                            variedadSeleccionada);
                 }
             }
         });
@@ -200,18 +247,21 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
             public void actionPerformed(ActionEvent e) {
                 proveedorSeleccionado = (String) comboBoxOpcionesFiltroVariedad.getSelectedItem();
 
-                if (variedadSeleccionada.equals("Selecciones una variedad")
-                        && proveedorSeleccionado.equals("Seleccione un proveedor")) {
+                if (variedadSeleccionada.equals("----------")
+                        && proveedorSeleccionado.equals("----------")) {
 
                     control.obtenerProductosBusqueda(encabezado.getTextoCampoBusqueda());
 
-                } else if (!variedadSeleccionada.equals("Selecciones una variedad")
-                        && proveedorSeleccionado.equals("Seleccione un proveedor")) {
+                } else if (!variedadSeleccionada.equals("----------")
+                        && proveedorSeleccionado.equals("----------")) {
 
-                    control.obtenerProductosBusqueda(encabezado.getTextoCampoBusqueda(), variedadSeleccionada);
-                } else {
-                    control.obtenerProductosBusqueda(encabezado.getTextoCampoBusqueda(), variedadSeleccionada,
-                            proveedorSeleccionado);
+                    control.obtenerProductosBusqueda(encabezado.getTextoCampoBusqueda(), proveedorSeleccionado);
+                    
+                } else if (variedadSeleccionada.equals("Selecciones una variedad")
+                        && !proveedorSeleccionado.equals("Seleccione un proveedor")){
+                    
+                    control.obtenerProductosBusqueda(encabezado.getTextoCampoBusqueda(), proveedorSeleccionado,
+                            variedadSeleccionada);
                 }
             }
         });
@@ -251,18 +301,7 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
     public void mostrarInformacionProducto(Integer idProducto) {
         this.control.mostrarInformacionProducto(idProducto, this);
     }
-    
-    @Override
-    public void actualizarBtnCarritoEncabezado() {
-        encabezado.actualizarCantidadProductosBtnCarrito(String.valueOf(this.control.obtenerNumeroProductosCarrito(idCliente)));
-    }
 
-    @Override
-    public void mostrarNombreApellidoClienteEncabezado() {
-        String[] nombreApellidoCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
-
-        encabezado.setNombreApellidoCliente(nombreApellidoCliente[0] + " " + nombreApellidoCliente[1]);
-    }
 
     @Override
     public void hacerVisible(boolean visible) {
@@ -273,9 +312,12 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
     public void cerrar() {
         dispose();
     }
-
+    
     @Override
-    public void actualizarDireccionCliente(String direccion) {
-        this.encabezado.setDireccionCliente(direccion);
+    public void actualizarDatosEncabezado() {
+        encabezado.mostrarBarraBusqueda();
+        encabezado.mostrarDireccionCliente();
+        encabezado.mostrarNombreApellidoCliente();
+        encabezado.mostrarBtnNumeroCarritoCompras(); 
     }
 }

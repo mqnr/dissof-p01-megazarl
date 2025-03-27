@@ -104,7 +104,14 @@ public class FCarritoCompras implements ICarritoCompras {
                 int cantidadPrevia = mapaClientesProductos.get(idCliente).get(idProducto);
 
                 if (cantidad <= cantidadPrevia) {
-                    mapaClientesProductos.get(idCliente).put(idProducto, cantidadPrevia - cantidad);
+                    int nuevaCantidad = cantidadPrevia - cantidad;
+                    
+                    if(nuevaCantidad == 0){
+                        mapaClientesProductos.get(idCliente).remove(idProducto);
+                    } else{
+                        mapaClientesProductos.get(idCliente).put(idProducto, nuevaCantidad);
+                    }
+                    
                     administradorProductos.desapartarProductoInventario(idProducto);
                     productoEliminado = true;
                 }

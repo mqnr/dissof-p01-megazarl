@@ -1,5 +1,7 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
+import edu.student.itson.dissof.administradorproveedores.FAdministradorProveedores;
+import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
 import edu.student.itson.dissof.megazarl.administradorsucursales.FAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.administradorclientes.FAdministradorClientes;
@@ -12,7 +14,7 @@ import edu.student.itson.dissof.megazarl.administradorproductos.FAdministradorPr
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.carritocompras.FCarritoCompras;
 import edu.student.itson.dissof.megazarl.carritocompras.ICarritoCompras;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
+import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 
 import java.util.Arrays;
@@ -37,16 +39,6 @@ public class App {
             
             
             Integer idCliente = 3;
-            IAdministradorClientes subsistemaAdministradorClientes = new FAdministradorClientes();
-            ControlCompra controlCompra = new ControlCompra(subsistemaAdministradorClientes);
-
-            // Se crean las vistas de la clase de presentación, del tipo de una interfaz definida.
-            IVista productosVenta = new ProductosVenta(controlCompra, idCliente);
-            IVista informacionProducto = new InformacionProducto(controlCompra, idCliente);
-            IVista seleccionPaqueteria = new SeleccionPaqueteria(controlCompra, idCliente);
-            IVista carrito = new Carrito(controlCompra, idCliente);
-            IVista mensaje = new Mensaje(controlCompra, idCliente);
-            IVista direccion = new Direccion(controlCompra, idCliente);
 
             // Se crean los subsistemas a utilziar:
             List<Integer> listaCodigosProductos = Arrays.asList(1,6,2);
@@ -58,58 +50,19 @@ public class App {
             
             );
             
+            IAdministradorClientes subsistemaAdministradorClientes = new FAdministradorClientes();
 
             IAdministradorProductos subsistemaAdministradorProductos = new FAdministradorProductos(
                 listaCodigosProductos, 
                 listaCantidadProductosInventario,
                 listaFechasHora);
 
-            List<Cliente> listaClientes = Arrays.asList(
-                new Cliente(
-                        1, 
-                        "Juan", 
-                        "Pérez", 
-                        "Hernández", 
-                        "85000", 
-                        "Guerrero", 
-                        "200"),
-                new Cliente(
-                        2, 
-                        "José", 
-                        "Juárez", 
-                        "Gastélum", 
-                        "70000", 
-                        "Tamaulipas", 
-                        "150"),
-                new Cliente(
-                        3, 
-                        "María", 
-                        "Ibarra", 
-                        "García", 
-                        "24000", 
-                        "Morelos", 
-                        "1000"),
-                new Cliente(
-                        4, 
-                        "Ana", 
-                        "Martínez", 
-                        "López", 
-                        "30000", 
-                        "Tabasco", 
-                        "5034"),
-                new Cliente(
-                        5, 
-                        "Ricardo", 
-                        "González", 
-                        "Gómez", 
-                        "10000", 
-                        "Miguel Alemán", 
-                        "431")
-            );
-
             IAdministradorPedidos subsAdministradorPedidos = new FAdministradorPedidos(subsistemaAdministradorProductos);
 
-            ICarritoCompras subsistemaCarritoCompras = new FCarritoCompras((double) 100000, subsistemaAdministradorClientes, subsistemaAdministradorProductos,
+            ICarritoCompras subsistemaCarritoCompras = new FCarritoCompras(
+                    (double) 100000, 
+                    subsistemaAdministradorClientes, 
+                    subsistemaAdministradorProductos,
                     subsAdministradorPedidos);
 
             IAdministradorSucursales subsistemaAdministradorSucursales =  new FAdministradorSucursales();
@@ -118,6 +71,27 @@ public class App {
                     subsistemaAdministradorClientes,
                     subsistemaAdministradorSucursales, 
                     subsistemaAdministradorProductos);
+            
+            IAdministradorProveedores subsistemaAdministradorProveedores = new FAdministradorProveedores();
+                
+            
+            ControlCompra controlCompra = new ControlCompra(
+                    subsistemaAdministradorClientes, 
+                    subsistemaAdministradorProductos,
+                    subsistemaCarritoCompras,
+                    subsistemaAdministradorPaqueterias,
+                    subsistemaAdministradorSucursales,
+                    subsistemaAdministradorProveedores
+            );
+            
+            // Se crean las vistas de la clase de presentación, del tipo de una interfaz definida.
+            IVista productosVenta = new ProductosVenta(controlCompra, idCliente);
+            IVista informacionProducto = new InformacionProducto(controlCompra, idCliente);
+            IVista seleccionPaqueteria = new SeleccionPaqueteria(controlCompra, idCliente);
+            IVista carrito = new Carrito(controlCompra, idCliente);
+            IMensaje mensaje = new Mensaje(controlCompra, idCliente);
+            IVista direccion = new Direccion(controlCompra, idCliente);
+            
             // Se agregan las vistas creadas como atributos del control de presentación.
             controlCompra.setVistas(
                 productosVenta, 
@@ -125,11 +99,7 @@ public class App {
                 seleccionPaqueteria, 
                 carrito, 
                 mensaje, 
-                direccion,
-                subsistemaAdministradorProductos, 
-                subsistemaCarritoCompras,
-                subsistemaAdministradorPaqueterias,
-                subsistemaAdministradorSucursales);
+                direccion);
                 
                 controlCompra.iniciarCompra();
         });
