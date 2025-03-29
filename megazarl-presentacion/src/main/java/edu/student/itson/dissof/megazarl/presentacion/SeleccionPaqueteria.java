@@ -22,6 +22,7 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
     private JPanel panelCostoEnvio;
     private JPanel panelBotones;
     private JLabel labelCosto;
+    private JLabel labelError;
     private Integer idCliente;
     private boolean envioGratis;
     
@@ -139,7 +140,6 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
                         labelCosto.setText("Costo de envío: $" + String.format("%.2f",costoEnvio));
                     }
                     codigoPaqueteriaSeleccionada = datosPaqueteria.getKey();
-                        
                 }
             });
 
@@ -159,9 +159,18 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
             labelCosto.setText("Costo de envío: Gratuito");
         }
         labelCosto.setFont(new Font("Arial", Font.PLAIN, 18));
+
         panelCostoEnvio.add(labelCosto);
 
+        labelError = new JLabel("Debes seleccionar una paquetería");
+        labelError.setFont(new Font("Arial", Font.BOLD, 14));
+        labelError.setForeground(Color.RED);
+        labelError.setVisible(false);
+
+        JPanel panelError = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelError.add(labelError);
         panelCentral.add(panelCostoEnvio);
+        panelCentral.add(panelError);
 
         JButton btnCancelar = new JButton("Cancelar pedido");
         JButton btnContinuar = new JButton("Continuar");
@@ -179,6 +188,11 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
         btnContinuar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (codigoPaqueteriaSeleccionada == null) {
+                    labelError.setVisible(true);
+                    return;
+                }
+                labelError.setVisible(false);
                 control.mostrarConfirmacionPedido(SeleccionPaqueteria.this);
             }
         });
@@ -226,6 +240,7 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
 
     @Override
     public void cerrar() {
+        codigoPaqueteriaSeleccionada = null;
         dispose();
     }
 }
