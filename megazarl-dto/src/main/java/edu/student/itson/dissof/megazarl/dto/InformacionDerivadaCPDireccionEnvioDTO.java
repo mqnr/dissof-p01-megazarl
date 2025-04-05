@@ -1,5 +1,25 @@
 package edu.student.itson.dissof.megazarl.dto;
 
+/**
+ * InformacionDerivadaCPDireccionEnvioDTO.java
+ *
+ * Clase que representa un objeto de transferencia de datos que contiene
+ * la información derivada del código postal de una dirección de envío,
+ * incluyendo colonia, ciudad y estado, que no es ingresada directamente
+ * por el usuario sino obtenida a partir del código postal.
+ *
+ * @author Yuri Germán García López
+ * ID: 00000252583
+ * @author Luis Rafael Lagarda Encinas
+ * ID: 00000252607
+ * @author Vladimir Iván Mendoza Baypoli
+ * ID: 00000252758
+ * @author Manuel Romo López
+ * ID: 00000253080
+ * @author Martín Zamorano Acuña
+ * ID: 00000251923
+ *
+ */
 public class InformacionDerivadaCPDireccionEnvioDTO {
     private String colonia;
     private String ciudad;
@@ -22,6 +42,4 @@ public class InformacionDerivadaCPDireccionEnvioDTO {
     public String getEstado() {
         return estado;
     }
-
-    
 }

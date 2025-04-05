@@ -1,6 +1,25 @@
-
 package edu.student.itson.dissof.megazarl.dto;
 
+/**
+ * InformacionNoDerivadaCPDireccionEnvioDTO.java
+ *
+ * Clase que representa un objeto de transferencia de datos que contiene
+ * la información no derivada de una dirección de envío, que es ingresada
+ * directamente por el usuario, incluyendo el ID del cliente, número, calle
+ * y código postal.
+ *
+ * @author Yuri Germán García López
+ * ID: 00000252583
+ * @author Luis Rafael Lagarda Encinas
+ * ID: 00000252607
+ * @author Vladimir Iván Mendoza Baypoli
+ * ID: 00000252758
+ * @author Manuel Romo López
+ * ID: 00000253080
+ * @author Martín Zamorano Acuña
+ * ID: 00000251923
+ *
+ */
 public class InformacionNoDerivadaCPDireccionEnvioDTO {
     private Integer idCliente;
     private String numero;
@@ -51,8 +70,4 @@ public class InformacionNoDerivadaCPDireccionEnvioDTO {
     public void setCodigoPostal(String codigoPostal) {
         this.codigoPostal = codigoPostal;
     }
-
-    
-
-    
 }
