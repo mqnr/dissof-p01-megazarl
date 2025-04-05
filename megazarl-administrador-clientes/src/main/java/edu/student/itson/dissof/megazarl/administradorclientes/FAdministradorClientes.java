@@ -6,7 +6,7 @@ import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArch
 import edu.student.itson.dissof.megazarl.dto.InformacionDerivadaCPDireccionEnvioDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionNoDerivadaCPDireccionEnvioDTO;
 import edu.student.itson.dissof.megazarl.dto.NombresApellidoClienteDTO;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
+import edu.student.itson.dissof.megazarl.objetosnegocio.ClienteON;
 import java.util.List;
 
 /**
@@ -37,13 +37,13 @@ public class FAdministradorClientes implements IAdministradorClientes {
     /**
      * Lista de Clientes que representa los Clientes registrados en el sistema.
      */
-    List<Cliente> listaClientes;
+    List<ClienteON> listaClientes;
 
     /**
      * Constructor de la clase
      * @param direcciones Instancia del subsistema direcciones.
      */
-    public FAdministradorClientes(IDirecciones direcciones, List<Cliente> listaClientes) {
+    public FAdministradorClientes(IDirecciones direcciones, List<ClienteON> listaClientes) {
         this.listaClientes = listaClientes;
         this.direcciones = direcciones;
     }
@@ -59,7 +59,7 @@ public class FAdministradorClientes implements IAdministradorClientes {
         
         // Se recorre la lista de Clientes para verificar si alguno tiene el ID
         // recibido.
-        for(Cliente cliente: listaClientes){
+        for(ClienteON cliente: listaClientes){
             
             Integer clienteId = cliente.getId();
             
@@ -77,12 +77,12 @@ public class FAdministradorClientes implements IAdministradorClientes {
      * @return Objeto Cliente que representa al Cliente con el ID del parémetro.
      */
     @Override
-    public Cliente obtenerCliente(Integer idCliente){
-        Cliente clienteRecuperado = null;
+    public ClienteON obtenerCliente(Integer idCliente){
+        ClienteON clienteRecuperado = null;
         
         // Se recorre la lista de Clientes para comprobar si alguno
         // tiene el valor del ID del parámetro.
-        for(Cliente cliente: listaClientes){
+        for(ClienteON cliente: listaClientes){
             if(cliente.getId() == idCliente){
                 clienteRecuperado = cliente;
             }
@@ -113,7 +113,7 @@ public class FAdministradorClientes implements IAdministradorClientes {
        
             
         // Se valida que el ID del cliente es válido.
-        Cliente cliente = obtenerCliente(idCliente);
+        ClienteON cliente = obtenerCliente(idCliente);
 
         if(cliente == null){
             throw new ClientesIdClienteInvalidoException("El ID del cliente: " + idCliente + " es inválido.");
@@ -158,7 +158,7 @@ public class FAdministradorClientes implements IAdministradorClientes {
             {
  
             // Se valida que el ID del cliente es válido.
-            Cliente cliente = obtenerCliente(idCliente);
+            ClienteON cliente = obtenerCliente(idCliente);
 
             if(cliente == null){
                 throw new ClientesIdClienteInvalidoException("El ID del cliente: " + idCliente + " es inválido.");
@@ -202,7 +202,7 @@ public class FAdministradorClientes implements IAdministradorClientes {
             {
  
             // Se valida que el ID del cliente es válido.
-            Cliente cliente = obtenerCliente(idCliente);
+            ClienteON cliente = obtenerCliente(idCliente);
 
             if(cliente == null){
                 throw new ClientesIdClienteInvalidoException("El ID del cliente: " + idCliente + " es inválido.");
@@ -239,7 +239,7 @@ public class FAdministradorClientes implements IAdministradorClientes {
         Integer idCliente = informacionNoDerivadaCPDireccionEnvioDTO.getIdCliente();
 
         // Se valida el ID del cliente.
-        Cliente cliente = obtenerCliente(informacionNoDerivadaCPDireccionEnvioDTO.getIdCliente()); 
+        ClienteON cliente = obtenerCliente(informacionNoDerivadaCPDireccionEnvioDTO.getIdCliente());
 
         if(cliente == null){
             throw new ClientesIdClienteInvalidoException("El ID del cliente: " + idCliente + " es inválido.");
@@ -270,7 +270,7 @@ public class FAdministradorClientes implements IAdministradorClientes {
     public InformacionNoDerivadaCPDireccionEnvioDTO obtenerInformacionNoDerivadaCPDireccionEnvio(Integer idCliente) throws ClientesIdClienteInvalidoException{
         
         // Se valida el ID del cliente.
-        Cliente cliente = obtenerCliente(idCliente); 
+        ClienteON cliente = obtenerCliente(idCliente);
 
         if(cliente == null){
             throw new ClientesIdClienteInvalidoException("El ID del cliente: " + idCliente + " es inválido.");
@@ -299,7 +299,7 @@ public class FAdministradorClientes implements IAdministradorClientes {
     public NombresApellidoClienteDTO obtenerNombresApellidoCliente(Integer idCliente) throws ClientesIdClienteInvalidoException {
         
         // Se valida el ID del cliente.
-        Cliente cliente = obtenerCliente(idCliente); 
+        ClienteON cliente = obtenerCliente(idCliente);
 
         if(cliente == null){
             throw new ClientesIdClienteInvalidoException("El ID del cliente: " + idCliente + " es inválido.");

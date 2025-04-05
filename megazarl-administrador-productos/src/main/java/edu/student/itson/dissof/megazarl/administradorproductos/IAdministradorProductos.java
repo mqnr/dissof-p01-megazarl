@@ -4,7 +4,7 @@ import edu.student.itson.dissof.megazarl.administradroproductos.excepciones.Prod
 import edu.student.itson.dissof.megazarl.administradroproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.dto.InformacionProductoVentaDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionProductoInicioDTO;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Producto;
+import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoON;
 import java.util.List;
 
 /**
@@ -116,7 +116,7 @@ public interface IAdministradorProductos {
      * @throws ProductosIdProductoInvalidoException Se lanza si se comprueba que el ID
      * del producto es inválido, dentro de este subsistema.
      */
-    public abstract Producto obtenerProducto(Integer idProducto) throws ProductosIdProductoInvalidoException;
+    public abstract ProductoON obtenerProducto(Integer idProducto) throws ProductosIdProductoInvalidoException;
 
     /**
      * Método que permite apartar unidades de un producto específico en el inventario.

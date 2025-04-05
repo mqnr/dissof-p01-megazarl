@@ -21,11 +21,11 @@ import java.util.Objects;
  * ID: 00000251923
  *
  */
-public class Pedido {
+public class PedidoON {
     
     private Integer id;
     HashMap<ProductoInventario, Boolean> mapaProductosRequeridos;
-    private Paqueteria paqueteria;
+    private PaqueteriaON paqueteria;
     private EstadoPedido estado;
 
     private Integer PROXIMO_ID_PEDIDO = 1;
@@ -36,7 +36,7 @@ public class Pedido {
      * @param paqueteria Objeto Paqueteria que representa la paquetería seleccionada para el envío.
      * @param estado Objeto EstadoPedido que representa el estado actual del pedido.
      */
-    public Pedido(HashMap<ProductoInventario, Boolean> mapaProductosRequeridos, Paqueteria paqueteria, EstadoPedido estado) {
+    public PedidoON(HashMap<ProductoInventario, Boolean> mapaProductosRequeridos, PaqueteriaON paqueteria, EstadoPedido estado) {
         this.id = PROXIMO_ID_PEDIDO++;
         this.mapaProductosRequeridos = mapaProductosRequeridos;
         this.paqueteria = paqueteria;
@@ -79,7 +79,7 @@ public class Pedido {
      * Método que permite obtener la paquetería seleccionada para el envío.
      * @return Objeto Paqueteria que representa la paquetería seleccionada para el envío.
      */
-    public Paqueteria getPaqueteria() {
+    public PaqueteriaON getPaqueteria() {
         return paqueteria;
     }
 
@@ -87,7 +87,7 @@ public class Pedido {
      * Método que permite establecer la paquetería seleccionada para el envío.
      * @param paqueteria Objeto Paqueteria que representa la paquetería seleccionada para el envío.
      */
-    public void setPaqueteria(Paqueteria paqueteria) {
+    public void setPaqueteria(PaqueteriaON paqueteria) {
         this.paqueteria = paqueteria;
     }
 
@@ -150,7 +150,7 @@ public class Pedido {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Pedido other = (Pedido) obj;
+        final PedidoON other = (PedidoON) obj;
         return Objects.equals(this.id, other.id);
     }
 }

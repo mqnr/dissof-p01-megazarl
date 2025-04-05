@@ -6,7 +6,7 @@ import edu.student.itson.dissof.megazarl.dto.InformacionProductoVentaDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionProductoInicioDTO;
 import java.util.LinkedList;
 import java.util.List;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Producto;
+import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
 import java.util.Comparator;
 
@@ -31,14 +31,14 @@ import java.util.Comparator;
  */
 public class FAdministradorProductos implements IAdministradorProductos {
 
-    private List<Producto> listaProductos;
+    private List<ProductoON> listaProductos;
 
     /**
      * Constructor que inicializa un administrador de productos con la lista de productos.
      *
      * @param listaProductos Objeto List que contiene los productos registrados en el sistema.
      */
-    public FAdministradorProductos(List<Producto> listaProductos) {
+    public FAdministradorProductos(List<ProductoON> listaProductos) {
         this.listaProductos = listaProductos;
     }
 
@@ -61,7 +61,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
             throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
         }
         
-        Producto producto = obtenerProducto(idProducto);
+        ProductoON producto = obtenerProducto(idProducto);
         
         if(producto == null){
             throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
@@ -95,7 +95,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
             throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
         }
         
-        Producto producto = obtenerProducto(idProducto);
+        ProductoON producto = obtenerProducto(idProducto);
     
         if(producto == null){
             throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
@@ -146,7 +146,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
             throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
         }
         
-        Producto producto = obtenerProducto(idProducto);
+        ProductoON producto = obtenerProducto(idProducto);
     
         if(producto == null){
             throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
@@ -183,7 +183,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
     @Override
     public boolean validarProducto(Integer idProducto){
         
-        for(Producto producto: listaProductos){
+        for(ProductoON producto: listaProductos){
             if(producto.getId() == idProducto){
                 return true;
             }
@@ -206,7 +206,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
 
         // Se recorre la lista de Productos y se añade la información a la lista
         // de DTOs, de aquellos que tengan existencias.
-        for(Producto producto: listaProductos){
+        for(ProductoON producto: listaProductos){
             
             Integer idProducto = producto.getId();
             int cantidadProducto = 0;
@@ -255,7 +255,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
         
         // Se recorre la lista de productos para almacenar los datos de aquellos
         // que tengan existencias y su nombre este contenido dentro del nombre del parámetro.
-        for(Producto producto: listaProductos){
+        for(ProductoON producto: listaProductos){
             
             int idProducto = producto.getId();
             
@@ -306,7 +306,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
         // Se recorre la lista de productos para almacenar los datos de aquellos
         // que tengan existencias, cuyo su nombre este contenido dentro del nombre del parámetro,
         // y cuya variedad esté contenida detro de la variedad del parámetro.
-        for(Producto producto: listaProductos){
+        for(ProductoON producto: listaProductos){
             
             int idProducto = producto.getId();
             
@@ -362,7 +362,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
         // cuyo su nombre este contenido dentro del nombre del parámetro, cuya variedad esté contenida detro
         // de la variedad del parámetro y cuyo nombre de proveedor esté contenido dentro del nombre de
         // proveedor del parámetro.
-        for(Producto producto: listaProductos){
+        for(ProductoON producto: listaProductos){
             
             int idProducto = producto.getId();
             
@@ -415,7 +415,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
             throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
         }
         
-        Producto productoRecuperado = obtenerProducto(idProducto);
+        ProductoON productoRecuperado = obtenerProducto(idProducto);
         
         if(productoRecuperado == null){
             throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
@@ -446,10 +446,10 @@ public class FAdministradorProductos implements IAdministradorProductos {
      * @return Objeto de tipo Producto cuyo ID es igual al ID del parámetro.
      */
     @Override
-    public Producto obtenerProducto(Integer idProducto){
-        Producto productoBuscar = null;
+    public ProductoON obtenerProducto(Integer idProducto){
+        ProductoON productoBuscar = null;
         
-        for(Producto producto: listaProductos){
+        for(ProductoON producto: listaProductos){
             if(producto.getId() == idProducto){
                 productoBuscar = producto;
             }
@@ -472,7 +472,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
     public boolean validarIdProductoInventario(Integer idProductoInventario) {
         
         // Se recorre la lista de productos.
-        for(Producto producto: listaProductos){
+        for(ProductoON producto: listaProductos){
             // Se recorre la lista de productos en inventario de cada producto,
             // se verifica si su ID es igual al ID del parámetro.
             for(ProductoInventario productoInventario: producto.getListaProductoInventario()){

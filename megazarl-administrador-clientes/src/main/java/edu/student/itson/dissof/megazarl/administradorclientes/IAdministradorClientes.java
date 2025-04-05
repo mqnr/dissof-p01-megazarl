@@ -5,7 +5,7 @@ import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAcce
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
 import edu.student.itson.dissof.megazarl.dto.InformacionNoDerivadaCPDireccionEnvioDTO;
 import edu.student.itson.dissof.megazarl.dto.NombresApellidoClienteDTO;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
+import edu.student.itson.dissof.megazarl.objetosnegocio.ClienteON;
 
 /**
  * IAdministradorClientes.java
@@ -39,7 +39,7 @@ public interface IAdministradorClientes {
      * @param idCliente Objeto Integer que representa el ID del Cliente a obtener.
      * @return Objeto Cliente que representa al Cliente con el ID del parémetro.
      */
-    public abstract Cliente obtenerCliente(Integer idCliente);
+    public abstract ClienteON obtenerCliente(Integer idCliente);
     
     /**
      * Método que permite obtener la Colonia de envío de un Cliente, a partir del Código Postal de su colonia de envío.

@@ -17,15 +17,14 @@ import edu.student.itson.dissof.megazarl.dto.InformacionCalculoCostoPedidoDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionCrearPedidoDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionNoDerivadaCPDireccionEnvioDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.EstadoPedido;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Paqueteria;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Pedido;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Producto;
+import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
+import edu.student.itson.dissof.megazarl.objetosnegocio.PedidoON;
+import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * FAdministradorCarritoCompras.java
@@ -171,7 +170,7 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
 
                 int cantidadProductoSolicitado = mapaProductosCantidades.get(idProducto);
 
-                Producto producto = administradorProductos.obtenerProducto(idProducto);
+                ProductoON producto = administradorProductos.obtenerProducto(idProducto);
 
                 List<ProductoInventario> listaProductosInventario = producto.getListaProductoInventario();
 
@@ -253,7 +252,7 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
             throw new PedidosIdProductoInvalidoException("El ID de paquetería: " + idPaqueteria + " es inválido.");
         }
         
-        Paqueteria paqueteria = administradorPaqueterias.obtenerPaqueteria(idPaqueteria);
+        PaqueteriaON paqueteria = administradorPaqueterias.obtenerPaqueteria(idPaqueteria);
         
         if(paqueteria == null){
             throw new PedidosIdProductoInvalidoException("El ID de paquetería: " + idPaqueteria + " es inválido.");
@@ -275,7 +274,7 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
             
             int cantidadProductoSolicitado = mapaProductosCantidadPedido.get(idProducto);
             
-            Producto producto = administradorProductos.obtenerProducto(idProducto);
+            ProductoON producto = administradorProductos.obtenerProducto(idProducto);
             
             List<ProductoInventario> listaProductosInventario = producto.getListaProductoInventario();
             
@@ -308,7 +307,7 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
         
         
         // Se crea el objeto Pedido.
-        Pedido pedidoSucursalMatriz = new Pedido(
+        PedidoON pedidoSucursalMatriz = new PedidoON(
                 mapaProductosRequeridos,
                 paqueteria,
                 EstadoPedido.PENDIENTE

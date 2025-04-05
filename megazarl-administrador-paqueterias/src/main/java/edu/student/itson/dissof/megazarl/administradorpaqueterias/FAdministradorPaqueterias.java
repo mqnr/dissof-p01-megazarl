@@ -6,7 +6,7 @@ import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.Pa
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.dto.DireccionClientePesoTiempoProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionSeleccionPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Paqueteria;
+import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
 
-    private List<Paqueteria> listaPaqueterias;
+    private List<PaqueteriaON> listaPaqueterias;
     
     private IAdministradorClientes administradorClientes;
     private IAdministradorSucursales administradorSucursales;
@@ -48,7 +48,7 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
      * @param administradorProductos Objeto IAdministradorProductos que representa el subsistema
      * de administración de productos.
      */
-    public FAdministradorPaqueterias(List<Paqueteria> listaPaqueterias, IAdministradorClientes administradorClientes, IAdministradorSucursales administradorSucursales, IAdministradorProductos administradorProductos) {
+    public FAdministradorPaqueterias(List<PaqueteriaON> listaPaqueterias, IAdministradorClientes administradorClientes, IAdministradorSucursales administradorSucursales, IAdministradorProductos administradorProductos) {
         this.listaPaqueterias = listaPaqueterias;
         this.administradorClientes = administradorClientes;
         this.administradorSucursales = administradorSucursales;
@@ -67,7 +67,7 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
     public List<InformacionSeleccionPaqueteriaDTO> obtenerPaqueterias() {
         List<InformacionSeleccionPaqueteriaDTO> listaInformacionSeleccionPaqueteriaDTO = new LinkedList<>();
         
-        for(Paqueteria paqueteria: listaPaqueterias){
+        for(PaqueteriaON paqueteria: listaPaqueterias){
             listaInformacionSeleccionPaqueteriaDTO.add(
                     new InformacionSeleccionPaqueteriaDTO(paqueteria.getId(), paqueteria.getDireccionImagenPaqueteria()));
         }
@@ -97,7 +97,7 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
             throw new PaqueteriasIdPaqueteriaInvalidoException("El ID de paquetería: " + idPaqueteria + " no existe.");
         }
         
-        Paqueteria paqueteriaRecuperada = obtenerPaqueteria(idPaqueteria);
+        PaqueteriaON paqueteriaRecuperada = obtenerPaqueteria(idPaqueteria);
         
         if(paqueteriaRecuperada == null){
             throw new PaqueteriasIdPaqueteriaInvalidoException("El ID de paquetería: " + idPaqueteria + " no existe.");
@@ -128,7 +128,7 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
      */
     @Override
     public boolean validarPaqueteria(Integer idPaqueteria){
-        for(Paqueteria paqueteria: listaPaqueterias){
+        for(PaqueteriaON paqueteria: listaPaqueterias){
             if(paqueteria.getId() == idPaqueteria){
                 return true;
             }
@@ -145,10 +145,10 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
      * o null si no se encuentra una paquetería con ese ID.
      */
     @Override
-    public Paqueteria obtenerPaqueteria(Integer idPaqueteria){
-        Paqueteria paqueteriaBuscar = null;
+    public PaqueteriaON obtenerPaqueteria(Integer idPaqueteria){
+        PaqueteriaON paqueteriaBuscar = null;
         
-        for(Paqueteria paqueteria: listaPaqueterias){
+        for(PaqueteriaON paqueteria: listaPaqueterias){
             if(paqueteria.getId() == idPaqueteria){
                 paqueteriaBuscar = paqueteria;
             }

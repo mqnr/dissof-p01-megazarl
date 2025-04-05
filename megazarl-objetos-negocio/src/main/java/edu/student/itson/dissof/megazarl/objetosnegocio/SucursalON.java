@@ -20,7 +20,7 @@ import java.util.Objects;
  * ID: 00000251923
  *
  */
-public class Sucursal {
+public class SucursalON {
 
     private Integer id;
     private Boolean esMatriz;
@@ -38,7 +38,7 @@ public class Sucursal {
      * @param calle Objeto String que representa la calle de la sucursal.
      * @param numero Objeto String que representa el número de domicilio de la sucursal.
      */
-    public Sucursal(Integer id, Boolean esMatriz, Float tiempoMatriz, String codigoPostal, String calle, String numero) {
+    public SucursalON(Integer id, Boolean esMatriz, Float tiempoMatriz, String codigoPostal, String calle, String numero) {
         this.id = id;
         this.esMatriz = esMatriz;
         this.tiempoMatriz = tiempoMatriz;
@@ -171,7 +171,7 @@ public class Sucursal {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Sucursal other = (Sucursal) obj;
+        final SucursalON other = (SucursalON) obj;
         return Objects.equals(this.id, other.id);
     }
 }

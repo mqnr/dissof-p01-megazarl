@@ -18,7 +18,7 @@ package edu.student.itson.dissof.megazarl.objetosnegocio;
  * ID: 00000251923
  *
  */
-public class Paqueteria {
+public class PaqueteriaON {
 
     private Integer id;
     private String nombre;
@@ -30,7 +30,7 @@ public class Paqueteria {
      * Método que permite obtener el ID de la paquetería.
      * @return Objeto Integer que representa el ID único de la paquetería.
      */
-    public Paqueteria(Integer id, String nombre, Float cobroKg, Float cobroHora, String direccionImagenPaqueteria) {
+    public PaqueteriaON(Integer id, String nombre, Float cobroKg, Float cobroHora, String direccionImagenPaqueteria) {
         this.id = id;
         this.nombre = nombre;
         this.cobroKg = cobroKg;

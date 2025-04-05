@@ -3,7 +3,7 @@ package edu.student.itson.dissof.megazarl.administradorsucursales;
 import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdSucursalException;
 import edu.student.itson.dissof.megazarl.dto.CodigosSucursalesDTO;
 import edu.student.itson.dissof.megazarl.dto.DireccionMatrizDTO;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Sucursal;
+import edu.student.itson.dissof.megazarl.objetosnegocio.SucursalON;
 
 /**
  * IAdministradorSucursales.java
@@ -83,5 +83,5 @@ public interface IAdministradorSucursales {
      * @param idSucursal Objeto Integer que representa el ID de la sucursal a obtener.
      * @return Objeto Sucursal que representa la sucursal con el ID especificado.
      */
-    public abstract Sucursal obtenerSucursal(Integer idSucursal);
+    public abstract SucursalON obtenerSucursal(Integer idSucursal);
 }

@@ -16,12 +16,12 @@ import edu.student.itson.dissof.megazarl.carritocompras.FAdministradorCarritoCom
 import edu.student.itson.dissof.megazarl.carritocompras.IAdministradorCarritoCompras;
 import edu.student.itson.dissof.megazarl.direcciones.FDirecciones;
 import edu.student.itson.dissof.megazarl.direcciones.IDirecciones;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Paqueteria;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Producto;
+import edu.student.itson.dissof.megazarl.objetosnegocio.ClienteON;
+import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
+import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Proveedor;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Sucursal;
+import edu.student.itson.dissof.megazarl.objetosnegocio.ProveedorON;
+import edu.student.itson.dissof.megazarl.objetosnegocio.SucursalON;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 
@@ -49,8 +49,8 @@ public class App {
             Integer idCliente = 3;
             
             //Creación de objetos a utilizar:
-            List<Cliente> listaClientes = Arrays.asList(
-                                new Cliente(
+            List<ClienteON> listaClientes = Arrays.asList(
+                                new ClienteON(
                                         3,
                                         "Juan", 
                                         "Pérez", 
@@ -59,7 +59,7 @@ public class App {
                                         "Guerrero", 
                                         "1586"));
             
-            Sucursal sucursal1 = new Sucursal(
+            SucursalON sucursal1 = new SucursalON(
                                         1, 
                                         false, 
                                         4.5F, 
@@ -67,7 +67,7 @@ public class App {
                                         "Jardín de Agave", 
                                         "123");
 
-            Sucursal sucursal2 = new Sucursal(
+            SucursalON sucursal2 = new SucursalON(
                                         2, 
                                         false, 
                                         3F, 
@@ -75,7 +75,7 @@ public class App {
                                         "Libertad y Progreso", 
                                         "5695");
             
-            Sucursal sucursal3 = new Sucursal(
+            SucursalON sucursal3 = new SucursalON(
                                         3, 
                                         true, 
                                         0F, 
@@ -83,7 +83,7 @@ public class App {
                                         "Blvd. Fco. Eusebio Kino",
                                         "1000");
             
-            Sucursal sucursal4 = new Sucursal(
+            SucursalON sucursal4 = new SucursalON(
                                         4, 
                                         false, 
                                         7.4F, 
@@ -91,17 +91,17 @@ public class App {
                                         "Guerrero",
                                         "200");
             
-            List<Sucursal> listaSucursales = Arrays.asList(sucursal1, sucursal2, sucursal3, sucursal4);
+            List<SucursalON> listaSucursales = Arrays.asList(sucursal1, sucursal2, sucursal3, sucursal4);
             
             
-            Proveedor proveedor1 = new Proveedor(10, "Seminis", "/seminis.png");
-            Proveedor proveedor2 = new Proveedor(20, "Harris Moran", "/harrisMoran.png");
-            Proveedor proveedor3 =  new Proveedor(30, "Enza Zaden","/enzaZaden.png");
+            ProveedorON proveedor1 = new ProveedorON(10, "Seminis", "/seminis.png");
+            ProveedorON proveedor2 = new ProveedorON(20, "Harris Moran", "/harrisMoran.png");
+            ProveedorON proveedor3 =  new ProveedorON(30, "Enza Zaden","/enzaZaden.png");
             
-            List<Proveedor> listaProveedores = Arrays.asList(proveedor1, proveedor2, proveedor3);
+            List<ProveedorON> listaProveedores = Arrays.asList(proveedor1, proveedor2, proveedor3);
             
-            List<Producto> listaProductos = Arrays.asList(
-                                                new Producto(
+            List<ProductoON> listaProductos = Arrays.asList(
+                                                new ProductoON(
                                                     1,
                                                     "Sandía",
                                                     "Summer Breeze",
@@ -119,7 +119,7 @@ public class App {
                                                             new ProductoInventario(1, sucursal1, false),
                                                             new ProductoInventario(2, sucursal1, false))),
             
-                                                new Producto(
+                                                new ProductoON(
                                                     6,
                                                     "Chile",
                                                     "Mixteco",
@@ -139,7 +139,7 @@ public class App {
                                                             new ProductoInventario(8,sucursal3, false),
                                                             new ProductoInventario(9,sucursal4, false))),
                                                 
-                                                new Producto(
+                                                new ProductoON(
                                                     2,
                                                     "Melón",
                                                     "Híbrido Cruiser", 
@@ -161,19 +161,19 @@ public class App {
                                                 );
             
             
-            for(Producto producto: listaProductos){
+            for(ProductoON producto: listaProductos){
                 for(ProductoInventario productoInventario: producto.getListaProductoInventario()){
                     productoInventario.setProducto(producto);
                 }
             }
             
-            Paqueteria paqueteria1 = new Paqueteria(1, "DHL", 10F, 15F, "/dhl.png");
-            Paqueteria paqueteria2 = new Paqueteria(2, "Fedex", 13F, 16F, "/fedex.png");
-            Paqueteria paqueteria3 = new Paqueteria(3, "PCP", 8F, 7F, "/pcp.png");
-            Paqueteria paqueteria4 = new Paqueteria(4, "UPS", 20F, 21F, "/ups.png");
-            Paqueteria paqueteria5 = new Paqueteria(5, "Estafeta", 11F, 17F, "/estafeta.png");
+            PaqueteriaON paqueteria1 = new PaqueteriaON(1, "DHL", 10F, 15F, "/dhl.png");
+            PaqueteriaON paqueteria2 = new PaqueteriaON(2, "Fedex", 13F, 16F, "/fedex.png");
+            PaqueteriaON paqueteria3 = new PaqueteriaON(3, "PCP", 8F, 7F, "/pcp.png");
+            PaqueteriaON paqueteria4 = new PaqueteriaON(4, "UPS", 20F, 21F, "/ups.png");
+            PaqueteriaON paqueteria5 = new PaqueteriaON(5, "Estafeta", 11F, 17F, "/estafeta.png");
             
-            List<Paqueteria> listaPaqueterias = Arrays.asList(paqueteria1, paqueteria2, paqueteria3, paqueteria4, paqueteria5);
+            List<PaqueteriaON> listaPaqueterias = Arrays.asList(paqueteria1, paqueteria2, paqueteria3, paqueteria4, paqueteria5);
 
             // Se crean los subsistemas a utilziar:
             IDirecciones subsistemaDirecciones = new FDirecciones();

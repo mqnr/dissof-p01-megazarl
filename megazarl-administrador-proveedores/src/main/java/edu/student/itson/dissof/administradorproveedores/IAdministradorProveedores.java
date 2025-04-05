@@ -2,7 +2,7 @@
 package edu.student.itson.dissof.administradorproveedores;
 
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Proveedor;
+import edu.student.itson.dissof.megazarl.objetosnegocio.ProveedorON;
 
 /**
  * IAdministradorProveedores.java
@@ -59,5 +59,5 @@ public interface IAdministradorProveedores {
      * @param idProveedor Objeto Integer que representa el ID del proveedor a obtener.
      * @return Objeto Proveedor que representa el proveedor con el ID especificado.
      */
-    public abstract Proveedor obtenerProveedor(Integer idProveedor);
+    public abstract ProveedorON obtenerProveedor(Integer idProveedor);
 }

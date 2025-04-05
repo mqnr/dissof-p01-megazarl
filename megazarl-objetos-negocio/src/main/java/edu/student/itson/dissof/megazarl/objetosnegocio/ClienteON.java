@@ -18,7 +18,7 @@ package edu.student.itson.dissof.megazarl.objetosnegocio;
  * ID: 00000251923
  *
  */
-public class Cliente {
+public class ClienteON {
 
     private Integer id;
     private String nombres;
@@ -38,7 +38,7 @@ public class Cliente {
      * @param calleEnvio Objeto String que representa la calle de la dirección de envío.
      * @param numeroDomicilioEnvio Objeto String que representa el número de domicilio de la dirección de envío.
      */
-    public Cliente(Integer id, String nombres, String apellidoPaterno, String apellidoMaterno, String codigoPostalEnvio, String calleEnvio, String numeroDomicilioEnvio) {
+    public ClienteON(Integer id, String nombres, String apellidoPaterno, String apellidoMaterno, String codigoPostalEnvio, String calleEnvio, String numeroDomicilioEnvio) {
         this.id = id;
         this.nombres = nombres;
         this.apellidoMaterno = apellidoMaterno;

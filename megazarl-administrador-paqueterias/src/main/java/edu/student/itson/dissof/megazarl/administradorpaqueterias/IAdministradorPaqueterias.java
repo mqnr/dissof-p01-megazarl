@@ -3,7 +3,7 @@ package edu.student.itson.dissof.megazarl.administradorpaqueterias;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.dto.DireccionClientePesoTiempoProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionSeleccionPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Paqueteria;
+import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
 import java.util.List;
 
 /**
@@ -63,5 +63,5 @@ public interface IAdministradorPaqueterias {
      * @param idPaqueteria Objeto Integer que representa el ID de la paquetería a obtener.
      * @return Objeto Paqueteria que representa la paquetería con el ID especificado.
      */
-    public abstract Paqueteria obtenerPaqueteria(Integer idPaqueteria);
+    public abstract PaqueteriaON obtenerPaqueteria(Integer idPaqueteria);
 }

@@ -22,12 +22,12 @@ import java.util.Objects;
  * ID: 00000251923
  *
  */
-public class CarritoCompras {
+public class CarritoComprasON {
     private Integer id;
-    private Cliente cliente;
-    private Paqueteria paqueteria;
+    private ClienteON cliente;
+    private PaqueteriaON paqueteria;
     private Boolean pedidoRealizado;
-    private HashMap<Producto, Integer> productosCantidades;
+    private HashMap<ProductoON, Integer> productosCantidades;
     
     private static Integer ID_PROXIMO_CARRITO_COMPRAS = 1;
 
@@ -38,7 +38,7 @@ public class CarritoCompras {
      * @param pedidoRealizado Objeto Boolean que indica si el pedido ya fue realizado (true) o no (false).
      * @param productosCantidades Objeto HashMap que mapea productos con sus cantidades respectivas en el carrito.
      */
-    public CarritoCompras(Cliente cliente, Paqueteria paqueteria, Boolean pedidoRealizado, HashMap<Producto, Integer> productosCantidades) {
+    public CarritoComprasON(ClienteON cliente, PaqueteriaON paqueteria, Boolean pedidoRealizado, HashMap<ProductoON, Integer> productosCantidades) {
         this.id = ID_PROXIMO_CARRITO_COMPRAS++;
         this.cliente = cliente;
         this.paqueteria = paqueteria;
@@ -52,7 +52,7 @@ public class CarritoCompras {
      * @param pedidoRealizado Objeto Boolean que indica si el pedido ya fue realizado (true) o no (false).
      * @param productosCantidades Objeto HashMap que mapea productos con sus cantidades respectivas en el carrito.
      */
-    public CarritoCompras(Cliente cliente, Boolean pedidoRealizado, HashMap<Producto, Integer> productosCantidades) {
+    public CarritoComprasON(ClienteON cliente, Boolean pedidoRealizado, HashMap<ProductoON, Integer> productosCantidades) {
         this.id = ID_PROXIMO_CARRITO_COMPRAS++;
         this.cliente = cliente;
         this.pedidoRealizado = pedidoRealizado;
@@ -79,7 +79,7 @@ public class CarritoCompras {
      * Método que permite obtener el cliente dueño del carrito.
      * @return Objeto Cliente que representa al cliente dueño del carrito.
      */
-    public Cliente getCliente() {
+    public ClienteON getCliente() {
         return cliente;
     }
 
@@ -87,7 +87,7 @@ public class CarritoCompras {
      * Método que permite establecer el cliente dueño del carrito.
      * @param cliente Objeto Cliente que representa al cliente dueño del carrito.
      */
-    public void setCliente(Cliente cliente) {
+    public void setCliente(ClienteON cliente) {
         this.cliente = cliente;
     }
 
@@ -95,7 +95,7 @@ public class CarritoCompras {
      * Método que permite obtener la paquetería seleccionada para el envío.
      * @return Objeto Paqueteria que representa la paquetería seleccionada para el envío.
      */
-    public Paqueteria getPaqueteria() {
+    public PaqueteriaON getPaqueteria() {
         return paqueteria;
     }
 
@@ -103,7 +103,7 @@ public class CarritoCompras {
      * Método que permite establecer la paquetería seleccionada para el envío.
      * @param paqueteria Objeto Paqueteria que representa la paquetería seleccionada para el envío.
      */
-    public void setPaqueteria(Paqueteria paqueteria) {
+    public void setPaqueteria(PaqueteriaON paqueteria) {
         this.paqueteria = paqueteria;
     }
 
@@ -127,7 +127,7 @@ public class CarritoCompras {
      * Método que permite obtener los productos y sus cantidades en el carrito.
      * @return Objeto HashMap que mapea productos con sus cantidades respectivas en el carrito.
      */
-    public HashMap<Producto, Integer> getProductosCantidades() {
+    public HashMap<ProductoON, Integer> getProductosCantidades() {
         return productosCantidades;
     }
 
@@ -135,7 +135,7 @@ public class CarritoCompras {
      * Método que permite establecer los productos y sus cantidades en el carrito.
      * @param productosCantidades Objeto HashMap que mapea productos con sus cantidades respectivas en el carrito.
      */
-    public void setProductosCantidades(HashMap<Producto, Integer> productosCantidades) {
+    public void setProductosCantidades(HashMap<ProductoON, Integer> productosCantidades) {
         this.productosCantidades = productosCantidades;
     }
 
@@ -166,7 +166,7 @@ public class CarritoCompras {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final CarritoCompras other = (CarritoCompras) obj;
+        final CarritoComprasON other = (CarritoComprasON) obj;
         return Objects.equals(this.id, other.id);
     }
 }

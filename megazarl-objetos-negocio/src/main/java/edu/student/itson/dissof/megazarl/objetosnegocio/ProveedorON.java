@@ -18,7 +18,7 @@ package edu.student.itson.dissof.megazarl.objetosnegocio;
  * ID: 00000251923
  *
  */
-public class Proveedor {
+public class ProveedorON {
     Integer id;
     String nombre;
     String direccionImagenProveedor;
@@ -29,7 +29,7 @@ public class Proveedor {
      * @param nombre Objeto String que representa el nombre del proveedor.
      * @param direccionImagenProveedor Objeto String que representa la ruta de la imagen del logotipo del proveedor.
      */
-    public Proveedor(Integer id, String nombre, String direccionImagenProveedor) {
+    public ProveedorON(Integer id, String nombre, String direccionImagenProveedor) {
         this.id = id;
         this.nombre = nombre;
         this.direccionImagenProveedor = direccionImagenProveedor;

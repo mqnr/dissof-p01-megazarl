@@ -2,7 +2,7 @@
 package edu.student.itson.dissof.administradorproveedores;
 
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Proveedor;
+import edu.student.itson.dissof.megazarl.objetosnegocio.ProveedorON;
 import java.util.List;
 
 /**
@@ -25,14 +25,14 @@ import java.util.List;
  *
  */
 public class FAdministradorProveedores implements IAdministradorProveedores{
-    private List<Proveedor> listaProveedores;
+    private List<ProveedorON> listaProveedores;
 
     /**
      * Constructor que inicializa un administrador de proveedores con la lista de proveedores.
      *
      * @param listaProveedores Objeto List que contiene los proveedores registrados en el sistema.
      */
-    public FAdministradorProveedores(List<Proveedor> listaProveedores) {
+    public FAdministradorProveedores(List<ProveedorON> listaProveedores) {
         this.listaProveedores = listaProveedores;
     }
 
@@ -46,7 +46,7 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      */
     @Override
     public boolean validarProveedor(Integer idProveedor){
-        for(Proveedor proveedor: listaProveedores){
+        for(ProveedorON proveedor: listaProveedores){
             if(proveedor.getId() == idProveedor){
                 return true;
             }
@@ -64,9 +64,9 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      * @return Objeto Proveedor que representa el proveedor con el ID especificado,
      * o null si no se encuentra un proveedor con ese ID.
      */
-    public Proveedor obtenerProveedor(Integer idProveedor){
-        Proveedor proveedorRecuperado = null;
-        for(Proveedor proveedor: listaProveedores){
+    public ProveedorON obtenerProveedor(Integer idProveedor){
+        ProveedorON proveedorRecuperado = null;
+        for(ProveedorON proveedor: listaProveedores){
             if(proveedor.getId() == idProveedor){
                 proveedorRecuperado = proveedor;
             }
@@ -92,7 +92,7 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
             throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor: " + idProveedor + " es inválido.");
         }
         
-        Proveedor proveedor = obtenerProveedor(idProveedor);
+        ProveedorON proveedor = obtenerProveedor(idProveedor);
         
         if(proveedor == null){
             throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor: " + idProveedor + " es inválido.");
@@ -119,7 +119,7 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
             throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor: " + idProveedor + " es inválido.");
         }
         
-        Proveedor proveedor = obtenerProveedor(idProveedor);
+        ProveedorON proveedor = obtenerProveedor(idProveedor);
         
         if(proveedor == null){
             throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor: " + idProveedor + " es inválido.");

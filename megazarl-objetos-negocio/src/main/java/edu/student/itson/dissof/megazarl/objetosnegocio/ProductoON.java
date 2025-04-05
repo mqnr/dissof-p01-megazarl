@@ -21,7 +21,7 @@ import java.util.Objects;
  * ID: 00000251923
  *
  */
-public class Producto {
+public class ProductoON {
 
     private Integer id;
     private String nombre;
@@ -31,7 +31,7 @@ public class Producto {
     private Double precio;
     private Double pesoKg;
     private String direccionImagenProducto;
-    private Proveedor proveedor;
+    private ProveedorON proveedor;
     private List<ProductoInventario> listaProductoInventario;
 
     /**
@@ -47,7 +47,7 @@ public class Producto {
      * @param proveedor Objeto Proveedor que representa el proveedor del producto.
      * @param listaProductoInventario Objeto List que contiene las unidades en inventario de este producto.
      */
-    public Producto(Integer id, String nombre, String variedad, String descripcion, Integer milesSemillas, Double precio, Double pesoKg, String direccionImagenProducto, Proveedor proveedor, List<ProductoInventario> listaProductoInventario) {
+    public ProductoON(Integer id, String nombre, String variedad, String descripcion, Integer milesSemillas, Double precio, Double pesoKg, String direccionImagenProducto, ProveedorON proveedor, List<ProductoInventario> listaProductoInventario) {
         this.id = id;
         this.nombre = nombre;
         this.variedad = variedad;
@@ -192,7 +192,7 @@ public class Producto {
      * Método que permite obtener el proveedor del producto.
      * @return Objeto Proveedor que representa el proveedor del producto.
      */
-    public Proveedor getProveedor() {
+    public ProveedorON getProveedor() {
         return proveedor;
     }
 
@@ -200,7 +200,7 @@ public class Producto {
      * Método que permite establecer el proveedor del producto.
      * @param proveedor Objeto Proveedor que representa el proveedor del producto.
      */
-    public void setProveedor(Proveedor proveedor) {
+    public void setProveedor(ProveedorON proveedor) {
         this.proveedor = proveedor;
     }
 
@@ -247,7 +247,7 @@ public class Producto {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Producto other = (Producto) obj;
+        final ProductoON other = (ProductoON) obj;
         return Objects.equals(this.id, other.id);
     }
     

@@ -23,8 +23,8 @@ import java.util.Objects;
 public class ProductoInventario {
 
     private Integer id;
-    private Producto producto;
-    private Sucursal sucursal;
+    private ProductoON producto;
+    private SucursalON sucursal;
     private Boolean apartado;
 
     /**
@@ -33,7 +33,7 @@ public class ProductoInventario {
      * @param sucursal Objeto Sucursal que representa la sucursal donde se encuentra este producto.
      * @param apartado Objeto Boolean que indica si el producto está apartado (true) o disponible (false).
      */
-    public ProductoInventario(Integer id, Sucursal sucursal, Boolean apartado) {
+    public ProductoInventario(Integer id, SucursalON sucursal, Boolean apartado) {
         this.id = id;
         this.sucursal = sucursal;
         this.apartado = apartado;
@@ -59,7 +59,7 @@ public class ProductoInventario {
      * Método que permite obtener el producto asociado a este inventario.
      * @return Objeto Producto que representa el producto asociado a este inventario.
      */
-    public Producto getProducto() {
+    public ProductoON getProducto() {
         return producto;
     }
 
@@ -67,7 +67,7 @@ public class ProductoInventario {
      * Método que permite establecer el producto asociado a este inventario.
      * @param producto Objeto Producto que representa el producto asociado a este inventario.
      */
-    public void setProducto(Producto producto) {
+    public void setProducto(ProductoON producto) {
         this.producto = producto;
     }
 
@@ -75,7 +75,7 @@ public class ProductoInventario {
      * Método que permite obtener la sucursal donde se encuentra este producto.
      * @return Objeto Sucursal que representa la sucursal donde se encuentra este producto.
      */
-    public Sucursal getSucursal() {
+    public SucursalON getSucursal() {
         return sucursal;
     }
 
@@ -83,7 +83,7 @@ public class ProductoInventario {
      * Método que permite establecer la sucursal donde se encuentra este producto.
      * @param sucursal Objeto Sucursal que representa la sucursal donde se encuentra este producto.
      */
-    public void setSucursal(Sucursal sucursal) {
+    public void setSucursal(SucursalON sucursal) {
         this.sucursal = sucursal;
     }
 
