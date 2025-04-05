@@ -10,16 +10,37 @@ import edu.student.itson.dissof.megazarl.objetosnegocio.Producto;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
 import java.util.Comparator;
 
-
+/**
+ * FAdministradorProductos.java
+ *
+ * Clase que implementa la interfaz IAdministradorProductos, proporcionando
+ * la funcionalidad para gestionar el catálogo de productos disponibles en el sistema,
+ * consultar inventario y permitir búsquedas de productos.
+ *
+ * @author Yuri Germán García López
+ * ID: 00000252583
+ * @author Luis Rafael Lagarda Encinas
+ * ID: 00000252607
+ * @author Vladimir Iván Mendoza Baypoli
+ * ID: 00000252758
+ * @author Manuel Romo López
+ * ID: 00000253080
+ * @author Martín Zamorano Acuña
+ * ID: 00000251923
+ *
+ */
 public class FAdministradorProductos implements IAdministradorProductos {
 
     private List<Producto> listaProductos;
 
+    /**
+     * Constructor que inicializa un administrador de productos con la lista de productos.
+     *
+     * @param listaProductos Objeto List que contiene los productos registrados en el sistema.
+     */
     public FAdministradorProductos(List<Producto> listaProductos) {
         this.listaProductos = listaProductos;
     }
-    
-    
 
     /**
      * Implementación del método cosultarInventarioProducto(), de la interfaz,
@@ -54,8 +75,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
         return disponibilidadProducto;
             
     }
-    
-    
+
     /**
      * Implementación del método apartarProductoInventario(), de la interfaz
      * {@link IAdministradorProductos}, que permite asignar al objeto de tipo
@@ -104,7 +124,19 @@ public class FAdministradorProductos implements IAdministradorProductos {
         }
 
     }
-    
+
+    /**
+     * Implementación del método desapartarProductoInventario(), de la interfaz
+     * {@link IAdministradorProductos}, que permite desmarcar como apartadas las
+     * unidades de un producto específico en el inventario.
+     *
+     * @param idProducto Objeto Integer que representa el ID del producto a desapartar.
+     * @param cantidad Valor int que representa la cantidad de unidades a desapartar.
+     * @throws ProductosIdProductoInvalidoException Se lanza si se comprueba que el ID
+     * del producto es inválido, dentro de este subsistema.
+     * @throws ProductosProductoSinInventarioException Se lanza si ocurre un error al
+     * desapartar las unidades especificadas.
+     */
     @Override
     public void desapartarProductoInventario(Integer idProducto, int cantidad) 
             throws ProductosIdProductoInvalidoException, ProductosProductoSinInventarioException{
@@ -139,8 +171,15 @@ public class FAdministradorProductos implements IAdministradorProductos {
         }  
         
     }
-   
-    
+
+    /**
+     * Implementación del método validarProducto(), de la interfaz
+     * {@link IAdministradorProductos}, que permite verificar si el ID
+     * de un producto corresponde a un objeto Producto real.
+     *
+     * @param idProducto Objeto Integer que representa el ID del producto a validar.
+     * @return true si existe un objeto Producto con el ID del parámetro, false en caso contrario.
+     */
     @Override
     public boolean validarProducto(Integer idProducto){
         
@@ -445,5 +484,4 @@ public class FAdministradorProductos implements IAdministradorProductos {
         
         return false;
     }
-
 }
