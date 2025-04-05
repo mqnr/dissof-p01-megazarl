@@ -51,8 +51,6 @@ public class Direccion extends JFrame implements IVista, IDireccion {
     private boolean numeroValido;
     private boolean calleValida;
 
-    private Image iconoPropio;
-
     public Direccion(ControlCompra control, Integer idCliente) {
         this.control = control;
         this.idCliente = idCliente;
@@ -61,18 +59,18 @@ public class Direccion extends JFrame implements IVista, IDireccion {
         configurarCampoTextoCodigoPostal();
         configurarCampoTextoNumero();
         configurarCampoTextoCalle();
-
-        setTitle("Actualizar dirección de usuario");
-        setSize(1200, 800);
-        setResizable(false);
-        setLocationRelativeTo(null);
+        
+        setTitle("Semillas MEGAZARL - Actualizar dirección");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        iconoPropio = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logoApp.png")).getScaledInstance(90, 90, Image.SCALE_SMOOTH);
+        setSize(1200, 800);
+        setLocationRelativeTo(null);
+        Image iconoPropio = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logoApp.png")).getScaledInstance(90, 90, Image.SCALE_SMOOTH);
         setIconImage(iconoPropio);
+
     }
 
     private void initComponents() {
+        
         getContentPane().setLayout(new BorderLayout());
 
         panelPrincipal = new JPanel(new BorderLayout());
@@ -103,7 +101,7 @@ public class Direccion extends JFrame implements IVista, IDireccion {
         panelContenedorFormulario.add(Box.createVerticalStrut(30));
 
         panelDatosDireccion = new PanelRedondeado(50, new Color(226, 234, 206));
-        panelDatosDireccion.setPreferredSize(new Dimension(472, 400));
+        panelDatosDireccion.setPreferredSize(new Dimension(380, 400));
         panelDatosDireccion.setLayout(new BoxLayout(panelDatosDireccion, BoxLayout.Y_AXIS));
         panelContenedorFormulario.add(panelDatosDireccion);
 
@@ -145,7 +143,7 @@ public class Direccion extends JFrame implements IVista, IDireccion {
 
     private void crearComponentesPanelDatos() {
         // Código Postal
-        JPanel panelCodigoPostal = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panelCodigoPostal = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelCodigoPostal.setOpaque(false);
 
         etqCodigoPostal = new JLabel("Código Postal:");
@@ -160,7 +158,7 @@ public class Direccion extends JFrame implements IVista, IDireccion {
         panelDatosDireccion.add(panelCodigoPostal);
 
         // Mensaje validación código postal
-        JPanel panelMensajeCodigoPostal = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panelMensajeCodigoPostal = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panelMensajeCodigoPostal.setOpaque(false);
 
         etqMensajeValidacionCodigoPostal = new JLabel("El código postal debe componerse de 5 dígitos");
@@ -172,7 +170,7 @@ public class Direccion extends JFrame implements IVista, IDireccion {
         panelDatosDireccion.add(panelMensajeCodigoPostal);
 
         // Estado
-        JPanel panelEstado = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panelEstado = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelEstado.setOpaque(false);
 
         etqEstado = new JLabel("Estado:");
@@ -189,7 +187,7 @@ public class Direccion extends JFrame implements IVista, IDireccion {
         panelDatosDireccion.add(panelEstado);
 
         // Ciudad
-        JPanel panelCiudad = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panelCiudad = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelCiudad.setOpaque(false);
 
         etqCiudad = new JLabel("Ciudad:");
@@ -206,7 +204,7 @@ public class Direccion extends JFrame implements IVista, IDireccion {
         panelDatosDireccion.add(panelCiudad);
 
         // Colonia
-        JPanel panelColonia = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panelColonia = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelColonia.setOpaque(false);
 
         etqColonia = new JLabel("Colonia:");
@@ -223,7 +221,7 @@ public class Direccion extends JFrame implements IVista, IDireccion {
         panelDatosDireccion.add(panelColonia);
 
         // Número
-        JPanel panelNumero = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panelNumero = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelNumero.setOpaque(false);
 
         etqNumero = new JLabel("Número:");
@@ -238,7 +236,7 @@ public class Direccion extends JFrame implements IVista, IDireccion {
         panelDatosDireccion.add(panelNumero);
 
         // Mensaje validación número
-        JPanel panelMensajeNumero = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panelMensajeNumero = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panelMensajeNumero.setOpaque(false);
 
         etqMensajeValidacionNumero = new JLabel("El número de su domicilio debe ser un número entero");
@@ -250,7 +248,7 @@ public class Direccion extends JFrame implements IVista, IDireccion {
         panelDatosDireccion.add(panelMensajeNumero);
 
         // Calle
-        JPanel panelCalle = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panelCalle = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelCalle.setOpaque(false);
 
         etqCalle = new JLabel("Calle:");
@@ -265,7 +263,7 @@ public class Direccion extends JFrame implements IVista, IDireccion {
         panelDatosDireccion.add(panelCalle);
 
         // Mensaje validación calle
-        JPanel panelMensajeCalle = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panelMensajeCalle = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panelMensajeCalle.setOpaque(false);
 
         etqMensajeValidacionCalle = new JLabel("Este campo es obligatorio");
@@ -298,7 +296,7 @@ public class Direccion extends JFrame implements IVista, IDireccion {
                     String nuevoCodigoPostal = txtCodigoPostal.getText();
 
                     if (nuevoCodigoPostal.matches("\\d{5}")) {
-                        String[] datosDerivadosDireccion = control.obtenerDatosDireccionDerivados(nuevoCodigoPostal);
+                        String[] datosDerivadosDireccion = control.obtenerDatosDireccionEnvioDerivadosCP(nuevoCodigoPostal);
 
                         if (datosDerivadosDireccion == null) {
                             txtCodigoPostal.setForeground(Color.RED);

@@ -5,13 +5,19 @@ import java.util.Objects;
 public class Sucursal {
 
     private Integer id;
-    private String nombre;
+    private Boolean esMatriz;
     private Float tiempoMatriz;
+    private String codigoPostal;
+    private String calle;
+    private String numero;
 
-    public Sucursal(Integer id, String nombre, Float tiempoMatriz) {
+    public Sucursal(Integer id, Boolean esMatriz, Float tiempoMatriz, String codigoPostal, String calle, String numero) {
         this.id = id;
-        this.nombre = nombre;
+        this.esMatriz = esMatriz;
         this.tiempoMatriz = tiempoMatriz;
+        this.codigoPostal = codigoPostal;
+        this.calle = calle;
+        this.numero = numero;
     }
 
     public Integer getId() {
@@ -22,12 +28,12 @@ public class Sucursal {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public Boolean getEsMatriz() {
+        return esMatriz;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setEsMatriz(Boolean esMatriz) {
+        this.esMatriz = esMatriz;
     }
 
     public Float getTiempoMatriz() {
@@ -38,10 +44,38 @@ public class Sucursal {
         this.tiempoMatriz = tiempoMatriz;
     }
 
+    public String getCodigoPostal() {
+        return codigoPostal;
+    }
+
+    public void setCodigoPostal(String codigoPostal) {
+        this.codigoPostal = codigoPostal;
+    }
+
+    public String getCalle() {
+        return calle;
+    }
+
+    public void setCalle(String calle) {
+        this.calle = calle;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    
+
+    
+
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 37 * hash + Objects.hashCode(this.id);
+        int hash = 5;
+        hash = 41 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -59,4 +93,7 @@ public class Sucursal {
         final Sucursal other = (Sucursal) obj;
         return Objects.equals(this.id, other.id);
     }
+
+    
+    
 }

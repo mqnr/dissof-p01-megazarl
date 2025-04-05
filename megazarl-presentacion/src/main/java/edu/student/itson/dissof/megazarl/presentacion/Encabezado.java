@@ -4,8 +4,6 @@ package edu.student.itson.dissof.megazarl.presentacion;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import edu.student.itson.dissof.megazarl.presentacion.utilgui.ButtonBuilder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class Encabezado extends JPanel {
@@ -269,7 +267,7 @@ public class Encabezado extends JPanel {
 
     public void mostrarNombreApellidoCliente() {
         String[] datosApellidoNombreCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
-        String nombreApellidoCliente = datosApellidoNombreCliente[0] + datosApellidoNombreCliente[1];
+        String nombreApellidoCliente = datosApellidoNombreCliente[0] + " " + datosApellidoNombreCliente[1];
         this.etqNombreUsuario.setText(nombreApellidoCliente);
     }
     

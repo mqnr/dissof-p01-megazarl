@@ -1,43 +1,44 @@
 package edu.student.itson.dissof.megazarl.administradorproductos;
 
+import edu.student.itson.dissof.megazarl.administradroproductos.excepciones.ProductosProductoSinInventarioException;
+import edu.student.itson.dissof.megazarl.administradroproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.dto.InformacionProductoVentaDTO;
-import edu.student.itson.dissof.megazarl.dto.ProductoInicioDTO;
+import edu.student.itson.dissof.megazarl.dto.InformacionProductoInicioDTO;
+import edu.student.itson.dissof.megazarl.objetosnegocio.Producto;
 import java.util.List;
 
 public interface IAdministradorProductos {
 
     public abstract boolean validarProducto(Integer idProducto);
     
-    public abstract int cosultarInventarioProducto(Integer idProducto);
+    public abstract int cosultarInventarioProducto(Integer idProducto)  throws ProductosIdProductoInvalidoException;
             
-    public abstract List<ProductoInicioDTO> obtenerProductosVenta();
+    public abstract List<InformacionProductoInicioDTO> obtenerProductosVenta();
 
-    public abstract InformacionProductoVentaDTO obtenerInformacionProducto(Integer idProducto);
+    public abstract InformacionProductoVentaDTO obtenerInformacionProductoVenta(Integer idProducto) throws ProductosIdProductoInvalidoException;
 
-    public abstract List<ProductoInicioDTO> obtenerProductosBusqueda(String nombreProducto);
+    public abstract List<InformacionProductoInicioDTO> obtenerProductosBusqueda(String nombreProducto);
 
-    public abstract List<ProductoInicioDTO> obtenerProductosBusqueda(
+    public abstract List<InformacionProductoInicioDTO> obtenerProductosBusqueda(
             String nombreProducto,
             String variedadProducto);
 
-    public abstract List<ProductoInicioDTO> obtenerProductosBusqueda(
+    public abstract List<InformacionProductoInicioDTO> obtenerProductosBusqueda(
             String nombreProducto,
             String variedadProducto,
             String nombreProveedor);
 
-    public abstract List<Float> obtenerTiempoMatrizProductosInventario(Integer idProducto);
-
-    public abstract double obtenerCostoProducto(Integer idProducto);
+    public abstract Producto obtenerProducto(Integer idProducto) throws ProductosIdProductoInvalidoException;
     
-    public abstract boolean eliminarProductoInventario(Integer idProducto, Integer cantidad);
+    public abstract void apartarProductoInventario(Integer idProducto, int cantidad) 
+            throws ProductosIdProductoInvalidoException,
+            ProductosProductoSinInventarioException;
     
-    public abstract boolean apartarProductoInventario(Integer idProducto);
+    public abstract void desapartarProductoInventario(Integer idProducto, int cantidad) 
+            throws ProductosIdProductoInvalidoException,
+            ProductosProductoSinInventarioException;
     
-    public abstract boolean desapartarProductoInventario(Integer idProducto);
+    public abstract boolean validarIdProductoInventario(Integer idProductoInventario);
     
-    public abstract boolean validarProductoInventario(Integer idProductoInventario);
     
-    public abstract Double obtenerPesoProductoInventario(Integer idProductoInventario);
-    
-    public abstract Double obtenerTiempoMatrzProductoInventario(Integer idProductoInventario);
 }

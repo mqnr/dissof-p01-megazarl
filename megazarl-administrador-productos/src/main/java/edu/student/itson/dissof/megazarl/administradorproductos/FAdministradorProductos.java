@@ -1,179 +1,195 @@
 package edu.student.itson.dissof.megazarl.administradorproductos;
 
+import edu.student.itson.dissof.megazarl.administradroproductos.excepciones.ProductosProductoSinInventarioException;
+import edu.student.itson.dissof.megazarl.administradroproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.dto.InformacionProductoVentaDTO;
-import edu.student.itson.dissof.megazarl.dto.ProductoInicioDTO;
+import edu.student.itson.dissof.megazarl.dto.InformacionProductoInicioDTO;
 import java.util.LinkedList;
 import java.util.List;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Producto;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
-import java.util.Arrays;
+import java.util.Comparator;
+
 
 public class FAdministradorProductos implements IAdministradorProductos {
 
+    private List<Producto> listaProductos;
 
-    private List<Integer> listaCodigosProductos;
-    private List<Integer> listaCantidadProductosInventario;
-    private List<List<Boolean>> listasProductosApartados;
-    
-    
-    public FAdministradorProductos(List<Integer> listaCodigosProductos, 
-            List<Integer> listaCantidadProductosInventario, 
-            List<List<Boolean>> listasFechasHoraApartado){
-        
-        this.listaCodigosProductos = listaCodigosProductos;
-        this.listaCantidadProductosInventario = listaCantidadProductosInventario;
-        this.listasProductosApartados = listasFechasHoraApartado;
-    }
-
-    @Override
-    public int cosultarInventarioProducto(Integer idProducto){
-        
-        if(validarProducto(idProducto)){
-            
-            int indiceIdProducto = listaCodigosProductos.indexOf(idProducto);
-            int disponibilidadProducto = listaCantidadProductosInventario.get(indiceIdProducto);
-            
-            int cantitadProductosApartados = 0;
-            
-            for(Boolean productoApartado: listasProductosApartados.get(indiceIdProducto)){
-                
-                if(productoApartado != null && productoApartado){
-                    cantitadProductosApartados++;
-                }   
-            }
-            
-            return disponibilidadProducto - cantitadProductosApartados;
-            
-        } else{
-            return -1;
-        }
+    public FAdministradorProductos(List<Producto> listaProductos) {
+        this.listaProductos = listaProductos;
     }
     
     
+
+    /**
+     * Implementación del método cosultarInventarioProducto(), de la interfaz,
+     * {@link IAdministradorProductos}, que permite obtener las existencias
+     * de un Producto a partir de su ID.
+     * @param idProducto Objeto Integer que representa el ID del Producto del que
+     * se obtendrán sus existencias.
+     * @return Dato int que representa la existencias actuales del Producto con
+     * el ID del parámetro.
+     * @throws ProductosIdProductoInvalidoException Se lanza cuando se comprueba 
+     * que el ID del Producto es inválido, dentro de este subsistema.
+     */
     @Override
-    public boolean apartarProductoInventario(Integer idProducto){
+    public int cosultarInventarioProducto(Integer idProducto) throws ProductosIdProductoInvalidoException{
         
-        boolean apartadoExitoso = false;
-    
-        if (validarProducto(idProducto)) {
-            
-            if(cosultarInventarioProducto(idProducto) > 0){
-                int indiceIdProducto = listaCodigosProductos.indexOf(idProducto);
-
-                if (listaCantidadProductosInventario.get(indiceIdProducto) > 0) {
-
-                    List<Boolean> productosApartados = listasProductosApartados.get(indiceIdProducto);
-
-
-                    for (int i = 0; i < productosApartados.size(); i++) {
-                        
-                        Boolean productoApartado = productosApartados.get(i);
-
-                        if (productoApartado != null && !productoApartado) {
-
-                            productosApartados.set(i, true);
-
-                            apartadoExitoso = true;
-
-                            break;
-                        }
-                    }
-                }
-            }
-            
+        // Se valida el ID del producto.
+        if(!validarProducto(idProducto)){
+            throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
         }
-
-        return apartadoExitoso;
+        
+        Producto producto = obtenerProducto(idProducto);
+        
+        if(producto == null){
+            throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
+        }
+        
+        // Se obtiene la cantidad de objetos de tipo ProductoInventario de la lista
+        // del objeto Producto con el ID del parámetro que no están apartados.
+        int disponibilidadProducto 
+                = (int) producto.getListaProductoInventario().stream().filter(productoInventario -> !productoInventario.getApartado()).count();
+ 
+        return disponibilidadProducto;
+            
     }
     
     
+    /**
+     * Implementación del método apartarProductoInventario(), de la interfaz
+     * {@link IAdministradorProductos}, que permite asignar al objeto de tipo
+     * ProductoInventario dentro de la lista de tipo ProductoInventario del
+     * Producto con el ID del parámetro con el menor valor en 
+     * @param idProducto
+     * @param cantidad
+     * @throws ProductosIdProductoInvalidoException
+     * @throws ProductosProductoSinInventarioException 
+     */
     @Override
-    public boolean desapartarProductoInventario(Integer idProducto){
+    public void apartarProductoInventario(Integer idProducto, int cantidad) 
+            throws ProductosIdProductoInvalidoException, ProductosProductoSinInventarioException{
         
-        boolean desapartadoExitoso = false;
+        // Se valida el ID del producto.
+        if(!validarProducto(idProducto)){
+            throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
+        }
+        
+        Producto producto = obtenerProducto(idProducto);
     
-        if (validarProducto(idProducto)) {
+        if(producto == null){
+            throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
+        }
             
-            int indiceIdProducto = listaCodigosProductos.indexOf(idProducto);
-
-            List<Boolean> productosApartados = listasProductosApartados.get(indiceIdProducto);
-
-            for (int i = 0; i < productosApartados.size(); i++) {
-
-                Boolean productoApartado = productosApartados.get(i);
-
-
-                if (productoApartado != null && productoApartado) {
-
-                    productosApartados.set(i, false);
-
-                    desapartadoExitoso = true;
-
-                    break;
-                }
-            }
-
+        if(cosultarInventarioProducto(idProducto) - cantidad < 0){
+            throw new ProductosProductoSinInventarioException("El producto con ID: " + idProducto + " no cuenta con inventario suficiente.");
         }
 
+        List<ProductoInventario> productosInventarioProductoApartar = producto.getListaProductoInventario();
+         
+        productosInventarioProductoApartar.sort(
+            Comparator.comparing((ProductoInventario productoOrdenar) -> productoOrdenar.getSucursal().getTiempoMatriz())
+        );
+        
+        int cantidadProductosApartados = 0;
+       
+        for(ProductoInventario productoInventario: productosInventarioProductoApartar){
+            if(!productoInventario.getApartado()){
+                productoInventario.setApartado(true);
+                cantidadProductosApartados++;
+            }
+            if(cantidadProductosApartados >= cantidad){
+                break;
+            }
+        }
 
-        return desapartadoExitoso;
+    }
+    
+    @Override
+    public void desapartarProductoInventario(Integer idProducto, int cantidad) 
+            throws ProductosIdProductoInvalidoException, ProductosProductoSinInventarioException{
+        
+        // Se valida el ID del producto.
+        if(!validarProducto(idProducto)){
+            throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
+        }
+        
+        Producto producto = obtenerProducto(idProducto);
+    
+        if(producto == null){
+            throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
+        }    
+
+        List<ProductoInventario> productosInventarioProductoApartar = producto.getListaProductoInventario();
+        
+        productosInventarioProductoApartar.sort(
+            Comparator.comparing((ProductoInventario productoOrdenar) -> productoOrdenar.getSucursal().getTiempoMatriz()).reversed()
+        );
+        
+        int cantidadProductosDesapartados = 0;
+        
+        for(ProductoInventario productoInventario: productosInventarioProductoApartar){
+            if(productoInventario.getApartado()){
+                productoInventario.setApartado(false);
+                cantidadProductosDesapartados++;
+            }
+            if(cantidadProductosDesapartados >= cantidad){
+                break;
+            }
+        }  
+        
     }
    
     
     @Override
     public boolean validarProducto(Integer idProducto){
-        return (idProducto == 1 || idProducto == 6 || idProducto == 2);    
+        
+        for(Producto producto: listaProductos){
+            if(producto.getId() == idProducto){
+                return true;
+            }
+        }
+        
+        return false;
     }
     
+    /**
+     * Implementación del método obtenerProductosVenta(), de la interfaz 
+     * {@link IAdministradorProductos}, que permte obtener la información de los
+     * productos en venta con existencias disponibles.
+     * @return Objeto List {@literal <InformacionProductoInicioDTO\>} que contiene
+     * DTOs con la información de los productos a mostrar.
+     */
     @Override
-    public List<ProductoInicioDTO> obtenerProductosVenta() {
+    public List<InformacionProductoInicioDTO> obtenerProductosVenta() {
 
-        List<ProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
+        List<InformacionProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
 
-        for(int i = 0; i < listaCodigosProductos.size(); i++){
+        // Se recorre la lista de Productos y se añade la información a la lista
+        // de DTOs, de aquellos que tengan existencias.
+        for(Producto producto: listaProductos){
             
-            int idProducto = listaCodigosProductos.get(i);
-            int cantidadProducto = cosultarInventarioProducto(idProducto);
-
-            if(idProducto == 1 && cantidadProducto > 0){
-                listaProductoInicioDTO.add(
-                    new ProductoInicioDTO(
-                        1, 
-                        "Sandía", 
-                        "Summer Breeze", 
-                        9400d,
-                        5, 
-                        "/sandiaSummerBreeze.png", 
-                        10)
-
-                );
-
-
-            } else if(idProducto == 6 && cantidadProducto > 0){
-                listaProductoInicioDTO.add(
-                    new ProductoInicioDTO(
-                        6, 
-                        "Chile", 
-                        "Mixteco", 
-                        24300d,
-                        25, 
-                        "/chileMixteco.png", 
-                        20)
+            Integer idProducto = producto.getId();
+            int cantidadProducto = 0;
+            
+            try {
+                cantidadProducto = cosultarInventarioProducto(idProducto);
+            } catch (ProductosIdProductoInvalidoException ex) {}
+                
+            if(cantidadProducto > 0){
+                listaProductoInicioDTO.add(new InformacionProductoInicioDTO(
+                   producto.getId(), 
+                   producto.getNombre(), 
+                   producto.getVariedad(),
+                   producto.getPrecio(),
+                   producto.getMilesSemillas(), 
+                   producto.getDireccionImagenProducto(), 
+                   producto.getProveedor().getId())
 
                 );
-            } else if(idProducto == 2 && cantidadProducto > 0){
-                listaProductoInicioDTO.add(
-                    new ProductoInicioDTO(
-                        2, 
-                        "Melón", 
-                        "Híbrido Cruiser", 
-                        7200d,
-                        10, 
-                        "/melonHibridoCruiser.png", 
-                        30)
-
-                    );
-            }
+            } 
+                
+            
  
         }
  
@@ -182,185 +198,154 @@ public class FAdministradorProductos implements IAdministradorProductos {
     }
     
     
+    /**
+     * Implementación del método obtenerProductosBusqueda(), de la interfaz {@link IAdministradorProductos},
+     * que permite obtener la información de los productos cuyo nombre esté contenido dentro del 
+     * nombre recibido como parámetro.
+     * @param nombreProducto Objeto String que representa el nombre del producto a buscar.
+     * @return Objeto List {@literal <InformacionProductoInicioDTO\>} que contiene
+     * DTOs con la información de los productos a mostrar.
+     */
     @Override
-    public List<ProductoInicioDTO> obtenerProductosBusqueda(String nombreProducto){
+    public List<InformacionProductoInicioDTO> obtenerProductosBusqueda(String nombreProducto){
         
-         List<ProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
+        List<InformacionProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
          
+        // Se convierte el nombre recibido a letras minusculas.
         String nombreProductoMinusculas = nombreProducto.toLowerCase();
         
-        for(int i = 0; i < listaCodigosProductos.size(); i++){
+        // Se recorre la lista de productos para almacenar los datos de aquellos
+        // que tengan existencias y su nombre este contenido dentro del nombre del parámetro.
+        for(Producto producto: listaProductos){
             
-            int idProducto = listaCodigosProductos.get(i);
-            int cantidadProducto = cosultarInventarioProducto(idProducto);
+            int idProducto = producto.getId();
+            
+            int cantidadProducto = 0;
+            try {
+                cantidadProducto = cosultarInventarioProducto(idProducto);
+            } catch (ProductosIdProductoInvalidoException ex) {}
 
-            if(idProducto == 1 && cantidadProducto > 0 && nombreProductoMinusculas.contains("sandia")){
-                listaProductoInicioDTO.add(
-                new ProductoInicioDTO(
-                    1, 
-                    "Sandía", 
-                    "Summer Breeze", 
-                    9400d,
-                    5, 
-                    "/sandiaSummerBreeze.png", 
-                    10)
+            if(nombreProductoMinusculas.contains(producto.getNombre().toLowerCase()) && cantidadProducto > 0){
+                listaProductoInicioDTO.add(new InformacionProductoInicioDTO(
+                    producto.getId(), 
+                    producto.getNombre(), 
+                    producto.getVariedad(),
+                    producto.getPrecio(),
+                    producto.getMilesSemillas(), 
+                    producto.getDireccionImagenProducto(), 
+                    producto.getProveedor().getId())
 
-                );
-
-            } else if(idProducto == 6 && cantidadProducto > 0 && nombreProductoMinusculas.contains("chile")){
-                listaProductoInicioDTO.add(
-                    new ProductoInicioDTO(
-                        6, 
-                        "Chile", 
-                        "Mixteco", 
-                        24300d,
-                        25, 
-                        "/chileMixteco.png", 
-                        20)
-
-                );
-            } else if(idProducto == 2 && cantidadProducto > 0 && nombreProductoMinusculas.contains("melon")) {
-                listaProductoInicioDTO.add(
-                    new ProductoInicioDTO(
-                        2, 
-                        "Melón", 
-                        "Híbrido Cruiser", 
-                        7200d,
-                        10, 
-                        "/melonHibridoCruiser.png", 
-                        30)
-
-                    );
+                 );
             }
- 
+            
         }
 
         return listaProductoInicioDTO;
     }
     
     
+    /**
+     * Implementación del método obtenerProductosBusqueda(), de la interfaz {@link IAdministradorProductos},
+     * que permite obtener la información de los productos cuyo nombre esté contenido dentro del 
+     * nombre recibido como parámetro y cuya variedad esté contenida dentro de la variedad
+     * recibida como parámetro.
+     * @param nombreProducto Objeto String que representa el nombre del o los productos a buscar.
+     * @param variedadProducto Objeto String que representa la variedad del o los productos a buscar.
+     * @return Objeto List {@literal <InformacionProductoInicioDTO\>} que contiene
+     * DTOs con la información de los productos a mostrar.
+     */
     @Override
-    public List<ProductoInicioDTO> obtenerProductosBusqueda(String nombreProducto, String variedadProducto){
+    public List<InformacionProductoInicioDTO> obtenerProductosBusqueda(String nombreProducto, String variedadProducto){
         
+        // El nombre y la variedada del parámetro se conviertene a letras minúsculas.
         String nombreProductoMinusculas = nombreProducto.toLowerCase();
         String variedadProductoMinusculas = variedadProducto.toLowerCase();
 
-        List<ProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
+        List<InformacionProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
 
-        for(int i = 0; i < listaCodigosProductos.size(); i++){
+        
+        // Se recorre la lista de productos para almacenar los datos de aquellos
+        // que tengan existencias, cuyo su nombre este contenido dentro del nombre del parámetro,
+        // y cuya variedad esté contenida detro de la variedad del parámetro.
+        for(Producto producto: listaProductos){
             
-            int idProducto = listaCodigosProductos.get(i);
-            int cantidadProducto = cosultarInventarioProducto(idProducto);
+            int idProducto = producto.getId();
+            
+            int cantidadProducto = 0;
+            try {
+                cantidadProducto = cosultarInventarioProducto(idProducto);
+            } catch (ProductosIdProductoInvalidoException ex) {}
 
-            if(idProducto == 1 && cantidadProducto > 0 && nombreProductoMinusculas.contains("sandia") 
-                    && variedadProductoMinusculas.equals("summer breeze")){
-                listaProductoInicioDTO.add(
-                new ProductoInicioDTO(
-                    1, 
-                    "Sandía", 
-                    "Summer Breeze", 
-                    9400d,
-                    5, 
-                    "/sandiaSummerBreeze.png", 
-                    10)
+            if(cantidadProducto > 0 && nombreProductoMinusculas.contains(producto.getNombre().toLowerCase())
+                    && variedadProductoMinusculas.contains(producto.getVariedad().toLowerCase())){
+                listaProductoInicioDTO.add(new InformacionProductoInicioDTO(
+                    producto.getId(), 
+                    producto.getNombre(), 
+                    producto.getVariedad(),
+                    producto.getPrecio(),
+                    producto.getMilesSemillas(), 
+                    producto.getDireccionImagenProducto(), 
+                    producto.getProveedor().getId())
 
-                );
-
-            } else if(idProducto == 6 && cantidadProducto > 0 && nombreProductoMinusculas.contains("chile") 
-                    && variedadProductoMinusculas.equals("Mixtecos")){
-                listaProductoInicioDTO.add(
-                    new ProductoInicioDTO(
-                        6, 
-                        "Chile", 
-                        "Mixteco", 
-                        24300d,
-                        25, 
-                        "/chileMixteco.png",
-                        20)
-
-                );
-            } else if(idProducto == 2 && cantidadProducto > 0 && nombreProductoMinusculas.contains("melon")
-                    && variedadProductoMinusculas.contains("hibrido cruiser")){
-
-                listaProductoInicioDTO.add(
-                    new ProductoInicioDTO(
-                        2, 
-                        "Melón", 
-                        "Híbrido Cruiser", 
-                        7200d,
-                        10, 
-                        "/melonHibridoCruiser.png", 
-                        30)
-
-                    );
+                 );
             }
- 
+            
         }
         
         return listaProductoInicioDTO;
     }
     
     
+    /**
+     * Implementación del método obtenerProductosBusqueda(), de la interfaz {@link IAdministradorProductos},
+     * que permite obtener la información de los productos cuyo nombre esté contenido dentro del 
+     * nombre recibido como parámetro, cuya variedad esté dentro de la variedad recibida como parámetro y 
+     * cuyo nombre de proveedor esté contenido dentro del nombre de proveedor recibido como parámetro.
+     * @param nombreProducto Objeto String que representa el nombre del o los productos a buscar.
+     * @param variedadProducto Objeto String que representa la variedad del o los productos a buscar.
+     * @param nombreProveedor Objeto String que representa el nombre del proveedor del o los productos a buscar.
+     * @return Objeto List {@literal <InformacionProductoInicioDTO\>} que contiene
+     * DTOs con la información de los productos a mostrar.
+     */
     @Override
-    public List<ProductoInicioDTO> obtenerProductosBusqueda(String nombreProducto, String variedadProducto, String nombreProveedor){
+    public List<InformacionProductoInicioDTO> obtenerProductosBusqueda(String nombreProducto, String variedadProducto, String nombreProveedor){
         
+        // El nombre, variedad y nombre de proveedor del producto son convertidos a cadenas 
+        // de letras minúsculas.
         String nombreProductoMinusculas = nombreProducto.toLowerCase();
         String variedadProductoMinusculas = variedadProducto.toLowerCase();
         String nombreProveedorMinusculas = nombreProveedor.toLowerCase(); 
 
-        List<ProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
+        List<InformacionProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
 
-        for(int i = 0; i < listaCodigosProductos.size(); i++){
+        
+        // Se recorre la lista de productos para almacenar los datos de aquellos que tengan existencias, 
+        // cuyo su nombre este contenido dentro del nombre del parámetro, cuya variedad esté contenida detro
+        // de la variedad del parámetro y cuyo nombre de proveedor esté contenido dentro del nombre de
+        // proveedor del parámetro.
+        for(Producto producto: listaProductos){
             
-            int idProducto = listaCodigosProductos.get(i);
-            int cantidadProducto = cosultarInventarioProducto(idProducto);
+            int idProducto = producto.getId();
+            
+            int cantidadProducto = 0;
+            try {
+                cantidadProducto = cosultarInventarioProducto(idProducto);
+            } catch (ProductosIdProductoInvalidoException ex) {}
 
-            if(idProducto == 1 && cantidadProducto > 0 && nombreProductoMinusculas.contains("sandia")
-                    && variedadProductoMinusculas.contains("summer breeze")
-                    && nombreProveedorMinusculas.contains("seminis")){
+            if(cantidadProducto > 0 && nombreProductoMinusculas.contains(producto.getNombre().toLowerCase())
+                    && variedadProductoMinusculas.contains(producto.getVariedad().toLowerCase()) 
+                    && nombreProveedorMinusculas.contains(producto.getProveedor().getNombre().toLowerCase())){
+                
+                listaProductoInicioDTO.add(new InformacionProductoInicioDTO(
+                    producto.getId(), 
+                    producto.getNombre(), 
+                    producto.getVariedad(),
+                    producto.getPrecio(),
+                    producto.getMilesSemillas(), 
+                    producto.getDireccionImagenProducto(), 
+                    producto.getProveedor().getId())
 
-                listaProductoInicioDTO.add(
-                    new ProductoInicioDTO(
-                        1, 
-                        "Sandía", 
-                        "Summer Breeze", 
-                        9400d,
-                        5, 
-                        "/sandiaSummerBreeze.png", 
-                        10)
-
-                );
-
-            } else if(idProducto == 6 && cantidadProducto > 0 && nombreProductoMinusculas.contains("chile") 
-                    && nombreProductoMinusculas.contains("mixteco")
-                    && variedadProductoMinusculas.equals("Mixtecos")
-                    && nombreProveedorMinusculas.equals("harris moran")){
-                listaProductoInicioDTO.add(
-                    new ProductoInicioDTO(
-                        6, 
-                        "Chile", 
-                        "Mixteco", 
-                        24300d,
-                        25, 
-                        "/chileMixteco.png",
-                        20)
-
-                );
-            } else if(idProducto == 2 && cantidadProducto > 0 && nombreProductoMinusculas.contains("melon")
-                    && variedadProductoMinusculas.contains("hirido cruiser")
-                    && nombreProveedorMinusculas.contains("enza zaden")){
-
-                listaProductoInicioDTO.add(
-                    new ProductoInicioDTO(
-                        2, 
-                        "Melón", 
-                        "Híbrido Cruiser", 
-                        7200d,
-                        10, 
-                        "/melonHibridoCruiser.png",
-                        30)
-
-                    );
+                 );
             }
  
         }
@@ -370,233 +355,95 @@ public class FAdministradorProductos implements IAdministradorProductos {
     }
     
     
+    /**
+     * Implementación del método obtenerInformacionProducto(), de la interfaz 
+     * {@link IAdministradorProductos}, que permite obtener la información de un 
+     * Producto a partir de su ID.
+     * @param idProducto Objeto Integer que representa el ID del producto del que
+     * se obtendrá su información.
+     * @return Objeto InformacionProductoVentaDTO que contiene los valores de los
+     * atributos del objeto Producto buscado, null si no se encuentra el Producto.
+     * @throws ProductosIdProductoInvalidoException Se lanza cuando se verifica que 
+     * que ID del Producto que recibe como parámetro es inválido, dentro de 
+     * este subsistema.
+     */
     @Override 
-    public InformacionProductoVentaDTO obtenerInformacionProducto(Integer idProducto) {
+    public InformacionProductoVentaDTO obtenerInformacionProductoVenta(Integer idProducto)
+            throws ProductosIdProductoInvalidoException{
 
-        InformacionProductoVentaDTO informacionProductoDTO = null;
-     
-        int cantidadProducto = cosultarInventarioProducto(idProducto);
-
-        if(idProducto == 1){
-
-            informacionProductoDTO = new InformacionProductoVentaDTO(
-                1, 
-                "Sandía", 
-                "Summer Breeze", 
-                "Summer Breeze es una Sandia Triploide o sin semilla de madurez "
-                + "intermedio precoz y buena capacidad y amarre de frutos de alta calidad para el mercado de exportacion.",
-                9400d,
-                5,
-                "/sandiaSummerBreeze.png",
-                10);
-
-        } else if(idProducto == 6){
-            informacionProductoDTO = new InformacionProductoVentaDTO(
-                    6, 
-                    "Chile", 
-                    "Mixteco", 
-                    "Planta de porte vigoroso, potencial de rebrote que le brinda alto potencial de rendimiento."
-                    + " Forma de fruto ligeramente conca de color oscuro de 4 1/2 a 5 pulgada. Frutos de paredes gruesas con buen llenado. Variedad con "
-                    + "alto potencial de rendimiento, resistencia a BLS y planta vigorosa.",
-                    24300d,
-                    25, 
-                    "/chileMixteco.png",
-                    20
-
-            );
-
-        } else if(idProducto == 2){
-
-            informacionProductoDTO = new InformacionProductoVentaDTO(
-                    2, 
-                    "Melón", 
-                    "Híbrido Cruiser", 
-                    "Semilla de melón híbrido Cruiser F1, de amplia adaptabilidad y altos rendimientos, "
-                    + "frutos grandes (9) y muy uniformes, de alta calidad de empaque. Mantiene tamaños en bajas temperaturas. Su pulpa es firme y crujiente "
-                    + "de excelente color. De madurez relativa precoz.",
-                    7200d,
-                    10,
-                    "/melonHibridoCruiser.png",
-                    30);
+        // Se valida el ID del Producto.
+        if(!validarIdProductoInventario(idProducto)){
+            throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
         }
-
+        
+        Producto productoRecuperado = obtenerProducto(idProducto);
+        
+        if(productoRecuperado == null){
+            throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
+        }
+        
+        // Se crea una DTO de tipo InformacionProductoVentaDTO, con la información del Producto con el ID
+        // del parámetro.
+        InformacionProductoVentaDTO informacionProductoDTO = new InformacionProductoVentaDTO(
+                                                                    productoRecuperado.getId(),
+                                                                    productoRecuperado.getNombre(),
+                                                                    productoRecuperado.getVariedad(),
+                                                                    productoRecuperado.getDescripcion(),
+                                                                    productoRecuperado.getPrecio(),
+                                                                    productoRecuperado.getMilesSemillas(),
+                                                                    productoRecuperado.getDireccionImagenProducto(),
+                                                                    productoRecuperado.getProveedor().getId());
+              
         return informacionProductoDTO;
         
     }
-   
+    
+    
+    /**
+     * Implementación del método obtenerProducto(), de la interfaz 
+     * {@link IAdministradorProductos}, que permite obtener un objeto de tipo
+     * Producto a partir de su ID.
+     * @param idProducto Objeto Integer que representa el ID del Producto buscado.
+     * @return Objeto de tipo Producto cuyo ID es igual al ID del parámetro.
+     */
     @Override
-    public List<Float> obtenerTiempoMatrizProductosInventario(Integer idProducto){
+    public Producto obtenerProducto(Integer idProducto){
+        Producto productoBuscar = null;
         
-        List<Float> listaTiempoMatrizProductosInventario = new LinkedList<>(); 
-        
-        if(idProducto == 2){
-            listaTiempoMatrizProductosInventario.add(5.4f);
-            listaTiempoMatrizProductosInventario.add(5.6f);
+        for(Producto producto: listaProductos){
+            if(producto.getId() == idProducto){
+                productoBuscar = producto;
+            }
         }
         
-        if(idProducto == 6){
-            listaTiempoMatrizProductosInventario.add(5.8f);
-            listaTiempoMatrizProductosInventario.add(7.4f);
-            listaTiempoMatrizProductosInventario.add(12.3f);
-        }
-        
-        
-        return listaTiempoMatrizProductosInventario;
+        return productoBuscar;
     }
-    
-     @Override
-    public double obtenerCostoProducto(Integer idProducto){
-        Producto producto = this.obtenerProductoPorId(idProducto);
-        
-        return producto.getPrecio();
-    }
-    
-    @Override
-    public boolean eliminarProductoInventario(Integer idProducto, Integer cantidad){
-        
-        boolean productoEliminado =  false;
-        
-        if(validarProducto(idProducto)){
-            
-            int disponibilidadActual = cosultarInventarioProducto(idProducto);
-            
-            if(disponibilidadActual >= cantidad){
-                
-                int nuevaCantidad = disponibilidadActual - cantidad;
-                
-                int indiceIdProducto = listaCodigosProductos.indexOf(idProducto);
-                
-                listaCantidadProductosInventario.set(indiceIdProducto, nuevaCantidad);
 
-                List<Boolean> productosApartados = listasProductosApartados.get(indiceIdProducto);
-                
-                for(Boolean productoApartado: productosApartados){
-                    
-                    if(productoApartado != null && !productoApartado){
-                        
-                        productosApartados.set(productosApartados.indexOf(productoApartado), null);
-                        
-                        listasProductosApartados.set(indiceIdProducto, productosApartados);
-                        
-                        productoEliminado =  true;
-                        
-                        break;
-                        
-                    }
+    /**
+     * Implementación del método validarIdProductoInventario(), de la interfaz
+     * {@link IAdministradorProductos}, que permite verificar si el ID
+     * de un producto en inventario corresponde a un objeto ProductoInventario
+     * real.
+     * @param idProductoInventario Objeto Integer que representa el ID del objeto
+     * ProductoInventario buscado.
+     * @return true si existe un objeto ProductoInventario con el ID del 
+     * parámetro, false en caso contrario.
+     */
+    @Override
+    public boolean validarIdProductoInventario(Integer idProductoInventario) {
+        
+        // Se recorre la lista de productos.
+        for(Producto producto: listaProductos){
+            // Se recorre la lista de productos en inventario de cada producto,
+            // se verifica si su ID es igual al ID del parámetro.
+            for(ProductoInventario productoInventario: producto.getListaProductoInventario()){
+                if(productoInventario.getId() == idProductoInventario){
+                    return true;
                 }
-                
-            }  
+            }
         }
         
-        return productoEliminado;
-        
-    }    
-    
-    
-    
-    private Producto obtenerProductoPorId(Integer idProducto){
-        Producto producto = null;
-        switch (idProducto) {
-            case 1:
-                producto = new Producto(
-                        1,
-                        3,
-                        "Sandía",
-                        "Summer Breeze",
-                        "Summer Breeze es una Sandia Triploide o sin semilla de madurez "
-                                + "intermedio precoz y buena capacidad y amarre de frutos de alta calidad para el mercado de exportacion.",
-                        5,
-                        9400d,
-                        5d,
-                        "Seminis",
-                        "/sandiaSummerBreeze.png",
-                        "/seminis.png",
-                        Arrays.asList(
-                                new ProductoInventario(1, 1, 1, 4.5f, 10),
-                                new ProductoInventario(2, 1, 4, 3f, 0)));
-                break;
-            case 6:
-                producto = new Producto(
-                        6,
-                        1,
-                        "Chile",
-                        "Mixteco",
-                        "Planta de porte vigoroso, potencial de rebrote que le brinda alto potencial de rendimiento."
-                                + " Forma de fruto ligeramente conca de color oscuro de 4 1/2 a 5 pulgada. Frutos de paredes gruesas con buen llenado. Variedad con "
-                                + "alto potencial de rendimiento, resistencia a BLS y planta vigorosa.",
-                        25,
-                        24300d,
-                        7d,
-                        "Harris Moran",
-                        "/chileMixteco.png",
-                        "/harrisMoran.png",
-                        Arrays.asList(
-                                new ProductoInventario(6, 6, 1, 12.3f, 15),
-                                new ProductoInventario(7, 6, 2, 7.4f, 20),
-                                new ProductoInventario(8, 6, 3, 15f, 2),
-                                new ProductoInventario(9, 6, 4, 5.8f, 0)));
-                break;
-            case 2:
-                producto = new Producto(
-                        2,
-                        4,
-                        "Melón",
-                        "Híbrido Cruiser", "Semilla de melón híbrido Cruiser F1, de amplia adaptabilidad y altos rendimientos, "
-                                + "frutos grandes (9) y muy uniformes, de alta calidad de empaque. Mantiene tamaños en bajas temperaturas. Su pulpa es firme y crujiente "
-                                + "de excelente color. De madurez relativa precoz.", 10, 7200d, 2d, "Enza Zaden",
-                        "/melonHibridoCruiser.png",
-                        "/enzaZaden.png",
-                        Arrays.asList(
-                                new ProductoInventario(16, 2, 2, 5.5f, 1),
-                                new ProductoInventario(17, 2, 3, 4.5f, 3),
-                                new ProductoInventario(18, 2, 4, 2.3f, 12)));
-                break;
-        }
-        
-        return producto;
-    }
-    
-    @Override
-    public Double obtenerPesoProductoInventario(Integer idProductoInventario){
-        if(idProductoInventario == 18){
-            return 2.1;
-        } else if(idProductoInventario == 17){
-            return 3d;
-        } else if(idProductoInventario == 16){
-           return 2.78;
-        } else if(idProductoInventario == 17){
-           return 4.3;
-        } else if(idProductoInventario == 17){
-           return 1.5;
-        } else if(idProductoInventario == 17){
-           return 2.34;
-        }
-        return null;
-    }
-    
-    public Double obtenerTiempoMatrzProductoInventario(Integer idProductoInventario){
-        if(idProductoInventario == 2.3){
-            return 2.1;
-        } else if(idProductoInventario == 4.5){
-            return 3d;
-        } else if(idProductoInventario == 5.5){
-           return 2.78;
-        } else if(idProductoInventario == 2.1){
-           return 4.3;
-        } else if(idProductoInventario == 7.8){
-           return 1.5;
-        } else if(idProductoInventario == 5.023){
-           return 2.34;
-        }
-        return null;
-    }
-
-    @Override
-    public boolean validarProductoInventario(Integer idProductoInventario) {
-        
-        return (idProductoInventario == 1 || idProductoInventario == 2 || idProductoInventario == 6
-                || idProductoInventario == 7 || idProductoInventario == 8 ||
-                 idProductoInventario == 9 || idProductoInventario == 16 | idProductoInventario == 17 | idProductoInventario == 18);
+        return false;
     }
 
 }

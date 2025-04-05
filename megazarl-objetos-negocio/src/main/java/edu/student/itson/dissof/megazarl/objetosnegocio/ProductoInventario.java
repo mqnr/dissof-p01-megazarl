@@ -5,17 +5,14 @@ import java.util.Objects;
 public class ProductoInventario {
 
     private Integer id;
-    private Integer idProducto;
-    private Integer idSucursal;
-    private Float tiempoEnvioMatriz;
-    private Integer cantidad;
+    private Producto producto;
+    private Sucursal sucursal;
+    private Boolean apartado;
 
-    public ProductoInventario(Integer id, Integer idProducto, Integer idSucursal, Float tiempoEnvioMatriz, Integer cantidad) {
+    public ProductoInventario(Integer id, Sucursal sucursal, Boolean apartado) {
         this.id = id;
-        this.idProducto = idProducto;
-        this.idSucursal = idSucursal;
-        this.tiempoEnvioMatriz = tiempoEnvioMatriz;
-        this.cantidad = cantidad;
+        this.sucursal = sucursal;
+        this.apartado = apartado;
     }
 
     public Integer getId() {
@@ -26,42 +23,39 @@ public class ProductoInventario {
         this.id = id;
     }
 
-    public Integer getIdProducto() {
-        return idProducto;
+    public Producto getProducto() {
+        return producto;
     }
 
-    public void setIdProducto(Integer idProducto) {
-        this.idProducto = idProducto;
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 
-    public Integer getIdSucursal() {
-        return idSucursal;
+    public Sucursal getSucursal() {
+        return sucursal;
     }
 
-    public void setIdSucursal(Integer idSucursal) {
-        this.idSucursal = idSucursal;
+    public void setSucursal(Sucursal sucursal) {
+        this.sucursal = sucursal;
     }
 
-    public Float getTiempoEnvioMatriz() {
-        return tiempoEnvioMatriz;
+    public Boolean getApartado() {
+        return apartado;
     }
 
-    public void setTiempoEnvioMatriz(Float tiempoEnvioMatriz) {
-        this.tiempoEnvioMatriz = tiempoEnvioMatriz;
+    public void setApartado(Boolean apartado) {
+        this.apartado = apartado;
     }
 
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-    }
+    
+    
+    
+    
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 19 * hash + Objects.hashCode(this.id);
+        int hash = 5;
+        hash = 67 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -79,4 +73,6 @@ public class ProductoInventario {
         final ProductoInventario other = (ProductoInventario) obj;
         return Objects.equals(this.id, other.id);
     }
+
+    
 }

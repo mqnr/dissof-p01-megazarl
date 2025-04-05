@@ -35,17 +35,19 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
     private final int MARGEN_VERTICAL_PANELS = 250;
 
     public InformacionProducto(ControlCompra control, Integer idCliente) {
+        setTitle("Semillas MEGAZARL - Información de producto");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1200, 800);
+        setLocationRelativeTo(null);
+        Image iconoPropio = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logoApp.png")).getScaledInstance(90, 90, Image.SCALE_SMOOTH);
+        setIconImage(iconoPropio);
+        
         this.idCliente = idCliente;
         this.control = control;
         initComponents();
     }
 
     private void initComponents() {
-        setTitle("Información del producto");
-        setSize(1200, 800);
-        setResizable(false);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     
         encabezado = new Encabezado(control, idCliente, this);
         this.add(encabezado, BorderLayout.NORTH);

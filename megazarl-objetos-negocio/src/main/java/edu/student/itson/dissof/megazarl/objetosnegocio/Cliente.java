@@ -3,21 +3,21 @@ package edu.student.itson.dissof.megazarl.objetosnegocio;
 public class Cliente {
 
     private Integer id;
-    private String nombre;
-    private String apellidoMaterno;
+    private String nombres;
     private String apellidoPaterno;
-    private String codigoPostal;
-    private String calle;
-    private String numeroDomicilio;
+    private String apellidoMaterno;
+    private String codigoPostalEnvio;
+    private String calleEnvio;
+    private String numeroDomicilioEnvio;
 
-    public Cliente(Integer id, String nombre, String apellidoMaterno, String apellidoPaterno, String codigoPostal, String calle, String numeroDomicilio) {
+    public Cliente(Integer id, String nombres, String apellidoPaterno, String apellidoMaterno, String codigoPostalEnvio, String calleEnvio, String numeroDomicilioEnvio) {
         this.id = id;
-        this.nombre = nombre;
+        this.nombres = nombres;
         this.apellidoMaterno = apellidoMaterno;
         this.apellidoPaterno = apellidoPaterno;
-        this.codigoPostal = codigoPostal;
-        this.calle = calle;
-        this.numeroDomicilio = numeroDomicilio;
+        this.codigoPostalEnvio = codigoPostalEnvio;
+        this.calleEnvio = calleEnvio;
+        this.numeroDomicilioEnvio = numeroDomicilioEnvio;
     }
 
     public Integer getId() {
@@ -28,12 +28,12 @@ public class Cliente {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombres() {
+        return nombres;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombres(String nombre) {
+        this.nombres = nombre;
     }
 
     public String getApellidoMaterno() {
@@ -52,27 +52,29 @@ public class Cliente {
         this.apellidoPaterno = apellidoPaterno;
     }
 
-    public String getCodigoPostal() {
-        return codigoPostal;
+    public String getCodigoPostalEnvio() {
+        return codigoPostalEnvio;
     }
 
-    public void setCodigoPostal(String codigoPostal) {
-        this.codigoPostal = codigoPostal;
+    public void setCodigoPostalEnvio(String codigoPostalEnvio) {
+        this.codigoPostalEnvio = codigoPostalEnvio;
     }
 
-    public String getCalle() {
-        return calle;
+    public String getCalleEnvio() {
+        return calleEnvio;
     }
 
-    public void setCalle(String calle) {
-        this.calle = calle;
+    public void setCalleEnvio(String calleEnvio) {
+        this.calleEnvio = calleEnvio;
     }
 
-    public String getNumeroDomicilio() {
-        return numeroDomicilio;
+    public String getNumeroDomicilioEnvio() {
+        return numeroDomicilioEnvio;
     }
 
-    public void setNumeroDomicilio(String numeroDomicilio) {
-        this.numeroDomicilio = numeroDomicilio;
+    public void setNumeroDomicilioEnvio(String numeroDomicilioEnvio) {
+        this.numeroDomicilioEnvio = numeroDomicilioEnvio;
     }
+
+    
 }

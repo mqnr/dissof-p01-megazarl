@@ -1,34 +1,31 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Producto {
 
     private Integer id;
-    private Integer idProveedor;
     private String nombre;
     private String variedad;
     private String descripcion;
     private Integer milesSemillas;
     private Double precio;
     private Double pesoKg;
-    private String nombreProveedor;
     private String direccionImagenProducto;
-    private String direccionImagenProveedor;
+    private Proveedor proveedor;
     private List<ProductoInventario> listaProductoInventario;
 
-    public Producto(Integer id, Integer idProveedor, String nombre, String variedad, String descripcion, Integer milesSemillas, Double precio, Double pesoKg, String nombreProveedor, String direccionImagenProducto, String direccionImagenProveedor, List<ProductoInventario> listaProductoInventario) {
+    public Producto(Integer id, String nombre, String variedad, String descripcion, Integer milesSemillas, Double precio, Double pesoKg, String direccionImagenProducto, Proveedor proveedor, List<ProductoInventario> listaProductoInventario) {
         this.id = id;
-        this.idProveedor = idProveedor;
         this.nombre = nombre;
         this.variedad = variedad;
         this.descripcion = descripcion;
         this.milesSemillas = milesSemillas;
         this.precio = precio;
         this.pesoKg = pesoKg;
-        this.nombreProveedor = nombreProveedor;
         this.direccionImagenProducto = direccionImagenProducto;
-        this.direccionImagenProveedor = direccionImagenProveedor;
+        this.proveedor = proveedor;
         this.listaProductoInventario = listaProductoInventario;
     }
 
@@ -38,14 +35,6 @@ public class Producto {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getIdProveedor() {
-        return idProveedor;
-    }
-
-    public void setIdProveedor(Integer idProveedor) {
-        this.idProveedor = idProveedor;
     }
 
     public String getNombre() {
@@ -96,14 +85,6 @@ public class Producto {
         this.pesoKg = pesoKg;
     }
 
-    public String getNombreProveedor() {
-        return nombreProveedor;
-    }
-
-    public void setNombreProveedor(String nombreProveedor) {
-        this.nombreProveedor = nombreProveedor;
-    }
-
     public String getDireccionImagenProducto() {
         return direccionImagenProducto;
     }
@@ -112,12 +93,12 @@ public class Producto {
         this.direccionImagenProducto = direccionImagenProducto;
     }
 
-    public String getDireccionImagenProveedor() {
-        return direccionImagenProveedor;
+    public Proveedor getProveedor() {
+        return proveedor;
     }
 
-    public void setDireccionImagenProveedor(String direccionImagenProveedor) {
-        this.direccionImagenProveedor = direccionImagenProveedor;
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
     }
 
     public List<ProductoInventario> getListaProductoInventario() {
@@ -127,4 +108,30 @@ public class Producto {
     public void setListaProductoInventario(List<ProductoInventario> listaProductoInventario) {
         this.listaProductoInventario = listaProductoInventario;
     }
+
+    
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Producto other = (Producto) obj;
+        return Objects.equals(this.id, other.id);
+    }
+    
+    
 }

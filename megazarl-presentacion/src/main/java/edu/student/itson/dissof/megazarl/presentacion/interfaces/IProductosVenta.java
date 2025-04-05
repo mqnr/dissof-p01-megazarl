@@ -5,10 +5,12 @@ import java.util.Map;
 
 public interface IProductosVenta {
 
-    void setProductosTodos(List<Map<String, Object>> listaInformacionProductos);
+    public abstract void setProductosTodos(List<Map<String, Object>> listaInformacionProductos);
 
-    void setProductosBusqueda(List<Map<String, Object>> listaInformacionProductos);
+    public abstract void setProductosBusqueda(List<Map<String, Object>> listaInformacionProductos);
 
-    void mostrarInformacionProducto(Integer idProducto);
+    public abstract void mostrarInformacionProducto(Integer idProducto);
+    
+    public abstract void mostrarAvisoSinProductosDisponibles();
 
 }

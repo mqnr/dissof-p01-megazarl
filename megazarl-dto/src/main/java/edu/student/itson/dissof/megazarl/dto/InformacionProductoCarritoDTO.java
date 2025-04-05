@@ -16,30 +16,6 @@ public class InformacionProductoCarritoDTO {
         this.cantidad = cantidad;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setVariedad(String variedad) {
-        this.variedad = variedad;
-    }
-
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    }
-
-    public void setMilesSemillas(Integer milesSemillas) {
-        this.milesSemillas = milesSemillas;
-    }
-
-    public void setNombreProveedor(String nombreProveedor) {
-        this.nombreProveedor = nombreProveedor;
-    }
-
-    public void setDireccionImagenProducto(String direccionImagenProducto) {
-        this.direccionImagenProducto = direccionImagenProducto;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -71,4 +47,32 @@ public class InformacionProductoCarritoDTO {
     public String getDireccionImagenProducto() {
         return direccionImagenProducto;
     }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setVariedad(String variedad) {
+        this.variedad = variedad;
+    }
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
+    }
+
+    public void setMilesSemillas(Integer milesSemillas) {
+        this.milesSemillas = milesSemillas;
+    }
+
+    public void setNombreProveedor(String nombreProveedor) {
+        this.nombreProveedor = nombreProveedor;
+    }
+
+    public void setDireccionImagenProducto(String direccionImagenProducto) {
+        this.direccionImagenProducto = direccionImagenProducto;
+    }
+    
+    
+
+    
 }

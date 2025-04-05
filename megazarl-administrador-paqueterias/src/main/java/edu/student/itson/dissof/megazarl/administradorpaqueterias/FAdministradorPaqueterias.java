@@ -2,68 +2,99 @@ package edu.student.itson.dissof.megazarl.administradorpaqueterias;
 
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
+import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
-import edu.student.itson.dissof.megazarl.dto.DireccionClienteProductosEnvioDTO;
+import edu.student.itson.dissof.megazarl.dto.DireccionClientePesoTiempoProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionSeleccionPaqueteriaDTO;
-import java.util.Arrays;
+import edu.student.itson.dissof.megazarl.objetosnegocio.Paqueteria;
+import java.util.LinkedList;
 import java.util.List;
 
 public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
 
+    private List<Paqueteria> listaPaqueterias;
+    
     private IAdministradorClientes administradorClientes;
     private IAdministradorSucursales administradorSucursales;
     private IAdministradorProductos administradorProductos;
 
-    public FAdministradorPaqueterias(IAdministradorClientes administradorClientes, IAdministradorSucursales administradorSucursales, IAdministradorProductos administradorProductos) {
+    public FAdministradorPaqueterias(List<Paqueteria> listaPaqueterias, IAdministradorClientes administradorClientes, IAdministradorSucursales administradorSucursales, IAdministradorProductos administradorProductos) {
+        this.listaPaqueterias = listaPaqueterias;
         this.administradorClientes = administradorClientes;
         this.administradorSucursales = administradorSucursales;
         this.administradorProductos = administradorProductos;
     }
-    
+
     
     @Override
     public List<InformacionSeleccionPaqueteriaDTO> obtenerPaqueterias() {
-        List<InformacionSeleccionPaqueteriaDTO> listaInformacionSeleccionPaqueteriaDTO = 
-                Arrays.asList(
-                        new InformacionSeleccionPaqueteriaDTO(1, "/dhl.png"), 
-                        new InformacionSeleccionPaqueteriaDTO(2,"/fedex.png"), 
-                        new InformacionSeleccionPaqueteriaDTO(3, "/pcp.png"),
-                        new InformacionSeleccionPaqueteriaDTO(4, "/ups.png"),
-                        new InformacionSeleccionPaqueteriaDTO(5, "/estafeta.png"));
+        List<InformacionSeleccionPaqueteriaDTO> listaInformacionSeleccionPaqueteriaDTO = new LinkedList<>();
         
+        for(Paqueteria paqueteria: listaPaqueterias){
+            listaInformacionSeleccionPaqueteriaDTO.add(
+                    new InformacionSeleccionPaqueteriaDTO(paqueteria.getId(), paqueteria.getDireccionImagenPaqueteria()));
+        }
 
         return listaInformacionSeleccionPaqueteriaDTO;
     }
     
     @Override
-    public Double obtenerCostoEnvio(DireccionClienteProductosEnvioDTO direccionClienteProductosEnvioDTO){
+    public Float obtenerCostoEnvioProducto(DireccionClientePesoTiempoProductoInventarioDTO direccionClienteProductosEnvioDTO) 
+            throws PaqueteriasIdPaqueteriaInvalidoException{
         
         Integer idPaqueteria = direccionClienteProductosEnvioDTO.getCodigoPaqueteria();
-        if(idPaqueteria == 1){
-            return 2000d;
-        } else if(idPaqueteria == 2){
-            return 1500d;
-        } else if(idPaqueteria == 3){
-            return 2400d;
-        } else if(idPaqueteria == 4){
-            return 3000.50d;
-        } else if(idPaqueteria == 5){
-            return 2988.23d;
-        } else{
-            return null;
+        
+        // Se valida el ID de Paquteria:
+        if(!validarPaqueteria(idPaqueteria)){
+            throw new PaqueteriasIdPaqueteriaInvalidoException("El ID de paquetería: " + idPaqueteria + " no existe.");
         }
+        
+        Paqueteria paqueteriaRecuperada = obtenerPaqueteria(idPaqueteria);
+        
+        if(paqueteriaRecuperada == null){
+            throw new PaqueteriasIdPaqueteriaInvalidoException("El ID de paquetería: " + idPaqueteria + " no existe.");
+        }
+        
+        // Se recuperan los cobros por Kg y hora de envío de la paquetería recuperada.
+        Float cobroKg = paqueteriaRecuperada.getCobroKg();
+        Float cobroHora = paqueteriaRecuperada.getCobroHora();
+        
+        // Se obtiene el peso del peso en Kg del producto de la DTO del parámetro y su tiempo de envío a Matriz.
+        Double pesoKgProducto = direccionClienteProductosEnvioDTO.getPesoKgProductoInventario();
+        Float tiempoEnvioHoras = direccionClienteProductosEnvioDTO.getTiempoEnvioMatrizHorasProductoInventario();
+        
+        if(tiempoEnvioHoras == 0){
+            return 0F;
+        }
+
+        return (float)(cobroKg * pesoKgProducto) + (cobroHora * tiempoEnvioHoras);
              
         
     }
     
-    
-    
-    
     @Override
-    public boolean validarPaqueteria(Integer codigoPaqueteria){
-        if(codigoPaqueteria == 1 || codigoPaqueteria == 2 || codigoPaqueteria == 3 || codigoPaqueteria == 4 || codigoPaqueteria == 5){
-            return true;
+    public boolean validarPaqueteria(Integer idPaqueteria){
+        for(Paqueteria paqueteria: listaPaqueterias){
+            if(paqueteria.getId() == idPaqueteria){
+                return true;
+            }
         }
+        
         return false;
     }
+    
+    @Override
+    public Paqueteria obtenerPaqueteria(Integer idPaqueteria){
+        Paqueteria paqueteriaBuscar = null;
+        
+        for(Paqueteria paqueteria: listaPaqueterias){
+            if(paqueteria.getId() == idPaqueteria){
+                paqueteriaBuscar = paqueteria;
+            }
+        }
+        
+        return paqueteriaBuscar;
+    }
+    
+    
 }

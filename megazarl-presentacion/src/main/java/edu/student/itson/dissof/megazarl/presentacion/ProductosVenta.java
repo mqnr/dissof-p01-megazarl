@@ -34,6 +34,8 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
     private final int ALTO_BOTON_INFORMACION_PRODUCTO = 300;
     private final int ANCHO_BOTON_INFORMACION_PRODUCTO = 221;
 
+    private final Color COLOR_FONDO_PANEL_SIN_PRODUCTOS = new Color(250, 255, 230);
+    
     private final Color COLOR_BOTON_FONDO = new Color(255, 254, 246);
     private final Color COLOR_BOTON_FONDO_SELECCIONADO = new Color(211, 207, 174);
     private final Color COLOR_BOTON_FONDO_SOBRE = new Color(211, 207, 174);
@@ -46,6 +48,12 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
     private final int MARGEN_HORIZONTAL_COMPONENTES = 1;
 
     public ProductosVenta(ControlCompra control, Integer idCliente) {
+        setTitle("Semillas MEGAZARL - Productos en venta");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1200, 800);
+        setLocationRelativeTo(null);
+        Image iconoPropio = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logoApp.png")).getScaledInstance(90, 90, Image.SCALE_SMOOTH);
+        setIconImage(iconoPropio);
         this.control = control;
         this.idCliente = idCliente;
         this.initComponents();
@@ -213,8 +221,6 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
         panelFiltro.add(panelFiltroProveedor);
         panelFiltro.setBackground(COLOR_PANELES_FILTRO);
 
-        String nombreProductoActual = encabezado.getTextoCampoBusqueda();
-
         comboBoxOpcionesFiltroVariedad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -295,6 +301,24 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
             botonInformacionProducto.addActionListener(listenerBotonInformacionProducto);
             panelProductos.add(botonInformacionProducto);
         }
+    }
+    
+    @Override
+    public void mostrarAvisoSinProductosDisponibles(){
+        panelGeneral.removeAll();
+        JLabel etqSinProductosDisponibles = new JLabel("No hay existencias de productos en este momento");
+        etqSinProductosDisponibles.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        
+        JPanel panelSinProductosDisponibles = new JPanel();
+        panelSinProductosDisponibles.setBackground(COLOR_FONDO_PANEL_SIN_PRODUCTOS);
+        panelSinProductosDisponibles.setLayout(new FlowLayout(FlowLayout.CENTER));
+        
+        panelSinProductosDisponibles.add(etqSinProductosDisponibles);
+        etqSinProductosDisponibles.setAlignmentY(Component.CENTER_ALIGNMENT);
+        
+        panelGeneral.add(panelSinProductosDisponibles, BorderLayout.CENTER);
+        
+        
     }
 
     @Override

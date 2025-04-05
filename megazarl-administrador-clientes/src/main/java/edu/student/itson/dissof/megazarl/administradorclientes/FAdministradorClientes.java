@@ -1,181 +1,318 @@
 package edu.student.itson.dissof.megazarl.administradorclientes;
-import edu.student.itson.dissof.megazarl.dto.DetallesDerivadosDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.DireccionEntradaDTO;
-import edu.student.itson.dissof.megazarl.dto.NombreApellidoClienteDTO;
-import java.awt.Color;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
+import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdClienteInvalidoException;
+import edu.student.itson.dissof.megazarl.direcciones.IDirecciones;
+import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
+import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
+import edu.student.itson.dissof.megazarl.dto.InformacionDerivadaCPDireccionEnvioDTO;
+import edu.student.itson.dissof.megazarl.dto.InformacionNoDerivadaCPDireccionEnvioDTO;
+import edu.student.itson.dissof.megazarl.dto.NombresApellidoClienteDTO;
+import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
 import java.util.List;
-import javax.swing.JOptionPane;
 
+/**
+ * FAdministradorClientes.java
+ * 
+ * Clase Fachada que representa la implementación de la interfaz {@link IAdministradorClientes}
+ * del subsistema AdministradorClientes.
+ * 
+ * @author Yuri Germán García López
+ * ID: 00000252583
+ * @author Luis Rafael Lagarda Encinas
+ * ID: 00000252607
+ * @author Vladimir Iván Mendoza Baypoli
+ * ID: 00000252758
+ * @author Manuel Romo López
+ * ID: 00000253080
+ * @author Martín Zamorano Acuña
+ * ID: 00000251923
+ * 
+ */
 public class FAdministradorClientes implements IAdministradorClientes {
 
-    String[] datosCliente = {"Juan", "Pérez", "85000", "Guerrero", "1586"};
+    /**
+     * Objeto que implementa la interfaz IDirecciones, del subsistema direcciones.
+     */
+    IDirecciones direcciones;
     
+    /**
+     * Lista de Clientes que representa los Clientes registrados en el sistema.
+     */
+    List<Cliente> listaClientes;
+
+    /**
+     * Constructor de la clase
+     * @param direcciones Instancia del subsistema direcciones.
+     */
+    public FAdministradorClientes(IDirecciones direcciones, List<Cliente> listaClientes) {
+        this.listaClientes = listaClientes;
+        this.direcciones = direcciones;
+    }
+    
+     /**
+     * Implementación del método validarIdCliente, de la interfaz {@link IAdministradorClientes},
+     * que permite verificar si el ID recibido corresponde a un Cliente real o no.
+     * @param idCliente Objeto Integer que representa el ID del Cliente a validar.
+     * @return true, si el ID del cliente es válido, false en caso contrario.
+     */
     @Override
     public boolean validarIdCliente(Integer idCliente) {
-        if(idCliente == 3){
-            return true;
+        
+        // Se recorre la lista de Clientes para verificar si alguno tiene el ID
+        // recibido.
+        for(Cliente cliente: listaClientes){
+            
+            Integer clienteId = cliente.getId();
+            
+            if(clienteId == idCliente){
+                return true;
+            }
         }
         return false;
     }
-
+    
+    /**
+     * Implementación del método obtenerCliente() de la interfaz {@link IAdministradorClientes},
+     * permite obtener un objeto Cliente a partir de si ID, si este existe.
+     * @param idCliente Objeto Integer que representa el ID del Cliente a obtener.
+     * @return Objeto Cliente que representa al Cliente con el ID del parémetro.
+     */
     @Override
-    public NombreApellidoClienteDTO obtenerNombreApellidoPaternoCliente(Integer idCliente) {
-
-        if(idCliente == 3){
-            return new NombreApellidoClienteDTO(
-                datosCliente[0], 
-                datosCliente[1]
-            );
-        }
-        return null;
+    public Cliente obtenerCliente(Integer idCliente){
+        Cliente clienteRecuperado = null;
         
-    }
-    
-    
-    @Override
-    public String obtenerCodigoPostalCliente(Integer idCliente){
-        if(idCliente == 3){
-            return datosCliente[2];
-        } else{
-            return null;
-        }
-    }
-    
-    @Override
-    public String obtenerCalleCliente(Integer idCliente){
-        if(idCliente == 3){
-            return datosCliente[3];
-        } else{
-            return null;
-        }
-    }
-    
-    @Override
-    public String obtenerNumeroCliente(Integer idCliente){
-        if(idCliente == 3){
-            return datosCliente[4];
-        } else{
-            return null;
-        }
-    }
-    
-    @Override
-    public String obtenerColoniaCliente(Integer idCliente){
-        if(idCliente == 3){
-            
-            String codigoPostalCliente  = obtenerCodigoPostalCliente(idCliente);
-            DetallesDerivadosDireccionDTO detallesDerivadosDireccionDTO = obtenerDatosDireccionDerivado(codigoPostalCliente);
-            
-            if(detallesDerivadosDireccionDTO != null){
-                return detallesDerivadosDireccionDTO.getColonia();
+        // Se recorre la lista de Clientes para comprobar si alguno
+        // tiene el valor del ID del parámetro.
+        for(Cliente cliente: listaClientes){
+            if(cliente.getId() == idCliente){
+                clienteRecuperado = cliente;
             }
-        } 
+        }
+        
+        return clienteRecuperado;
+    }
+    
+    
+    /**
+     * Implementación del método obtenerColoniaCliente() de la interfaz {@link IAdministradorClientes},
+     * permite obtener la Colonia de envío de un Cliente, a partir del Código Postal de su colonia de envío.
+     * @param idCliente Objeto Integer que representa el ID del Cliente a obtener los datos de dirección.
+     * @return Objeto Stirng que representa la colonia de envío del Cliente.
+     * @throws ClientesIdClienteInvalidoException Se lanza si se comprueba que el ID
+     * de Cliente es inválido, dentro de este subsistema.
+     * @throws DireccionesAccesoArchivoCodigosPostalesFallidoException Se lanza si no
+     * se pudo acceder al archivo con los Códigos Postales dentro del subsitema
+     * direcciones.
+     * @throws DireccionesArchivoCodigosPostalesVacioException Se se comprueba
+     * que el archivo de Códigos Postales está vacío, dentro del subsitema direcciones.
+     */
+    @Override
+    public String obtenerColoniaCliente(Integer idCliente) 
+            throws ClientesIdClienteInvalidoException,
+            DireccionesAccesoArchivoCodigosPostalesFallidoException,
+            DireccionesArchivoCodigosPostalesVacioException{
+       
+            
+        // Se valida que el ID del cliente es válido.
+        Cliente cliente = obtenerCliente(idCliente);
+
+        if(cliente == null){
+            throw new ClientesIdClienteInvalidoException("El ID del cliente: " + idCliente + " es inválido.");
+        }
+
+        // Se obtiene el Código Postal de envío del cliente.
+        String codigoPostalCliente  = cliente.getCodigoPostalEnvio();
+
+        // Se obtiene los datos derivados a paritr del Código Postal, incluyendo
+        // la colonia de envío; utilizando el método obtenerDatosDireccionDerivados()
+        // del subsistema direcciones.
+        InformacionDerivadaCPDireccionEnvioDTO informacionDerivadaDireccionEnvioDTO 
+                = direcciones.obtenerDatosDireccionDerivados(codigoPostalCliente);
+
+
+        // Se obtiene y se devuelve la colonia obtenida.
+        if(informacionDerivadaDireccionEnvioDTO != null){
+            return informacionDerivadaDireccionEnvioDTO.getColonia();
+        }  
         
         return null;
     }
     
+    /**
+     * Implementación del método obtenerColoniaCliente() de la interfaz {@link IAdministradorClientes},
+     * permite obtener la ciudad de envío de un Cliente, a partir del Código Postal de su dirección de envío.
+     * @param idCliente Objeto Integer que representa el ID del Cliente a obtener su ciudad de envío.
+     * @return Objeto Stirng que representa la ciudad de envío del Cliente.
+     * @throws ClientesIdClienteInvalidoException Se lanza si se comprueba que el ID
+     * de Cliente es inválido, dentro de este subsistema.
+     * @throws DireccionesAccesoArchivoCodigosPostalesFallidoException Se lanza si no
+     * se pudo acceder al archivo con los Códigos Postales dentro del subsitema
+     * direcciones.
+     * @throws DireccionesArchivoCodigosPostalesVacioException Se se comprueba
+     * que el archivo de Códigos Postales está vacío, dentro del subsitema direcciones.
+     */
     @Override
-    public String obtenerCiudadCliente(Integer idCliente){
-        if(idCliente == 3){
-            
-            String codigoPostalCliente  = obtenerCodigoPostalCliente(idCliente);
-            DetallesDerivadosDireccionDTO detallesDerivadosDireccionDTO = obtenerDatosDireccionDerivado(codigoPostalCliente);
-            
-            if(detallesDerivadosDireccionDTO != null){
-                return detallesDerivadosDireccionDTO.getCiudad();
-            }
+    public String obtenerCiudadCliente(Integer idCliente) 
+            throws ClientesIdClienteInvalidoException,
+            DireccionesAccesoArchivoCodigosPostalesFallidoException,
+            DireccionesArchivoCodigosPostalesVacioException
+            {
+ 
+            // Se valida que el ID del cliente es válido.
+            Cliente cliente = obtenerCliente(idCliente);
 
-            
-        }
-        return null;
-    }
-    
-    @Override
-    public String obtenerEstadoCliente(Integer idCliente){
-        if(idCliente == 3){
-            
-            String codigoPostalCliente  = obtenerCodigoPostalCliente(idCliente);
-            DetallesDerivadosDireccionDTO detallesDerivadosDireccionDTO = obtenerDatosDireccionDerivado(codigoPostalCliente);
-            
-            if(detallesDerivadosDireccionDTO != null){
-                return detallesDerivadosDireccionDTO.getEstado();
+            if(cliente == null){
+                throw new ClientesIdClienteInvalidoException("El ID del cliente: " + idCliente + " es inválido.");
             }
-
-            
-        }
-        return null;
-    }
-    
-    
-    @Override
-    public DetallesDerivadosDireccionDTO obtenerDatosDireccionDerivado(String codigoPostalBuscar){
         
-        
-        DetallesDerivadosDireccionDTO detallesDerivadosDireccionDTO = null;
+            // Se obtiene el Código Postal de envío del cliente.
+            String codigoPostalCliente  = cliente.getCodigoPostalEnvio();
 
-        String colonia;
-        String ciudad;
-        String estado;
-        URL resource = FAdministradorClientes.class.getResource("/codigosPostalesMexico.txt");
+            // Se obtiene los datos derivados a paritr del Código Postal, incluyendo
+            // la ciudad de envío; utilizando el método obtenerDatosDireccionDerivados()
+            // del subsistema direcciones.
+            InformacionDerivadaCPDireccionEnvioDTO informacionDerivadaDireccionEnvioDTO 
+                    = direcciones.obtenerDatosDireccionDerivados(codigoPostalCliente);
 
-        try {
-            Path path = Paths.get(resource.toURI());
-            List<String> lineasArchivo = Files.readAllLines(path, StandardCharsets.ISO_8859_1);
-            lineasArchivo.remove(0);
-            lineasArchivo.remove(1);
-
-            for (int i = 0; i < lineasArchivo.size(); i++) {
-
-                String linea = lineasArchivo.get(i);
-
-                String[] partes = linea.split("\\|");
-
-
-                String codigoPostal = partes[0];
-
-                if (codigoPostal.equals(codigoPostalBuscar)) {
-
-                    colonia = partes[1];
-                    estado = partes[4];
-                    ciudad = "";
-
-                    if(partes[5].isBlank()){
-                        ciudad = partes[3];
-                    } else{
-                        ciudad = partes[5];
-                    }
-
-                    detallesDerivadosDireccionDTO = new DetallesDerivadosDireccionDTO(colonia, ciudad, estado);
-
-                    return detallesDerivadosDireccionDTO;
-                }
-            }
-
-        } catch (URISyntaxException|IOException ex) {
-            return null;  
-        }
+            // Se obtiene y se devuelve la ciudad obtenida.
+            if(informacionDerivadaDireccionEnvioDTO != null){
+                return informacionDerivadaDireccionEnvioDTO.getCiudad();
+            }       
 
         return null;
     }
     
+    /**
+     * Implementación del método obtenerEstadoCliente() de la interfaz {@link IAdministradorClientes},
+     * permite obtener la ciudad de envío de un Cliente, a partir del Código Postal de su dirección de envío.
+     * @param idCliente Objeto Integer que representa el ID del Cliente a obtener su estado de envío.
+     * @return Objeto Stirng que representa el estado de envío del Cliente.
+     * @throws ClientesIdClienteInvalidoException Se lanza si se comprueba que el ID
+     * de Cliente es inválido, dentro de este subsistema.
+     * @throws DireccionesAccesoArchivoCodigosPostalesFallidoException Se lanza si no
+     * se pudo acceder al archivo con los Códigos Postales dentro del subsitema
+     * direcciones.
+     * @throws DireccionesArchivoCodigosPostalesVacioException Se se comprueba
+     * que el archivo de Códigos Postales está vacío, dentro del subsitema direcciones.
+     */
     @Override
-    public boolean actualizarDireccionCliente(DireccionEntradaDTO direccionEntradaDTO){
-        if(direccionEntradaDTO.getIdCliente() == 3){
-            datosCliente[2] = direccionEntradaDTO.getCodigoPostal();
-            datosCliente[3] = direccionEntradaDTO.getCalle();
-            datosCliente[4] = direccionEntradaDTO.getNumero();
-            
-            return true;
+    public String obtenerEstadoCliente(Integer idCliente) 
+            throws ClientesIdClienteInvalidoException,
+            DireccionesAccesoArchivoCodigosPostalesFallidoException,
+            DireccionesArchivoCodigosPostalesVacioException
+            {
+ 
+            // Se valida que el ID del cliente es válido.
+            Cliente cliente = obtenerCliente(idCliente);
+
+            if(cliente == null){
+                throw new ClientesIdClienteInvalidoException("El ID del cliente: " + idCliente + " es inválido.");
+            }
+        
+            // Se obtiene el Código Postal de envío del cliente.
+            String codigoPostalCliente  = cliente.getCodigoPostalEnvio();
+
+            // Se obtiene los datos derivados a paritr del Código Postal, incluyendo
+            // el estado de envío; utilizando el método obtenerDatosDireccionDerivados()
+            // del subsistema direcciones.
+            InformacionDerivadaCPDireccionEnvioDTO informacionDerivadaDireccionEnvioDTO 
+                    = direcciones.obtenerDatosDireccionDerivados(codigoPostalCliente);
+
+            // Se obtiene y se devuelve el estado obtenido.
+            if(informacionDerivadaDireccionEnvioDTO != null){
+                return informacionDerivadaDireccionEnvioDTO.getEstado();
+            }       
+
+        return null;
+    }
+    
+    /**
+     * Implementación del método actualizarDireccionCliente(), de la interfaz {@link IAdministradorClientes},
+     * permite actualizar los datos de la dirección de envío del cliente, que son Código Postal, Calle y Número.
+     * @param informacionNoDerivadaCPDireccionEnvioDTO Objeto InformacionNoDerivadaCPDireccionEnvioDTO que representa los datos de la dirección
+ de envío del Cliente, que son Código Postal, Calle y Número.
+     * @throws ClientesIdClienteInvalidoException Se lanza si se comprueba que el ID de
+     * Cliente recibido es inválido, dentro de este subsistema.
+     */
+    @Override
+    public void actualizarDireccionCliente(InformacionNoDerivadaCPDireccionEnvioDTO informacionNoDerivadaCPDireccionEnvioDTO) throws ClientesIdClienteInvalidoException{
+
+        Integer idCliente = informacionNoDerivadaCPDireccionEnvioDTO.getIdCliente();
+
+        // Se valida el ID del cliente.
+        Cliente cliente = obtenerCliente(informacionNoDerivadaCPDireccionEnvioDTO.getIdCliente()); 
+
+        if(cliente == null){
+            throw new ClientesIdClienteInvalidoException("El ID del cliente: " + idCliente + " es inválido.");
         }
-        return false;
+
+        // Se obtiene el Código Postal, Calle y Número de envío nuevos del Cliente.
+        String codigoPostalCliente = informacionNoDerivadaCPDireccionEnvioDTO.getCodigoPostal();
+        String calleCliente = informacionNoDerivadaCPDireccionEnvioDTO.getCalle();
+        String numeroDomicilioCliente = informacionNoDerivadaCPDireccionEnvioDTO.getNumero();
+        
+        // Se actualizan los atributos correspondientes del Cliente.
+        cliente.setCodigoPostalEnvio(codigoPostalCliente);
+        cliente.setCalleEnvio(calleCliente);
+        cliente.setNumeroDomicilioEnvio(numeroDomicilioCliente);
+
+    }
+
+    /**
+     * Implementación del método obtenerInformacionNoDerivadaCPDireccionEnvio(), de la interfaz {@link IAdministradorClientes},
+     * que permite obtener la información sobre la dirección de envío de un Cliente que este ingresa (Código Postal, Calle y Número)
+     * @param idCliente Objeto Integer que representa el ID del Cliente a buscar sus datos de dirección.
+     * @return Objeto InformacionNoDerivadaCPDireccionEnvioDTO que contiene el Código 
+     * Postal, Calle y Número de la dirección de envío del Cliente.
+     * @throws ClientesIdClienteInvalidoException Se lanza si se comprueba que el ID 
+     * del Cliente es inválido, en este subsistema.
+     */
+    @Override
+    public InformacionNoDerivadaCPDireccionEnvioDTO obtenerInformacionNoDerivadaCPDireccionEnvio(Integer idCliente) throws ClientesIdClienteInvalidoException{
+        
+        // Se valida el ID del cliente.
+        Cliente cliente = obtenerCliente(idCliente); 
+
+        if(cliente == null){
+            throw new ClientesIdClienteInvalidoException("El ID del cliente: " + idCliente + " es inválido.");
+        }
+        
+        // Se obtienen los datos actuales del cliente y se envían en un DTO.
+        String codigoPostalCliente = cliente.getCodigoPostalEnvio();
+        String numeroCliente  = cliente.getNumeroDomicilioEnvio();
+        String calleCliente = cliente.getCalleEnvio();
+        
+        InformacionNoDerivadaCPDireccionEnvioDTO informacionNoDerivadaCPDireccionEnvioDTO =
+                new InformacionNoDerivadaCPDireccionEnvioDTO(numeroCliente, calleCliente, codigoPostalCliente);
+        
+        return informacionNoDerivadaCPDireccionEnvioDTO;
+    }
+
+    /**
+     * Implementación del método obtenerNombreApellidoCliente(), de la interfaz {@link IAdministradorClientes},
+     * que permite obtener el o los nombres y el apellido paterno de un Cliente.
+     * @param idCliente Objeto Iteger que representa el ID del Cliente a obtener los datos.
+     * @return Objeto NombresApellidoClienteDTO que contiene el o lo nombres y el apellido paterno del Cliente.
+     * @throws ClientesIdClienteInvalidoException Se lanza si se comprueba que el ID 
+     * del Cliente es inválido, en este subsistema.
+     */
+    @Override
+    public NombresApellidoClienteDTO obtenerNombresApellidoCliente(Integer idCliente) throws ClientesIdClienteInvalidoException {
+        
+        // Se valida el ID del cliente.
+        Cliente cliente = obtenerCliente(idCliente); 
+
+        if(cliente == null){
+            throw new ClientesIdClienteInvalidoException("El ID del cliente: " + idCliente + " es inválido.");
+        }
+        
+        // Se obtienen los datos actuales del cliente y se envían en un DTO.
+        String nombresCliente = cliente.getNombres();
+        String apellidoPaternoCliente = cliente.getApellidoPaterno();
+        
+        NombresApellidoClienteDTO nombreApellidoClienteDTO =
+                new NombresApellidoClienteDTO(nombresCliente, apellidoPaternoCliente);
+        
+        return nombreApellidoClienteDTO;
     }
     
 }

@@ -29,11 +29,6 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>megazarl-carrito-compras</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
       <artifactId>megazarl-administrador-paqueterias</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -55,6 +50,16 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>megazarl-administrador-proveedores</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>megazarl-administrador-carrito-compras</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>megazarl-direcciones</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>

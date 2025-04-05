@@ -20,8 +20,9 @@ public class Carrito extends JFrame implements ICarrito, IVista {
     private boolean envioGratis = false;
 
     // Colores
-    private final Color GRIS_CLARO = new Color(240, 240, 240);
-    private final Color BOTON_AMARILLO = new Color(248, 241, 132);
+    private final Color COLOR_GRIS_CLARO = new Color(240, 240, 240);
+    private final Color COLOR_BOTON_AMARILLO = new Color(248, 241, 132);
+    private final Color COLOR_TIEMPO_ESTIMADO = new Color(1, 88, 142);
 
     // Emojis
     private final String emojiBasura = new String(Character.toChars(0x1F5D1));
@@ -54,7 +55,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
     public void setProductos(List<Map<String, Object>> listaInformacionProductos) {
         panelContenedorCarrito.removeAll();
 
-        panelContenedorCarrito.setBackground(GRIS_CLARO);
+        panelContenedorCarrito.setBackground(COLOR_GRIS_CLARO);
         panelContenedorCarrito.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // Panel de contenido principal (del carrito)
@@ -244,7 +245,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
 
         JButton botonSeguirComprando = new ButtonBuilder()
                 .withFont(new Font("Arial", Font.BOLD, 14))
-                .withBackground(BOTON_AMARILLO)
+                .withBackground(COLOR_BOTON_AMARILLO)
                 .withPreferredSize(180, 40)
                 .withText("Seguir comprando")
                 .onClick(e -> control.mostrarProductosVenta(Carrito.this))
@@ -252,7 +253,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
 
         JButton botonFinalizarCompra = new ButtonBuilder()
                 .withFont(new Font("Arial", Font.BOLD, 14))
-                .withBackground(BOTON_AMARILLO)
+                .withBackground(COLOR_BOTON_AMARILLO)
                 .withPreferredSize(180, 40)
                 .withText("Finalizar la compra")
                 .onClick(e -> control.mostrarSeleccionPaqueteria(idCliente, envioGratis, Carrito.this))
@@ -277,7 +278,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
         JPanel panelBannerPrecio = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panelBannerPrecio.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
 
-        Double[] informacionMontoEnvioGratuito = control.obtenerInformacionMontoEnvioGratuito();
+        Double[] informacionMontoEnvioGratuito = control.obtenerInformacionMontoEnvioGratuito(idCliente);
         Double montoActual = informacionMontoEnvioGratuito[0];
         Double montoEnvioGratuito = informacionMontoEnvioGratuito[1];
 
@@ -366,11 +367,13 @@ public class Carrito extends JFrame implements ICarrito, IVista {
         
         int[] rangoDias = this.control.obtenerRangoDiasFechaEstimadaPreparacion(idCliente);
         
-        JLabel rangoDiasLabel = new JLabel();
+        JLabel rangoDiasLabel = new JLabel("Su pedido llegará entre " + rangoDias[0] + "y " + rangoDias[1] + " días.");
         
         rangoDiasLabel.setFont(new Font("Arial", Font.BOLD, 14));
         rangoDiasLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         rangoDiasLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
+        rangoDiasLabel.setForeground(COLOR_TIEMPO_ESTIMADO);
+ 
         
         JPanel panelAux = new JPanel (new FlowLayout(FlowLayout.CENTER));
         panelAux.setOpaque(false);
@@ -378,6 +381,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
         tiempoEstimadoPreparacion.add(panelAux);
         panelAux.add(tiempoEstimadoPreparacionLabel1);
         panelAux.add(tiempoEstimadoPreparacionLabel2);
+        panelAux.add(rangoDiasLabel);
         panelAux.add(rangoDiasLabel);
 
         panelLateral.add(panelBannerPrecio);

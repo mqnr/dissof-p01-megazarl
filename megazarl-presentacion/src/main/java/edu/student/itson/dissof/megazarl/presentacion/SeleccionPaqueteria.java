@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.List;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -39,9 +38,15 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
 
     private final ControlCompra control;
     
-    private Integer codigoPaqueteriaSeleccionada;
+    private Integer idPaqueteriaSeleccionada;
 
     public SeleccionPaqueteria(ControlCompra control, Integer idCliente) {
+        setTitle("Semillas MEGAZARL - Seleccionar paquetería");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1200, 800);
+        setLocationRelativeTo(null);
+        Image iconoPropio = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logoApp.png")).getScaledInstance(90, 90, Image.SCALE_SMOOTH);
+        setIconImage(iconoPropio);
         this.control = control;
         this.idCliente = idCliente;
         initComponents();
@@ -107,9 +112,15 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
 
     @Override
     public void setPaqueterias(HashMap<Integer, String> datosPaqueterias) {
+        
+        
         panelPaqueterias.removeAll();
         panelCostoEnvio.removeAll();
         panelBotones.removeAll();
+        
+        if(scrollPanePaqueterias != null){
+            panelCentral.remove(scrollPanePaqueterias);
+        }
 
         ButtonGroup grupoPaqueterias = new ButtonGroup();
 
@@ -136,10 +147,14 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if(!envioGratis){
-                        Double costoEnvio = control.obtenerCostoEnvioPaqueteria(idCliente, datosPaqueteria.getKey());
-                        labelCosto.setText("Costo de envío: $" + String.format("%.2f",costoEnvio));
+                        Float costoEnvio = control.obtenerCostoEnvioPaqueteria(idCliente, datosPaqueteria.getKey());
+                        if(costoEnvio != null){
+                            labelCosto.setText("Costo de envío: $" + String.format("%.2f",costoEnvio));
+                        }
+                        labelError.setVisible(false);
+                        
                     }
-                    codigoPaqueteriaSeleccionada = datosPaqueteria.getKey();
+                    idPaqueteriaSeleccionada = datosPaqueteria.getKey();
                 }
             });
 
@@ -188,12 +203,11 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
         btnContinuar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (codigoPaqueteriaSeleccionada == null) {
+                if (idPaqueteriaSeleccionada == null) {
                     labelError.setVisible(true);
                     return;
                 }
-                labelError.setVisible(false);
-                control.mostrarConfirmacionPedido(SeleccionPaqueteria.this);
+                control.asignarPaqueteriaCarritoCliente(idCliente, idPaqueteriaSeleccionada, SeleccionPaqueteria.this);
             }
         });
     }
@@ -240,7 +254,7 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
 
     @Override
     public void cerrar() {
-        codigoPaqueteriaSeleccionada = null;
+        idPaqueteriaSeleccionada = null;
         dispose();
     }
 }
