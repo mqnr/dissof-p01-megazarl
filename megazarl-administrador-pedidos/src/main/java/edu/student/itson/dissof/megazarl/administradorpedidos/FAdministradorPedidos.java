@@ -221,6 +221,19 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
 
     }
 
+    /**
+     * Método que permite realizar un pedido con los productos especificados,
+     * el cliente y la paquetería seleccionada.
+     *
+     * @param informacionCrearPedidoDTO Objeto InformacionCrearPedidoDTO que contiene
+     * la información necesaria para crear un pedido.
+     * @return Valor boolean que indica si el pedido fue realizado exitosamente (true)
+     * o no (false).
+     * @throws PedidosIdProductoInvalidoException Se lanza si se comprueba que el ID
+     * de producto o cliente o paquetería es inválido, dentro del subsistema administradorPedidos.
+     * @throws ProductosIdProductoInvalidoException Se lanza si se comprueba que el
+     * ID de producto es inválido, dentro del subsistema administradorProductos.
+     */
     @Override
     public boolean realizarPedido(InformacionCrearPedidoDTO informacionCrearPedidoDTO) 
             throws PedidosIdProductoInvalidoException, 
@@ -304,5 +317,4 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
   
         return true;
     }
-
 }
