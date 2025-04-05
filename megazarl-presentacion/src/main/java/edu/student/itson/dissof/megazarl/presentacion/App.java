@@ -19,7 +19,7 @@ import edu.student.itson.dissof.megazarl.direcciones.IDirecciones;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ClienteON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoON;
-import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
+import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventarioON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProveedorON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.SucursalON;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
@@ -116,8 +116,8 @@ public class App {
                                                     "/sandiaSummerBreeze.png",
                                                     proveedor1,
                                                     Arrays.asList(
-                                                            new ProductoInventario(1, sucursal1, false),
-                                                            new ProductoInventario(2, sucursal1, false))),
+                                                            new ProductoInventarioON(1, sucursal1, false),
+                                                            new ProductoInventarioON(2, sucursal1, false))),
             
                                                 new ProductoON(
                                                     6,
@@ -134,10 +134,10 @@ public class App {
                                                     "/chileMixteco.png",
                                                     proveedor2,
                                                     Arrays.asList(
-                                                            new ProductoInventario(6,sucursal1,  false),
-                                                            new ProductoInventario(7,sucursal2,  false),
-                                                            new ProductoInventario(8,sucursal3, false),
-                                                            new ProductoInventario(9,sucursal4, false))),
+                                                            new ProductoInventarioON(6,sucursal1,  false),
+                                                            new ProductoInventarioON(7,sucursal2,  false),
+                                                            new ProductoInventarioON(8,sucursal3, false),
+                                                            new ProductoInventarioON(9,sucursal4, false))),
                                                 
                                                 new ProductoON(
                                                     2,
@@ -155,14 +155,14 @@ public class App {
                                                     "/melonHibridoCruiser.png",
                                                     proveedor3,
                                                     Arrays.asList(
-                                                            new ProductoInventario(16,sucursal1, false),
-                                                            new ProductoInventario(17,sucursal2, false),
-                                                            new ProductoInventario(18,sucursal2, false)))
+                                                            new ProductoInventarioON(16,sucursal1, false),
+                                                            new ProductoInventarioON(17,sucursal2, false),
+                                                            new ProductoInventarioON(18,sucursal2, false)))
                                                 );
             
             
             for(ProductoON producto: listaProductos){
-                for(ProductoInventario productoInventario: producto.getListaProductoInventario()){
+                for(ProductoInventarioON productoInventario: producto.getListaProductoInventario()){
                     productoInventario.setProducto(producto);
                 }
             }

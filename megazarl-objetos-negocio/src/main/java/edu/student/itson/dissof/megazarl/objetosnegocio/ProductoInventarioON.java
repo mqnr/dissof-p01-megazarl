@@ -20,7 +20,7 @@ import java.util.Objects;
  * ID: 00000251923
  *
  */
-public class ProductoInventario {
+public class ProductoInventarioON {
 
     private Integer id;
     private ProductoON producto;
@@ -33,7 +33,7 @@ public class ProductoInventario {
      * @param sucursal Objeto Sucursal que representa la sucursal donde se encuentra este producto.
      * @param apartado Objeto Boolean que indica si el producto está apartado (true) o disponible (false).
      */
-    public ProductoInventario(Integer id, SucursalON sucursal, Boolean apartado) {
+    public ProductoInventarioON(Integer id, SucursalON sucursal, Boolean apartado) {
         this.id = id;
         this.sucursal = sucursal;
         this.apartado = apartado;
@@ -130,7 +130,7 @@ public class ProductoInventario {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ProductoInventario other = (ProductoInventario) obj;
+        final ProductoInventarioON other = (ProductoInventarioON) obj;
         return Objects.equals(this.id, other.id);
     }
 }

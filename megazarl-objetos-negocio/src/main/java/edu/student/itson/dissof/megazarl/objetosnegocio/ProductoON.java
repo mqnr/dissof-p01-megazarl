@@ -32,7 +32,7 @@ public class ProductoON {
     private Double pesoKg;
     private String direccionImagenProducto;
     private ProveedorON proveedor;
-    private List<ProductoInventario> listaProductoInventario;
+    private List<ProductoInventarioON> listaProductoInventario;
 
     /**
      * Constructor que inicializa un producto con todos sus atributos.
@@ -47,7 +47,7 @@ public class ProductoON {
      * @param proveedor Objeto Proveedor que representa el proveedor del producto.
      * @param listaProductoInventario Objeto List que contiene las unidades en inventario de este producto.
      */
-    public ProductoON(Integer id, String nombre, String variedad, String descripcion, Integer milesSemillas, Double precio, Double pesoKg, String direccionImagenProducto, ProveedorON proveedor, List<ProductoInventario> listaProductoInventario) {
+    public ProductoON(Integer id, String nombre, String variedad, String descripcion, Integer milesSemillas, Double precio, Double pesoKg, String direccionImagenProducto, ProveedorON proveedor, List<ProductoInventarioON> listaProductoInventario) {
         this.id = id;
         this.nombre = nombre;
         this.variedad = variedad;
@@ -208,7 +208,7 @@ public class ProductoON {
      * Método que permite obtener las unidades en inventario de este producto.
      * @return Objeto List que contiene las unidades en inventario de este producto.
      */
-    public List<ProductoInventario> getListaProductoInventario() {
+    public List<ProductoInventarioON> getListaProductoInventario() {
         return listaProductoInventario;
     }
 
@@ -216,7 +216,7 @@ public class ProductoON {
      * Método que permite establecer las unidades en inventario de este producto.
      * @param listaProductoInventario Objeto List que contiene las unidades en inventario de este producto.
      */
-    public void setListaProductoInventario(List<ProductoInventario> listaProductoInventario) {
+    public void setListaProductoInventario(List<ProductoInventarioON> listaProductoInventario) {
         this.listaProductoInventario = listaProductoInventario;
     }
 

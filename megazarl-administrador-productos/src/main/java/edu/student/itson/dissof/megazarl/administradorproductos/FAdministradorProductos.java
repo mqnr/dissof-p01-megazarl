@@ -7,7 +7,7 @@ import edu.student.itson.dissof.megazarl.dto.InformacionProductoInicioDTO;
 import java.util.LinkedList;
 import java.util.List;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoON;
-import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
+import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventarioON;
 import java.util.Comparator;
 
 /**
@@ -105,15 +105,15 @@ public class FAdministradorProductos implements IAdministradorProductos {
             throw new ProductosProductoSinInventarioException("El producto con ID: " + idProducto + " no cuenta con inventario suficiente.");
         }
 
-        List<ProductoInventario> productosInventarioProductoApartar = producto.getListaProductoInventario();
+        List<ProductoInventarioON> productosInventarioProductoApartar = producto.getListaProductoInventario();
          
         productosInventarioProductoApartar.sort(
-            Comparator.comparing((ProductoInventario productoOrdenar) -> productoOrdenar.getSucursal().getTiempoMatriz())
+            Comparator.comparing((ProductoInventarioON productoOrdenar) -> productoOrdenar.getSucursal().getTiempoMatriz())
         );
         
         int cantidadProductosApartados = 0;
        
-        for(ProductoInventario productoInventario: productosInventarioProductoApartar){
+        for(ProductoInventarioON productoInventario: productosInventarioProductoApartar){
             if(!productoInventario.getApartado()){
                 productoInventario.setApartado(true);
                 cantidadProductosApartados++;
@@ -152,15 +152,15 @@ public class FAdministradorProductos implements IAdministradorProductos {
             throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
         }    
 
-        List<ProductoInventario> productosInventarioProductoApartar = producto.getListaProductoInventario();
+        List<ProductoInventarioON> productosInventarioProductoApartar = producto.getListaProductoInventario();
         
         productosInventarioProductoApartar.sort(
-            Comparator.comparing((ProductoInventario productoOrdenar) -> productoOrdenar.getSucursal().getTiempoMatriz()).reversed()
+            Comparator.comparing((ProductoInventarioON productoOrdenar) -> productoOrdenar.getSucursal().getTiempoMatriz()).reversed()
         );
         
         int cantidadProductosDesapartados = 0;
         
-        for(ProductoInventario productoInventario: productosInventarioProductoApartar){
+        for(ProductoInventarioON productoInventario: productosInventarioProductoApartar){
             if(productoInventario.getApartado()){
                 productoInventario.setApartado(false);
                 cantidadProductosDesapartados++;
@@ -475,7 +475,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
         for(ProductoON producto: listaProductos){
             // Se recorre la lista de productos en inventario de cada producto,
             // se verifica si su ID es igual al ID del parámetro.
-            for(ProductoInventario productoInventario: producto.getListaProductoInventario()){
+            for(ProductoInventarioON productoInventario: producto.getListaProductoInventario()){
                 if(productoInventario.getId() == idProductoInventario){
                     return true;
                 }

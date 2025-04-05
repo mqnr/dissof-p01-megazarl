@@ -24,7 +24,7 @@ import java.util.Objects;
 public class PedidoON {
     
     private Integer id;
-    HashMap<ProductoInventario, Boolean> mapaProductosRequeridos;
+    HashMap<ProductoInventarioON, Boolean> mapaProductosRequeridos;
     private PaqueteriaON paqueteria;
     private EstadoPedido estado;
 
@@ -36,7 +36,7 @@ public class PedidoON {
      * @param paqueteria Objeto Paqueteria que representa la paquetería seleccionada para el envío.
      * @param estado Objeto EstadoPedido que representa el estado actual del pedido.
      */
-    public PedidoON(HashMap<ProductoInventario, Boolean> mapaProductosRequeridos, PaqueteriaON paqueteria, EstadoPedido estado) {
+    public PedidoON(HashMap<ProductoInventarioON, Boolean> mapaProductosRequeridos, PaqueteriaON paqueteria, EstadoPedido estado) {
         this.id = PROXIMO_ID_PEDIDO++;
         this.mapaProductosRequeridos = mapaProductosRequeridos;
         this.paqueteria = paqueteria;
@@ -63,7 +63,7 @@ public class PedidoON {
      * Método que permite obtener el mapa de productos requeridos y su estado de entrega a la matriz.
      * @return Objeto HashMap que mapea productos de inventario con un booleano que indica si ya fueron entregados a la matriz.
      */
-    public HashMap<ProductoInventario, Boolean> getMapaProductosRequeridos() {
+    public HashMap<ProductoInventarioON, Boolean> getMapaProductosRequeridos() {
         return mapaProductosRequeridos;
     }
 
@@ -71,7 +71,7 @@ public class PedidoON {
      * Método que permite establecer el mapa de productos requeridos y su estado de entrega a la matriz.
      * @param mapaProductosRequeridos Objeto HashMap que mapea productos de inventario con un booleano que indica si ya fueron entregados a la matriz.
      */
-    public void setMapaProductosRequeridos(HashMap<ProductoInventario, Boolean> mapaProductosRequeridos) {
+    public void setMapaProductosRequeridos(HashMap<ProductoInventarioON, Boolean> mapaProductosRequeridos) {
         this.mapaProductosRequeridos = mapaProductosRequeridos;
     }
 

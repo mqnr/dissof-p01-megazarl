@@ -20,7 +20,7 @@ package edu.student.itson.dissof.megazarl.dto.modelos;
  * ID: 00000251923
  *
  */
-public record Direccion(
+public record DireccionDTO(
         String numeroExterior,
         String calle,
         String numeroInterior,

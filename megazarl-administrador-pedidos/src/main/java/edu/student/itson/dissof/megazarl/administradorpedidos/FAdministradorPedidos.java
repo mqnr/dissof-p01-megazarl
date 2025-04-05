@@ -20,7 +20,7 @@ import edu.student.itson.dissof.megazarl.objetosnegocio.EstadoPedido;
 import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.PedidoON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoON;
-import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
+import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventarioON;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -172,14 +172,14 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
 
                 ProductoON producto = administradorProductos.obtenerProducto(idProducto);
 
-                List<ProductoInventario> listaProductosInventario = producto.getListaProductoInventario();
+                List<ProductoInventarioON> listaProductosInventario = producto.getListaProductoInventario();
 
                 Collections.sort(listaProductosInventario, 
                         (p1, p2) -> Float.compare(p1.getSucursal().getTiempoMatriz(), p2.getSucursal().getTiempoMatriz()));
 
                 Double pesoKgProductoInventario = producto.getPesoKg();
 
-                for(ProductoInventario productoInventario: listaProductosInventario){
+                for(ProductoInventarioON productoInventario: listaProductosInventario){
                     
                     
                     
@@ -268,7 +268,7 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
         }
         
         // Se obtienen los productos que se tomarán del inventario.
-        List<ProductoInventario> productosSolicitados = new LinkedList<>();
+        List<ProductoInventarioON> productosSolicitados = new LinkedList<>();
         
         for(Integer idProducto: mapaProductosCantidadPedido.keySet()){
             
@@ -276,13 +276,13 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
             
             ProductoON producto = administradorProductos.obtenerProducto(idProducto);
             
-            List<ProductoInventario> listaProductosInventario = producto.getListaProductoInventario();
+            List<ProductoInventarioON> listaProductosInventario = producto.getListaProductoInventario();
             
             Collections.sort(listaProductosInventario,
                     (p1, p2) -> Float.compare(p1.getSucursal().getTiempoMatriz(), p2.getSucursal().getTiempoMatriz()));
 
 
-            for(ProductoInventario productoInventario: listaProductosInventario){
+            for(ProductoInventarioON productoInventario: listaProductosInventario){
    
                 productosSolicitados.add(productoInventario);
 
@@ -299,9 +299,9 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
     
         // HashMap que contiene a cada ProductoInventario junto con un valor Booleano que 
         // indica si ya llegó a la matriz.
-        HashMap<ProductoInventario, Boolean> mapaProductosRequeridos = new HashMap<>();
+        HashMap<ProductoInventarioON, Boolean> mapaProductosRequeridos = new HashMap<>();
         
-        for(ProductoInventario productoInventario: productosSolicitados){
+        for(ProductoInventarioON productoInventario: productosSolicitados){
             mapaProductosRequeridos.put(productoInventario, false);
         }
         
