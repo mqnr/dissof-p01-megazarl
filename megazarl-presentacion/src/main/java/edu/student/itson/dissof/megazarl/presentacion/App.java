@@ -14,8 +14,8 @@ import edu.student.itson.dissof.megazarl.administradorproductos.FAdministradorPr
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.carritocompras.FAdministradorCarritoCompras;
 import edu.student.itson.dissof.megazarl.carritocompras.IAdministradorCarritoCompras;
-import edu.student.itson.dissof.megazarl.direcciones.FDirecciones;
-import edu.student.itson.dissof.megazarl.direcciones.IDirecciones;
+import edu.student.itson.dissof.megazarl.direcciones.FAdministradorDirecciones;
+import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ClienteON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoON;
@@ -176,7 +176,7 @@ public class App {
             List<PaqueteriaON> listaPaqueterias = Arrays.asList(paqueteria1, paqueteria2, paqueteria3, paqueteria4, paqueteria5);
 
             // Se crean los subsistemas a utilziar:
-            IDirecciones subsistemaDirecciones = new FDirecciones();
+            IAdministradorDirecciones subsistemaDirecciones = new FAdministradorDirecciones();
             
             IAdministradorClientes subsistemaAdministradorClientes = new FAdministradorClientes(subsistemaDirecciones, listaClientes);
 

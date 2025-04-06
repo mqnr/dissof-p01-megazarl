@@ -21,7 +21,7 @@ import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoCompr
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasProductoSinInventarioException;
-import edu.student.itson.dissof.megazarl.direcciones.IDirecciones;
+import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
 import edu.student.itson.dissof.megazarl.dto.InformacionDerivadaCPDireccionEnvioDTO;
@@ -80,7 +80,7 @@ public class ControlCompra {
     private IAdministradorPaqueterias administradorPaqueterias;
     private IAdministradorSucursales adminisrtadorSucursales;
     private IAdministradorProveedores administradorProveedores;
-    private IDirecciones direcciones;
+    private IAdministradorDirecciones direcciones;
     
     private Color COLOR_MENSAJE_EXITOSO = new Color(204, 255, 190);
     private Color COLOR_MENSAJE_ERROR = new Color(255, 195, 195);
@@ -97,7 +97,7 @@ public class ControlCompra {
         IAdministradorPaqueterias administradorPaqueterias,
         IAdministradorSucursales administradorSucursales,
         IAdministradorProveedores administradorProveedores,
-        IDirecciones direcciones){
+        IAdministradorDirecciones direcciones){
         
         this.administradorClientes = administradorClientes;
         this.administradorProductos = administradorProductos;
