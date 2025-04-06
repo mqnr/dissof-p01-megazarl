@@ -1,9 +1,7 @@
 package edu.student.itson.dissof.megazarl.administradorpaqueterias;
 
-import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
-import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
+
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
-import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.dto.DireccionClientePesoTiempoProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionSeleccionPaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
@@ -29,35 +27,20 @@ import java.util.List;
  *
  */
 public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
-<<<<<<< Updated upstream
-    private final AdministradorPaqueterias administrador;
-=======
 
-    private List<PaqueteriaON> listaPaqueterias;
->>>>>>> Stashed changes
+    private final AdministradorPaqueterias administrador;
+
 
     /**
      * Constructor que inicializa un administrador de paqueterías con todos sus atributos.
      *
      * @param listaPaqueterias Objeto List que contiene las paqueterías disponibles en el sistema.
      */
-<<<<<<< Updated upstream
-    public FAdministradorPaqueterias(
-            List<PaqueteriaON> listaPaqueterias,
-            IAdministradorClientes administradorClientes,
-            IAdministradorSucursales administradorSucursales,
-            IAdministradorProductos administradorProductos) {
-        administrador = new AdministradorPaqueterias(
-          listaPaqueterias,
-          administradorClientes,
-          administradorSucursales,
-          administradorProductos
-        );
-=======
-    public FAdministradorPaqueterias(List<PaqueteriaON> listaPaqueterias) {
-        this.listaPaqueterias = listaPaqueterias;
->>>>>>> Stashed changes
+
+    public FAdministradorPaqueterias(List<PaqueteriaON> listaPaqueterias){
+        administrador = new AdministradorPaqueterias(listaPaqueterias);
     }
+
 
     /**
      * Método que permite obtener la lista de todas las paqueterías disponibles

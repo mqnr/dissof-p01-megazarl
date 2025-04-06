@@ -1,4 +1,3 @@
-
 package edu.student.itson.dissof.megazarl.direcciones;
 
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
@@ -13,7 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-class AdministradorDirecciones implements IDirecciones{
+class AdministradorDirecciones implements IAdministradorDirecciones{
     @Override
     public InformacionDerivadaCPDireccionEnvioDTO obtenerDatosDireccionDerivados(String codigoPostalBuscar)
             throws DireccionesAccesoArchivoCodigosPostalesFallidoException, DireccionesArchivoCodigosPostalesVacioException{
@@ -23,7 +22,7 @@ class AdministradorDirecciones implements IDirecciones{
         String estado;
 
         // Se obtiene la dirección del archivo.
-        URL resource = FDirecciones.class.getResource("/codigosPostalesMexico.txt");
+        URL resource =FAdministradorDirecciones.class.getResource("/codigosPostalesMexico.txt");
 
         try {
             // Se leen todas las líneas del archivo sin considerar aviso ni encabezado.

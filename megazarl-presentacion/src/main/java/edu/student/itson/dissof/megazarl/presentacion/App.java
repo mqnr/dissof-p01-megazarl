@@ -184,11 +184,7 @@ public class App {
 
             IAdministradorSucursales subsistemaAdministradorSucursales =  new FAdministradorSucursales(listaSucursales);
             
-            IAdministradorPaqueterias subsistemaAdministradorPaqueterias = new FAdministradorPaqueterias(
-                   listaPaqueterias,
-                   subsistemaAdministradorClientes,
-                   subsistemaAdministradorSucursales, 
-                   subsistemaAdministradorProductos);
+            IAdministradorPaqueterias subsistemaAdministradorPaqueterias = new FAdministradorPaqueterias(listaPaqueterias);
              
             
              IAdministradorPedidos subsistemaAdministradorPedidos = new FAdministradorPedidos(

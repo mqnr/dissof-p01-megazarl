@@ -6,10 +6,10 @@ import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArch
 import edu.student.itson.dissof.megazarl.dto.InformacionDerivadaCPDireccionEnvioDTO;
 
 /**
- * IDirecciones.java
- * 
- * Interfaz del subsistema Direcciones, que puede acceder a la información asociada
- * a los Códigos Postales de los Estados Unidos Mexicanos.
+ * IAdministradorDirecciones.java
+ 
+ Interfaz del subsistema Direcciones, que puede acceder a la información asociada
+ a los Códigos Postales de los Estados Unidos Mexicanos.
  * 
  * @author Yuri Germán García López
  * ID: 00000252583
@@ -23,7 +23,7 @@ import edu.student.itson.dissof.megazarl.dto.InformacionDerivadaCPDireccionEnvio
  * ID: 00000251923
  * 
  */
-public interface IDirecciones {
+public interface IAdministradorDirecciones {
     
     /**
      * Método que permite obtener el Estado, Ciudad y Colonia asociados al Código Postal del parámetro.

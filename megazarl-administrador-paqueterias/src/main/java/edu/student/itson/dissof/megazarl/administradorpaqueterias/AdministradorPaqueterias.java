@@ -1,9 +1,6 @@
 package edu.student.itson.dissof.megazarl.administradorpaqueterias;
 
-import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
-import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
-import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.dto.DireccionClientePesoTiempoProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionSeleccionPaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
@@ -14,19 +11,11 @@ import java.util.List;
 class AdministradorPaqueterias implements IAdministradorPaqueterias {
     private final List<PaqueteriaON> listaPaqueterias;
 
-    private final IAdministradorClientes administradorClientes;
-    private final IAdministradorSucursales administradorSucursales;
-    private final IAdministradorProductos administradorProductos;
 
     public AdministradorPaqueterias(
-            List<PaqueteriaON> listaPaqueterias,
-            IAdministradorClientes administradorClientes,
-            IAdministradorSucursales administradorSucursales,
-            IAdministradorProductos administradorProductos) {
+            List<PaqueteriaON> listaPaqueterias) {
         this.listaPaqueterias = listaPaqueterias;
-        this.administradorClientes = administradorClientes;
-        this.administradorSucursales = administradorSucursales;
-        this.administradorProductos = administradorProductos;
+
     }
 
     @Override
