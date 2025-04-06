@@ -136,7 +136,7 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
     }
 
     /**
-     * Implementación del método obtenerNumeroProductos(), de la interfaz {@link IAdminsitradorProductos},
+     * Implementación del método obtenerNumeroProductos(), de la interfaz {@link IAdministradorProductos},
      * que permite obtener el número de artículos que tiene el Cliente con el ID del parámetro.
      *
      * @param idCliente ID del Cliente a obtener el total de productos.
@@ -150,7 +150,7 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
     }
 
     /**
-     * Implementación del método obtenerTiempoEstimadoPreparacionProductos() de la interfaz {@link IAdminsitradorProductos},
+     * Implementación del método obtenerTiempoEstimadoPreparacionProductos() de la interfaz {@link IAdministradorProductos},
      * que permite obtener el tiempo estimado de preparación del envío en la matriz de la empresa, es decir, el tiempo
      * aproximado que el Cliente debe esperar hasta que se realice el envío desde la matriz a la dirección de envío.
      *
@@ -168,7 +168,7 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
 
     /**
      * Implementación del método obtnerInformacionMontoEnvioMinimoGrautito() que
-     * la interfaz {@link IAdminsitradorProductos} y permite obtener información
+     * la interfaz {@link IAdministradorProductos} y permite obtener información
      * sobre el monto del carrito actual y el monto necesario para que el envío
      * sea gratuito, de un determinado Cliente.
      *
@@ -183,7 +183,7 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
     }
 
     /**
-     * Implementación del método obtenerCostoEnvioProductos(), que implementa la interfaz {@link IAdminsitradorProductos},
+     * Implementación del método obtenerCostoEnvioProductos(), que implementa la interfaz {@link IAdministradorProductos},
      * y que permite obtener el costo total que tendría un pedido con los productos del carrito
      * de un Cliente, a partir de una paquetería seleccionada.
      *
@@ -215,7 +215,7 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
     }
 
     /**
-     * Implementación del método asignarPaqueteriaCarritoCliente(), de la interfaz {@link IAdminsitradorProductos}
+     * Implementación del método asignarPaqueteriaCarritoCliente(), de la interfaz {@link IAdministradorProductos}
      *
      * @param idCliente    Objeto Integer que representa el ID del Cliente a cuyo carrito se le asignará la Paquetería
      *                     con el ID del parámetro.
@@ -234,7 +234,7 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
     }
 
     /**
-     * Implementación del método crearPedidoProductosCarritoCliente(), de la interfaz {@link IAdminsitradorProductos},
+     * Implementación del método crearPedidoProductosCarritoCliente(), de la interfaz {@link IAdministradorProductos},
      * que permite crear un pedido con los productos que contiene el Carrito de compras
      * del Cliente con el ID recibido como parámetro.
      *

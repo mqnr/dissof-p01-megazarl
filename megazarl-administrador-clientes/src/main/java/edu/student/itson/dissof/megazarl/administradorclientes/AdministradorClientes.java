@@ -1,7 +1,7 @@
 package edu.student.itson.dissof.megazarl.administradorclientes;
 
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdClienteInvalidoException;
-import edu.student.itson.dissof.megazarl.direcciones.IDirecciones;
+import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
 import edu.student.itson.dissof.megazarl.dto.InformacionDerivadaCPDireccionEnvioDTO;
@@ -12,10 +12,10 @@ import edu.student.itson.dissof.megazarl.objetosnegocio.ClienteON;
 import java.util.List;
 
 class AdministradorClientes implements IAdministradorClientes {
-    private final IDirecciones direcciones;
+    private final IAdministradorDirecciones direcciones;
     private final List<ClienteON> listaClientes;
 
-    public AdministradorClientes(IDirecciones direcciones, List<ClienteON> listaClientes) {
+    public AdministradorClientes(IAdministradorDirecciones direcciones, List<ClienteON> listaClientes) {
         this.listaClientes = listaClientes;
         this.direcciones = direcciones;
     }

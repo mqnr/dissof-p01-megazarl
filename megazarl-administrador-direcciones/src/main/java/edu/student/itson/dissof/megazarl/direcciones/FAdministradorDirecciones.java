@@ -4,14 +4,6 @@ package edu.student.itson.dissof.megazarl.direcciones;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
 import edu.student.itson.dissof.megazarl.dto.InformacionDerivadaCPDireccionEnvioDTO;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
 
 /**
  * FAdministradorDirecciones.java
@@ -31,7 +23,7 @@ import java.util.List;
  * ID: 00000251923
  *
  */
-public class FAdministradorDirecciones implements IAdministradorDirecciones{
+public class FAdministradorDirecciones implements IAdministradorDirecciones {
 
     private final AdministradorDirecciones administrador = new AdministradorDirecciones();
     

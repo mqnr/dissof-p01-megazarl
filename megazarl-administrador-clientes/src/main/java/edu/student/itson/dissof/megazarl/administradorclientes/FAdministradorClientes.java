@@ -1,6 +1,6 @@
 package edu.student.itson.dissof.megazarl.administradorclientes;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdClienteInvalidoException;
-import edu.student.itson.dissof.megazarl.direcciones.IDirecciones;
+import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
 import edu.student.itson.dissof.megazarl.dto.InformacionNoDerivadaCPDireccionEnvioDTO;
@@ -34,7 +34,7 @@ public class FAdministradorClientes implements IAdministradorClientes {
      * @param direcciones Instancia del subsistema direcciones.
      * @param listaClientes Lista de los clientes.
      */
-    public FAdministradorClientes(IDirecciones direcciones, List<ClienteON> listaClientes) {
+    public FAdministradorClientes(IAdministradorDirecciones direcciones, List<ClienteON> listaClientes) {
         administrador = new AdministradorClientes(direcciones, listaClientes);
     }
 
