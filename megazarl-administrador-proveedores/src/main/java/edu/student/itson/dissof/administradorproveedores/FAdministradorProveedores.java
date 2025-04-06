@@ -25,7 +25,7 @@ import java.util.List;
  *
  */
 public class FAdministradorProveedores implements IAdministradorProveedores{
-    private List<ProveedorON> listaProveedores;
+    private final AdministradorProveedores administrador;
 
     /**
      * Constructor que inicializa un administrador de proveedores con la lista de proveedores.
@@ -33,7 +33,7 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      * @param listaProveedores Objeto List que contiene los proveedores registrados en el sistema.
      */
     public FAdministradorProveedores(List<ProveedorON> listaProveedores) {
-        this.listaProveedores = listaProveedores;
+        this.administrador = new AdministradorProveedores(listaProveedores);
     }
 
     /**
@@ -45,14 +45,8 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      * @return true si existe un objeto Proveedor con el ID del parámetro, false en caso contrario.
      */
     @Override
-    public boolean validarProveedor(Integer idProveedor){
-        for(ProveedorON proveedor: listaProveedores){
-            if(proveedor.getId() == idProveedor){
-                return true;
-            }
-        }
-        
-        return false;
+    public boolean validarProveedor(Integer idProveedor) {
+        return administrador.validarProveedor(idProveedor);
     }
 
     /**
@@ -64,14 +58,9 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      * @return Objeto Proveedor que representa el proveedor con el ID especificado,
      * o null si no se encuentra un proveedor con ese ID.
      */
-    public ProveedorON obtenerProveedor(Integer idProveedor){
-        ProveedorON proveedorRecuperado = null;
-        for(ProveedorON proveedor: listaProveedores){
-            if(proveedor.getId() == idProveedor){
-                proveedorRecuperado = proveedor;
-            }
-        }
-        return proveedorRecuperado;
+    @Override
+    public ProveedorON obtenerProveedor(Integer idProveedor) {
+        return administrador.obtenerProveedor(idProveedor);
     }
 
     /**
@@ -85,21 +74,8 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      * del proveedor es inválido o no existe en el sistema.
      */
     @Override
-    public String obtenerDireccionImagenProveedor(Integer idProveedor) throws ProveedoresIdProveedorInvalidoException{
-        
-        // Se valida el ID del proevedor.
-        if(!validarProveedor(idProveedor)){
-            throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor: " + idProveedor + " es inválido.");
-        }
-        
-        ProveedorON proveedor = obtenerProveedor(idProveedor);
-        
-        if(proveedor == null){
-            throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor: " + idProveedor + " es inválido.");
-        }
-        
-        // Se obtiene y devuelve la imagen del proveedor.
-        return proveedor.getDireccionImagenProveedor();
+    public String obtenerDireccionImagenProveedor(Integer idProveedor) throws ProveedoresIdProveedorInvalidoException {
+        return administrador.obtenerDireccionImagenProveedor(idProveedor);
     }
 
     /**
@@ -113,20 +89,7 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      * del proveedor es inválido o no existe en el sistema.
      */
     @Override
-    public String obtenerNombreProveedor(Integer idProveedor) throws ProveedoresIdProveedorInvalidoException{
-        // Se valida el ID del proevedor.
-        if(!validarProveedor(idProveedor)){
-            throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor: " + idProveedor + " es inválido.");
-        }
-        
-        ProveedorON proveedor = obtenerProveedor(idProveedor);
-        
-        if(proveedor == null){
-            throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor: " + idProveedor + " es inválido.");
-        }
-        
-        // Se obtiene y devuelve el nombre del proveedor.
-        return proveedor.getNombre();
-
+    public String obtenerNombreProveedor(Integer idProveedor) throws ProveedoresIdProveedorInvalidoException {
+        return administrador.obtenerNombreProveedor(idProveedor);
     }
 }

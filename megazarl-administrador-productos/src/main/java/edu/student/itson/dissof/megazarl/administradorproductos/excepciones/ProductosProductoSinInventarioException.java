@@ -1,5 +1,5 @@
 
-package edu.student.itson.dissof.megazarl.administradroproductos.excepciones;
+package edu.student.itson.dissof.megazarl.administradorproductos.excepciones;
 
 
 /**

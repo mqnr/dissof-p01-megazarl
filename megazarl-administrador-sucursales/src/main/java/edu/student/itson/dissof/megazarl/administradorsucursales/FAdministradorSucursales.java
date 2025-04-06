@@ -28,8 +28,7 @@ import java.util.List;
  *
  */
 public class FAdministradorSucursales implements IAdministradorSucursales {
-
-    private List<SucursalON> listaSucursales;
+    private final AdministradorSucursales administrador;
 
     /**
      * Constructor que inicializa un administrador de sucursales con la lista de sucursales.
@@ -37,23 +36,18 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
      * @param listaSucursales Objeto List que contiene las sucursales registradas en el sistema.
      */
     public FAdministradorSucursales(List<SucursalON> listaSucursales) {
-        this.listaSucursales = listaSucursales;
+        this.administrador = new AdministradorSucursales(listaSucursales);
     }
 
     /**
      * Método que permite verificar si el ID de una sucursal es válido.
      *
-     * @param idSucursal Objeto Integer que representa el ID de la sucursal a validar.
+     * @param codigoSucursal Objeto Integer que representa el ID de la sucursal a validar.
      * @return true si el ID de la sucursal es válido y existe en el sistema, false en caso contrario.
      */
     @Override
-    public boolean validarSucursal(Integer idSucursal) {
-        for(SucursalON sucursal: listaSucursales){
-            if(sucursal.getId() == idSucursal){
-                return true;
-            }
-        }
-        return false;
+    public boolean validarSucursal(Integer codigoSucursal) {
+        return administrador.validarSucursal(codigoSucursal);
     }
 
     /**
@@ -62,16 +56,8 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
      * @return Objeto CodigosSucursalesDTO que contiene la lista de IDs de las sucursales.
      */
     @Override
-    public CodigosSucursalesDTO obtenerCodigosSucursales(){
-        
-        List<Integer> idsSucursales = new LinkedList<>();
-
-        for(SucursalON sucursal: listaSucursales){
-            idsSucursales.add(sucursal.getId());
-        }
-        CodigosSucursalesDTO codigosSucursalesDTO = new CodigosSucursalesDTO(idsSucursales);
-        
-        return codigosSucursalesDTO;
+    public CodigosSucursalesDTO obtenerCodigosSucursales() throws SucursalesIdSucursalException {
+        return administrador.obtenerCodigosSucursales();
     }
 
     /**
@@ -83,22 +69,8 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
      * no existe en el sistema.
      */
     @Override
-    public String obtenerCodigoPostal(Integer idSucursal) throws SucursalesIdSucursalException{
-        
-        // Se valida el ID de sucursal.
-        if(!validarSucursal(idSucursal)){
-            throw new SucursalesIdSucursalException("El ID de sucursal: " + idSucursal + " es inválido.");
-        }
-        
-        SucursalON sucursal = obtenerSucursal(idSucursal);
-        
-        if(sucursal == null){
-            throw new SucursalesIdSucursalException("El ID de sucursal: " + idSucursal + " es inválido.");
-        }
-        
-        // Se recupera y devuelve el Código Postal.
-        return sucursal.getCodigoPostal();
-        
+    public String obtenerCodigoPostal(Integer idSucursal) throws SucursalesIdSucursalException {
+        return administrador.obtenerCodigoPostal(idSucursal);
     }
 
     /**
@@ -110,21 +82,8 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
      * no existe en el sistema.
      */
     @Override
-    public String obtenerCalle(Integer idSucursal) throws SucursalesIdSucursalException{
-        
-        // Se valida el ID de sucursal.
-        if(!validarSucursal(idSucursal)){
-            throw new SucursalesIdSucursalException("El ID de sucursal: " + idSucursal + " es inválido.");
-        }
-        
-        SucursalON sucursal = obtenerSucursal(idSucursal);
-        
-        if(sucursal == null){
-            throw new SucursalesIdSucursalException("El ID de sucursal: " + idSucursal + " es inválido.");
-        }
-        
-        // Se recupera y devuelve la Calle.
-        return sucursal.getCalle();
+    public String obtenerCalle(Integer idSucursal) throws SucursalesIdSucursalException {
+        return administrador.obtenerCalle(idSucursal);
     }
 
     /**
@@ -136,21 +95,8 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
      * no existe en el sistema.
      */
     @Override
-    public String obtenerNumero(Integer idSucursal) throws SucursalesIdSucursalException{
-        
-        // Se valida el ID de sucursal.
-        if(!validarSucursal(idSucursal)){
-            throw new SucursalesIdSucursalException("El ID de sucursal: " + idSucursal + " es inválido.");
-        }
-        
-        SucursalON sucursal = obtenerSucursal(idSucursal);
-        
-        if(sucursal == null){
-            throw new SucursalesIdSucursalException("El ID de sucursal: " + idSucursal + " es inválido.");
-        }
-        
-        // Se recupera y devuelve el Número.
-        return sucursal.getNumero();
+    public String obtenerNumero(Integer idSucursal) throws SucursalesIdSucursalException {
+        return administrador.obtenerNumero(idSucursal);
     }
 
     /**
@@ -161,17 +107,7 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
      */
     @Override
     public DireccionMatrizDTO obtenerDireccionMatriz() {
-        
-        DireccionMatrizDTO direccionMatrizDTO = null;
-        for(SucursalON sucursal: listaSucursales){
-            if(sucursal.getEsMatriz()){
-                direccionMatrizDTO = 
-                    new DireccionMatrizDTO(sucursal.getCodigoPostal(), sucursal.getCalle(), sucursal.getNumero());
-            }
-        }
-        
-        return direccionMatrizDTO;
-
+        return administrador.obtenerDireccionMatriz();
     }
 
     /**
@@ -182,15 +118,7 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
      * o null si no se encuentra una sucursal con ese ID.
      */
     @Override
-    public SucursalON obtenerSucursal(Integer idSucursal){
-        
-        SucursalON sucursalRecuperada = null;
-        for(SucursalON sucursal: listaSucursales){
-            if(sucursal.getId().equals(idSucursal)){
-                sucursalRecuperada = sucursal;
-            }
-        }
-        
-        return sucursalRecuperada;
+    public SucursalON obtenerSucursal(Integer idSucursal) {
+        return administrador.obtenerSucursal(idSucursal);
     }
 }

@@ -7,7 +7,6 @@ import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorPr
 import edu.student.itson.dissof.megazarl.dto.DireccionClientePesoTiempoProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionSeleccionPaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -30,12 +29,7 @@ import java.util.List;
  *
  */
 public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
-
-    private List<PaqueteriaON> listaPaqueterias;
-    
-    private IAdministradorClientes administradorClientes;
-    private IAdministradorSucursales administradorSucursales;
-    private IAdministradorProductos administradorProductos;
+    private final AdministradorPaqueterias administrador;
 
     /**
      * Constructor que inicializa un administrador de paqueterías con todos sus atributos.
@@ -48,11 +42,17 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
      * @param administradorProductos Objeto IAdministradorProductos que representa el subsistema
      * de administración de productos.
      */
-    public FAdministradorPaqueterias(List<PaqueteriaON> listaPaqueterias, IAdministradorClientes administradorClientes, IAdministradorSucursales administradorSucursales, IAdministradorProductos administradorProductos) {
-        this.listaPaqueterias = listaPaqueterias;
-        this.administradorClientes = administradorClientes;
-        this.administradorSucursales = administradorSucursales;
-        this.administradorProductos = administradorProductos;
+    public FAdministradorPaqueterias(
+            List<PaqueteriaON> listaPaqueterias,
+            IAdministradorClientes administradorClientes,
+            IAdministradorSucursales administradorSucursales,
+            IAdministradorProductos administradorProductos) {
+        administrador = new AdministradorPaqueterias(
+          listaPaqueterias,
+          administradorClientes,
+          administradorSucursales,
+          administradorProductos
+        );
     }
 
     /**
@@ -62,17 +62,9 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
      * @return Objeto List de InformacionSeleccionPaqueteriaDTO que contiene la información
      * básica de las paqueterías disponibles.
      */
-
     @Override
     public List<InformacionSeleccionPaqueteriaDTO> obtenerPaqueterias() {
-        List<InformacionSeleccionPaqueteriaDTO> listaInformacionSeleccionPaqueteriaDTO = new LinkedList<>();
-        
-        for(PaqueteriaON paqueteria: listaPaqueterias){
-            listaInformacionSeleccionPaqueteriaDTO.add(
-                    new InformacionSeleccionPaqueteriaDTO(paqueteria.getId(), paqueteria.getDireccionImagenPaqueteria()));
-        }
-
-        return listaInformacionSeleccionPaqueteriaDTO;
+        return administrador.obtenerPaqueterias();
     }
 
     /**
@@ -87,37 +79,8 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
      * de la paquetería es inválido o no existe en el sistema.
      */
     @Override
-    public Float obtenerCostoEnvioProducto(DireccionClientePesoTiempoProductoInventarioDTO direccionClienteProductosEnvioDTO) 
-            throws PaqueteriasIdPaqueteriaInvalidoException{
-        
-        Integer idPaqueteria = direccionClienteProductosEnvioDTO.getCodigoPaqueteria();
-        
-        // Se valida el ID de Paquteria:
-        if(!validarPaqueteria(idPaqueteria)){
-            throw new PaqueteriasIdPaqueteriaInvalidoException("El ID de paquetería: " + idPaqueteria + " no existe.");
-        }
-        
-        PaqueteriaON paqueteriaRecuperada = obtenerPaqueteria(idPaqueteria);
-        
-        if(paqueteriaRecuperada == null){
-            throw new PaqueteriasIdPaqueteriaInvalidoException("El ID de paquetería: " + idPaqueteria + " no existe.");
-        }
-        
-        // Se recuperan los cobros por Kg y hora de envío de la paquetería recuperada.
-        Float cobroKg = paqueteriaRecuperada.getCobroKg();
-        Float cobroHora = paqueteriaRecuperada.getCobroHora();
-        
-        // Se obtiene el peso del peso en Kg del producto de la DTO del parámetro y su tiempo de envío a Matriz.
-        Double pesoKgProducto = direccionClienteProductosEnvioDTO.getPesoKgProductoInventario();
-        Float tiempoEnvioHoras = direccionClienteProductosEnvioDTO.getTiempoEnvioMatrizHorasProductoInventario();
-        
-        if(tiempoEnvioHoras == 0){
-            return 0F;
-        }
-
-        return (float)(cobroKg * pesoKgProducto) + (cobroHora * tiempoEnvioHoras);
-             
-        
+    public Float obtenerCostoEnvioProducto(DireccionClientePesoTiempoProductoInventarioDTO direccionClienteProductosEnvioDTO) throws PaqueteriasIdPaqueteriaInvalidoException {
+        return administrador.obtenerCostoEnvioProducto(direccionClienteProductosEnvioDTO);
     }
 
     /**
@@ -127,14 +90,8 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
      * @return true si el ID de la paquetería es válido y existe en el sistema, false en caso contrario.
      */
     @Override
-    public boolean validarPaqueteria(Integer idPaqueteria){
-        for(PaqueteriaON paqueteria: listaPaqueterias){
-            if(paqueteria.getId() == idPaqueteria){
-                return true;
-            }
-        }
-        
-        return false;
+    public boolean validarPaqueteria(Integer idPaqueteria) {
+        return administrador.validarPaqueteria(idPaqueteria);
     }
 
     /**
@@ -145,15 +102,7 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
      * o null si no se encuentra una paquetería con ese ID.
      */
     @Override
-    public PaqueteriaON obtenerPaqueteria(Integer idPaqueteria){
-        PaqueteriaON paqueteriaBuscar = null;
-        
-        for(PaqueteriaON paqueteria: listaPaqueterias){
-            if(paqueteria.getId() == idPaqueteria){
-                paqueteriaBuscar = paqueteria;
-            }
-        }
-        
-        return paqueteriaBuscar;
+    public PaqueteriaON obtenerPaqueteria(Integer idPaqueteria) {
+        return administrador.obtenerPaqueteria(idPaqueteria);
     }
 }
