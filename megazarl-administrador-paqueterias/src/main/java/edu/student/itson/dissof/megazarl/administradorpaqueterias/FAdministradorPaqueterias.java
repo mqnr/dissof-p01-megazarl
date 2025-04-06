@@ -29,19 +29,19 @@ import java.util.List;
  *
  */
 public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
+<<<<<<< Updated upstream
     private final AdministradorPaqueterias administrador;
+=======
+
+    private List<PaqueteriaON> listaPaqueterias;
+>>>>>>> Stashed changes
 
     /**
      * Constructor que inicializa un administrador de paqueterías con todos sus atributos.
      *
      * @param listaPaqueterias Objeto List que contiene las paqueterías disponibles en el sistema.
-     * @param administradorClientes Objeto IAdministradorClientes que representa el subsistema de
-     * administración de clientes.
-     * @param administradorSucursales Objeto IAdministradorSucursales que representa el subsistema
-     * de administración de sucursales.
-     * @param administradorProductos Objeto IAdministradorProductos que representa el subsistema
-     * de administración de productos.
      */
+<<<<<<< Updated upstream
     public FAdministradorPaqueterias(
             List<PaqueteriaON> listaPaqueterias,
             IAdministradorClientes administradorClientes,
@@ -53,6 +53,10 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
           administradorSucursales,
           administradorProductos
         );
+=======
+    public FAdministradorPaqueterias(List<PaqueteriaON> listaPaqueterias) {
+        this.listaPaqueterias = listaPaqueterias;
+>>>>>>> Stashed changes
     }
 
     /**

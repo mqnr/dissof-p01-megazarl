@@ -21,7 +21,7 @@
     <module>megazarl-administrador-sucursales</module>
     <module>megazarl-administrador-proveedores</module>
     <module>megazarl-administrador-carrito-compras</module>
-    <module>megazarl-direcciones</module>
+    <module>megazarl-administrador-direcciones</module>
   </modules>
 
   <properties>
