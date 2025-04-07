@@ -438,4 +438,23 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
 
         return carritoComprasCliente;
     }
+
+    
+    @Override
+    public void caducarCarritoCompras(Integer idCliente) throws CarritoComprasIdClienteInvalidoException{
+        
+        // Se valida el ID del Cliente:
+        if(!administradorClientes.validarIdCliente(idCliente)){
+            throw new CarritoComprasIdClienteInvalidoException("El ID de Cliente " + idCliente + " es inválido.");
+        }
+        
+        CarritoComprasON carritoComprasClienteCaducar = obtenerCarritoComprasCliente(idCliente);
+        
+        if(carritoComprasClienteCaducar == null){
+            throw new CarritoComprasIdClienteInvalidoException("El ID de Cliente " + idCliente + " es inválido.");
+        }
+        
+        carritoComprasClienteCaducar.setPedidoRealizado(true);
+        
+    }
 }

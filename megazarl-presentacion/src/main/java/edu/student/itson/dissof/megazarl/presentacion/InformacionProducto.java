@@ -126,7 +126,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
         // Precio de producto.
         String cantidadSemillasProducto = informacionProducto.get("MilesSemillas") + "k semillas";
 
-        String precioFormato = String.format("%.2f", informacionProducto.get("Precio"));
+        String precioFormato = String.format("%,.2f", informacionProducto.get("Precio"));
 
         String partesPrecio[] = precioFormato.split("\\.");
         String parteEnteraPrecioProdcuto = partesPrecio[0];

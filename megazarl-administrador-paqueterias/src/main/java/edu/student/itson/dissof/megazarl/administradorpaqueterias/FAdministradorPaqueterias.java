@@ -2,7 +2,7 @@ package edu.student.itson.dissof.megazarl.administradorpaqueterias;
 
 
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
-import edu.student.itson.dissof.megazarl.dto.DireccionClientePesoTiempoProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.DireccionClientePesoTiempoEnvioPaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionSeleccionPaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
 import java.util.List;
@@ -59,14 +59,14 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
      * las direcciones del cliente y la matriz, el peso del producto y el tiempo
      * estimado de envío.
      *
-     * @param direccionClienteProductosEnvioDTO Objeto DireccionClientePesoTiempoProductoInventarioDTO
-     * que contiene la información necesaria para el cálculo del costo de envío.
+     * @param direccionClienteProductosEnvioDTO Objeto DireccionClientePesoTiempoEnvioPaqueteriaDTO
+ que contiene la información necesaria para el cálculo del costo de envío.
      * @return Objeto Float que representa el costo de envío calculado.
      * @throws PaqueteriasIdPaqueteriaInvalidoException Se lanza si se comprueba que el ID
      * de la paquetería es inválido o no existe en el sistema.
      */
     @Override
-    public Float obtenerCostoEnvioProducto(DireccionClientePesoTiempoProductoInventarioDTO direccionClienteProductosEnvioDTO) throws PaqueteriasIdPaqueteriaInvalidoException {
+    public Float obtenerCostoEnvioProducto(DireccionClientePesoTiempoEnvioPaqueteriaDTO direccionClienteProductosEnvioDTO) throws PaqueteriasIdPaqueteriaInvalidoException {
         return administrador.obtenerCostoEnvioProducto(direccionClienteProductosEnvioDTO);
     }
 

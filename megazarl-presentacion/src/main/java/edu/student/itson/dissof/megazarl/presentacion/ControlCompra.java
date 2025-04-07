@@ -276,6 +276,14 @@ public class ControlCompra {
         return listaInformacionProductosBusqueda;
     }
 
+    /**
+     * Método que permite mostrar la ventana que muestra los productos en venta, conteniendo
+     * sólo las coincidencias del producto buscado por el Cliente a paritr de su nombre, variedad
+     * y nombre de proveedor.
+     * @param nombreProducto Objeto String que representa el nombre del producto a buscar.
+     * @param nombreVariedad Objeto String que representa el nombre de la variedad del producto a buscar.
+     * @param nombreProveeedor Objeto String que representa el nombre del proveedor del producto a buscar.
+     */
     public void mostrarProductosBusqueda(String nombreProducto, String nombreVariedad, String nombreProveeedor) {
         List<Map<String, Object>> listaInformacionProductosBusqueda = obtenerProductosBusqueda(nombreProducto, nombreVariedad, nombreProveeedor);
         productosVenta.actualizarDatosEncabezado();
@@ -283,6 +291,15 @@ public class ControlCompra {
         ((IVista)productosVenta).hacerVisible(true);
     }
 
+    /**
+     * Método que permite obtener la información de los productos en venta buscados
+     * por el Cliente, a partir de su nombre, variedad y nombre de proveedor.
+     * @param nombreProducto Objeto String que representa el nombre del producto a buscar.
+     * @param nombreVariedad Objeto String que representa el nombre de la variedad del producto a buscar.
+     * @param nombreProveeedor Objeto String que representa el nombre del proveedor del producto a buscar.
+     * @return Objeto {@literal List<Map<String, Object>>} que contiene la información de los productos
+     * que coinciden con la búsqueda, representando a cada producto con un mapa.
+     */
     public List<Map<String, Object>> obtenerProductosBusqueda(String nombreProducto, String nombreVariedad, String nombreProveeedor) {
         List<InformacionProductoInicioDTO> listaProductoInicioDTO = administradorProductos.obtenerProductosBusqueda(nombreProducto, nombreVariedad, nombreProveeedor);
 
@@ -312,6 +329,11 @@ public class ControlCompra {
         return listaInformacionProductosBusqueda;
     }
 
+    /**
+     * Método que permite obtener la información de todos los productos en venta y con existencias.
+     * @return Objeto {@literal List<Map<String, Object>>}, que contiene la información de los productos
+     * en venta, representando a cada producto con un mapa.
+     */
     public List<Map<String, Object>> obtenerProductosVenta() {
         List<InformacionProductoInicioDTO> listaProductoInicioDTO = administradorProductos.obtenerProductosVenta();
 
@@ -341,6 +363,15 @@ public class ControlCompra {
         return listaInformacionProductosInicio;
     }
 
+    /**
+     * Método que permite mostrar la información de un product cuando este es seleccionado
+     * desde la pantalla inicial, donde se muestran todos los productos en venta, o bien
+     * cuando se selecciona una vez que se ha realizado una búsqueda.
+     * @param idProducto Objeto Integer que representa el ID del producto del que
+     * se mostrará su información detallada.
+     * @param vistaActual Objeto que implementa la interfaz IVista, representa
+     * la ventana actual que será cerrada.
+     */
     public void mostrarInformacionProducto(Integer idProducto, IVista vistaActual) {
         Map<String, Object> mapaInformacionProducto = this.obtenerInformacionProducto(idProducto);
         informacionProducto.actualizarDatosEncabezado();
@@ -349,6 +380,16 @@ public class ControlCompra {
         informacionProducto.hacerVisible(true);
     }
 
+    /**
+     * Método que permite obtener la información de un prducto que se mostrará en
+     * la ventana que muestra la información detallada de un producto, una vez que se
+     * seleccciona desde la ventana principal que incluye todos los productos en venta,
+     * o cuando se ha realizado una búsqueda.
+     * @param idProducto Objeto Integer que representa el ID del producto del que se 
+     * obtendrá su información detallada.
+     * @return Objeto {@literal Map<String, Object>}, representa la información detallada
+     * del producto a mostrar.
+     */
     public Map<String, Object> obtenerInformacionProducto(Integer idProducto) {
         try {
             InformacionProductoVentaDTO informacionProductoDTO = administradorProductos.obtenerInformacionProductoVenta(idProducto);
@@ -384,6 +425,16 @@ public class ControlCompra {
     }
 
     
+    /**
+     * Método que permite mostrar el carrito de compras actual del Cliente con el ID
+     * del parámetro, incluyendo los productos agregados, el importe total y por producto, el monto mínimo para envío gratis
+     * y el tiempo estimado de preparación del pedido. Permitiéndo cerrar una ventana
+     * previamente abierta.
+     * @param idCliente Objeto Integer que representa el ID del Cliente del que 
+     * se mostrará la información del carrito.
+     * @param vistaActual Objeto que implementa la interfaz IVista, representa
+     * la ventana actual que será cerrada.
+     */
     public void mostrarCarritoCompras(Integer idCliente, IVista vistaActual) {
         List<Map<String, Object>> listaInformacionProductosCarrito = obtenerInformacionProductosCarrito(idCliente);
         if(!listaInformacionProductosCarrito.isEmpty()){
@@ -398,6 +449,13 @@ public class ControlCompra {
         
     }
     
+    /**
+     * Método que permite mostrar la información del carrito de compras del Cliente
+     * con el ID del parámetro, incluyendo los productos agregados, el importe total y por producto,
+     * el monto mínimo para envío gratis y el tiempo estimado de preparación del pedido.
+     * @param idCliente Objeto Integer que representa el ID del Cliente del que se 
+     * mostrará la información del carrito.
+     */
     public void mostrarCarritoCompras(Integer idCliente) {
         List<Map<String, Object>> listaInformacionProductosCarrito = obtenerInformacionProductosCarrito(idCliente);
         
@@ -411,6 +469,17 @@ public class ControlCompra {
             
     }
 
+    /**
+     * Método que permite obtener la información de los productos que ha agregado
+     * el Cliente con el ID del parámetro a su carrito de compras. Incluyendo
+     * su nombre, cantidad seleccionada, importe total por cada uno, su proveedor, 
+     * e imagen asociada.
+     * @param idCliente Objeto String que representa el ID del Cliente del que
+     * se obtendrà la informaciòn de los productos asociados a su carrito.
+     * @return Objeto {@literal List<Map<String, Object>>} que contiene la información
+     * de los productos del carrito del Cliente con el ID del parámetro, cada producto
+     * es representado con un mapa.
+     */
     public List<Map<String, Object>> obtenerInformacionProductosCarrito(Integer idCliente) {
         
         List<InformacionProductoCarritoDTO> listaInformacionProductoCarritoDTO = new LinkedList<>();
@@ -464,6 +533,14 @@ public class ControlCompra {
         return listaInformacionProductosCarrito;
     }
     
+    /**
+     * Método que permite obtener la dirección de la imagen del logotipo del Proveedor
+     * con el ID del parámetro dentro de la aplicación.
+     * @param idProveedor Objeto Integer que representa el ID del proveedor del que
+     * se obtendrá la dirección de la imagen de su logotipo.
+     * @return Objeto String que representa imagen del logotipo del proveedor con el
+     * ID del parámetro dentro de la aplicación.
+     */
     public String obtenerDireccionImagenProveedor(Integer idProveedor){
         
         String direccionImagenProveedor = null;
@@ -477,6 +554,13 @@ public class ControlCompra {
         
     }
     
+    /**
+     * Método que permite obtener el nombre del Proveedor con el ID del parámetro.
+     * @param idProveedor Objeto Integer que representa el ID del proveedor 
+     * del que se obtendrá su nombre.
+     * @return Objeto String que representa el nombre del Proveedor con el ID
+     * del parámetro.
+     */
     public String obtenerNombreProveedor(Integer idProveedor){
 
         try {
@@ -489,6 +573,13 @@ public class ControlCompra {
         return null;
     }
     
+    /**
+     * Método que permite obtener la existencia actual de un producto en venta.
+     * @param idProducto Objeto Integer que representa el ID del producto del que
+     * se obtendrá su existencia.
+     * @return Objeto Integer que representa el número de productos en inventario
+     * disponibles del Producto con el ID del parámetro.
+     */
     public Integer verificarExistenciasProducto(Integer idProducto){
         
         try {
@@ -499,6 +590,20 @@ public class ControlCompra {
         return null;
     }
 
+    /**
+     * Método que permite añadir la cantidad del parámetro, del Producto con el 
+     * ID del parámetro, al carrito del Cliente con el ID del parámetro.
+     * @param idCliente Objeto Integer que representa el ID del Cliente al que
+     * posee el carrito de compras al que se le agregará el Producto.
+     * @param idProducto Objeto Integer que representa el ID del producto qe será
+     * agregado al carrito de compras del cliente.
+     * @param cantidad Dato int que representa la cantidad de unidades del producto
+     * a agregar al carrito.
+     * @param vistaActual Objeto que implementa la interfaz IVista, representa la ventana
+     * actual que será cerrada, esto sirve para actualizar la ventana del carrito
+     * según los productos seleccionados.
+     * @return 
+     */
     public boolean agregarProductoCarrito(Integer idCliente, Integer idProducto, int cantidad, IVista vistaActual) {
 
         boolean productoAgregado = false;
@@ -524,6 +629,17 @@ public class ControlCompra {
 
     }
 
+    /**
+     * Método que permite eliminar la cantidad del parámetro, del Producto con el ID del parámetro,
+     * del carrito de compras del Cliente con el ID del parámetro.
+     * @param idCliente Objeto Integer que representa el ID del Cliente que posee
+     * el carrito de compras del que se eliminará una cierta cantidad de un Producto.
+     * @param idProducto Objeto Integer que representa el ID del Producto que será
+     * eliminado del carrito de compras.
+     * @param cantidad Dato int que representa la cantidad del Producto a elminar.
+     * @return true si se pudo eliminar la cantidad especificada del Producto especificado,
+     * false en caso contrario.
+     */
     public boolean eliminarProductoCarrito(Integer idCliente, Integer idProducto, int cantidad) {
         
         boolean productoEliminado = false;
@@ -548,6 +664,13 @@ public class ControlCompra {
 
     }
 
+    /**
+     * Método que permite obtener el total de unidades de todos los Productos
+     * añadidios al carrito del Cliente con el ID del parámetro.
+     * @param idCliente Objeto Integer que representa el ID del Cliente del que
+     * se obtedrá el total de unidades de todos los productos agregados a su carrito.
+     * @return 
+     */
     public int obtenerNumeroProductosCarrito(Integer idCliente) {
 
         int numeroProductosCarrito = 0;
@@ -561,12 +684,30 @@ public class ControlCompra {
         return numeroProductosCarrito;
     }
 
+    /**
+     * Método que permite obtener el monto actual del carrito de compras del Cliente
+     * con el ID del parámetro y el monto mínimo necesario para obtener un envío gratuito.
+     * @param idCliente Objeto Integer que representa el ID del Cliente del que 
+     * se obtendrá la información de monto total de su carrito y monto mínimo requerido
+     * para que obtenga un envío gratuito.
+     * @return Objeto Double[] que contiene tanto el monto actual del total de productos
+     * del carrito del Cliente, como el monto mínomo necesario para obtener un envío
+     * gratuito.
+     */
     public Double[] obtenerInformacionMontoEnvioGratuito(Integer idCliente) {
         MontoMinimoEnvioGratuitoDTO montoMinimoEnvioGratuitoDTO = administradorCarritoCompras.obtenerInformacionMontoEnvioMinimoGratuito(idCliente);
         Double[] informacionMontoEnvioGratuito = {montoMinimoEnvioGratuitoDTO.getMontoActual(), montoMinimoEnvioGratuitoDTO.getMontoMinimo()};
         return informacionMontoEnvioGratuito;
     }
 
+    /**
+     * Método que permite obtener el nombre o nombres y el apellido paterno del
+     * Cliente con el ID del parámetro.
+     * @param idCliente Objeto Integer que representa el ID del Cliente del que 
+     * se obtendrá su nombre o nombres y apellido paterno.
+     * @return Objeto String[] que contiene el nombre o nombres y el apellido paterno
+     * del Cliente.
+     */
     public String[] obtenerNombreApellidoCliente(Integer idCliente) {
 
         NombresApellidoClienteDTO nombreApellidoClienteDTO;
@@ -583,6 +724,15 @@ public class ControlCompra {
         
     }
 
+    /**
+     * Método que permite obtener los números del mínimo y máximo de días estimados 
+     * en que se enviarán todos los productos a la Matriz de la empresa para realizar
+     * el envío al Cliente con el ID del parámetro.
+     * @param idCliente Objeto Integer que representa el ID del Cliente del que 
+     * se obtendrán el múnimo y máximo de días de preparáción de su pedido.
+     * @return Objeto int[] que contiene el mínimo y máximo de días de preparación
+     * del pedido del Cliente.
+     */
     public int[] obtenerRangoDiasFechaEstimadaPreparacion(Integer idCliente) {
         TiempoEstimadoPreparacionEnvioPedidoDTO tiempoEstimadoPreparacionEnvioPedidoDTO;
         
@@ -606,6 +756,17 @@ public class ControlCompra {
         
     }
 
+    /**
+     * Método que permite mostrar la ventana con las paqueterías que el Cliente puede
+     * seleccionar para hacer su pedido.
+     * @param idCliente Objeto Integer que representa el ID del Cliente al que se
+     * le mostrarán las paqueterías que puede seleccionar.
+     * @param envioGratis Dato boolean que determina si el monto total de productos
+     * dentro del carrito del Cliente es al menos el monto mínimo requerido para que
+     * el envío de sus productos sea gratuito.
+     * @param vistaActual Objeto que implementa la interfaz IVista, que representa
+     * la ventana actual que será cerrada.
+     */
     public void mostrarSeleccionPaqueteria(Integer idCliente, boolean envioGratis, IVista vistaActual) {
         
         HashMap<Integer, String> datosPaqueterias = this.obtenerPaqueterias();
@@ -621,6 +782,15 @@ public class ControlCompra {
         ((IVista)seleccionPaqueteria).hacerVisible(true);
     }
     
+    /**
+     * Método que permite obtener algunos datos que componen la dirección de envío
+     * del Cliente con el ID del parámetro, estos son el número, calle, colonia
+     * y Código Postal.
+     * @param idCliente Objeto Integer que representa el ID del Cliente del que 
+     * se obtendrán los datos de la dirección de envío.
+     * @return Objeto String[] que contiene los datos de la dirección de envío
+     * del Cliente.
+     */
     public String[] recuperarDatosDireccionCliente(Integer idCliente){
         
         InformacionNoDerivadaCPDireccionEnvioDTO informacionNoDerivadaCPDireccionEnvioDTO;
@@ -647,6 +817,12 @@ public class ControlCompra {
         
     }
 
+    /**
+     * Método que permite obtener la información de las paqueterías a mostrar en la 
+     * ventana de selección de paqueterías, incluyendo el nombre de cada Paquetería
+     * y la dirección de la imagen de su logotipo dentro de la aplicación.
+     * @return 
+     */
     public HashMap<Integer, String> obtenerPaqueterias() {
         List<InformacionSeleccionPaqueteriaDTO> listaInformacionSeleccionPaqueteriaDTO = administradorPaqueterias.obtenerPaqueterias();
         
@@ -659,6 +835,16 @@ public class ControlCompra {
         return datosPaqueterias;
     }
     
+    /**
+     * Método que permite obtener el costo de envío del pedido del Cliente con el
+     * ID del parámetro, considerando que será realizado con la Paquetería del ID
+     * del parámetro.
+     * @param idCliente Objeto Integer que representa el ID del Cliente que 
+     * del que se obtendrá el costo de envío.
+     * @param idPqueteia Objeto Integer que representa el ID de la paquetería con 
+     * la que se realizará el pedido.
+     * @return 
+     */
     public Float obtenerCostoEnvioPaqueteria(Integer idCliente, Integer idPqueteia){
         
         IdClientePaqueteriaCalculoCostoEnvioDTO idClientePaqueteriaCalculoCostoEnvioDTO =
@@ -678,6 +864,14 @@ public class ControlCompra {
         return costoEnvioPaqueteria;
     }
     
+    /**
+     * Método que permite mostrar el formulario que permite al Cliente actualizar
+     * su dirección de envío.
+     * @param idCliente Objeto Integer que representa el ID del Cliente al que se
+     * le mostrará el formulario para que actualice su dirección.
+     * @param vistaActual Objeto que implementa la interfaz IVista, que representa
+     * la ventana actual que será cerrada.
+     */
     public void mostrarActualizacionDireccionEnvio(Integer idCliente, IVista vistaActual){
         
         InformacionNoDerivadaCPDireccionEnvioDTO informacionNoDerivadaCPDireccionEnvioDTO;
@@ -710,7 +904,16 @@ public class ControlCompra {
 
     }
     
-    
+    /**
+     * Método que permite obtener los datos de la dirección de envío del Cliente
+     * con el ID del parámetro, que puede obtenerse a partir del Código Postal
+     * de tal dirección. Estos son el estado, ciudad y colonia.
+     * @param codigoPostal Objeto String que representa el Código Postal de la
+     * dirección de envío del Cliente de la que se obtendrán los datos derivados
+     * de la dirección.
+     * @return Objeto String[] que contiene los datos de la dirección de envío
+     * derivados de su Código Postal.
+     */
     public String[] obtenerDatosDireccionEnvioDerivadosCP(String codigoPostal){
         
         InformacionDerivadaCPDireccionEnvioDTO derivadosDireccionDTO;
@@ -735,6 +938,15 @@ public class ControlCompra {
         
     }
    
+    /**
+     * Método que permite actualizar los datos de la dirección de envío del Cliente
+     * con el ID del parémtro.
+     * Estos son el Código Postal, la calle y el número.
+     * @param datosCliente Objeto {@literal List<Object>} que representa los nuevos datos
+     * de la dirección de envío del Cliente.
+     * @param vistaActual Objeto que implementa la interfaz IVista, que representa
+     * la ventana actual que será cerrada.
+     */
     public void actualizarDatosDireccionCliente(List<Object> datosCliente, IVista vistaActual){
         InformacionNoDerivadaCPDireccionEnvioDTO direccionEntradaDTO = 
                 new InformacionNoDerivadaCPDireccionEnvioDTO(
@@ -754,6 +966,16 @@ public class ControlCompra {
 
     }
     
+    /**
+     * Método que permite asociar el carrito de compras del Cliente con el ID del parámetro
+     * a la Paquetería con el ID del parámetro.
+     * @param idCliente Objeto Integer que representa el ID del Cliente a cuyo carrito
+     * de compras se le asignará la Paquetería.
+     * @param idPaqueteria Objeto Integer que representa el ID de la paquetería a asociar
+     * al carrito del Cliente.
+     * @param vistaActual Objeto que implementa la interfaz IVista, que representa
+     * la ventana actual que será cerrada.
+     */
     public void asignarPaqueteriaCarritoCliente(Integer idCliente, Integer idPaqueteria, IVista vistaActual){
         try {
             administradorCarritoCompras.asignarPaqueteriaCarritoCliente(idCliente, idPaqueteria);
@@ -767,12 +989,20 @@ public class ControlCompra {
         }
     }
     
+    /**
+     * Método que permite realizar el pedido de los productos del carrito de compras
+     * del Cliente con el ID del parámetro.
+     * @param idCliente Objeto Integer que representa el ID del Cliente al que se
+     * realizará el pedido con los productos de su carrito.
+     */
     public void realizarPedido(Integer idCliente){
         
         try {
             administradorCarritoCompras.crearPedidoProductosCarritoCliente(idCliente);
+            administradorCarritoCompras.caducarCarritoCompras(idCliente);
+            mostrarProductosVenta(direccion);
             mostrarConfirmacionPedido();
-            
+                 
         } catch (CarritoComprasIdClienteInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
@@ -783,6 +1013,16 @@ public class ControlCompra {
         
     }
     
+    /**
+     * Método que simula la ejecución del Caso de Uso Pagar, realizado una vez que
+     * el Cliente ha seleccionado y confirmado la Paquetería que se utilizará para
+     * realizar el envío de productos.
+     * En ese caso se simula que el pago fue exitoso.
+     * @param idCliente Objeto Integer que representa el ID del Cliente con el que
+     * se ejecutará el Caso de Uso Pagar.
+     * @param vistaActual Objeto Integer que representa el ID del Cliente al que se
+     * realizará el pedido con los productos de su carrito.
+     */
     public void ejecutarCasoUsoPagar(Integer idCliente, IVista vistaActual){
         
         vistaActual.cerrar();
@@ -798,18 +1038,33 @@ public class ControlCompra {
         }
     }
     
+    /**
+     * Método que permite mostrar la confirmación de realización de un pedido.
+     */
     public void mostrarConfirmacionPedido() {
         mostrarMensaje("Se ha registrado su pedido", COLOR_MENSAJE_EXITOSO);
     }
     
+    /**
+     * Método que permite mostrar una ventana emergente con el mensaje del parámetro,
+     * en el color del parámetro.
+     * @param mensajeMostrar Objeto String que representa el mensaje a mostrar.
+     * @param color Objeto Color que representa el color con el que se mostrará 
+     * la ventana del mensaje.
+     */
     public void mostrarMensaje(String mensajeMostrar, Color color){
         ((IMensaje)mensaje).setTexto(mensajeMostrar);
         ((IMensaje)mensaje).setColorFondo(color);
         mensaje.mostrarMensaje();
     }
     
+    /**
+     * Método que permite finalizar este Caso de Uso.
+     * @param vistaActual Objeto Integer que representa el ID del Cliente al que se
+     * realizará el pedido con los productos de su carrito.
+     */
     public void finalizarCasoUso(IVista vistaActual){
         vistaActual.cerrar();
-        // El control se pasa al módulo principal
+        // El control se pasa al módulo principal.
     }
 }

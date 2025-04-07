@@ -256,4 +256,9 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
     public void crearPedidoProductosCarritoCliente(Integer idCliente) throws CarritoComprasIdClienteInvalidoException, PedidosIdProductoInvalidoException, CarritoComprasClienteSinCarritoVigenteException, CarritoComprasCarritoVacioException, ProductosIdProductoInvalidoException {
         administrador.crearPedidoProductosCarritoCliente(idCliente);
     }
+
+    @Override
+    public void caducarCarritoCompras(Integer idCliente) throws CarritoComprasIdClienteInvalidoException{
+        administrador.caducarCarritoCompras(idCliente);
+    }
 }

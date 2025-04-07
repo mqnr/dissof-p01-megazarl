@@ -208,4 +208,12 @@ public interface IAdministradorCarritoCompras {
             CarritoComprasClienteSinCarritoVigenteException,
             CarritoComprasCarritoVacioException,
             ProductosIdProductoInvalidoException;
+    
+    /**
+     * Método que permite hacer no vigente el carrito de compras del Cliente con el ID
+     * del parémtro.
+     * @param idCliente Objeto Integer que representa el ID del Cliente cuyo
+     * carrito de compras se hará no vigente.
+     */
+    public abstract void caducarCarritoCompras(Integer idCliente) throws CarritoComprasIdClienteInvalidoException;
 }

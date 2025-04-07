@@ -1,12 +1,12 @@
 package edu.student.itson.dissof.megazarl.dto;
 
 /**
- * DireccionClientePesoTiempoProductoInventarioDTO.java
- *
- * Clase que representa un objeto de transferencia de datos que contiene
- * la información necesaria para calcular el costo y tiempo de envío,
- * incluyendo datos de la dirección del cliente, la dirección de la matriz,
- * y características del producto como su peso y tiempo estimado de envío.
+ * DireccionClientePesoTiempoEnvioPaqueteriaDTO.java
+
+ Clase que representa un objeto de transferencia de datos que contiene
+ la información necesaria para calcular el costo y tiempo de envío,
+ incluyendo datos de la dirección del cliente, la dirección de la matriz,
+ y características del producto como su peso y tiempo estimado de envío.
  *
  * @author Yuri Germán García López
  * ID: 00000252583
@@ -20,7 +20,7 @@ package edu.student.itson.dissof.megazarl.dto;
  * ID: 00000251923
  *
  */
-public class DireccionClientePesoTiempoProductoInventarioDTO {
+public class DireccionClientePesoTiempoEnvioPaqueteriaDTO {
     
     private Integer codigoPaqueteria;
     private String codigoPostalCliente;
@@ -29,10 +29,10 @@ public class DireccionClientePesoTiempoProductoInventarioDTO {
     private String codigoPostalMatriz;
     private String calleMatriz;
     private String numeroMatriz;
-    private Double pesoKgProductoInventario;
+    private Double pesoKgTotal;
     private Float tiempoEnvioMatrizHorasProductoInventario;
 
-    public DireccionClientePesoTiempoProductoInventarioDTO(Integer codigoPaqueteria, String codigoPostalCliente, String calleCliente, String numeroCliente, String codigoPostalMatriz, String calleMatriz, String numeroMatriz, Double pesoKgProductoInventario, Float tiempoEnvioMatrizHorasProductoInventario) {
+    public DireccionClientePesoTiempoEnvioPaqueteriaDTO(Integer codigoPaqueteria, String codigoPostalCliente, String calleCliente, String numeroCliente, String codigoPostalMatriz, String calleMatriz, String numeroMatriz, Double pesoKgTotal, Float tiempoEnvioMatrizHorasProductoInventario) {
         this.codigoPaqueteria = codigoPaqueteria;
         this.codigoPostalCliente = codigoPostalCliente;
         this.calleCliente = calleCliente;
@@ -40,7 +40,7 @@ public class DireccionClientePesoTiempoProductoInventarioDTO {
         this.codigoPostalMatriz = codigoPostalMatriz;
         this.calleMatriz = calleMatriz;
         this.numeroMatriz = numeroMatriz;
-        this.pesoKgProductoInventario = pesoKgProductoInventario;
+        this.pesoKgTotal = pesoKgTotal;
         this.tiempoEnvioMatrizHorasProductoInventario = tiempoEnvioMatrizHorasProductoInventario;
     }
 
@@ -72,8 +72,8 @@ public class DireccionClientePesoTiempoProductoInventarioDTO {
         return numeroMatriz;
     }
 
-    public Double getPesoKgProductoInventario() {
-        return pesoKgProductoInventario;
+    public Double getPesoKgTotal() {
+        return pesoKgTotal;
     }
 
     public Float getTiempoEnvioMatrizHorasProductoInventario() {
