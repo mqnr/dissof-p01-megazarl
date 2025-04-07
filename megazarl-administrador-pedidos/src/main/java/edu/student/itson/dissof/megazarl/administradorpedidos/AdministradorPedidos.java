@@ -85,6 +85,12 @@ class AdministradorPedidos implements IAdministradorPedidos {
 
             Float costoTotalEnvioProductos = 0F;
 
+            // Se usa una lista para alamcenar las sucursales a las que es necesario
+            // realizar un traslado de producto a la Matriz de la empresa.   
+            LinkedList<Integer> listaIdsucursalesCubiertas = new LinkedList<>();
+            double sumaKgTotal = 0;
+            
+            // Se calcula el costo de envio de productos a matriz:
             for (Integer idProducto: mapaProductosCantidades.keySet()) {
                 int cantidadProductoSolicitado = mapaProductosCantidades.get(idProducto);
 
@@ -98,11 +104,28 @@ class AdministradorPedidos implements IAdministradorPedidos {
                 Double pesoKgProductoInventario = producto.getPesoKg();
 
                 for (ProductoInventarioON productoInventario: listaProductosInventario) {
+                    
                     Float tiempoEnvioMatrizHorasProductoInventario = productoInventario.getSucursal().getTiempoMatriz();
-
-                    if (tiempoEnvioMatrizHorasProductoInventario >= 0) {
-                        DireccionClientePesoTiempoProductoInventarioDTO direccionClientePesoTiempoProductoInventarioDTO =
-                                new DireccionClientePesoTiempoProductoInventarioDTO(
+                    
+                    sumaKgTotal += productoInventario.getProducto().getPesoKg();
+                    
+                    Integer idSucursalProductoInventario = productoInventario.getSucursal().getId();
+                    
+                    if(tiempoEnvioMatrizHorasProductoInventario == 0){
+                        pesoKgProductoInventario = 0D;
+                    }
+                    
+                    if(!listaIdsucursalesCubiertas.contains(idSucursalProductoInventario)){
+                        listaIdsucursalesCubiertas.add(idSucursalProductoInventario);
+                        
+                    } else{
+                        tiempoEnvioMatrizHorasProductoInventario = 0F;
+                    }  
+                    
+                    
+                    if (tiempoEnvioMatrizHorasProductoInventario >= 0 ) {
+                        DireccionClientePesoTiempoEnvioPaqueteriaDTO direccionClientePesoTiempoEnvioPaqueteriaDTO =
+                                new DireccionClientePesoTiempoEnvioPaqueteriaDTO(
                                         idPaqueteria,
                                         codigoPostalCliente,
                                         calleCliente,
@@ -112,17 +135,36 @@ class AdministradorPedidos implements IAdministradorPedidos {
                                         numeroMatriz,
                                         pesoKgProductoInventario,
                                         tiempoEnvioMatrizHorasProductoInventario);
+                        
                         costoTotalEnvioProductos +=
-                                administradorPaqueterias.obtenerCostoEnvioProducto(direccionClientePesoTiempoProductoInventarioDTO);
+                                administradorPaqueterias.obtenerCostoEnvioProducto(direccionClientePesoTiempoEnvioPaqueteriaDTO);
 
                         cantidadProductoSolicitado--;
-                    }
+                    }  
 
                     if (cantidadProductoSolicitado <= 0) {
                         break;
                     }
                 }
             }
+            // Se obtiene el costo de envío del pedido a la dirección de envío del Cliente:
+            // Se asume que la dirección de envío del Cliente se encuentra a 3 horas de la Matriz de la
+            // empresa.
+            DireccionClientePesoTiempoEnvioPaqueteriaDTO direccionClientePesoTiempoEnvioPaqueteriaDTO =
+                new DireccionClientePesoTiempoEnvioPaqueteriaDTO(
+                        idPaqueteria,
+                        codigoPostalCliente,
+                        calleCliente,
+                        numeroCliente,
+                        codigoPostalMatriz,
+                        calleMatriz,
+                        numeroMatriz,
+                        sumaKgTotal,
+                        3F);
+            
+            costoTotalEnvioProductos +=
+                    administradorPaqueterias.obtenerCostoEnvioProducto(direccionClientePesoTiempoEnvioPaqueteriaDTO);
+            
             return costoTotalEnvioProductos;
 
         } catch (ClientesIdClienteInvalidoException ex) {

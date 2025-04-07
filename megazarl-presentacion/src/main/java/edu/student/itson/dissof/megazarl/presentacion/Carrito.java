@@ -220,7 +220,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
 
                     Double precioProducto = (Double) informacionProducto.get("Precio");
 
-                    JLabel labelPrecioItem = new JLabel(String.format("$%.2f",
+                    JLabel labelPrecioItem = new JLabel(String.format("$%,.2f",
                             precioProducto * cantidadProducto
                     ));
 
@@ -282,7 +282,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
         Double montoActual = informacionMontoEnvioGratuito[0];
         Double montoEnvioGratuito = informacionMontoEnvioGratuito[1];
 
-        JLabel labelPrecioTotal = new JLabel(String.format("$%.2f / $%.2f", montoActual, montoEnvioGratuito));
+        JLabel labelPrecioTotal = new JLabel(String.format("$%,.2f / $%,.2f", montoActual, montoEnvioGratuito));
         labelPrecioTotal.setFont(new Font("Arial", Font.BOLD, 18));
 
         panelBannerPrecio.add(labelPrecioTotal);

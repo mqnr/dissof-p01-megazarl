@@ -1,7 +1,7 @@
 package edu.student.itson.dissof.megazarl.administradorpaqueterias;
 
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
-import edu.student.itson.dissof.megazarl.dto.DireccionClientePesoTiempoProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.DireccionClientePesoTiempoEnvioPaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionSeleccionPaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
 
@@ -31,10 +31,10 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
     }
 
     @Override
-    public Float obtenerCostoEnvioProducto(DireccionClientePesoTiempoProductoInventarioDTO direccionClienteProductosEnvioDTO)
+    public Float obtenerCostoEnvioProducto(DireccionClientePesoTiempoEnvioPaqueteriaDTO direccionClientePesoTiempoEnvioPaqueteriaDTO)
             throws PaqueteriasIdPaqueteriaInvalidoException{
 
-        Integer idPaqueteria = direccionClienteProductosEnvioDTO.getCodigoPaqueteria();
+        Integer idPaqueteria = direccionClientePesoTiempoEnvioPaqueteriaDTO.getCodigoPaqueteria();
 
         // Se valida el ID de Paqueteria:
         if (!validarPaqueteria(idPaqueteria)) {
@@ -51,15 +51,13 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         Float cobroKg = paqueteriaRecuperada.getCobroKg();
         Float cobroHora = paqueteriaRecuperada.getCobroHora();
 
-        // Se obtiene el peso del peso en Kg del producto de la DTO del parámetro y su tiempo de envío a Matriz.
-        Double pesoKgProducto = direccionClienteProductosEnvioDTO.getPesoKgProductoInventario();
-        Float tiempoEnvioHoras = direccionClienteProductosEnvioDTO.getTiempoEnvioMatrizHorasProductoInventario();
+        // Se obtiene el peso del peso en Kg del producto de la DTO del parámetro y su tiempo de envío.
+        Double pesoKgProducto = direccionClientePesoTiempoEnvioPaqueteriaDTO.getPesoKgTotal();
+        Float tiempoEnnvioDestino = direccionClientePesoTiempoEnvioPaqueteriaDTO.getTiempoEnvioMatrizHorasProductoInventario();
 
-        if (tiempoEnvioHoras == 0) {
-            return 0F;
-        }
+        float costoEnvioProducto = (float)(cobroKg * pesoKgProducto) + (cobroHora * tiempoEnnvioDestino);
 
-        return (float)(cobroKg * pesoKgProducto) + (cobroHora * tiempoEnvioHoras);
+        return costoEnvioProducto;
     }
 
     @Override
