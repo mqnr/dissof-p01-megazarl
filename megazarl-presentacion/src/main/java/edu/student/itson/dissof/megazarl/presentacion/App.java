@@ -4,8 +4,6 @@ import edu.student.itson.dissof.administradorproveedores.FAdministradorProveedor
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
 import edu.student.itson.dissof.megazarl.administradorsucursales.FAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
-import edu.student.itson.dissof.megazarl.administradorclientes.FAdministradorClientes;
-import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.FAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorpedidos.FAdministradorPedidos;
@@ -15,7 +13,6 @@ import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorPr
 import edu.student.itson.dissof.megazarl.carritocompras.FAdministradorCarritoCompras;
 import edu.student.itson.dissof.megazarl.carritocompras.IAdministradorCarritoCompras;
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
-import edu.student.itson.dissof.megazarl.objetosnegocio.ClienteON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventarioON;
@@ -23,6 +20,7 @@ import edu.student.itson.dissof.megazarl.objetosnegocio.ProveedorON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.SucursalON;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
+import edu.student.itson.dissof.megazarl.repositorio.entidades.Cliente;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -51,16 +49,16 @@ public class App {
             Integer idCliente = 3;
 
             // Creación de objetos a utilizar
-            List<ClienteON> listaClientes = Arrays.asList(
-                                new ClienteON(
-                                        3,
-                                        "Juan", 
-                                        "Pérez", 
-                                        "González", 
-                                        "85000", 
-                                        "Guerrero", 
-                                        "1586"));
-            
+            Cliente.guardar(
+                    3,
+                    "Juan",
+                    "Pérez",
+                    "González",
+                    "85000",
+                    "Guerrero",
+                    "1586"
+            );
+
             SucursalON sucursal1 = new SucursalON(
                                         1, 
                                         false, 
@@ -172,12 +170,10 @@ public class App {
             PaqueteriaON paqueteria3 = new PaqueteriaON(3, "PCP", 8F, 7F, "/pcp.png");
             PaqueteriaON paqueteria4 = new PaqueteriaON(4, "UPS", 20F, 21F, "/ups.png");
             PaqueteriaON paqueteria5 = new PaqueteriaON(5, "Estafeta", 11F, 17F, "/estafeta.png");
-            
+
             List<PaqueteriaON> listaPaqueterias = Arrays.asList(paqueteria1, paqueteria2, paqueteria3, paqueteria4, paqueteria5);
 
             // Se crean los subsistemas a utilziar:
-            IAdministradorClientes subsistemaAdministradorClientes = new FAdministradorClientes(listaClientes);
-
             IAdministradorProductos subsistemaAdministradorProductos = new FAdministradorProductos(listaProductos);
 
             IAdministradorSucursales subsistemaAdministradorSucursales =  new FAdministradorSucursales(listaSucursales);
@@ -185,14 +181,12 @@ public class App {
             IAdministradorPaqueterias subsistemaAdministradorPaqueterias = new FAdministradorPaqueterias(listaPaqueterias);
 
             IAdministradorPedidos subsistemaAdministradorPedidos = new FAdministradorPedidos(
-                    subsistemaAdministradorProductos, 
-                    subsistemaAdministradorClientes,
+                    subsistemaAdministradorProductos,
                     subsistemaAdministradorPaqueterias,
                     subsistemaAdministradorSucursales);
              
             IAdministradorCarritoCompras subsistemaAdministradorCarritoCompras = new FAdministradorCarritoCompras(
-                    (double) 100000, 
-                    subsistemaAdministradorClientes, 
+                    (double) 100000,
                     subsistemaAdministradorProductos,
                     subsistemaAdministradorPedidos,
                     subsistemaAdministradorPaqueterias);
@@ -202,7 +196,6 @@ public class App {
                 
             
             ControlCompra controlCompra = new ControlCompra(
-                    subsistemaAdministradorClientes, 
                     subsistemaAdministradorProductos,
                     subsistemaAdministradorCarritoCompras,
                     subsistemaAdministradorPaqueterias,

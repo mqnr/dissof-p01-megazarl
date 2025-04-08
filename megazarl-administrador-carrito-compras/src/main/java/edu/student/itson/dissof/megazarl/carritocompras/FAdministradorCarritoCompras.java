@@ -50,21 +50,17 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
      *
      * @param montoMinimoEnvioGratuito Representa el monto mínimo para que un Cliente
      * pueda obtener un envío gratuito.
-     * @param administradorClientes Objeto del tipo IAdministradorClientes, la
-     * interfaz del subsistema administradroClientes
      * @param administradorProductos
      * @param administradorPedidos
      * @param administradorPaqueterias
      */
     public FAdministradorCarritoCompras(
             Double montoMinimoEnvioGratuito,
-            IAdministradorClientes administradorClientes,
             IAdministradorProductos administradorProductos,
             IAdministradorPedidos administradorPedidos,
             IAdministradorPaqueterias administradorPaqueterias) {
         administrador = new AdministradorCarritoCompras(
                 montoMinimoEnvioGratuito,
-                administradorClientes,
                 administradorProductos,
                 administradorPedidos,
                 administradorPaqueterias

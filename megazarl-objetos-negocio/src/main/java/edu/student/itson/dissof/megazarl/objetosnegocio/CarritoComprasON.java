@@ -1,5 +1,7 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
+import edu.student.itson.dissof.megazarl.dto.modelos.ClienteDTO;
+
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -24,7 +26,7 @@ import java.util.Objects;
  */
 public class CarritoComprasON {
     private Integer id;
-    private ClienteON cliente;
+    private ClienteDTO cliente;
     private PaqueteriaON paqueteria;
     private Boolean pedidoRealizado;
     private HashMap<ProductoON, Integer> productosCantidades;
@@ -33,12 +35,12 @@ public class CarritoComprasON {
 
     /**
      * Constructor que inicializa un carrito de compras con todos sus atributos.
-     * @param cliente Objeto Cliente que representa al cliente dueño del carrito.
+     * @param cliente Objeto ClienteDTO que representa al cliente dueño del carrito.
      * @param paqueteria Objeto Paqueteria que representa la paquetería seleccionada para el envío.
      * @param pedidoRealizado Objeto Boolean que indica si el pedido ya fue realizado (true) o no (false).
      * @param productosCantidades Objeto HashMap que mapea productos con sus cantidades respectivas en el carrito.
      */
-    public CarritoComprasON(ClienteON cliente, PaqueteriaON paqueteria, Boolean pedidoRealizado, HashMap<ProductoON, Integer> productosCantidades) {
+    public CarritoComprasON(ClienteDTO cliente, PaqueteriaON paqueteria, Boolean pedidoRealizado, HashMap<ProductoON, Integer> productosCantidades) {
         this.id = ID_PROXIMO_CARRITO_COMPRAS++;
         this.cliente = cliente;
         this.paqueteria = paqueteria;
@@ -48,11 +50,11 @@ public class CarritoComprasON {
 
     /**
      * Constructor que inicializa un carrito de compras sin paquetería seleccionada.
-     * @param cliente Objeto Cliente que representa al cliente dueño del carrito.
+     * @param cliente Objeto ClienteDTO que representa al cliente dueño del carrito.
      * @param pedidoRealizado Objeto Boolean que indica si el pedido ya fue realizado (true) o no (false).
      * @param productosCantidades Objeto HashMap que mapea productos con sus cantidades respectivas en el carrito.
      */
-    public CarritoComprasON(ClienteON cliente, Boolean pedidoRealizado, HashMap<ProductoON, Integer> productosCantidades) {
+    public CarritoComprasON(ClienteDTO cliente, Boolean pedidoRealizado, HashMap<ProductoON, Integer> productosCantidades) {
         this.id = ID_PROXIMO_CARRITO_COMPRAS++;
         this.cliente = cliente;
         this.pedidoRealizado = pedidoRealizado;
@@ -77,17 +79,17 @@ public class CarritoComprasON {
 
     /**
      * Método que permite obtener el cliente dueño del carrito.
-     * @return Objeto Cliente que representa al cliente dueño del carrito.
+     * @return Objeto ClienteDTO que representa al cliente dueño del carrito.
      */
-    public ClienteON getCliente() {
+    public ClienteDTO getCliente() {
         return cliente;
     }
 
     /**
      * Método que permite establecer el cliente dueño del carrito.
-     * @param cliente Objeto Cliente que representa al cliente dueño del carrito.
+     * @param cliente Objeto ClienteDTO que representa al cliente dueño del carrito.
      */
-    public void setCliente(ClienteON cliente) {
+    public void setCliente(ClienteDTO cliente) {
         this.cliente = cliente;
     }
 

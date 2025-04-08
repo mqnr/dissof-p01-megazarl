@@ -1,6 +1,6 @@
 package edu.student.itson.dissof.megazarl.administradorpedidos;
 
-import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
+import edu.student.itson.dissof.megazarl.administradorclientes.FAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
@@ -20,18 +20,15 @@ import java.util.List;
 
 class AdministradorPedidos implements IAdministradorPedidos {
     private final IAdministradorProductos administradorProductos;
-    private final IAdministradorClientes administradorClientes;
     private final IAdministradorPaqueterias administradorPaqueterias;
     private final IAdministradorSucursales administradorSucursales;
 
     public AdministradorPedidos(
             IAdministradorProductos administradorProductos,
-            IAdministradorClientes administradorClientes,
             IAdministradorPaqueterias administradorPaqueterias,
             IAdministradorSucursales administradorSucursales) {
 
         this.administradorProductos = administradorProductos;
-        this.administradorClientes = administradorClientes;
         this.administradorPaqueterias = administradorPaqueterias;
         this.administradorSucursales = administradorSucursales;
     }
@@ -51,7 +48,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
 
         Integer idCliente = informacionCalculoCostoPedidoDTO.getIdCliente();
 
-        if (!administradorClientes.validarIdCliente(idCliente)) {
+        if (!FAdministradorClientes.validarIdCliente(idCliente)) {
             throw new PedidosIdClienteInvalidoException("El ID de cliente: " + idCliente + " es inválido.");
         }
 
@@ -71,7 +68,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
 
         try {
             InformacionNoDerivadaCPDireccionEnvioDTO informacionNoDerivadaCPDireccionEnvioDTO
-                    = administradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(idCliente);
+                    = FAdministradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(idCliente);
 
             String codigoPostalCliente = informacionNoDerivadaCPDireccionEnvioDTO.getCodigoPostal();
             String calleCliente = informacionNoDerivadaCPDireccionEnvioDTO.getCalle();
@@ -180,7 +177,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
 
         Integer idCliente = informacionCrearPedidoDTO.getIdCliente();
 
-        if (!administradorClientes.validarIdCliente(idCliente)) {
+        if (!FAdministradorClientes.validarIdCliente(idCliente)) {
             throw new PedidosIdProductoInvalidoException("El ID de cliente: " + idCliente + " es inválido.");
         }
 

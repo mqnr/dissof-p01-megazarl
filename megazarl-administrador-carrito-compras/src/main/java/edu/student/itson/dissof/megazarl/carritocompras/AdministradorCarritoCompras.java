@@ -1,6 +1,6 @@
 package edu.student.itson.dissof.megazarl.carritocompras;
 
-import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
+import edu.student.itson.dissof.megazarl.administradorclientes.FAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.IAdministradorPedidos;
@@ -12,8 +12,8 @@ import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.Prod
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosProductoSinInventarioException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.*;
 import edu.student.itson.dissof.megazarl.dto.*;
+import edu.student.itson.dissof.megazarl.dto.modelos.ClienteDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.CarritoComprasON;
-import edu.student.itson.dissof.megazarl.objetosnegocio.ClienteON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoON;
 
@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
-    private final IAdministradorClientes administradorClientes;
     private final IAdministradorProductos administradorProductos;
     private final IAdministradorPedidos administradorPedidos;
     private final IAdministradorPaqueterias administradorPaqueterias;
@@ -32,12 +31,10 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
 
     public AdministradorCarritoCompras(
             Double montoMinimoEnvioGratuito,
-            IAdministradorClientes administradorClientes,
             IAdministradorProductos administradorProductos,
             IAdministradorPedidos administradorPedidos,
             IAdministradorPaqueterias administradorPaqueterias) {
         this.montoMinimoEnvioGratuito = montoMinimoEnvioGratuito;
-        this.administradorClientes = administradorClientes;
         this.administradorProductos = administradorProductos;
         this.administradorPedidos = administradorPedidos;
         this.administradorPaqueterias = administradorPaqueterias;
@@ -46,7 +43,7 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
     @Override
     public List<InformacionProductoCarritoDTO> obtenerProductos(Integer idCliente) throws CarritoComprasIdClienteInvalidoException{
         // Se valida el ID del Cliente recibido.
-        if (!administradorClientes.validarIdCliente(idCliente)) {
+        if (!FAdministradorClientes.validarIdCliente(idCliente)) {
             throw new CarritoComprasIdClienteInvalidoException("El ID de cliente: " + idCliente + " es inválido.");
         }
 
@@ -82,11 +79,11 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             ProductosIdProductoInvalidoException,
             ProductosProductoSinInventarioException {
         // Se valida el ID del Cliente recibido.
-        if (!administradorClientes.validarIdCliente(idCliente)) {
+        if (!FAdministradorClientes.validarIdCliente(idCliente)) {
             throw new CarritoComprasIdClienteInvalidoException("El ID de cliente: " + idCliente + " es inválido.");
         }
 
-        ClienteON clienteCarrito = administradorClientes.obtenerCliente(idCliente);
+        ClienteDTO clienteCarrito = FAdministradorClientes.obtenerCliente(idCliente);
 
         if (clienteCarrito == null) {
             throw new CarritoComprasIdClienteInvalidoException("El ID de cliente: " + idCliente + " es inválido.");
@@ -131,7 +128,6 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
 
         // Se aparta la cantidad del producto agregado.
         administradorProductos.apartarProductoInventario(idProducto, cantidad);
-
     }
 
     @Override
@@ -144,13 +140,11 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             ProductosProductoSinInventarioException {
 
         // Se valida el ID del Cliente recibido.
-        if (!administradorClientes.validarIdCliente(idCliente)) {
+        if (!FAdministradorClientes.validarIdCliente(idCliente)) {
             throw new CarritoComprasIdClienteInvalidoException("El ID de cliente: " + idCliente + " es inválido.");
         }
 
-        ClienteON clienteEliminarProducto = administradorClientes.obtenerCliente(idCliente);
-
-        if (clienteEliminarProducto == null) {
+        if (!FAdministradorClientes.validarIdCliente(idCliente)) {
             throw new CarritoComprasIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
         }
 
@@ -202,7 +196,7 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             throws CarritoComprasIdClienteInvalidoException{
 
         // Se determina si el ID del Cliente es inválido.
-        if (!administradorClientes.validarIdCliente(idCliente)) {
+        if (!FAdministradorClientes.validarIdCliente(idCliente)) {
             throw new CarritoComprasIdClienteInvalidoException("El ID de cliente: " + idCliente + " es inválido.");
         }
 
@@ -307,7 +301,7 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         // Se valida el ID del Cliente.
         Integer idCliente = idClientePaqueteriaCalculoCostoEnvioDTO.getIdCliente();
 
-        if (!administradorClientes.validarIdCliente(idCliente)) {
+        if (!FAdministradorClientes.validarIdCliente(idCliente)) {
             throw new CarritoComprasIdClienteInvalidoException("El ID de cliente: " + idCliente + " es inválido.");
         }
 
@@ -355,7 +349,7 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             CarritoComprasClienteSinCarritoVigenteException{
 
         // Se valida el ID del Cliente.
-        if (!administradorClientes.validarIdCliente(idCliente)) {
+        if (!FAdministradorClientes.validarIdCliente(idCliente)) {
             throw new CarritoComprasIdClienteInvalidoException("El ID de cliente: " + idCliente + " es inválido.");
         }
 
@@ -389,7 +383,7 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             ProductosIdProductoInvalidoException {
 
         // Se valida el ID del Cliente.
-        if (!administradorClientes.validarIdCliente(idCliente)) {
+        if (!FAdministradorClientes.validarIdCliente(idCliente)) {
             throw new CarritoComprasIdClienteInvalidoException("El ID de cliente: " + idCliente + " es inválido.");
         }
 
@@ -429,7 +423,7 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         CarritoComprasON carritoComprasCliente = null;
 
         for (CarritoComprasON carritoCompras: listaCarritosCompras) {
-            if(carritoCompras.getCliente().getId().equals(idCliente)
+            if(carritoCompras.getCliente().id().equals(idCliente)
                     && !carritoCompras.getPedidoRealizado()
                     && carritoCompras.getProductosCantidades() != null){
                 carritoComprasCliente = carritoCompras;
@@ -444,7 +438,7 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
     public void caducarCarritoCompras(Integer idCliente) throws CarritoComprasIdClienteInvalidoException{
         
         // Se valida el ID del Cliente:
-        if(!administradorClientes.validarIdCliente(idCliente)){
+        if(!FAdministradorClientes.validarIdCliente(idCliente)){
             throw new CarritoComprasIdClienteInvalidoException("El ID de Cliente " + idCliente + " es inválido.");
         }
         

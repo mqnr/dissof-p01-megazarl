@@ -2,6 +2,7 @@ package edu.student.itson.dissof.megazarl.presentacion;
 
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorclientes.FAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdClienteInvalidoException;
@@ -13,6 +14,7 @@ import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.Pedido
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosProductoSinInventarioException;
+import edu.student.itson.dissof.megazarl.carritocompras.FAdministradorCarritoCompras;
 import edu.student.itson.dissof.megazarl.carritocompras.IAdministradorCarritoCompras;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasCarritoSinProductoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasCarritoVacioException;
@@ -75,7 +77,6 @@ public class ControlCompra {
     private IVista carrito;
     private IMensaje mensaje;
     private IVista direccion;
-    private IAdministradorClientes administradorClientes;
     private IAdministradorProductos administradorProductos;
     private IAdministradorCarritoCompras administradorCarritoCompras;
     private IAdministradorPaqueterias administradorPaqueterias;
@@ -89,14 +90,12 @@ public class ControlCompra {
     private static final Logger LOG = Logger.getLogger(ControlCompra.class.getName());
 
     public ControlCompra(
-        IAdministradorClientes administradorClientes,
         IAdministradorProductos administradorProductos,
         IAdministradorCarritoCompras administradorCarritoCompras,
         IAdministradorPaqueterias administradorPaqueterias,
         IAdministradorSucursales administradorSucursales,
         IAdministradorProveedores administradorProveedores) {
-        
-        this.administradorClientes = administradorClientes;
+
         this.administradorProductos = administradorProductos;
         this.administradorPaqueterias = administradorPaqueterias;
         this.administradorCarritoCompras = administradorCarritoCompras;
@@ -707,7 +706,7 @@ public class ControlCompra {
 
         NombresApellidoClienteDTO nombreApellidoClienteDTO;
         try {
-            nombreApellidoClienteDTO = this.administradorClientes.obtenerNombresApellidoCliente(idCliente);
+            nombreApellidoClienteDTO = FAdministradorClientes.obtenerNombresApellidoCliente(idCliente);
             String[] nombreApellidoCliente = {nombreApellidoClienteDTO.getNombresCliente(), nombreApellidoClienteDTO.getApellidoMaternoCliente()};
             return nombreApellidoCliente;
         } catch (ClientesIdClienteInvalidoException ex) {
@@ -790,13 +789,13 @@ public class ControlCompra {
         
         InformacionNoDerivadaCPDireccionEnvioDTO informacionNoDerivadaCPDireccionEnvioDTO;
         try {
-            informacionNoDerivadaCPDireccionEnvioDTO = administradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(idCliente);
+            informacionNoDerivadaCPDireccionEnvioDTO = FAdministradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(idCliente);
             
             String calleCliente = informacionNoDerivadaCPDireccionEnvioDTO.getCalle();
             String numeroCliente =  informacionNoDerivadaCPDireccionEnvioDTO.getNumero();
             String codigoPostalCliente = informacionNoDerivadaCPDireccionEnvioDTO.getCodigoPostal();
             
-            String coloniaCliente = administradorClientes.obtenerColoniaCliente(idCliente);
+            String coloniaCliente = FAdministradorClientes.obtenerColoniaCliente(idCliente);
             String[] datosDireccionCliente = {calleCliente, numeroCliente,coloniaCliente, codigoPostalCliente};
             return datosDireccionCliente;
             
@@ -871,13 +870,13 @@ public class ControlCompra {
         
         InformacionNoDerivadaCPDireccionEnvioDTO informacionNoDerivadaCPDireccionEnvioDTO;
         try {
-            informacionNoDerivadaCPDireccionEnvioDTO = administradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(idCliente);
+            informacionNoDerivadaCPDireccionEnvioDTO = FAdministradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(idCliente);
             String calleEnvio = informacionNoDerivadaCPDireccionEnvioDTO.getCalle();
             String numeroEnvio =  informacionNoDerivadaCPDireccionEnvioDTO.getNumero();
             String codigoPostalEnvio = informacionNoDerivadaCPDireccionEnvioDTO.getCodigoPostal();
             
-            String estadoEnvio = administradorClientes.obtenerEstadoCliente(idCliente);
-            String ciudadEnvio =  administradorClientes.obtenerCiudadCliente(idCliente);
+            String estadoEnvio = FAdministradorClientes.obtenerEstadoCliente(idCliente);
+            String ciudadEnvio =  FAdministradorClientes.obtenerCiudadCliente(idCliente);
             
             ((IDireccion)direccion).setCodigoPostalEnvio(codigoPostalEnvio);
             ((IDireccion)direccion).setCalleEnvio(calleEnvio);
@@ -947,7 +946,7 @@ public class ControlCompra {
                         (String)datosCliente.get(3));
         
         try {
-            administradorClientes.actualizarDireccionCliente(direccionEntradaDTO);
+            FAdministradorClientes.actualizarDireccionCliente(direccionEntradaDTO);
             mostrarProductosVenta(vistaActual);
             mostrarMensaje("Se ha actualizado su dirección", COLOR_MENSAJE_EXITOSO);
         } catch (ClientesIdClienteInvalidoException ex) {
