@@ -12,7 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public enum AdministradorDirecciones implements IAdministradorDirecciones {
+enum AdministradorDirecciones implements IAdministradorDirecciones {
     INSTANCIA;
 
     @Override
