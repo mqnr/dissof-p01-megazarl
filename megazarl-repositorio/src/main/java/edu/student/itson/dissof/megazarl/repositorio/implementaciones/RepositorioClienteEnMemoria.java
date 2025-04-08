@@ -38,16 +38,7 @@ public class RepositorioClienteEnMemoria implements RepositorioClientes {
         for (int i = 0; i < listaClientes.size(); i++) {
             ClienteDTO cliente = listaClientes.get(i);
             if (cliente.id().equals(id)) {
-                ClienteDTO clienteActualizado = new ClienteDTO(
-                        cliente.id(),
-                        actualizacion.tieneNombres() ? actualizacion.getNombres() : cliente.nombres(),
-                        actualizacion.tieneApellidoPaterno() ? actualizacion.getApellidoPaterno() : cliente.apellidoPaterno(),
-                        actualizacion.tieneApellidoMaterno() ? actualizacion.getApellidoMaterno() : cliente.apellidoMaterno(),
-                        actualizacion.tieneCodigoPostalEnvio() ? actualizacion.getCodigoPostalEnvio() : cliente.codigoPostalEnvio(),
-                        actualizacion.tieneCalleEnvio() ? actualizacion.getCalleEnvio() : cliente.calleEnvio(),
-                        actualizacion.tieneNumeroDomicilioEnvio() ? actualizacion.getNumeroDomicilioEnvio() : cliente.numeroDomicilioEnvio()
-                );
-
+                ClienteDTO clienteActualizado = aplicar(cliente, actualizacion);
                 listaClientes.set(i, clienteActualizado);
                 return clienteActualizado;
             }
@@ -78,5 +69,17 @@ public class RepositorioClienteEnMemoria implements RepositorioClientes {
     @Override
     public boolean existe(Predicate<ClienteDTO> criterio) {
         return listaClientes.stream().anyMatch(criterio);
+    }
+
+    private ClienteDTO aplicar(ClienteDTO clienteOriginal, ActualizacionCliente actualizacion) {
+        return new ClienteDTO(
+                clienteOriginal.id(),
+                actualizacion.tieneNombres() ? actualizacion.getNombres() : clienteOriginal.nombres(),
+                actualizacion.tieneApellidoPaterno() ? actualizacion.getApellidoPaterno() : clienteOriginal.apellidoPaterno(),
+                actualizacion.tieneApellidoMaterno() ? actualizacion.getApellidoMaterno() : clienteOriginal.apellidoMaterno(),
+                actualizacion.tieneCodigoPostalEnvio() ? actualizacion.getCodigoPostalEnvio() : clienteOriginal.codigoPostalEnvio(),
+                actualizacion.tieneCalleEnvio() ? actualizacion.getCalleEnvio() : clienteOriginal.calleEnvio(),
+                actualizacion.tieneNumeroDomicilioEnvio() ? actualizacion.getNumeroDomicilioEnvio() : clienteOriginal.numeroDomicilioEnvio()
+        );
     }
 }
