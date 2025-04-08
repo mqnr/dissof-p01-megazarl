@@ -29,12 +29,14 @@ import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class App {
+    private static final Logger logger = Logger.getLogger(App.class.getName());
 
     public static void main(String[] args) {
         try {
@@ -46,30 +48,10 @@ public class App {
                     JOptionPane.WARNING_MESSAGE);
         }
         SwingUtilities.invokeLater(() -> {
-            try {
-                String rutaArchivo = "";
-                for (int i = 0; i < args.length; i++) {
-                    if (args[i].equals("-c") || args[i].equals("--configuracion")) {
-                        if (i == args.length - 1) {
-                            System.err.println("Error fatal: La bandera \"" + args[i] + "\" necesita un argumento");
-                            System.exit(1);
-                        }
-                        rutaArchivo = args[i + 1];
-                    }
-                }
-                if (rutaArchivo.isEmpty()) {
-                    ConfiguracionApp.INSTANCIA.inicializar();
-                } else {
-                    ConfiguracionApp.INSTANCIA.inicializar(rutaArchivo);
-                }
-            } catch (IOException e) {
-                System.err.println("Error fatal: No se pudo inicializar la configuración: " + e.getMessage());
-                e.printStackTrace();
-                System.exit(1);
-            }
+            inicializarConfiguracion(args);
 
             Integer idCliente = 3;
-            
+
             //Creación de objetos a utilizar:
             List<ClienteON> listaClientes = Arrays.asList(
                                 new ClienteON(
@@ -255,5 +237,38 @@ public class App {
                 
                 controlCompra.iniciarCompra();
         });
+    }
+
+    private static void inicializarConfiguracion(String[] argumentos) {
+        try {
+            ConfiguracionBandera bandera = resolverRutaConfiguracion(argumentos);
+            // Si no se pasó la bandera
+            if (bandera.forma == null) {
+                ConfiguracionApp.INSTANCIA.inicializar();
+            }
+            else if (bandera.valor.isEmpty()) { // Si se pasó la bandera sin argumento
+                logger.severe("La bandera \"" + bandera.forma + "\" necesita un argumento");
+                System.exit(1);
+            } else {
+                ConfiguracionApp.INSTANCIA.inicializar(bandera.valor);
+            }
+        } catch (IOException e) {
+            logger.severe("No se pudo inicializar la configuración: " + e.getMessage());
+            System.exit(1);
+        }
+    }
+
+    private record ConfiguracionBandera(String forma, String valor) {}
+
+    private static ConfiguracionBandera resolverRutaConfiguracion(String[] argumentos) {
+        for (int i = 0; i < argumentos.length; i++) {
+            if (argumentos[i].equals("-c") || argumentos[i].equals("--configuracion")) {
+                if (i == argumentos.length - 1) {
+                    return new ConfiguracionBandera(null, "");
+                }
+                return new ConfiguracionBandera(argumentos[i], argumentos[i + 1]);
+            }
+        }
+        return new ConfiguracionBandera(null, null);
     }
 }
