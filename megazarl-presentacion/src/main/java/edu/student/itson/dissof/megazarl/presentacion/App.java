@@ -15,8 +15,6 @@ import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorPr
 import edu.student.itson.dissof.megazarl.carritocompras.FAdministradorCarritoCompras;
 import edu.student.itson.dissof.megazarl.carritocompras.IAdministradorCarritoCompras;
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
-import edu.student.itson.dissof.megazarl.direcciones.FAdministradorDirecciones;
-import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ClienteON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoON;
@@ -52,7 +50,7 @@ public class App {
 
             Integer idCliente = 3;
 
-            //Creación de objetos a utilizar:
+            // Creación de objetos a utilizar
             List<ClienteON> listaClientes = Arrays.asList(
                                 new ClienteON(
                                         3,
@@ -96,8 +94,7 @@ public class App {
                                         "200");
             
             List<SucursalON> listaSucursales = Arrays.asList(sucursal1, sucursal2, sucursal3, sucursal4);
-            
-            
+
             ProveedorON proveedor1 = new ProveedorON(10, "Seminis", "/seminis.png");
             ProveedorON proveedor2 = new ProveedorON(20, "Harris Moran", "/harrisMoran.png");
             ProveedorON proveedor3 =  new ProveedorON(30, "Enza Zaden","/enzaZaden.png");
@@ -163,14 +160,13 @@ public class App {
                                                             new ProductoInventarioON(17,sucursal2, false),
                                                             new ProductoInventarioON(18,sucursal2, false)))
                                                 );
-            
-            
-            for(ProductoON producto: listaProductos){
-                for(ProductoInventarioON productoInventario: producto.getListaProductoInventario()){
+
+            for (ProductoON producto : listaProductos) {
+                for (ProductoInventarioON productoInventario : producto.getListaProductoInventario()) {
                     productoInventario.setProducto(producto);
                 }
             }
-            
+
             PaqueteriaON paqueteria1 = new PaqueteriaON(1, "DHL", 10F, 15F, "/dhl.png");
             PaqueteriaON paqueteria2 = new PaqueteriaON(2, "Fedex", 13F, 16F, "/fedex.png");
             PaqueteriaON paqueteria3 = new PaqueteriaON(3, "PCP", 8F, 7F, "/pcp.png");
@@ -180,18 +176,15 @@ public class App {
             List<PaqueteriaON> listaPaqueterias = Arrays.asList(paqueteria1, paqueteria2, paqueteria3, paqueteria4, paqueteria5);
 
             // Se crean los subsistemas a utilziar:
-            IAdministradorDirecciones subsistemaDirecciones = new FAdministradorDirecciones();
-            
-            IAdministradorClientes subsistemaAdministradorClientes = new FAdministradorClientes(subsistemaDirecciones, listaClientes);
+            IAdministradorClientes subsistemaAdministradorClientes = new FAdministradorClientes(listaClientes);
 
             IAdministradorProductos subsistemaAdministradorProductos = new FAdministradorProductos(listaProductos);
 
             IAdministradorSucursales subsistemaAdministradorSucursales =  new FAdministradorSucursales(listaSucursales);
-            
+
             IAdministradorPaqueterias subsistemaAdministradorPaqueterias = new FAdministradorPaqueterias(listaPaqueterias);
-             
-            
-             IAdministradorPedidos subsistemaAdministradorPedidos = new FAdministradorPedidos(
+
+            IAdministradorPedidos subsistemaAdministradorPedidos = new FAdministradorPedidos(
                     subsistemaAdministradorProductos, 
                     subsistemaAdministradorClientes,
                     subsistemaAdministradorPaqueterias,
@@ -214,8 +207,7 @@ public class App {
                     subsistemaAdministradorCarritoCompras,
                     subsistemaAdministradorPaqueterias,
                     subsistemaAdministradorSucursales,
-                    subsistemaAdministradorProveedores,
-                    subsistemaDirecciones
+                    subsistemaAdministradorProveedores
             );
             
             // Se crean las vistas de la clase de presentación, del tipo de una interfaz definida.

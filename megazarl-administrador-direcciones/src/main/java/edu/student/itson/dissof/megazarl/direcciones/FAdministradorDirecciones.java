@@ -23,10 +23,7 @@ import edu.student.itson.dissof.megazarl.dto.InformacionDerivadaCPDireccionEnvio
  * ID: 00000251923
  *
  */
-public class FAdministradorDirecciones implements IAdministradorDirecciones {
-
-    private final AdministradorDirecciones administrador = new AdministradorDirecciones();
-    
+public class FAdministradorDirecciones {
     /**
      * Implementación del método obtenerDatosDireccionDerivados() de la interfaz {@link IAdministradorDirecciones},
      * permite obtener el Estado, Ciudad y Colonia asociados al Código Postal del parámetro.
@@ -38,11 +35,9 @@ public class FAdministradorDirecciones implements IAdministradorDirecciones {
      * @throws DireccionesArchivoCodigosPostalesVacioException Se lanza si el archivo que contiene
      * la información de los Códigos Postales y sus datos asociados está vacío.
      */
-    @Override
-    public InformacionDerivadaCPDireccionEnvioDTO obtenerDatosDireccionDerivados(String codigoPostalBuscar)
+    public static InformacionDerivadaCPDireccionEnvioDTO obtenerDatosDireccionDerivados(String codigoPostalBuscar)
             throws DireccionesAccesoArchivoCodigosPostalesFallidoException, DireccionesArchivoCodigosPostalesVacioException{
 
-        return administrador.obtenerDatosDireccionDerivados(codigoPostalBuscar);
-        
+        return AdministradorDirecciones.INSTANCIA.obtenerDatosDireccionDerivados(codigoPostalBuscar);
     }
 }

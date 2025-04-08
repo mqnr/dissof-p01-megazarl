@@ -1,7 +1,7 @@
 package edu.student.itson.dissof.megazarl.administradorclientes;
 
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdClienteInvalidoException;
-import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
+import edu.student.itson.dissof.megazarl.direcciones.FAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
 import edu.student.itson.dissof.megazarl.dto.InformacionDerivadaCPDireccionEnvioDTO;
@@ -12,12 +12,10 @@ import edu.student.itson.dissof.megazarl.objetosnegocio.ClienteON;
 import java.util.List;
 
 class AdministradorClientes implements IAdministradorClientes {
-    private final IAdministradorDirecciones direcciones;
     private final List<ClienteON> listaClientes;
 
-    public AdministradorClientes(IAdministradorDirecciones direcciones, List<ClienteON> listaClientes) {
+    public AdministradorClientes(List<ClienteON> listaClientes) {
         this.listaClientes = listaClientes;
-        this.direcciones = direcciones;
     }
 
     @Override
@@ -71,7 +69,7 @@ class AdministradorClientes implements IAdministradorClientes {
         // la colonia de envío; utilizando el método obtenerDatosDireccionDerivados()
         // del subsistema direcciones.
         InformacionDerivadaCPDireccionEnvioDTO informacionDerivadaDireccionEnvioDTO
-                = direcciones.obtenerDatosDireccionDerivados(codigoPostalCliente);
+                = FAdministradorDirecciones.obtenerDatosDireccionDerivados(codigoPostalCliente);
 
         // Se obtiene y se devuelve la colonia obtenida.
         if (informacionDerivadaDireccionEnvioDTO != null) {
@@ -101,7 +99,7 @@ class AdministradorClientes implements IAdministradorClientes {
         // la ciudad de envío; utilizando el método obtenerDatosDireccionDerivados()
         // del subsistema direcciones.
         InformacionDerivadaCPDireccionEnvioDTO informacionDerivadaDireccionEnvioDTO
-                = direcciones.obtenerDatosDireccionDerivados(codigoPostalCliente);
+                = FAdministradorDirecciones.obtenerDatosDireccionDerivados(codigoPostalCliente);
 
         // Se obtiene y se devuelve la ciudad obtenida.
         if (informacionDerivadaDireccionEnvioDTO != null) {
@@ -131,7 +129,7 @@ class AdministradorClientes implements IAdministradorClientes {
         // el estado de envío; utilizando el método obtenerDatosDireccionDerivados()
         // del subsistema direcciones.
         InformacionDerivadaCPDireccionEnvioDTO informacionDerivadaDireccionEnvioDTO
-                = direcciones.obtenerDatosDireccionDerivados(codigoPostalCliente);
+                = FAdministradorDirecciones.obtenerDatosDireccionDerivados(codigoPostalCliente);
 
         // Se obtiene y se devuelve el estado obtenido.
         if (informacionDerivadaDireccionEnvioDTO != null) {

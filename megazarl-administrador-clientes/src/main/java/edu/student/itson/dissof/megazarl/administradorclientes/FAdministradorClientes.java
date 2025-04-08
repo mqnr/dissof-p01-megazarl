@@ -34,8 +34,8 @@ public class FAdministradorClientes implements IAdministradorClientes {
      * @param direcciones Instancia del subsistema direcciones.
      * @param listaClientes Lista de los clientes.
      */
-    public FAdministradorClientes(IAdministradorDirecciones direcciones, List<ClienteON> listaClientes) {
-        administrador = new AdministradorClientes(direcciones, listaClientes);
+    public FAdministradorClientes(List<ClienteON> listaClientes) {
+        administrador = new AdministradorClientes(listaClientes);
     }
 
     /**

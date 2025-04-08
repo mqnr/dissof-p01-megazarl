@@ -21,6 +21,7 @@ import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoCompr
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasProductoSinInventarioException;
+import edu.student.itson.dissof.megazarl.direcciones.FAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
@@ -80,15 +81,12 @@ public class ControlCompra {
     private IAdministradorPaqueterias administradorPaqueterias;
     private IAdministradorSucursales adminisrtadorSucursales;
     private IAdministradorProveedores administradorProveedores;
-    private IAdministradorDirecciones direcciones;
-    
+
     private Color COLOR_MENSAJE_EXITOSO = new Color(204, 255, 190);
     private Color COLOR_MENSAJE_ERROR = new Color(255, 195, 195);
     private Color COLOR_MENSAJE_ADVERTENCIA = new Color(255, 253, 222);
     
     private static final Logger LOG = Logger.getLogger(ControlCompra.class.getName());
-    
-    
 
     public ControlCompra(
         IAdministradorClientes administradorClientes,
@@ -96,8 +94,7 @@ public class ControlCompra {
         IAdministradorCarritoCompras administradorCarritoCompras,
         IAdministradorPaqueterias administradorPaqueterias,
         IAdministradorSucursales administradorSucursales,
-        IAdministradorProveedores administradorProveedores,
-        IAdministradorDirecciones direcciones){
+        IAdministradorProveedores administradorProveedores) {
         
         this.administradorClientes = administradorClientes;
         this.administradorProductos = administradorProductos;
@@ -106,8 +103,6 @@ public class ControlCompra {
         this.administradorPaqueterias = administradorPaqueterias;
         this.adminisrtadorSucursales = administradorSucursales;
         this.administradorProveedores = administradorProveedores;
-        this.direcciones = direcciones;
-        
     }
 
     public void setVistas(
@@ -901,7 +896,6 @@ public class ControlCompra {
             mostrarMensaje("Ha ocurrido un error al obtener su dirección", COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
         }
-
     }
     
     /**
@@ -918,17 +912,14 @@ public class ControlCompra {
         
         InformacionDerivadaCPDireccionEnvioDTO derivadosDireccionDTO;
         try {
-            derivadosDireccionDTO = direcciones.obtenerDatosDireccionDerivados(codigoPostal);
+            derivadosDireccionDTO = FAdministradorDirecciones.obtenerDatosDireccionDerivados(codigoPostal);
 
-            if(derivadosDireccionDTO != null){
+            if (derivadosDireccionDTO != null) {
                 String[] datosDireccionDerivadosCliente = {derivadosDireccionDTO.getColonia(), 
                 derivadosDireccionDTO.getCiudad(), derivadosDireccionDTO.getEstado()};
 
                 return datosDireccionDerivadosCliente;
             }
-            
-
-            
         } catch (DireccionesAccesoArchivoCodigosPostalesFallidoException | DireccionesArchivoCodigosPostalesVacioException ex) {
             mostrarMensaje("Ha ocurrido un error al validar el Código Postal", COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());

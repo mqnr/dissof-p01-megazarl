@@ -12,17 +12,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-class AdministradorDirecciones implements IAdministradorDirecciones {
+public enum AdministradorDirecciones implements IAdministradorDirecciones {
+    INSTANCIA;
+
     @Override
     public InformacionDerivadaCPDireccionEnvioDTO obtenerDatosDireccionDerivados(String codigoPostalBuscar)
-            throws DireccionesAccesoArchivoCodigosPostalesFallidoException, DireccionesArchivoCodigosPostalesVacioException{
+            throws DireccionesAccesoArchivoCodigosPostalesFallidoException, DireccionesArchivoCodigosPostalesVacioException {
 
         String colonia;
         String ciudad;
         String estado;
 
         // Se obtiene la dirección del archivo.
-        URL resource =FAdministradorDirecciones.class.getResource("/codigosPostalesMexico.txt");
+        URL resource = AdministradorDirecciones.class.getResource("/codigosPostalesMexico.txt");
 
         try {
             // Se leen todas las líneas del archivo sin considerar aviso ni encabezado.
@@ -37,8 +39,7 @@ class AdministradorDirecciones implements IAdministradorDirecciones {
             int i = 0;
 
             // Se recorren las líneas del archivo.
-            while(i < lineasArchivo.size()){
-
+            while (i < lineasArchivo.size()) {
                 // Por cada línea se crea un arreglo para almacenar cada uno de los
                 // valores de los diferentes campos.
 
@@ -51,7 +52,6 @@ class AdministradorDirecciones implements IAdministradorDirecciones {
                 // Si el Código Postal recibido coincide con uno dentro del archivo,
                 // se guardan sus datos asociados, en la misma fila.
                 if (codigoPostal.equals(codigoPostalBuscar)) {
-
                     colonia = partes[1];
                     estado = partes[4];
                     ciudad = "";
@@ -64,13 +64,12 @@ class AdministradorDirecciones implements IAdministradorDirecciones {
 
                     // Se asignan los datos a una nueva DTO de tipo InformacionDerivadaCPDireccionEnvioDTO;
                     informacionDerivadaDireccionEnvioDTO = new InformacionDerivadaCPDireccionEnvioDTO(colonia, ciudad, estado);
-
                 }
 
                 i++;
             }
 
-            if(i <= 1){
+            if (i == 1) {
                 // Se lanza una excepcion si el archivo no contiene líneas de texto, es decir, si está vacío.
                 throw new DireccionesArchivoCodigosPostalesVacioException("El archivo que contiene la información"
                         + "relacionada con los Códigos Postales está vacío.");
@@ -79,7 +78,7 @@ class AdministradorDirecciones implements IAdministradorDirecciones {
             return informacionDerivadaDireccionEnvioDTO;
 
             // Se lanza una excepción si no se pudo leer el archivo con los Códigos Postales.
-        } catch (URISyntaxException|IOException ex) {
+        } catch (URISyntaxException | IOException ex) {
             throw new DireccionesAccesoArchivoCodigosPostalesFallidoException("No se pudo acceder al archivo que contiene la información relacionada"
                     + "con los Códigos Postales");
         }
