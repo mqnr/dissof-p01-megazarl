@@ -23,6 +23,7 @@
     <module>megazarl-administrador-carrito-compras</module>
     <module>megazarl-administrador-direcciones</module>
     <module>megazarl-configuracion</module>
+    <module>megazarl-repositorio</module>
   </modules>
 
   <properties>
