@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class RepositorioClienteEnMemoria implements RepositorioClientes {
     private final List<ClienteDTO> listaClientes;
@@ -47,6 +48,11 @@ public class RepositorioClienteEnMemoria implements RepositorioClientes {
     }
 
     @Override
+    public Stream<ClienteDTO> stream() {
+        return listaClientes.stream();
+    }
+
+    @Override
     public void guardar(ClienteDTO cliente) {
         listaClientes.add(cliente);
     }
@@ -82,4 +88,5 @@ public class RepositorioClienteEnMemoria implements RepositorioClientes {
                 actualizacion.tieneNumeroDomicilioEnvio() ? actualizacion.getNumeroDomicilioEnvio() : clienteOriginal.numeroDomicilioEnvio()
         );
     }
+
 }
