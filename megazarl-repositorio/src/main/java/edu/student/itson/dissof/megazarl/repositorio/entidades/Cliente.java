@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class Cliente {
-    private static final RepositorioClientes repositorio;
+    private static final RepositorioCliente repositorio;
 
     static {
         repositorio = switch (ConfiguracionApp.INSTANCIA.fuentes().cliente()) {

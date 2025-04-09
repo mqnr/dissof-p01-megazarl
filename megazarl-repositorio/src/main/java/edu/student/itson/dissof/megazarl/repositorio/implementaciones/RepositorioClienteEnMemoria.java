@@ -2,7 +2,7 @@ package edu.student.itson.dissof.megazarl.repositorio.implementaciones;
 
 import edu.student.itson.dissof.megazarl.dto.modelos.ClienteDTO;
 import edu.student.itson.dissof.megazarl.repositorio.actualizaciones.ActualizacionCliente;
-import edu.student.itson.dissof.megazarl.repositorio.entidades.RepositorioClientes;
+import edu.student.itson.dissof.megazarl.repositorio.entidades.RepositorioCliente;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class RepositorioClienteEnMemoria implements RepositorioClientes {
+public class RepositorioClienteEnMemoria implements RepositorioCliente {
     private final List<ClienteDTO> listaClientes;
 
     public RepositorioClienteEnMemoria() {
