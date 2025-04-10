@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public interface Repositorio<T> {
-    void guardar(T entidad);
+    void agregar(T entidad);
 
-    void guardarMuchos(Collection<T> entidades);
+    void agregar(Collection<T> entidades);
 
-    List<T> encontrarTodos();
+    List<T> recuperarTodos();
 
     long cuenta();
 

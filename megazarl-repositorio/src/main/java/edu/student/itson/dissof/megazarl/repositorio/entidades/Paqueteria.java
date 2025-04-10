@@ -20,8 +20,8 @@ public class Paqueteria {
         };
     }
 
-    public static PaqueteriaDTO buscarPorId(Integer id) {
-        return repositorio.buscarPorId(id);
+    public static PaqueteriaDTO recuperarPorId(Integer id) {
+        return repositorio.recuperarPorId(id);
     }
 
     public static boolean existePorId(Integer id) {
@@ -32,18 +32,18 @@ public class Paqueteria {
         return repositorio.actualizar(id, actualizacion);
     }
 
-    public static void guardar(PaqueteriaDTO cliente) {
-        repositorio.guardar(cliente);
+    public static void agregar(PaqueteriaDTO cliente) {
+        repositorio.agregar(cliente);
     }
 
-    public static void guardar(
+    public static void agregar(
             Integer id,
             String nombre,
             Float cobroKg,
             Float cobroHora,
             String direccionImagenPaqueteria
     ) {
-        repositorio.guardar(
+        repositorio.agregar(
                 new PaqueteriaDTO(
                         id,
                         nombre,
@@ -54,12 +54,12 @@ public class Paqueteria {
         );
     }
 
-    public static void guardarMuchos(Collection<PaqueteriaDTO> paqueterias) {
-        repositorio.guardarMuchos(paqueterias);
+    public static void agregar(Collection<PaqueteriaDTO> paqueterias) {
+        repositorio.agregar(paqueterias);
     }
 
-    public static List<PaqueteriaDTO> encontrarTodos() {
-        return repositorio.encontrarTodos();
+    public static List<PaqueteriaDTO> recuperarTodos() {
+        return repositorio.recuperarTodos();
     }
 
     public static Stream<PaqueteriaDTO> stream() {

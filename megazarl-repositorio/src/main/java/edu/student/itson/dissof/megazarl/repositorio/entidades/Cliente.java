@@ -19,8 +19,8 @@ public class Cliente {
         };
     }
 
-    public static ClienteDTO buscarPorId(Integer id) {
-        return repositorio.buscarPorId(id);
+    public static ClienteDTO recuperarPorId(Integer id) {
+        return repositorio.recuperarPorId(id);
     }
 
     public static boolean existePorId(Integer id) {
@@ -31,11 +31,11 @@ public class Cliente {
         return repositorio.actualizar(id, actualizacion);
     }
 
-    public static void guardar(ClienteDTO cliente) {
-        repositorio.guardar(cliente);
+    public static void agregar(ClienteDTO cliente) {
+        repositorio.agregar(cliente);
     }
 
-    public static void guardar(
+    public static void agregar(
             Integer id,
             String nombres,
             String apellidoPaterno,
@@ -44,7 +44,7 @@ public class Cliente {
             String calleEnvio,
             String numeroDomicilioEnvio
     ) {
-        repositorio.guardar(
+        repositorio.agregar(
                 new ClienteDTO(
                         id,
                         nombres,
@@ -57,12 +57,12 @@ public class Cliente {
         );
     }
 
-    public static void guardarMuchos(Collection<ClienteDTO> clientes) {
-        repositorio.guardarMuchos(clientes);
+    public static void agregar(Collection<ClienteDTO> clientes) {
+        repositorio.agregar(clientes);
     }
 
-    public static List<ClienteDTO> encontrarTodos() {
-        return repositorio.encontrarTodos();
+    public static List<ClienteDTO> recuperarTodos() {
+        return repositorio.recuperarTodos();
     }
 
     public static long cuenta() {

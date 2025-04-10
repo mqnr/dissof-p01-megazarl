@@ -18,7 +18,7 @@ enum AdministradorPaqueterias implements IAdministradorPaqueterias {
 
     @Override
     public PaqueteriaDTO obtenerPaqueteria(Integer id) {
-        return Paqueteria.buscarPorId(id);
+        return Paqueteria.recuperarPorId(id);
     }
 
     @Override

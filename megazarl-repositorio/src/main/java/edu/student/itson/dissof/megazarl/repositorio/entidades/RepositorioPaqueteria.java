@@ -5,7 +5,7 @@ import edu.student.itson.dissof.megazarl.repositorio.RepositorioInmutable;
 import edu.student.itson.dissof.megazarl.repositorio.actualizaciones.ActualizacionPaqueteria;
 
 public interface RepositorioPaqueteria extends RepositorioInmutable<PaqueteriaDTO> {
-    PaqueteriaDTO buscarPorId(Integer id);
+    PaqueteriaDTO recuperarPorId(Integer id);
 
     boolean existePorId(Integer id);
 

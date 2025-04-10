@@ -21,7 +21,7 @@ enum AdministradorClientes implements IAdministradorClientes {
 
     @Override
     public ClienteDTO obtenerCliente(Integer id) {
-        return Cliente.buscarPorId(id);
+        return Cliente.recuperarPorId(id);
     }
 
     @Override

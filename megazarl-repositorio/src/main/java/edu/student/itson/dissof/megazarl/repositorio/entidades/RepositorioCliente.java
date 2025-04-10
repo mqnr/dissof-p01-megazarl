@@ -5,7 +5,7 @@ import edu.student.itson.dissof.megazarl.repositorio.RepositorioInmutable;
 import edu.student.itson.dissof.megazarl.repositorio.actualizaciones.ActualizacionCliente;
 
 public interface RepositorioCliente extends RepositorioInmutable<ClienteDTO> {
-    ClienteDTO buscarPorId(Integer id);
+    ClienteDTO recuperarPorId(Integer id);
 
     boolean existePorId(Integer id);
 

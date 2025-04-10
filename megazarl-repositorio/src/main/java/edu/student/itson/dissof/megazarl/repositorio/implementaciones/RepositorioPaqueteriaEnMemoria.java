@@ -22,7 +22,7 @@ public class RepositorioPaqueteriaEnMemoria implements RepositorioPaqueteria {
     }
 
     @Override
-    public PaqueteriaDTO buscarPorId(Integer id) {
+    public PaqueteriaDTO recuperarPorId(Integer id) {
         return paqueterias.stream()
                 .filter(paqueteria -> paqueteria.id().equals(id))
                 .findFirst()
@@ -52,17 +52,17 @@ public class RepositorioPaqueteriaEnMemoria implements RepositorioPaqueteria {
     }
 
     @Override
-    public void guardar(PaqueteriaDTO paqueteria) {
+    public void agregar(PaqueteriaDTO paqueteria) {
         paqueterias.add(paqueteria);
     }
 
     @Override
-    public void guardarMuchos(Collection<PaqueteriaDTO> paqueterias) {
+    public void agregar(Collection<PaqueteriaDTO> paqueterias) {
         this.paqueterias.addAll(paqueterias);
     }
 
     @Override
-    public List<PaqueteriaDTO> encontrarTodos() {
+    public List<PaqueteriaDTO> recuperarTodos() {
         return new ArrayList<>(paqueterias);
     }
 

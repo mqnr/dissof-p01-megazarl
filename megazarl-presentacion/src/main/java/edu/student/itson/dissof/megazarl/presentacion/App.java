@@ -48,7 +48,7 @@ public class App {
             Integer idCliente = 3;
 
             // Creación de objetos a utilizar
-            Cliente.guardar(
+            Cliente.agregar(
                     3,
                     "Juan",
                     "Pérez",
@@ -164,7 +164,7 @@ public class App {
                 }
             }
 
-            Paqueteria.guardarMuchos(
+            Paqueteria.agregar(
                     List.of(
                             new PaqueteriaDTO(1, "DHL", 10F, 15F, "/dhl.png"),
                             new PaqueteriaDTO(2, "Fedex", 13F, 16F, "/fedex.png"),

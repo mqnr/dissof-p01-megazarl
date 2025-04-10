@@ -22,7 +22,7 @@ public class RepositorioClienteEnMemoria implements RepositorioCliente {
     }
 
     @Override
-    public ClienteDTO buscarPorId(Integer id) {
+    public ClienteDTO recuperarPorId(Integer id) {
         return listaClientes.stream()
                 .filter(cliente -> cliente.id().equals(id))
                 .findFirst()
@@ -53,17 +53,17 @@ public class RepositorioClienteEnMemoria implements RepositorioCliente {
     }
 
     @Override
-    public void guardar(ClienteDTO cliente) {
+    public void agregar(ClienteDTO cliente) {
         listaClientes.add(cliente);
     }
 
     @Override
-    public void guardarMuchos(Collection<ClienteDTO> clientes) {
+    public void agregar(Collection<ClienteDTO> clientes) {
         listaClientes.addAll(clientes);
     }
 
     @Override
-    public List<ClienteDTO> encontrarTodos() {
+    public List<ClienteDTO> recuperarTodos() {
         return new ArrayList<>(listaClientes);
     }
 
