@@ -1,5 +1,7 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
+import edu.student.itson.dissof.megazarl.dto.modelos.PaqueteriaDTO;
+
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -25,7 +27,7 @@ public class PedidoON {
     
     private Integer id;
     HashMap<ProductoInventarioON, Boolean> mapaProductosRequeridos;
-    private PaqueteriaON paqueteria;
+    private PaqueteriaDTO paqueteria;
     private EstadoPedido estado;
 
     private Integer PROXIMO_ID_PEDIDO = 1;
@@ -33,10 +35,10 @@ public class PedidoON {
     /**
      * Constructor que inicializa un pedido con todos sus atributos.
      * @param mapaProductosRequeridos Objeto HashMap que mapea productos de inventario con un booleano que indica si ya fueron entregados a la matriz.
-     * @param paqueteria Objeto Paqueteria que representa la paquetería seleccionada para el envío.
+     * @param paqueteria Objeto PaqueteriaDTO que representa la paquetería seleccionada para el envío.
      * @param estado Objeto EstadoPedido que representa el estado actual del pedido.
      */
-    public PedidoON(HashMap<ProductoInventarioON, Boolean> mapaProductosRequeridos, PaqueteriaON paqueteria, EstadoPedido estado) {
+    public PedidoON(HashMap<ProductoInventarioON, Boolean> mapaProductosRequeridos, PaqueteriaDTO paqueteria, EstadoPedido estado) {
         this.id = PROXIMO_ID_PEDIDO++;
         this.mapaProductosRequeridos = mapaProductosRequeridos;
         this.paqueteria = paqueteria;
@@ -77,17 +79,17 @@ public class PedidoON {
 
     /**
      * Método que permite obtener la paquetería seleccionada para el envío.
-     * @return Objeto Paqueteria que representa la paquetería seleccionada para el envío.
+     * @return Objeto PaqueteriaDTO que representa la paquetería seleccionada para el envío.
      */
-    public PaqueteriaON getPaqueteria() {
+    public PaqueteriaDTO getPaqueteria() {
         return paqueteria;
     }
 
     /**
      * Método que permite establecer la paquetería seleccionada para el envío.
-     * @param paqueteria Objeto Paqueteria que representa la paquetería seleccionada para el envío.
+     * @param paqueteria Objeto PaqueteriaDTO que representa la paquetería seleccionada para el envío.
      */
-    public void setPaqueteria(PaqueteriaON paqueteria) {
+    public void setPaqueteria(PaqueteriaDTO paqueteria) {
         this.paqueteria = paqueteria;
     }
 

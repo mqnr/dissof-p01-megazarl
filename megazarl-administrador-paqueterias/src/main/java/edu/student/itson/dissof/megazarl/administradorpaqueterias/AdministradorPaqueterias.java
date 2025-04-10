@@ -3,84 +3,53 @@ package edu.student.itson.dissof.megazarl.administradorpaqueterias;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.dto.DireccionClientePesoTiempoEnvioPaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionSeleccionPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
+import edu.student.itson.dissof.megazarl.dto.modelos.PaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.repositorio.entidades.Paqueteria;
 
-import java.util.LinkedList;
 import java.util.List;
 
-class AdministradorPaqueterias implements IAdministradorPaqueterias {
-    private final List<PaqueteriaON> listaPaqueterias;
+enum AdministradorPaqueterias implements IAdministradorPaqueterias {
+    INSTANCIA;
 
+    @Override
+    public boolean validarId(Integer id) {
+        return Paqueteria.existePorId(id);
+    }
 
-    public AdministradorPaqueterias(
-            List<PaqueteriaON> listaPaqueterias) {
-        this.listaPaqueterias = listaPaqueterias;
-
+    @Override
+    public PaqueteriaDTO obtenerPaqueteria(Integer id) {
+        return Paqueteria.buscarPorId(id);
     }
 
     @Override
     public List<InformacionSeleccionPaqueteriaDTO> obtenerPaqueterias() {
-        List<InformacionSeleccionPaqueteriaDTO> listaInformacionSeleccionPaqueteriaDTO = new LinkedList<>();
-
-        for (PaqueteriaON paqueteria: listaPaqueterias) {
-            listaInformacionSeleccionPaqueteriaDTO.add(
-                    new InformacionSeleccionPaqueteriaDTO(paqueteria.getId(), paqueteria.getDireccionImagenPaqueteria()));
-        }
-
-        return listaInformacionSeleccionPaqueteriaDTO;
+        return Paqueteria.stream().map(
+                paqueteria ->
+                        new InformacionSeleccionPaqueteriaDTO(
+                                paqueteria.id(),
+                                paqueteria.direccionImagenPaqueteria()
+                        )
+        ).toList();
     }
 
     @Override
     public Float obtenerCostoEnvioProducto(DireccionClientePesoTiempoEnvioPaqueteriaDTO direccionClientePesoTiempoEnvioPaqueteriaDTO)
             throws PaqueteriasIdPaqueteriaInvalidoException{
+        Integer id = direccionClientePesoTiempoEnvioPaqueteriaDTO.getCodigoPaqueteria();
 
-        Integer idPaqueteria = direccionClientePesoTiempoEnvioPaqueteriaDTO.getCodigoPaqueteria();
-
-        // Se valida el ID de Paqueteria:
-        if (!validarPaqueteria(idPaqueteria)) {
-            throw new PaqueteriasIdPaqueteriaInvalidoException("El ID de paquetería: " + idPaqueteria + " no existe.");
+        PaqueteriaDTO paqueteria = obtenerPaqueteria(id);
+        if (paqueteria == null) {
+            throw new PaqueteriasIdPaqueteriaInvalidoException("No se encontró una paquetería correspondiente a la ID: " + id);
         }
 
-        PaqueteriaON paqueteriaRecuperada = obtenerPaqueteria(idPaqueteria);
+        Float cobroKg = paqueteria.cobroKg();
+        Float cobroHora = paqueteria.cobroHora();
 
-        if (paqueteriaRecuperada == null) {
-            throw new PaqueteriasIdPaqueteriaInvalidoException("El ID de paquetería: " + idPaqueteria + " no existe.");
-        }
-
-        // Se recuperan los cobros por Kg y hora de envío de la paquetería recuperada.
-        Float cobroKg = paqueteriaRecuperada.getCobroKg();
-        Float cobroHora = paqueteriaRecuperada.getCobroHora();
-
-        // Se obtiene el peso del peso en Kg del producto de la DTO del parámetro y su tiempo de envío.
+        // Se obtiene el peso del peso en Kg del producto de la DTO del parámetro y su tiempo de envío
         Double pesoKgProducto = direccionClientePesoTiempoEnvioPaqueteriaDTO.getPesoKgTotal();
         Float tiempoEnnvioDestino = direccionClientePesoTiempoEnvioPaqueteriaDTO.getTiempoEnvioMatrizHorasProductoInventario();
 
-        float costoEnvioProducto = (float)(cobroKg * pesoKgProducto) + (cobroHora * tiempoEnnvioDestino);
-
-        return costoEnvioProducto;
-    }
-
-    @Override
-    public boolean validarPaqueteria(Integer idPaqueteria){
-        for (PaqueteriaON paqueteria: listaPaqueterias) {
-            if (paqueteria.getId().equals(idPaqueteria)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    @Override
-    public PaqueteriaON obtenerPaqueteria(Integer idPaqueteria){
-        PaqueteriaON paqueteriaBuscar = null;
-
-        for (PaqueteriaON paqueteria: listaPaqueterias) {
-            if (paqueteria.getId().equals(idPaqueteria)) {
-                paqueteriaBuscar = paqueteria;
-            }
-        }
-
-        return paqueteriaBuscar;
+        // Se regresa el costo del envío del producto
+        return (float) (cobroKg * pesoKgProducto) + (cobroHora * tiempoEnnvioDestino);
     }
 }

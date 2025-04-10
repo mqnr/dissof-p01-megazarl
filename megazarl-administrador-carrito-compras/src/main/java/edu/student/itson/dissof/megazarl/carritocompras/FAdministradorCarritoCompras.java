@@ -52,18 +52,15 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
      * pueda obtener un envío gratuito.
      * @param administradorProductos
      * @param administradorPedidos
-     * @param administradorPaqueterias
      */
     public FAdministradorCarritoCompras(
             Double montoMinimoEnvioGratuito,
             IAdministradorProductos administradorProductos,
-            IAdministradorPedidos administradorPedidos,
-            IAdministradorPaqueterias administradorPaqueterias) {
+            IAdministradorPedidos administradorPedidos) {
         administrador = new AdministradorCarritoCompras(
                 montoMinimoEnvioGratuito,
                 administradorProductos,
-                administradorPedidos,
-                administradorPaqueterias
+                administradorPedidos
         );
     }
 

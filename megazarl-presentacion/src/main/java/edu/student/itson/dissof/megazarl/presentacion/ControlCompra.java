@@ -3,10 +3,9 @@ package edu.student.itson.dissof.megazarl.presentacion;
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorclientes.FAdministradorClientes;
+import edu.student.itson.dissof.megazarl.administradorpaqueterias.FAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
-import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdClienteInvalidoException;
-import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdPaqueteriaInvalidoException;
@@ -14,7 +13,6 @@ import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.Pedido
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosProductoSinInventarioException;
-import edu.student.itson.dissof.megazarl.carritocompras.FAdministradorCarritoCompras;
 import edu.student.itson.dissof.megazarl.carritocompras.IAdministradorCarritoCompras;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasCarritoSinProductoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasCarritoVacioException;
@@ -24,7 +22,6 @@ import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoCompr
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasProductoSinInventarioException;
 import edu.student.itson.dissof.megazarl.direcciones.FAdministradorDirecciones;
-import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
 import edu.student.itson.dissof.megazarl.dto.InformacionDerivadaCPDireccionEnvioDTO;
@@ -79,7 +76,6 @@ public class ControlCompra {
     private IVista direccion;
     private IAdministradorProductos administradorProductos;
     private IAdministradorCarritoCompras administradorCarritoCompras;
-    private IAdministradorPaqueterias administradorPaqueterias;
     private IAdministradorSucursales adminisrtadorSucursales;
     private IAdministradorProveedores administradorProveedores;
 
@@ -92,14 +88,11 @@ public class ControlCompra {
     public ControlCompra(
         IAdministradorProductos administradorProductos,
         IAdministradorCarritoCompras administradorCarritoCompras,
-        IAdministradorPaqueterias administradorPaqueterias,
         IAdministradorSucursales administradorSucursales,
         IAdministradorProveedores administradorProveedores) {
 
         this.administradorProductos = administradorProductos;
-        this.administradorPaqueterias = administradorPaqueterias;
         this.administradorCarritoCompras = administradorCarritoCompras;
-        this.administradorPaqueterias = administradorPaqueterias;
         this.adminisrtadorSucursales = administradorSucursales;
         this.administradorProveedores = administradorProveedores;
     }
@@ -818,7 +811,7 @@ public class ControlCompra {
      * @return 
      */
     public HashMap<Integer, String> obtenerPaqueterias() {
-        List<InformacionSeleccionPaqueteriaDTO> listaInformacionSeleccionPaqueteriaDTO = administradorPaqueterias.obtenerPaqueterias();
+        List<InformacionSeleccionPaqueteriaDTO> listaInformacionSeleccionPaqueteriaDTO = FAdministradorPaqueterias.obtenerPaqueterias();
         
         HashMap<Integer, String> datosPaqueterias = new HashMap<>();
         
@@ -852,6 +845,8 @@ public class ControlCompra {
             mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
         } catch (CarritoComprasIdPaqueteriaInvalidoException | PedidosIdProductoInvalidoException | PedidosIdPaqueteriaInvalidoException 
                 | PaqueteriasIdPaqueteriaInvalidoException | CarritoComprasClienteSinCarritoVigenteException | ProductosIdProductoInvalidoException ex) {
+            System.out.println(ex);
+            ex.printStackTrace();
             mostrarMensaje("Ha ocurrido un error al mostrar el costo de envío", COLOR_MENSAJE_ERROR);
         }
         

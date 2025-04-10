@@ -4,8 +4,6 @@ import edu.student.itson.dissof.administradorproveedores.FAdministradorProveedor
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
 import edu.student.itson.dissof.megazarl.administradorsucursales.FAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
-import edu.student.itson.dissof.megazarl.administradorpaqueterias.FAdministradorPaqueterias;
-import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorpedidos.FAdministradorPedidos;
 import edu.student.itson.dissof.megazarl.administradorpedidos.IAdministradorPedidos;
 import edu.student.itson.dissof.megazarl.administradorproductos.FAdministradorProductos;
@@ -13,7 +11,7 @@ import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorPr
 import edu.student.itson.dissof.megazarl.carritocompras.FAdministradorCarritoCompras;
 import edu.student.itson.dissof.megazarl.carritocompras.IAdministradorCarritoCompras;
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
-import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
+import edu.student.itson.dissof.megazarl.dto.modelos.PaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventarioON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProveedorON;
@@ -21,6 +19,7 @@ import edu.student.itson.dissof.megazarl.objetosnegocio.SucursalON;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import edu.student.itson.dissof.megazarl.repositorio.entidades.Cliente;
+import edu.student.itson.dissof.megazarl.repositorio.entidades.Paqueteria;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -165,31 +164,29 @@ public class App {
                 }
             }
 
-            PaqueteriaON paqueteria1 = new PaqueteriaON(1, "DHL", 10F, 15F, "/dhl.png");
-            PaqueteriaON paqueteria2 = new PaqueteriaON(2, "Fedex", 13F, 16F, "/fedex.png");
-            PaqueteriaON paqueteria3 = new PaqueteriaON(3, "PCP", 8F, 7F, "/pcp.png");
-            PaqueteriaON paqueteria4 = new PaqueteriaON(4, "UPS", 20F, 21F, "/ups.png");
-            PaqueteriaON paqueteria5 = new PaqueteriaON(5, "Estafeta", 11F, 17F, "/estafeta.png");
-
-            List<PaqueteriaON> listaPaqueterias = Arrays.asList(paqueteria1, paqueteria2, paqueteria3, paqueteria4, paqueteria5);
+            Paqueteria.guardarMuchos(
+                    List.of(
+                            new PaqueteriaDTO(1, "DHL", 10F, 15F, "/dhl.png"),
+                            new PaqueteriaDTO(2, "Fedex", 13F, 16F, "/fedex.png"),
+                            new PaqueteriaDTO(3, "PCP", 8F, 7F, "/pcp.png"),
+                            new PaqueteriaDTO(4, "UPS", 20F, 21F, "/ups.png"),
+                            new PaqueteriaDTO(5, "Estafeta", 11F, 17F, "/estafeta.png")
+                    )
+            );
 
             // Se crean los subsistemas a utilziar:
             IAdministradorProductos subsistemaAdministradorProductos = new FAdministradorProductos(listaProductos);
 
             IAdministradorSucursales subsistemaAdministradorSucursales =  new FAdministradorSucursales(listaSucursales);
 
-            IAdministradorPaqueterias subsistemaAdministradorPaqueterias = new FAdministradorPaqueterias(listaPaqueterias);
-
             IAdministradorPedidos subsistemaAdministradorPedidos = new FAdministradorPedidos(
                     subsistemaAdministradorProductos,
-                    subsistemaAdministradorPaqueterias,
                     subsistemaAdministradorSucursales);
              
             IAdministradorCarritoCompras subsistemaAdministradorCarritoCompras = new FAdministradorCarritoCompras(
                     (double) 100000,
                     subsistemaAdministradorProductos,
-                    subsistemaAdministradorPedidos,
-                    subsistemaAdministradorPaqueterias);
+                    subsistemaAdministradorPedidos);
             
             
             IAdministradorProveedores subsistemaAdministradorProveedores = new FAdministradorProveedores(listaProveedores);
@@ -198,7 +195,6 @@ public class App {
             ControlCompra controlCompra = new ControlCompra(
                     subsistemaAdministradorProductos,
                     subsistemaAdministradorCarritoCompras,
-                    subsistemaAdministradorPaqueterias,
                     subsistemaAdministradorSucursales,
                     subsistemaAdministradorProveedores
             );

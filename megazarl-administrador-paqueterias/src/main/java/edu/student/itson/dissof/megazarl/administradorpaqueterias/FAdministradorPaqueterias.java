@@ -4,7 +4,7 @@ package edu.student.itson.dissof.megazarl.administradorpaqueterias;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.dto.DireccionClientePesoTiempoEnvioPaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionSeleccionPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
+import edu.student.itson.dissof.megazarl.dto.modelos.PaqueteriaDTO;
 import java.util.List;
 
 /**
@@ -26,21 +26,27 @@ import java.util.List;
  * ID: 00000251923
  *
  */
-public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
-
-    private final AdministradorPaqueterias administrador;
-
-
+public class FAdministradorPaqueterias {
     /**
-     * Constructor que inicializa un administrador de paqueterías con todos sus atributos.
+     * Método que permite verificar si el ID de una paquetería es válido.
      *
-     * @param listaPaqueterias Objeto List que contiene las paqueterías disponibles en el sistema.
+     * @param id Objeto Integer que representa el ID de la paquetería a validar.
+     * @return true si el ID de la paquetería es válido y existe en el sistema, false en caso contrario.
      */
-
-    public FAdministradorPaqueterias(List<PaqueteriaON> listaPaqueterias){
-        administrador = new AdministradorPaqueterias(listaPaqueterias);
+    public static boolean validarId(Integer id) {
+        return AdministradorPaqueterias.INSTANCIA.validarId(id);
     }
 
+    /**
+     * Método que permite obtener una paquetería a partir de su ID.
+     *
+     * @param id Objeto Integer que representa el ID de la paquetería a obtener.
+     * @return Objeto Paqueteria que representa la paquetería con el ID especificado,
+     * o null si no se encuentra una paquetería con ese ID.
+     */
+    public static PaqueteriaDTO obtenerPaqueteria(Integer id) {
+        return AdministradorPaqueterias.INSTANCIA.obtenerPaqueteria(id);
+    }
 
     /**
      * Método que permite obtener la lista de todas las paqueterías disponibles
@@ -49,9 +55,8 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
      * @return Objeto List de InformacionSeleccionPaqueteriaDTO que contiene la información
      * básica de las paqueterías disponibles.
      */
-    @Override
-    public List<InformacionSeleccionPaqueteriaDTO> obtenerPaqueterias() {
-        return administrador.obtenerPaqueterias();
+    public static List<InformacionSeleccionPaqueteriaDTO> obtenerPaqueterias() {
+        return AdministradorPaqueterias.INSTANCIA.obtenerPaqueterias();
     }
 
     /**
@@ -60,36 +65,12 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias {
      * estimado de envío.
      *
      * @param direccionClienteProductosEnvioDTO Objeto DireccionClientePesoTiempoEnvioPaqueteriaDTO
- que contiene la información necesaria para el cálculo del costo de envío.
+     * que contiene la información necesaria para el cálculo del costo de envío.
      * @return Objeto Float que representa el costo de envío calculado.
      * @throws PaqueteriasIdPaqueteriaInvalidoException Se lanza si se comprueba que el ID
      * de la paquetería es inválido o no existe en el sistema.
      */
-    @Override
-    public Float obtenerCostoEnvioProducto(DireccionClientePesoTiempoEnvioPaqueteriaDTO direccionClienteProductosEnvioDTO) throws PaqueteriasIdPaqueteriaInvalidoException {
-        return administrador.obtenerCostoEnvioProducto(direccionClienteProductosEnvioDTO);
-    }
-
-    /**
-     * Método que permite verificar si el ID de una paquetería es válido.
-     *
-     * @param idPaqueteria Objeto Integer que representa el ID de la paquetería a validar.
-     * @return true si el ID de la paquetería es válido y existe en el sistema, false en caso contrario.
-     */
-    @Override
-    public boolean validarPaqueteria(Integer idPaqueteria) {
-        return administrador.validarPaqueteria(idPaqueteria);
-    }
-
-    /**
-     * Método que permite obtener una paquetería a partir de su ID.
-     *
-     * @param idPaqueteria Objeto Integer que representa el ID de la paquetería a obtener.
-     * @return Objeto Paqueteria que representa la paquetería con el ID especificado,
-     * o null si no se encuentra una paquetería con ese ID.
-     */
-    @Override
-    public PaqueteriaON obtenerPaqueteria(Integer idPaqueteria) {
-        return administrador.obtenerPaqueteria(idPaqueteria);
+    public static Float obtenerCostoEnvioProducto(DireccionClientePesoTiempoEnvioPaqueteriaDTO direccionClienteProductosEnvioDTO) throws PaqueteriasIdPaqueteriaInvalidoException {
+        return AdministradorPaqueterias.INSTANCIA.obtenerCostoEnvioProducto(direccionClienteProductosEnvioDTO);
     }
 }

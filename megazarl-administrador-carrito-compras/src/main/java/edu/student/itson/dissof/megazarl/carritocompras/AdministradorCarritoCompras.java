@@ -1,7 +1,7 @@
 package edu.student.itson.dissof.megazarl.carritocompras;
 
 import edu.student.itson.dissof.megazarl.administradorclientes.FAdministradorClientes;
-import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
+import edu.student.itson.dissof.megazarl.administradorpaqueterias.FAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.IAdministradorPedidos;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdClienteInvalidoException;
@@ -13,8 +13,8 @@ import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.Prod
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.*;
 import edu.student.itson.dissof.megazarl.dto.*;
 import edu.student.itson.dissof.megazarl.dto.modelos.ClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.modelos.PaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.CarritoComprasON;
-import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoON;
 
 import java.util.HashMap;
@@ -25,19 +25,16 @@ import java.util.Map;
 class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
     private final IAdministradorProductos administradorProductos;
     private final IAdministradorPedidos administradorPedidos;
-    private final IAdministradorPaqueterias administradorPaqueterias;
     private final List<CarritoComprasON> listaCarritosCompras = new LinkedList<>();
     private final Double montoMinimoEnvioGratuito;
 
     public AdministradorCarritoCompras(
             Double montoMinimoEnvioGratuito,
             IAdministradorProductos administradorProductos,
-            IAdministradorPedidos administradorPedidos,
-            IAdministradorPaqueterias administradorPaqueterias) {
+            IAdministradorPedidos administradorPedidos) {
         this.montoMinimoEnvioGratuito = montoMinimoEnvioGratuito;
         this.administradorProductos = administradorProductos;
         this.administradorPedidos = administradorPedidos;
-        this.administradorPaqueterias = administradorPaqueterias;
     }
 
     @Override
@@ -308,7 +305,7 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         // Se valida el ID de la Paquetería.
         Integer idPaqueteria = idClientePaqueteriaCalculoCostoEnvioDTO.getIdPaqueteria();
 
-        if (!administradorPaqueterias.validarPaqueteria(idPaqueteria)) {
+        if (!FAdministradorPaqueterias.validarId(idPaqueteria)) {
             throw new CarritoComprasIdPaqueteriaInvalidoException("El ID de paquetería: " + idPaqueteria + " es inválido.");
         }
 
@@ -353,13 +350,7 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             throw new CarritoComprasIdClienteInvalidoException("El ID de cliente: " + idCliente + " es inválido.");
         }
 
-        // Se valida el ID de la Paquetería.
-        if (!administradorPaqueterias.validarPaqueteria(idPaqueteria)) {
-            throw new CarritoComprasIdPaqueteriaInvalidoException("El ID de paquetería: " + idPaqueteria + " es inválido.");
-        }
-
-        PaqueteriaON paqueteriaAsignar = administradorPaqueterias.obtenerPaqueteria(idPaqueteria);
-
+        PaqueteriaDTO paqueteriaAsignar = FAdministradorPaqueterias.obtenerPaqueteria(idPaqueteria);
         if (paqueteriaAsignar == null) {
             throw new CarritoComprasIdPaqueteriaInvalidoException("El ID de paquetería: " + idPaqueteria + " es inválido.");
         }
@@ -402,7 +393,7 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         }
 
         // Se obtiene el ID de la paquetería asociada al carrito del cliente.
-        Integer idPaqueteria = carritoComprasCliente.getPaqueteria().getId();
+        Integer idPaqueteria = carritoComprasCliente.getPaqueteria().id();
 
         // Se crea un nuevo HashMap que asigna como clave el ID de los poductos del
         // carrito, en vez de los propios Productos.

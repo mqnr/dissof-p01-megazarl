@@ -3,7 +3,8 @@ package edu.student.itson.dissof.megazarl.administradorpaqueterias;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.dto.DireccionClientePesoTiempoEnvioPaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.InformacionSeleccionPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.objetosnegocio.PaqueteriaON;
+import edu.student.itson.dissof.megazarl.dto.modelos.PaqueteriaDTO;
+
 import java.util.List;
 
 /**
@@ -27,6 +28,22 @@ import java.util.List;
  */
 public interface IAdministradorPaqueterias {
     /**
+     * Método que permite verificar si el ID de una paquetería es válido.
+     *
+     * @param idPaqueteria Objeto Integer que representa el ID de la paquetería a validar.
+     * @return true si el ID de la paquetería es válido, false en caso contrario.
+     */
+    public abstract boolean validarId(Integer idPaqueteria);
+
+    /**
+     * Método que permite obtener una paquetería a partir de su ID.
+     *
+     * @param id Objeto Integer que representa el ID de la paquetería a obtener.
+     * @return Objeto Paqueteria que representa la paquetería con el ID especificado.
+     */
+    public abstract PaqueteriaDTO obtenerPaqueteria(Integer id);
+
+    /**
      * Método que permite obtener la lista de todas las paqueterías disponibles
      * en el sistema con información básica para su selección.
      *
@@ -48,20 +65,4 @@ public interface IAdministradorPaqueterias {
      */
     public abstract Float obtenerCostoEnvioProducto(DireccionClientePesoTiempoEnvioPaqueteriaDTO direccionClienteProductosEnvioDTO) 
             throws PaqueteriasIdPaqueteriaInvalidoException;
-
-    /**
-     * Método que permite verificar si el ID de una paquetería es válido.
-     *
-     * @param idPaqueteria Objeto Integer que representa el ID de la paquetería a validar.
-     * @return true si el ID de la paquetería es válido, false en caso contrario.
-     */
-    public abstract boolean validarPaqueteria(Integer idPaqueteria);
-
-    /**
-     * Método que permite obtener una paquetería a partir de su ID.
-     *
-     * @param idPaqueteria Objeto Integer que representa el ID de la paquetería a obtener.
-     * @return Objeto Paqueteria que representa la paquetería con el ID especificado.
-     */
-    public abstract PaqueteriaON obtenerPaqueteria(Integer idPaqueteria);
 }

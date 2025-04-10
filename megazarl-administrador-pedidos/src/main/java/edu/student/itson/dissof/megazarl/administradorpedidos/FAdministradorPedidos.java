@@ -38,16 +38,13 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
     /**
      * Constructor de la clase.
      * @param administradorProductos Objeto que implementa la interfaz {@link IAdministradorProductos}
-     * @param administradorPaqueterias Objeto que implementa la interfaz {@link IAdministradorPaqueterias}
      * @param administradorSucursales Objeto que implementa la interfaz {@link IAdministradorPaqueterias}
      */
     public FAdministradorPedidos(
             IAdministradorProductos administradorProductos,
-            IAdministradorPaqueterias administradorPaqueterias,
             IAdministradorSucursales administradorSucursales) {
         administrador = new AdministradorPedidos(
                 administradorProductos,
-                administradorPaqueterias,
                 administradorSucursales
         );
     }

@@ -1,7 +1,8 @@
 package edu.student.itson.dissof.megazarl.configuracion;
 
 public record ConfiguracionFuentes(
-        FuenteDatos cliente
+        FuenteDatos cliente,
+        FuenteDatos paqueteria
 ) {
     @Override
     public String toString() {

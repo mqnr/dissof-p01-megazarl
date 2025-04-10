@@ -73,15 +73,20 @@ public enum ConfiguracionApp {
 
         String todos = configuracion.obtenerString("fuentes", "*");
         if (todos != null) {
-            fuentes.cliente = FuenteDatos.de(todos);
+            fuentes.todos(FuenteDatos.de(todos));
         }
         String cliente = configuracion.obtenerString("fuentes", "cliente");
         if (cliente != null) {
             fuentes.cliente = FuenteDatos.de(cliente);
         }
+        String paqueteria = configuracion.obtenerString("fuentes", "paqueteria");
+        if (cliente != null) {
+            fuentes.paqueteria = FuenteDatos.de(paqueteria);
+        }
 
         return new ConfiguracionFuentes(
-            fuentes.cliente
+                fuentes.cliente,
+                fuentes.paqueteria
         );
     }
 

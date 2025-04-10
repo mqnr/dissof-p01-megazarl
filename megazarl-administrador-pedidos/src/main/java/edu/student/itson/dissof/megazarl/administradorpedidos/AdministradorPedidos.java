@@ -2,6 +2,7 @@ package edu.student.itson.dissof.megazarl.administradorpedidos;
 
 import edu.student.itson.dissof.megazarl.administradorclientes.FAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdClienteInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorpaqueterias.FAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdClienteInvalidoException;
@@ -11,6 +12,7 @@ import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorPr
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.dto.*;
+import edu.student.itson.dissof.megazarl.dto.modelos.PaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.*;
 
 import java.util.Collections;
@@ -20,16 +22,13 @@ import java.util.List;
 
 class AdministradorPedidos implements IAdministradorPedidos {
     private final IAdministradorProductos administradorProductos;
-    private final IAdministradorPaqueterias administradorPaqueterias;
     private final IAdministradorSucursales administradorSucursales;
 
     public AdministradorPedidos(
             IAdministradorProductos administradorProductos,
-            IAdministradorPaqueterias administradorPaqueterias,
             IAdministradorSucursales administradorSucursales) {
 
         this.administradorProductos = administradorProductos;
-        this.administradorPaqueterias = administradorPaqueterias;
         this.administradorSucursales = administradorSucursales;
     }
 
@@ -54,7 +53,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
 
         Integer idPaqueteria = informacionCalculoCostoPedidoDTO.getIdPaqueteria();
 
-        if (!administradorPaqueterias.validarPaqueteria(idPaqueteria)) {
+        if (!FAdministradorPaqueterias.validarId(idPaqueteria)) {
             throw new PedidosIdPaqueteriaInvalidoException("El ID de paqueteria: " + idPaqueteria + " es inválido.");
         }
 
@@ -134,7 +133,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
                                         tiempoEnvioMatrizHorasProductoInventario);
                         
                         costoTotalEnvioProductos +=
-                                administradorPaqueterias.obtenerCostoEnvioProducto(direccionClientePesoTiempoEnvioPaqueteriaDTO);
+                                FAdministradorPaqueterias.obtenerCostoEnvioProducto(direccionClientePesoTiempoEnvioPaqueteriaDTO);
 
                         cantidadProductoSolicitado--;
                     }  
@@ -160,7 +159,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
                         3F);
             
             costoTotalEnvioProductos +=
-                    administradorPaqueterias.obtenerCostoEnvioProducto(direccionClientePesoTiempoEnvioPaqueteriaDTO);
+                    FAdministradorPaqueterias.obtenerCostoEnvioProducto(direccionClientePesoTiempoEnvioPaqueteriaDTO);
             
             return costoTotalEnvioProductos;
 
@@ -183,12 +182,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
 
         Integer idPaqueteria = informacionCrearPedidoDTO.getIdPaqueteria();
 
-        if (!administradorPaqueterias.validarPaqueteria(idCliente)) {
-            throw new PedidosIdProductoInvalidoException("El ID de paquetería: " + idPaqueteria + " es inválido.");
-        }
-
-        PaqueteriaON paqueteria = administradorPaqueterias.obtenerPaqueteria(idPaqueteria);
-
+        PaqueteriaDTO paqueteria = FAdministradorPaqueterias.obtenerPaqueteria(idPaqueteria);
         if (paqueteria == null) {
             throw new PedidosIdProductoInvalidoException("El ID de paquetería: " + idPaqueteria + " es inválido.");
         }
