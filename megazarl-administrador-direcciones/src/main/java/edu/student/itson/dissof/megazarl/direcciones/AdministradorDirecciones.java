@@ -64,6 +64,8 @@ enum AdministradorDirecciones implements IAdministradorDirecciones {
 
                     // Se asignan los datos a una nueva DTO de tipo InformacionDerivadaCPDireccionEnvioDTO;
                     informacionDerivadaDireccionEnvioDTO = new InformacionDerivadaCPDireccionEnvioDTO(colonia, ciudad, estado);
+                    
+                    break;
                 }
 
                 i++;
