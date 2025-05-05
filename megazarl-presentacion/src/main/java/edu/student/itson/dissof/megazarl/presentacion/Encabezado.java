@@ -2,7 +2,7 @@ package edu.student.itson.dissof.megazarl.presentacion;
 
 
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
-import edu.student.itson.dissof.megazarl.presentacion.utilgui.ButtonBuilder;
+import edu.student.itson.dissof.megazarl.presentacion.utils.ButtonBuilder;
 import java.awt.*;
 import javax.swing.*;
 
@@ -13,16 +13,17 @@ public class Encabezado extends JPanel {
     private JPanel panelFila2;
     private JPanel panelImagenNombreUsuario;
     private JPanel panelLogotipo;
-    private JPanel panelBtnCarrito;
-    private JPanel panelBtnDireccion;
+    private JPanel panelCarrito;
+    private JPanel panelDireccion;
     private JPanel panelBusqueda;
-    private JPanel panelEspacio;
+    private JPanel panelSalir;
 
     private JPanel panelImagenNombreUsuario2;
     private JPanel panelLogotipo2;
-    private JPanel panelBtnCarrito2;
-    private JPanel panelBtnDireccion2;
+    private JPanel panelCarrito2;
+    private JPanel panelDireccion2;
     private JPanel panelBusqueda2;
+    private JPanel panelSalir2;
 
     private JLabel etqNombreUsuario;
     private JLabel etqImagenUsuario;
@@ -33,21 +34,42 @@ public class Encabezado extends JPanel {
 
     private JTextField campoBusquedaProductos;
     
-    private Color COLOR_BTNS_CARRITO_DIRECCION = new Color(255, 247, 190);
+    private Color COLOR_FONDO = new Color(78, 122, 64);
+    
+    private Color COLOR_BOTONES = new Color(255, 247, 190);
+    
+    private final int ANCHO_LOGOTIPO_EMPRESA = 220;
+    private final int ALTO_LOGOTIPO_EMPRESA = 100;
+    
+    private final int ANCHO_BOTON_CARRITO = 100;
+    private final int ALTO_BOTON_CARRITO = 40;
+    
+    private final int ANCHO_BOTON_ACTUALIZAR_DIRECCION = 170;
+    private final int ALTO_BOTON_ACTUALIZAR_DIRECCION = 40;
+    
+    private final int ANCHO_BOTON_BUSCAR = 70;
+    private final int ALTO_BOTON_BUSCAR = 30;
+    
+    private final int ANCHO_BOTON_SALIR = 80;
+    private final int ALTO_BOTON_SALIR = 30;
 
     private final int MARGEN_VERTICAL_COMPONENTES = 40;
+    
+    private final Font FUENTE_BOTONES = new Font("Segoe UI Emoji", Font.BOLD, 16);
+    
     private final String EMOJI_CARRITO = new String(Character.toChars(0x1F6D2));
     private final String EMOJI_LUPA = new String(Character.toChars(0x1F50D));
-
-    private Integer idCliente;
+    
+    private Long idCliente;
     
     JButton btnActualizarDireccionEnvio;
     JButton btnCarritoCompras;
     JButton botonBusqueda;
+    JButton btnSalir;
 
     private ControlCompra control;
 
-    public Encabezado(ControlCompra control, Integer idCliente, IVista vistaPadre) {
+    public Encabezado(ControlCompra control, Long idCliente, IVista vistaPadre) {
         this.control = control;
         this.idCliente = idCliente;
         this.vistaPadre = vistaPadre;
@@ -55,7 +77,7 @@ public class Encabezado extends JPanel {
     }
 
     private void initCompoents() {
-        this.setBackground(new Color(43, 189, 126));
+        this.setBackground(COLOR_FONDO);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         panelFila1 = new JPanel();
         panelFila2 = new JPanel();
@@ -68,53 +90,56 @@ public class Encabezado extends JPanel {
 
         panelImagenNombreUsuario = new JPanel();
         panelLogotipo = new JPanel();
-        panelBtnCarrito = new JPanel();
-        panelBtnDireccion = new JPanel();
+        panelCarrito = new JPanel();
+        panelDireccion = new JPanel();
         panelBusqueda = new JPanel();
-        panelEspacio = new JPanel();
+        panelSalir = new JPanel();
 
         panelImagenNombreUsuario.setOpaque(false);
         panelLogotipo.setOpaque(false);
-        panelBtnCarrito.setOpaque(false);
-        panelBtnDireccion.setOpaque(false);
+        panelCarrito.setOpaque(false);
+        panelDireccion.setOpaque(false);
         panelBusqueda.setOpaque(false);
-        panelEspacio.setOpaque(false);
+        panelSalir.setOpaque(false);
 
         panelImagenNombreUsuario.setLayout(new BoxLayout(panelImagenNombreUsuario, BoxLayout.Y_AXIS));
         panelLogotipo.setLayout(new BoxLayout(panelLogotipo, BoxLayout.Y_AXIS));
-        panelBtnCarrito.setLayout(new BoxLayout(panelBtnCarrito, BoxLayout.Y_AXIS));
-        panelBtnDireccion.setLayout(new BoxLayout(panelBtnDireccion, BoxLayout.Y_AXIS));
+        panelCarrito.setLayout(new BoxLayout(panelCarrito, BoxLayout.Y_AXIS));
+        panelDireccion.setLayout(new BoxLayout(panelDireccion, BoxLayout.Y_AXIS));
         panelBusqueda.setLayout(new BoxLayout(panelBusqueda, BoxLayout.Y_AXIS));
 
         panelImagenNombreUsuario.add(Box.createVerticalStrut(MARGEN_VERTICAL_COMPONENTES));
-        panelBtnCarrito.add(Box.createVerticalStrut(MARGEN_VERTICAL_COMPONENTES));
+        panelCarrito.add(Box.createVerticalStrut(MARGEN_VERTICAL_COMPONENTES));
 
         panelFila1.add(panelImagenNombreUsuario);
         panelFila1.add(panelLogotipo);
-        panelFila1.add(panelBtnCarrito);
-        panelFila2.add(panelBtnDireccion);
+        panelFila1.add(panelCarrito);
+        panelFila2.add(panelDireccion);
         panelFila2.add(panelBusqueda);
-        panelFila2.add(panelEspacio);
+        panelFila2.add(panelSalir);
 
         panelImagenNombreUsuario2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panelLogotipo2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        panelBtnDireccion2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelDireccion2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panelBusqueda2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        panelBtnCarrito2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelCarrito2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelSalir2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         panelImagenNombreUsuario2.setOpaque(false);
         panelLogotipo2.setOpaque(false);
-        panelBtnDireccion2.setOpaque(false);
-        panelBtnCarrito2.setOpaque(false);
+        panelDireccion2.setOpaque(false);
+        panelCarrito2.setOpaque(false);
         panelBusqueda2.setOpaque(false);
+        panelSalir2.setOpaque(false);
 
         panelImagenNombreUsuario.add(panelImagenNombreUsuario2);
         panelLogotipo.add(panelLogotipo2);
-        panelBtnDireccion.add(panelBtnDireccion2);
+        panelDireccion.add(panelDireccion2);
         panelBusqueda.add(panelBusqueda2);
-        panelBtnCarrito.add(panelBtnCarrito2);
+        panelCarrito.add(panelCarrito2);
+        panelSalir.add(panelSalir2);
 
-        panelBtnCarrito2.add(cargarBtnCarrito());
+        panelCarrito2.add(cargarBtnCarrito());
         
         // Imagen e icono de usuario
         ImageIcon iconoUsuario = new ImageIcon(this.getClass().getResource("/usuarioIcono.png"));
@@ -133,7 +158,7 @@ public class Encabezado extends JPanel {
 
         // Logotipo de empresa
         ImageIcon iconoLogoEmpresa = new ImageIcon(this.getClass().getResource("/logotipoEmpresa.png"));
-        Image imagenLogoEmpresa = iconoLogoEmpresa.getImage().getScaledInstance(400, 100, Image.SCALE_SMOOTH);
+        Image imagenLogoEmpresa = iconoLogoEmpresa.getImage().getScaledInstance(ANCHO_LOGOTIPO_EMPRESA, ALTO_LOGOTIPO_EMPRESA, Image.SCALE_SMOOTH);
         ImageIcon nuevoIconoLogoEmpresa = new ImageIcon(imagenLogoEmpresa);
 
         etqLogotipoEmpresa = new JLabel(nuevoIconoLogoEmpresa);
@@ -148,7 +173,7 @@ public class Encabezado extends JPanel {
         panelTexto.setLayout(new BoxLayout(panelTexto, BoxLayout.Y_AXIS));
         panelTexto.setOpaque(false);
 
-        panelBtnDireccion2.add(cargarBtnActualizarDireccionEnvio());
+        panelDireccion2.add(cargarBtnActualizarDireccionEnvio());
         
         JLabel tituloUbicacion = new JLabel("Ubicación de envío");
         tituloUbicacion.setForeground(Color.WHITE);
@@ -169,9 +194,6 @@ public class Encabezado extends JPanel {
         
         btnActualizarDireccionEnvio.add(panelTexto);
         
-
-        
-        
         // Campo de texto para búsqueda:
         campoBusquedaProductos = new JTextField();
 
@@ -179,11 +201,13 @@ public class Encabezado extends JPanel {
 
         campoBusquedaProductos.setFont(fuenteCampoBusqueda);
 
-        campoBusquedaProductos.setColumns(20);
+        campoBusquedaProductos.setColumns(16);
         
         panelBusqueda2.add(campoBusquedaProductos);
         
-        panelBusqueda2.add(cargarBtnBusqueda());
+        panelBusqueda2.add(cargarBtnBuscar());
+        
+        panelSalir2.add(cargarBtnSalir());
 
     }
 
@@ -191,9 +215,9 @@ public class Encabezado extends JPanel {
         // Botón de Carrito de Compras:    
         btnCarritoCompras = new ButtonBuilder()
                 .withText(EMOJI_CARRITO)
-                .withFont(new Font("Segoe UI Emoji", Font.BOLD, 16))
-                .withBackground(COLOR_BTNS_CARRITO_DIRECCION)
-                .withPreferredSize(80, 40)
+                .withFont(FUENTE_BOTONES)
+                .withBackground(COLOR_BOTONES)
+                .withPreferredSize(ANCHO_BOTON_CARRITO, ALTO_BOTON_CARRITO)
                 .onClick(e -> control.mostrarCarritoCompras(idCliente, vistaPadre))
                 .build();
         
@@ -204,9 +228,9 @@ public class Encabezado extends JPanel {
     private JButton cargarBtnActualizarDireccionEnvio() {
         
         btnActualizarDireccionEnvio = new ButtonBuilder()
-                .withFont(new Font("Segoe UI Emoji", Font.BOLD, 16))
-                .withBackground(COLOR_BTNS_CARRITO_DIRECCION)
-                .withPreferredSize(170, 50)
+                .withFont(FUENTE_BOTONES)
+                .withBackground(COLOR_BOTONES)
+                .withPreferredSize(ANCHO_BOTON_ACTUALIZAR_DIRECCION, ALTO_BOTON_ACTUALIZAR_DIRECCION)
                 .onClick(e -> control.mostrarActualizacionDireccionEnvio(idCliente, vistaPadre))
                 .build();
         
@@ -218,15 +242,28 @@ public class Encabezado extends JPanel {
         btnActualizarDireccionEnvio.setVisible(false);
     }
     
-     private JButton cargarBtnBusqueda(){
+    private JButton cargarBtnSalir(){
+
+        btnSalir = new ButtonBuilder()
+                .withText("Salir")
+                .withFont(FUENTE_BOTONES)
+                .withBackground(COLOR_BOTONES)
+                .withPreferredSize(ANCHO_BOTON_SALIR, ALTO_BOTON_SALIR)
+                .onClick(e -> control.finalizarCasoUso(vistaPadre))
+                .build();
+
+        return btnSalir;
+    }
+    
+    private JButton cargarBtnBuscar(){
         
         botonBusqueda = new ButtonBuilder()
-                .withText(EMOJI_LUPA)
+                .withText("Buscar " + EMOJI_LUPA)
                 .withFont(new Font("Segoe UI Emoji", Font.PLAIN, 12))
-                .withBackground(COLOR_BTNS_CARRITO_DIRECCION)
-                .withPreferredSize(30, 30)
+                .withBackground(COLOR_BOTONES)
+                .withPreferredSize(ANCHO_BOTON_BUSCAR, ALTO_BOTON_BUSCAR)
                 .withEmptyMargin()
-                .onClick(e -> control.mostrarProductosBusqueda(campoBusquedaProductos.getText()))
+                .onClick(e -> control.mostrarProductosBusquedaNombre(campoBusquedaProductos.getText()))
                 .build();
         
         
@@ -236,6 +273,7 @@ public class Encabezado extends JPanel {
     public void mostrarBarraBusqueda(){
         panelBusqueda2.setVisible(true);
         botonBusqueda.setVisible(true);
+        campoBusquedaProductos.setText("");
     }
         
     public void ocultarBarraBusqueda(){
@@ -279,6 +317,10 @@ public class Encabezado extends JPanel {
     
     public void ocultarBtnNumeroCarritoCompras() {
         btnCarritoCompras.setVisible(false);
+    }
+    
+    public void ocultarBtnSalir() {
+        btnSalir.setVisible(false);
     }
 
 }

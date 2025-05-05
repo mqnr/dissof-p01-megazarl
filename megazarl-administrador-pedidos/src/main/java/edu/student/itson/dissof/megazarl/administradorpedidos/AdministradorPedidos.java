@@ -1,214 +1,582 @@
 package edu.student.itson.dissof.megazarl.administradorpedidos;
 
-import edu.student.itson.dissof.megazarl.administradorclientes.FAdministradorClientes;
+import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
+import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdClienteInvalidoException;
-import edu.student.itson.dissof.megazarl.administradorpaqueterias.FAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
+import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdProveedorInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdSucursalInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProductoInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProveedorInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdSucursalInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
-import edu.student.itson.dissof.megazarl.dto.*;
-import edu.student.itson.dissof.megazarl.dto.modelos.PaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.objetosnegocio.*;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.DatosTiempoTrasladoUbicacionesDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.TiempoTrasladoDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoMatrizClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoCantidadCarritoDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionPedidoClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionCrearPedidoDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionEnvioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocio.enumeradores.EstadoPedido;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoProveedorMatrizDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoSucursalMatrizDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.PaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.PedidoDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.SucursalDTO;
+import edu.student.itson.dissof.megazarl.mapas.IAdministradorMapas;
+import edu.student.itson.dissof.megazarl.objetosnegocio.Pedido;
+import java.util.ArrayList;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 class AdministradorPedidos implements IAdministradorPedidos {
+    
     private final IAdministradorProductos administradorProductos;
     private final IAdministradorSucursales administradorSucursales;
+    private final IAdministradorClientes administradorClientes;
+    private final IAdministradorPaqueterias administradorPaqueterias;
+    private final IAdministradorProveedores administradorProveedores;
+    private final IAdministradorMapas administradorMapas;
+   
 
     public AdministradorPedidos(
             IAdministradorProductos administradorProductos,
-            IAdministradorSucursales administradorSucursales) {
-
+            IAdministradorSucursales administradorSucursales,
+            IAdministradorClientes administradorClientes,
+            IAdministradorPaqueterias administradorPaqueterias,
+            IAdministradorProveedores administradorProveedores,
+            IAdministradorMapas administradorMapas){
+        
         this.administradorProductos = administradorProductos;
         this.administradorSucursales = administradorSucursales;
+        this.administradorClientes = administradorClientes;
+        this.administradorPaqueterias = administradorPaqueterias;
+        this.administradorProveedores = administradorProveedores;
+        this.administradorMapas = administradorMapas;
+        
     }
 
+    /**
+     * Implementación del método obtenerTiempoEstimadoPreparacion(), de la interfaz 
+     * {@link IAdministradorPedidos} que permite obtener el tiempo estimado de preparación para una lista
+     * de productos en un carrito de compras.
+     * @param listaIdProductoCantidadCarritoDTO Objeto {@literal List<IdProductoCantidadCarritoDTO>}
+     * que contiene los productos y sus cantidades para calcular el tiempo de preparación.
+     * @return Dato float que representa el tiempo estimado de preparación en horas.
+     * @throws PedidosIdProductoInvalidoException Se lanza si el id de uno de los productos
+     * recibidos es inválido, dentro del subsistema adminsitradorPedidos
+     * @throws ProductosIdProductoInvalidoException Se lanza si el id de uno de los
+     * productos recibidos es inválido, dentro del subsistema administradorProductos
+     */
     @Override
-    public float obtenerTiempoEstimadoPreparacion(List<IdProductoCantidadCarritoDTO> listaIdProductoCantidadCarritoDTO)  {
-        return 4.5F;
+    public float obtenerTiempoEstimadoPreparacion(List<IdProductoCantidadCarritoDTO> listaIdProductoCantidadCarritoDTO) 
+            throws PedidosIdProductoInvalidoException,
+            PedidosIdProductoInvalidoException,
+            PedidosIdProveedorInvalidoException,
+            PedidosIdProveedorInvalidoException{
+        
+        float tiempoPreparacionEstimado = 0;
+
+        for(IdProductoCantidadCarritoDTO idProductoCantidadCarritoDTO: listaIdProductoCantidadCarritoDTO){
+            
+            Long idProducto = idProductoCantidadCarritoDTO.getIdProducto();
+            
+            IdProductoDTO idProductoDTO = new IdProductoDTO(idProducto);
+            if (!administradorProductos.validarProducto(idProductoDTO)) {
+                throw new PedidosIdProductoInvalidoException("El ID de producto es inválido.");
+            }
+            
+            ProductoDTO producto = null;
+            try {
+                producto = administradorProductos.obtenerProducto(idProductoDTO);
+            } catch (ProductosIdProductoInvalidoException ex) {
+                throw new PedidosIdProductoInvalidoException(ex.getMessage());
+            }
+            
+            if(producto == null){
+                throw new PedidosIdProductoInvalidoException("El ID de producto es inválido.");
+            }
+                    
+            List<ProductoInventarioDTO> listaProductosInventario = producto.getListaProductoInventario();
+ 
+            // Se crea un hashMap para almacenar los productos en inventario del producto
+            // como clave, y su tiempo de traslado a matriz como valor
+            HashMap<ProductoInventarioDTO, Float> mapaProductoInventarioTiempoTrasladoMatriz = new HashMap<>();
+            
+            // Se obtienen los datos de la dirección de la sucursal
+            SucursalDTO sucursalMatriz = administradorSucursales.obtenerSucursalMatriz();
+            
+            String codigoPostalMatriz = sucursalMatriz.getDireccion().getCodigoPostal();
+            String coloniaMatriz = sucursalMatriz.getDireccion().getColonia();
+            String calleMatriz = sucursalMatriz.getDireccion().getCalle();
+            String numeroMatriz = sucursalMatriz.getDireccion().getNumero();
+            
+            boolean todosProductosDisponibles = true;
+                    
+            for(ProductoInventarioDTO productoInventario: listaProductosInventario){
+                
+                // Se obtienen los datos de la dirección de cada producto en inventario
+                SucursalDTO sucursalProductoInventario = productoInventario.getSucursal();
+     
+                String codigoPostalSucursalProductoInventario = sucursalProductoInventario.getDireccion().getCodigoPostal();
+                String coloniaSucursalProductoInventario = sucursalProductoInventario.getDireccion().getColonia();
+                String calleSucursalProductoInventario = sucursalProductoInventario.getDireccion().getCalle();
+                String numeroSucursalProductoInventario = sucursalProductoInventario.getDireccion().getNumero();
+
+                // Se crea el DTO que contiene los datos de las ubicaciones de la
+                // sucursal Matriz y de la sucursal en la que se encuentra el 
+                // producto en inventario para calcular el tiempo de traslado
+                DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoUbicacionesDTO 
+                        = new DatosTiempoTrasladoUbicacionesDTO(
+                                numeroSucursalProductoInventario, 
+                                calleSucursalProductoInventario, 
+                                coloniaSucursalProductoInventario, 
+                                codigoPostalSucursalProductoInventario, 
+                                numeroMatriz, 
+                                calleMatriz, 
+                                coloniaMatriz, 
+                                codigoPostalMatriz);
+
+                // Se obtiene el tiempo de traslado utilizando el subsistema 
+                // administradorMapas, de la capa de infraestructura
+                TiempoTrasladoDTO tiempoTrasladoDTO = administradorMapas.calcularTiempoTraslado(datosTiempoTrasladoUbicacionesDTO);
+
+                float tiempoTraslado = tiempoTrasladoDTO.getTiempoTraslado();
+
+                mapaProductoInventarioTiempoTrasladoMatriz.put(productoInventario, tiempoTraslado);
+                
+            }
+            
+            // Se ordenan los tiempo de traslado de los productos en inventario,
+            // en orden ascendente
+            List<Float> listaTiemposTrasladoProductosInventarioDisponibles = new ArrayList<>(mapaProductoInventarioTiempoTrasladoMatriz.values());
+            
+            Collections.sort(listaTiemposTrasladoProductosInventarioDisponibles);
+
+            int cantidadProductosInventarioDisponibles = listaTiemposTrasladoProductosInventarioDisponibles.size();
+            int cantidadProductosInventarioRequeridos = idProductoCantidadCarritoDTO.getCantidad();
+            
+            // Se obtiene una sublista con los tiempos de traslado de los productos 
+            // en inventario requeridos
+            if(cantidadProductosInventarioRequeridos <= cantidadProductosInventarioDisponibles){
+                
+                listaTiemposTrasladoProductosInventarioDisponibles
+                    = listaTiemposTrasladoProductosInventarioDisponibles.subList(0, cantidadProductosInventarioRequeridos - 1);
+                
+            } else{
+ 
+                todosProductosDisponibles = false;
+            }
+            
+
+            for(Float tiempoTrasladoProductoInventario: listaTiemposTrasladoProductosInventarioDisponibles){
+                
+                if(tiempoTrasladoProductoInventario > tiempoPreparacionEstimado){
+                    tiempoPreparacionEstimado = tiempoTrasladoProductoInventario;
+                }
+                    
+            }
+            
+            // Si es necesario realizar compras de productos a proveedor, se obtiene 
+            // el tiempo mayor de envío que realizan las paqueterías registradas, y se
+            // determina si este tiempo es mayor al actual obtenido para considerarlo
+            // o no
+            if(!todosProductosDisponibles){
+
+                Long idProveedor = producto.getProveedor().getId();
+                
+                float tiempoEnvioMatrizMayor = 0;
+                try {
+                    tiempoEnvioMatrizMayor = administradorPaqueterias.obtenerTiempoEnvioMatrizEstimado(new IdProveedorDTO(idProveedor));
+                } catch (PaqueteriasIdProveedorInvalidoException ex) {
+                    throw new PedidosIdProveedorInvalidoException(ex.getMessage());
+                }
+
+                if(tiempoEnvioMatrizMayor > tiempoPreparacionEstimado){
+
+                    tiempoPreparacionEstimado = tiempoEnvioMatrizMayor;
+
+                }
+
+            }
+            
+        }
+
+        return tiempoPreparacionEstimado;
     }
 
+    /**
+     * Método que perite realizar el cálculo del costo de envío por paquetería 
+     * de los productos seleccionados por el cliente, que varían según la paquetería
+     * seleccionada.
+     * @param informacionPedidoClienteDTO Objeto DTO que contiene la información
+     * del pedido necesaria para realizar el cálculo del costo de envío.
+     * @return Dato float que representa el costo de envío.
+     * @throws PedidosIdClienteInvalidoException 
+     * @throws PedidosIdProductoInvalidoException
+     * @throws PedidosIdPaqueteriaInvalidoException
+     * @throws PaqueteriasIdPaqueteriaInvalidoException
+     * @throws ProductosIdProductoInvalidoException 
+     */
     @Override
-    public float calcularCostoEnvioProductosPaqueteria(InformacionCalculoCostoPedidoDTO informacionCalculoCostoPedidoDTO)
+    public float calcularCostoEnvioProductosPaqueteria(InformacionPedidoClienteDTO informacionPedidoClienteDTO)
             throws PedidosIdClienteInvalidoException,
             PedidosIdProductoInvalidoException,
             PedidosIdPaqueteriaInvalidoException,
-            PaqueteriasIdPaqueteriaInvalidoException,
-            ProductosIdProductoInvalidoException{
+            PedidosIdSucursalInvalidoException,
+            PedidosIdProveedorInvalidoException{
 
-        Integer idCliente = informacionCalculoCostoPedidoDTO.getIdCliente();
-
-        if (!FAdministradorClientes.validarIdCliente(idCliente)) {
-            throw new PedidosIdClienteInvalidoException("El ID de cliente: " + idCliente + " es inválido.");
+        Long idCliente = informacionPedidoClienteDTO.getIdCliente();
+        
+        IdClienteDTO idClienteDTO = new IdClienteDTO(idCliente);
+        
+        // Se valida el ID del cliente
+        if (!administradorClientes.validarCliente(idClienteDTO)) {
+            throw new PedidosIdClienteInvalidoException("El ID de cliente es inválido.");
         }
 
-        Integer idPaqueteria = informacionCalculoCostoPedidoDTO.getIdPaqueteria();
+        Long idPaqueteria = informacionPedidoClienteDTO.getIdPaqueteria();
+        
+        IdPaqueteriaDTO idPaqueteriaDTO = new IdPaqueteriaDTO(idPaqueteria);
 
-        if (!FAdministradorPaqueterias.validarId(idPaqueteria)) {
-            throw new PedidosIdPaqueteriaInvalidoException("El ID de paqueteria: " + idPaqueteria + " es inválido.");
+        // Se valida el ID de la paquetería
+        if (!administradorPaqueterias.validarPaqueteria(idPaqueteriaDTO)) {
+            throw new PedidosIdPaqueteriaInvalidoException("El ID de paqueteria es inválido.");
+        }
+        
+        PaqueteriaDTO paqueteria = administradorPaqueterias.obtenerPaqueteria(idPaqueteriaDTO);
+        
+        if(paqueteria == null){
+            throw new PedidosIdPaqueteriaInvalidoException("El ID de paqueteria es inválido.");
         }
 
-        HashMap<Integer, Integer> mapaProductosCantidades = informacionCalculoCostoPedidoDTO.getMapaProductosCantidades();
+        // Se obtiene el mapa con la información de las cantidades solicitades por producto
+        HashMap<Long, Integer> mapaProductosCantidades = informacionPedidoClienteDTO.getMapaProductosCantidades();
 
-        for (Integer idProducto: mapaProductosCantidades.keySet()) {
-            if (!administradorProductos.validarProducto(idProducto)) {
-                throw new PedidosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
+        // Se validan los IDs de los productos
+        for (Long idProducto: mapaProductosCantidades.keySet()) {
+            if (!administradorProductos.validarProducto(new IdProductoDTO(idProducto))) {
+                throw new PedidosIdProductoInvalidoException("El ID de producto es inválido.");
             }
         }
 
-        try {
-            InformacionNoDerivadaCPDireccionEnvioDTO informacionNoDerivadaCPDireccionEnvioDTO
-                    = FAdministradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(idCliente);
 
-            String codigoPostalCliente = informacionNoDerivadaCPDireccionEnvioDTO.getCodigoPostal();
-            String calleCliente = informacionNoDerivadaCPDireccionEnvioDTO.getCalle();
-            String numeroCliente =  informacionNoDerivadaCPDireccionEnvioDTO.getNumero();
+        // Se obtiene la dirección de la sucursal Matriz
+        SucursalDTO sucursalMatriz = administradorSucursales.obtenerSucursalMatriz();
 
-            DireccionMatrizDTO direccionMatrizDTO = administradorSucursales.obtenerDireccionMatriz();
+        String codigoPostalMatriz = sucursalMatriz.getDireccion().getCodigoPostal();
+        String coloniaMatriz = sucursalMatriz.getDireccion().getColonia();
+        String calleMatriz = sucursalMatriz.getDireccion().getCalle();
+        String numeroMatriz = sucursalMatriz.getDireccion().getNumero();
 
-            String codigoPostalMatriz = direccionMatrizDTO.getCodigoPostalMatriz();
-            String calleMatriz = direccionMatrizDTO.getCalleMatriz();
-            String numeroMatriz = direccionMatrizDTO.getNumeroMatriz();
+        float costoTotalEnvio = 0;
 
-            Float costoTotalEnvioProductos = 0F;
+        // Se usa un hashMap para almacenar las sucursales a las que es necesario
+        // realizar un traslado de producto a la Matriz de la empresa junto con
+        // el peso de los productos requeridos asociado
+        HashMap<SucursalDTO, Double> mapaSucursalesPesosProductos = new HashMap<>();
 
-            // Se usa una lista para alamcenar las sucursales a las que es necesario
-            // realizar un traslado de producto a la Matriz de la empresa.   
-            LinkedList<Integer> listaIdsucursalesCubiertas = new LinkedList<>();
-            double sumaKgTotal = 0;
+        double sumaKgTotal = 0;
+
+        // Se calcula el costo de envio de productos a matriz:
+        for (Long idProducto: mapaProductosCantidades.keySet()) {
+
+            // Se valida el ID del producto
+            if(!administradorProductos.validarProducto(new IdProductoDTO(idProducto))){
+                throw new PedidosIdProductoInvalidoException("El ID de producto es inválido.");
+            }
             
-            // Se calcula el costo de envio de productos a matriz:
-            for (Integer idProducto: mapaProductosCantidades.keySet()) {
-                int cantidadProductoSolicitado = mapaProductosCantidades.get(idProducto);
+            ProductoDTO producto = null;
+            try{
+                producto = administradorProductos.obtenerProducto(new IdProductoDTO(idProducto));
+                
+            } catch(ProductosIdProductoInvalidoException ex){
+                throw new PedidosIdProductoInvalidoException(ex.getMessage());
+            }
+            
+            
+            // Se valida el ID del proveedor
+            Long idProveedor = producto.getProveedor().getId();
+            
+            if(!administradorProveedores.validarProveedor(new IdProveedorDTO(idProveedor))){
+                throw new PedidosIdProductoInvalidoException("El ID de proveedor es inválido.");
+            }
 
-                ProductoON producto = administradorProductos.obtenerProducto(idProducto);
+            int cantidadProductoDisponible = producto.getListaProductoInventario().size();
+            int cantidadProductoRequerido = mapaProductosCantidades.get(idProducto);
 
-                List<ProductoInventarioON> listaProductosInventario = producto.getListaProductoInventario();
+            HashMap<ProductoInventarioDTO, Float> mapaProductosInventarioTiempoTrasladoMatriz = new HashMap<>();
 
-                Collections.sort(listaProductosInventario,
-                        (p1, p2) -> Float.compare(p1.getSucursal().getTiempoMatriz(), p2.getSucursal().getTiempoMatriz()));
+            // Se obtiene la lista de productos en inventario asociados al 
+            // producto actual
+            List<ProductoInventarioDTO> listaProductosInventario = producto.getListaProductoInventario();
 
-                Double pesoKgProductoInventario = producto.getPesoKg();
+            for(ProductoInventarioDTO productoInventario: listaProductosInventario){
 
-                for (ProductoInventarioON productoInventario: listaProductosInventario) {
-                    
-                    Float tiempoEnvioMatrizHorasProductoInventario = productoInventario.getSucursal().getTiempoMatriz();
-                    
-                    sumaKgTotal += productoInventario.getProducto().getPesoKg();
-                    
-                    Integer idSucursalProductoInventario = productoInventario.getSucursal().getId();
-                    
-                    if(tiempoEnvioMatrizHorasProductoInventario == 0){
-                        pesoKgProductoInventario = 0D;
-                    }
-                    
-                    if(!listaIdsucursalesCubiertas.contains(idSucursalProductoInventario)){
-                        listaIdsucursalesCubiertas.add(idSucursalProductoInventario);
-                        
-                    } else{
-                        tiempoEnvioMatrizHorasProductoInventario = 0F;
-                    }  
-                    
-                    
-                    if (tiempoEnvioMatrizHorasProductoInventario >= 0 ) {
-                        DireccionClientePesoTiempoEnvioPaqueteriaDTO direccionClientePesoTiempoEnvioPaqueteriaDTO =
-                                new DireccionClientePesoTiempoEnvioPaqueteriaDTO(
-                                        idPaqueteria,
-                                        codigoPostalCliente,
-                                        calleCliente,
-                                        numeroCliente,
-                                        codigoPostalMatriz,
-                                        calleMatriz,
-                                        numeroMatriz,
-                                        pesoKgProductoInventario,
-                                        tiempoEnvioMatrizHorasProductoInventario);
-                        
-                        costoTotalEnvioProductos +=
-                                FAdministradorPaqueterias.obtenerCostoEnvioProducto(direccionClientePesoTiempoEnvioPaqueteriaDTO);
+                // Se obtiene la dirección de la sucursal Matriz
+                SucursalDTO sucursalProductoInventario = productoInventario.getSucursal();
 
-                        cantidadProductoSolicitado--;
-                    }  
+                String codigoPostalSucursalProductoInventario = sucursalProductoInventario.getDireccion().getCodigoPostal();
+                String coloniaSucursalProductoInventario = sucursalProductoInventario.getDireccion().getColonia();
+                String calleSucursalProductoInventario = sucursalProductoInventario.getDireccion().getCalle();
+                String numeroSucursalProductoInventario = sucursalProductoInventario.getDireccion().getNumero();
 
-                    if (cantidadProductoSolicitado <= 0) {
-                        break;
-                    }
+                // Se crea el DTO que contiene los datos de las ubicaciones de la
+                // sucursal Matriz y de la sucursal en la que se encuentra el 
+                // producto en inventario para calcular el tiempo de traslado
+                DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoUbicacionesDTO 
+                        = new DatosTiempoTrasladoUbicacionesDTO(
+                                numeroSucursalProductoInventario, 
+                                calleSucursalProductoInventario, 
+                                coloniaSucursalProductoInventario, 
+                                codigoPostalSucursalProductoInventario, 
+                                numeroMatriz, 
+                                calleMatriz, 
+                                coloniaMatriz, 
+                                codigoPostalMatriz);
+
+                // Se obtiene el tiempo de traslado utilizando el subsistema 
+                // administradorMapas, de la capa de infraestructura
+                TiempoTrasladoDTO tiempoTrasladoDTO = administradorMapas.calcularTiempoTraslado(datosTiempoTrasladoUbicacionesDTO);
+
+                float tiempoTraslado = tiempoTrasladoDTO.getTiempoTraslado();
+
+                mapaProductosInventarioTiempoTrasladoMatriz.put(productoInventario, tiempoTraslado);
+
+            }
+
+            // Se ordena el HashMap con los productos en inventario y los tiempos
+            // traslado a Matriz, para esto se obtiene una lista de sus entradas.
+            List<Map.Entry<ProductoInventarioDTO, Float>> listaEntradas = new ArrayList<>(mapaProductosInventarioTiempoTrasladoMatriz.entrySet());
+
+            // Se ordenada la lista por el tiempo de envio a Matriz, ascendentemente
+            listaEntradas.sort(Comparator.comparing(Map.Entry::getValue));
+
+            // La lista ordenada se guarda en un nuevo LinkedHashMap
+            Map<ProductoInventarioDTO, Float> mapaProductosInventarioTiempoTrasladoMatrizOrdenado = new LinkedHashMap<>();
+            listaEntradas.forEach(entrada -> 
+                    mapaProductosInventarioTiempoTrasladoMatrizOrdenado.put(entrada.getKey(), entrada.getValue()));
+
+
+            // Se crea un linkedHashMap para almacenar solo los productos en inventario 
+            // requeridos por el pedido
+            LinkedHashMap<ProductoInventarioDTO, Float> mapaProductosInventarioRequeridosTiempoTraslado = new LinkedHashMap<>();
+
+
+            boolean todosProductosDisponibles = true;
+
+            int indiceActual = 0;
+            for(Map.Entry<ProductoInventarioDTO, Float> entrada: mapaProductosInventarioTiempoTrasladoMatrizOrdenado.entrySet()){
+
+                if(indiceActual >= cantidadProductoRequerido){
+                    break;
                 }
-            }
-            // Se obtiene el costo de envío del pedido a la dirección de envío del Cliente:
-            // Se asume que la dirección de envío del Cliente se encuentra a 3 horas de la Matriz de la
-            // empresa.
-            DireccionClientePesoTiempoEnvioPaqueteriaDTO direccionClientePesoTiempoEnvioPaqueteriaDTO =
-                new DireccionClientePesoTiempoEnvioPaqueteriaDTO(
-                        idPaqueteria,
-                        codigoPostalCliente,
-                        calleCliente,
-                        numeroCliente,
-                        codigoPostalMatriz,
-                        calleMatriz,
-                        numeroMatriz,
-                        sumaKgTotal,
-                        3F);
-            
-            costoTotalEnvioProductos +=
-                    FAdministradorPaqueterias.obtenerCostoEnvioProducto(direccionClientePesoTiempoEnvioPaqueteriaDTO);
-            
-            return costoTotalEnvioProductos;
 
-        } catch (ClientesIdClienteInvalidoException ex) {
-            throw new PedidosIdClienteInvalidoException("El ID de cliente: " + idCliente + " es inválido.");
+                mapaProductosInventarioRequeridosTiempoTraslado.put(entrada.getKey(), entrada.getValue());
+
+            }
+
+            if(cantidadProductoDisponible < cantidadProductoRequerido){
+
+                todosProductosDisponibles = false;
+
+            }
+            
+            double pesoKgProducto = producto.getPesoKg();
+
+            // Se recorre la lista de productos en inventario del producto para
+            // sumar su costo de envío a sucursal
+            for (Map.Entry<ProductoInventarioDTO, Float> entrada: mapaProductosInventarioRequeridosTiempoTraslado.entrySet()) {
+
+                ProductoInventarioDTO productoInventario = entrada.getKey();
+
+                // Se obtiene la dirección de la sucursal Matriz
+                SucursalDTO sucursalProductoInventario = productoInventario.getSucursal();
+
+                // Si el producto en inventario se encuentra en una sucursal que no
+                // se ha verificado que tenga otros productos en inventario requeridos
+                // se suma el costo de envío desde esa sucursal hacia la Matriz
+                if(!mapaSucursalesPesosProductos.containsKey(sucursalProductoInventario)){
+                    
+                    mapaSucursalesPesosProductos.put(sucursalProductoInventario, 0D);
+
+                }
+
+                // Se suma el nuevo peso del producto en inventario al peso actual de su sucursal
+                double nuevoPesoKgProductosSucursal 
+                        = mapaSucursalesPesosProductos.get(sucursalProductoInventario) + pesoKgProducto;
+                
+                mapaSucursalesPesosProductos.put(sucursalProductoInventario, nuevoPesoKgProductosSucursal);
+                        
+                        
+                // Se suma el peso del producto en inventario
+                sumaKgTotal += pesoKgProducto;
+
+            }
+            
+            // Se recorren las sucursales que contienen los productos en inventario necesarios
+            // para calcular el costo de envío desde cada una hasta Matriz
+            for(Map.Entry<SucursalDTO, Double> entrada: mapaSucursalesPesosProductos.entrySet()){
+                
+                SucursalDTO sucursalProductosInventario = entrada.getKey();
+                
+                double pesoKgProductosSucursal = entrada.getValue();
+                
+                Long idSucursal = sucursalProductosInventario.getId();
+
+                InformacionEnvioProductoSucursalMatrizDTO informacionEnvioProductoSucursalMatriz
+                        = new InformacionEnvioProductoSucursalMatrizDTO(
+                                idPaqueteria, 
+                                idSucursal,
+                                pesoKgProducto);
+                              
+
+ 
+                try{
+                    
+                    float costoProductosComprar 
+                        = administradorPaqueterias.obtenerCostoEnvioSucursalMatriz(informacionEnvioProductoSucursalMatriz);
+                    
+                    costoTotalEnvio += costoProductosComprar;
+                    
+                } catch(PaqueteriasIdSucursalInvalidoException ex){
+                    throw new PedidosIdSucursalInvalidoException(ex.getMessage());
+                    
+                } catch(PaqueteriasIdPaqueteriaInvalidoException ex){
+                    throw new PedidosIdPaqueteriaInvalidoException(ex.getMessage());
+                }
+                
+            }
+            
+            // Se obtiene el costo de envío de la compra de productos sin existencias
+            if(!todosProductosDisponibles){
+                
+                int cantidadProductoCompraNecesaria = cantidadProductoDisponible - cantidadProductoRequerido;
+                
+                double pesoKgProductoComprar = pesoKgProducto * cantidadProductoCompraNecesaria;
+
+                InformacionEnvioProductoProveedorMatrizDTO informacionEnvioProductoProveedorMatrizDTO
+                        = new InformacionEnvioProductoProveedorMatrizDTO(
+                                idPaqueteria, 
+                                idProveedor,
+                                pesoKgProducto);
+
+                
+                float costoProductosComprar;
+                try {
+                    costoProductosComprar = administradorPaqueterias.obtenerCostoEnvioProveedorMatriz(informacionEnvioProductoProveedorMatrizDTO);
+                } catch (PaqueteriasIdPaqueteriaInvalidoException ex) {
+                    throw new PedidosIdPaqueteriaInvalidoException(ex.getMessage());
+                } catch (PaqueteriasIdProveedorInvalidoException ex) {
+                    throw new PedidosIdProveedorInvalidoException(ex.getMessage());
+                }
+
+                
+
+                costoTotalEnvio += costoProductosComprar;
+                    
+
+                
+            }
+ 
+        }   
+        
+        if(sumaKgTotal > 0){
+            
+            // Se obtiene el costo de envío a la dirección del cliente
+            
+            InformacionEnvioProductoMatrizClienteDTO informacionEnvioProductoPaqueteriaDTO =
+                        new InformacionEnvioProductoMatrizClienteDTO(
+                                idPaqueteria,
+                                idCliente,
+                                sumaKgTotal);
+
+            float costoEnvioPedidoCliente;
+            try {
+                costoEnvioPedidoCliente 
+                        = administradorPaqueterias.obtenerCostoEnvioMatrizCliente(informacionEnvioProductoPaqueteriaDTO);
+            } catch (PaqueteriasIdPaqueteriaInvalidoException ex) {
+                throw new PedidosIdPaqueteriaInvalidoException(ex.getMessage());
+            } catch (PaqueteriasIdClienteInvalidoException ex) {
+                throw new PedidosIdClienteInvalidoException(ex.getMessage());
+            }
+
+            costoTotalEnvio += costoEnvioPedidoCliente;
+
+            
         }
+        
+        return costoTotalEnvio;
 
     }
 
     @Override
-    public boolean realizarPedido(InformacionCrearPedidoDTO informacionCrearPedidoDTO)
-            throws PedidosIdProductoInvalidoException,
+    public PedidoDTO realizarPedido(InformacionCrearPedidoDTO informacionCrearPedidoDTO)
+            throws PedidosIdProductoInvalidoException, 
+            PedidosIdProductoInvalidoException, 
+            PedidosIdProductoInvalidoException,
             ProductosIdProductoInvalidoException{
 
-        Integer idCliente = informacionCrearPedidoDTO.getIdCliente();
+        Long idCliente = informacionCrearPedidoDTO.getIdCliente();
 
-        if (!FAdministradorClientes.validarIdCliente(idCliente)) {
-            throw new PedidosIdProductoInvalidoException("El ID de cliente: " + idCliente + " es inválido.");
+        IdClienteDTO idClienteDTO = new IdClienteDTO(idCliente);
+        
+        if (!administradorClientes.validarCliente(idClienteDTO)) {
+            throw new PedidosIdProductoInvalidoException("El ID de cliente es inválido.");
         }
 
-        Integer idPaqueteria = informacionCrearPedidoDTO.getIdPaqueteria();
+        Long idPaqueteria = informacionCrearPedidoDTO.getIdPaqueteria();
+        
+        IdPaqueteriaDTO idPaqueteriaDTO = new IdPaqueteriaDTO(idPaqueteria);
 
-        PaqueteriaDTO paqueteria = FAdministradorPaqueterias.obtenerPaqueteria(idPaqueteria);
+        PaqueteriaDTO paqueteria = administradorPaqueterias.obtenerPaqueteria(idPaqueteriaDTO);
         if (paqueteria == null) {
             throw new PedidosIdProductoInvalidoException("El ID de paquetería: " + idPaqueteria + " es inválido.");
         }
 
-        HashMap<Integer,Integer> mapaProductosCantidadPedido = informacionCrearPedidoDTO.getMapaIdsProductosCantidad();
+        HashMap<Long,Integer> mapaProductosCantidadPedido = informacionCrearPedidoDTO.getMapaIdsProductosCantidad();
 
-        for (Integer idProducto: mapaProductosCantidadPedido.keySet()) {
-            if (!administradorProductos.validarProducto(idProducto)) {
+        for (Long idProducto: mapaProductosCantidadPedido.keySet()) {
+            if (!administradorProductos.validarProducto(new IdProductoDTO(idProducto))) {
                 throw new PedidosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
             }
         }
 
         // Se obtienen los productos que se tomarán del inventario.
-        List<ProductoInventarioON> productosSolicitados = new LinkedList<>();
+        List<ProductoInventarioDTO> productosSolicitados = new LinkedList<>();
 
-        for (Integer idProducto: mapaProductosCantidadPedido.keySet()) {
+        for (Long idProducto: mapaProductosCantidadPedido.keySet()) {
             int cantidadProductoSolicitado = mapaProductosCantidadPedido.get(idProducto);
 
-            ProductoON producto = administradorProductos.obtenerProducto(idProducto);
+            ProductoDTO producto = administradorProductos.obtenerProducto(new IdProductoDTO(idProducto));
 
-            List<ProductoInventarioON> listaProductosInventario = producto.getListaProductoInventario();
+            List<ProductoInventarioDTO> listaProductosInventario = producto.getListaProductoInventario();
 
-            Collections.sort(listaProductosInventario,
-                    (p1, p2) -> Float.compare(p1.getSucursal().getTiempoMatriz(), p2.getSucursal().getTiempoMatriz()));
+            
+            // TODO Ordenar
+//            Collections.sort(listaProductosInventario,
+//                    (p1, p2) -> Float.compare(p1.getSucursal().getTiempoMatriz(), p2.getSucursal().getTiempoMatriz()));
 
-            for (ProductoInventarioON productoInventario: listaProductosInventario) {
+            for (ProductoInventarioDTO productoInventario: listaProductosInventario) {
                 productosSolicitados.add(productoInventario);
 
                 cantidadProductoSolicitado--;
@@ -221,19 +589,22 @@ class AdministradorPedidos implements IAdministradorPedidos {
 
         // HashMap que contiene a cada ProductoInventario junto con un valor Booleano que
         // indica si ya llegó a la matriz.
-        HashMap<ProductoInventarioON, Boolean> mapaProductosRequeridos = new HashMap<>();
+        HashMap<ProductoInventarioDTO, Boolean> mapaProductosRequeridos = new HashMap<>();
 
-        for (ProductoInventarioON productoInventario: productosSolicitados) {
+        for (ProductoInventarioDTO productoInventario: productosSolicitados) {
             mapaProductosRequeridos.put(productoInventario, false);
         }
 
         // Se crea el objeto Pedido.
-        PedidoON pedidoSucursalMatriz = new PedidoON(
+        PedidoDTO pedido = new PedidoDTO(
+                idCliente,
                 mapaProductosRequeridos,
                 paqueteria,
                 EstadoPedido.PENDIENTE
         );
+        
+        Pedido.agregar(pedido);
 
-        return true;
+        return pedido;
     }
 }

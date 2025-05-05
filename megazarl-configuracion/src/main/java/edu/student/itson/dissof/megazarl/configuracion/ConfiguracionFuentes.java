@@ -2,12 +2,11 @@ package edu.student.itson.dissof.megazarl.configuracion;
 
 public record ConfiguracionFuentes(
         FuenteDatos cliente,
-        FuenteDatos paqueteria
-) {
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Fuente cliente: ").append(cliente);
-        return builder.toString();
-    }
-}
+        FuenteDatos paqueteria,
+        FuenteDatos producto,
+        FuenteDatos productoInventario,
+        FuenteDatos carritoCompras,
+        FuenteDatos pedido,
+        FuenteDatos sucursal,
+        FuenteDatos proveedor
+){}

@@ -19,8 +19,8 @@
     </dependency>
     <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>megazarl-dto</artifactId>
-        <version>${project.version}</version>
+        <artifactId>megazarl-dto-negocios</artifactId>
+      <version>${project.version}</version>
     </dependency>
 </dependencies>
 </project>

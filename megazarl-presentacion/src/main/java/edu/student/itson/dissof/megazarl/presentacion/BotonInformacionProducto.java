@@ -11,7 +11,7 @@ public class BotonInformacionProducto extends JButton {
     private final int ANCHO_BOTON;
     private final int MARGEN_VERTICAL_COMPONENTES;
     private final int MARGEN_HORIZONTAL_COMPONENTES;
-    private final Integer ID_PRODUCTO;
+    private final Long ID_PRODUCTO;
     private final String DIRECCION_IMAGEN_PRODUCTO;
     private final String NOMBRE_PRODUCTO;
     private final String VARIEDAD_PRODUCTO;
@@ -23,14 +23,30 @@ public class BotonInformacionProducto extends JButton {
     private final Color COLOR_FONDO;
     private final Color COLOR_FONDO_SELECCIONADO;
     private final Color COLOR_FONDO_SOBRE;
+    private final Color COLOR_FONDO_SEPARADOR;
     private Color colorFondoActual;
 
     
     
-    public BotonInformacionProducto(int altoBoton, int anchoBoton, Color colorFondo, Color colorFondoSeleccionado, Color colorFondoSobre,
-            int margenVerticalComponentes, int margenHorizontalComponentes, Integer idProducto, String direccionImagenProducto,
-            String nombreProducto, String variedadProducto, Integer milesSemillas, Double precioProducto, String direccionImagenProveedor, int anchoImagenProveedor,
+    public BotonInformacionProducto(
+            int altoBoton, 
+            int anchoBoton, 
+            Color colorFondo,
+            Color colorFondoSeleccionado,
+            Color colorFondoSobre,
+            Color colorFondoSeparador,
+            int margenVerticalComponentes, 
+            int margenHorizontalComponentes, 
+            Long idProducto, 
+            String direccionImagenProducto,
+            String nombreProducto,
+            String variedadProducto, 
+            Integer milesSemillas, 
+            Double precioProducto, 
+            String direccionImagenProveedor, 
+            int anchoImagenProveedor,
             int altoImagenProveedor) {
+        
         this.ALTO_BOTON = altoBoton;
         this.ANCHO_BOTON = anchoBoton;
         this.MARGEN_VERTICAL_COMPONENTES = margenVerticalComponentes;
@@ -47,6 +63,7 @@ public class BotonInformacionProducto extends JButton {
         this.COLOR_FONDO = colorFondo;
         this.COLOR_FONDO_SELECCIONADO = colorFondoSeleccionado;
         this.COLOR_FONDO_SOBRE = colorFondoSobre;
+        this.COLOR_FONDO_SEPARADOR = colorFondoSeparador;
         this.colorFondoActual = colorFondo;
         this.initComponentes();
     }
@@ -77,14 +94,67 @@ public class BotonInformacionProducto extends JButton {
         Font fuenteEtqNombreVariedadCantidadProducto = new Font("Arial", Font.BOLD, 17);
 
         // Nombre y variedad del producto.
-        JLabel etqNombreVariedadProducto = new JLabel(NOMBRE_PRODUCTO + " " + VARIEDAD_PRODUCTO);
-        etqNombreVariedadProducto.setFont(fuenteEtqNombreVariedadCantidadProducto);
+        String nombreVariedadProducto = NOMBRE_PRODUCTO + " " + VARIEDAD_PRODUCTO;
 
-        JPanel panelNombreVariedadProducto = new JPanel(layoutComponentesInformacionProducto);
-        panelNombreVariedadProducto.setOpaque(false);
-        panelNombreVariedadProducto.add(etqNombreVariedadProducto);
-        this.add(panelNombreVariedadProducto);
+        JPanel panelNombreVariedadProducto1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelNombreVariedadProducto1.setOpaque(false);
+        
+        JPanel panelNombreVariedadProducto2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelNombreVariedadProducto2.setOpaque(false);
+        
+        JLabel etqNombreVariedad1 = new JLabel();
+        JLabel etqNombreVariedad2 = new JLabel();
+        
+        if(nombreVariedadProducto.length() > 20){
+            
+            String[] palabrasNombreVariedad = nombreVariedadProducto.split(" ");
+            
+            int cantidadCaracteresAcumulados = 0;
+            
+            for(String palabra: palabrasNombreVariedad){
+                
+                if(cantidadCaracteresAcumulados + palabra.length() + 1 > 20){
 
+                    break;
+                    
+                } else{
+                    
+                    cantidadCaracteresAcumulados += palabra.length() + 1;
+                    
+                }
+
+            }
+            
+            etqNombreVariedad1.setText(nombreVariedadProducto.substring(0, cantidadCaracteresAcumulados));
+            etqNombreVariedad2.setText(nombreVariedadProducto.substring(cantidadCaracteresAcumulados));
+            
+        } else{
+            
+            etqNombreVariedad1.setText(nombreVariedadProducto);
+            etqNombreVariedad2.setText(" ");
+            
+        }
+
+        etqNombreVariedad1.setFont(fuenteEtqNombreVariedadCantidadProducto);
+        etqNombreVariedad2.setFont(fuenteEtqNombreVariedadCantidadProducto);
+        
+        panelNombreVariedadProducto1.add(etqNombreVariedad1);
+        panelNombreVariedadProducto2.add(etqNombreVariedad2);
+        
+        
+        this.add(panelNombreVariedadProducto1);
+        this.add(panelNombreVariedadProducto2);
+        
+        // Separador
+        JSeparator separador = new JSeparator();
+        separador.setBackground(COLOR_FONDO_SEPARADOR);
+        this.add(separador);
+        
+        // Panel separador
+        JPanel panelSeparador = new JPanel();
+        panelSeparador.setOpaque(false);
+        this.add(panelSeparador);
+        
         // Cantidad de semillas de producto.
         JLabel etqCantidadSemillas = new JLabel(MILES_SEMILLAS + "k semillas");
         etqCantidadSemillas.setFont(fuenteEtqNombreVariedadCantidadProducto);
@@ -172,7 +242,7 @@ public class BotonInformacionProducto extends JButton {
 
     }
 
-    public Integer getId_Producto() {
+    public Long getIdProducto() {
         return ID_PRODUCTO;
     }
 }

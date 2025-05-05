@@ -19,11 +19,6 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>megazarl-dto</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
       <artifactId>megazarl-objetos-negocio</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -45,6 +40,11 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>megazarl-administrador-paqueterias</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>megazarl-dto-negocios</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>

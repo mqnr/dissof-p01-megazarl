@@ -1,69 +1,68 @@
 package edu.student.itson.dissof.administradorproveedores;
 
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
-import edu.student.itson.dissof.megazarl.objetosnegocio.ProveedorON;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProveedorDTO;
+import edu.student.itson.dissof.megazarl.objetosnegocio.Proveedor;
 
-import java.util.List;
 
 class AdministradorProveedores implements IAdministradorProveedores {
-    private final List<ProveedorON> listaProveedores;
+    
+    public AdministradorProveedores(){
+        
+    }
+    
+    @Override
+    public ProveedorDTO obtenerProveedor(IdProveedorDTO idProveedorDTO){
+        
+        return Proveedor.recuperarPorId(idProveedorDTO);
 
-    public AdministradorProveedores(List<ProveedorON> listaProveedores) {
-        this.listaProveedores = listaProveedores;
     }
 
     @Override
-    public boolean validarProveedor(Integer idProveedor){
-        for (ProveedorON proveedor: listaProveedores) {
-            if (proveedor.getId().equals(idProveedor)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public ProveedorON obtenerProveedor(Integer idProveedor){
-        ProveedorON proveedorRecuperado = null;
-        for (ProveedorON proveedor: listaProveedores) {
-            if (proveedor.getId().equals(idProveedor)) {
-                proveedorRecuperado = proveedor;
-            }
-        }
-        return proveedorRecuperado;
-    }
-
-    @Override
-    public String obtenerDireccionImagenProveedor(Integer idProveedor) throws ProveedoresIdProveedorInvalidoException{
+    public String obtenerDireccionImagenProveedor(IdProveedorDTO idProveedorDTO) throws ProveedoresIdProveedorInvalidoException{
+        
         // Se valida el ID del proevedor.
-        if (!validarProveedor(idProveedor)) {
-            throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor: " + idProveedor + " es inválido.");
+        if (!validarProveedor(idProveedorDTO)) {
+            throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor es inválido.");
         }
 
-        ProveedorON proveedor = obtenerProveedor(idProveedor);
+        ProveedorDTO proveedor = obtenerProveedor(idProveedorDTO);
 
         if (proveedor == null) {
-            throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor: " + idProveedor + " es inválido.");
+            throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor es inválido.");
         }
 
         // Se obtiene y devuelve la imagen del proveedor.
-        return proveedor.getDireccionImagenProveedor();
+        return proveedor.getDireccionImagen();
     }
 
     @Override
-    public String obtenerNombreProveedor(Integer idProveedor) throws ProveedoresIdProveedorInvalidoException{
+    public String obtenerNombreProveedor(IdProveedorDTO idProveedorDTO) throws ProveedoresIdProveedorInvalidoException{
+        
         // Se valida el ID del proevedor.
-        if (!validarProveedor(idProveedor)) {
-            throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor: " + idProveedor + " es inválido.");
+        if (!validarProveedor(idProveedorDTO)) {
+            throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor es inválido.");
         }
 
-        ProveedorON proveedor = obtenerProveedor(idProveedor);
+        ProveedorDTO proveedor = obtenerProveedor(idProveedorDTO);
 
         if (proveedor == null) {
-            throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor: " + idProveedor + " es inválido.");
+            throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor es inválido.");
         }
 
         // Se obtiene y devuelve el nombre del proveedor.
         return proveedor.getNombre();
+    }
+    
+    @Override
+    public boolean validarProveedor(IdProveedorDTO idProveedorDTO){
+        
+        if (idProveedorDTO == null || idProveedorDTO.getIdProveedor() == null || !Proveedor.existePorId(idProveedorDTO)) {
+            return false;
+        }
+        
+        return true;
+        
     }
 }

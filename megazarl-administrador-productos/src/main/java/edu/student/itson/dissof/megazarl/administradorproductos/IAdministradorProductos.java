@@ -1,10 +1,11 @@
 package edu.student.itson.dissof.megazarl.administradorproductos;
 
-import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosProductoSinInventarioException;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
-import edu.student.itson.dissof.megazarl.dto.InformacionProductoVentaDTO;
-import edu.student.itson.dissof.megazarl.dto.InformacionProductoInicioDTO;
-import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoON;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoDetalladaDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoInicioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProductoDTO;
 import java.util.List;
 
 /**
@@ -30,21 +31,21 @@ public interface IAdministradorProductos {
     /**
      * Método que permite verificar si el ID de un producto es válido.
      *
-     * @param idProducto Objeto Integer que representa el ID del producto a validar.
+     * @param idProductoDTO Objeto IdProductoDTO que contiene el ID del producto a validar.
      * @return true si el ID del producto es válido, false en caso contrario.
      */
-    public abstract boolean validarProducto(Integer idProducto);
+    public abstract boolean validarProducto(IdProductoDTO idProductoDTO);
 
     /**
      * Método que permite consultar el inventario disponible de un producto
      * específico identificado por su ID.
      *
-     * @param idProducto Objeto Integer que representa el ID del producto a consultar.
+     * @param idProductoDTO Objeto IdProductoDTO que contiene el ID del producto a consultar.
      * @return Valor int que representa la cantidad disponible en inventario.
      * @throws ProductosIdProductoInvalidoException Se lanza si se comprueba que el ID
      * del producto es inválido, dentro de este subsistema.
      */
-    public abstract int cosultarInventarioProducto(Integer idProducto)  throws ProductosIdProductoInvalidoException;
+    public abstract int cosultarInventarioProducto(IdProductoDTO idProductoDTO) throws ProductosIdProductoInvalidoException;
 
     /**
      * Método que permite obtener la lista de todos los productos disponibles
@@ -59,13 +60,13 @@ public interface IAdministradorProductos {
      * Método que permite obtener la información detallada de un producto específico
      * identificado por su ID.
      *
-     * @param idProducto Objeto Integer que representa el ID del producto a consultar.
-     * @return Objeto InformacionProductoVentaDTO que contiene la información detallada
-     * del producto.
+     * @param idProductoDTO Objeto IdProductoDTO que contiene el ID del producto a consultar.
+     * @return Objeto InformacionProductoDetalladaDTO que contiene la información detallada
+ del producto.
      * @throws ProductosIdProductoInvalidoException Se lanza si se comprueba que el ID
      * del producto es inválido, dentro de este subsistema.
      */
-    public abstract InformacionProductoVentaDTO obtenerInformacionProductoVenta(Integer idProducto) throws ProductosIdProductoInvalidoException;
+    public abstract InformacionProductoDetalladaDTO obtenerInformacionProductoVenta(IdProductoDTO idProductoDTO) throws ProductosIdProductoInvalidoException;
 
     /**
      * Método que permite buscar productos por nombre.
@@ -75,7 +76,7 @@ public interface IAdministradorProductos {
      * @return Objeto List de InformacionProductoInicioDTO que contiene la información
      * resumida de los productos que coinciden con el criterio de búsqueda.
      */
-    public abstract List<InformacionProductoInicioDTO> obtenerProductosBusqueda(String nombreProducto);
+    public abstract List<InformacionProductoInicioDTO> obtenerProductosBusquedaNombreProducto(String nombreProducto);
 
     /**
      * Método que permite buscar productos por nombre y variedad.
@@ -87,71 +88,41 @@ public interface IAdministradorProductos {
      * @return Objeto List de InformacionProductoInicioDTO que contiene la información
      * resumida de los productos que coinciden con los criterios de búsqueda.
      */
-    public abstract List<InformacionProductoInicioDTO> obtenerProductosBusqueda(
+    public abstract List<InformacionProductoInicioDTO> obtenerProductosBusquedaNombreProductoVariedad(
             String nombreProducto,
             String variedadProducto);
 
     /**
-     * Método que permite buscar productos por nombre, variedad y proveedor.
+     * Método que permite buscar productos por nombre y proveedor.
      *
      * @param nombreProducto Objeto String que representa el nombre o parte del nombre
      * del producto a buscar.
-     * @param variedadProducto Objeto String que representa la variedad o parte de la
-     * variedad del producto a buscar.
-     * @param nombreProveedor Objeto String que representa el nombre o parte del nombre
-     * del proveedor del producto a buscar.
+     * @param nombreProveedor Objeto String que representa el nombre del proveedor o parte del
+     * nombre del proveedor del producto a buscar.
      * @return Objeto List de InformacionProductoInicioDTO que contiene la información
      * resumida de los productos que coinciden con los criterios de búsqueda.
      */
-    public abstract List<InformacionProductoInicioDTO> obtenerProductosBusqueda(
+    public abstract List<InformacionProductoInicioDTO> obtenerProductosBusquedaNombreProductoProveedor(
             String nombreProducto,
-            String variedadProducto,
             String nombreProveedor);
+
 
     /**
      * Método que permite obtener un producto específico identificado por su ID.
      *
-     * @param idProducto Objeto Integer que representa el ID del producto a obtener.
+     * @param idProductoDTO Objeto IdProductoDTO que contiene el ID del producto a obtener.
      * @return Objeto Producto que representa el producto con el ID especificado.
      * @throws ProductosIdProductoInvalidoException Se lanza si se comprueba que el ID
      * del producto es inválido, dentro de este subsistema.
      */
-    public abstract ProductoON obtenerProducto(Integer idProducto) throws ProductosIdProductoInvalidoException;
-
-    /**
-     * Método que permite apartar unidades de un producto específico en el inventario.
-     *
-     * @param idProducto Objeto Integer que representa el ID del producto a apartar.
-     * @param cantidad Valor int que representa la cantidad de unidades a apartar.
-     * @throws ProductosIdProductoInvalidoException Se lanza si se comprueba que el ID
-     * del producto es inválido, dentro de este subsistema.
-     * @throws ProductosProductoSinInventarioException Se lanza si se comprueba que no
-     * hay suficiente inventario disponible para apartar.
-     */
-    public abstract void apartarProductoInventario(Integer idProducto, int cantidad) 
-            throws ProductosIdProductoInvalidoException,
-            ProductosProductoSinInventarioException;
-
-    /**
-     * Método que permite desapartar unidades de un producto específico en el inventario.
-     *
-     * @param idProducto Objeto Integer que representa el ID del producto a desapartar.
-     * @param cantidad Valor int que representa la cantidad de unidades a desapartar.
-     * @throws ProductosIdProductoInvalidoException Se lanza si se comprueba que el ID
-     * del producto es inválido, dentro de este subsistema.
-     * @throws ProductosProductoSinInventarioException Se lanza si ocurre un error al
-     * desapartar las unidades especificadas.
-     */
-    public abstract void desapartarProductoInventario(Integer idProducto, int cantidad) 
-            throws ProductosIdProductoInvalidoException,
-            ProductosProductoSinInventarioException;
+    public abstract ProductoDTO obtenerProducto(IdProductoDTO idProductoDTO) throws ProductosIdProductoInvalidoException;
 
     /**
      * Método que permite verificar si el ID de un producto en inventario es válido.
      *
-     * @param idProductoInventario Objeto Integer que representa el ID del producto en
+     * @param idProductoInventarioDTO Objeto IdProductoInventarioDTO que contiene el ID del producto en
      * inventario a validar.
      * @return true si el ID del producto en inventario es válido, false en caso contrario.
      */
-    public abstract boolean validarIdProductoInventario(Integer idProductoInventario);
+    public abstract boolean validarProductoInventario(IdProductoInventarioDTO idProductoInventarioDTO);
 }

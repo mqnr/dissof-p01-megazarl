@@ -1,126 +1,41 @@
 package edu.student.itson.dissof.megazarl.administradorproductos;
 
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
-import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosProductoSinInventarioException;
-import edu.student.itson.dissof.megazarl.dto.InformacionProductoInicioDTO;
-import edu.student.itson.dissof.megazarl.dto.InformacionProductoVentaDTO;
-import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventarioON;
-import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoON;
+import edu.student.itson.dissof.megazarl.administradorproductos.utils.CadenasTextoUtils;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoInicioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoDetalladaDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProductoDTO;
+import edu.student.itson.dissof.megazarl.objetosnegocio.Producto;
+import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
+
 
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
 class AdministradorProductos implements IAdministradorProductos {
-    private final List<ProductoON> listaProductos;
-
-    public AdministradorProductos(List<ProductoON> listaProductos) {
-        this.listaProductos = listaProductos;
-    }
-
+    
     @Override
-    public int cosultarInventarioProducto(Integer idProducto) throws ProductosIdProductoInvalidoException{
+    public int cosultarInventarioProducto(IdProductoDTO idProductoDTO) throws ProductosIdProductoInvalidoException{
+        
         // Se valida el ID del producto.
-        if (!validarProducto(idProducto)) {
-            throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
+        if (!validarProducto(idProductoDTO)) {
+            throw new ProductosIdProductoInvalidoException("El ID de producto es inválido.");
         }
 
-        ProductoON producto = obtenerProducto(idProducto);
+        ProductoDTO producto = obtenerProducto(idProductoDTO);
 
         if (producto == null){
-            throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
+            throw new ProductosIdProductoInvalidoException("El ID de producto es inválido.");
         }
 
         // Se obtiene la cantidad de objetos de tipo ProductoInventario de la lista
-        // del objeto Producto con el ID del parámetro que no están apartados.
-        int disponibilidadProducto
-                = (int) producto.getListaProductoInventario().stream().filter(productoInventario -> !productoInventario.getApartado()).count();
+        // del objeto Producto con el ID del parámetro.
+        int disponibilidadProducto = producto.getListaProductoInventario().size();
 
         return disponibilidadProducto;
-    }
-
-    @Override
-    public void apartarProductoInventario(Integer idProducto, int cantidad)
-            throws ProductosIdProductoInvalidoException, ProductosProductoSinInventarioException{
-
-        // Se valida el ID del producto.
-        if(!validarProducto(idProducto)){
-            throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
-        }
-
-        ProductoON producto = obtenerProducto(idProducto);
-
-        if(producto == null){
-            throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
-        }
-
-        if(cosultarInventarioProducto(idProducto) - cantidad < 0){
-            throw new ProductosProductoSinInventarioException("El producto con ID: " + idProducto + " no cuenta con inventario suficiente.");
-        }
-
-        List<ProductoInventarioON> productosInventarioProductoApartar = producto.getListaProductoInventario();
-
-        productosInventarioProductoApartar.sort(
-                Comparator.comparing((ProductoInventarioON productoOrdenar) -> productoOrdenar.getSucursal().getTiempoMatriz())
-        );
-
-        int cantidadProductosApartados = 0;
-
-        for(ProductoInventarioON productoInventario: productosInventarioProductoApartar){
-            if(!productoInventario.getApartado()){
-                productoInventario.setApartado(true);
-                cantidadProductosApartados++;
-            }
-            if(cantidadProductosApartados >= cantidad){
-                break;
-            }
-        }
-    }
-
-    @Override
-    public void desapartarProductoInventario(Integer idProducto, int cantidad)
-            throws ProductosIdProductoInvalidoException, ProductosProductoSinInventarioException{
-
-        // Se valida el ID del producto.
-        if (!validarProducto(idProducto)) {
-            throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
-        }
-
-        ProductoON producto = obtenerProducto(idProducto);
-
-        if (producto == null) {
-            throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
-        }
-
-        List<ProductoInventarioON> productosInventarioProductoApartar = producto.getListaProductoInventario();
-
-        productosInventarioProductoApartar.sort(
-                Comparator.comparing((ProductoInventarioON productoOrdenar) -> productoOrdenar.getSucursal().getTiempoMatriz()).reversed()
-        );
-
-        int cantidadProductosDesapartados = 0;
-
-        for (ProductoInventarioON productoInventario: productosInventarioProductoApartar) {
-            if (productoInventario.getApartado()) {
-                productoInventario.setApartado(false);
-                cantidadProductosDesapartados++;
-            }
-            if (cantidadProductosDesapartados >= cantidad) {
-                break;
-            }
-        }
-
-    }
-
-    @Override
-    public boolean validarProducto(Integer idProducto){
-        for (ProductoON producto: listaProductos) {
-            if (producto.getId().equals(idProducto)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     @Override
@@ -129,13 +44,15 @@ class AdministradorProductos implements IAdministradorProductos {
 
         // Se recorre la lista de Productos y se añade la información a la lista
         // de DTOs, de aquellos que tengan existencias.
-        for (ProductoON producto: listaProductos) {
+        for (ProductoDTO producto: Producto.recuperarTodos()) {
 
-            Integer idProducto = producto.getId();
+            Long idProducto = producto.getId();
             int cantidadProducto = 0;
 
             try {
-                cantidadProducto = cosultarInventarioProducto(idProducto);
+                
+                cantidadProducto = cosultarInventarioProducto(new IdProductoDTO(idProducto));
+                
             } catch (ProductosIdProductoInvalidoException ex) {}
 
             if(cantidadProducto > 0){
@@ -145,42 +62,52 @@ class AdministradorProductos implements IAdministradorProductos {
                         producto.getVariedad(),
                         producto.getPrecio(),
                         producto.getMilesSemillas(),
-                        producto.getDireccionImagenProducto(),
+                        producto.getDireccionImagen(),
                         producto.getProveedor().getId())
 
                 );
             }
         }
+        
+        // Se ordena la lista de DTO, alfabéticamente
+        listaProductoInicioDTO.sort(Comparator.comparing(InformacionProductoInicioDTO::getNombreProducto));
 
         return listaProductoInicioDTO;
     }
 
     @Override
-    public List<InformacionProductoInicioDTO> obtenerProductosBusqueda(String nombreProducto){
+    public List<InformacionProductoInicioDTO> obtenerProductosBusquedaNombreProducto(String nombreProducto){
 
         List<InformacionProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
 
-        // Se convierte el nombre recibido a letras minusculas.
-        String nombreProductoMinusculas = nombreProducto.toLowerCase();
+        // Se convierte el nombre recibido a letras minusculas y se eliminan los espacios.
+        String nombreProductoMinusculasSinEspacios = nombreProducto.toLowerCase().replaceAll("\\s", "");
 
         // Se recorre la lista de productos para almacenar los datos de aquellos
         // que tengan existencias y su nombre este contenido dentro del nombre del parámetro.
-        for(ProductoON producto: listaProductos){
-            int idProducto = producto.getId();
+        for(ProductoDTO producto: Producto.recuperarTodos()){
+            
+            Long idProducto = producto.getId();
 
             int cantidadProducto = 0;
             try {
-                cantidadProducto = cosultarInventarioProducto(idProducto);
+                cantidadProducto = cosultarInventarioProducto(new IdProductoDTO(idProducto));
             } catch (ProductosIdProductoInvalidoException ex) {}
+            
+            String nombreProductoActualMinusculasSinEspacios = producto.getNombre().toLowerCase().replaceAll("\\s", "");
 
-            if(nombreProductoMinusculas.contains(producto.getNombre().toLowerCase()) && cantidadProducto > 0){
+            boolean existeCoincidenciaNombreProducto = 
+                    CadenasTextoUtils.verificarExisteSubcadenaComun(nombreProductoMinusculasSinEspacios, nombreProductoActualMinusculasSinEspacios);
+                    
+            if(cantidadProducto > 0 && existeCoincidenciaNombreProducto){
+                
                 listaProductoInicioDTO.add(new InformacionProductoInicioDTO(
                         producto.getId(),
                         producto.getNombre(),
                         producto.getVariedad(),
                         producto.getPrecio(),
                         producto.getMilesSemillas(),
-                        producto.getDireccionImagenProducto(),
+                        producto.getDireccionImagen(),
                         producto.getProveedor().getId())
                 );
             }
@@ -190,33 +117,40 @@ class AdministradorProductos implements IAdministradorProductos {
     }
 
     @Override
-    public List<InformacionProductoInicioDTO> obtenerProductosBusqueda(String nombreProducto, String variedadProducto){
-        // El nombre y la variedada del parámetro se conviertene a letras minúsculas.
-        String nombreProductoMinusculas = nombreProducto.toLowerCase();
-        String variedadProductoMinusculas = variedadProducto.toLowerCase();
+    public List<InformacionProductoInicioDTO> obtenerProductosBusquedaNombreProductoVariedad(
+            String nombreProducto, 
+            String variedadProducto){
+        
+        // Se convierte el nombre de producto recibido a letras minusculas y se eliminan los espacios.
+        String nombreProductoMinusculasSinEspacios = nombreProducto.toLowerCase().replaceAll("\\s", "");
 
         List<InformacionProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
 
         // Se recorre la lista de productos para almacenar los datos de aquellos
         // que tengan existencias, cuyo su nombre este contenido dentro del nombre del parámetro,
         // y cuya variedad esté contenida detro de la variedad del parámetro.
-        for(ProductoON producto: listaProductos){
-            int idProducto = producto.getId();
+        for(ProductoDTO producto: Producto.recuperarTodos()){
+            Long idProducto = producto.getId();
 
             int cantidadProducto = 0;
             try {
-                cantidadProducto = cosultarInventarioProducto(idProducto);
+                cantidadProducto = cosultarInventarioProducto(new IdProductoDTO(idProducto));
             } catch (ProductosIdProductoInvalidoException ex) {}
 
-            if(cantidadProducto > 0 && nombreProductoMinusculas.contains(producto.getNombre().toLowerCase())
-                    && variedadProductoMinusculas.contains(producto.getVariedad().toLowerCase())){
+            String nombreProductoActualMinusculasSinEspacios = producto.getNombre().toLowerCase().replaceAll("\\s", "");
+            
+            if(cantidadProducto > 0 
+                    && (nombreProductoActualMinusculasSinEspacios.contains(nombreProductoMinusculasSinEspacios)
+                    || nombreProductoMinusculasSinEspacios.contains(nombreProductoActualMinusculasSinEspacios)
+                    && producto.getVariedad().equals(variedadProducto))){
+                
                 listaProductoInicioDTO.add(new InformacionProductoInicioDTO(
                         producto.getId(),
                         producto.getNombre(),
                         producto.getVariedad(),
                         producto.getPrecio(),
                         producto.getMilesSemillas(),
-                        producto.getDireccionImagenProducto(),
+                        producto.getDireccionImagen(),
                         producto.getProveedor().getId())
                 );
             }
@@ -224,40 +158,42 @@ class AdministradorProductos implements IAdministradorProductos {
 
         return listaProductoInicioDTO;
     }
-
+    
     @Override
-    public List<InformacionProductoInicioDTO> obtenerProductosBusqueda(String nombreProducto, String variedadProducto, String nombreProveedor){
-        // El nombre, variedad y nombre de proveedor del producto son convertidos a cadenas
-        // de letras minúsculas.
-        String nombreProductoMinusculas = nombreProducto.toLowerCase();
-        String variedadProductoMinusculas = variedadProducto.toLowerCase();
-        String nombreProveedorMinusculas = nombreProveedor.toLowerCase();
+    public List<InformacionProductoInicioDTO> obtenerProductosBusquedaNombreProductoProveedor(
+            String nombreProducto, 
+            String proveedorProducto){
+
+        // Se convierte el nombre de producto recibido a letras minusculas y se eliminan los espacios.
+        String nombreProductoMinusculasSinEspacios = nombreProducto.toLowerCase().replaceAll("\\s", "");
 
         List<InformacionProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
 
-        // Se recorre la lista de productos para almacenar los datos de aquellos que tengan existencias,
-        // cuyo su nombre este contenido dentro del nombre del parámetro, cuya variedad esté contenida detro
-        // de la variedad del parámetro y cuyo nombre de proveedor esté contenido dentro del nombre de
-        // proveedor del parámetro.
-        for (ProductoON producto: listaProductos) {
-            int idProducto = producto.getId();
+        // Se recorre la lista de productos para almacenar los datos de aquellos
+        // que tengan existencias, cuyo su nombre este contenga al nombre del parámetro,
+        // y cuyo nombre de proveedor esté contenido detro del nombre de proveedor del parámetro del parámetro.
+        for(ProductoDTO producto: Producto.recuperarTodos()){
+            Long idProducto = producto.getId();
 
             int cantidadProducto = 0;
             try {
-                cantidadProducto = cosultarInventarioProducto(idProducto);
+                cantidadProducto = cosultarInventarioProducto(new IdProductoDTO(idProducto));
             } catch (ProductosIdProductoInvalidoException ex) {}
 
-            if(cantidadProducto > 0 && nombreProductoMinusculas.contains(producto.getNombre().toLowerCase())
-                    && variedadProductoMinusculas.contains(producto.getVariedad().toLowerCase())
-                    && nombreProveedorMinusculas.contains(producto.getProveedor().getNombre().toLowerCase())){
-
+            String nombreProductoActualMinusculasSinEspacios = producto.getNombre().toLowerCase().replaceAll("\\s", "");
+            
+            if(cantidadProducto > 0 
+                    && (nombreProductoActualMinusculasSinEspacios.contains(nombreProductoMinusculasSinEspacios)
+                    || nombreProductoMinusculasSinEspacios.contains(nombreProductoActualMinusculasSinEspacios)
+                    && producto.getProveedor().getNombre().equals(proveedorProducto))){
+                
                 listaProductoInicioDTO.add(new InformacionProductoInicioDTO(
                         producto.getId(),
                         producto.getNombre(),
                         producto.getVariedad(),
                         producto.getPrecio(),
                         producto.getMilesSemillas(),
-                        producto.getDireccionImagenProducto(),
+                        producto.getDireccionImagen(),
                         producto.getProveedor().getId())
                 );
             }
@@ -265,32 +201,33 @@ class AdministradorProductos implements IAdministradorProductos {
 
         return listaProductoInicioDTO;
     }
+    
 
     @Override
-    public InformacionProductoVentaDTO obtenerInformacionProductoVenta(Integer idProducto)
+    public InformacionProductoDetalladaDTO obtenerInformacionProductoVenta(IdProductoDTO idProductoDTO)
             throws ProductosIdProductoInvalidoException{
-
+        
         // Se valida el ID del Producto.
-        if (!validarIdProductoInventario(idProducto)) {
-            throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
+        if (!validarProducto(idProductoDTO)) {
+            throw new ProductosIdProductoInvalidoException("El ID de producto es inválido.");
         }
 
-        ProductoON productoRecuperado = obtenerProducto(idProducto);
+        ProductoDTO productoRecuperado = obtenerProducto(idProductoDTO);
 
         if (productoRecuperado == null) {
-            throw new ProductosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
+            throw new ProductosIdProductoInvalidoException("El ID de producto es inválido.");
         }
 
-        // Se crea una DTO de tipo InformacionProductoVentaDTO, con la información del Producto con el ID
+        // Se crea una DTO de tipo InformacionProductoDetalladaDTO, con la información del Producto con el ID
         // del parámetro.
-        InformacionProductoVentaDTO informacionProductoDTO = new InformacionProductoVentaDTO(
+        InformacionProductoDetalladaDTO informacionProductoDTO = new InformacionProductoDetalladaDTO(
                 productoRecuperado.getId(),
                 productoRecuperado.getNombre(),
                 productoRecuperado.getVariedad(),
                 productoRecuperado.getDescripcion(),
                 productoRecuperado.getPrecio(),
                 productoRecuperado.getMilesSemillas(),
-                productoRecuperado.getDireccionImagenProducto(),
+                productoRecuperado.getDireccionImagen(),
                 productoRecuperado.getProveedor().getId());
 
         return informacionProductoDTO;
@@ -298,31 +235,27 @@ class AdministradorProductos implements IAdministradorProductos {
     }
 
     @Override
-    public ProductoON obtenerProducto(Integer idProducto){
-        ProductoON productoBuscar = null;
-
-        for (ProductoON producto: listaProductos) {
-            if (producto.getId().equals(idProducto)) {
-                productoBuscar = producto;
-            }
-        }
-
-        return productoBuscar;
+    public ProductoDTO obtenerProducto(IdProductoDTO idProductoDTO){
+        
+        return Producto.recuperarPorId(idProductoDTO);
     }
 
     @Override
-    public boolean validarIdProductoInventario(Integer idProductoInventario) {
-        // Se recorre la lista de productos.
-        for (ProductoON producto: listaProductos) {
-            // Se recorre la lista de productos en inventario de cada producto,
-            // se verifica si su ID es igual al ID del parámetro.
-            for (ProductoInventarioON productoInventario: producto.getListaProductoInventario()) {
-                if (productoInventario.getId().equals(idProductoInventario)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+    public boolean validarProductoInventario(IdProductoInventarioDTO idProductoInventarioDTO) {
+        
+        return ProductoInventario.existePorId(idProductoInventarioDTO);
+        
     }
+    
+    @Override
+    public boolean validarProducto(IdProductoDTO idProductoDTO){
+        
+        if (idProductoDTO == null || idProductoDTO.getIdProducto() == null || !Producto.existePorId(idProductoDTO)) {
+            return false;
+        }
+        
+        return true;
+        
+    }
+    
 }

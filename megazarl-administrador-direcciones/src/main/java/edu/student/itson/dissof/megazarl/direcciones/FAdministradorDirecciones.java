@@ -3,7 +3,7 @@ package edu.student.itson.dissof.megazarl.direcciones;
 
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
-import edu.student.itson.dissof.megazarl.dto.InformacionDerivadaCPDireccionEnvioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionEnvioDTO;
 
 /**
  * FAdministradorDirecciones.java
@@ -23,7 +23,14 @@ import edu.student.itson.dissof.megazarl.dto.InformacionDerivadaCPDireccionEnvio
  * ID: 00000251923
  *
  */
-public class FAdministradorDirecciones {
+public class FAdministradorDirecciones implements IAdministradorDirecciones{
+    
+    private AdministradorDirecciones administradorDirecciones;
+            
+    public FAdministradorDirecciones(){
+        this.administradorDirecciones = new AdministradorDirecciones();
+    }
+   
     /**
      * Implementación del método obtenerDatosDireccionDerivados() de la interfaz {@link IAdministradorDirecciones},
      * permite obtener el Estado, Ciudad y Colonia asociados al Código Postal del parámetro.
@@ -35,9 +42,11 @@ public class FAdministradorDirecciones {
      * @throws DireccionesArchivoCodigosPostalesVacioException Se lanza si el archivo que contiene
      * la información de los Códigos Postales y sus datos asociados está vacío.
      */
-    public static InformacionDerivadaCPDireccionEnvioDTO obtenerDatosDireccionDerivados(String codigoPostalBuscar)
-            throws DireccionesAccesoArchivoCodigosPostalesFallidoException, DireccionesArchivoCodigosPostalesVacioException{
+    @Override
+    public InformacionDerivadaCPDireccionEnvioDTO obtenerDatosDireccionDerivados(String codigoPostalBuscar)
+            throws DireccionesAccesoArchivoCodigosPostalesFallidoException, 
+            DireccionesArchivoCodigosPostalesVacioException{
 
-        return AdministradorDirecciones.INSTANCIA.obtenerDatosDireccionDerivados(codigoPostalBuscar);
+        return administradorDirecciones.obtenerDatosDireccionDerivados(codigoPostalBuscar);
     }
 }

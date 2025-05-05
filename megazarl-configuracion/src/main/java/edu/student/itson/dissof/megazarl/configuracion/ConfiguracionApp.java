@@ -54,7 +54,7 @@ public enum ConfiguracionApp {
             if (!rutaArchivo.equals(RUTA_POR_DEFECTO)) {
                 throw new ConfiguracionArchivoNoExiste(rutaArchivo);
             }
-            System.out.println("No tienes un archivo de configuración. Se creará uno automáticamente.");
+            System.out.println("No existe un archivo de configuración. Se creará uno automáticamente.");
             crearArchivoConfiguracion(RUTA_POR_DEFECTO);
             System.out.println("Archivo de configuración por defecto creado.");
         } else if (!Files.isRegularFile(path)) {
@@ -80,13 +80,43 @@ public enum ConfiguracionApp {
             fuentes.cliente = FuenteDatos.de(cliente);
         }
         String paqueteria = configuracion.obtenerString("fuentes", "paqueteria");
-        if (cliente != null) {
+        if (paqueteria != null) {
             fuentes.paqueteria = FuenteDatos.de(paqueteria);
+        }
+        String producto = configuracion.obtenerString("fuentes", "producto");
+        if (producto != null) {
+            fuentes.producto = FuenteDatos.de(producto);
+        }
+        String productoInventario = configuracion.obtenerString("fuentes", "productoInventario");
+        if (productoInventario != null) {
+            fuentes.productoInventario = FuenteDatos.de(productoInventario);
+        }
+        String carritoCompras = configuracion.obtenerString("fuentes", "carritoCompras");
+        if (carritoCompras != null) {
+            fuentes.carritoCompras = FuenteDatos.de(carritoCompras);
+        }
+        String pedido = configuracion.obtenerString("fuentes", "pedido");
+        if (pedido != null) {
+            fuentes.pedido = FuenteDatos.de(pedido);
+        }
+        String sucursal = configuracion.obtenerString("fuentes", "sucursal");
+        if (sucursal != null) {
+            fuentes.sucursal = FuenteDatos.de(sucursal);
+        }
+        String proveedor = configuracion.obtenerString("fuentes", "proveedor");
+        if (proveedor != null) {
+            fuentes.proveedor = FuenteDatos.de(proveedor);
         }
 
         return new ConfiguracionFuentes(
                 fuentes.cliente,
-                fuentes.paqueteria
+                fuentes.paqueteria,
+                fuentes.producto,
+                fuentes.productoInventario,
+                fuentes.carritoCompras,
+                fuentes.pedido,
+                fuentes.sucursal,
+                fuentes.proveedor
         );
     }
 

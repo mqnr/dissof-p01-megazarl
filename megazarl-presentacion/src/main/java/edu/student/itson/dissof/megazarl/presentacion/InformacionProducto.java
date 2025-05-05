@@ -2,6 +2,7 @@ package edu.student.itson.dissof.megazarl.presentacion;
 
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IInformacionProducto;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
+import edu.student.itson.dissof.megazarl.presentacion.utils.ImagenesUtils;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,13 +11,29 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
 
+/**
+ * Clase que permite visualizar la información detallada de un producto, así como
+ * seleccionar una cantidad de unidades para añadirlas al carrito de compras.
+ * 
+ * @author Yuri Germán García López
+ * ID: 00000252583
+ * @author Luis Rafael Lagarda Encinas
+ * ID: 00000252607
+ * @author Vladimir Iván Mendoza Baypoli
+ * ID: 00000252758
+ * @author Manuel Romo López
+ * ID: 00000253080
+ * @author Martín Zamorano Acuña
+ * ID: 00000251923
+ * 
+ */
 public class InformacionProducto extends JFrame implements IInformacionProducto, IVista {
 
     private ControlCompra control;
     private int cantidad;
     private JLabel cantidadLabel;
-    private Integer idCliente;
-    private Integer idProducto;
+    private Long idCliente;
+    private Long idProducto;
 
     private Encabezado encabezado;
 
@@ -26,20 +43,42 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
     private JPanel panelImagen;
     private JPanel panelProducto2;
     private JPanel panelDetalles;
-    private JLabel avisoMaximoProductos;
+    private JLabel avisoPedidoAnticipado1;
+    private JLabel avisoCantidadPedidoAnticipado;
+    private JLabel avisoPedidoAnticipado2;
+    private JLabel avisoPedidoAnticipado3;
 
     private JButton botonAgregarCarrito;
     private JButton btnMenos;
     private JButton btnMas;
 
     private final int MARGEN_VERTICAL_PANELS = 250;
+    
+    private final int ANCHO_PANEL_IMAGEN_PRODUCTO = 450;
+    private final int ALTO_PANEL_IMAGEN_PRODUCTO = 520;
+    
+    private final int ANCHO_IMAGEN_PRODUCTO = 440;
+    private final int ALTO_IMAGEN_PRODUCTO = 400;
+    
+    private final int ANCHO_IMAGEN_PROVEEDOR = 200;
+    private final int ALTO_IMAGEN_PROVEEDOR = 90;
+   
+    private final Font FUENTE_AVISO_PEDIDO_ANTICIPADO = new Font("Segoe UI", Font.BOLD, 15);
+    private final Color COLOR_FONDO = new Color(88, 69, 50);
+    private final Color COLOR_FONDO_INFORMACION_PRODUCTO = new Color(245, 240, 215);
+    private final Color COLOR_FONDO_BOTONES = new Color(0, 204, 0);
+    
+    private final Color COLOR_AVISO_PEDIDO_ANTICIPADO = new Color(231, 42, 0);
+    
+    private final Color COLOR_FONDO_IMAGEN_PRODUCTO = new Color(229, 221, 204);
 
-    public InformacionProducto(ControlCompra control, Integer idCliente) {
+    public InformacionProducto(ControlCompra control, Long idCliente) {
         setTitle("Semillas MEGAZARL - Información de producto");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);
         setLocationRelativeTo(null);
-        Image iconoPropio = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logoApp.png")).getScaledInstance(90, 90, Image.SCALE_SMOOTH);
+        setResizable(false);
+        Image iconoPropio = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/iconoApp.png")).getScaledInstance(90, 90, Image.SCALE_SMOOTH);
         setIconImage(iconoPropio);
         
         this.idCliente = idCliente;
@@ -54,22 +93,35 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
 
         panelGeneral = new JPanel();
         panelGeneral.setLayout(new FlowLayout(FlowLayout.CENTER));
+        panelGeneral.setBackground(COLOR_FONDO);
+        
         this.add(panelGeneral, BorderLayout.CENTER);
 
         // Panel principal con borde redondeado
         panelProducto = new JPanel();
         panelProducto.setLayout(new BoxLayout(panelProducto, BoxLayout.Y_AXIS));
-
+        panelProducto.setOpaque(false);
+        
         panelGeneral.add(panelProducto);
 
-        panelProducto2 = new PanelRedondeado(10, Color.WHITE);;
+        panelProducto2 = new PanelRedondeado(10, COLOR_FONDO_INFORMACION_PRODUCTO);
         panelProducto2.setLayout(new FlowLayout(FlowLayout.CENTER));
 
+        JPanel panelSeparador1 = new JPanel();
+        JPanel panelSeparador2 = new JPanel();
+        
+        panelSeparador1.setOpaque(false);
+        panelSeparador2.setOpaque(false);
+        
+        panelProducto.add(panelSeparador1);
+        panelProducto.add(panelSeparador2);
         panelProducto.add(panelProducto2);
 
         panelImagen = new JPanel();
         panelImagen.setLayout(new BoxLayout(panelImagen, BoxLayout.Y_AXIS));
-        panelImagen.setPreferredSize(new Dimension(450, 520));
+        panelImagen.setPreferredSize(new Dimension(ANCHO_PANEL_IMAGEN_PRODUCTO, ALTO_PANEL_IMAGEN_PRODUCTO));
+        panelImagen.setBackground(COLOR_FONDO_IMAGEN_PRODUCTO);
+        
         panelProducto2.add(panelImagen);
 
         panelDetalles = new JPanel();
@@ -88,34 +140,48 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
         cantidadLabel.setText("0");
 
         // Imagen principal
-        ImageIcon iconoImagenProducto = new ImageIcon(getClass().getResource((String) informacionProducto.get("DireccionImagenProducto")));
-        Image imagenProducto = iconoImagenProducto.getImage().getScaledInstance(440, 400, Image.SCALE_SMOOTH);
-        ImageIcon nuevoIconoImagenProducto = new ImageIcon(imagenProducto);
+        ImageIcon iconoImagenProducto = ImagenesUtils.obtenerImagen((String) informacionProducto.get("DireccionImagenProducto"));
+        
+        ImageIcon nuevoIconoImagenProducto = ImagenesUtils.redimensionarImagen(
+                iconoImagenProducto, 
+                ANCHO_IMAGEN_PRODUCTO, 
+                ALTO_IMAGEN_PRODUCTO);
+        
         JLabel etqImagenProducto = new JLabel(nuevoIconoImagenProducto);
 
         JPanel panelImagenProducto = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelImagenProducto.setOpaque(false);
         panelImagenProducto.add(etqImagenProducto);
         panelImagen.add(panelImagenProducto);
 
         // Imagen proveedor
-        ImageIcon iconoImagenProveedor = new ImageIcon(getClass().getResource((String) informacionProducto.get("DireccionImagenProveedor")));
-        Image imagenProveedor = iconoImagenProveedor.getImage().getScaledInstance(250, 100, Image.SCALE_SMOOTH);
-        ImageIcon nuevoIconoImagenProveedor = new ImageIcon(imagenProveedor);
+        ImageIcon iconoImagenProveedor = ImagenesUtils.obtenerImagen((String) informacionProducto.get("DireccionImagenProveedor"));
+        
+        ImageIcon nuevoIconoImagenProveedor = ImagenesUtils.redimensionarImagen(
+                iconoImagenProveedor, 
+                ANCHO_IMAGEN_PROVEEDOR, 
+                ALTO_IMAGEN_PROVEEDOR);
+        
         JLabel etqImagenProveedor = new JLabel(nuevoIconoImagenProveedor);
 
         JPanel panelEtqImagenProveedor = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panelEtqImagenProveedor.setOpaque(false);
         panelEtqImagenProveedor.add(etqImagenProveedor);
         panelImagen.add(panelEtqImagenProveedor);
 
         // Nombre y variedad
-        JLabel etqNombreVariedad = new JLabel((String) informacionProducto.get("Nombre") + " " + informacionProducto.get("Variedad"));
-        Font fuenteEtqNombreVariedad = new Font("Segoe UI", Font.BOLD, 24);
-        etqNombreVariedad.setFont(fuenteEtqNombreVariedad);
-
+        
         JPanel panelNombreVariedad = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelNombreVariedad.setOpaque(false);
-        panelNombreVariedad.add(etqNombreVariedad);
-
+         
+        String nombreVariedadProducto = (String) informacionProducto.get("Nombre") + " " + informacionProducto.get("Variedad");
+        
+        JLabel etqNombreVariedadProducto = new JLabel(nombreVariedadProducto);
+        Font fuenteEtqNombreVariedad = new Font("Segoe UI", Font.BOLD, 24);
+        etqNombreVariedadProducto.setFont(fuenteEtqNombreVariedad);
+        
+        panelNombreVariedad.add(etqNombreVariedadProducto);
+        
         panelDetalles.add(panelNombreVariedad);
 
         // Panel separador
@@ -124,7 +190,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
         panelDetalles.add(panelSeparador1);
 
         // Precio de producto.
-        String cantidadSemillasProducto = informacionProducto.get("MilesSemillas") + "k semillas";
+        String cantidadSemillasProducto = "  (" + informacionProducto.get("MilesSemillas") + "k semillas)";
 
         String precioFormato = String.format("%,.2f", informacionProducto.get("Precio"));
 
@@ -140,7 +206,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
         Font fuenteEtqParteDecimalPrecioProducto = new Font("Arial", Font.BOLD, 20);
         etqParteDecimalPrecioProducto.setFont(fuenteEtqParteDecimalPrecioProducto);
 
-        JLabel petqPrecioCantSemillas = new JLabel(" (" + cantidadSemillasProducto + "k semillas)");
+        JLabel petqPrecioCantSemillas = new JLabel(cantidadSemillasProducto);
         Font fuenteEtqCantSemillas = new Font("Arial", Font.BOLD, 20);
         petqPrecioCantSemillas.setFont(fuenteEtqCantSemillas);
 
@@ -193,12 +259,6 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
         panelProveedor.add(etqNombreProveedor);
         panelDetalles.add(panelProveedor);
 
-        // Panel separador
-        JPanel panelSeparador2 = new JPanel();
-        panelSeparador2.setPreferredSize(new Dimension(panelDetalles.getWidth(), 50));
-        panelSeparador2.setOpaque(false);
-        panelDetalles.add(panelSeparador2);
-
         // Seleccion de cantidad
         JPanel panelSeleccionCantidad = new JPanel();
         panelSeleccionCantidad.setOpaque(false);
@@ -227,54 +287,62 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
         btnMenos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                actualizarCantidad(-1);
-                
-                if(control.verificarExistenciasProducto(idProducto) > Integer.parseInt(cantidadLabel.getText())){
-                    btnMas.setEnabled(true);
-                    avisoMaximoProductos.setText("");
-                }
-                
-                if(Integer.parseInt(cantidadLabel.getText()) == 0){
-                    btnMenos.setEnabled(false);
-                }  
+                restarUnidad(informacionProducto); 
             }
         });
 
         
         btnMas = new JButton("+");
-        
-        avisoMaximoProductos = new JLabel();
-        avisoMaximoProductos.setFont(new Font("Segoe UI", Font.BOLD, 15));
-        avisoMaximoProductos.setForeground(new Color(225, 49, 12));
                 
         btnMas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                actualizarCantidad(1);
-                
-                if(control.verificarExistenciasProducto(idProducto) <= Integer.parseInt(cantidadLabel.getText())){
-                    btnMas.setEnabled(false);
-                    avisoMaximoProductos.setText("No hay más existencias");
-                    
-                } else{
-                    avisoMaximoProductos.setText("");
-                }
-                
-                if(Integer.parseInt(cantidadLabel.getText()) > 0){
-                    btnMenos.setEnabled(true);
-                }  
+            
+                sumarUnidad(informacionProducto);
+                 
             }
         });
 
         panelContador.add(btnMenos);
         panelContador.add(cantidadLabel);
         panelContador.add(btnMas);
-        panelContador.add(avisoMaximoProductos);
 
         panelSeleccionCantidad2.add(panelContador);
-
+        
+        avisoPedidoAnticipado1 = new JLabel();
+        avisoPedidoAnticipado1.setFont(FUENTE_AVISO_PEDIDO_ANTICIPADO);
+        avisoPedidoAnticipado1.setForeground(COLOR_AVISO_PEDIDO_ANTICIPADO);
+        
+        JPanel panelAvisoPedidoAnticipado1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelAvisoPedidoAnticipado1.setOpaque(false);
+        
+        panelAvisoPedidoAnticipado1.add(avisoPedidoAnticipado1);
+        
+        avisoCantidadPedidoAnticipado = new JLabel();
+        avisoCantidadPedidoAnticipado.setFont(FUENTE_AVISO_PEDIDO_ANTICIPADO);
+        avisoCantidadPedidoAnticipado.setForeground(COLOR_AVISO_PEDIDO_ANTICIPADO);
+        
+        panelAvisoPedidoAnticipado1.add(avisoCantidadPedidoAnticipado);
+        
+        avisoPedidoAnticipado2 = new JLabel();
+        avisoPedidoAnticipado2.setFont(FUENTE_AVISO_PEDIDO_ANTICIPADO);
+        avisoPedidoAnticipado2.setForeground(COLOR_AVISO_PEDIDO_ANTICIPADO);
+        
+        panelAvisoPedidoAnticipado1.add(avisoPedidoAnticipado2);
+        
+        avisoPedidoAnticipado3 = new JLabel();
+        avisoPedidoAnticipado3.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        avisoPedidoAnticipado3.setForeground(COLOR_AVISO_PEDIDO_ANTICIPADO);
+        
+        JPanel panelAvisoPedidoAnticipado2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelAvisoPedidoAnticipado2.setOpaque(false);
+        
+        panelAvisoPedidoAnticipado2.add(avisoPedidoAnticipado3);
+        
         panelDetalles.add(panelSeleccionCantidad);
         panelDetalles.add(panelSeleccionCantidad2);
+        panelDetalles.add(panelAvisoPedidoAnticipado1);
+        panelDetalles.add(panelAvisoPedidoAnticipado2);
 
         // Panel separador
         JPanel panelSeparador3 = new JPanel();
@@ -284,24 +352,24 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
 
         // Botones finales
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 0));
-        panelBotones.setBackground(Color.WHITE);
+        panelBotones.setOpaque(false);
 
         JButton botonVolver = new JButton("Volver");
         botonVolver.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        botonVolver.setBackground(new Color(0, 204, 0));
+        botonVolver.setBackground(COLOR_FONDO_BOTONES);
         botonVolver.setAlignmentX(Component.LEFT_ALIGNMENT);
         panelBotones.add(botonVolver);
 
         botonAgregarCarrito = new JButton("Agregar al carrito");
         botonAgregarCarrito.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        botonAgregarCarrito.setBackground(new Color(0, 204, 0));
+        botonAgregarCarrito.setBackground(COLOR_FONDO_BOTONES);
         botonAgregarCarrito.setAlignmentX(Component.LEFT_ALIGNMENT);
         panelBotones.add(botonAgregarCarrito);
         botonAgregarCarrito.setEnabled(false);
 
         panelDetalles.add(panelBotones);
 
-        this.idProducto = (Integer) informacionProducto.get("Id");
+        this.idProducto = (Long) informacionProducto.get("Id");
 
         botonVolver.addActionListener(new ActionListener() {
             @Override
@@ -317,6 +385,111 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
                         Integer.parseInt(cantidadLabel.getText()), InformacionProducto.this);
             }
         });
+        
+        actualizarBtnSumar(informacionProducto);
+        actualizarBtnRestar();
+    }
+    
+    private void actualizarBtnSumar(Map<String, Object> informacionProducto){
+        
+        int disponibilidadProducto = control.verificarExistenciasProducto((Long) informacionProducto.get("Id"));
+        int cantidadTexto = Integer.parseInt(cantidadLabel.getText());
+        
+        if(cantidadTexto > disponibilidadProducto){
+            
+            int cantidadPedidoAnticipado = cantidadTexto - disponibilidadProducto;
+            
+            String palabraIncluyen;
+            String palabraUnidades;
+            if(cantidadPedidoAnticipado == 1){
+                palabraIncluyen = "incluye";
+                palabraUnidades = "unidad";
+            } else{
+                palabraIncluyen = "incluyen";
+                palabraUnidades = "unidades";
+            }
+            
+            String cantidadPedidoAnticipadoCadena = String.valueOf(cantidadPedidoAnticipado);
+            
+            avisoPedidoAnticipado1.setText("Aviso: Se " + palabraIncluyen);
+            avisoCantidadPedidoAnticipado.setText(cantidadPedidoAnticipadoCadena);
+            avisoPedidoAnticipado2.setText(palabraUnidades + " del producto de las que");
+            avisoPedidoAnticipado3.setText("no tenemos stock, se realizará su compra lo antes posible.");
+
+        } else{
+            avisoPedidoAnticipado1.setText(" ");
+            avisoCantidadPedidoAnticipado.setText(" ");
+            avisoPedidoAnticipado2.setText(" ");
+            avisoPedidoAnticipado3.setText(" ");
+        }
+        
+    }
+    
+    private void actualizarBtnRestar(){
+        
+        int cantidadTexto = Integer.parseInt(cantidadLabel.getText());
+        
+        if(cantidadTexto > 0){
+            btnMenos.setEnabled(true);
+        } else{
+            btnMenos.setEnabled(false);
+        }
+        
+    }
+    
+    private void sumarUnidad(Map<String, Object> informacionProducto){
+        
+        actualizarCantidad(1);
+        
+        int disponibilidadProducto = control.verificarExistenciasProducto((Long) informacionProducto.get("Id"));
+        int cantidadTexto = Integer.parseInt(cantidadLabel.getText());
+        
+        if(cantidadTexto > disponibilidadProducto){
+            
+            int cantidadPedidoAnticipado = cantidadTexto - disponibilidadProducto;
+            
+            String palabraIncluyen;
+            String palabraUnidades;
+            if(cantidadPedidoAnticipado == 1){
+                palabraIncluyen = "incluye";
+                palabraUnidades = "unidad";
+            } else{
+                palabraIncluyen = "incluyen";
+                palabraUnidades = "unidades";
+            }
+            
+            String cantidadPedidoAnticipadoCadena = String.valueOf(cantidadPedidoAnticipado);
+            
+            avisoPedidoAnticipado1.setText("Aviso: Se " + palabraIncluyen);
+            avisoCantidadPedidoAnticipado.setText(cantidadPedidoAnticipadoCadena);
+            avisoPedidoAnticipado2.setText(palabraUnidades + " del producto de las que");
+            avisoPedidoAnticipado3.setText("no tenemos stock, se realizará su compra lo antes posible.");
+
+        } else{
+            avisoPedidoAnticipado1.setText(" ");
+            avisoCantidadPedidoAnticipado.setText(" ");
+            avisoPedidoAnticipado2.setText(" ");
+            avisoPedidoAnticipado3.setText(" ");
+            actualizarBtnSumar(informacionProducto);
+        }
+        
+        actualizarBtnRestar();
+        
+    }
+    
+    private void restarUnidad(Map<String, Object> informacionProducto){
+        int cantidadTexto = Integer.parseInt(cantidadLabel.getText());
+        
+        if(cantidadTexto > 0){
+            actualizarCantidad(-1);
+            btnMenos.setEnabled(true);
+            
+            actualizarBtnRestar();
+        } else{
+            btnMenos.setEnabled(false);
+        }
+        
+        actualizarBtnSumar(informacionProducto);
     }
 
     private void actualizarCantidad(int cambio) {
@@ -345,6 +518,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
         encabezado.mostrarNombreApellidoCliente();
         encabezado.mostrarBtnNumeroCarritoCompras();
         encabezado.ocultarBarraBusqueda();
+        encabezado.ocultarBtnSalir();
     }
     
     class PanelRedondeado extends JPanel {

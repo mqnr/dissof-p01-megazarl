@@ -2,7 +2,8 @@ package edu.student.itson.dissof.megazarl.presentacion;
 
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ICarrito;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
-import edu.student.itson.dissof.megazarl.presentacion.utilgui.ButtonBuilder;
+import edu.student.itson.dissof.megazarl.presentacion.utils.ButtonBuilder;
+import edu.student.itson.dissof.megazarl.presentacion.utils.ImagenesUtils;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,26 +14,29 @@ import javax.swing.*;
 public class Carrito extends JFrame implements ICarrito, IVista {
 
     private ControlCompra control;
-    private Integer idCliente;
+    private Long idCliente;
     private Encabezado encabezado;
     private JPanel panelPrincipal;
     private JPanel panelContenedorCarrito;
     private boolean envioGratis = false;
-
+    
+    private final int ANCHO_IMAGEN_PRODUCTO = 150;
+    private final int ALTO_IMAGEN_PRODUCTO = 150;
     // Colores
-    private final Color COLOR_GRIS_CLARO = new Color(240, 240, 240);
+    private final Color COLOR_FONDO = new Color(88, 69, 50);
+    private final Color COLOR_PANEL_CARRITO = new Color(249, 246, 236);
     private final Color COLOR_BOTON_AMARILLO = new Color(248, 241, 132);
     private final Color COLOR_TIEMPO_ESTIMADO = new Color(1, 88, 142);
 
     // Emojis
     private final String emojiBasura = new String(Character.toChars(0x1F5D1));
 
-    public Carrito(ControlCompra control, Integer idCliente) {
+    public Carrito(ControlCompra control, Long idCliente) {
         setTitle("Semillas MEGAZARL - Carrito");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);
         setLocationRelativeTo(null);
-        Image iconoPropio = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logoApp.png")).getScaledInstance(90, 90, Image.SCALE_SMOOTH);
+        Image iconoPropio = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/iconoApp.png")).getScaledInstance(90, 90, Image.SCALE_SMOOTH);
         setIconImage(iconoPropio);
 
         this.control = control;
@@ -46,6 +50,9 @@ public class Carrito extends JFrame implements ICarrito, IVista {
         panelPrincipal.add(this.encabezado, BorderLayout.NORTH);
 
         panelContenedorCarrito = new JPanel(new BorderLayout());
+        
+        panelContenedorCarrito.setBackground(COLOR_FONDO);
+        
         panelPrincipal.add(panelContenedorCarrito, BorderLayout.CENTER);
 
         this.setContentPane(panelPrincipal);
@@ -55,17 +62,17 @@ public class Carrito extends JFrame implements ICarrito, IVista {
     public void setProductos(List<Map<String, Object>> listaInformacionProductos) {
         panelContenedorCarrito.removeAll();
 
-        panelContenedorCarrito.setBackground(COLOR_GRIS_CLARO);
         panelContenedorCarrito.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // Panel de contenido principal (del carrito)
         JPanel panelCarrito = new JPanel(new BorderLayout());
-        panelCarrito.setBackground(Color.WHITE);
+        panelCarrito.setBackground(COLOR_PANEL_CARRITO);
         panelCarrito.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
         // Cabecera de carrito
         JPanel panelCarritoCabecera = new JPanel(new GridLayout(1, 2));
         panelCarritoCabecera.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
+        panelCarritoCabecera.setOpaque(false);
 
         JLabel labelCarritoTitulo = new JLabel("Carrito");
         labelCarritoTitulo.setFont(new Font("Arial", Font.BOLD, 18));
@@ -81,9 +88,14 @@ public class Carrito extends JFrame implements ICarrito, IVista {
 
         JPanel panelItemsCarrito = new JPanel();
         panelItemsCarrito.setLayout(new BoxLayout(panelItemsCarrito, BoxLayout.Y_AXIS));
-
-        JScrollPane scrollPaneItemsCarrito = new JScrollPane(panelItemsCarrito, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+        panelItemsCarrito.setOpaque(false);
+        
+        JScrollPane scrollPaneItemsCarrito = new JScrollPane(
+                panelItemsCarrito, 
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        
+        scrollPaneItemsCarrito.setOpaque(false);
 
         int numeroTotalProductos = 0;
         for (Map<String, Object> informacionProducto : listaInformacionProductos) {
@@ -99,23 +111,34 @@ public class Carrito extends JFrame implements ICarrito, IVista {
                     // Item del carrito
                     JPanel panelItemCarrito = new JPanel(new BorderLayout());
                     panelItemCarrito.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+                    panelItemCarrito.setBackground(COLOR_PANEL_CARRITO);
 
                     // Imagen del producto
+                    JPanel panelImagenProducto = new JPanel();
+                    panelImagenProducto.setLayout(new BoxLayout(panelImagenProducto, BoxLayout.Y_AXIS));
+                    panelImagenProducto.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+                    panelImagenProducto.setOpaque(false);
+                    
+                    
                     JLabel imagenProducto = new JLabel();
-                    ImageIcon iconProducto = new ImageIcon(getClass().getResource((String) informacionProducto.get("DireccionImagenProducto")));
+                    ImageIcon iconoProducto = ImagenesUtils.obtenerImagen((String) informacionProducto.get("DireccionImagenProducto"));
+                    
                     // Redimensionar
-                    Image imagen = iconProducto.getImage();
-                    Image redimensionada = imagen.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-                    imagenProducto.setIcon(new ImageIcon(redimensionada));
+                    ImageIcon iconoProductoRedimensionado = ImagenesUtils.redimensionarImagen(
+                            iconoProducto, 
+                            ANCHO_IMAGEN_PRODUCTO, 
+                            ALTO_IMAGEN_PRODUCTO);
 
-                    imagenProducto.setPreferredSize(new Dimension(150, 150));
-                    imagenProducto.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 20));
+                    imagenProducto.setIcon(iconoProductoRedimensionado);
+                    
+                    panelImagenProducto.add(imagenProducto);
 
                     // Detalles de producto
                     JPanel panelDetallesProducto = new JPanel();
                     panelDetallesProducto.setLayout(new BoxLayout(panelDetallesProducto, BoxLayout.Y_AXIS));
                     panelDetallesProducto.setAlignmentX(Component.LEFT_ALIGNMENT);
                     panelDetallesProducto.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+                    panelDetallesProducto.setOpaque(false);
 
                     JLabel labelNombreProducto = new JLabel((String) informacionProducto.get("Nombre") + " " + informacionProducto.get("Variedad"));
                     labelNombreProducto.setFont(new Font("Arial", Font.BOLD, 16));
@@ -128,6 +151,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
                     // Checkbox y cantidad
                     JPanel panelControles = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
                     panelControles.setAlignmentX(Component.LEFT_ALIGNMENT);
+                    panelControles.setOpaque(false);
 
                     JLabel avisoMaximoProductos = new JLabel();
                     avisoMaximoProductos.setFont(new Font("Segoe UI", Font.BOLD, 13));
@@ -155,7 +179,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
                     btnEliminar.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            control.eliminarProductoCarrito(idCliente, (Integer) informacionProducto.get("Id"),
+                            control.eliminarProductoCarrito(idCliente, (Long) informacionProducto.get("Id"),
                                     (Integer) informacionProducto.get("Cantidad"));
                         }
                     });
@@ -164,22 +188,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
                         @Override
                         public void actionPerformed(ActionEvent e) {
  
-                            
-                            int disponibilidadProducto = control.verificarExistenciasProducto((Integer) informacionProducto.get("Id"));
-                            control.agregarProductoCarrito(idCliente, (Integer) informacionProducto.get("Id"), 1, Carrito.this);
-                            
-                            if(disponibilidadProducto < Integer.parseInt(cantidadLabel.getText())){
-                                btnMas.setEnabled(false);
-                                avisoMaximoProductos.setText("No hay más existencias");
-                            
-                            } else{
-                                avisoMaximoProductos.setText("");
-                            }
-
-                            if(Integer.parseInt(cantidadLabel.getText()) > 0){
-                                btnMenos.setEnabled(true);
-                            }  
-                                
+                            sumarUnidad(informacionProducto, cantidadLabel, avisoMaximoProductos);       
                         }
                     });
 
@@ -187,17 +196,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                               
-                            control.eliminarProductoCarrito(idCliente, (Integer) informacionProducto.get("Id"), 1);
-                            
-                            
-                            if(control.verificarExistenciasProducto((Integer) informacionProducto.get("Id")) > Integer.parseInt(cantidadLabel.getText())){
-                                btnMas.setEnabled(true);
-                                avisoMaximoProductos.setText("");
-                            }
-
-                            if(Integer.parseInt(cantidadLabel.getText()) == 0){
-                                btnMenos.setEnabled(false);
-                            }  
+                            restarUnidad(informacionProducto, cantidadLabel, btnMenos);
                         }
                     });
 
@@ -212,11 +211,13 @@ public class Carrito extends JFrame implements ICarrito, IVista {
                     panelDetallesProducto.add(labelProveedor);
                     panelDetallesProducto.add(Box.createVerticalStrut(10));
                     panelDetallesProducto.add(panelControles);
+                    
 
                     // Precio
                     JPanel panelPrecio = new JPanel();
                     panelPrecio.setLayout(new BoxLayout(panelPrecio, BoxLayout.Y_AXIS));
                     panelPrecio.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+                    panelPrecio.setOpaque(false);
 
                     Double precioProducto = (Double) informacionProducto.get("Precio");
 
@@ -230,11 +231,14 @@ public class Carrito extends JFrame implements ICarrito, IVista {
                     panelPrecio.add(labelPrecioItem);
 
                     // Añadir componentes a panel de ítems de carrito
-                    panelItemCarrito.add(imagenProducto, BorderLayout.WEST);
+                    panelItemCarrito.add(panelImagenProducto, BorderLayout.WEST);
                     panelItemCarrito.add(panelDetallesProducto, BorderLayout.CENTER);
                     panelItemCarrito.add(panelPrecio, BorderLayout.EAST);
 
                     panelItemsCarrito.add(panelItemCarrito);
+                    
+                    actualizarBtnMas(informacionProducto, cantidadLabel, avisoMaximoProductos);
+                    actualizarBtnMenos(cantidadLabel, btnMenos);
                 }
 
             }
@@ -242,6 +246,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
 
         // Botones de abajo
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
+        panelBotones.setOpaque(false);
 
         JButton botonSeguirComprando = new ButtonBuilder()
                 .withFont(new Font("Arial", Font.BOLD, 14))
@@ -313,7 +318,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
             panelBannerPrecio.setBackground(new Color(255, 164, 133));
         }
 
-        labelEnvioGratis.setText("envío GRATIS");
+        labelEnvioGratis.setText("Envío GRATIS");
         labelEnvio.setAlignmentX(Component.CENTER_ALIGNMENT);
         labelEnvioGratis.setFont(new Font("Arial", Font.BOLD, 14));
         labelEnvioGratis.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -336,7 +341,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
         JLabel labelSubtotal = new JLabel("Subtotal (" + numeroTotalProductos + " producto/s):");
         labelSubtotal.setFont(new Font("Arial", Font.PLAIN, 14));
 
-        JLabel labelCantidadSubtotal = new JLabel(String.format("$%.2f", montoActual));
+        JLabel labelCantidadSubtotal = new JLabel(String.format("$%,.2f", montoActual));
         labelCantidadSubtotal.setFont(new Font("Arial", Font.BOLD, 14));
         labelCantidadSubtotal.setHorizontalAlignment(SwingConstants.RIGHT);
 
@@ -367,7 +372,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
         
         int[] rangoDias = this.control.obtenerRangoDiasFechaEstimadaPreparacion(idCliente);
         
-        JLabel rangoDiasLabel = new JLabel("Su pedido llegará entre " + rangoDias[0] + "y " + rangoDias[1] + " días.");
+        JLabel rangoDiasLabel = new JLabel("Su pedido llegará entre " + rangoDias[0] + " y " + rangoDias[1] + " días.");
         
         rangoDiasLabel.setFont(new Font("Arial", Font.BOLD, 14));
         rangoDiasLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -396,6 +401,95 @@ public class Carrito extends JFrame implements ICarrito, IVista {
 
         panelPrincipal.add(panelContenedorCarrito, BorderLayout.CENTER);
     }
+    
+    private void actualizarBtnMas(
+            Map<String, Object> informacionProducto,
+            JLabel cantidadLabel, 
+            JLabel avisoMaximoProductos){
+        
+        int disponibilidadProducto = control.verificarExistenciasProducto((Long) informacionProducto.get("Id"));
+        int cantidadTexto = Integer.parseInt(cantidadLabel.getText());
+            
+        if(cantidadTexto > disponibilidadProducto){
+            
+            int cantidadPedidoAnticipado = cantidadTexto - disponibilidadProducto;
+                    
+            String palabraUnidades;
+            if(cantidadPedidoAnticipado == 1){
+                palabraUnidades = "unidad";
+            } else{
+                palabraUnidades = "unidades";
+            }
+            
+            String cantidadPedidoAnticipadoCadena = String.valueOf(cantidadPedidoAnticipado);
+            
+            avisoMaximoProductos.setText("Se realizará la compra de " + cantidadPedidoAnticipadoCadena + " " + palabraUnidades);
+
+        } else{
+            avisoMaximoProductos.setText("");
+        }
+    }
+    
+    private void actualizarBtnMenos( 
+            JLabel cantidadLabel, 
+            JButton btnMenos){
+        
+        int cantidadTexto = Integer.parseInt(cantidadLabel.getText());
+        
+        if(cantidadTexto > 0){
+            btnMenos.setEnabled(true);
+        } else{
+            btnMenos.setEnabled(false);
+        }
+    }
+    
+    
+    private void sumarUnidad(
+            Map<String, Object> informacionProducto,
+            JLabel cantidadLabel, 
+            JLabel avisoMaximoProductos){
+        
+        control.agregarProductoCarrito(idCliente, (Long) informacionProducto.get("Id"), 1, Carrito.this);
+        
+        int disponibilidadProducto = control.verificarExistenciasProducto((Long) informacionProducto.get("Id"));
+        int cantidadTexto = Integer.parseInt(cantidadLabel.getText());
+            
+        if(cantidadTexto > disponibilidadProducto){
+            
+            int cantidadPedidoAnticipado = cantidadTexto - disponibilidadProducto;
+                    
+            String palabraUnidades;
+            if(cantidadPedidoAnticipado == 1){
+                palabraUnidades = "unidad";
+            } else{
+                palabraUnidades = "unidades";
+            }
+            
+            String cantidadPedidoAnticipadoCadena = String.valueOf(cantidadPedidoAnticipado);
+            
+            avisoMaximoProductos.setText("Se realizará la compra de " + cantidadPedidoAnticipadoCadena + " " + palabraUnidades);
+
+        } else{
+            avisoMaximoProductos.setText("");
+        }
+
+    }
+    
+    private void restarUnidad(
+            Map<String, Object> informacionProducto, 
+            JLabel cantidadLabel, 
+            JButton btnMenos){
+                          
+        int cantidadTexto = Integer.parseInt(cantidadLabel.getText());
+        
+        if(cantidadTexto > 0){
+            control.eliminarProductoCarrito(idCliente, (Long) informacionProducto.get("Id"), 1);
+            btnMenos.setEnabled(true);
+        } else{
+            btnMenos.setEnabled(false);
+        }
+
+    }
 
     
     @Override
@@ -414,6 +508,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
         encabezado.mostrarNombreApellidoCliente();
         encabezado.mostrarBtnNumeroCarritoCompras(); 
         encabezado.ocultarBarraBusqueda();
+        encabezado.ocultarBtnSalir();
     }
     
 

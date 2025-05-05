@@ -2,14 +2,42 @@ package edu.student.itson.dissof.megazarl.presentacion;
 
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IDireccion;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.List;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+/**
+ * Clase que permite al cliente modificar su dirección de envìo de pedido.
+ * 
+ * @author Yuri Germán García López
+ * ID: 00000252583
+ * @author Luis Rafael Lagarda Encinas
+ * ID: 00000252607
+ * @author Vladimir Iván Mendoza Baypoli
+ * ID: 00000252758
+ * @author Manuel Romo López
+ * ID: 00000253080
+ * @author Martín Zamorano Acuña
+ * ID: 00000251923
+ * 
+ */
 public class Direccion extends JFrame implements IVista, IDireccion {
     private JPanel panelPrincipal;
     private JPanel panelGeneral;
@@ -30,7 +58,7 @@ public class Direccion extends JFrame implements IVista, IDireccion {
     private JTextField txtCodigoPostal;
     private JTextField txtEstado;
     private JTextField txtCiudad;
-    private JTextField txtColonia;
+    private JComboBox<String> comboBoxColonia;
     private JTextField txtNumero;
     private JTextField txtCalle;
 
@@ -39,32 +67,31 @@ public class Direccion extends JFrame implements IVista, IDireccion {
 
     private Encabezado encabezado;
     private ControlCompra control;
-    private Integer idCliente;
+    private Long idCliente;
 
     private String codigoPostalEnvio;
     private String numeroEnvio;
     private String calleEnvio;
-    private String ciudadEnvio;
-    private String estadoEnvio;
-    private boolean primerCambioCodigoPostalRealizado;
+    private String coloniaEnvio;
     private boolean codigoPostalValido;
     private boolean numeroValido;
     private boolean calleValida;
+    
+    private Color COLOR_FONDO = new Color(88, 69, 50);
+    
+    private Font FUENTE_TEXTO_BOTONES = new Font("Segoe UI", Font.BOLD, 14);
 
-    public Direccion(ControlCompra control, Integer idCliente) {
+    public Direccion(ControlCompra control, Long idCliente) {
         this.control = control;
         this.idCliente = idCliente;
 
         initComponents();
-        configurarCampoTextoCodigoPostal();
-        configurarCampoTextoNumero();
-        configurarCampoTextoCalle();
         
         setTitle("Semillas MEGAZARL - Actualizar dirección");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);
         setLocationRelativeTo(null);
-        Image iconoPropio = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logoApp.png")).getScaledInstance(90, 90, Image.SCALE_SMOOTH);
+        Image iconoPropio = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/iconoApp.png")).getScaledInstance(90, 90, Image.SCALE_SMOOTH);
         setIconImage(iconoPropio);
 
     }
@@ -74,7 +101,6 @@ public class Direccion extends JFrame implements IVista, IDireccion {
         getContentPane().setLayout(new BorderLayout());
 
         panelPrincipal = new JPanel(new BorderLayout());
-        panelPrincipal.setBackground(new Color(217, 217, 255));
         getContentPane().add(panelPrincipal, BorderLayout.CENTER);
 
         encabezado = new Encabezado(control, idCliente, this);
@@ -82,16 +108,21 @@ public class Direccion extends JFrame implements IVista, IDireccion {
 
         panelGeneral = new JPanel();
         panelGeneral.setLayout(new FlowLayout(FlowLayout.CENTER));
+        panelGeneral.setBackground(COLOR_FONDO);
         panelPrincipal.add(panelGeneral, BorderLayout.CENTER);
 
         panelContenedorFormulario = new JPanel();
+        panelContenedorFormulario.setOpaque(false);
         panelContenedorFormulario.setLayout(new BoxLayout(panelContenedorFormulario, BoxLayout.Y_AXIS));
         panelGeneral.add(panelContenedorFormulario);
 
+        panelContenedorFormulario.add(new JLabel(" "));
+        
         etqActualizarDireccionEnvio = new JLabel("Actualizar dirección de envío");
         etqActualizarDireccionEnvio.setFont(new Font("Segoe UI", Font.BOLD, 18));
         etqActualizarDireccionEnvio.setHorizontalAlignment(SwingConstants.CENTER);
         etqActualizarDireccionEnvio.setAlignmentX(Component.CENTER_ALIGNMENT);
+        etqActualizarDireccionEnvio.setForeground(Color.WHITE);
 
         JPanel panelTitulo = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panelTitulo.setOpaque(false);
@@ -100,9 +131,11 @@ public class Direccion extends JFrame implements IVista, IDireccion {
 
         panelContenedorFormulario.add(Box.createVerticalStrut(30));
 
-        panelDatosDireccion = new PanelRedondeado(50, new Color(226, 234, 206));
-        panelDatosDireccion.setPreferredSize(new Dimension(380, 400));
+        panelDatosDireccion = new PanelRedondeado(10, new Color(226, 234, 206));
+        panelDatosDireccion.setPreferredSize(new Dimension(400, 400));
         panelDatosDireccion.setLayout(new BoxLayout(panelDatosDireccion, BoxLayout.Y_AXIS));
+        panelDatosDireccion.setBorder(new EmptyBorder(20,20,20,20));
+        
         panelContenedorFormulario.add(panelDatosDireccion);
 
         crearComponentesPanelDatos();
@@ -125,7 +158,7 @@ public class Direccion extends JFrame implements IVista, IDireccion {
         panelBotones.add(btnGuardar);
 
         panelContenedorFormulario.add(panelBotones);
-
+        
         btnCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -139,6 +172,11 @@ public class Direccion extends JFrame implements IVista, IDireccion {
                 guardarDatosDireccionCliente();
             }
         });
+        
+        configurarCampoTextoCodigoPostal();
+        configurarComboBoxColonia();
+        configurarCampoTextoNumero();
+        configurarCampoTextoCalle();
     }
 
     private void crearComponentesPanelDatos() {
@@ -154,17 +192,22 @@ public class Direccion extends JFrame implements IVista, IDireccion {
 
         panelCodigoPostal.add(etqCodigoPostal);
         panelCodigoPostal.add(txtCodigoPostal);
+        
+        JPanel panelSeparador = new JPanel();
+        
+        panelSeparador.setOpaque(false);
+        
+        panelDatosDireccion.add(panelSeparador);
 
         panelDatosDireccion.add(panelCodigoPostal);
 
         // Mensaje validación código postal
-        JPanel panelMensajeCodigoPostal = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel panelMensajeCodigoPostal = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelMensajeCodigoPostal.setOpaque(false);
 
-        etqMensajeValidacionCodigoPostal = new JLabel("El código postal debe componerse de 5 dígitos");
+        etqMensajeValidacionCodigoPostal = new JLabel(" ");
         etqMensajeValidacionCodigoPostal.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         etqMensajeValidacionCodigoPostal.setForeground(Color.RED);
-        etqMensajeValidacionCodigoPostal.setVisible(false);
 
         panelMensajeCodigoPostal.add(etqMensajeValidacionCodigoPostal);
         panelDatosDireccion.add(panelMensajeCodigoPostal);
@@ -210,13 +253,13 @@ public class Direccion extends JFrame implements IVista, IDireccion {
         etqColonia = new JLabel("Colonia:");
         etqColonia.setFont(new Font("Segoe UI", Font.BOLD, 14));
 
-        txtColonia = new JTextField(20);
-        txtColonia.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        txtColonia.setEditable(false);
-        txtColonia.setEnabled(false);
+        comboBoxColonia = new JComboBox();
+        comboBoxColonia.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        comboBoxColonia.setEditable(false);
+        comboBoxColonia.setPreferredSize(new Dimension(246, 26));
 
         panelColonia.add(etqColonia);
-        panelColonia.add(txtColonia);
+        panelColonia.add(comboBoxColonia);
 
         panelDatosDireccion.add(panelColonia);
 
@@ -236,13 +279,12 @@ public class Direccion extends JFrame implements IVista, IDireccion {
         panelDatosDireccion.add(panelNumero);
 
         // Mensaje validación número
-        JPanel panelMensajeNumero = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel panelMensajeNumero = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelMensajeNumero.setOpaque(false);
 
         etqMensajeValidacionNumero = new JLabel("El número de su domicilio debe ser un número entero");
         etqMensajeValidacionNumero.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         etqMensajeValidacionNumero.setForeground(Color.RED);
-        etqMensajeValidacionNumero.setVisible(false);
 
         panelMensajeNumero.add(etqMensajeValidacionNumero);
         panelDatosDireccion.add(panelMensajeNumero);
@@ -256,14 +298,15 @@ public class Direccion extends JFrame implements IVista, IDireccion {
 
         txtCalle = new JTextField(20);
         txtCalle.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-
+        
         panelCalle.add(etqCalle);
         panelCalle.add(txtCalle);
+        panelCalle.add(new JLabel());
 
         panelDatosDireccion.add(panelCalle);
 
         // Mensaje validación calle
-        JPanel panelMensajeCalle = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel panelMensajeCalle = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelMensajeCalle.setOpaque(false);
 
         etqMensajeValidacionCalle = new JLabel("Este campo es obligatorio");
@@ -292,53 +335,60 @@ public class Direccion extends JFrame implements IVista, IDireccion {
             }
 
             private void validarCodigoPostal() {
-                if(!primerCambioCodigoPostalRealizado) {
-                    String nuevoCodigoPostal = txtCodigoPostal.getText();
+                String nuevoCodigoPostal = txtCodigoPostal.getText();
 
-                    if (nuevoCodigoPostal.matches("\\d{5}")) {
-                        String[] datosDerivadosDireccion = control.obtenerDatosDireccionEnvioDerivadosCP(nuevoCodigoPostal);
+                if (nuevoCodigoPostal.matches("\\d{5}")) {
+                    Object[] datosDerivadosDireccion = control.obtenerDatosDireccionEnvioDerivadosCP(nuevoCodigoPostal);
 
-                        if (datosDerivadosDireccion == null) {
-                            txtCodigoPostal.setForeground(Color.RED);
-                            etqMensajeValidacionCodigoPostal.setText("El Código Postal ingresado no existe.");
-                            etqMensajeValidacionCodigoPostal.setVisible(true);
-                            txtColonia.setText("");
-                            txtCiudad.setText("");
-                            txtEstado.setText("");
-                            codigoPostalValido = false;
-                        } else {
-                            txtCodigoPostal.setForeground(Color.BLACK);
-                            etqMensajeValidacionCodigoPostal.setVisible(false);
-
-                            txtColonia.setText(datosDerivadosDireccion[0]);
-                            txtCiudad.setText(datosDerivadosDireccion[1]);
-                            txtEstado.setText(datosDerivadosDireccion[2]);
-
-                            codigoPostalEnvio = txtCodigoPostal.getText();
-                            codigoPostalValido = true;
-                        }
-                    } else if(nuevoCodigoPostal.isBlank()) {
+                    if (datosDerivadosDireccion == null) {
                         txtCodigoPostal.setForeground(Color.RED);
-                        etqMensajeValidacionCodigoPostal.setText("Este campo es obligatorio");
-                        etqMensajeValidacionCodigoPostal.setVisible(true);
-                        txtColonia.setText("");
+                        etqMensajeValidacionCodigoPostal.setText("El Código Postal ingresado no existe.");
+                        comboBoxColonia.setModel(new DefaultComboBoxModel(new Object[0]));
                         txtCiudad.setText("");
                         txtEstado.setText("");
                         codigoPostalValido = false;
                     } else {
-                        txtCodigoPostal.setForeground(Color.RED);
-                        etqMensajeValidacionCodigoPostal.setText("El código postal debe componerse de 5 dígitos");
-                        etqMensajeValidacionCodigoPostal.setVisible(true);
-                        codigoPostalValido = false;
-                        txtColonia.setText("");
-                        txtCiudad.setText("");
-                        txtEstado.setText("");
-                    }
+                        txtCodigoPostal.setForeground(Color.BLACK);
+                        etqMensajeValidacionCodigoPostal.setText(" ");
 
-                    habilitarBotonGuardar();
+                        List<String> listaColonias = ((List<String>)datosDerivadosDireccion[0]);
+
+                        comboBoxColonia.setModel(new DefaultComboBoxModel(listaColonias.toArray()));
+                        txtCiudad.setText((String)datosDerivadosDireccion[1]);
+                        txtEstado.setText((String)datosDerivadosDireccion[2]);
+
+                        codigoPostalEnvio = txtCodigoPostal.getText();
+                        codigoPostalValido = true;
+                    }
+                } else if(nuevoCodigoPostal.isBlank()) {
+                    txtCodigoPostal.setForeground(Color.RED);
+                    etqMensajeValidacionCodigoPostal.setText("Este campo es obligatorio");
+                    comboBoxColonia.setModel(new DefaultComboBoxModel(new Object[0]));
+                    txtCiudad.setText("");
+                    txtEstado.setText("");
+                    codigoPostalValido = false;
                 } else {
-                    primerCambioCodigoPostalRealizado = true;
+                    txtCodigoPostal.setForeground(Color.RED);
+                    etqMensajeValidacionCodigoPostal.setText("El código postal debe componerse de 5 dígitos");
+                    codigoPostalValido = false;
+                    comboBoxColonia.setModel(new DefaultComboBoxModel(new Object[0]));
+                    txtCiudad.setText("");
+                    txtEstado.setText("");
                 }
+
+                habilitarBotonGuardar();
+            }
+        });
+    }
+    
+    public void configurarComboBoxColonia(){
+        
+ 
+        comboBoxColonia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                
+                coloniaEnvio = (String)comboBoxColonia.getSelectedItem();
             }
         });
     }
@@ -365,18 +415,16 @@ public class Direccion extends JFrame implements IVista, IDireccion {
 
                 if (nuevoNumero.matches("\\d+")) {
                     txtNumero.setForeground(Color.BLACK);
-                    etqMensajeValidacionNumero.setVisible(false);
+                    etqMensajeValidacionNumero.setText(" ");
                     numeroValido = true;
                     numeroEnvio = txtNumero.getText();
                 } else if(nuevoNumero.isBlank()) {
                     etqMensajeValidacionNumero.setText("Este campo es obligatorio");
-                    etqMensajeValidacionNumero.setVisible(true);
                     btnGuardar.setEnabled(false);
                     numeroValido = false;
                 } else {
                     txtNumero.setForeground(Color.RED);
                     etqMensajeValidacionNumero.setText("Debe ingresar un número entero");
-                    etqMensajeValidacionNumero.setVisible(true);
                     btnGuardar.setEnabled(false);
                     numeroValido = false;
                 }
@@ -406,12 +454,11 @@ public class Direccion extends JFrame implements IVista, IDireccion {
                 String calle = txtCalle.getText();
 
                 if(!calle.isBlank()) {
-                    etqMensajeValidacionCalle.setVisible(false);
+                    etqMensajeValidacionCalle.setText(" ");
                     calleValida = true;
                     calleEnvio = txtCalle.getText();
                 } else {
                     etqMensajeValidacionCalle.setText("Este campo es obligatorio");
-                    etqMensajeValidacionCalle.setVisible(true);
                     calleValida = false;
                 }
                 habilitarBotonGuardar();
@@ -429,13 +476,12 @@ public class Direccion extends JFrame implements IVista, IDireccion {
 
     public void guardarDatosDireccionCliente() {
         control.actualizarDatosDireccionCliente(
-                Arrays.asList(idCliente, numeroEnvio, calleEnvio, codigoPostalEnvio),
+                Arrays.asList(idCliente, numeroEnvio, calleEnvio, coloniaEnvio, codigoPostalEnvio),
                 this);
     }
 
     @Override
     public void setCodigoPostalEnvio(String codigoPostalEnvio) {
-        this.primerCambioCodigoPostalRealizado = false;
         this.codigoPostalEnvio = codigoPostalEnvio;
         this.txtCodigoPostal.setText(codigoPostalEnvio);
     }
@@ -454,14 +500,19 @@ public class Direccion extends JFrame implements IVista, IDireccion {
 
     @Override
     public void setEstadoEnvio(String estadoEnvio) {
-        this.estadoEnvio = estadoEnvio;
         this.txtEstado.setText(estadoEnvio);
     }
 
     @Override
     public void setCiudadEnvio(String ciudadEnvio) {
-        this.ciudadEnvio = ciudadEnvio;
         this.txtCiudad.setText(ciudadEnvio);
+    }
+    
+    
+    @Override
+    public void setColoniaEnvio(String coloniaEnvio) {
+        this.coloniaEnvio = coloniaEnvio;
+        this.comboBoxColonia.setSelectedItem(coloniaEnvio);
     }
 
     @Override
@@ -480,6 +531,7 @@ public class Direccion extends JFrame implements IVista, IDireccion {
         encabezado.ocultarBarraBusqueda();
         encabezado.ocultarDireccionCliente();
         encabezado.ocultarBtnNumeroCarritoCompras();
+        encabezado.ocultarBtnSalir();
     }
 
     class PanelRedondeado extends JPanel {

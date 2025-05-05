@@ -2,7 +2,7 @@ package edu.student.itson.dissof.megazarl.direcciones;
 
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
-import edu.student.itson.dissof.megazarl.dto.InformacionDerivadaCPDireccionEnvioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionEnvioDTO;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -10,18 +10,19 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.LinkedList;
 import java.util.List;
 
-enum AdministradorDirecciones implements IAdministradorDirecciones {
-    INSTANCIA;
-
+class AdministradorDirecciones implements IAdministradorDirecciones {
+    
     @Override
     public InformacionDerivadaCPDireccionEnvioDTO obtenerDatosDireccionDerivados(String codigoPostalBuscar)
-            throws DireccionesAccesoArchivoCodigosPostalesFallidoException, DireccionesArchivoCodigosPostalesVacioException {
+            throws DireccionesAccesoArchivoCodigosPostalesFallidoException, 
+            DireccionesArchivoCodigosPostalesVacioException {
 
-        String colonia;
-        String ciudad;
-        String estado;
+        List<String> colonias = new LinkedList<>();
+        String ciudad = "";
+        String estado = "";
 
         // Se obtiene la dirección del archivo.
         URL resource = AdministradorDirecciones.class.getResource("/codigosPostalesMexico.txt");
@@ -38,6 +39,8 @@ enum AdministradorDirecciones implements IAdministradorDirecciones {
 
             int i = 0;
 
+            boolean codigoPostalExiste = false;
+            
             // Se recorren las líneas del archivo.
             while (i < lineasArchivo.size()) {
                 // Por cada línea se crea un arreglo para almacenar cada uno de los
@@ -48,11 +51,11 @@ enum AdministradorDirecciones implements IAdministradorDirecciones {
                 String[] partes = linea.split("\\|");
 
                 String codigoPostal = partes[0];
-
+                
                 // Si el Código Postal recibido coincide con uno dentro del archivo,
                 // se guardan sus datos asociados, en la misma fila.
                 if (codigoPostal.equals(codigoPostalBuscar)) {
-                    colonia = partes[1];
+                    colonias.add(partes[1]);
                     estado = partes[4];
                     ciudad = "";
 
@@ -61,9 +64,13 @@ enum AdministradorDirecciones implements IAdministradorDirecciones {
                     } else{
                         ciudad = partes[5];
                     }
+                    
+                    codigoPostalExiste = true;
 
-                    // Se asignan los datos a una nueva DTO de tipo InformacionDerivadaCPDireccionEnvioDTO;
-                    informacionDerivadaDireccionEnvioDTO = new InformacionDerivadaCPDireccionEnvioDTO(colonia, ciudad, estado);
+                } else if(codigoPostalExiste){
+                    
+                    // Se asignan los datos a un nuevo DTO de tipo InformacionDerivadaCPDireccionEnvioDTO;
+                    informacionDerivadaDireccionEnvioDTO = new InformacionDerivadaCPDireccionEnvioDTO(colonias, ciudad, estado);
                     
                     break;
                 }

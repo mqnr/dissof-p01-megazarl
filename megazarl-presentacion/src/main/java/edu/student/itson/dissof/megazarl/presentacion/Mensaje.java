@@ -10,7 +10,7 @@ public class Mensaje extends JFrame implements IMensaje{
 
     private ControlCompra control;
     
-    private Integer idCliente;
+    private Long idCliente;
 
     private JPanel panelPrincipal;
     
@@ -28,10 +28,11 @@ public class Mensaje extends JFrame implements IMensaje{
 
     // Recursos
     private final Image iconoPropio = Toolkit.getDefaultToolkit()
-            .getImage(getClass().getResource("/logoApp.png"))
+            .getImage(getClass().getResource("/iconoApp.png"))
             .getScaledInstance(90, 90, Image.SCALE_SMOOTH);
 
-    public Mensaje(ControlCompra control, Integer idCliente) {
+    public Mensaje(ControlCompra control, Long idCliente) {
+        
         this.control = control;
         this.idCliente = idCliente;
         configurarVentana();

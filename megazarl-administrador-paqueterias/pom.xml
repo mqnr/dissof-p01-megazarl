@@ -19,11 +19,6 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>megazarl-dto</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
       <artifactId>megazarl-objetos-negocio</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -40,6 +35,21 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>megazarl-administrador-sucursales</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>megazarl-dto-negocios</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>megazarl-mapas</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>megazarl-administrador-proveedores</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>

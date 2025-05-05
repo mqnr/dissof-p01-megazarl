@@ -1,11 +1,10 @@
 package edu.student.itson.dissof.megazarl.presentacion.interfaces;
 
 import java.util.HashMap;
-import java.util.List;
 
 public interface ISeleccionPaqueteria {
 
-    public abstract void setPaqueterias(HashMap<Integer, String> datosPaqueterias);
+    public abstract void setPaqueterias(HashMap<Long, String> datosPaqueterias);
     
     public abstract void setEnvioGratis(boolean envioGratis);
     

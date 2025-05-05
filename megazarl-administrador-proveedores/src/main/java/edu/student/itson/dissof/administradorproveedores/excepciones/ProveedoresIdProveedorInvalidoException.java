@@ -3,7 +3,7 @@ package edu.student.itson.dissof.administradorproveedores.excepciones;
 
 /**
  * 
- * ProductoProductoSinInventarioException.java
+ * ProveedoresIdProveedorInvalidoException.java
  * 
  * Clase que representa una excepción lanzada cuando se comprueba que el ID
  * de un Proveedor es inválido, dentro de subsistema administradorProveedores.

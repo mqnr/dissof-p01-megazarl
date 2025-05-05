@@ -2,6 +2,7 @@ package edu.student.itson.dissof.megazarl.presentacion;
 
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ISeleccionPaqueteria;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
+import edu.student.itson.dissof.megazarl.presentacion.utils.ImagenesUtils;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,7 +23,7 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
     private JPanel panelBotones;
     private JLabel labelCosto;
     private JLabel labelError;
-    private Integer idCliente;
+    private Long idCliente;
     private boolean envioGratis;
     
     private String calleEnvio;
@@ -35,17 +36,23 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
 
     private int MARGEN_VERTICAL_IMAGENES_PAQUETERIA = 10;
     private int MARGEN_HORIZONTAL_IMAGENES_PAQUETERIA = 10;
+    
+    private Color COLOR_FONDO = new Color(88, 69, 50);
+    private Color COLOR_FONDO_DIRECCION_PAQUETERIAS = new Color(255, 251, 242);
+    
+    private Font FUENTE_TEXTO_BOTONES = new Font("Segoe UI", Font.BOLD, 14);
 
     private final ControlCompra control;
     
-    private Integer idPaqueteriaSeleccionada;
+    private Long idPaqueteriaSeleccionada;
 
-    public SeleccionPaqueteria(ControlCompra control, Integer idCliente) {
+    public SeleccionPaqueteria(ControlCompra control, Long idCliente) {
         setTitle("Semillas MEGAZARL - Seleccionar paquetería");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);
         setLocationRelativeTo(null);
-        Image iconoPropio = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logoApp.png")).getScaledInstance(90, 90, Image.SCALE_SMOOTH);
+        setResizable(false);
+        Image iconoPropio = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/iconoApp.png")).getScaledInstance(90, 90, Image.SCALE_SMOOTH);
         setIconImage(iconoPropio);
         this.control = control;
         this.idCliente = idCliente;
@@ -53,12 +60,6 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
     }
 
     private void initComponents() {
-        this.setTitle("Selección de Paquetería");
-        this.setSize(1200, 800);
-        this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
-        this.setLayout(new BorderLayout());
         
         encabezado = new Encabezado(control, idCliente, this);
                 
@@ -66,30 +67,36 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
 
         panelCentral = new JPanel();
         panelCentral.setLayout(new BoxLayout(panelCentral, BoxLayout.Y_AXIS));
+        panelCentral.setBackground(COLOR_FONDO);
 
         this.add(panelCentral, BorderLayout.CENTER);
 
         panelInstrucciones = new JPanel();
         panelInstrucciones.setBorder(new EmptyBorder(15, 15, 15, 15));
         panelInstrucciones.setLayout(new BoxLayout(panelInstrucciones, BoxLayout.Y_AXIS));
+        panelInstrucciones.setOpaque(false);
 
         JLabel etqTituloInstrucciones = new JLabel("Selección de Paquetería");
         etqTituloInstrucciones.setFont(new Font("Arial", Font.BOLD, 22));
         JLabel etqInstrucciones = new JLabel("Seleccione la paqueteria que realizará el envío de sus productos");
         etqInstrucciones.setFont(new Font("Arial", Font.PLAIN, 18));
+        
+        etqTituloInstrucciones.setForeground(Color.WHITE);
+        etqInstrucciones.setForeground(Color.WHITE);
 
         panelInstrucciones.add(etqTituloInstrucciones);
         panelInstrucciones.add(etqInstrucciones);
 
         JPanel panelInstruccionesFila = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelInstruccionesFila.add(panelInstrucciones);
+        panelInstruccionesFila.setOpaque(false);
 
         panelCentral.add(panelInstruccionesFila);
 
         panelDireccionEnvio = new JPanel();
-        panelDireccionEnvio.setBackground(Color.WHITE);
         panelDireccionEnvio.setBorder(new EmptyBorder(15, 15, 15, 15));
         panelDireccionEnvio.setLayout(new BoxLayout(panelDireccionEnvio, BoxLayout.Y_AXIS));
+        panelDireccionEnvio.setBackground(COLOR_FONDO_DIRECCION_PAQUETERIAS);
 
         String[] datosDireccionCliente = control.recuperarDatosDireccionCliente(idCliente);
         JLabel etqTituloDireccionEnvio = new JLabel("Dirección de envío: ");
@@ -99,6 +106,7 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
         etqDireccion.setFont(new Font("Arial", Font.BOLD, 18));
 
         JPanel panelDireccionEnvioFila = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelDireccionEnvioFila.setOpaque(false);
 
         panelDireccionEnvio.add(etqTituloDireccionEnvio);
         panelDireccionEnvio.add(etqDireccion);
@@ -106,12 +114,17 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
         panelCentral.add(panelDireccionEnvioFila);
 
         panelPaqueterias = new JPanel();
+        panelPaqueterias.setOpaque(false);
+        
         panelCostoEnvio = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelCostoEnvio.setOpaque(false);
+        
         panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
+        panelBotones.setOpaque(false);
     }
 
     @Override
-    public void setPaqueterias(HashMap<Integer, String> datosPaqueterias) {
+    public void setPaqueterias(HashMap<Long, String> datosPaqueterias) {
         
         
         panelPaqueterias.removeAll();
@@ -126,21 +139,27 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
 
         panelPaqueterias.setLayout(new GridLayout(Math.ceilDiv(datosPaqueterias.size(), 5), 5));
 
-        for (HashMap.Entry<Integer, String> datosPaqueteria : datosPaqueterias.entrySet()) {
+        for (HashMap.Entry<Long, String> datosPaqueteria : datosPaqueterias.entrySet()) {
 
             String direccionImagenPaqueteria = datosPaqueteria.getValue();
             
             JPanel panelRadioImagenPaqueteria = new JPanel(new BorderLayout());
+            panelRadioImagenPaqueteria.setBackground(COLOR_FONDO_DIRECCION_PAQUETERIAS);
 
-            ImageIcon iconoImagenPaqueteria = new ImageIcon(this.getClass().getResource(direccionImagenPaqueteria));
-            Image imagenPaqueteria = iconoImagenPaqueteria.getImage().getScaledInstance(ANCHO_IMAGEN_PAQUETERIA, ALTO_IMAGEN_PAQUETERIA, Image.SCALE_SMOOTH);
-            ImageIcon nuevoIconoImagenPaqueteria = new ImageIcon(imagenPaqueteria);
+            ImageIcon iconoImagenPaqueteria = ImagenesUtils.obtenerImagen(direccionImagenPaqueteria);
+                    
+            ImageIcon nuevoIconoImagenPaqueteria = ImagenesUtils.redimensionarImagen(
+                    iconoImagenPaqueteria, 
+                    ANCHO_IMAGEN_PAQUETERIA, 
+                    ALTO_IMAGEN_PAQUETERIA);
 
             JLabel etqImagenPaqueteria = new JLabel(nuevoIconoImagenPaqueteria);
             JRadioButton radioPaqueteria = new JRadioButton();
+            radioPaqueteria.setOpaque(false);
             grupoPaqueterias.add(radioPaqueteria);
 
             JPanel panelRadioPaquteria = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            panelRadioPaquteria.setOpaque(false);
             panelRadioPaquteria.add(radioPaqueteria);
             
             radioPaqueteria.addActionListener(new ActionListener() {
@@ -149,7 +168,7 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
                     if(!envioGratis){
                         Float costoEnvio = control.obtenerCostoEnvioPaqueteria(idCliente, datosPaqueteria.getKey());
                         if(costoEnvio != null){
-                            labelCosto.setText("Costo de envío: $" + String.format("%.2f",costoEnvio));
+                            labelCosto.setText("Costo de envío: $" + String.format("%,.2f",costoEnvio));
                         }
                         labelError.setVisible(false);
                         
@@ -164,7 +183,11 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
             panelPaqueterias.add(panelRadioImagenPaqueteria);
 
         }
-        scrollPanePaqueterias = new JScrollPane(panelPaqueterias, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        
+        scrollPanePaqueterias = new JScrollPane(
+                panelPaqueterias, 
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         panelCentral.add(scrollPanePaqueterias);
 
@@ -173,8 +196,9 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
         if(envioGratis){
             labelCosto.setText("Costo de envío: Gratuito");
         }
-        labelCosto.setFont(new Font("Arial", Font.PLAIN, 18));
-
+        labelCosto.setFont(new Font("Arial", Font.BOLD, 18));
+        labelCosto.setForeground(Color.WHITE);
+        
         panelCostoEnvio.add(labelCosto);
 
         labelError = new JLabel("Debes seleccionar una paquetería");
@@ -183,12 +207,17 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
         labelError.setVisible(false);
 
         JPanel panelError = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelError.setOpaque(false);
         panelError.add(labelError);
         panelCentral.add(panelCostoEnvio);
         panelCentral.add(panelError);
 
         JButton btnCancelar = new JButton("Cancelar pedido");
         JButton btnContinuar = new JButton("Continuar");
+        
+        btnCancelar.setFont(FUENTE_TEXTO_BOTONES);
+        btnContinuar.setFont(FUENTE_TEXTO_BOTONES);
+        
         panelBotones.add(btnCancelar);
         panelBotones.add(btnContinuar);
         panelCentral.add(panelBotones);
@@ -245,6 +274,7 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
         encabezado.mostrarNombreApellidoCliente();
         encabezado.ocultarBarraBusqueda();
         encabezado.ocultarBtnNumeroCarritoCompras();
+        encabezado.ocultarBtnSalir();
     }
     
     @Override

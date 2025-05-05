@@ -9,7 +9,7 @@ public interface IProductosVenta {
 
     public abstract void setProductosBusqueda(List<Map<String, Object>> listaInformacionProductos);
 
-    public abstract void mostrarInformacionProducto(Integer idProducto);
+    public abstract void mostrarInformacionProducto(Long idProducto);
     
     public abstract void mostrarAvisoSinProductosDisponibles();
 

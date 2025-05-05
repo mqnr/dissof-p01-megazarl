@@ -2,11 +2,10 @@
 package edu.student.itson.dissof.megazarl.administradorsucursales;
 
 import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdSucursalException;
-import edu.student.itson.dissof.megazarl.dto.CodigosSucursalesDTO;
-import edu.student.itson.dissof.megazarl.dto.DireccionMatrizDTO;
-import edu.student.itson.dissof.megazarl.objetosnegocio.SucursalON;
-import java.util.LinkedList;
-import java.util.List;
+import edu.student.itson.dissof.megazarl.dto.negocios.CodigosSucursalesDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.SucursalDTO;
+
 
 /**
  * FAdministradorSucursales.java
@@ -28,26 +27,24 @@ import java.util.List;
  *
  */
 public class FAdministradorSucursales implements IAdministradorSucursales {
-    private final AdministradorSucursales administrador;
-
-    /**
-     * Constructor que inicializa un administrador de sucursales con la lista de sucursales.
-     *
-     * @param listaSucursales Objeto List que contiene las sucursales registradas en el sistema.
-     */
-    public FAdministradorSucursales(List<SucursalON> listaSucursales) {
-        this.administrador = new AdministradorSucursales(listaSucursales);
+    
+    private final AdministradorSucursales administradorSucursales;
+    
+    public FAdministradorSucursales(){
+        
+        this.administradorSucursales = new AdministradorSucursales();
+ 
     }
-
+    
     /**
      * Método que permite verificar si el ID de una sucursal es válido.
      *
-     * @param codigoSucursal Objeto Integer que representa el ID de la sucursal a validar.
+     * @param idSucursalDTO Objeto IdSucursalDTO que contiene el ID de la sucursal a validar.
      * @return true si el ID de la sucursal es válido y existe en el sistema, false en caso contrario.
      */
     @Override
-    public boolean validarSucursal(Integer codigoSucursal) {
-        return administrador.validarSucursal(codigoSucursal);
+    public boolean validarSucursal(IdSucursalDTO idSucursalDTO) {
+        return administradorSucursales.validarSucursal(idSucursalDTO);
     }
 
     /**
@@ -57,68 +54,68 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
      */
     @Override
     public CodigosSucursalesDTO obtenerCodigosSucursales() throws SucursalesIdSucursalException {
-        return administrador.obtenerCodigosSucursales();
+        return administradorSucursales.obtenerCodigosSucursales();
     }
 
     /**
      * Método que permite obtener el código postal de una sucursal específica.
      *
-     * @param idSucursal Objeto Integer que representa el ID de la sucursal.
+     * @param idSucursalDTO Objeto IdSucursalDTO que contiene el ID de la sucursal.
      * @return Objeto String que representa el código postal de la sucursal.
      * @throws SucursalesIdSucursalException Se lanza si el ID de la sucursal es inválido o
      * no existe en el sistema.
      */
     @Override
-    public String obtenerCodigoPostal(Integer idSucursal) throws SucursalesIdSucursalException {
-        return administrador.obtenerCodigoPostal(idSucursal);
+    public String obtenerCodigoPostal(IdSucursalDTO idSucursalDTO) throws SucursalesIdSucursalException {
+        return administradorSucursales.obtenerCodigoPostal(idSucursalDTO);
     }
 
     /**
      * Método que permite obtener la calle donde se ubica una sucursal específica.
      *
-     * @param idSucursal Objeto Integer que representa el ID de la sucursal.
+     * @param idSucursalDTO Objeto IdSucursalDTO que contiene el ID de la sucursal.
      * @return Objeto String que representa la calle donde se ubica la sucursal.
      * @throws SucursalesIdSucursalException Se lanza si el ID de la sucursal es inválido o
      * no existe en el sistema.
      */
     @Override
-    public String obtenerCalle(Integer idSucursal) throws SucursalesIdSucursalException {
-        return administrador.obtenerCalle(idSucursal);
+    public String obtenerCalle(IdSucursalDTO idSucursalDTO) throws SucursalesIdSucursalException {
+        return administradorSucursales.obtenerCalle(idSucursalDTO);
     }
 
     /**
      * Método que permite obtener el número de domicilio de una sucursal específica.
      *
-     * @param idSucursal Objeto Integer que representa el ID de la sucursal.
+     * @param idSucursalDTO Objeto IdSucursalDTO que contiene el ID de la sucursal.
      * @return Objeto String que representa el número de domicilio de la sucursal.
      * @throws SucursalesIdSucursalException Se lanza si el ID de la sucursal es inválido o
      * no existe en el sistema.
      */
     @Override
-    public String obtenerNumero(Integer idSucursal) throws SucursalesIdSucursalException {
-        return administrador.obtenerNumero(idSucursal);
+    public String obtenerNumero(IdSucursalDTO idSucursalDTO) throws SucursalesIdSucursalException {
+        return administradorSucursales.obtenerNumero(idSucursalDTO);
     }
 
     /**
      * Método que permite obtener la dirección completa de la sucursal matriz.
      *
-     * @return Objeto DireccionMatrizDTO que contiene la información de dirección de la sucursal matriz,
-     * o null si no se encuentra una sucursal que sea matriz.
+     * @return Objeto SucursalDTO que contiene la información de la sucursal matriz
+     * de la empresa.
      */
     @Override
-    public DireccionMatrizDTO obtenerDireccionMatriz() {
-        return administrador.obtenerDireccionMatriz();
+    public SucursalDTO obtenerSucursalMatriz() {
+        return administradorSucursales.obtenerSucursalMatriz();
     }
 
     /**
      * Método que permite obtener una sucursal específica a partir de su ID.
      *
-     * @param idSucursal Objeto Integer que representa el ID de la sucursal a obtener.
+     * @param idSucursalDTO Objeto IdSucursalDTO que representa el ID de la sucursal a obtener.
      * @return Objeto Sucursal que representa la sucursal con el ID especificado,
      * o null si no se encuentra una sucursal con ese ID.
      */
     @Override
-    public SucursalON obtenerSucursal(Integer idSucursal) {
-        return administrador.obtenerSucursal(idSucursal);
+    public SucursalDTO obtenerSucursal(IdSucursalDTO idSucursalDTO) {
+        return administradorSucursales.obtenerSucursal(idSucursalDTO);
     }
 }

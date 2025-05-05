@@ -2,8 +2,8 @@
 package edu.student.itson.dissof.administradorproveedores;
 
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
-import edu.student.itson.dissof.megazarl.objetosnegocio.ProveedorON;
-import java.util.List;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProveedorDTO;
 
 /**
  * FAdministradorProveedores.java
@@ -25,28 +25,26 @@ import java.util.List;
  *
  */
 public class FAdministradorProveedores implements IAdministradorProveedores{
-    private final AdministradorProveedores administrador;
 
-    /**
-     * Constructor que inicializa un administrador de proveedores con la lista de proveedores.
-     *
-     * @param listaProveedores Objeto List que contiene los proveedores registrados en el sistema.
-     */
-    public FAdministradorProveedores(List<ProveedorON> listaProveedores) {
-        this.administrador = new AdministradorProveedores(listaProveedores);
+    private final AdministradorProveedores administradorProveedores;
+    
+    public FAdministradorProveedores(){
+        
+        this.administradorProveedores = new AdministradorProveedores();
+        
     }
-
+    
     /**
      * Implementación del método validarProveedor(), de la interfaz
      * {@link IAdministradorProveedores}, que permite verificar si el ID
      * de un proveedor corresponde a un objeto Proveedor real.
      *
-     * @param idProveedor Objeto Integer que representa el ID del proveedor a validar.
+     * @param idProveedorDTO Objeto IdProveedorDTO que contiene el ID del proveedor a validar.
      * @return true si existe un objeto Proveedor con el ID del parámetro, false en caso contrario.
      */
     @Override
-    public boolean validarProveedor(Integer idProveedor) {
-        return administrador.validarProveedor(idProveedor);
+    public boolean validarProveedor(IdProveedorDTO idProveedorDTO) {
+        return administradorProveedores.validarProveedor(idProveedorDTO);
     }
 
     /**
@@ -54,13 +52,13 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      * {@link IAdministradorProveedores}, que permite obtener un objeto Proveedor
      * específico a partir de su ID.
      *
-     * @param idProveedor Objeto Integer que representa el ID del proveedor a obtener.
+     * @param idProveedorDTO Objeto IdProveedorDTO que representa el ID del proveedor a obtener.
      * @return Objeto Proveedor que representa el proveedor con el ID especificado,
      * o null si no se encuentra un proveedor con ese ID.
      */
     @Override
-    public ProveedorON obtenerProveedor(Integer idProveedor) {
-        return administrador.obtenerProveedor(idProveedor);
+    public ProveedorDTO obtenerProveedor(IdProveedorDTO idProveedorDTO) {
+        return administradorProveedores.obtenerProveedor(idProveedorDTO);
     }
 
     /**
@@ -68,14 +66,14 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      * {@link IAdministradorProveedores}, que permite obtener la ruta de la imagen
      * o logotipo de un proveedor específico.
      *
-     * @param idProveedor Objeto Integer que representa el ID del proveedor.
+     * @param idProveedorDTO Objeto IdProveedorDTO que contiene el ID del proveedor.
      * @return Objeto String que representa la ruta de la imagen del proveedor.
      * @throws ProveedoresIdProveedorInvalidoException Se lanza si se comprueba que el ID
      * del proveedor es inválido o no existe en el sistema.
      */
     @Override
-    public String obtenerDireccionImagenProveedor(Integer idProveedor) throws ProveedoresIdProveedorInvalidoException {
-        return administrador.obtenerDireccionImagenProveedor(idProveedor);
+    public String obtenerDireccionImagenProveedor(IdProveedorDTO idProveedorDTO) throws ProveedoresIdProveedorInvalidoException {
+        return administradorProveedores.obtenerDireccionImagenProveedor(idProveedorDTO);
     }
 
     /**
@@ -83,13 +81,14 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      * {@link IAdministradorProveedores}, que permite obtener el nombre
      * de un proveedor específico.
      *
-     * @param idProveedor Objeto Integer que representa el ID del proveedor.
+     * @param idProveedorDTO Objeto IdProveedorDTO que contiene el ID del proveedor.
      * @return Objeto String que representa el nombre del proveedor.
      * @throws ProveedoresIdProveedorInvalidoException Se lanza si se comprueba que el ID
      * del proveedor es inválido o no existe en el sistema.
      */
     @Override
-    public String obtenerNombreProveedor(Integer idProveedor) throws ProveedoresIdProveedorInvalidoException {
-        return administrador.obtenerNombreProveedor(idProveedor);
+    public String obtenerNombreProveedor(IdProveedorDTO idProveedorDTO) throws ProveedoresIdProveedorInvalidoException {
+        return administradorProveedores.obtenerNombreProveedor(idProveedorDTO);
     }
+
 }
