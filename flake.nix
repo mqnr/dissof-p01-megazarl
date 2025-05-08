@@ -18,6 +18,7 @@
             jdk21
             maven
             jdt-language-server
+            python313
           ];
         };
       });
