@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence           http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+  <persistence-unit name="edu.student.itson.dissof_megazarl-administrador-sql_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>edu.student.itson.dissof.megazarl.administrador.sql.administradorsql.clasesmapeadas.CarritoCompras</class>
+    <class>edu.student.itson.dissof.megazarl.administrador.sql.administradorsql.clasesmapeadas.Cliente</class>
+    <class>edu.student.itson.dissof.megazarl.administrador.sql.administradorsql.clasesmapeadas.Direccion</class>
+    <class>edu.student.itson.dissof.megazarl.administrador.sql.administradorsql.clasesmapeadas.Paqueteria</class>
+    <class>edu.student.itson.dissof.megazarl.administrador.sql.administradorsql.clasesmapeadas.Pedido</class>
+    <class>edu.student.itson.dissof.megazarl.administrador.sql.administradorsql.clasesmapeadas.Producto</class>
+    <class>edu.student.itson.dissof.megazarl.administrador.sql.administradorsql.clasesmapeadas.ProductoInventario</class>
+    <class>edu.student.itson.dissof.megazarl.administrador.sql.administradorsql.clasesmapeadas.Proveedor</class>
+    <class>edu.student.itson.dissof.megazarl.administrador.sql.administradorsql.clasesmapeadas.Sucursal</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sistema_megazarl?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="ItsonNainari_09"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="edu.student.itson.dissof_megazarl-administrador-sql_jar_1.0-SNAPSHOTPU2" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sistema_megazarl_test?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="ItsonNainari_09"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+    </properties>
+  </persistence-unit>
+</persistence>

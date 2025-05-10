@@ -26,6 +26,7 @@
     <module>megazarl-dto-negocios</module>
     <module>megazarl-dto-infraestructura</module>
     <module>megazarl-negocio</module>
+    <module>megazarl-administrador-sql</module>
   </modules>
 
   <properties>

@@ -43,3 +43,6 @@ buildNumber.properties
 
 # MEGAZARL config file
 megazarl.config.ini
+
+# MEGAZARL properties file 
+megazarl-administrador-sql\src\main\resources\META-INF
