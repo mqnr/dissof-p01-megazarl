@@ -9,6 +9,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProductoInv
 import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.SucursalDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
+import edu.student.itson.dissof.megazarl.objetosnegocio.Direccion;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Paqueteria;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Producto;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
@@ -44,131 +45,164 @@ public class App {
 
             Long idCliente = 3L;
 
+            DireccionDTO direccionCliente = new DireccionDTO(
+                            "85000", 
+                            "Ciudad Obregón Centro", 
+                            "Guerrero", 
+                            "1586");
+            
             // Creación de objetos a utilizar
             ClienteDTO cliente = new ClienteDTO(
                     idCliente,
                     "Juan",
                     "Pérez",
                     "González",
-                    new DireccionDTO(
-                            "85000", 
-                            "Ciudad Obregón Centro", 
-                            "Guerrero", 
-                            "1586")
+                    direccionCliente
             );
             
             Cliente.agregar(cliente);
+            Direccion.agregar(direccionCliente);
 
 
-            SucursalDTO sucursal1 = new SucursalDTO(
-                                        1L, 
-                                        true,
-                                        new DireccionDTO(
+            DireccionDTO direccionSucursal1 = new DireccionDTO(
                                             "83118",
                                             "Parque Industrial Hermosillo Norte",
                                             "José Alberto Healy Noriega",
                                             "1000"
-                                        )
+                                        );
+            
+            SucursalDTO sucursal1 = new SucursalDTO(
+                                        1L, 
+                                        true,
+                                        direccionSucursal1
             );
             
-            SucursalDTO sucursal2 = new SucursalDTO(
-                                        2L, 
-                                        false,
-                                        new DireccionDTO(
+            DireccionDTO direccionSucursal2 = new DireccionDTO(
                                             "83557", 
                                             "San Rafael",
                                             "Río Mocorito", 
                                             "123"
-                                        )
+                                        );
+            SucursalDTO sucursal2 = new SucursalDTO(
+                                        2L, 
+                                        false,
+                                        direccionSucursal2
             );
 
-            SucursalDTO sucursal3 = new SucursalDTO(
-                                        3L, 
-                                        false, 
-                                        new DireccionDTO(
+            DireccionDTO direccionSucursal3 = new DireccionDTO(
                                             "84269", 
                                             "Bicentenario",
                                             "44", 
                                             "5695"
-                                        )
+                                        );
+                    
+            SucursalDTO sucursal3 = new SucursalDTO(
+                                        3L, 
+                                        false, 
+                                        direccionSucursal3
             );
             
-            SucursalDTO sucursal4 = new SucursalDTO(
-                                        4L, 
-                                        false,
-                                        new DireccionDTO(
+            DireccionDTO direccionSucursal4 = new DireccionDTO(
                                             "85000",
                                             "Ciudad Obregón Centro",
                                             "Guerrero",
                                             "200"
-                                        )
+                                        );
+            
+            SucursalDTO sucursal4 = new SucursalDTO(
+                                        4L, 
+                                        false,
+                                        direccionSucursal4
             );
             
             List<SucursalDTO> listaSucursales = Arrays.asList(sucursal1, sucursal2, sucursal3, sucursal4);
 
             Sucursal.agregar(listaSucursales);
             
+            List<DireccionDTO> listaDireccionesSucursales = Arrays.asList(direccionSucursal1, direccionSucursal2, direccionSucursal3, direccionSucursal4);
+            
+            Direccion.agregar(listaDireccionesSucursales);
+            
+            
+            
+            DireccionDTO direccionProveedor1 = new DireccionDTO(
+                        "81255", 
+                        "Zona Industrial", 
+                        "Jiquilpan",
+                        "3000");
+            
             ProveedorDTO proveedor1 = new ProveedorDTO(
                     10L, 
                     "Seminis", 
                     "6441022785", 
                     "/seminis.png", 
-                    new DireccionDTO(
-                        "81255", 
-                        "Zona Industrial", 
-                        "Jiquilpan",
-                        "3000")
+                    direccionProveedor1
             );
+            
+            
+            DireccionDTO direccionProveedor2 = new DireccionDTO(
+                        "21394", 
+                        "Venustiano Carranza", 
+                        "De Las Misiones Norte",
+                        "168");
             
             ProveedorDTO proveedor2 = new ProveedorDTO(
                     20L, 
                     "Harris Moran", 
                     "6442365984", 
                     "/harrisMoran.png", 
-                    new DireccionDTO(
-                        "21394", 
-                        "Venustiano Carranza", 
-                        "De Las Misiones Norte",
-                        "168")
-            );
+                    direccionProveedor2);
+            
+            
+            DireccionDTO direccionProveedor3 = new DireccionDTO(
+                        "80393", 
+                        "Parque Industrial El Trébol", 
+                        "Carretera Federal 15D",
+                        "450");
             
             ProveedorDTO proveedor3 =  new ProveedorDTO(
                     30L, 
                     "Enza Zaden",
                     "6442059876",
                     "/enzaZaden.png", 
-                    new DireccionDTO(
-                        "80393", 
-                        "Parque Industrial El Trébol", 
-                        "Carretera Federal 15D",
-                        "450"));
+                    direccionProveedor3);
+            
+            
+            DireccionDTO direccionProveedor4 = new DireccionDTO(
+                        "31385", 
+                        "Parque Industrial Chihuahua Sur", 
+                        "Paseos de Aura",
+                        "1485");
             
             ProveedorDTO proveedor4 =  new ProveedorDTO(
                     40L, 
                     "Nunhems",
                     "6447856986", 
                     "/nunhems.png", 
-                    new DireccionDTO(
-                        "31385", 
-                        "Parque Industrial Chihuahua Sur", 
-                        "Paseos de Aura",
-                        "1485"));
+                    direccionProveedor4);
+            
+            DireccionDTO direccionProveedor5 =
+                        new DireccionDTO(
+                        "37150", 
+                        "Lomas del Campestre", 
+                        "Blvd. Campestre",
+                        "102");
             
             ProveedorDTO proveedor5 =  new ProveedorDTO(
                     50L, 
                     "Lark Seeds",
                     "6442326587", 
                     "/larkSeeds.png", 
-                    new DireccionDTO(
-                        "37150", 
-                        "Lomas del Campestre", 
-                        "Blvd. Campestre",
-                        "102")
+                    direccionProveedor5
             );
             
             List<ProveedorDTO> listaProveedores = Arrays.asList(proveedor1, proveedor2, proveedor3, proveedor4, proveedor5);
             
             Proveedor.agregar(listaProveedores);
+            
+            List<DireccionDTO> listaDireccionesProveedores = Arrays.asList(direccionProveedor1, direccionProveedor2, direccionProveedor3, direccionProveedor4);
+            
+            Direccion.agregar(listaDireccionesSucursales);
             
             ProductoDTO producto1 = new ProductoDTO(
                         1L,
@@ -604,7 +638,7 @@ public class App {
             IVista seleccionPaqueteria = new SeleccionPaqueteria(controlCompra, idCliente);
             IVista carrito = new Carrito(controlCompra, idCliente);
             IMensaje mensaje = new Mensaje(controlCompra, idCliente);
-            IVista direccion = new Direccion(controlCompra, idCliente);
+            IVista direccion = new ActualizacionDireccion(controlCompra, idCliente);
             
             // Se agregan las vistas creadas como atributos del control de presentación.
             controlCompra.setVistas(

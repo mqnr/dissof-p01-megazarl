@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 public class RepositorioClienteEnMemoria implements RepositorioCliente {
@@ -80,6 +82,7 @@ public class RepositorioClienteEnMemoria implements RepositorioCliente {
     }
 
     private ClienteDTO aplicar(ClienteDTO clienteOriginal, ActualizacionClienteDTO actualizacionClienteDTO) {
+        
         return new ClienteDTO(
                 actualizacionClienteDTO.getId(),
                 actualizacionClienteDTO.tieneNombres() ? actualizacionClienteDTO.getNombres() : clienteOriginal.getNombres(),

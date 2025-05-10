@@ -2,7 +2,11 @@ package edu.student.itson.dissof.megazarl.direcciones;
 
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionEnvioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.DireccionDTO;
+import edu.student.itson.dissof.megazarl.objetosnegocio.Direccion;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -12,11 +16,27 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class AdministradorDirecciones implements IAdministradorDirecciones {
     
     @Override
-    public InformacionDerivadaCPDireccionEnvioDTO obtenerDatosDireccionDerivados(String codigoPostalBuscar)
+    public DireccionDTO obtenerDireccion(IdDireccionDTO idDireccionDTO) {
+        return Direccion.recuperarPorId(idDireccionDTO);
+    }
+
+    @Override
+    public boolean validarDireccion(IdDireccionDTO idDireccionDTO) {
+        if (idDireccionDTO == null || idDireccionDTO.getIdDireccion()== null || !Direccion.existePorId(idDireccionDTO)) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    @Override
+    public InformacionDerivadaCPDireccionDTO obtenerDatosDireccionDerivados(CodigoPostalDTO codigoPostalDTO)
             throws DireccionesAccesoArchivoCodigosPostalesFallidoException, 
             DireccionesArchivoCodigosPostalesVacioException {
 
@@ -28,6 +48,7 @@ class AdministradorDirecciones implements IAdministradorDirecciones {
         URL resource = AdministradorDirecciones.class.getResource("/codigosPostalesMexico.txt");
 
         try {
+            
             // Se leen todas las líneas del archivo sin considerar aviso ni encabezado.
             Path path = Paths.get(resource.toURI());
             List<String> lineasArchivo = Files.readAllLines(path, StandardCharsets.ISO_8859_1);
@@ -35,8 +56,10 @@ class AdministradorDirecciones implements IAdministradorDirecciones {
             lineasArchivo.remove(1);
 
             // Se instancia un objeto informacionDerivadaDireccionEnvioDTO como null.
-            InformacionDerivadaCPDireccionEnvioDTO informacionDerivadaDireccionEnvioDTO = null;
+            InformacionDerivadaCPDireccionDTO informacionDerivadaCPDireccionDTO = null;
 
+            String codigoPostalBuscar = codigoPostalDTO.getCodigoPostal();
+            
             int i = 0;
 
             boolean codigoPostalExiste = false;
@@ -70,7 +93,7 @@ class AdministradorDirecciones implements IAdministradorDirecciones {
                 } else if(codigoPostalExiste){
                     
                     // Se asignan los datos a un nuevo DTO de tipo InformacionDerivadaCPDireccionEnvioDTO;
-                    informacionDerivadaDireccionEnvioDTO = new InformacionDerivadaCPDireccionEnvioDTO(colonias, ciudad, estado);
+                    informacionDerivadaCPDireccionDTO = new InformacionDerivadaCPDireccionDTO(colonias, ciudad, estado);
                     
                     break;
                 }
@@ -84,7 +107,7 @@ class AdministradorDirecciones implements IAdministradorDirecciones {
                         + "relacionada con los Códigos Postales está vacío.");
             }
 
-            return informacionDerivadaDireccionEnvioDTO;
+            return informacionDerivadaCPDireccionDTO;
 
             // Se lanza una excepción si no se pudo leer el archivo con los Códigos Postales.
         } catch (URISyntaxException | IOException ex) {
@@ -92,4 +115,27 @@ class AdministradorDirecciones implements IAdministradorDirecciones {
                     + "con los Códigos Postales");
         }
     }
+    
+    @Override
+    public DireccionDTO registrarDireccion(DireccionDTO direccionDTO) 
+            throws DireccionesAccesoArchivoCodigosPostalesFallidoException,
+            DireccionesArchivoCodigosPostalesVacioException{
+        
+        String codigoPostalNuevaDireccion = direccionDTO.getCodigoPostal();
+        
+        InformacionDerivadaCPDireccionDTO informacionDerivadaCPDireccionDTO
+                = obtenerDatosDireccionDerivados(new CodigoPostalDTO(codigoPostalNuevaDireccion));
+        
+        String estadoDireccion = informacionDerivadaCPDireccionDTO.getEstado();
+        String ciudadDireccion = informacionDerivadaCPDireccionDTO.getCiudad();
+        
+        direccionDTO.setEstado(estadoDireccion);
+        direccionDTO.setCiudad(ciudadDireccion);
+        
+        Direccion.agregar(direccionDTO);
+        
+        return direccionDTO;
+        
+    }
+
 }

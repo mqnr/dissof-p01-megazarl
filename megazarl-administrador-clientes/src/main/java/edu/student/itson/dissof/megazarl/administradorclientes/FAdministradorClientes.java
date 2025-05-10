@@ -1,10 +1,15 @@
 package edu.student.itson.dissof.megazarl.administradorclientes;
+import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesAccesoArchivoCodigosPostalesFallidoException;
+import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesArchivoCodigosPostalesVacioException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdClienteInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdDireccionInvalidoException;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionEnvioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioActualizadaClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ClienteDTO;
 
@@ -57,78 +62,37 @@ public class FAdministradorClientes implements IAdministradorClientes{
     }
 
     /**
-     * Implementación del método obtenerColoniaCliente() de la interfaz {@link IAdministradorClientes},
-     * permite obtener la ciudad de envío de un Cliente, a partir del Código Postal de su dirección de envío.
-     * @param idClienteDTO Objeto IdClienteDTO que contiene el ID del cliente a obtener su ciudad de envío.
-     * @return Objeto Stirng que representa la ciudad de envío del cliente.
-     * @throws ClientesIdClienteInvalidoException Se lanza si se comprueba que el ID
-     * de cliente es inválido, dentro de este subsistema.
-     * @throws DireccionesAccesoArchivoCodigosPostalesFallidoException Se lanza si no
-     * se pudo acceder al archivo con los Códigos Postales dentro del subsitema
-     * direcciones.
-     * @throws DireccionesArchivoCodigosPostalesVacioException Se se comprueba
-     * que el archivo de Códigos Postales está vacío, dentro del subsitema direcciones.
-     */
-    @Override
-    public String obtenerCiudadCliente(IdClienteDTO idClienteDTO) 
-            throws ClientesIdClienteInvalidoException, 
-            DireccionesAccesoArchivoCodigosPostalesFallidoException, 
-            DireccionesArchivoCodigosPostalesVacioException {
-        
-        return administradorClientes.obtenerCiudadCliente(idClienteDTO);
-    }
-
-    /**
-     * Implementación del método obtenerEstadoCliente() de la interfaz {@link IAdministradorClientes},
-     * permite obtener la ciudad de envío de un cliente, a partir del Código Postal de su dirección de envío.
-     * @param idClienteDTO Objeto IdClienteDTO que representa el ID del cliente a obtener su estado de envío.
-     * @return Objeto String que representa el estado de envío del cliente.
-     * @throws ClientesIdClienteInvalidoException Se lanza si se comprueba que el ID
-     * de cliente es inválido, dentro de este subsistema.
-     * @throws DireccionesAccesoArchivoCodigosPostalesFallidoException Se lanza si no
-     * se pudo acceder al archivo con los Códigos Postales dentro del subsitema
-     * direcciones.
-     * @throws DireccionesArchivoCodigosPostalesVacioException Se se comprueba
-     * que el archivo de Códigos Postales está vacío, dentro del subsitema direcciones.
-     */
-    @Override
-    public String obtenerEstadoCliente(IdClienteDTO idClienteDTO)
-            throws ClientesIdClienteInvalidoException,
-            DireccionesAccesoArchivoCodigosPostalesFallidoException, 
-            DireccionesArchivoCodigosPostalesVacioException {
-        
-        return administradorClientes.obtenerEstadoCliente(idClienteDTO);
-    }
-
-    /**
      * Implementación del método actualizarDireccionCliente(), de la interfaz {@link IAdministradorClientes},
      * permite actualizar los datos de la dirección de envío del cliente, que son Código Postal, Calle y Número.
-     * @param informacionNoDerivadaCPDireccionEnvioDTO Objeto InformacionNoDerivadaCPDireccionEnvioDTO que representa los datos de la dirección
-     de envío del Cliente, que son Código Postal, Calle y Número.
+     * @param informacionDireccionEnvioActualizadaClienteDTO Objeto InformacionDireccionEnvioActualizadaClienteDTO que representa 
+     * los nuevos datos para actualizar la dirección de un cliente.
      * @throws ClientesIdClienteInvalidoException Se lanza si se comprueba que el ID de
      * Cliente recibido es inválido, dentro de este subsistema.
      */
     @Override
-    public void actualizarDireccionCliente(InformacionNoDerivadaCPDireccionEnvioDTO informacionNoDerivadaCPDireccionEnvioDTO) 
-            throws ClientesIdClienteInvalidoException {
+    public void actualizarDireccionCliente(InformacionDireccionEnvioActualizadaClienteDTO informacionDireccionEnvioActualizadaClienteDTO) 
+            throws ClientesIdClienteInvalidoException,
+            ClientesAccesoArchivoCodigosPostalesFallidoException, 
+            ClientesArchivoCodigosPostalesVacioException {
         
-        administradorClientes.actualizarDireccionCliente(informacionNoDerivadaCPDireccionEnvioDTO);
+        administradorClientes.actualizarDireccionCliente(informacionDireccionEnvioActualizadaClienteDTO);
     }
 
     /**
      * Implementación del método obtenerInformacionNoDerivadaCPDireccionEnvio(), de la interfaz {@link IAdministradorClientes},
      * que permite obtener la información sobre la dirección de envío de un cliente que este ingresa (Código Postal, Calle y Número)
      * @param idClienteDTO Objeto IdClienteDTO que contiene el ID del cliente a buscar sus datos de dirección.
-     * @return Objeto InformacionNoDerivadaCPDireccionEnvioDTO que contiene el Código
+     * @return Objeto InformacionNoDerivadaCPDireccionDTO que contiene el Código
      * Postal, Calle y Número de la dirección de envío del cliente.
      * @throws ClientesIdClienteInvalidoException Se lanza si se comprueba que el ID
      * del Cliente es inválido, en este subsistema.
      */
     @Override
-    public InformacionNoDerivadaCPDireccionEnvioDTO obtenerInformacionNoDerivadaCPDireccionEnvio(IdClienteDTO idClienteDTO) 
+    public InformacionNoDerivadaCPDireccionDTO obtenerInformacionNoDerivadaCPDireccionEnvio(IdClienteDTO idClienteDTO) 
             throws ClientesIdClienteInvalidoException {
         
         return administradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(idClienteDTO);
+        
     }
 
     /**
@@ -142,5 +106,14 @@ public class FAdministradorClientes implements IAdministradorClientes{
     @Override
     public NombresApellidoClienteDTO obtenerNombresApellidoCliente(IdClienteDTO idClienteDTO) throws ClientesIdClienteInvalidoException {
         return administradorClientes.obtenerNombresApellidoCliente(idClienteDTO);
+    }
+
+    @Override
+    public InformacionDerivadaCPDireccionDTO obtenerInformacionDerivadaCPDireccionEnvio(IdClienteDTO idClienteDTO) 
+            throws ClientesIdClienteInvalidoException,
+            ClientesIdDireccionInvalidoException {
+        
+        return administradorClientes.obtenerInformacionDerivadaCPDireccionEnvio(idClienteDTO);
+        
     }
 }

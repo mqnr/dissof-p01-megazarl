@@ -8,5 +8,6 @@ public record ConfiguracionFuentes(
         FuenteDatos carritoCompras,
         FuenteDatos pedido,
         FuenteDatos sucursal,
-        FuenteDatos proveedor
+        FuenteDatos proveedor,
+        FuenteDatos direccion
 ){}

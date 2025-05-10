@@ -107,6 +107,11 @@ public enum ConfiguracionApp {
         if (proveedor != null) {
             fuentes.proveedor = FuenteDatos.de(proveedor);
         }
+        
+        String direccion = configuracion.obtenerString("fuentes", "direccion");
+        if (direccion != null) {
+            fuentes.direccion = FuenteDatos.de(direccion);
+        }
 
         return new ConfiguracionFuentes(
                 fuentes.cliente,
@@ -116,7 +121,8 @@ public enum ConfiguracionApp {
                 fuentes.carritoCompras,
                 fuentes.pedido,
                 fuentes.sucursal,
-                fuentes.proveedor
+                fuentes.proveedor,
+                fuentes.direccion
         );
     }
 

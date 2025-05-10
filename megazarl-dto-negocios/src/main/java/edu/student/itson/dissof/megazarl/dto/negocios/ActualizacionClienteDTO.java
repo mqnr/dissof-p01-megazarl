@@ -158,7 +158,7 @@ public class ActualizacionClienteDTO {
      * contrario.
      */
     public boolean tieneDireccionEnvio(){
-        return nombres != null;
+        return direccionEnvio != null;
     }
     
 }

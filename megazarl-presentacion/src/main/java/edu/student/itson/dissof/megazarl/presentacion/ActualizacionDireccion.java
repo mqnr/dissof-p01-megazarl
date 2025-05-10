@@ -38,7 +38,7 @@ import javax.swing.event.DocumentListener;
  * ID: 00000251923
  * 
  */
-public class Direccion extends JFrame implements IVista, IDireccion {
+public class ActualizacionDireccion extends JFrame implements IVista, IDireccion {
     private JPanel panelPrincipal;
     private JPanel panelGeneral;
     private JPanel panelContenedorFormulario;
@@ -81,7 +81,7 @@ public class Direccion extends JFrame implements IVista, IDireccion {
     
     private Font FUENTE_TEXTO_BOTONES = new Font("Segoe UI", Font.BOLD, 14);
 
-    public Direccion(ControlCompra control, Long idCliente) {
+    public ActualizacionDireccion(ControlCompra control, Long idCliente) {
         this.control = control;
         this.idCliente = idCliente;
 
@@ -162,7 +162,7 @@ public class Direccion extends JFrame implements IVista, IDireccion {
         btnCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                control.mostrarProductosVenta(Direccion.this);
+                control.mostrarProductosVenta(ActualizacionDireccion.this);
             }
         });
 
@@ -476,7 +476,7 @@ public class Direccion extends JFrame implements IVista, IDireccion {
 
     public void guardarDatosDireccionCliente() {
         control.actualizarDatosDireccionCliente(
-                Arrays.asList(idCliente, numeroEnvio, calleEnvio, coloniaEnvio, codigoPostalEnvio),
+                Arrays.asList(idCliente, codigoPostalEnvio, coloniaEnvio, calleEnvio, numeroEnvio),
                 this);
     }
 

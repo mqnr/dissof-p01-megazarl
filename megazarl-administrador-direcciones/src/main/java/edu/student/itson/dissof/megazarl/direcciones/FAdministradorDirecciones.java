@@ -3,7 +3,11 @@ package edu.student.itson.dissof.megazarl.direcciones;
 
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
+import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionEnvioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.DireccionDTO;
 
 /**
  * FAdministradorDirecciones.java
@@ -31,10 +35,25 @@ public class FAdministradorDirecciones implements IAdministradorDirecciones{
         this.administradorDirecciones = new AdministradorDirecciones();
     }
    
+    @Override
+    public DireccionDTO obtenerDireccion(IdDireccionDTO idDireccionDTO) {
+        return administradorDirecciones.obtenerDireccion(idDireccionDTO);
+    }
+
+    @Override
+    public boolean validarDireccion(IdDireccionDTO idDireccionDTO) {
+        return administradorDirecciones.validarDireccion(idDireccionDTO);
+    }
+
+    @Override
+    public DireccionDTO registrarDireccion(DireccionDTO direccionDTO) throws DireccionesAccesoArchivoCodigosPostalesFallidoException, DireccionesArchivoCodigosPostalesVacioException {
+        return administradorDirecciones.registrarDireccion(direccionDTO);
+    }
+    
     /**
      * Implementación del método obtenerDatosDireccionDerivados() de la interfaz {@link IAdministradorDirecciones},
      * permite obtener el Estado, Ciudad y Colonia asociados al Código Postal del parámetro.
-     * @param codigoPostalBuscar Objeto String que representa el Código Postal a buscar.
+     * @param codigoPostalDTO Objeto CodigoPostalDTO que contiene el Código Postal a buscar.
      * @return Objeto InformacionDerivadaCPDireccionEnvioDTO, un DTO que contiene el Estado, Ciudad
     y Colonia asociados al Código Postal del parámetro.
      * @throws DireccionesAccesoArchivoCodigosPostalesFallidoException Se lanza si ocurre un error
@@ -43,10 +62,11 @@ public class FAdministradorDirecciones implements IAdministradorDirecciones{
      * la información de los Códigos Postales y sus datos asociados está vacío.
      */
     @Override
-    public InformacionDerivadaCPDireccionEnvioDTO obtenerDatosDireccionDerivados(String codigoPostalBuscar)
+    public InformacionDerivadaCPDireccionDTO obtenerDatosDireccionDerivados(CodigoPostalDTO codigoPostalDTO)
             throws DireccionesAccesoArchivoCodigosPostalesFallidoException, 
             DireccionesArchivoCodigosPostalesVacioException{
 
-        return administradorDirecciones.obtenerDatosDireccionDerivados(codigoPostalBuscar);
+        return administradorDirecciones.obtenerDatosDireccionDerivados(codigoPostalDTO);
     }
+
 }

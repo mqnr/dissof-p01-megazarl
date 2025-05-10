@@ -3,7 +3,10 @@ package edu.student.itson.dissof.megazarl.direcciones;
 
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionEnvioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.DireccionDTO;
 
 /**
  * IAdministradorDirecciones.java
@@ -25,9 +28,17 @@ import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDirec
  */
 public interface IAdministradorDirecciones {
     
+    public abstract DireccionDTO obtenerDireccion(IdDireccionDTO idDireccionDTO);
+    
+    public abstract boolean validarDireccion(IdDireccionDTO idDireccionDTO);
+    
+    public abstract DireccionDTO registrarDireccion(DireccionDTO direccionDTO) 
+            throws DireccionesAccesoArchivoCodigosPostalesFallidoException,
+            DireccionesArchivoCodigosPostalesVacioException;
+    
     /**
      * Método que permite obtener el Estado, Ciudad y Colonia asociados al Código Postal del parámetro.
-     * @param codigoPostal Objeto String que representa el Código Postal a buscar.
+     * @param codigoPostalDTO Objeto String que representa el Código Postal a buscar.
      * @return Objeto InformacionDerivadaCPDireccionEnvioDTO, un DTO que contiene el Estado, Ciudad
      *  y Colonia asociados al Código Postal del parámetro; nul si el código postal es inválido.
      * @throws DireccionesAccesoArchivoCodigosPostalesFallidoException Se lanza si ocurre un error
@@ -35,6 +46,9 @@ public interface IAdministradorDirecciones {
      * @throws DireccionesArchivoCodigosPostalesVacioException Se lanza si el archivo que contiene 
      * la información de los Códigos Postales y sus datos asociados está vacío.
      */
-    public abstract InformacionDerivadaCPDireccionEnvioDTO obtenerDatosDireccionDerivados(String codigoPostal)
-            throws DireccionesAccesoArchivoCodigosPostalesFallidoException, DireccionesArchivoCodigosPostalesVacioException;
+    public abstract InformacionDerivadaCPDireccionDTO obtenerDatosDireccionDerivados(CodigoPostalDTO codigoPostalDTO)
+            throws DireccionesAccesoArchivoCodigosPostalesFallidoException, 
+            DireccionesArchivoCodigosPostalesVacioException;
+    
+    
 }

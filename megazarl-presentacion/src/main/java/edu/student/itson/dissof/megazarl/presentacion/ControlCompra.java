@@ -3,7 +3,10 @@ package edu.student.itson.dissof.megazarl.presentacion;
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
+import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesAccesoArchivoCodigosPostalesFallidoException;
+import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesArchivoCodigosPostalesVacioException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdClienteInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdDireccionInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
@@ -20,12 +23,14 @@ import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoCompr
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
+import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionEnvioDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionEnvioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClientePaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioActualizadaClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoAgregarCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoDetalladaDTO;
@@ -853,7 +858,7 @@ public class ControlCompra {
      */
     public String[] recuperarDatosDireccionCliente(Long idCliente){
         
-        InformacionNoDerivadaCPDireccionEnvioDTO informacionNoDerivadaCPDireccionEnvioDTO;
+        InformacionNoDerivadaCPDireccionDTO informacionNoDerivadaCPDireccionEnvioDTO;
         try {
             
             IAdministradorClientes administradorClientes = FabricaSubsistemas.obtenerAdministradorClientes();
@@ -866,6 +871,8 @@ public class ControlCompra {
             String coloniaCliente = informacionNoDerivadaCPDireccionEnvioDTO.getColonia();
             
             String[] datosDireccionCliente = {calleCliente, numeroCliente, coloniaCliente, codigoPostalCliente};
+            
+            
             return datosDireccionCliente;
             
         } catch (ClientesIdClienteInvalidoException ex) {
@@ -940,7 +947,7 @@ public class ControlCompra {
      */
     public void mostrarActualizacionDireccionEnvio(Long idCliente, IVista vistaActual){
         
-        InformacionNoDerivadaCPDireccionEnvioDTO informacionNoDerivadaCPDireccionEnvioDTO;
+        InformacionNoDerivadaCPDireccionDTO informacionNoDerivadaCPDireccionEnvioDTO;
         try {
             IAdministradorClientes administradorClientes = FabricaSubsistemas.obtenerAdministradorClientes();
             
@@ -950,8 +957,11 @@ public class ControlCompra {
             String coloniaEnvio = informacionNoDerivadaCPDireccionEnvioDTO.getColonia();
             String codigoPostalEnvio = informacionNoDerivadaCPDireccionEnvioDTO.getCodigoPostal();
 
-            String estadoEnvio = administradorClientes.obtenerEstadoCliente(new IdClienteDTO(idCliente));
-            String ciudadEnvio =  administradorClientes.obtenerCiudadCliente(new IdClienteDTO(idCliente));
+            InformacionDerivadaCPDireccionDTO informacionDerivadaCPDirecciionDTO 
+                    = administradorClientes.obtenerInformacionDerivadaCPDireccionEnvio(new IdClienteDTO(idCliente));
+            
+            String estadoEnvio = informacionDerivadaCPDirecciionDTO.getEstado();
+            String ciudadEnvio =  informacionDerivadaCPDirecciionDTO.getCiudad();
             
             ((IDireccion)direccion).setCodigoPostalEnvio(codigoPostalEnvio);
             ((IDireccion)direccion).setCalleEnvio(calleEnvio);
@@ -967,7 +977,7 @@ public class ControlCompra {
         } catch (ClientesIdClienteInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
-        } catch (DireccionesAccesoArchivoCodigosPostalesFallidoException | DireccionesArchivoCodigosPostalesVacioException ex) {
+        } catch (ClientesIdDireccionInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error al obtener su dirección", COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
         }
@@ -985,16 +995,16 @@ public class ControlCompra {
      */
      public Object[] obtenerDatosDireccionEnvioDerivadosCP(String codigoPostal){
         
-        InformacionDerivadaCPDireccionEnvioDTO derivadosDireccionDTO;
+        InformacionDerivadaCPDireccionDTO informacionDerivadaCPDireccionDTO;
         try {
             IAdministradorDirecciones administradorDirecciones = FabricaSubsistemas.obtenerAdministradorDirecciones();
-            derivadosDireccionDTO = administradorDirecciones.obtenerDatosDireccionDerivados(codigoPostal);
+            informacionDerivadaCPDireccionDTO = administradorDirecciones.obtenerDatosDireccionDerivados(new CodigoPostalDTO(codigoPostal));
 
-            if (derivadosDireccionDTO != null) {
+            if (informacionDerivadaCPDireccionDTO != null) {
                 Object[] datosDireccionDerivadosCliente = {
-                    derivadosDireccionDTO.getColonias(), 
-                    derivadosDireccionDTO.getCiudad(), 
-                    derivadosDireccionDTO.getEstado()
+                    informacionDerivadaCPDireccionDTO.getColonias(), 
+                    informacionDerivadaCPDireccionDTO.getCiudad(), 
+                    informacionDerivadaCPDireccionDTO.getEstado()
                 };
 
                 return datosDireccionDerivadosCliente;
@@ -1018,23 +1028,27 @@ public class ControlCompra {
      * la ventana actual que será cerrada.
      */
     public void actualizarDatosDireccionCliente(List<Object> datosCliente, IVista vistaActual){
-        InformacionNoDerivadaCPDireccionEnvioDTO direccionEntradaDTO = 
-                new InformacionNoDerivadaCPDireccionEnvioDTO(
+        InformacionDireccionEnvioActualizadaClienteDTO informacionDireccionEnvioActualizadaClienteDTO = 
+                new InformacionDireccionEnvioActualizadaClienteDTO(
                         (Long)datosCliente.get(0), 
                         (String)datosCliente.get(1),
                         (String)datosCliente.get(2),
                         (String)datosCliente.get(3),
-                        (String)datosCliente.get(4));
+                        (String)datosCliente.get(4)
+                );
         
         try {
             IAdministradorClientes administradorClientes = FabricaSubsistemas.obtenerAdministradorClientes();
-            administradorClientes.actualizarDireccionCliente(direccionEntradaDTO);
+            administradorClientes.actualizarDireccionCliente(informacionDireccionEnvioActualizadaClienteDTO);
             mostrarProductosVenta(vistaActual);
             mostrarMensaje("Se ha actualizado su dirección", COLOR_MENSAJE_EXITOSO);
-        } catch (ClientesIdClienteInvalidoException ex) {
+        } catch (ClientesIdClienteInvalidoException | 
+                ClientesAccesoArchivoCodigosPostalesFallidoException | 
+                ClientesArchivoCodigosPostalesVacioException ex) {
+            
             mostrarMensaje("Ha ocurrido un error al momento de actualizar su dirección", COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
-        } 
+        }
 
     }
     
