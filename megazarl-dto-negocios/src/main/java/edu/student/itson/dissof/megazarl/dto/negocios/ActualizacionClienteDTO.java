@@ -1,7 +1,9 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.DireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
+
+
 
 /**
  * Objeto DTO que contiene la información a actualizar de un cliente registrado.

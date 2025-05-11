@@ -1,7 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.PaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.PaqueteriaDTO;
+
 
 /**
  * Clase DTO que contiene la información necesaria para actualizar un carrito de 

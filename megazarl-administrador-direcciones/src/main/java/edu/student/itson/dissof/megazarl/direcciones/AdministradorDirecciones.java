@@ -2,10 +2,10 @@ package edu.student.itson.dissof.megazarl.direcciones;
 
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.DireccionDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Direccion;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -16,8 +16,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 class AdministradorDirecciones implements IAdministradorDirecciones {
     

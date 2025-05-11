@@ -1,16 +1,14 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones;
 
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ClienteDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioCliente;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 public class RepositorioClienteEnMemoria implements RepositorioCliente {

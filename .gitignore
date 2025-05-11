@@ -46,3 +46,5 @@ megazarl.config.ini
 
 # MEGAZARL properties file 
 megazarl-administrador-sql\src\main\resources\META-INF
+
+/megazarl-administrador-sql/src/main/resources/META-INF/properties.txt

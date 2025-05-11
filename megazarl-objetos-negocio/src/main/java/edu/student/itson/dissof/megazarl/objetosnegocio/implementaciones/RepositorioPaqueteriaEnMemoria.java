@@ -1,7 +1,7 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones;
 
+import edu.student.itson.dissof.megazarl.dto.infraestructura.PaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.PaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioPaqueteria;
 
 import java.util.ArrayList;

@@ -11,6 +11,10 @@ import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.Pedido
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.*;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.CarritoComprasDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.PaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionCarritoComprasDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoCantidadCarritoDTO;
@@ -24,10 +28,6 @@ import edu.student.itson.dissof.megazarl.dto.negocios.InformacionCrearPedidoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoAgregarCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoEliminarCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.MontoMinimoEnvioGratuitoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.CarritoComprasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.PaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProductoDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.CarritoCompras;
 
 
@@ -36,8 +36,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
     

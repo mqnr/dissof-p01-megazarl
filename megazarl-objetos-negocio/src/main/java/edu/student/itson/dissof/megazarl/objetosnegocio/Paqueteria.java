@@ -1,8 +1,8 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.PaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.PaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioPaqueteria;
 import edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones.RepositorioPaqueteriaEnMemoria;
 

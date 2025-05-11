@@ -23,6 +23,7 @@ import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoCompr
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionDTO;
@@ -40,7 +41,6 @@ import edu.student.itson.dissof.megazarl.dto.negocios.MontoMinimoEnvioGratuitoDT
 import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoInicioDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.TiempoEstimadoPreparacionEnvioPedidoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.DireccionDTO;
 import edu.student.itson.dissof.megazarl.negocio.FabricaSubsistemas;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ICarrito;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IDireccion;

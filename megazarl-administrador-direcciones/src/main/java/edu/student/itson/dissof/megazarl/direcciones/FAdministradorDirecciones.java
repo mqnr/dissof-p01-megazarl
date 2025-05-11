@@ -3,11 +3,10 @@ package edu.student.itson.dissof.megazarl.direcciones;
 
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionEnvioDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.DireccionDTO;
 
 /**
  * FAdministradorDirecciones.java
@@ -46,7 +45,9 @@ public class FAdministradorDirecciones implements IAdministradorDirecciones{
     }
 
     @Override
-    public DireccionDTO registrarDireccion(DireccionDTO direccionDTO) throws DireccionesAccesoArchivoCodigosPostalesFallidoException, DireccionesArchivoCodigosPostalesVacioException {
+    public DireccionDTO registrarDireccion(DireccionDTO direccionDTO) 
+            throws DireccionesAccesoArchivoCodigosPostalesFallidoException, 
+            DireccionesArchivoCodigosPostalesVacioException {
         return administradorDirecciones.registrarDireccion(direccionDTO);
     }
     

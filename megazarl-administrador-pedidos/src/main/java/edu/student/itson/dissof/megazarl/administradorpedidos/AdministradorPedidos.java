@@ -9,6 +9,7 @@ import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.Pa
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdSucursalInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorpedidos.enumeradores.EstadoPedido;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProductoInvalidoException;
@@ -18,24 +19,23 @@ import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorPr
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DatosTiempoTrasladoUbicacionesDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.PaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.PedidoDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.SucursalDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.TiempoTrasladoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoMatrizClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoCantidadCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionPedidoClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionCrearPedidoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocio.enumeradores.EstadoPedido;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoProveedorMatrizDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoSucursalMatrizDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.PaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.PedidoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProductoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.SucursalDTO;
 import edu.student.itson.dissof.megazarl.mapas.IAdministradorMapas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Pedido;
 import java.util.ArrayList;
@@ -600,7 +600,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
                 idCliente,
                 mapaProductosRequeridos,
                 paqueteria,
-                EstadoPedido.PENDIENTE
+                EstadoPedido.PENDIENTE.toString()
         );
         
         Pedido.agregar(pedido);

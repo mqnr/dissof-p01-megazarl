@@ -41,6 +41,12 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>megazarl-administrador-carrito-compras</artifactId>
       <version>${project.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.eclipse.persistence</groupId>
+          <artifactId>jakarta.persistence</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -59,7 +65,7 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>megazarl-negocio</artifactId>
+      <artifactId>megazarl-negocios</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>

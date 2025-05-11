@@ -4,14 +4,12 @@ import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.Clien
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesArchivoCodigosPostalesVacioException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdDireccionInvalidoException;
-import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
-import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioActualizadaClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ClienteDTO;
 
 /**
  * IAdministradorClientes.java

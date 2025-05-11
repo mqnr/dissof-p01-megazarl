@@ -8,14 +8,14 @@ import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.Pa
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdSucursalInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.PaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoMatrizClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoProveedorMatrizDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoSucursalMatrizDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionSeleccionPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.DireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.PaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.mapas.IAdministradorMapas;
 import java.util.List;
 

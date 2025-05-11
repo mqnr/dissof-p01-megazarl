@@ -2,8 +2,8 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioProductoInventario;
 import edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones.RepositorioProductoInventarioEnMemoria;
 import java.util.Collection;

@@ -1,11 +1,11 @@
 package edu.student.itson.dissof.megazarl.administradorproductos;
 
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoDetalladaDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoInicioDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProductoDTO;
 import java.util.List;
 
 /**
@@ -150,7 +150,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
      */
     @Override
     public ProductoDTO obtenerProducto(IdProductoDTO idProductoDTO) {
-        return  administradorProductos.obtenerProducto(idProductoDTO);
+        return administradorProductos.obtenerProducto(idProductoDTO);
     }
 
     /**

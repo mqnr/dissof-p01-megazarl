@@ -1,8 +1,8 @@
 package edu.student.itson.dissof.administradorproveedores;
 
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProveedorDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Proveedor;
 
 

@@ -3,7 +3,7 @@ package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
 import static edu.student.itson.dissof.megazarl.configuracion.FuenteDatos.MEMORIA;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.PedidoDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.PedidoDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioPedido;
 import edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones.RepositorioPedidoEnMemoria;
 import java.util.Collection;

@@ -1,9 +1,9 @@
 
 package edu.student.itson.dissof.megazarl.interfaces;
 
+import edu.student.itson.dissof.megazarl.dto.infraestructura.CarritoComprasDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionCarritoComprasDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdCarritoComprasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.CarritoComprasDTO;
 
 public interface RepositorioCarritoCompras extends RepositorioInmutable<CarritoComprasDTO>{
     

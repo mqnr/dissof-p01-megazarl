@@ -1,8 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones;
 
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProveedorDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioProveedor;
 import java.util.ArrayList;
 import java.util.Collection;

@@ -7,7 +7,12 @@ import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.Pa
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdSucursalInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DatosTiempoTrasladoUbicacionesDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.PaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.SucursalDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.TiempoTrasladoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTO;
@@ -17,11 +22,6 @@ import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoMa
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoProveedorMatrizDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoSucursalMatrizDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionSeleccionPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.DireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.PaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.SucursalDTO;
 import edu.student.itson.dissof.megazarl.mapas.IAdministradorMapas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Paqueteria;
 

@@ -1,7 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.PedidoDTO;
+
+import edu.student.itson.dissof.megazarl.dto.infraestructura.PedidoDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioPedido;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,10 +11,10 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class RepositorioPedidoEnMemoria implements RepositorioPedido{
-
-    private final List<PedidoDTO> listaPedidos;
     
+    private final List<PedidoDTO> listaPedidos;
     private Long ID_ACTUAL_PEDIDO = 1L;
+    
     
     public RepositorioPedidoEnMemoria() {
         listaPedidos = new ArrayList<>();

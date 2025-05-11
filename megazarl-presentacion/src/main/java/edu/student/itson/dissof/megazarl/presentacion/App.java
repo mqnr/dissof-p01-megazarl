@@ -1,13 +1,13 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.DireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.PaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProductoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.ProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.SucursalDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.PaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.SucursalDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Direccion;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Paqueteria;
@@ -45,25 +45,32 @@ public class App {
 
             Long idCliente = 3L;
 
-            DireccionDTO direccionCliente = new DireccionDTO(
+            // Creación de la dirección de envío del cliente
+            DireccionDTO direccionEnvioCliente = new DireccionDTO(
                             "85000", 
                             "Ciudad Obregón Centro", 
                             "Guerrero", 
                             "1586");
             
-            // Creación de objetos a utilizar
+            // Creación del DTO de cliente que ejecutará este caso de uso
             ClienteDTO cliente = new ClienteDTO(
                     idCliente,
                     "Juan",
                     "Pérez",
-                    "González",
-                    direccionCliente
+                    "López",
+                    direccionEnvioCliente
             );
             
+            // Se registra el cliente utilizando la clase envolvente Cliente
             Cliente.agregar(cliente);
-            Direccion.agregar(direccionCliente);
+            
+            // Se registra la dirección de envío del cliente utilizando la clase
+            // envolvente Direccion
+            Direccion.agregar(direccionEnvioCliente);
 
-
+            
+            // Se crean los DTOs de las sucursales de la empresa y sus respectivas
+            // direcciones
             DireccionDTO direccionSucursal1 = new DireccionDTO(
                                             "83118",
                                             "Parque Industrial Hermosillo Norte",
@@ -72,7 +79,6 @@ public class App {
                                         );
             
             SucursalDTO sucursal1 = new SucursalDTO(
-                                        1L, 
                                         true,
                                         direccionSucursal1
             );
@@ -83,8 +89,8 @@ public class App {
                                             "Río Mocorito", 
                                             "123"
                                         );
+            
             SucursalDTO sucursal2 = new SucursalDTO(
-                                        2L, 
                                         false,
                                         direccionSucursal2
             );
@@ -97,7 +103,6 @@ public class App {
                                         );
                     
             SucursalDTO sucursal3 = new SucursalDTO(
-                                        3L, 
                                         false, 
                                         direccionSucursal3
             );
@@ -110,21 +115,23 @@ public class App {
                                         );
             
             SucursalDTO sucursal4 = new SucursalDTO(
-                                        4L, 
                                         false,
                                         direccionSucursal4
             );
             
+            // Se crea una lista con las sucursales creadas y se guardan utilizando la
+            // clase envolvente Sucursal
             List<SucursalDTO> listaSucursales = Arrays.asList(sucursal1, sucursal2, sucursal3, sucursal4);
-
             Sucursal.agregar(listaSucursales);
             
+            // Las direcciones de las sucursales creadas también son almacenadas
+            // utilizando la clase envolvente Direccion
             List<DireccionDTO> listaDireccionesSucursales = Arrays.asList(direccionSucursal1, direccionSucursal2, direccionSucursal3, direccionSucursal4);
-            
             Direccion.agregar(listaDireccionesSucursales);
             
             
-            
+            // Se crean los DTOs de los proveedores de la empresa junto con
+            // sus respectivas direcciones
             DireccionDTO direccionProveedor1 = new DireccionDTO(
                         "81255", 
                         "Zona Industrial", 
@@ -135,6 +142,7 @@ public class App {
                     10L, 
                     "Seminis", 
                     "6441022785", 
+                    "seminis@gmail.com",
                     "/seminis.png", 
                     direccionProveedor1
             );
@@ -149,7 +157,8 @@ public class App {
             ProveedorDTO proveedor2 = new ProveedorDTO(
                     20L, 
                     "Harris Moran", 
-                    "6442365984", 
+                    "6442365984",
+                    "hmoran@gmail.com",
                     "/harrisMoran.png", 
                     direccionProveedor2);
             
@@ -163,6 +172,7 @@ public class App {
             ProveedorDTO proveedor3 =  new ProveedorDTO(
                     30L, 
                     "Enza Zaden",
+                    "enzazaden@gmail.com",
                     "6442059876",
                     "/enzaZaden.png", 
                     direccionProveedor3);
@@ -177,6 +187,7 @@ public class App {
             ProveedorDTO proveedor4 =  new ProveedorDTO(
                     40L, 
                     "Nunhems",
+                    "nunhmes@gmail.com",
                     "6447856986", 
                     "/nunhems.png", 
                     direccionProveedor4);
@@ -191,18 +202,21 @@ public class App {
             ProveedorDTO proveedor5 =  new ProveedorDTO(
                     50L, 
                     "Lark Seeds",
+                    "larkseeds@gmail.com",
                     "6442326587", 
                     "/larkSeeds.png", 
                     direccionProveedor5
             );
             
-            List<ProveedorDTO> listaProveedores = Arrays.asList(proveedor1, proveedor2, proveedor3, proveedor4, proveedor5);
-            
+            // Se guarda la lista de proveedores utilizando la clase envolvente
+            // Proveedor
+            List<ProveedorDTO> listaProveedores = Arrays.asList(proveedor1, proveedor2, proveedor3, proveedor4, proveedor5);     
             Proveedor.agregar(listaProveedores);
             
+            // Se guardan también sus direcciones con la clase envolvente Direccion
             List<DireccionDTO> listaDireccionesProveedores = Arrays.asList(direccionProveedor1, direccionProveedor2, direccionProveedor3, direccionProveedor4);
+            Direccion.agregar(listaDireccionesProveedores);
             
-            Direccion.agregar(listaDireccionesSucursales);
             
             ProductoDTO producto1 = new ProductoDTO(
                         1L,
@@ -215,7 +229,7 @@ public class App {
                         """,
                         5,
                         9400d,
-                        5d,
+                        1d,
                         "/sandiaSummerBreeze.png",
                         proveedor1,
                         new LinkedList<>());
@@ -226,12 +240,12 @@ public class App {
                         "Mixteco F1",
                         """
                             Planta de porte vigoroso, potencial de rebrote que le brinda alto potencial de rendimiento.
-                            Forma de fruto ligeramente conca de color oscuro de 4 1/2 a 5 pulgada. Frutos de paredes gruesas 
+                            Forma de fruto ligeramente conca de color oscuro de 4 1/2 a 5 pulgadas. Frutos de paredes gruesas 
                             con buen llenado. Variedad con alto potencial de rendimiento, resistencia a BLS y planta vigorosa.
                         """,
                         25,
                         24300d,
-                        1d,
+                        0.7d,
                         "/chileJalapenioMixtecoF1.png",
                         proveedor2,
                         new LinkedList<>());

@@ -1,9 +1,9 @@
 package edu.student.itson.dissof.megazarl.administradorsucursales;
 
 import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdSucursalException;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.SucursalDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigosSucursalesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.SucursalDTO;
 
 /**
  * IAdministradorSucursales.java

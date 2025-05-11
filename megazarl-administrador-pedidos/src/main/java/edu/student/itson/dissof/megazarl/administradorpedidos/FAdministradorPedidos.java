@@ -12,10 +12,10 @@ import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.Pedido
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.PedidoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoCantidadCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionPedidoClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionCrearPedidoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.objetosnegocio.PedidoDTO;
 import edu.student.itson.dissof.megazarl.mapas.IAdministradorMapas;
 import java.util.List;
 
