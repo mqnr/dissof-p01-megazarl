@@ -22,7 +22,6 @@ import edu.student.itson.dissof.megazarl.dto.infraestructura.TiempoTrasladoDTO;
  * @author Martín Zamorano Acuña
  * ID: 00000251923
  */
-
 public class FAdministradorServiciosExternos implements IAdministradorServiciosExternos {
     private final IAdministradorServiciosExternos administradorServiciosExternos;
 

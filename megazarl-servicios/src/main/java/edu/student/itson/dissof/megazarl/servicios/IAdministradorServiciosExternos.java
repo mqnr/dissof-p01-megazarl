@@ -20,7 +20,6 @@ import edu.student.itson.dissof.megazarl.dto.infraestructura.TiempoTrasladoDTO;
  * ID: 00000253080
  * @author Martín Zamorano Acuña
  * ID: 00000251923
- *
  */
 public interface IAdministradorServiciosExternos {
     TiempoTrasladoDTO enviarDatosTiempoTrasladoUbicacionesDTO(DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoUbicacionesDTO);

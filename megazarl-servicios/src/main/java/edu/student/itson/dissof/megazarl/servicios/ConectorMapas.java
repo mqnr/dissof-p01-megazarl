@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 /**
- * ConectorMapasMock.java
+ * ConectorMapas.java
  *
  * Implementación de IConector que se encarga de comunicar el sistema con un
  * script Python externo encargado de calcular el tiempo de traslado entre
@@ -32,12 +32,12 @@ import java.io.OutputStreamWriter;
  * @author Martín Zamorano Acuña
  * ID: 00000251923
  */
-public class ConectorMapasMock implements IConector {
+public class ConectorMapas implements IConectorMapas {
     private final static String EJECUTABLE_PYTHON = "python3";
 
     private final String rutaScript;
 
-    public ConectorMapasMock(String rutaScript) {
+    public ConectorMapas(String rutaScript) {
         this.rutaScript = rutaScript;
     }
 

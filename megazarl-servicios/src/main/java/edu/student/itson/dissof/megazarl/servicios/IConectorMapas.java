@@ -4,7 +4,7 @@ import edu.student.itson.dissof.megazarl.dto.infraestructura.DatosTiempoTraslado
 import edu.student.itson.dissof.megazarl.dto.infraestructura.TiempoTrasladoDTO;
 
 /**
- * IConector.java
+ * IConectorMapas.java
  *
  * Interfaz que define el contrato para los conectores de servicios externos.
  * Su propósito es permitir la implementación de múltiples conectores con una
@@ -21,6 +21,6 @@ import edu.student.itson.dissof.megazarl.dto.infraestructura.TiempoTrasladoDTO;
  * @author Martín Zamorano Acuña
  * ID: 00000251923
  */
-public interface IConector {
+public interface IConectorMapas {
     TiempoTrasladoDTO enviarDatosTiempoTrasladoUbicacionesDTO(DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoUbicacionesDTO);
 }

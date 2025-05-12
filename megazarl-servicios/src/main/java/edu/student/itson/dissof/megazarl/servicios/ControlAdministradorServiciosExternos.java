@@ -20,16 +20,14 @@ import edu.student.itson.dissof.megazarl.dto.infraestructura.TiempoTrasladoDTO;
  * ID: 00000253080
  * @author Martín Zamorano Acuña
  * ID: 00000251923
- *
  */
-
  public class ControlAdministradorServiciosExternos implements IAdministradorServiciosExternos {
     // TODO: abstraer a configuración
     private static final String RUTA_SCRIPT_MAPAS = "scripts/servicio_mapas_mock.py";
 
     @Override
     public TiempoTrasladoDTO enviarDatosTiempoTrasladoUbicacionesDTO(DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoUbicacionesDTO) {
-        IConector conector = new ConectorMapasMock(RUTA_SCRIPT_MAPAS);
+        IConectorMapas conector = new ConectorMapas(RUTA_SCRIPT_MAPAS);
         return conector.enviarDatosTiempoTrasladoUbicacionesDTO(datosTiempoTrasladoUbicacionesDTO);
     }
 }
