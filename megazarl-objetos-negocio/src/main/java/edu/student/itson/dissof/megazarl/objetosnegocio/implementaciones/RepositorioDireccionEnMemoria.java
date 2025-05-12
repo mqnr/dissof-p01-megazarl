@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 public class RepositorioDireccionEnMemoria implements RepositorioDireccion{
     private final List<DireccionDTO> listaDirecciones;
 
-     private Long ID_ACTUAL_DIRECCION = 1L;
+     private static Long ID_ACTUAL_DIRECCION = 1L;
     
     public RepositorioDireccionEnMemoria() {
         listaDirecciones = new ArrayList<>();

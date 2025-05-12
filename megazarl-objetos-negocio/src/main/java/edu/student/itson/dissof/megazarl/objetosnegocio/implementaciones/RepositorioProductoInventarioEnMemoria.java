@@ -8,12 +8,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 
 public class RepositorioProductoInventarioEnMemoria implements RepositorioProductoInventario{
     
     private final List<ProductoInventarioDTO> listaProductosInventario;
+    
+    private static Long ID_ACTUAL_PRODUCTO_INVENTARIO = 1L;
     
     public RepositorioProductoInventarioEnMemoria() {
         listaProductosInventario = new ArrayList<>();
@@ -44,6 +48,7 @@ public class RepositorioProductoInventarioEnMemoria implements RepositorioProduc
     @Override
     public void agregar(ProductoInventarioDTO productoInventario) {
         
+        productoInventario.setId(ID_ACTUAL_PRODUCTO_INVENTARIO++);
         productoInventario.getProducto().getListaProductoInventario().add(productoInventario);
         listaProductosInventario.add(productoInventario);
         
@@ -53,10 +58,17 @@ public class RepositorioProductoInventarioEnMemoria implements RepositorioProduc
     public void agregar(Collection<ProductoInventarioDTO> productosInventario) {
         
         for(ProductoInventarioDTO productoInventario: productosInventario){
+            
+            productoInventario.setId(ID_ACTUAL_PRODUCTO_INVENTARIO++);
             productoInventario.getProducto().getListaProductoInventario().add(productoInventario);
+            
         }
+        
+        
+        
         listaProductosInventario.addAll(productosInventario);
     }
+    private static final Logger LOG = Logger.getLogger(RepositorioProductoInventarioEnMemoria.class.getName());
 
     @Override
     public List<ProductoInventarioDTO> recuperarTodos() {

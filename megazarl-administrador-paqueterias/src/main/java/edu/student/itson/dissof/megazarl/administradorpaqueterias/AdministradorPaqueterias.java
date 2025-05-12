@@ -281,15 +281,15 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
                         callePaqueteria,
                         coloniaPaqueteria,
                         codigoPostalPaqueteria,
-                        numeroMatriz, 
-                        calleMatriz, 
-                        coloniaMatriz,
-                        codigoPostalMatriz);
+                        numeroProveedor, 
+                        calleProveedor, 
+                        coloniaProveedor,
+                        codigoPostalProveedor);
         
         tiempoTraslado +=
                 administradorMapas.calcularTiempoTraslado(datosTiempoTrasladoProveedorMatrizDTO).getTiempoTraslado();
         
-
+        
         // Se regresa el costo del envío del producto
         return (float) (cobroKg * pesoKgProducto) + (cobroHora * tiempoTraslado);
     }
@@ -393,6 +393,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
                 float tiempoTrasladoPaqueteriaProveedor 
                         = administradorMapas.calcularTiempoTraslado(datosTiempoTrasladoPaqueteriaProveedor).getTiempoTraslado();
 
+                
 
                 if(tiempoTrasladoPaqueteriaProveedor > tiempoTrasladoMaximoPaqueteriaProveedor){
                     tiempoTrasladoMaximoPaqueteriaProveedor = tiempoTrasladoPaqueteriaProveedor;

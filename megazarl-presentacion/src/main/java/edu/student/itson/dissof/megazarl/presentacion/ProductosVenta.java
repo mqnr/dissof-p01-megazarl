@@ -119,6 +119,7 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
         for (Map<String, Object> informacionProductoInicio : listaInformacionProductos) {
 
             if(!informacionProductoInicio.isEmpty()){
+                
                 BotonInformacionProducto botonInformacionProducto = 
                         new BotonInformacionProducto(
                                 ALTO_BOTON_INFORMACION_PRODUCTO,
@@ -139,12 +140,13 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
                                 ANCHO_IMAGEN_PROVEEDOR, 
                                 ALTO_IMAGEN_PROVEEDOR);
                 
+               
+                
                 botonInformacionProducto.addActionListener(listenerBotonInformacionProducto);
                 panelProductos.add(botonInformacionProducto);
             }
             
 
-            
         }
     }
 

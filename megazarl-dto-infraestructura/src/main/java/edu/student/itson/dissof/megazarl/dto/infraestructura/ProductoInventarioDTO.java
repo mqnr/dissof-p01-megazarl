@@ -42,15 +42,13 @@ public class ProductoInventarioDTO {
     /**
      * Constructor que permite instanciar un objeto de tipo ProductoInventarioDTO.
      *
-     * @param id       Objeto Long que representa el id del producto en inventario
      * @param producto Objeto ProductoDTO que representa el producto asociado a este producto en inventario
      * @param sucursal Objeto SucursalDTO que representa la sucursal a la que pertenece este producto en inventario
      */
     public ProductoInventarioDTO(
-            Long id, 
             ProductoDTO producto,
             SucursalDTO sucursal) {
-        this.id = id;
+
         this.producto = producto;
         this.sucursal = sucursal;
     }
@@ -78,6 +76,16 @@ public class ProductoInventarioDTO {
     public SucursalDTO getSucursal() {
         return sucursal;
     }
+
+    /**
+     * Mètodo que permite establecer el ID del producto en inventario.
+     * @param id Objeto Long que representa el ID del producto en inventario.
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    
 
     /**
      * Método que permite obtener el hash code del producto en inventario, a partir de su Id

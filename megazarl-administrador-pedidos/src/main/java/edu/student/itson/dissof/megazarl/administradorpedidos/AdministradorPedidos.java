@@ -1,9 +1,7 @@
 package edu.student.itson.dissof.megazarl.administradorpedidos;
 
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
-import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
-import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
@@ -29,7 +27,6 @@ import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoMa
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoCantidadCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionPedidoClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionCrearPedidoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTO;
@@ -159,9 +156,10 @@ class AdministradorPedidos implements IAdministradorPedidos {
                 // Se obtiene el tiempo de traslado utilizando el subsistema 
                 // administradorMapas, de la capa de infraestructura
                 TiempoTrasladoDTO tiempoTrasladoDTO = administradorMapas.calcularTiempoTraslado(datosTiempoTrasladoUbicacionesDTO);
-
+                
+               
                 float tiempoTraslado = tiempoTrasladoDTO.getTiempoTraslado();
-
+                
                 mapaProductoInventarioTiempoTrasladoMatriz.put(productoInventario, tiempoTraslado);
                 
             }
@@ -180,22 +178,23 @@ class AdministradorPedidos implements IAdministradorPedidos {
             if(cantidadProductosInventarioRequeridos <= cantidadProductosInventarioDisponibles){
                 
                 listaTiemposTrasladoProductosInventarioDisponibles
-                    = listaTiemposTrasladoProductosInventarioDisponibles.subList(0, cantidadProductosInventarioRequeridos - 1);
+                    = listaTiemposTrasladoProductosInventarioDisponibles.subList(0, cantidadProductosInventarioRequeridos);
                 
             } else{
  
                 todosProductosDisponibles = false;
             }
-            
 
+            
             for(Float tiempoTrasladoProductoInventario: listaTiemposTrasladoProductosInventarioDisponibles){
-                
+                                    
                 if(tiempoTrasladoProductoInventario > tiempoPreparacionEstimado){
                     tiempoPreparacionEstimado = tiempoTrasladoProductoInventario;
+                    
                 }
                     
             }
-            
+
             // Si es necesario realizar compras de productos a proveedor, se obtiene 
             // el tiempo mayor de envío que realizan las paqueterías registradas, y se
             // determina si este tiempo es mayor al actual obtenido para considerarlo
@@ -433,64 +432,34 @@ class AdministradorPedidos implements IAdministradorPedidos {
 
             }
             
-            // Se recorren las sucursales que contienen los productos en inventario necesarios
-            // para calcular el costo de envío desde cada una hasta Matriz
-            for(Map.Entry<SucursalDTO, Double> entrada: mapaSucursalesPesosProductos.entrySet()){
-                
-                SucursalDTO sucursalProductosInventario = entrada.getKey();
-                
-                double pesoKgProductosSucursal = entrada.getValue();
-                
-                Long idSucursal = sucursalProductosInventario.getId();
-
-                InformacionEnvioProductoSucursalMatrizDTO informacionEnvioProductoSucursalMatriz
-                        = new InformacionEnvioProductoSucursalMatrizDTO(
-                                idPaqueteria, 
-                                idSucursal,
-                                pesoKgProducto);
-                              
-
- 
-                try{
-                    
-                    float costoProductosComprar 
-                        = administradorPaqueterias.obtenerCostoEnvioSucursalMatriz(informacionEnvioProductoSucursalMatriz);
-                    
-                    costoTotalEnvio += costoProductosComprar;
-                    
-                } catch(PaqueteriasIdSucursalInvalidoException ex){
-                    throw new PedidosIdSucursalInvalidoException(ex.getMessage());
-                    
-                } catch(PaqueteriasIdPaqueteriaInvalidoException ex){
-                    throw new PedidosIdPaqueteriaInvalidoException(ex.getMessage());
-                }
-                
-            }
             
             // Se obtiene el costo de envío de la compra de productos sin existencias
             if(!todosProductosDisponibles){
                 
-                int cantidadProductoCompraNecesaria = cantidadProductoDisponible - cantidadProductoRequerido;
+                int cantidadProductoCompraNecesaria = cantidadProductoRequerido - cantidadProductoDisponible;
                 
                 double pesoKgProductoComprar = pesoKgProducto * cantidadProductoCompraNecesaria;
-
+                
+                
+                sumaKgTotal += pesoKgProductoComprar;
+                
                 InformacionEnvioProductoProveedorMatrizDTO informacionEnvioProductoProveedorMatrizDTO
                         = new InformacionEnvioProductoProveedorMatrizDTO(
                                 idPaqueteria, 
                                 idProveedor,
-                                pesoKgProducto);
+                                pesoKgProductoComprar);
 
                 
                 float costoProductosComprar;
                 try {
+                    
                     costoProductosComprar = administradorPaqueterias.obtenerCostoEnvioProveedorMatriz(informacionEnvioProductoProveedorMatrizDTO);
+                    
                 } catch (PaqueteriasIdPaqueteriaInvalidoException ex) {
                     throw new PedidosIdPaqueteriaInvalidoException(ex.getMessage());
                 } catch (PaqueteriasIdProveedorInvalidoException ex) {
                     throw new PedidosIdProveedorInvalidoException(ex.getMessage());
                 }
-
-                
 
                 costoTotalEnvio += costoProductosComprar;
                     
@@ -500,10 +469,43 @@ class AdministradorPedidos implements IAdministradorPedidos {
  
         }   
         
+        // Se recorren las sucursales que contienen los productos en inventario necesarios
+        // para calcular el costo de envío desde cada una hasta Matriz
+        for(Map.Entry<SucursalDTO, Double> entrada: mapaSucursalesPesosProductos.entrySet()){
+
+            SucursalDTO sucursalProductosInventario = entrada.getKey();
+
+            double pesoKgProductosSucursal = entrada.getValue();
+
+            Long idSucursal = sucursalProductosInventario.getId();
+
+            InformacionEnvioProductoSucursalMatrizDTO informacionEnvioProductoSucursalMatriz
+                    = new InformacionEnvioProductoSucursalMatrizDTO(
+                            idPaqueteria, 
+                            idSucursal,
+                            pesoKgProductosSucursal);
+
+
+            try{
+
+                float costoEnvioProductosSucursalMatriz 
+                    = administradorPaqueterias.obtenerCostoEnvioSucursalMatriz(informacionEnvioProductoSucursalMatriz);
+
+                costoTotalEnvio += costoEnvioProductosSucursalMatriz;
+
+
+            } catch(PaqueteriasIdSucursalInvalidoException ex){
+                throw new PedidosIdSucursalInvalidoException(ex.getMessage());
+
+            } catch(PaqueteriasIdPaqueteriaInvalidoException ex){
+                throw new PedidosIdPaqueteriaInvalidoException(ex.getMessage());
+            }
+
+        }
+        
         if(sumaKgTotal > 0){
             
-            // Se obtiene el costo de envío a la dirección del cliente
-            
+            // Se obtiene el costo de envío a la dirección del cliente  
             InformacionEnvioProductoMatrizClienteDTO informacionEnvioProductoPaqueteriaDTO =
                         new InformacionEnvioProductoMatrizClienteDTO(
                                 idPaqueteria,
@@ -514,6 +516,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
             try {
                 costoEnvioPedidoCliente 
                         = administradorPaqueterias.obtenerCostoEnvioMatrizCliente(informacionEnvioProductoPaqueteriaDTO);
+                
             } catch (PaqueteriasIdPaqueteriaInvalidoException ex) {
                 throw new PedidosIdPaqueteriaInvalidoException(ex.getMessage());
             } catch (PaqueteriasIdClienteInvalidoException ex) {

@@ -3,7 +3,7 @@ package edu.student.itson.dissof.administradorproveedores;
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Proveedor;
+import edu.student.itson.dissof.megazarl.objetosnegocio.Proveedor;;
 
 
 class AdministradorProveedores implements IAdministradorProveedores {
@@ -36,6 +36,7 @@ class AdministradorProveedores implements IAdministradorProveedores {
         // Se obtiene y devuelve la imagen del proveedor.
         return proveedor.getDireccionImagen();
     }
+    
 
     @Override
     public String obtenerNombreProveedor(IdProveedorDTO idProveedorDTO) throws ProveedoresIdProveedorInvalidoException{

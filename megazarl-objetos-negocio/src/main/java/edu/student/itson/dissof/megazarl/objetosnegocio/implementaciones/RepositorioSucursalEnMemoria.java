@@ -12,7 +12,10 @@ import java.util.stream.Stream;
 
 
 public class RepositorioSucursalEnMemoria implements RepositorioSucursal{
+    
     private final List<SucursalDTO> listaSucursales;
+    
+    private static Long ID_SUCURSAL_ACTUAL = 1L;
     
     public RepositorioSucursalEnMemoria() {
         listaSucursales = new ArrayList<>();
@@ -42,11 +45,17 @@ public class RepositorioSucursalEnMemoria implements RepositorioSucursal{
 
     @Override
     public void agregar(SucursalDTO sucursal) {
+        sucursal.setId(ID_SUCURSAL_ACTUAL++);
         listaSucursales.add(sucursal);
     }
 
     @Override
     public void agregar(Collection<SucursalDTO> sucursales) {
+        
+        for(SucursalDTO sucursal: sucursales){
+            sucursal.setId(ID_SUCURSAL_ACTUAL++);
+        }
+        
         listaSucursales.addAll(sucursales);
     }
 

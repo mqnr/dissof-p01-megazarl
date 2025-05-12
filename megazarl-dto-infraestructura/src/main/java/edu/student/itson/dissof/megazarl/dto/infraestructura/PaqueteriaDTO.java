@@ -78,6 +78,30 @@ public class PaqueteriaDTO {
         this.direccion = direccion;
     }
     
+    /**
+     * Constructor que permite instanciar un objeto de tipo PaqueteriaDTO, sin recibir 
+     * el ID.
+     * @param nombre                    Objeto String que representa el nombre de la paquetería.
+     * @param cobroKg                   Objeto Float que representa el costo de envío por kilogramo.
+     * @param cobroHora                 Objeto Float que representa el costo de envío por hora.
+     * @param direccionImagenPaqueteria Objeto String que representa la dirección de la imagen de la paquetería.
+     * @param direccion                 Objeto DireccionDTO que representa la dirección de la paquetería.
+     * 
+     */
+    public PaqueteriaDTO(  
+            String nombre, 
+            Float cobroKg, 
+            Float cobroHora, 
+            String direccionImagenPaqueteria,
+            DireccionDTO direccion) {
+
+        this.nombre = nombre;
+        this.cobroKg = cobroKg;
+        this.cobroHora = cobroHora;
+        this.direccionImagenPaqueteria = direccionImagenPaqueteria;
+        this.direccion = direccion;
+    }
+    
 
     /**
      * Método que permite obtener el ID de la paquetería.
@@ -130,6 +154,16 @@ public class PaqueteriaDTO {
     public DireccionDTO getDireccion() {
         return direccion;
     }
+
+    /**
+     * Método que permite establecer el ID de la paquetería.
+     * @param id Objeto Long que representa el ID de la paquetería.
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    
 
     /**
      * Método que permite obtener el hash code de la paquetería, a partir de su ID.

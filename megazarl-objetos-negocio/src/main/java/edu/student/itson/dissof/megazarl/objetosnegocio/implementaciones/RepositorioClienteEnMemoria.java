@@ -12,7 +12,10 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class RepositorioClienteEnMemoria implements RepositorioCliente {
+    
     private final List<ClienteDTO> listaClientes;
+    
+    private static Long ID_CLIENTE_ACTUAL = 1L;
 
     public RepositorioClienteEnMemoria() {
         listaClientes = new ArrayList<>();
@@ -56,11 +59,15 @@ public class RepositorioClienteEnMemoria implements RepositorioCliente {
 
     @Override
     public void agregar(ClienteDTO cliente) {
+        cliente.setId(ID_CLIENTE_ACTUAL++);
         listaClientes.add(cliente);
     }
 
     @Override
     public void agregar(Collection<ClienteDTO> clientes) {
+        for(ClienteDTO cliente: clientes){
+            cliente.setId(ID_CLIENTE_ACTUAL++);
+        }
         listaClientes.addAll(clientes);
     }
 

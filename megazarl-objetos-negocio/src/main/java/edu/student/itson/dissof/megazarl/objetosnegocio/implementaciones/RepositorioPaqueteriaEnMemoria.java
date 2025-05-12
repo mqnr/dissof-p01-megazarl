@@ -11,8 +11,12 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class RepositorioPaqueteriaEnMemoria implements RepositorioPaqueteria {
+    
     private final List<PaqueteriaDTO> paqueterias;
+    
+    private static Long ID_PAQUETERIA_ACTUAL = 1L;
 
+    
     public RepositorioPaqueteriaEnMemoria() {
         paqueterias = new ArrayList<>();
     }
@@ -41,11 +45,16 @@ public class RepositorioPaqueteriaEnMemoria implements RepositorioPaqueteria {
 
     @Override
     public void agregar(PaqueteriaDTO paqueteria) {
+        paqueteria.setId(ID_PAQUETERIA_ACTUAL++);
         paqueterias.add(paqueteria);
     }
 
     @Override
     public void agregar(Collection<PaqueteriaDTO> paqueterias) {
+        
+        for(PaqueteriaDTO paqueteria: paqueterias){
+            paqueteria.setId(ID_PAQUETERIA_ACTUAL++);
+        }
         this.paqueterias.addAll(paqueterias);
     }
 

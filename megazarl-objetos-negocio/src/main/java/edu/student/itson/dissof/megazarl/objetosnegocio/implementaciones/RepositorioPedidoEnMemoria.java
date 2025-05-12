@@ -13,7 +13,8 @@ import java.util.stream.Stream;
 public class RepositorioPedidoEnMemoria implements RepositorioPedido{
     
     private final List<PedidoDTO> listaPedidos;
-    private Long ID_ACTUAL_PEDIDO = 1L;
+    
+    private static Long ID_ACTUAL_PEDIDO = 1L;
     
     
     public RepositorioPedidoEnMemoria() {

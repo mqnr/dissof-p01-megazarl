@@ -92,6 +92,14 @@ public class SucursalDTO {
     public DireccionDTO getDireccion() {
         return direccion;
     }
+
+    /**
+     * Método que permite establecer el ID de la sucursal.
+     * @param id Objeto Long que representa el ID de la sucursal.
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
     
     /**
      * Método que permite obtener el hash code de la sucursal, a partir de su ID.

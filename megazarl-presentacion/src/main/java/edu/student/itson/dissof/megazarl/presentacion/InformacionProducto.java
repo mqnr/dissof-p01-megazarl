@@ -442,6 +442,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
         actualizarCantidad(1);
         
         int disponibilidadProducto = control.verificarExistenciasProducto((Long) informacionProducto.get("Id"));
+        
         int cantidadTexto = Integer.parseInt(cantidadLabel.getText());
         
         if(cantidadTexto > disponibilidadProducto){

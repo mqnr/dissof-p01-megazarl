@@ -3,6 +3,7 @@ package edu.student.itson.dissof.megazarl.administradorproductos;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.utils.CadenasTextoUtils;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoInicioDTO;
@@ -14,6 +15,8 @@ import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class AdministradorProductos implements IAdministradorProductos {
     
@@ -30,22 +33,28 @@ class AdministradorProductos implements IAdministradorProductos {
         if (producto == null){
             throw new ProductosIdProductoInvalidoException("El ID de producto es inválido.");
         }
-
+        
+        
         // Se obtiene la cantidad de objetos de tipo ProductoInventario de la lista
         // del objeto Producto con el ID del parámetro.
         int disponibilidadProducto = producto.getListaProductoInventario().size();
-
+ 
         return disponibilidadProducto;
     }
 
+    
+    
     @Override
     public List<InformacionProductoInicioDTO> obtenerProductosVenta() {
         List<InformacionProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
 
         // Se recorre la lista de Productos y se añade la información a la lista
         // de DTOs, de aquellos que tengan existencias.
-        for (ProductoDTO producto: Producto.recuperarTodos()) {
-
+        
+        List<ProductoDTO> listaProductos = Producto.recuperarTodos();
+        
+        for (ProductoDTO producto: listaProductos) {
+            
             Long idProducto = producto.getId();
             int cantidadProducto = 0;
 
@@ -71,7 +80,7 @@ class AdministradorProductos implements IAdministradorProductos {
         
         // Se ordena la lista de DTO, alfabéticamente
         listaProductoInicioDTO.sort(Comparator.comparing(InformacionProductoInicioDTO::getNombreProducto));
-
+        
         return listaProductoInicioDTO;
     }
 

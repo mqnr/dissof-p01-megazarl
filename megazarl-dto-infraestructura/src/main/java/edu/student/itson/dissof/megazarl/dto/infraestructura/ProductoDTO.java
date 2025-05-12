@@ -112,8 +112,7 @@ public class ProductoDTO {
     }
     
     /**
-     * Constructor que permite instanciar un objeto de tipo ProductoDTO
-     * @param id                        Objeto Integer que representa el id del producto
+     * Constructor que permite instanciar un objeto de tipo ProductoDTO, sin ID.
      * @param nombre                    Objeto String que representa el nombre del producto
      * @param variedad                  Objeto String que representa la variedad del producto
      * @param descripcion               Objeto String que representa la descripción del producto
@@ -122,9 +121,9 @@ public class ProductoDTO {
      * @param pesoKg                    Objeto Double que representa el peso del producto en kilogramos
      * @param direccionImagen           Objeto String que representa la dirección de la imagen del producto
      * @param proveedor                 Objeto ProveedorDTO que representa el proveedor del producto
+     * @param listaProductoInventario   Objeto {@literal List<ProductoInventarioDTO>} que representa el inventario asociado al producto
      */
     public ProductoDTO(
-            Long id, 
             String nombre, 
             String variedad,
             String descripcion, 
@@ -132,9 +131,9 @@ public class ProductoDTO {
             Double precio,
             Double pesoKg,
             String direccionImagen, 
-            ProveedorDTO proveedor) {
-        
-        this.id = id;
+            ProveedorDTO proveedor, 
+            List<ProductoInventarioDTO> listaProductoInventario) {
+
         this.nombre = nombre;
         this.variedad = variedad;
         this.descripcion = descripcion;
@@ -143,7 +142,9 @@ public class ProductoDTO {
         this.pesoKg = pesoKg;
         this.direccionImagen = direccionImagen;
         this.proveedor = proveedor;
+        this.listaProductoInventario = listaProductoInventario;
     }
+    
 
     /**
      * Método que permite obtener el id del producto
@@ -223,6 +224,14 @@ public class ProductoDTO {
      */
     public List<ProductoInventarioDTO> getListaProductoInventario() {
         return listaProductoInventario;
+    }
+
+    /**
+     * Método que permite establecer el ID del producto.
+     * @param id Objeto Long que representa el ID del producto.
+     */
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**

@@ -43,8 +43,6 @@ public class App {
         SwingUtilities.invokeLater(() -> {
             inicializarConfiguracion(args);
 
-            Long idCliente = 3L;
-
             // Creación de la dirección de envío del cliente
             DireccionDTO direccionEnvioCliente = new DireccionDTO(
                             "85000", 
@@ -54,7 +52,6 @@ public class App {
             
             // Creación del DTO de cliente que ejecutará este caso de uso
             ClienteDTO cliente = new ClienteDTO(
-                    idCliente,
                     "Juan",
                     "Pérez",
                     "López",
@@ -139,11 +136,11 @@ public class App {
                         "3000");
             
             ProveedorDTO proveedor1 = new ProveedorDTO(
-                    10L, 
                     "Seminis", 
                     "6441022785", 
                     "seminis@gmail.com",
                     "/seminis.png", 
+                    new LinkedList<>(),
                     direccionProveedor1
             );
             
@@ -155,11 +152,11 @@ public class App {
                         "168");
             
             ProveedorDTO proveedor2 = new ProveedorDTO(
-                    20L, 
                     "Harris Moran", 
                     "6442365984",
                     "hmoran@gmail.com",
                     "/harrisMoran.png", 
+                    new LinkedList<>(),
                     direccionProveedor2);
             
             
@@ -170,11 +167,11 @@ public class App {
                         "450");
             
             ProveedorDTO proveedor3 =  new ProveedorDTO(
-                    30L, 
                     "Enza Zaden",
                     "enzazaden@gmail.com",
                     "6442059876",
-                    "/enzaZaden.png", 
+                    "/enzaZaden.png",
+                    new LinkedList<>(),
                     direccionProveedor3);
             
             
@@ -185,11 +182,11 @@ public class App {
                         "1485");
             
             ProveedorDTO proveedor4 =  new ProveedorDTO(
-                    40L, 
                     "Nunhems",
                     "nunhmes@gmail.com",
                     "6447856986", 
                     "/nunhems.png", 
+                    new LinkedList<>(),
                     direccionProveedor4);
             
             DireccionDTO direccionProveedor5 =
@@ -200,11 +197,11 @@ public class App {
                         "102");
             
             ProveedorDTO proveedor5 =  new ProveedorDTO(
-                    50L, 
                     "Lark Seeds",
                     "larkseeds@gmail.com",
                     "6442326587", 
                     "/larkSeeds.png", 
+                    new LinkedList<>(),
                     direccionProveedor5
             );
             
@@ -219,7 +216,6 @@ public class App {
             
             
             ProductoDTO producto1 = new ProductoDTO(
-                        1L,
                         "Sandía",
                         "Summer Breeze",
                         """
@@ -235,7 +231,6 @@ public class App {
                         new LinkedList<>());
             
             ProductoDTO producto2 = new ProductoDTO(
-                        6L,
                         "Chile Jalapeño",
                         "Mixteco F1",
                         """
@@ -251,7 +246,6 @@ public class App {
                         new LinkedList<>());
             
             ProductoDTO producto3 = new ProductoDTO(
-                        2L,
                         "Melón",
                         "Cruiser F1", 
                         """
@@ -268,7 +262,6 @@ public class App {
                         new LinkedList<>());
             
             ProductoDTO producto4 =  new ProductoDTO(
-                        10L,
                         "Chile Ancho",
                         "Commander",
                         """
@@ -285,7 +278,6 @@ public class App {
                         new LinkedList<>());
 
             ProductoDTO producto5 = new ProductoDTO(
-                    12L,
                     "Lechuga Romana",
                     "Plutone",
                     """
@@ -301,7 +293,6 @@ public class App {
                     new LinkedList<>());
             
             ProductoDTO producto6 = new ProductoDTO(
-                    15L,
                     "Calabaza",
                     "Rocio F1",
                     """
@@ -317,7 +308,6 @@ public class App {
                     new LinkedList<>());
             
             ProductoDTO producto7 = new ProductoDTO(
-                    18L,
                     "Tomate",
                     "Succesion",
                     """
@@ -334,7 +324,6 @@ public class App {
                     new LinkedList<>());
             
             ProductoDTO producto8 =  new ProductoDTO(
-                    20L,
                     "Rábano",
                     "Red Diamond F1",
                     """
@@ -351,7 +340,6 @@ public class App {
                     new LinkedList<>());
 
             ProductoDTO producto9 = new ProductoDTO(
-                    21L,
                     "Sandía",
                     "Warrior",
                     """
@@ -368,7 +356,6 @@ public class App {
                     new LinkedList<>());
             
             ProductoDTO producto10 = new ProductoDTO(
-                    23L,
                     "Sandía",
                     "Tailgate",
                     """
@@ -384,7 +371,6 @@ public class App {
                     new LinkedList<>());
             
             ProductoDTO producto11 = new ProductoDTO(
-                    25L,
                     "Brócoli",
                     "Kepler F1",
                     """
@@ -401,7 +387,6 @@ public class App {
                     new LinkedList<>());
             
             ProductoDTO producto12 = new ProductoDTO(
-                    28L,
                     "Melón",
                     "Saturno",
                     """
@@ -432,67 +417,72 @@ public class App {
                     producto12
             );
             
+            Producto.agregar(listaProductos);
             
-            ProductoInventarioDTO productoInventario1 = new ProductoInventarioDTO(1L, producto1, sucursal1);
-            ProductoInventarioDTO productoInventario2 = new ProductoInventarioDTO(2L, producto1, sucursal1);
+            
+            // Se crean e insertan los DTOs de productos en inventario disponibles,
+            // se registran utilizando la clase envolvente ProductoInventario
+            
+            ProductoInventarioDTO productoInventario1 = new ProductoInventarioDTO(producto1, sucursal1);
+            ProductoInventarioDTO productoInventario2 = new ProductoInventarioDTO(producto1, sucursal1);
 
-            ProductoInventarioDTO productoInventario3 = new ProductoInventarioDTO(6L, producto2, sucursal1);
-            ProductoInventarioDTO productoInventario4 = new ProductoInventarioDTO(7L, producto2, sucursal2);
-            ProductoInventarioDTO productoInventario5 = new ProductoInventarioDTO(8L, producto2, sucursal3);
-            ProductoInventarioDTO productoInventario6 = new ProductoInventarioDTO(9L, producto2, sucursal4);
+            ProductoInventarioDTO productoInventario3 = new ProductoInventarioDTO(producto2, sucursal1);
+            ProductoInventarioDTO productoInventario4 = new ProductoInventarioDTO(producto2, sucursal2);
+            ProductoInventarioDTO productoInventario5 = new ProductoInventarioDTO(producto2, sucursal3);
+            ProductoInventarioDTO productoInventario6 = new ProductoInventarioDTO(producto2, sucursal4);
 
-            ProductoInventarioDTO productoInventario8 = new ProductoInventarioDTO(16L, producto3, sucursal2);
-            ProductoInventarioDTO productoInventario9 = new ProductoInventarioDTO(17L, producto3, sucursal3);
-            ProductoInventarioDTO productoInventario10 = new ProductoInventarioDTO(18L, producto3, sucursal4);
+            ProductoInventarioDTO productoInventario8 = new ProductoInventarioDTO(producto3, sucursal2);
+            ProductoInventarioDTO productoInventario9 = new ProductoInventarioDTO(producto3, sucursal3);
+            ProductoInventarioDTO productoInventario10 = new ProductoInventarioDTO(producto3, sucursal4);
 
-            ProductoInventarioDTO productoInventario11 = new ProductoInventarioDTO(20L, producto4, sucursal2);
-            ProductoInventarioDTO productoInventario12 = new ProductoInventarioDTO(21L, producto4, sucursal3);
-            ProductoInventarioDTO productoInventario13 = new ProductoInventarioDTO(22L, producto4, sucursal3);
-            ProductoInventarioDTO productoInventario14 = new ProductoInventarioDTO(23L, producto4, sucursal4);
-            ProductoInventarioDTO productoInventario15 = new ProductoInventarioDTO(24L, producto4, sucursal4);
+            ProductoInventarioDTO productoInventario11 = new ProductoInventarioDTO(producto4, sucursal2);
+            ProductoInventarioDTO productoInventario12 = new ProductoInventarioDTO(producto4, sucursal3);
+            ProductoInventarioDTO productoInventario13 = new ProductoInventarioDTO(producto4, sucursal3);
+            ProductoInventarioDTO productoInventario14 = new ProductoInventarioDTO(producto4, sucursal4);
+            ProductoInventarioDTO productoInventario15 = new ProductoInventarioDTO(producto4, sucursal4);
 
-            ProductoInventarioDTO productoInventario16 = new ProductoInventarioDTO(25L, producto5, sucursal1);
-            ProductoInventarioDTO productoInventario17 = new ProductoInventarioDTO(26L, producto5, sucursal1);
-            ProductoInventarioDTO productoInventario18 = new ProductoInventarioDTO(27L, producto5, sucursal1);
+            ProductoInventarioDTO productoInventario16 = new ProductoInventarioDTO(producto5, sucursal1);
+            ProductoInventarioDTO productoInventario17 = new ProductoInventarioDTO(producto5, sucursal1);
+            ProductoInventarioDTO productoInventario18 = new ProductoInventarioDTO(producto5, sucursal1);
 
-            ProductoInventarioDTO productoInventario19 = new ProductoInventarioDTO(30L, producto6, sucursal3);
-            ProductoInventarioDTO productoInventario20 = new ProductoInventarioDTO(31L, producto6, sucursal1);
+            ProductoInventarioDTO productoInventario19 = new ProductoInventarioDTO(producto6, sucursal3);
+            ProductoInventarioDTO productoInventario20 = new ProductoInventarioDTO(producto6, sucursal1);
 
-            ProductoInventarioDTO productoInventario21 = new ProductoInventarioDTO(35L, producto7, sucursal1);
-            ProductoInventarioDTO productoInventario22 = new ProductoInventarioDTO(36L, producto7, sucursal4);
-            ProductoInventarioDTO productoInventario23 = new ProductoInventarioDTO(37L, producto7, sucursal4);
-            ProductoInventarioDTO productoInventario24 = new ProductoInventarioDTO(38L, producto7, sucursal2);
-            ProductoInventarioDTO productoInventario25 = new ProductoInventarioDTO(39L, producto7, sucursal3);
-            ProductoInventarioDTO productoInventario26 = new ProductoInventarioDTO(40L, producto7, sucursal2);
-            ProductoInventarioDTO productoInventario27 = new ProductoInventarioDTO(41L, producto7, sucursal2);
-            ProductoInventarioDTO productoInventario28 = new ProductoInventarioDTO(42L, producto7, sucursal4);
+            ProductoInventarioDTO productoInventario21 = new ProductoInventarioDTO(producto7, sucursal1);
+            ProductoInventarioDTO productoInventario22 = new ProductoInventarioDTO(producto7, sucursal4);
+            ProductoInventarioDTO productoInventario23 = new ProductoInventarioDTO(producto7, sucursal4);
+            ProductoInventarioDTO productoInventario24 = new ProductoInventarioDTO(producto7, sucursal2);
+            ProductoInventarioDTO productoInventario25 = new ProductoInventarioDTO(producto7, sucursal3);
+            ProductoInventarioDTO productoInventario26 = new ProductoInventarioDTO(producto7, sucursal2);
+            ProductoInventarioDTO productoInventario27 = new ProductoInventarioDTO(producto7, sucursal2);
+            ProductoInventarioDTO productoInventario28 = new ProductoInventarioDTO(producto7, sucursal4);
 
-            ProductoInventarioDTO productoInventario29 = new ProductoInventarioDTO(45L, producto8, sucursal1);
+            ProductoInventarioDTO productoInventario29 = new ProductoInventarioDTO(producto8, sucursal1);
 
-            ProductoInventarioDTO productoInventario30 = new ProductoInventarioDTO(48L, producto9, sucursal1);
-            ProductoInventarioDTO productoInventario31 = new ProductoInventarioDTO(49L, producto9, sucursal4);
-            ProductoInventarioDTO productoInventario32 = new ProductoInventarioDTO(50L, producto9, sucursal4);
-            ProductoInventarioDTO productoInventario33 = new ProductoInventarioDTO(51L, producto9, sucursal2);
+            ProductoInventarioDTO productoInventario30 = new ProductoInventarioDTO(producto9, sucursal1);
+            ProductoInventarioDTO productoInventario31 = new ProductoInventarioDTO(producto9, sucursal4);
+            ProductoInventarioDTO productoInventario32 = new ProductoInventarioDTO(producto9, sucursal4);
+            ProductoInventarioDTO productoInventario33 = new ProductoInventarioDTO(producto9, sucursal2);
 
-            ProductoInventarioDTO productoInventario34 = new ProductoInventarioDTO(55L, producto10, sucursal1);
-            ProductoInventarioDTO productoInventario35 = new ProductoInventarioDTO(56L, producto10, sucursal4);
-            ProductoInventarioDTO productoInventario36 = new ProductoInventarioDTO(57L, producto10, sucursal4);
-            ProductoInventarioDTO productoInventario37 = new ProductoInventarioDTO(58L, producto10, sucursal2);
-            ProductoInventarioDTO productoInventario38 = new ProductoInventarioDTO(59L, producto10, sucursal3);
-            ProductoInventarioDTO productoInventario39 = new ProductoInventarioDTO(60L, producto10, sucursal2);
-            ProductoInventarioDTO productoInventario40 = new ProductoInventarioDTO(61L, producto10, sucursal1);
-            ProductoInventarioDTO productoInventario41 = new ProductoInventarioDTO(62L, producto10, sucursal4);
-            ProductoInventarioDTO productoInventario42 = new ProductoInventarioDTO(63L, producto10, sucursal3);
-            ProductoInventarioDTO productoInventario43 = new ProductoInventarioDTO(64L, producto10, sucursal2);
-            ProductoInventarioDTO productoInventario44 = new ProductoInventarioDTO(65L, producto10, sucursal1);
-            ProductoInventarioDTO productoInventario45 = new ProductoInventarioDTO(66L, producto10, sucursal4);
+            ProductoInventarioDTO productoInventario34 = new ProductoInventarioDTO(producto10, sucursal1);
+            ProductoInventarioDTO productoInventario35 = new ProductoInventarioDTO(producto10, sucursal4);
+            ProductoInventarioDTO productoInventario36 = new ProductoInventarioDTO(producto10, sucursal4);
+            ProductoInventarioDTO productoInventario37 = new ProductoInventarioDTO(producto10, sucursal2);
+            ProductoInventarioDTO productoInventario38 = new ProductoInventarioDTO(producto10, sucursal3);
+            ProductoInventarioDTO productoInventario39 = new ProductoInventarioDTO(producto10, sucursal2);
+            ProductoInventarioDTO productoInventario40 = new ProductoInventarioDTO(producto10, sucursal1);
+            ProductoInventarioDTO productoInventario41 = new ProductoInventarioDTO(producto10, sucursal4);
+            ProductoInventarioDTO productoInventario42 = new ProductoInventarioDTO(producto10, sucursal3);
+            ProductoInventarioDTO productoInventario43 = new ProductoInventarioDTO(producto10, sucursal2);
+            ProductoInventarioDTO productoInventario44 = new ProductoInventarioDTO(producto10, sucursal1);
+            ProductoInventarioDTO productoInventario45 = new ProductoInventarioDTO(producto10, sucursal4);
 
-            ProductoInventarioDTO productoInventario46 = new ProductoInventarioDTO(68L, producto11, sucursal2);
-            ProductoInventarioDTO productoInventario47 = new ProductoInventarioDTO(69L, producto11, sucursal2);
-            ProductoInventarioDTO productoInventario48 = new ProductoInventarioDTO(70L, producto11, sucursal2);
+            ProductoInventarioDTO productoInventario46 = new ProductoInventarioDTO(producto11, sucursal2);
+            ProductoInventarioDTO productoInventario47 = new ProductoInventarioDTO(producto11, sucursal2);
+            ProductoInventarioDTO productoInventario48 = new ProductoInventarioDTO(producto11, sucursal2);
 
-            ProductoInventarioDTO productoInventario49 = new ProductoInventarioDTO(71L, producto12, sucursal1);
-            ProductoInventarioDTO productoInventario50 = new ProductoInventarioDTO(72L, producto12, sucursal4);
+            ProductoInventarioDTO productoInventario49 = new ProductoInventarioDTO(producto12, sucursal1);
+            ProductoInventarioDTO productoInventario50 = new ProductoInventarioDTO(producto12, sucursal4);
             
             
             List<ProductoInventarioDTO> listaProductosInventario = Arrays.asList(
@@ -558,13 +548,13 @@ public class App {
                     productoInventario50
             );
             
-
+            
             ProductoInventario.agregar(listaProductosInventario);
             
-            Producto.agregar(listaProductos);
             
+            // Se crean los DTO de las paqueterías asociadas con la empresa y son almacenadas
+            // utilizando la clase envolvente Paqueteria.
             PaqueteriaDTO paqueteria1 = new PaqueteriaDTO(
-                    1L, 
                     "DHL", 
                     100F, 
                     150F, 
@@ -577,8 +567,7 @@ public class App {
                     )
             );
 
-            PaqueteriaDTO paqueteria2 = new PaqueteriaDTO(
-                    2L, 
+            PaqueteriaDTO paqueteria2 = new PaqueteriaDTO( 
                     "Fedex", 
                     120F, 
                     125F,
@@ -592,7 +581,6 @@ public class App {
             );
 
             PaqueteriaDTO paqueteria3 = new PaqueteriaDTO(
-                    3L,
                     "PCP",
                     90F, 
                     100F,
@@ -604,8 +592,7 @@ public class App {
                             "659")
             );
             
-            PaqueteriaDTO paqueteria4  = new PaqueteriaDTO(
-                    4L, 
+            PaqueteriaDTO paqueteria4  = new PaqueteriaDTO( 
                     "UPS", 
                     106F,
                     110F,
@@ -620,7 +607,6 @@ public class App {
             );
              
             PaqueteriaDTO paqueteria5 =  new PaqueteriaDTO(
-                    5L, 
                     "Estafeta", 
                     110F, 
                     105F,
@@ -643,9 +629,10 @@ public class App {
 
             Paqueteria.agregar(listaPaqueterias);
 
-            
+            // Se crea una instancia del control del caso de uso compra.
             ControlCompra controlCompra = new ControlCompra();
             
+            Long idCliente = cliente.getId();
             // Se crean las vistas de la clase de presentación, del tipo de una interfaz definida.
             IVista productosVenta = new ProductosVenta(controlCompra, idCliente);
             IVista informacionProducto = new InformacionProducto(controlCompra, idCliente);
@@ -662,7 +649,7 @@ public class App {
                 carrito, 
                 mensaje, 
                 direccion,
-                100000D,
+                150000D,
                 new DireccionDTO(
                     "85136",
                     "Montecarlo",

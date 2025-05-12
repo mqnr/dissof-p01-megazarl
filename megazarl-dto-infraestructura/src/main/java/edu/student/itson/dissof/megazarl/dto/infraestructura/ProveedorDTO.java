@@ -92,27 +92,29 @@ public class ProveedorDTO {
     }
     
     /**
-     * Constructor que permite instanciar un objeto de tipo ProveedorDTO.
-     * @param id                        Objeto Long que representa el ID del proveedor.
+     * Constructor que permite instanciar un objeto de tipo ProveedorDTO, sin ID.
      * @param nombre                    Objeto String que representa el nombre del proveedor.
      * @param telefono                  Objeto String que representa el teléfono del proveedor.
      * @param correoElectronico         Objeto String que representa el correo electrónico del proveedor.
      * @param direccionImagen           Objeto String que representa la dirección de la imagen del proveedor.
+     * @param listaProductosOfrecidos   Objeto {@literal List<ProductoDTO>} que representa la lista de productos
+     *                                  ofrecidos por el proveedor.
      * @param direccion                 Objeto DireccionDTO que representa la dirección del proveedor.
+     * 
     */
     public ProveedorDTO(
-            Long id, 
             String nombre,
             String telefono,
             String correoElectronico,
             String direccionImagen,
+            List<ProductoDTO> listaProductosOfrecidos,
             DireccionDTO direccion) {
         
-        this.id = id;
         this.nombre = nombre;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
         this.direccionImagen = direccionImagen;
+        this.listaProductosOfrecidos = listaProductosOfrecidos;
         this.direccion = direccion;
     }
 
@@ -171,6 +173,16 @@ public class ProveedorDTO {
     public DireccionDTO getDireccion() {
         return direccion;
     }
+
+    /**
+     * Métdo que permite establecer el ID del proveedor.
+     * @param id Objeto Long que representa el ID del proveedor.
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    
     
     /**
     * Método que permite obtener el hash code del proveedor, a partir de su ID

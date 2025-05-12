@@ -352,6 +352,8 @@ public class ControlCompra {
             mapaInformacionProductoInicio.put("DireccionImagenProveedor", direccionImagenProveedor);
 
             listaInformacionProductosInicio.add(mapaInformacionProductoInicio);
+            
+            
         }
 
         return listaInformacionProductosInicio;

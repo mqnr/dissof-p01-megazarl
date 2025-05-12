@@ -56,8 +56,8 @@ public class ClienteDTO{
     private List<CarritoComprasDTO> listaCarritosCompras = new LinkedList<>();
 
     /**
-     * Consutructor que permite instanciar un objeto de tipo ClienteDTO.
-     * @param id                    Objeto Long que representa el ID del cliente.
+     * Consutructor que permite instanciar un objeto de tipo ClienteDTO, que recibe
+     * un ID de cliente.
      * @param nombres               Objeto String que representa los nombres del cliente.
      * @param apellidoPaterno       Objeto String que representa el apellido paterno del cliente.
      * @param apellidoMaterno       Objeto String que representa el apellido materno del cliente.
@@ -71,6 +71,25 @@ public class ClienteDTO{
             DireccionDTO direccionEnvio) {
         
         this.id = id;
+        this.nombres = nombres;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.direccionEnvio = direccionEnvio;
+    }
+    
+    /**
+     * Consutructor que permite instanciar un objeto de tipo ClienteDTO.
+     * @param nombres               Objeto String que representa los nombres del cliente.
+     * @param apellidoPaterno       Objeto String que representa el apellido paterno del cliente.
+     * @param apellidoMaterno       Objeto String que representa el apellido materno del cliente.
+     * @param direccionEnvio         Objecto DireccionDTO que representa la dirección de envío del cliente.
+     */
+    public ClienteDTO(
+            String nombres,
+            String apellidoPaterno, 
+            String apellidoMaterno,
+            DireccionDTO direccionEnvio) {
+        
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -125,6 +144,16 @@ public class ClienteDTO{
     public List<CarritoComprasDTO> getListaCarritosCompras() {
         return listaCarritosCompras;
     }
+
+    /**
+     * Mètodo que permite establecer el ID del cliente.
+     * @param id Objeto Long que representa el ID del cliente.
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    
 
     /**
      * Método que permite obtener el hash code del cliente, a partir de su ID.

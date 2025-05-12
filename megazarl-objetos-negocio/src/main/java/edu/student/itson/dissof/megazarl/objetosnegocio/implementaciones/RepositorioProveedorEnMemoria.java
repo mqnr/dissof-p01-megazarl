@@ -15,6 +15,8 @@ public class RepositorioProveedorEnMemoria implements RepositorioProveedor{
     
     private final List<ProveedorDTO> listaProveedores;
     
+    private static Long ID_PROVEEDOR_ACTUAL = 1L;
+    
     public RepositorioProveedorEnMemoria() {
         listaProveedores = new ArrayList<>();
     }
@@ -43,11 +45,17 @@ public class RepositorioProveedorEnMemoria implements RepositorioProveedor{
 
     @Override
     public void agregar(ProveedorDTO proveedor) {
+        proveedor.setId(ID_PROVEEDOR_ACTUAL++);
         listaProveedores.add(proveedor);
     }
 
     @Override
     public void agregar(Collection<ProveedorDTO> proveedores) {
+        
+        for(ProveedorDTO proveedor: proveedores){
+            proveedor.setId(ID_PROVEEDOR_ACTUAL++);
+        }
+        
         listaProveedores.addAll(proveedores);
     }
 

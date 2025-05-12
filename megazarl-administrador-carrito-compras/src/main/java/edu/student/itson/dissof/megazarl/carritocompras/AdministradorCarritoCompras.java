@@ -36,6 +36,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
     
@@ -309,6 +311,7 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         double horasEstimadas;
         try {
             horasEstimadas = administradorPedidos.obtenerTiempoEstimadoPreparacion(listaInformacionProductoCalculoTiempoPreparacionDTO);
+            
         } catch (PedidosIdProveedorInvalidoException ex) {
             throw new CarritoComprasIdProveedorInvalidoException(ex.getMessage());
         } catch (PedidosIdSucursalInvalidoException ex) {
@@ -321,9 +324,9 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         double diasEstimados = horasEstimadas / 24;
 
         // Se crea una nueva DTO que contiene el tiempo mínimo y máximo en días para la preparación del pedido, el tiempo
-        // máximo se calcula sumando 5 días al tiempo mínimo.
+        // máximo se calcula sumando 3 días al tiempo mínimo.
         TiempoEstimadoPreparacionEnvioPedidoDTO tiempoEstimadoPreparacionEnvioPedidoDTO
-                = new TiempoEstimadoPreparacionEnvioPedidoDTO((int) Math.ceil(diasEstimados), (int) Math.ceil(diasEstimados + 5));
+                = new TiempoEstimadoPreparacionEnvioPedidoDTO((int) Math.ceil(diasEstimados), (int) Math.ceil(diasEstimados + 3));
 
         return tiempoEstimadoPreparacionEnvioPedidoDTO;
     }
