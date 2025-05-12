@@ -1,9 +1,12 @@
-package edu.student.itson.dissof.megazarl.servicios;
+package edu.student.itson.dissof.megazarl.mapas;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DatosTiempoTrasladoUbicacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.TiempoTrasladoDTO;
+import edu.student.itson.dissof.megazarl.servicios.serializacion.FabricaDeserializadores;
+import edu.student.itson.dissof.megazarl.servicios.serializacion.FabricaSerializadores;
+import edu.student.itson.dissof.megazarl.servicios.serializacion.ISerializador;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -42,9 +45,9 @@ public class ConectorMapas implements IConectorMapas {
     }
 
     @Override
-    public TiempoTrasladoDTO enviarDatosTiempoTrasladoUbicacionesDTO(DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoUbicacionesDTO) {
-        Gson gson = new Gson();
-        String entradaJson = gson.toJson(convertirDatosTiempoTrasladoUbicacionesDTO(datosTiempoTrasladoUbicacionesDTO));
+    public TiempoTrasladoDTO calcularTiempoTraslado(DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoUbicacionesDTO) {
+        ISerializador serializador = FabricaSerializadores.crear("json");
+        String entradaJson = serializador.serializar(datosTiempoTrasladoUbicacionesDTO);
 
         try {
             ProcessBuilder pb = new ProcessBuilder(EJECUTABLE_PYTHON, rutaScript);
@@ -61,7 +64,8 @@ public class ConectorMapas implements IConectorMapas {
 
             proceso.waitFor();
 
-            TiempoTrasladoDTO tiempoTrasladoDTO = gson.fromJson(salidaJson, TiempoTrasladoDTO.class);
+            TiempoTrasladoDTO tiempoTrasladoDTO = FabricaDeserializadores.crear("json")
+                    .deserializar(salidaJson, TiempoTrasladoDTO.class);
 
             if (tiempoTrasladoDTO.tieneError()) {
                 System.err.println("Error desde el script externo: " + tiempoTrasladoDTO.getError());

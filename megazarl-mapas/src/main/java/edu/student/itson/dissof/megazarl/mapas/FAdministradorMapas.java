@@ -6,7 +6,6 @@ import edu.student.itson.dissof.megazarl.dto.infraestructura.TiempoTrasladoDTO;
 
 
 public class FAdministradorMapas implements IAdministradorMapas{
-
     private final AdministradorMapas mapas;
     
     public FAdministradorMapas(){
@@ -15,9 +14,6 @@ public class FAdministradorMapas implements IAdministradorMapas{
     
     @Override
     public TiempoTrasladoDTO calcularTiempoTraslado(DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoUbicacionesDTO) {
-        
         return mapas.calcularTiempoTraslado(datosTiempoTrasladoUbicacionesDTO);
-        
     }
-    
 }

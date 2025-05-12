@@ -1,7 +1,8 @@
-package edu.student.itson.dissof.megazarl.servicios;
+package edu.student.itson.dissof.megazarl.mapas;
 
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DatosTiempoTrasladoUbicacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.TiempoTrasladoDTO;
+import edu.student.itson.dissof.megazarl.servicios.IConector;
 
 /**
  * IConectorMapas.java
@@ -21,6 +22,6 @@ import edu.student.itson.dissof.megazarl.dto.infraestructura.TiempoTrasladoDTO;
  * @author Martín Zamorano Acuña
  * ID: 00000251923
  */
-public interface IConectorMapas {
-    TiempoTrasladoDTO enviarDatosTiempoTrasladoUbicacionesDTO(DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoUbicacionesDTO);
+public interface IConectorMapas extends IConector {
+    TiempoTrasladoDTO calcularTiempoTraslado(DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoUbicacionesDTO);
 }
