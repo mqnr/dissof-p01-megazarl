@@ -54,7 +54,7 @@ def main():
         file=sys.stderr,
     )
 
-    with socket.create_server((HOST, PORT), reuse_port=True) as srv:
+    with socket.create_server((HOST, PORT)) as srv:
         while True:
             conn, _ = srv.accept()  # Bloquea hasta que llega un cliente
             threading.Thread(target=atender, args=(conn, rutas), daemon=True).start()
