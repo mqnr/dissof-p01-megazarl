@@ -28,7 +28,7 @@ public class TiempoTrasladoDTO {
      * Objeto Float que representa el tiempo de traslado de un punto A a un
      * punto B en el mapa.
      */
-    @SerializedName("tiempo_traslado")
+    @SerializedName("tiempo_estimado_horas")
     private Float tiempoTraslado;
     @SerializedName("error")
     private String error;

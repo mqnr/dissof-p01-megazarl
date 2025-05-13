@@ -1,13 +1,5 @@
 package edu.student.itson.dissof.megazarl.mapas;
 
-import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.DatosTiempoTrasladoUbicacionesDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.TiempoTrasladoDTO;
-import edu.student.itson.dissof.megazarl.servicios.serializacion.FabricaDeserializadores;
-import edu.student.itson.dissof.megazarl.servicios.serializacion.FabricaSerializadores;
-import edu.student.itson.dissof.megazarl.servicios.serializacion.ISerializador;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -35,61 +27,36 @@ import java.io.OutputStreamWriter;
  * @author Martín Zamorano Acuña
  * ID: 00000251923
  */
-public class ConectorMapas implements IConectorMapas {
-    private final static String EJECUTABLE_PYTHON = "python3";
+import java.io.*;
+import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
-    private final String rutaScript;
+public final class ConectorMapas implements IConectorMapas, Closeable {
+    private final Socket socket;
+    private final BufferedReader in;
+    private final BufferedWriter out;
 
-    public ConectorMapas(String rutaScript) {
-        this.rutaScript = rutaScript;
+    public ConectorMapas(String host, int port) throws IOException {
+        socket = new Socket(host, port);                // throws if worker down
+        in = new BufferedReader(
+                new InputStreamReader(socket.getInputStream(),  StandardCharsets.UTF_8)
+        );
+        out = new BufferedWriter(
+                new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8)
+        );
     }
 
     @Override
-    public TiempoTrasladoDTO calcularTiempoTraslado(DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoUbicacionesDTO) {
-        ISerializador serializador = FabricaSerializadores.crear("json");
-        String entradaJson = serializador.serializar(datosTiempoTrasladoUbicacionesDTO);
+    public String calcularTiempoTraslado(String datosTiempoTrasladoUbicaciones) throws IOException {
+        out.write(datosTiempoTrasladoUbicaciones);
+        out.newLine();
+        out.flush();
 
-        try {
-            ProcessBuilder pb = new ProcessBuilder(EJECUTABLE_PYTHON, rutaScript);
-            Process proceso = pb.start();
-
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(proceso.getOutputStream()));
-            BufferedReader reader = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
-
-            writer.write(entradaJson);
-            writer.newLine();
-            writer.flush();
-
-            String salidaJson = reader.readLine();
-
-            proceso.waitFor();
-
-            TiempoTrasladoDTO tiempoTrasladoDTO = FabricaDeserializadores.crear("json")
-                    .deserializar(salidaJson, TiempoTrasladoDTO.class);
-
-            if (tiempoTrasladoDTO.tieneError()) {
-                System.err.println("Error desde el script externo: " + tiempoTrasladoDTO.getError());
-                return null;
-            }
-
-            return tiempoTrasladoDTO;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        return in.readLine();
     }
 
-    record PuntosJson(
-            @SerializedName("codigo_postal_a")
-            String codigoPostalA,
-            @SerializedName("codigo_postal_b")
-            String codigoPostalB
-    ) {}
-
-    private static PuntosJson convertirDatosTiempoTrasladoUbicacionesDTO(DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoUbicacionesDTO) {
-        return new PuntosJson(
-                datosTiempoTrasladoUbicacionesDTO.getCodigoPostalA(),
-                datosTiempoTrasladoUbicacionesDTO.getCodigoPostalB()
-        );
+    @Override
+    public void close() throws IOException {
+        socket.close();
     }
 }

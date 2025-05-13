@@ -4,6 +4,8 @@ import edu.student.itson.dissof.megazarl.dto.infraestructura.DatosTiempoTraslado
 import edu.student.itson.dissof.megazarl.dto.infraestructura.TiempoTrasladoDTO;
 import edu.student.itson.dissof.megazarl.servicios.IConector;
 
+import java.io.IOException;
+
 /**
  * IConectorMapas.java
  *
@@ -23,5 +25,5 @@ import edu.student.itson.dissof.megazarl.servicios.IConector;
  * ID: 00000251923
  */
 public interface IConectorMapas extends IConector {
-    TiempoTrasladoDTO calcularTiempoTraslado(DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoUbicacionesDTO);
+    String calcularTiempoTraslado(String datosTiempoTrasladoUbicaciones) throws IOException;
 }
