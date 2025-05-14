@@ -2,6 +2,7 @@ package edu.student.itson.dissof.megazarl.administradorproductos;
 
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.utils.CadenasTextoUtils;
+import edu.student.itson.dissof.megazarl.administradorproductos.utils.Normalizador;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoInventarioDTO;
@@ -14,9 +15,6 @@ import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 class AdministradorProductos implements IAdministradorProductos {
     
@@ -89,8 +87,11 @@ class AdministradorProductos implements IAdministradorProductos {
 
         List<InformacionProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
 
+        // Se eliminan los caracteres con acentos del nombre del producto buscado.
+        String nombreProductoSinAcentos = Normalizador.quitarAcentosCadenaTexto(nombreProducto);
+        
         // Se convierte el nombre recibido a letras minusculas y se eliminan los espacios.
-        String nombreProductoMinusculasSinEspacios = nombreProducto.toLowerCase().replaceAll("\\s", "");
+        String nombreProductoMinusculasSinEspacios = nombreProductoSinAcentos.toLowerCase().replaceAll("\\s", "");
 
         // Se recorre la lista de productos para almacenar los datos de aquellos
         // que tengan existencias y su nombre este contenido dentro del nombre del parámetro.
@@ -103,11 +104,16 @@ class AdministradorProductos implements IAdministradorProductos {
                 cantidadProducto = cosultarInventarioProducto(new IdProductoDTO(idProducto));
             } catch (ProductosIdProductoInvalidoException ex) {}
             
-            String nombreProductoActualMinusculasSinEspacios = producto.getNombre().toLowerCase().replaceAll("\\s", "");
-
+            String nombreProductoActualSinAcentos = Normalizador.quitarAcentosCadenaTexto(producto.getNombre());
+                        
+            String nombreProductoActualMinusculasSinEspacios = nombreProductoActualSinAcentos.toLowerCase().replaceAll("\\s", "");
+            
             boolean existeCoincidenciaNombreProducto = 
-                    CadenasTextoUtils.verificarExisteSubcadenaComun(nombreProductoMinusculasSinEspacios, nombreProductoActualMinusculasSinEspacios);
+                    CadenasTextoUtils.verificarExisteSubcadenaComun(
+                            nombreProductoMinusculasSinEspacios, 
+                            nombreProductoActualMinusculasSinEspacios);
                     
+                        
             if(cantidadProducto > 0 && existeCoincidenciaNombreProducto){
                 
                 listaProductoInicioDTO.add(new InformacionProductoInicioDTO(
@@ -124,14 +130,18 @@ class AdministradorProductos implements IAdministradorProductos {
 
         return listaProductoInicioDTO;
     }
-
+    
+    
     @Override
     public List<InformacionProductoInicioDTO> obtenerProductosBusquedaNombreProductoVariedad(
             String nombreProducto, 
             String variedadProducto){
         
+        // Se eliminan los acentos del nombre del producto a buscar.
+        String nombreProductoSinAcentos = Normalizador.quitarAcentosCadenaTexto(nombreProducto);
+        
         // Se convierte el nombre de producto recibido a letras minusculas y se eliminan los espacios.
-        String nombreProductoMinusculasSinEspacios = nombreProducto.toLowerCase().replaceAll("\\s", "");
+        String nombreProductoMinusculasSinEspacios = nombreProductoSinAcentos.toLowerCase().replaceAll("\\s", "");
 
         List<InformacionProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
 
@@ -146,7 +156,9 @@ class AdministradorProductos implements IAdministradorProductos {
                 cantidadProducto = cosultarInventarioProducto(new IdProductoDTO(idProducto));
             } catch (ProductosIdProductoInvalidoException ex) {}
 
-            String nombreProductoActualMinusculasSinEspacios = producto.getNombre().toLowerCase().replaceAll("\\s", "");
+            String nombreProductoActualSinAcentos = Normalizador.quitarAcentosCadenaTexto(producto.getNombre());
+            
+            String nombreProductoActualMinusculasSinEspacios = nombreProductoActualSinAcentos.toLowerCase().replaceAll("\\s", "");
             
             if(cantidadProducto > 0 
                     && ((nombreProductoActualMinusculasSinEspacios.contains(nombreProductoMinusculasSinEspacios)
@@ -165,6 +177,8 @@ class AdministradorProductos implements IAdministradorProductos {
                 );
             }
         }
+        
+        
 
         return listaProductoInicioDTO;
     }
@@ -174,8 +188,10 @@ class AdministradorProductos implements IAdministradorProductos {
             String nombreProducto, 
             String proveedorProducto){
 
+        String nombreProductoSinAcentos = Normalizador.quitarAcentosCadenaTexto(nombreProducto);
+        
         // Se convierte el nombre de producto recibido a letras minusculas y se eliminan los espacios.
-        String nombreProductoMinusculasSinEspacios = nombreProducto.toLowerCase().replaceAll("\\s", "");
+        String nombreProductoMinusculasSinEspacios = nombreProductoSinAcentos.toLowerCase().replaceAll("\\s", "");
 
         List<InformacionProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
 
@@ -191,7 +207,9 @@ class AdministradorProductos implements IAdministradorProductos {
                 cantidadProducto = cosultarInventarioProducto(new IdProductoDTO(idProducto));
             } catch (ProductosIdProductoInvalidoException ex) {}
 
-            String nombreProductoActualMinusculasSinEspacios = producto.getNombre().toLowerCase().replaceAll("\\s", "");
+            String nombreProductoActualSinAcentos = Normalizador.quitarAcentosCadenaTexto(producto.getNombre());
+            
+            String nombreProductoActualMinusculasSinEspacios = nombreProductoActualSinAcentos.toLowerCase().replaceAll("\\s", "");
             
             if(cantidadProducto > 0 
                     && ((nombreProductoActualMinusculasSinEspacios.contains(nombreProductoMinusculasSinEspacios)
