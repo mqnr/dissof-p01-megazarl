@@ -32,12 +32,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "productos_carrito_compras")
-public class ProductoCarritoCompras implements Serializable {
+public class ProductoCarrito implements Serializable {
 
     /**
      * Constructor por defecto
      */
-    public ProductoCarritoCompras() {
+    public ProductoCarrito() {
     }
 
     /**
@@ -45,7 +45,7 @@ public class ProductoCarritoCompras implements Serializable {
      * @param carritoCompras Representa un objeto de tipo carritoCompras
      * @param producto Representa un objeto de tipo producto
      */
-    public ProductoCarritoCompras(CarritoCompras carritoCompras, Producto producto) {
+    public ProductoCarrito(CarritoCompras carritoCompras, Producto producto) {
         this.carritoCompras = carritoCompras;
         this.producto = producto;
     }
@@ -60,16 +60,16 @@ public class ProductoCarritoCompras implements Serializable {
     private Long id;
 
     /**
-     * Representación de una relación Muchos a Uno entre ProductoCarritoCompras 
-     * y CarritoCompras
+     * Representación de una relación Muchos a Uno entre ProductoCarrito 
+ y CarritoCompras
      */
     @ManyToOne()
     @JoinColumn(name = "id_carrito", nullable = true)
     private CarritoCompras carritoCompras;
     
     /**
-     * Representación de una relación Muchos a Uno entre ProductoCarritoCompras 
-     * y producto
+     * Representación de una relación Muchos a Uno entre ProductoCarrito 
+ y producto
      */
     @ManyToOne()
     @JoinColumn(name = "id_producto", nullable = true)
@@ -122,10 +122,10 @@ public class ProductoCarritoCompras implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProductoCarritoCompras)) {
+        if (!(object instanceof ProductoCarrito)) {
             return false;
         }
-        ProductoCarritoCompras other = (ProductoCarritoCompras) object;
+        ProductoCarrito other = (ProductoCarrito) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

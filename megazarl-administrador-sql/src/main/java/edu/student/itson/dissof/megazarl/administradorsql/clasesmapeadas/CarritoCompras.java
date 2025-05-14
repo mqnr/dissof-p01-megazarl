@@ -71,7 +71,7 @@ public class CarritoCompras implements Serializable {
      * 
      */
     @OneToMany(mappedBy = "carritoCompras") 
-    private List<ProductoCarritoCompras> productoCarritoCompras = new ArrayList();
+    private List<ProductoCarrito> productoCarritoCompras = new ArrayList();
     
     /**
      * Getter y Setters para cada atributo de la clase
@@ -93,11 +93,11 @@ public class CarritoCompras implements Serializable {
         this.cliente = cliente;
     }
 
-    public List<ProductoCarritoCompras> getProductoCarritoCompras() {
+    public List<ProductoCarrito> getProductoCarritoCompras() {
         return productoCarritoCompras;
     }
 
-    public void setProductoCarritoCompras(List<ProductoCarritoCompras> productoCarritoCompras) {
+    public void setProductoCarritoCompras(List<ProductoCarrito> productoCarritoCompras) {
         this.productoCarritoCompras = productoCarritoCompras;
     }
 
