@@ -1,7 +1,7 @@
 package edu.student.itson.dissof.megazarl.interfaces;
 
 import edu.student.itson.dissof.megazarl.dto.infraestructura.PaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdPaqueteriaDTO;
 
 public interface RepositorioPaqueteria extends RepositorioInmutable<PaqueteriaDTO> {
     

@@ -2,8 +2,8 @@ package edu.student.itson.dissof.megazarl.administradorproductos;
 
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoDetalladaDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoInicioDTO;
 import java.util.List;

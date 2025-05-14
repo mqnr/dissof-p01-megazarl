@@ -2,7 +2,7 @@ package edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones;
 
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdClienteDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioCliente;
 
 import java.util.ArrayList;
@@ -93,6 +93,8 @@ public class RepositorioClienteEnMemoria implements RepositorioCliente {
                 actualizacionClienteDTO.tieneNombres() ? actualizacionClienteDTO.getNombres() : clienteOriginal.getNombres(),
                 actualizacionClienteDTO.tieneApellidoPaterno() ? actualizacionClienteDTO.getApellidoPaterno() : clienteOriginal.getApellidoPaterno(),
                 actualizacionClienteDTO.tieneApellidoMaterno() ? actualizacionClienteDTO.getApellidoMaterno() : clienteOriginal.getApellidoMaterno(),
+                clienteOriginal.getTelefono(),
+                clienteOriginal.getCorreoElectronico(),
                 actualizacionClienteDTO.tieneDireccionEnvio() ? actualizacionClienteDTO.getDireccionEnvio() : clienteOriginal.getDireccionEnvio()
         );
     }

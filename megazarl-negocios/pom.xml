@@ -54,6 +54,11 @@
             <artifactId>megazarl-mapas</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>megazarl-administrador-auxiliares-ventas</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <properties>
         <exec.mainClass>edu.student.itson.dissof.megazarl.negocio.MegazarlNegocio</exec.mainClass>

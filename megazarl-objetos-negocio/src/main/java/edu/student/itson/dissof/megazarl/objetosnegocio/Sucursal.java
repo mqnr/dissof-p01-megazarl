@@ -4,7 +4,7 @@ package edu.student.itson.dissof.megazarl.objetosnegocio;
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.SucursalDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdSucursalDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioSucursal;
 import edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones.RepositorioSucursalEnMemoria;
 import java.util.Collection;

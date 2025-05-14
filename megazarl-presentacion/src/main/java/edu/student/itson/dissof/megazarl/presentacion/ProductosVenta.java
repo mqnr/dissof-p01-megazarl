@@ -16,7 +16,7 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
     private final ControlCompra control;
     private Long idCliente;
 
-    private Encabezado encabezado;
+    private EncabezadoCompra encabezado;
 
     private JPanel panelGeneral;
     private JPanel panelProductos;
@@ -80,7 +80,7 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
         
-        encabezado = new Encabezado(control, idCliente, this);
+        encabezado = new EncabezadoCompra(control, idCliente, this);
         this.add(encabezado, BorderLayout.NORTH);
 
         panelGeneral = new JPanel(new BorderLayout());
@@ -201,7 +201,7 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
             // Ciclo para obener variedades de productos:
             List<String> listaProveedoresProductos = new LinkedList<>();
             listaProveedoresProductos.add(INDICADOR_SIN_SELECCION_PROVEEDOR);
-
+            
             for (Map<String, Object> informacionProducto : listaInformacionProductos) {
 
                 String variedad = (String)informacionProducto.get("Variedad");
@@ -210,6 +210,7 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
                 }
 
                 String proveedor = (String)informacionProducto.get("NombreProveedor");
+                
                 if (!listaProveedoresProductos.contains(proveedor)) {
                     listaProveedoresProductos.add(proveedor);
                 }

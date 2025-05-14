@@ -68,5 +68,10 @@
       <artifactId>megazarl-negocios</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>megazarl-administrador-auxiliares-ventas</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>

@@ -3,7 +3,7 @@ package edu.student.itson.dissof.megazarl.interfaces;
 
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionProductoCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoCarritoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoCarritoDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoCarritoDTO;
 
 
 public interface RepositorioProductoCarrito extends RepositorioInmutable<ProductoCarritoDTO> {

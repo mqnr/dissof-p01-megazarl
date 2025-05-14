@@ -45,6 +45,16 @@ public class ClienteDTO{
     private String apellidoMaterno;
     
     /**
+     * Objeto String que representa el telefono del cliente.
+     */
+    private String telefono;
+    
+    /**
+     * Objeto String que representa el correo electrónico del cliente.
+     */
+    private String correoElectronico;
+    
+    /**
      * Objeto DireccionDTO que representa la dirección de envío del cliente.
      */
     private DireccionDTO direccionEnvio;
@@ -58,16 +68,21 @@ public class ClienteDTO{
     /**
      * Consutructor que permite instanciar un objeto de tipo ClienteDTO, que recibe
      * un ID de cliente.
+     * @param id                    Ojeto Long que representa el ID de cliente.s
      * @param nombres               Objeto String que representa los nombres del cliente.
      * @param apellidoPaterno       Objeto String que representa el apellido paterno del cliente.
      * @param apellidoMaterno       Objeto String que representa el apellido materno del cliente.
-     * @param direccionEnvio         Objecto DireccionDTO que representa la dirección de envío del cliente.
+     * @param telefono              Objeto String que representa el telefono del cliente.
+     * @param correoElectronico     Objeto String que representa el correo electrónico del cliente.
+     * @param direccionEnvio        Objecto DireccionDTO que representa la dirección de envío del cliente.
      */
     public ClienteDTO(
             Long id,
             String nombres,
             String apellidoPaterno, 
             String apellidoMaterno,
+            String telefono, 
+            String correoElectronico,
             DireccionDTO direccionEnvio) {
         
         this.id = id;
@@ -82,18 +97,47 @@ public class ClienteDTO{
      * @param nombres               Objeto String que representa los nombres del cliente.
      * @param apellidoPaterno       Objeto String que representa el apellido paterno del cliente.
      * @param apellidoMaterno       Objeto String que representa el apellido materno del cliente.
-     * @param direccionEnvio         Objecto DireccionDTO que representa la dirección de envío del cliente.
+     * @param telefono              Objeto String que representa el telefono del cliente.
+     * @param correoElectronico     Objeto String que representa el correo electrónico del cliente.
+     * @param direccionEnvio        Objecto DireccionDTO que representa la dirección de envío del cliente.
      */
     public ClienteDTO(
             String nombres,
             String apellidoPaterno, 
             String apellidoMaterno,
+            String telefono, 
+            String correoElectronico,
             DireccionDTO direccionEnvio) {
         
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
+        this.telefono = telefono;
+        this.correoElectronico = correoElectronico;
         this.direccionEnvio = direccionEnvio;
+    }
+    
+    /**
+     * Consutructor que permite instanciar un objeto de tipo ClienteDTO, sin ID ni dirección
+     * de envío.
+     * @param nombres               Objeto String que representa los nombres del cliente.
+     * @param apellidoPaterno       Objeto String que representa el apellido paterno del cliente.
+     * @param apellidoMaterno       Objeto String que representa el apellido materno del cliente.
+     * @param telefono              Objeto String que representa el telefono del cliente.
+     * @param correoElectronico     Objeto String que representa el correo electrónico del cliente.
+     */
+    public ClienteDTO(
+            String nombres,
+            String apellidoPaterno, 
+            String apellidoMaterno,
+            String telefono, 
+            String correoElectronico) {
+        
+        this.nombres = nombres;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.telefono = telefono;
+        this.correoElectronico = correoElectronico;
     }
 
     /**
@@ -126,6 +170,22 @@ public class ClienteDTO{
      */
     public String getApellidoMaterno() {
         return apellidoMaterno;
+    }
+
+    /**
+     * Método que permite obtener el teléfono del cliente.
+     * @return Objeto String que representa el teléfono del cliente.
+     */
+    public String getTelefono() {
+        return telefono;
+    }
+
+    /**
+     * Método que permite obtener el correo electrónico del cliente.
+     * @return Objeto String que representa el correo electrónico del cliente.
+     */
+    public String getCorreoElectronico() {
+        return correoElectronico;
     }
 
     /**

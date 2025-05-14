@@ -35,7 +35,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
     private Long idCliente;
     private Long idProducto;
 
-    private Encabezado encabezado;
+    private EncabezadoCompra encabezado;
 
     private JPanel panelGeneral;
     private JPanel panelProducto;
@@ -88,7 +88,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
 
     private void initComponents() {
     
-        encabezado = new Encabezado(control, idCliente, this);
+        encabezado = new EncabezadoCompra(control, idCliente, this);
         this.add(encabezado, BorderLayout.NORTH);
 
         panelGeneral = new JPanel();

@@ -8,10 +8,6 @@ import javax.swing.*;
 
 public class Mensaje extends JFrame implements IMensaje{
 
-    private ControlCompra control;
-    
-    private Long idCliente;
-
     private JPanel panelPrincipal;
     
     private JPanel panelMensaje;
@@ -31,10 +27,8 @@ public class Mensaje extends JFrame implements IMensaje{
             .getImage(getClass().getResource("/iconoApp.png"))
             .getScaledInstance(90, 90, Image.SCALE_SMOOTH);
 
-    public Mensaje(ControlCompra control, Long idCliente) {
+    public Mensaje() {
         
-        this.control = control;
-        this.idCliente = idCliente;
         configurarVentana();
         initComponents();
     }

@@ -3,7 +3,7 @@ package edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones;
 
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionProductoCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoCarritoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoCarritoDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoCarritoDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioProductoCarrito;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -92,7 +92,6 @@ public class RepositorioProductoCarritoEnMemoria implements RepositorioProductoC
         
         
     }
-    private static final Logger LOG = Logger.getLogger(RepositorioProductoCarritoEnMemoria.class.getName());
 
     @Override
     public void agregar(Collection<ProductoCarritoDTO> productosCarrito) {

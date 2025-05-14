@@ -65,7 +65,7 @@ public class ActualizacionDireccion extends JFrame implements IVista, IDireccion
     private JButton btnCancelar;
     private JButton btnGuardar;
 
-    private Encabezado encabezado;
+    private EncabezadoCompra encabezado;
     private ControlCompra control;
     private Long idCliente;
 
@@ -103,7 +103,7 @@ public class ActualizacionDireccion extends JFrame implements IVista, IDireccion
         panelPrincipal = new JPanel(new BorderLayout());
         getContentPane().add(panelPrincipal, BorderLayout.CENTER);
 
-        encabezado = new Encabezado(control, idCliente, this);
+        encabezado = new EncabezadoCompra(control, idCliente, this);
         panelPrincipal.add(encabezado, BorderLayout.NORTH);
 
         panelGeneral = new JPanel();

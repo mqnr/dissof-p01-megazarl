@@ -3,7 +3,7 @@ package edu.student.itson.dissof.megazarl.interfaces;
 
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdDireccionDTO;
 
 
 public interface RepositorioDireccion extends RepositorioInmutable<DireccionDTO>{

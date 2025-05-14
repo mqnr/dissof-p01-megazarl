@@ -19,19 +19,18 @@ import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorS
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DatosTiempoTrasladoUbicacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.PaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.PedidoDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.SucursalDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.TiempoTrasladoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoMatrizClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoCantidadCarritoDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoCantidadCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionPedidoClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionCrearPedidoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdPaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoProveedorMatrizDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoSucursalMatrizDTO;
 import edu.student.itson.dissof.megazarl.mapas.IAdministradorMapas;
@@ -45,8 +44,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 class AdministradorPedidos implements IAdministradorPedidos {
     
@@ -525,7 +522,6 @@ class AdministradorPedidos implements IAdministradorPedidos {
         return costoTotalEnvio;
 
     }
-    private static final Logger LOG = Logger.getLogger(AdministradorPedidos.class.getName());
 
     @Override
     public PedidoDTO realizarPedido(InformacionCrearPedidoDTO informacionCrearPedidoDTO)

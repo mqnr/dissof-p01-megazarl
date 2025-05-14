@@ -10,7 +10,8 @@ public record ConfiguracionFuentes(
         FuenteDatos sucursal,
         FuenteDatos proveedor,
         FuenteDatos direccion,
-        FuenteDatos gerenteVentas
         FuenteDatos productoCarrito,
-        FuenteDatos coordinadorLogistica
+        FuenteDatos coordinadorLogistica,
+        FuenteDatos gerenteVentas,
+        FuenteDatos auxiliarVentas
 ){}

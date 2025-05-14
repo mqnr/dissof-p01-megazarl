@@ -3,6 +3,8 @@ package edu.student.itson.dissof.megazarl.negocio;
 
 import edu.student.itson.dissof.administradorproveedores.FAdministradorProveedores;
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
+import edu.student.itson.dissof.megazarl.administrador.auxiliares.ventas.FAdministradorAuxiliaresVentas;
+import edu.student.itson.dissof.megazarl.administrador.auxiliares.ventas.IAdministradorAuxiliaresVentas;
 import edu.student.itson.dissof.megazarl.administradorclientes.FAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.FAdministradorPaqueterias;
@@ -18,7 +20,6 @@ import edu.student.itson.dissof.megazarl.carritocompras.IAdministradorCarritoCom
 import edu.student.itson.dissof.megazarl.direcciones.FAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
-import edu.student.itson.dissof.megazarl.mapas.AdministradorMapas;
 import edu.student.itson.dissof.megazarl.mapas.FAdministradorMapas;
 import edu.student.itson.dissof.megazarl.mapas.IAdministradorMapas;
 
@@ -120,6 +121,15 @@ public class FabricaSubsistemas {
         return administradorCarritoCompras;
     }
     
+    public static IAdministradorAuxiliaresVentas obtenerAdministradorAuxiliaresVentas(){
+        
+        IAdministradorAuxiliaresVentas administradorAuxiliaresVentas = new FAdministradorAuxiliaresVentas();
+        
+        return administradorAuxiliaresVentas;
+        
+    }
+    
+    
     public static IAdministradorMapas obtenerAdministradorMapas(){
         
         IAdministradorMapas administradorMapas = new FAdministradorMapas();
@@ -127,5 +137,6 @@ public class FabricaSubsistemas {
         return administradorMapas;
         
     }
+    
     
 }

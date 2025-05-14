@@ -3,9 +3,8 @@ package edu.student.itson.dissof.megazarl.administradorproductos;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.utils.CadenasTextoUtils;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoInicioDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoDetalladaDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Producto;
@@ -15,6 +14,8 @@ import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 class AdministradorProductos implements IAdministradorProductos {
@@ -148,9 +149,10 @@ class AdministradorProductos implements IAdministradorProductos {
             String nombreProductoActualMinusculasSinEspacios = producto.getNombre().toLowerCase().replaceAll("\\s", "");
             
             if(cantidadProducto > 0 
-                    && (nombreProductoActualMinusculasSinEspacios.contains(nombreProductoMinusculasSinEspacios)
-                    || nombreProductoMinusculasSinEspacios.contains(nombreProductoActualMinusculasSinEspacios)
+                    && ((nombreProductoActualMinusculasSinEspacios.contains(nombreProductoMinusculasSinEspacios)
+                    || nombreProductoMinusculasSinEspacios.contains(nombreProductoActualMinusculasSinEspacios))
                     && producto.getVariedad().equals(variedadProducto))){
+                
                 
                 listaProductoInicioDTO.add(new InformacionProductoInicioDTO(
                         producto.getId(),
@@ -180,7 +182,8 @@ class AdministradorProductos implements IAdministradorProductos {
         // Se recorre la lista de productos para almacenar los datos de aquellos
         // que tengan existencias, cuyo su nombre este contenga al nombre del parámetro,
         // y cuyo nombre de proveedor esté contenido detro del nombre de proveedor del parámetro del parámetro.
-        for(ProductoDTO producto: Producto.recuperarTodos()){
+        List<ProductoDTO> listaProductos = Producto.recuperarTodos();
+        for(ProductoDTO producto: listaProductos){
             Long idProducto = producto.getId();
 
             int cantidadProducto = 0;
@@ -191,9 +194,10 @@ class AdministradorProductos implements IAdministradorProductos {
             String nombreProductoActualMinusculasSinEspacios = producto.getNombre().toLowerCase().replaceAll("\\s", "");
             
             if(cantidadProducto > 0 
-                    && (nombreProductoActualMinusculasSinEspacios.contains(nombreProductoMinusculasSinEspacios)
-                    || nombreProductoMinusculasSinEspacios.contains(nombreProductoActualMinusculasSinEspacios)
+                    && ((nombreProductoActualMinusculasSinEspacios.contains(nombreProductoMinusculasSinEspacios)
+                    || nombreProductoMinusculasSinEspacios.contains(nombreProductoActualMinusculasSinEspacios))
                     && producto.getProveedor().getNombre().equals(proveedorProducto))){
+                
                 
                 listaProductoInicioDTO.add(new InformacionProductoInicioDTO(
                         producto.getId(),

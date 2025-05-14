@@ -3,7 +3,7 @@ package edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones;
 
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionCarritoComprasDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.CarritoComprasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdCarritoComprasDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdCarritoComprasDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioCarritoCompras;
 import java.util.ArrayList;
 import java.util.Collection;

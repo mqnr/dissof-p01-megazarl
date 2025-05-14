@@ -25,11 +25,11 @@ import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAcce
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdClientePaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdClientePaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioActualizadaClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoAgregarCarritoDTO;
@@ -213,6 +213,11 @@ public class ControlCompra {
             informacionProductoInicioDTO.setDireccionImagenProveedor(direccionImagenProveedor);
             
             mapaInformacionProductoInicio.put("DireccionImagenProveedor", direccionImagenProveedor);
+            
+            String nombreProveedor = obtenerNombreProveedor(informacionProductoInicioDTO.getIdProveedor());
+            informacionProductoInicioDTO.setProveedorProducto(nombreProveedor);
+            
+            mapaInformacionProductoInicio.put("NombreProveedor", nombreProveedor);
 
             listaInformacionProductosBusqueda.add(mapaInformacionProductoInicio);
         }

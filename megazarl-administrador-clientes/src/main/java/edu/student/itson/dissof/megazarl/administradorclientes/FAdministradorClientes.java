@@ -1,11 +1,13 @@
 package edu.student.itson.dissof.megazarl.administradorclientes;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesArchivoCodigosPostalesVacioException;
+import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesCorreoElectronicoYaExisteException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdDireccionInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesTelefonoNuevoClienteYaExisteException;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioActualizadaClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionDTO;
@@ -113,5 +115,13 @@ public class FAdministradorClientes implements IAdministradorClientes{
         
         return administradorClientes.obtenerInformacionDerivadaCPDireccionEnvio(idClienteDTO);
         
+    }
+
+    @Override
+    public void registrarCliente(ClienteDTO clienteDTO) 
+            throws ClientesTelefonoNuevoClienteYaExisteException,
+            ClientesCorreoElectronicoYaExisteException{
+        
+        administradorClientes.registrarCliente(clienteDTO);
     }
 }

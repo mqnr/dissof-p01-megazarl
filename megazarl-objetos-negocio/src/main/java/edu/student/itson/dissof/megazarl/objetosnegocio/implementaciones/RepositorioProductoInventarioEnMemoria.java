@@ -2,14 +2,12 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones;
 
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioProductoInventario;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 
@@ -68,7 +66,6 @@ public class RepositorioProductoInventarioEnMemoria implements RepositorioProduc
         
         listaProductosInventario.addAll(productosInventario);
     }
-    private static final Logger LOG = Logger.getLogger(RepositorioProductoInventarioEnMemoria.class.getName());
 
     @Override
     public List<ProductoInventarioDTO> recuperarTodos() {

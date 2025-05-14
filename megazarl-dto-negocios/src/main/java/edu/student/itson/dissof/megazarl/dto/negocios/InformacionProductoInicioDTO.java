@@ -34,6 +34,8 @@ public class InformacionProductoInicioDTO {
      */
     private String variedadProducto;
     
+    private String proveedorProducto;
+    
     /**
      * Objeto Double que representa el precio del producto.
      */
@@ -115,6 +117,10 @@ public class InformacionProductoInicioDTO {
         return variedadProducto;
     }
 
+    public String getProveedorProducto() {
+        return proveedorProducto;
+    }
+
     /**
      * Método que permite obtener el precio del producto.
      * @return Objeto Double que representa el precio del producto.
@@ -164,6 +170,12 @@ public class InformacionProductoInicioDTO {
     public void setDireccionImagenProveedor(String direccionImagenProveedor) {
         this.direccionImagenProveedor = direccionImagenProveedor;
     }
+
+    public void setProveedorProducto(String proveedorProducto) {
+        this.proveedorProducto = proveedorProducto;
+    }
+    
+    
     
     
 

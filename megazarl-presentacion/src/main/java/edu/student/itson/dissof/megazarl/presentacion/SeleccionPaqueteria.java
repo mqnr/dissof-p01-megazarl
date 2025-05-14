@@ -12,7 +12,7 @@ import javax.swing.border.EmptyBorder;
 
 public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria, IVista {
 
-    private Encabezado encabezado;
+    private EncabezadoCompra encabezado;
 
     private JPanel panelCentral;
     private JPanel panelInstrucciones;
@@ -61,7 +61,7 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
 
     private void initComponents() {
         
-        encabezado = new Encabezado(control, idCliente, this);
+        encabezado = new EncabezadoCompra(control, idCliente, this);
                 
         this.add(encabezado, BorderLayout.NORTH);
 

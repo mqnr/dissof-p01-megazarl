@@ -15,7 +15,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
 
     private ControlCompra control;
     private Long idCliente;
-    private Encabezado encabezado;
+    private EncabezadoCompra encabezado;
     private JPanel panelPrincipal;
     private JPanel panelContenedorCarrito;
     private boolean envioGratis = false;
@@ -43,7 +43,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
         this.idCliente = idCliente;
 
         
-        encabezado = new Encabezado(control, idCliente, this);
+        encabezado = new EncabezadoCompra(control, idCliente, this);
         // Panel principal con BorderLayout
         panelPrincipal = new JPanel(new BorderLayout());
 

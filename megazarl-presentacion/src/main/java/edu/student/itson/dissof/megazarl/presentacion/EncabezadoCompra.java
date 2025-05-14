@@ -6,7 +6,7 @@ import edu.student.itson.dissof.megazarl.presentacion.utils.ButtonBuilder;
 import java.awt.*;
 import javax.swing.*;
 
-public class Encabezado extends JPanel {
+public class EncabezadoCompra extends JPanel {
 
     private IVista vistaPadre;
     private JPanel panelFila1;
@@ -69,7 +69,7 @@ public class Encabezado extends JPanel {
 
     private ControlCompra control;
 
-    public Encabezado(ControlCompra control, Long idCliente, IVista vistaPadre) {
+    public EncabezadoCompra(ControlCompra control, Long idCliente, IVista vistaPadre) {
         this.control = control;
         this.idCliente = idCliente;
         this.vistaPadre = vistaPadre;

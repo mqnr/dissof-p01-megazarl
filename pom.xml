@@ -29,6 +29,7 @@
     <module>megazarl-administrador-sql</module>
       <module>megazarl-servicios</module>
     <module>megazarl-administrador-gerenteVentas</module>
+    <module>megazarl-administrador-auxiliares-ventas</module>
   </modules>
 
   <properties>
