@@ -15,8 +15,7 @@ import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 class AdministradorProductos implements IAdministradorProductos {
     
@@ -37,7 +36,7 @@ class AdministradorProductos implements IAdministradorProductos {
         
         // Se obtiene la cantidad de objetos de tipo ProductoInventario de la lista
         // del objeto Producto con el ID del parámetro.
-        int disponibilidadProducto = producto.getListaProductoInventario().size();
+        int disponibilidadProducto = producto.getProductosInventario().size();
  
         return disponibilidadProducto;
     }

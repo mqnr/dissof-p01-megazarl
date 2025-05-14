@@ -10,6 +10,8 @@ public class ConfiguracionFuentesIntermedia {
     public FuenteDatos sucursal;
     public FuenteDatos proveedor;
     public FuenteDatos direccion;
+    public FuenteDatos productoCarrito;
+    public FuenteDatos coordinadorLogistica;
 
     public void todos(FuenteDatos fuente) {
         cliente = fuente;
@@ -20,5 +22,7 @@ public class ConfiguracionFuentesIntermedia {
         sucursal = fuente;
         proveedor = fuente;
         direccion = fuente;
+        productoCarrito = fuente;
+        coordinadorLogistica = coordinadorLogistica;
     }
 }

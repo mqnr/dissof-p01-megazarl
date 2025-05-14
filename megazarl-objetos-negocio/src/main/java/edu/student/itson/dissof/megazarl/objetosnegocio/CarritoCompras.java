@@ -2,8 +2,8 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionCarritoComprasDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.CarritoComprasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionCarritoComprasDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdCarritoComprasDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioCarritoCompras;
 import edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones.RepositorioCarritoComprasEnMemoria;
@@ -31,7 +31,7 @@ public class CarritoCompras {
         return repositorio.existePorId(idCarritoComprasDTO);
     }
      
-     public static CarritoComprasDTO actualizar(ActualizacionCarritoComprasDTO actualizacionCarritoComprasDTO) {
+    public static CarritoComprasDTO actualizar(ActualizacionCarritoComprasDTO actualizacionCarritoComprasDTO) {
         return repositorio.actualizar(actualizacionCarritoComprasDTO);
     }
      

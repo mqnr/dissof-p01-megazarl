@@ -261,7 +261,7 @@ public class ControlCompra {
             mapaInformacionProductoInicio.put("DireccionImagenProducto", productoInicioDTO.getDireccionImagenProducto());
               
             String direccionImagenProveedor = obtenerDireccionImagenProveedor(productoInicioDTO.getIdProveedor()); 
-            productoInicioDTO.setDireccionImagenProveedor(direccionImagenProveedor);
+            productoInicioDTO.setDireccionImagenProveedor(direccionImagenProveedor); 
             
             mapaInformacionProductoInicio.put("DireccionImagenProveedor", direccionImagenProveedor);
 
@@ -531,7 +531,7 @@ public class ControlCompra {
             }
         } catch (CarritoComprasIdClienteInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
-        } catch (ProductosIdProductoInvalidoException ex) {           
+        } catch (ProductosIdProductoInvalidoException | CarritoComprasIdProductoInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error al mostrar los productos del carrito.", COLOR_MENSAJE_ADVERTENCIA);
         }
 
@@ -744,7 +744,7 @@ public class ControlCompra {
             
             return informacionMontoEnvioGratuito;
             
-        } catch (CarritoComprasIdClienteInvalidoException ex) {
+        } catch (CarritoComprasIdClienteInvalidoException | CarritoComprasIdProductoInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
         } catch (CarritoComprasClienteSinCarritoVigenteException ex) {
             mostrarMensaje("Ha ocurrido un error al obtener el carrito del cliente", COLOR_MENSAJE_ERROR);
@@ -926,6 +926,7 @@ public class ControlCompra {
         try {
             IAdministradorCarritoCompras administradorCarritoCompras 
                     = FabricaSubsistemas.obtenerAdministradorCarritoCompras(montoMinimoEnvioGratuito, direccionDefectoPaquetería);
+            
             costoEnvioPaqueteria = administradorCarritoCompras.obtenerCostoEnvioProductos(idClientePaqueteriaCalculoCostoEnvioDTO);
 
         } catch (CarritoComprasIdClienteInvalidoException ex) {

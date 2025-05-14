@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.function.Predicate;
 ;
 
-
 public class Pedido {
     
     private static final RepositorioPedido repositorio;

@@ -29,8 +29,8 @@ public class Paqueteria {
         return repositorio.existePorId(idPaqueteriaDTO);
     }
 
-    public static void agregar(PaqueteriaDTO cliente) {
-        repositorio.agregar(cliente);
+    public static void agregar(PaqueteriaDTO paqueteriaDTO) {
+        repositorio.agregar(paqueteriaDTO);
     }
 
     public static void agregar(Collection<PaqueteriaDTO> paqueterias) {

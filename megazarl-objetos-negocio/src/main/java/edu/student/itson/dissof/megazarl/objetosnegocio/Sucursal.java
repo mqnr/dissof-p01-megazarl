@@ -33,22 +33,7 @@ public class Sucursal {
     public static void agregar(SucursalDTO sucursal) {
         repositorio.agregar(sucursal);
     }
-     
-    public static void agregar(
-            Long id,
-            Boolean esMatriz,
-            Float tiempoMatriz,
-            DireccionDTO direccion
-    ) {
-        repositorio.agregar(
-                new SucursalDTO(
-                    id,
-                    esMatriz,
-                    direccion
-                )
-        );
-    }
-    
+
     public static void agregar(Collection<SucursalDTO> sucursales) {
         repositorio.agregar(sucursales);
     }

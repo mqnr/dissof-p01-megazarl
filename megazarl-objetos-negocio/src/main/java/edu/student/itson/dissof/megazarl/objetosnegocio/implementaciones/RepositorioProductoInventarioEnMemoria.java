@@ -49,7 +49,7 @@ public class RepositorioProductoInventarioEnMemoria implements RepositorioProduc
     public void agregar(ProductoInventarioDTO productoInventario) {
         
         productoInventario.setId(ID_ACTUAL_PRODUCTO_INVENTARIO++);
-        productoInventario.getProducto().getListaProductoInventario().add(productoInventario);
+        productoInventario.getProducto().getProductosInventario().add(productoInventario);
         listaProductosInventario.add(productoInventario);
         
     }
@@ -60,7 +60,7 @@ public class RepositorioProductoInventarioEnMemoria implements RepositorioProduc
         for(ProductoInventarioDTO productoInventario: productosInventario){
             
             productoInventario.setId(ID_ACTUAL_PRODUCTO_INVENTARIO++);
-            productoInventario.getProducto().getListaProductoInventario().add(productoInventario);
+            productoInventario.getProducto().getProductosInventario().add(productoInventario);
             
         }
         

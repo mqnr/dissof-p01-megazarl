@@ -1,7 +1,7 @@
 
 package edu.student.itson.dissof.megazarl.dto.infraestructura;
 
-import java.util.HashMap;
+import java.util.List;
 
 /**
  * CarritoComprasDTO.java
@@ -45,10 +45,9 @@ public class CarritoComprasDTO {
     private PedidoDTO pedido;
 
     /**
-     * Objeto HashMap que representa los productos y sus cantidades, donde la llave es el ProductoDTO
-     * y el valor es un Integer representando su cantidad correspondiente.
+     * Objeto {@literal List<ProductoCarritoDTO>} que representa los productos dentro de este carrito.
      */
-    private HashMap<ProductoDTO, Integer> productosCantidades;
+    private List<ProductoCarritoDTO> productosCarrito;
 
     /**
      * Constructor que permite instanciar un objeto de tipo CarritoComprasDTO.
@@ -56,36 +55,36 @@ public class CarritoComprasDTO {
      * @param cliente              Objeto ClienteDTO que representa el cliente asociado a este carrito de compras.
      * @param paqueteria           Objeto PaqueteriaDTO que representa la paquetería asociada a este carrito de compras.
      * @param pedido               Objeto PedidoDTO que representa el pedido asociado a este carrito de compras.
-     * @param productosCantidades  Objeto HashMap que representa los productos y sus cantidades.
+     * @param productosCarrito     Objeto {@literal List<ProductoCarritoDTO>} que representa los productos dentro de este carrito.
      */
     public CarritoComprasDTO(
             Long id, 
             ClienteDTO cliente, 
             PaqueteriaDTO paqueteria, 
             PedidoDTO pedido, 
-            HashMap<ProductoDTO, Integer> productosCantidades) {
+            List<ProductoCarritoDTO> productosCarrito) {
         
         this.id = id;
         this.cliente = cliente;
         this.paqueteria = paqueteria;
         this.pedido = pedido;
-        this.productosCantidades = productosCantidades;
+        this.productosCarrito = productosCarrito;
     }
     
     /**
      * Constructor que permite instanciar un objeto de tipo CarritoComprasDTO.
      * @param cliente              Objeto ClienteDTO que representa el cliente asociado a este carrito de compras.
      * @param pedido               Objeto PedidoDTO que representa el pedido asociado a este carrito de compras.
-     * @param productosCantidades  Objeto HashMap que representa los productos y sus cantidades.
+     * @param productosCarrito     Objeto {@literal List<ProductoCarritoDTO>} que representa los productos dentro de este carrito.
      */
     public CarritoComprasDTO(
             ClienteDTO cliente, 
             PedidoDTO pedido, 
-            HashMap<ProductoDTO, Integer> productosCantidades) {
+            List<ProductoCarritoDTO> productosCarrito) {
         
         this.cliente = cliente;
         this.pedido = pedido;
-        this.productosCantidades = productosCantidades;
+        this.productosCarrito = productosCarrito;
     }
 
     /**
@@ -129,11 +128,11 @@ public class CarritoComprasDTO {
     }
 
     /**
-     * Método que permite obtener el objeto HashMap de productos y sus cantidades del carrito de compras.
-     * @return Objeto HashMap donde la llave es un ProductoDTO y el valor un Integer que representa su cantidad.
+     * Método que permite obtener el objeto {@literal List<ProductoCarritoDTO>} que representa los productos dentro de este carrito.
+     * @return Objeto {@literal List<ProductoCarritoDTO>} que representa los productos dentro de este carrito.
      */
-    public HashMap<ProductoDTO, Integer> getProductosCantidades() {
-        return productosCantidades;
+    public List<ProductoCarritoDTO> getProductosCarrito() {
+        return productosCarrito;
     }
 
     /**

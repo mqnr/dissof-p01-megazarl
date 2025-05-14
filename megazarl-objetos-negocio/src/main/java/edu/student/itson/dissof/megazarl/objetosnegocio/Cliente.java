@@ -2,7 +2,7 @@ package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioCliente;
 import edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones.RepositorioClienteEnMemoria;
@@ -34,8 +34,8 @@ public class Cliente {
         return repositorio.actualizar(actualizacionClienteDTO);
     }
 
-    public static void agregar(ClienteDTO cliente) {
-        repositorio.agregar(cliente);
+    public static void agregar(ClienteDTO clienteDTO) {
+        repositorio.agregar(clienteDTO);
     }
 
     public static void agregar(Collection<ClienteDTO> clientes) {
