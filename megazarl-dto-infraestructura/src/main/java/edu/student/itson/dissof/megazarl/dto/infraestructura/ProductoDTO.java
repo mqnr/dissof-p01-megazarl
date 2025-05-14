@@ -70,9 +70,15 @@ public class ProductoDTO {
     private ProveedorDTO proveedor;
 
     /**
-     * Lista de ProductoInventarioDTO que representa el inventario asociado al producto
+     * Objeto {@literal List<ProductoInventarioDTO>} que representa el inventario asociado al producto.
      */
-    private List<ProductoInventarioDTO> listaProductoInventario;
+    private List<ProductoInventarioDTO> productosInventario;
+    
+    /**
+     * Objeto {@literal List<ProductoCarritoDTO>} que representa las unidades de este producto en diferentes
+     * carritos de compras de clientes.
+     */
+    private List<ProductoCarritoDTO> productosCarritos;
 
     /**
      * Constructor que permite instanciar un objeto de tipo ProductoDTO
@@ -85,7 +91,9 @@ public class ProductoDTO {
      * @param pesoKg                    Objeto Double que representa el peso del producto en kilogramos
      * @param direccionImagen           Objeto String que representa la dirección de la imagen del producto
      * @param proveedor                 Objeto ProveedorDTO que representa el proveedor del producto
-     * @param listaProductoInventario   Objeto {@literal List<ProductoInventarioDTO>} que representa el inventario asociado al producto
+     * @param productosInventario       Objeto {@literal List<ProductoInventarioDTO>} que representa el inventario asociado al producto.
+     * @param productosCarritos         Objeto {@literal List<ProductoCarritoDTO>} que representa las unidades de este producto en diferentes
+     *                                  carritos de compras de clientes.
      */
     public ProductoDTO(
             Long id, 
@@ -97,7 +105,8 @@ public class ProductoDTO {
             Double pesoKg,
             String direccionImagen, 
             ProveedorDTO proveedor, 
-            List<ProductoInventarioDTO> listaProductoInventario) {
+            List<ProductoInventarioDTO> productosInventario,
+            List<ProductoCarritoDTO> productosCarritos) {
         
         this.id = id;
         this.nombre = nombre;
@@ -108,7 +117,8 @@ public class ProductoDTO {
         this.pesoKg = pesoKg;
         this.direccionImagen = direccionImagen;
         this.proveedor = proveedor;
-        this.listaProductoInventario = listaProductoInventario;
+        this.productosInventario = productosInventario;
+        this.productosCarritos = productosCarritos;
     }
     
     /**
@@ -121,7 +131,9 @@ public class ProductoDTO {
      * @param pesoKg                    Objeto Double que representa el peso del producto en kilogramos
      * @param direccionImagen           Objeto String que representa la dirección de la imagen del producto
      * @param proveedor                 Objeto ProveedorDTO que representa el proveedor del producto
-     * @param listaProductoInventario   Objeto {@literal List<ProductoInventarioDTO>} que representa el inventario asociado al producto
+     * @param productosInventario       Objeto {@literal List<ProductoInventarioDTO>} que representa el inventario asociado al producto
+     * @param productosCarritos         Objeto {@literal List<ProductoCarritoDTO>} que representa las unidades de este producto en diferentes
+     *                                  carritos de compras de clientes.
      */
     public ProductoDTO(
             String nombre, 
@@ -132,7 +144,8 @@ public class ProductoDTO {
             Double pesoKg,
             String direccionImagen, 
             ProveedorDTO proveedor, 
-            List<ProductoInventarioDTO> listaProductoInventario) {
+            List<ProductoInventarioDTO> productosInventario,
+            List<ProductoCarritoDTO> productosCarritos) {
 
         this.nombre = nombre;
         this.variedad = variedad;
@@ -142,7 +155,8 @@ public class ProductoDTO {
         this.pesoKg = pesoKg;
         this.direccionImagen = direccionImagen;
         this.proveedor = proveedor;
-        this.listaProductoInventario = listaProductoInventario;
+        this.productosInventario = productosInventario;
+        this.productosCarritos = productosCarritos;
     }
     
 
@@ -222,8 +236,12 @@ public class ProductoDTO {
      * Método que permite obtener la lista de inventarios asociados al producto.
      * @return Objeto {@literal List<ProductoInventarioDTO>} que representa el inventario asociado al producto
      */
-    public List<ProductoInventarioDTO> getListaProductoInventario() {
-        return listaProductoInventario;
+    public List<ProductoInventarioDTO> getProductosInventario() {
+        return productosInventario;
+    }
+    
+    public List<ProductoCarritoDTO> getProductosCarrito(){
+        return productosCarritos;
     }
 
     /**

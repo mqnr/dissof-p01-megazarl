@@ -228,6 +228,7 @@ public class App {
                         1d,
                         "/sandiaSummerBreeze.png",
                         proveedor1,
+                        new LinkedList<>(),
                         new LinkedList<>());
             
             ProductoDTO producto2 = new ProductoDTO(
@@ -243,6 +244,7 @@ public class App {
                         0.7d,
                         "/chileJalapenioMixtecoF1.png",
                         proveedor2,
+                        new LinkedList<>(),
                         new LinkedList<>());
             
             ProductoDTO producto3 = new ProductoDTO(
@@ -259,6 +261,7 @@ public class App {
                         2d,
                         "/melonCruiserF1.png",
                         proveedor3,
+                        new LinkedList<>(),
                         new LinkedList<>());
             
             ProductoDTO producto4 =  new ProductoDTO(
@@ -275,6 +278,7 @@ public class App {
                         2.5d,
                         "/chileAnchoCommander.png",
                         proveedor3,
+                        new LinkedList<>(),
                         new LinkedList<>());
 
             ProductoDTO producto5 = new ProductoDTO(
@@ -290,6 +294,7 @@ public class App {
                     3d,
                     "/lechugaRomanaPlutone.png",
                     proveedor5,
+                    new LinkedList<>(),
                     new LinkedList<>());
             
             ProductoDTO producto6 = new ProductoDTO(
@@ -305,6 +310,7 @@ public class App {
                     1d,
                     "/calabazaRocioF1.png",
                     proveedor4,
+                    new LinkedList<>(),
                     new LinkedList<>());
             
             ProductoDTO producto7 = new ProductoDTO(
@@ -321,6 +327,7 @@ public class App {
                     1d,
                     "/tomateSuccession.png",
                     proveedor1,
+                    new LinkedList<>(),
                     new LinkedList<>());
             
             ProductoDTO producto8 =  new ProductoDTO(
@@ -337,6 +344,7 @@ public class App {
                     0.45d,
                     "/rabanoRedDiamondF1.png",
                     proveedor2,
+                    new LinkedList<>(),
                     new LinkedList<>());
 
             ProductoDTO producto9 = new ProductoDTO(
@@ -353,6 +361,7 @@ public class App {
                     5d,
                     "/sandiaWarrior.png",
                     proveedor4,
+                    new LinkedList<>(),
                     new LinkedList<>());
             
             ProductoDTO producto10 = new ProductoDTO(
@@ -368,6 +377,7 @@ public class App {
                     7d,
                     "/sandiaTailgate.png",
                     proveedor1,
+                    new LinkedList<>(),
                     new LinkedList<>());
             
             ProductoDTO producto11 = new ProductoDTO(
@@ -384,6 +394,7 @@ public class App {
                     5d,
                     "/brocoliKeplerF1.png",
                     proveedor2,
+                    new LinkedList<>(),
                     new LinkedList<>());
             
             ProductoDTO producto12 = new ProductoDTO(
@@ -399,6 +410,7 @@ public class App {
                     3d,
                     "/melonSaturno.png",
                     proveedor1,
+                    new LinkedList<>(),
                     new LinkedList<>());
             
             

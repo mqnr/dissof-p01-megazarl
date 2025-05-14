@@ -22,6 +22,16 @@ class AdministradorSucursales implements IAdministradorSucursales {
 
         return codigosSucursalesDTO;
     }
+    
+    @Override
+    public boolean validarSucursal(IdSucursalDTO idSucursalDTO) {
+        
+        if (idSucursalDTO == null || idSucursalDTO.getIdSucursal() == null || !Sucursal.existePorId(idSucursalDTO)) {
+            return false;
+        }
+        
+        return true;
+    }
 
     @Override
     public String obtenerCodigoPostal(IdSucursalDTO idSucursalDTO) throws SucursalesIdSucursalException{
@@ -87,15 +97,6 @@ class AdministradorSucursales implements IAdministradorSucursales {
     public SucursalDTO obtenerSucursal(IdSucursalDTO idSucursalDTO){
         
         return Sucursal.recuperarPorId(idSucursalDTO);
-    }
-    
-    @Override
-    public boolean validarSucursal(IdSucursalDTO idSucursalDTO) {
         
-        if (idSucursalDTO == null || idSucursalDTO.getIdSucursal() == null || !Sucursal.existePorId(idSucursalDTO)) {
-            return false;
-        }
-        
-        return true;
     }
 }

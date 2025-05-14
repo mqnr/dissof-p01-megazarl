@@ -19,6 +19,7 @@ import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorS
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DatosTiempoTrasladoUbicacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.PaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.PedidoDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.SucursalDTO;
@@ -44,6 +45,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class AdministradorPedidos implements IAdministradorPedidos {
     
@@ -103,17 +106,13 @@ class AdministradorPedidos implements IAdministradorPedidos {
             }
             
             ProductoDTO producto = null;
-            try {
-                producto = administradorProductos.obtenerProducto(idProductoDTO);
-            } catch (ProductosIdProductoInvalidoException ex) {
-                throw new PedidosIdProductoInvalidoException(ex.getMessage());
-            }
+            producto = administradorProductos.obtenerProducto(idProductoDTO);
             
             if(producto == null){
                 throw new PedidosIdProductoInvalidoException("El ID de producto es inválido.");
             }
                     
-            List<ProductoInventarioDTO> listaProductosInventario = producto.getListaProductoInventario();
+            List<ProductoInventarioDTO> listaProductosInventario = producto.getProductosInventario();
  
             // Se crea un hashMap para almacenar los productos en inventario del producto
             // como clave, y su tiempo de traslado a matriz como valor
@@ -270,12 +269,13 @@ class AdministradorPedidos implements IAdministradorPedidos {
 
         // Se obtiene el mapa con la información de las cantidades solicitades por producto
         HashMap<Long, Integer> mapaProductosCantidades = informacionPedidoClienteDTO.getMapaProductosCantidades();
-
+        
         // Se validan los IDs de los productos
         for (Long idProducto: mapaProductosCantidades.keySet()) {
             if (!administradorProductos.validarProducto(new IdProductoDTO(idProducto))) {
                 throw new PedidosIdProductoInvalidoException("El ID de producto es inválido.");
             }
+            
         }
 
 
@@ -304,13 +304,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
                 throw new PedidosIdProductoInvalidoException("El ID de producto es inválido.");
             }
             
-            ProductoDTO producto = null;
-            try{
-                producto = administradorProductos.obtenerProducto(new IdProductoDTO(idProducto));
-                
-            } catch(ProductosIdProductoInvalidoException ex){
-                throw new PedidosIdProductoInvalidoException(ex.getMessage());
-            }
+            ProductoDTO producto = administradorProductos.obtenerProducto(new IdProductoDTO(idProducto));
             
             
             // Se valida el ID del proveedor
@@ -320,14 +314,14 @@ class AdministradorPedidos implements IAdministradorPedidos {
                 throw new PedidosIdProductoInvalidoException("El ID de proveedor es inválido.");
             }
 
-            int cantidadProductoDisponible = producto.getListaProductoInventario().size();
+            int cantidadProductoDisponible = producto.getProductosInventario().size();
             int cantidadProductoRequerido = mapaProductosCantidades.get(idProducto);
 
             HashMap<ProductoInventarioDTO, Float> mapaProductosInventarioTiempoTrasladoMatriz = new HashMap<>();
 
             // Se obtiene la lista de productos en inventario asociados al 
             // producto actual
-            List<ProductoInventarioDTO> listaProductosInventario = producto.getListaProductoInventario();
+            List<ProductoInventarioDTO> listaProductosInventario = producto.getProductosInventario();
 
             for(ProductoInventarioDTO productoInventario: listaProductosInventario){
 
@@ -531,6 +525,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
         return costoTotalEnvio;
 
     }
+    private static final Logger LOG = Logger.getLogger(AdministradorPedidos.class.getName());
 
     @Override
     public PedidoDTO realizarPedido(InformacionCrearPedidoDTO informacionCrearPedidoDTO)
@@ -572,7 +567,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
 
             ProductoDTO producto = administradorProductos.obtenerProducto(new IdProductoDTO(idProducto));
 
-            List<ProductoInventarioDTO> listaProductosInventario = producto.getListaProductoInventario();
+            List<ProductoInventarioDTO> listaProductosInventario = producto.getProductosInventario();
 
             
             // TODO Ordenar

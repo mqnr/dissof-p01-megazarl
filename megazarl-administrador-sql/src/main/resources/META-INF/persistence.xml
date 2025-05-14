@@ -9,9 +9,9 @@
     <class>edu.student.itson.dissof.megazarl.administradorsql.clasesmapeadas.Paqueteria</class>
     <class>edu.student.itson.dissof.megazarl.administradorsql.clasesmapeadas.Pedido</class>
     <class>edu.student.itson.dissof.megazarl.administradorsql.clasesmapeadas.Producto</class>
-    <class>edu.student.itson.dissof.megazarl.administradorsql.clasesmapeadas.ProductoCarritoCompras</class>
     <class>edu.student.itson.dissof.megazarl.administradorsql.clasesmapeadas.ProductoInventario</class>
     <class>edu.student.itson.dissof.megazarl.administradorsql.clasesmapeadas.Proveedor</class>
+    <class>edu.student.itson.dissof.megazarl.administradorsql.clasesmapeadas.ProductoCarrito</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sistema_megazarl_bd?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

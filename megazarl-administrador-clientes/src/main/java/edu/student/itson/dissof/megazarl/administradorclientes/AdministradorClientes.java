@@ -9,7 +9,7 @@ import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAcce
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioActualizadaClienteDTO;

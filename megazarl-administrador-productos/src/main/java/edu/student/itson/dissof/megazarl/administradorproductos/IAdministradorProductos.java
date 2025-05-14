@@ -112,10 +112,8 @@ public interface IAdministradorProductos {
      *
      * @param idProductoDTO Objeto IdProductoDTO que contiene el ID del producto a obtener.
      * @return Objeto Producto que representa el producto con el ID especificado.
-     * @throws ProductosIdProductoInvalidoException Se lanza si se comprueba que el ID
-     * del producto es inválido, dentro de este subsistema.
      */
-    public abstract ProductoDTO obtenerProducto(IdProductoDTO idProductoDTO) throws ProductosIdProductoInvalidoException;
+    public abstract ProductoDTO obtenerProducto(IdProductoDTO idProductoDTO);
 
     /**
      * Método que permite verificar si el ID de un producto en inventario es válido.

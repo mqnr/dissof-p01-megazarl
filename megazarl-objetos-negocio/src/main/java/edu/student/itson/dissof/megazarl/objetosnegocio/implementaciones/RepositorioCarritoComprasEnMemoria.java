@@ -1,8 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones;
 
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionCarritoComprasDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.CarritoComprasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionCarritoComprasDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdCarritoComprasDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioCarritoCompras;
 import java.util.ArrayList;
@@ -97,7 +97,7 @@ public class RepositorioCarritoComprasEnMemoria implements RepositorioCarritoCom
                 carritoComprasOriginal.getCliente(),
                 actualizacionCarritoComprasDTO.tienePaqueteria() ? actualizacionCarritoComprasDTO.getPaqueteria() : carritoComprasOriginal.getPaqueteria(),
                 carritoComprasOriginal.getPedido(),
-                carritoComprasOriginal.getProductosCantidades()
+                carritoComprasOriginal.getProductosCarrito()
         );
         
     }

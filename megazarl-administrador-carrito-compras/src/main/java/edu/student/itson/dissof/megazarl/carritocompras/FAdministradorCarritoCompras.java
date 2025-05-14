@@ -2,14 +2,8 @@ package edu.student.itson.dissof.megazarl.carritocompras;
 
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
-import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.IAdministradorPedidos;
-import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdClienteInvalidoException;
-import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdPaqueteriaInvalidoException;
-import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
-import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosProductoSinInventarioException;
-import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdProductoInvalidoException;
@@ -81,7 +75,8 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
      */
     @Override
     public List<InformacionProductoCarritoDTO> obtenerProductos(IdClienteDTO idClienteDTO)
-            throws CarritoComprasIdClienteInvalidoException {
+            throws CarritoComprasIdClienteInvalidoException, 
+            CarritoComprasIdProductoInvalidoException {
         
         return administradorCarritoCompras.obtenerProductos(idClienteDTO);
     }
@@ -191,7 +186,8 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
     @Override
     public MontoMinimoEnvioGratuitoDTO obtenerInformacionMontoEnvioMinimoGratuito(IdClienteDTO idClienteDTO)
         throws CarritoComprasIdClienteInvalidoException, 
-        CarritoComprasClienteSinCarritoVigenteException{
+        CarritoComprasClienteSinCarritoVigenteException,
+        CarritoComprasIdProductoInvalidoException{
         
         return administradorCarritoCompras.obtenerInformacionMontoEnvioMinimoGratuito(idClienteDTO);
     }
