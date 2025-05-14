@@ -9,5 +9,6 @@ public record ConfiguracionFuentes(
         FuenteDatos pedido,
         FuenteDatos sucursal,
         FuenteDatos proveedor,
-        FuenteDatos direccion
+        FuenteDatos direccion,
+        FuenteDatos gerenteVentas
 ){}
