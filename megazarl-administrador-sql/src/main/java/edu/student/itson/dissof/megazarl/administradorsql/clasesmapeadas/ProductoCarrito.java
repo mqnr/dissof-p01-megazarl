@@ -18,12 +18,8 @@ import javax.persistence.Table;
  * ID: 00000252583
  * @author Luis Rafael Lagarda Encinas
  * ID: 00000252607
- * @author Vladimir Iván Mendoza Baypoli
- * ID: 00000252758
  * @author Manuel Romo López
  * ID: 00000253080
- * @author Martín Zamorano Acuña
- * ID: 00000251923
  *
  */
 
@@ -61,23 +57,20 @@ public class ProductoCarrito implements Serializable {
 
     /**
      * Representación de una relación Muchos a Uno entre ProductoCarrito 
- y CarritoCompras
+     * y CarritoCompras
      */
     @ManyToOne()
-    @JoinColumn(name = "id_carrito", nullable = true)
+    @JoinColumn(name = "id_carrito", nullable = false)
     private CarritoCompras carritoCompras;
     
     /**
      * Representación de una relación Muchos a Uno entre ProductoCarrito 
- y producto
+     * y producto
      */
     @ManyToOne()
-    @JoinColumn(name = "id_producto", nullable = true)
+    @JoinColumn(name = "producto", nullable = false)
     private Producto producto;
     
-    /**
-     * Getters y Setters para cada atributo de la clase
-     */
     
     public Long getId() {
         return id;
@@ -92,7 +85,17 @@ public class ProductoCarrito implements Serializable {
     }
 
     public void setCarritoCompras(CarritoCompras carritoCompras) {
-        this.carritoCompras = carritoCompras;
+        
+        if(carritoCompras != null){
+            this.carritoCompras = carritoCompras;
+        
+            if (carritoCompras.getProductosCarritoCompras() != null && !carritoCompras.getProductosCarritoCompras().contains(this)) {
+
+                carritoCompras.getProductosCarritoCompras().add(this);
+
+            }
+        }
+        
     }
 
     public Producto getProducto() {
@@ -100,7 +103,17 @@ public class ProductoCarrito implements Serializable {
     }
 
     public void setProducto(Producto producto) {
-        this.producto = producto;
+        
+        if(producto != null){
+            this.producto = producto;
+        
+            if(producto.getProductosCarritoCompras() != null && !producto.getProductosCarritoCompras().contains(this)){
+
+                producto.getProductosCarritoCompras().add(this);
+
+            }
+        }
+        
     }
 
     /**

@@ -3,6 +3,7 @@ package edu.student.itson.dissof.megazarl.administradorsql.clasesmapeadas;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 /**
  * Proveedor.java
@@ -19,14 +21,10 @@ import javax.persistence.Table;
  *
  * @author Yuri Germán García López
  * ID: 00000252583
- * @author Luis Rafael Lagarda Encinas
- * ID: 00000252607
  * @author Vladimir Iván Mendoza Baypoli
  * ID: 00000252758
  * @author Manuel Romo López
  * ID: 00000253080
- * @author Martín Zamorano Acuña
- * ID: 00000251923
  *
  */
 
@@ -88,10 +86,10 @@ public class Proveedor implements Serializable {
     private String direccionImagen;
     
     /**
-     * Representación de una relación Muchos a 1 entre proveedor
+     * Representación de una relación 1 a 1 entre proveedor
      * y direccion
      */
-    @ManyToOne()
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_direccion", nullable = false)
     private Direccion direccion;
 

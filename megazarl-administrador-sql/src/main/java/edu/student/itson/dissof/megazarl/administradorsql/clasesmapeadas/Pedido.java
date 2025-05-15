@@ -18,12 +18,8 @@ import javax.persistence.Table;
  * ID: 00000252583
  * @author Luis Rafael Lagarda Encinas
  * ID: 00000252607
- * @author Vladimir Iván Mendoza Baypoli
- * ID: 00000252758
  * @author Manuel Romo López
  * ID: 00000253080
- * @author Martín Zamorano Acuña
- * ID: 00000251923
  *
  */
 
@@ -62,7 +58,7 @@ public class Pedido implements Serializable {
     /**
      * Creación de la columna id_cliente dentro de la tabla pedidos
      */
-    @Column(name = "id_cliente") //TODO es nullable false o true
+    @Column(name = "id_cliente", nullable = false)
     private Long idCliente;
     
     /**
@@ -98,6 +94,10 @@ public class Pedido implements Serializable {
 
     public void setCarritoCompras(CarritoCompras carritoCompras) {
         this.carritoCompras = carritoCompras;
+        
+        if(carritoCompras != null && carritoCompras.getPedido() == null){
+            carritoCompras.setPedido(this);
+        }
     }
 
     /**

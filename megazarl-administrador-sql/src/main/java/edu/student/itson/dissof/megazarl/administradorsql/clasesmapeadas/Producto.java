@@ -21,12 +21,8 @@ import javax.persistence.Table;
  * ID: 00000252583
  * @author Luis Rafael Lagarda Encinas
  * ID: 00000252607
- * @author Vladimir Iván Mendoza Baypoli
- * ID: 00000252758
  * @author Manuel Romo López
  * ID: 00000253080
- * @author Martín Zamorano Acuña
- * ID: 00000251923
  *
  */
 
@@ -136,14 +132,14 @@ public class Producto implements Serializable {
      * productosInventario
      */
     @OneToMany(mappedBy = "producto")
-    private List<ProductoInventario> productosInventario = new ArrayList();
+    private List<ProductoInventario> listaProductosInventario = new ArrayList();
     
     /**
      * Representación de una relación Uno a Muchos entre producto y 
      * productosCarritoCompras
      */
     @OneToMany(mappedBy = "producto")
-    private List<ProductoCarrito> productoCarritoCompras = new ArrayList();
+    private List<ProductoCarrito> listaProductosCarritoCompras = new ArrayList();
     
     /**
      * Getters y Setters para cada atributo de la clase
@@ -222,19 +218,41 @@ public class Producto implements Serializable {
     }
 
     public List<ProductoInventario> getProductosInventario() {
-        return productosInventario;
+        return listaProductosInventario;
     }
 
-    public void setProductosInventario(List<ProductoInventario> productosInventario) {
-        this.productosInventario = productosInventario;
+    public void agregarProductoInventario(ProductoInventario productoInventario){
+        
+        
+        if(productoInventario != null 
+                && listaProductosInventario != null 
+                && !listaProductosInventario.contains(productoInventario)){
+            
+            listaProductosInventario.add(productoInventario);
+            
+            if(productoInventario.getProducto() == null){
+                productoInventario.setProducto(this);
+            }
+        }
+    }
+    
+
+    public List<ProductoCarrito> getProductosCarritoCompras() {
+        return listaProductosCarritoCompras;
     }
 
-    public List<ProductoCarrito> getProductoCarritoCompras() {
-        return productoCarritoCompras;
-    }
-
-    public void setProductoCarritoCompras(List<ProductoCarrito> productoCarritoCompras) {
-        this.productoCarritoCompras = productoCarritoCompras;
+    public void agregarProductoCarritoCompras(ProductoCarrito productoCarritoCompras) {
+        
+        if(productoCarritoCompras != null 
+                && listaProductosCarritoCompras != null 
+                && !listaProductosCarritoCompras.contains(productoCarritoCompras)){
+            
+            listaProductosCarritoCompras.add(productoCarritoCompras);
+            
+            if(productoCarritoCompras.getProducto() == null){
+                productoCarritoCompras.setProducto(this);
+            }
+        }
     }
 
     /**

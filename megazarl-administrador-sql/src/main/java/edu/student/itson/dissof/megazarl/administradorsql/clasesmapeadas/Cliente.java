@@ -3,14 +3,15 @@ package edu.student.itson.dissof.megazarl.administradorsql.clasesmapeadas;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 /**
  * Cliente.java
@@ -21,12 +22,8 @@ import javax.persistence.Table;
  * ID: 00000252583
  * @author Luis Rafael Lagarda Encinas
  * ID: 00000252607
- * @author Vladimir Iván Mendoza Baypoli
- * ID: 00000252758
  * @author Manuel Romo López
  * ID: 00000253080
- * @author Martín Zamorano Acuña
- * ID: 00000251923
  *
  */
 
@@ -48,13 +45,34 @@ public class Cliente implements Serializable {
      * @param nombres Representa los nombres del cliente
      * @param apellidoPaterno Representa el apellido paterno del cliente
      * @param apellidoMaterno Representa el apellido materno del cliente
-     * @param direccion Representa la dirección del cliente
+     * @param direccionEnvio Representa la dirección de envío del cliente
      */
-    public Cliente(String nombres, String apellidoPaterno, String apellidoMaterno, Direccion direccion) {
+    public Cliente(
+            String nombres,
+            String apellidoPaterno, 
+            String apellidoMaterno,
+            Direccion direccionEnvio) {
+        
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
-        this.direccion = direccion;
+        this.direccionEnvio = direccionEnvio;
+    }
+    
+    /**
+     * Constructor con referencia a todos sus atributos, excepto la dirección.
+     * @param nombres Representa los nombres del cliente
+     * @param apellidoPaterno Representa el apellido paterno del cliente
+     * @param apellidoMaterno Representa el apellido materno del cliente
+     */
+    public Cliente(
+            String nombres,
+            String apellidoPaterno, 
+            String apellidoMaterno) {
+        
+        this.nombres = nombres;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
     }
     
     /**
@@ -88,24 +106,19 @@ public class Cliente implements Serializable {
     private String apellidoMaterno;
 
     /**
-     * Representación de una llave foránea con referecnia
+     * Representación de una llave foránea con referencia
      * a la tabla dirección
      */
-    @ManyToOne
-    @JoinColumn(name = "id_direccion", nullable = false)
-    private Direccion direccion;
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "id_direccion", nullable = true)
+    private Direccion direccionEnvio;
     
     /**
      * Representación de una relación 1 a 1 entre cliente y 
      * carrito de compras
      */
     @OneToMany(mappedBy = "cliente")
-    private List<CarritoCompras> carritoCompras = new ArrayList();
-    
-    
-    /**
-     * Getter y Setters para cada atributo de la clase
-     */
+    private List<CarritoCompras> listaCarritosCompras = new ArrayList();
     
     public Long getId() {
         return id;
@@ -139,20 +152,25 @@ public class Cliente implements Serializable {
         this.apellidoMaterno = apellidoMaterno;
     }
 
-    public Direccion getDireccion() {
-        return direccion;
+    public Direccion getDireccionEnvio() {
+        return direccionEnvio;
     }
 
-    public void setDireccion(Direccion direccion) {
-        this.direccion = direccion;
+    public void setDireccionEnvio(Direccion direccionEnvio) {
+        this.direccionEnvio = direccionEnvio;
     }
 
     public List<CarritoCompras> getCarritoCompras() {
-        return carritoCompras;
+        return listaCarritosCompras;
     }
-
-    public void setCarritoCompras(List<CarritoCompras> carritoCompras) {
-        this.carritoCompras = carritoCompras;
+    
+    public void agregarCarritoCompras(CarritoCompras carritoCompras){
+        
+        if(listaCarritosCompras != null && !listaCarritosCompras.contains(carritoCompras)){
+            
+            listaCarritosCompras.add(carritoCompras);
+            
+        }
     }
 
     /**
@@ -173,7 +191,6 @@ public class Cliente implements Serializable {
      */
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Cliente)) {
             return false;
         }

@@ -1,13 +1,14 @@
 package edu.student.itson.dissof.megazarl.administradorsql.clasesmapeadas;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 /**
  * Paqueteria.java
@@ -18,12 +19,8 @@ import javax.persistence.Table;
  * ID: 00000252583
  * @author Luis Rafael Lagarda Encinas
  * ID: 00000252607
- * @author Vladimir Iván Mendoza Baypoli
- * ID: 00000252758
  * @author Manuel Romo López
  * ID: 00000253080
- * @author Martín Zamorano Acuña
- * ID: 00000251923
  *
  */
 
@@ -94,16 +91,12 @@ public class Paqueteria implements Serializable {
     private String direccionImagenPaqueteria;
     
     /**
-     * Representación de una relación Muchos a 1 entre paqueteria
+     * Representación de una relación 1 a 1 entre paqueteria
      * y dirección
      */
-    @ManyToOne()
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_direccion", nullable = true)
     private Direccion direccion;
-    
-    /**
-     * Getters y Setters para cada atributo de la clase
-     */
     
     public Long getId() {
         return id;

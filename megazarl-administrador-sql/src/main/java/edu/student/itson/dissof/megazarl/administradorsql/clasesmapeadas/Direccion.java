@@ -1,14 +1,11 @@
 package edu.student.itson.dissof.megazarl.administradorsql.clasesmapeadas;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 /**
  * Direccion.java
@@ -19,12 +16,8 @@ import javax.persistence.Table;
  * ID: 00000252583
  * @author Luis Rafael Lagarda Encinas
  * ID: 00000252607
- * @author Vladimir Iván Mendoza Baypoli
- * ID: 00000252758
  * @author Manuel Romo López
  * ID: 00000253080
- * @author Martín Zamorano Acuña
- * ID: 00000251923
  *
  */
 
@@ -48,7 +41,12 @@ public class Direccion implements Serializable {
      * @param calle Representa la calle de alguna dirección
      * @param numero Representa el número de alguna dirección
      */
-    public Direccion(String codigoPostal, String colonia, String calle, String numero) {
+    public Direccion(
+            String codigoPostal, 
+            String colonia, 
+            String calle,
+            String numero) {
+        
         this.codigoPostal = codigoPostal;
         this.colonia = colonia;
         this.calle = calle;
@@ -92,31 +90,6 @@ public class Direccion implements Serializable {
     @Column(name = "numero", nullable = false)
     private String numero;
     
-    /**
-     * Representación de una relación 1 a Muchos entre dirección y 
-     * paquetería
-     */
-    @OneToMany(mappedBy = "direccion")
-    private List<Paqueteria> paqueterias = new ArrayList();
-    
-    /**
-     * Representación de una relación 1 a Muchos entre dirección y 
-     * cliente
-     */
-    @OneToMany(mappedBy = "direccion")
-    private List<Cliente> clientes = new ArrayList();
-
-    /**
-     * Representación de una relación 1 a Mucho entre direccion y 
-     * proveedor
-     */
-    @OneToMany(mappedBy = "direccion")
-    private List<Proveedor> proveedor = new ArrayList();
-    
-    /**
-     * Getter y Setters para cada atributo de la clase
-     */
-    
     public Long getId() {
         return id;
     }
@@ -155,30 +128,6 @@ public class Direccion implements Serializable {
 
     public void setNumero(String numero) {
         this.numero = numero;
-    }
-
-    public List<Paqueteria> getPaqueterias() {
-        return paqueterias;
-    }
-
-    public void setPaqueterias(List<Paqueteria> paqueterias) {
-        this.paqueterias = paqueterias;
-    }
-
-    public List<Cliente> getClientes() {
-        return clientes;
-    }
-
-    public void setClientes(List<Cliente> clientes) {
-        this.clientes = clientes;
-    }
-
-    public List<Proveedor> getProveedor() {
-        return proveedor;
-    }
-
-    public void setProveedor(List<Proveedor> proveedor) {
-        this.proveedor = proveedor;
     }
 
     /**

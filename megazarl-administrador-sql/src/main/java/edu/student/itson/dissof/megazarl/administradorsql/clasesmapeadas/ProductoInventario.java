@@ -45,7 +45,10 @@ public class ProductoInventario implements Serializable {
      * @param producto Representa los productos que se tienen en el inventario
      * @param sucursal Representa la sucursal asociada
      */
-    public ProductoInventario(Producto producto, Sucursal sucursal) {
+    public ProductoInventario(
+            Producto producto, 
+            Sucursal sucursal) {
+        
         this.producto = producto;
         this.sucursal = sucursal;
     }
@@ -75,10 +78,7 @@ public class ProductoInventario implements Serializable {
     @JoinColumn(name = "id_sucursal")
     private Sucursal sucursal;
     
-    /**
-     * Getters y Setters para cada atributo de la clase
-     */
-    
+
     public Long getId() {
         return id;
     }
@@ -92,7 +92,17 @@ public class ProductoInventario implements Serializable {
     }
 
     public void setProducto(Producto producto) {
-        this.producto = producto;
+        
+        if(producto != null){
+            
+            this.producto = producto;
+            
+            if(producto.getProductosInventario() != null && !producto.getProductosInventario().contains(this)){
+                producto.getProductosInventario().add(this);
+            }
+            
+        }
+        
     }
 
     public Sucursal getSucursal() {
@@ -100,7 +110,17 @@ public class ProductoInventario implements Serializable {
     }
 
     public void setSucursal(Sucursal sucursal) {
-        this.sucursal = sucursal;
+        
+        if(sucursal != null){
+            
+            this.sucursal = sucursal;
+             
+            if(sucursal.getProductosInventario() != null && !sucursal.getProductosInventario().contains(this)){
+                sucursal.getProductosInventario().add(this);
+            }
+            
+        }
+       
     }
 
     /**
@@ -121,7 +141,7 @@ public class ProductoInventario implements Serializable {
      */
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        
         if (!(object instanceof ProductoInventario)) {
             return false;
         }

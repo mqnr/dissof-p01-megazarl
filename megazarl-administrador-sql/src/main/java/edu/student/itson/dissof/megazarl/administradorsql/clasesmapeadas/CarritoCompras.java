@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 /**
  * CarritoCompras.java
@@ -21,12 +22,8 @@ import javax.persistence.Table;
  * ID: 00000252583
  * @author Luis Rafael Lagarda Encinas
  * ID: 00000252607
- * @author Vladimir Iván Mendoza Baypoli
- * ID: 00000252758
  * @author Manuel Romo López
  * ID: 00000253080
- * @author Martín Zamorano Acuña
- * ID: 00000251923
  *
  */
 
@@ -60,22 +57,19 @@ public class CarritoCompras implements Serializable {
     @Column(name = "id_carrito")
     private Long id;
 
-    /**
-     * 
-     */
+    
     @ManyToOne()
-    @JoinColumn(name = "id_cliente", nullable = true)
+    @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
     
-    /**
-     * 
-     */
-    @OneToMany(mappedBy = "carritoCompras") 
-    private List<ProductoCarrito> productosCarritoCompras = new ArrayList();
     
-    /**
-     * Getter y Setters para cada atributo de la clase
-     */
+    @OneToOne()
+    @JoinColumn(name = "id_pedido", nullable = true)
+    private Pedido pedido;
+    
+
+    @OneToMany(mappedBy = "carritoCompras") 
+    private List<ProductoCarrito> listaProductosCarritoCompras = new ArrayList();
     
     public Long getId() {
         return id;
@@ -93,12 +87,35 @@ public class CarritoCompras implements Serializable {
         this.cliente = cliente;
     }
 
-    public List<ProductoCarrito> getProductosCarritoCompras() {
-        return productosCarritoCompras;
+    public Pedido getPedido() {
+        return pedido;
     }
 
-    public void setProductoCarritoCompras(List<ProductoCarrito> productoCarritoCompras) {
-//        this.productoCarritoCompras = productoCarritoCompras;
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+        
+        if(pedido != null && pedido.getCarritoCompras() == null){
+            pedido.setCarritoCompras(this);
+        }
+    }
+
+    public List<ProductoCarrito> getProductosCarritoCompras() {
+        return listaProductosCarritoCompras;
+    }
+
+    public void agregarProductoCarritoCompras(ProductoCarrito productoCarritoCompras) {
+
+        if(productoCarritoCompras != null 
+                && listaProductosCarritoCompras != null 
+                && !listaProductosCarritoCompras.contains(productoCarritoCompras)){
+            
+            listaProductosCarritoCompras.add(productoCarritoCompras);
+            
+            if(productoCarritoCompras.getCarritoCompras() == null){
+                productoCarritoCompras.setCarritoCompras(this);
+            }
+            
+        }
     }
 
     /**

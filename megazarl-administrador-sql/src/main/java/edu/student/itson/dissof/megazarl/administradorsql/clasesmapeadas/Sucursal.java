@@ -3,12 +3,15 @@ package edu.student.itson.dissof.megazarl.administradorsql.clasesmapeadas;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 /**
  * Sucursal.java
@@ -19,12 +22,8 @@ import javax.persistence.Table;
  * ID: 00000252583
  * @author Luis Rafael Lagarda Encinas
  * ID: 00000252607
- * @author Vladimir Iván Mendoza Baypoli
- * ID: 00000252758
  * @author Manuel Romo López
  * ID: 00000253080
- * @author Martín Zamorano Acuña
- * ID: 00000251923
  *
  */
 
@@ -66,17 +65,18 @@ public class Sucursal implements Serializable {
     @Column(name = "es_matriz")
     private Boolean esMatriz;
     
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "id_direccion", nullable = false)
+    private Direccion direccion;
+    
     /**
-     * Representación de una relación 1 a Muchos entre sucursal y
+     * Representación de una relación 1 a 1 entre sucursal y
      * productosInventario
      */
     @OneToMany(mappedBy = "sucursal")
-    private List<ProductoInventario> productosInventario = new ArrayList();
+    private List<ProductoInventario> listaProductosInventario = new ArrayList();
     
-    /**
-     * Getters y Setters para cada atributo de la clase 
-     */
-    
+
     public Long getId() {
         return id;
     }
@@ -93,12 +93,31 @@ public class Sucursal implements Serializable {
         this.esMatriz = esMatriz;
     }
 
-    public List<ProductoInventario> getProductosInventario() {
-        return productosInventario;
+    public Direccion getDireccion() {
+        return direccion;
     }
 
-    public void setProductosInventario(List<ProductoInventario> productosInventario) {
-        this.productosInventario = productosInventario;
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
+    }
+    
+    public List<ProductoInventario> getProductosInventario() {
+        return listaProductosInventario;
+    }
+
+    public void agregarProductoInventario(ProductoInventario productoInventario) {
+        
+        if(productoInventario != null
+                && listaProductosInventario != null 
+                && !listaProductosInventario.contains(productoInventario)){
+            
+            listaProductosInventario.add(productoInventario);
+            
+            if(productoInventario.getSucursal() == null){
+                productoInventario.setSucursal(this);
+            }
+            
+        }
     }
 
     /**
