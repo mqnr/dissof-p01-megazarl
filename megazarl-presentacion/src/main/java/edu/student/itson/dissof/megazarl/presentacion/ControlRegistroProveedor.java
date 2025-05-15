@@ -56,21 +56,26 @@ public class ControlRegistroProveedor<t> {
     
     public void guardarDatosProveedor(String nombre, String telefono, String correoElectronico,
             String direccionImagen,String codigoPostal, String colonia, String calle, String numero){
-        
-        DireccionDTO direccionProveedor = new DireccionDTO(
-                        codigoPostal, 
-                        colonia, 
-                        calle,
-                        numero);
-        ProveedorDTO proveedor = new ProveedorDTO(
-                    nombre, 
-                    telefono, 
-                    correoElectronico,
-                    direccionImagen, 
-                    new LinkedList<>(),
-                    direccionProveedor
-            );
-        
+        if(nombre.equals("")||telefono.equals("")|| correoElectronico.equals("")||
+                direccionImagen.equals("")||codigoPostal.equals("")||colonia.equals("")
+                ||calle.equals("")||numero.equals("")){
+            DireccionDTO direccionProveedor = new DireccionDTO(
+                            codigoPostal, 
+                            colonia, 
+                            calle,
+                            numero);
+            ProveedorDTO proveedor = new ProveedorDTO(
+                        nombre, 
+                        telefono, 
+                        correoElectronico,
+                        direccionImagen, 
+                        new LinkedList<>(),
+                        direccionProveedor
+                );
+        mostrarMensaje("Se ha registrado el proveedor", COLOR_MENSAJE_EXITOSO);
+        } else{
+            mostrarMensaje("el proveedor ya existe", COLOR_MENSAJE_ERROR);
+        }
 
     }
     
