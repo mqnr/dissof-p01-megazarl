@@ -72,7 +72,7 @@ public class ControlRegistroProveedor<t> {
                         new LinkedList<>(),
                         direccionProveedor
                 );
-        mostrarMensaje("Se ha registrado el proveedor", COLOR_MENSAJE_EXITOSO);
+            mostrarMensaje("Se ha registrado el proveedor", COLOR_MENSAJE_EXITOSO);
         } else{
             mostrarMensaje("el proveedor ya existe", COLOR_MENSAJE_ERROR);
         }
