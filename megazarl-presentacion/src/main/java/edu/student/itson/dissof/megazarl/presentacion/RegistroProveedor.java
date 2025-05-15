@@ -387,17 +387,20 @@ public class RegistroProveedor extends JFrame implements IVista{
         public String obtenerDireccionLogo(){
             JFileChooser fileChooser = new JFileChooser();
             FileNameExtensionFilter filtro = new FileNameExtensionFilter(
-                "Imágenes (*.png)","png");
+                "Imágenes (*.png)", "png");
             fileChooser.setFileFilter(filtro);
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
             int resultado = fileChooser.showOpenDialog(null);
             if (resultado == JFileChooser.APPROVE_OPTION) {
                 File archivoSeleccionado = fileChooser.getSelectedFile();
                 imagenValido = true;
                 habilitarBotonGuardar();
-                return archivoSeleccionado.getAbsolutePath();
+                String nombreArchivo = "/" + archivoSeleccionado.getName();
+                System.out.println(nombreArchivo);
+                return nombreArchivo;
             } else {
-                return null; 
+                return null;
             }
         }
     @Override
