@@ -11,13 +11,11 @@ public class ProductoPedidoIdsRelacionesDTO extends ProductoPedidoDTO{
     public ProductoPedidoIdsRelacionesDTO(
             Long id,
             Integer cantidadRequerida,
-            Integer cantidadCompleta,
             Long idProducto,
             Long idPedido) {
         super(
             id, 
-            cantidadRequerida,
-            cantidadCompleta);
+            cantidadRequerida);
         
         this.idProducto = idProducto;     
         this.idPedido = idPedido;

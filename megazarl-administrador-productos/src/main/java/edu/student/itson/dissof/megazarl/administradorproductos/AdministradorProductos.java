@@ -2,9 +2,11 @@ package edu.student.itson.dissof.megazarl.administradorproductos;
 
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInventarioInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.utils.CadenasTextoUtils;
 import edu.student.itson.dissof.megazarl.administradorproductos.utils.Normalizador;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoInventarioDTO;
@@ -55,13 +57,20 @@ class AdministradorProductos implements IAdministradorProductos {
 
         for(IdProductoInventarioDTO idProductoInventarioDTO: idsProductosInventario){
             
-            
-            
+             
             if(!validarProductoInventario(idProductoInventarioDTO)){
                 throw new ProductosIdProductoInvalidoException("El ID de producto en inventario es inválido.");
             }
             
-            disponibilidadProducto++;
+            ProductoInventarioDTO productoInventario = obtenerProductoInventario(idProductoInventarioDTO);
+            
+            if(productoInventario == null){
+                throw new ProductosIdProductoInvalidoException("El ID de producto en inventario es inválido."); 
+            }
+            
+            if(!productoInventario.getApartado()){
+                disponibilidadProducto++;
+            }
             
         }
  
@@ -69,8 +78,7 @@ class AdministradorProductos implements IAdministradorProductos {
     }
     private static final Logger LOG = Logger.getLogger(AdministradorProductos.class.getName());
 
-    
-    
+
     @Override
     public List<InformacionProductoInicioDTO> obtenerProductosVenta() {
         List<InformacionProductoInicioDTO> listaProductoInicioDTO = new LinkedList<>();
@@ -82,27 +90,18 @@ class AdministradorProductos implements IAdministradorProductos {
         
         for (ProductoDTO producto: listaProductos) {
             
-            Long idProducto = producto.getId();
-            int cantidadProducto = 0;
 
-            try {
-                
-                cantidadProducto = cosultarInventarioProducto(new IdProductoDTO(idProducto));
-                
-            } catch (ProductosIdProductoInvalidoException ex) {}
+            listaProductoInicioDTO.add(new InformacionProductoInicioDTO(
+                    producto.getId(),
+                    producto.getNombre(),
+                    producto.getVariedad(),
+                    producto.getPrecio(),
+                    producto.getMilesSemillas(),
+                    producto.getDireccionImagen(),
+                    producto.getIdProveedor().getIdProveedor())
 
-            if(cantidadProducto > 0){
-                listaProductoInicioDTO.add(new InformacionProductoInicioDTO(
-                        producto.getId(),
-                        producto.getNombre(),
-                        producto.getVariedad(),
-                        producto.getPrecio(),
-                        producto.getMilesSemillas(),
-                        producto.getDireccionImagen(),
-                        producto.getIdProveedor().getIdProveedor())
+            );
 
-                );
-            }
         }
         
         // Se ordena la lista de DTO, alfabéticamente
@@ -314,6 +313,24 @@ class AdministradorProductos implements IAdministradorProductos {
         
         return ProductoInventario.recuperarPorId(idProductoInventario);
     }
+    
+    @Override
+    public void apartarProductoInventarioPedido(IdProductoInventarioDTO idProductoInventarioDTO) 
+            throws ProductosIdProductoInventarioInvalidoException {
+        
+        if(!validarProductoInventario(idProductoInventarioDTO)){
+            throw new ProductosIdProductoInventarioInvalidoException("El ID del producto en inventario es inválido.");
+        }
+        
+        ActualizacionProductoInventarioDTO actualizacionProductoInventarioDTO = 
+                            new ActualizacionProductoInventarioDTO(idProductoInventarioDTO.getIdProductoInventario());
+                    
+        actualizacionProductoInventarioDTO.setApartado(true);
+
+        ProductoInventario.actualizar(actualizacionProductoInventarioDTO);
+
+    }
+    
     
     @Override
     public boolean validarProducto(IdProductoDTO idProductoDTO){

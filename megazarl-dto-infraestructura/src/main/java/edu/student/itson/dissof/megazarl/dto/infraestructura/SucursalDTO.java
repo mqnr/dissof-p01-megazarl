@@ -1,6 +1,7 @@
 
 package edu.student.itson.dissof.megazarl.dto.infraestructura;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -75,6 +76,7 @@ public abstract class SucursalDTO {
     }
 
     
+    public abstract List<IdProductoInventarioDTO> getIdsProductosInventario();
     public abstract IdDireccionDTO getIdDireccion();
 
     /**

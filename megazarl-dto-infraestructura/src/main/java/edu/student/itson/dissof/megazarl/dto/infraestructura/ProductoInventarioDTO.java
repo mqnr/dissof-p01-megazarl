@@ -28,6 +28,8 @@ public abstract class ProductoInventarioDTO {
      * Objeto Long que representa el id del producto en inventario
      */
     private Long id;
+    
+    private Boolean apartado;
 
     /**
      * Método que permite obtener el id del producto en inventario
@@ -38,6 +40,15 @@ public abstract class ProductoInventarioDTO {
     }
     
     public ProductoInventarioDTO(){
+    }
+    
+    public ProductoInventarioDTO(Long id, Boolean apartado){
+        this.id = id;
+        this.apartado = apartado;
+    }
+    
+    public ProductoInventarioDTO(Boolean apartado){
+        this.apartado = apartado;
     }
 
     public abstract IdProductoDTO getIdProducto();
@@ -50,6 +61,10 @@ public abstract class ProductoInventarioDTO {
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean getApartado() {
+        return apartado;
     }
 
     /**

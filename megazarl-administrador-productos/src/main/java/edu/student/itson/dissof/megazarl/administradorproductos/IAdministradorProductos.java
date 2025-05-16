@@ -1,6 +1,7 @@
 package edu.student.itson.dissof.megazarl.administradorproductos;
 
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInventarioInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoDTO;
@@ -103,7 +104,7 @@ public interface IAdministradorProductos {
      * nombre del proveedor del producto a buscar.
      * @return Objeto List de InformacionProductoInicioDTO que contiene la información
      * resumida de los productos que coinciden con los criterios de búsqueda.
-     * @throws administradorproductos.excepciones.ProductosIdProveedorInvalidoException
+     * @throws ProductosIdProveedorInvalidoException
      */
     public abstract List<InformacionProductoInicioDTO> obtenerProductosBusquedaNombreProductoProveedor(
             String nombreProducto,
@@ -136,4 +137,7 @@ public interface IAdministradorProductos {
      * @return true si el ID del producto en inventario es válido, false en caso contrario.
      */
     public abstract boolean validarProductoInventario(IdProductoInventarioDTO idProductoInventarioDTO);
+    
+    public void apartarProductoInventarioPedido(IdProductoInventarioDTO idProductoInventarioDTO) 
+            throws ProductosIdProductoInventarioInvalidoException ;
 }

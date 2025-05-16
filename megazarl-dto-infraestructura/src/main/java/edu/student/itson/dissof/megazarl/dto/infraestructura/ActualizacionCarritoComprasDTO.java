@@ -27,6 +27,8 @@ public class ActualizacionCarritoComprasDTO {
      */
     private Long id;
     
+    private Boolean esVigente;
+    
     /**
      * Objeto PaqueteriaDTO que representa la nueva paquetería del carrito de
      * compras.
@@ -67,6 +69,14 @@ public class ActualizacionCarritoComprasDTO {
     public void setPaqueteria(PaqueteriaDTO paqueteria) {
         this.paqueteria = paqueteria;
     }
+
+    public Boolean getEsVigente() {
+        return esVigente;
+    }
+
+    public void setEsVigente(Boolean esVigente) {
+        this.esVigente = esVigente;
+    }
     
     /**
      * Método que permite determinar si este objeto DTO tiene paqueteria.
@@ -75,6 +85,10 @@ public class ActualizacionCarritoComprasDTO {
      */
     public boolean tienePaqueteria(){
         return paqueteria != null;
+    }
+    
+    public boolean tieneEsVigente(){
+        return esVigente != null;
     }
     
     

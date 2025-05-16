@@ -1,10 +1,13 @@
 
 package edu.student.itson.dissof.megazarl.dto.infraestructura;
 
+import java.util.List;
+
 
 public class SucursalIdsRelacionesDTO extends SucursalDTO{
 
-
+    private List<IdProductoInventarioDTO> idsProductoInventario;
+    
     private IdDireccionDTO idDireccion;
     
     public SucursalIdsRelacionesDTO(
@@ -32,5 +35,10 @@ public class SucursalIdsRelacionesDTO extends SucursalDTO{
     @Override
     public IdDireccionDTO getIdDireccion() {
         return idDireccion;
+    }
+
+    @Override
+    public List<IdProductoInventarioDTO> getIdsProductosInventario() {
+        return idsProductoInventario;
     }
 }

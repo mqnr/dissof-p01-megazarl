@@ -95,7 +95,7 @@ public class RepositorioCarritoComprasEnMemoria implements RepositorioCarritoCom
         
         return new CarritoComprasDatosCompletosRelacionesDTO(
                 actualizacionCarritoComprasDTO.getId(),
-                carritoComprasOriginal.getEsVigente(),
+                actualizacionCarritoComprasDTO.tieneEsVigente() ? actualizacionCarritoComprasDTO.getEsVigente() : carritoComprasOriginal.getEsVigente(),
                 ((CarritoComprasDatosCompletosRelacionesDTO)carritoComprasOriginal).getCliente(),
                 actualizacionCarritoComprasDTO.tienePaqueteria() 
                         ? actualizacionCarritoComprasDTO.getPaqueteria() 

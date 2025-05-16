@@ -28,8 +28,8 @@
     <module>megazarl-negocios</module>
     <module>megazarl-administrador-sql</module>
       <module>megazarl-servicios</module>
-    <module>megazarl-administrador-gerenteVentas</module>
     <module>megazarl-administrador-auxiliares-ventas</module>
+    <module>megazarl-administrador-gerente-ventas</module>
   </modules>
 
   <properties>

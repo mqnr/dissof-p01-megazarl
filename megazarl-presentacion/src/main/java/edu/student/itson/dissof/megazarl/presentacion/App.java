@@ -98,11 +98,12 @@ public class App {
                                                     "Parque Industrial Hermosillo Norte",
                                                     "José Alberto Healy Noriega",
                                                     "1000"
-                                                );
+                    );
 
                     SucursalDTO sucursal1 = new SucursalDatosCompletosRelacionesDTO(
                                                 true,
-                                                direccionSucursal1
+                                                direccionSucursal1,
+                                                new LinkedList<>()
                     );
 
                     DireccionDTO direccionSucursal2 = new DireccionDTO(
@@ -110,11 +111,12 @@ public class App {
                                                     "San Rafael",
                                                     "Río Mocorito", 
                                                     "123"
-                                                );
+                    );
 
                     SucursalDTO sucursal2 = new SucursalDatosCompletosRelacionesDTO(
                                                 false,
-                                                direccionSucursal2
+                                                direccionSucursal2,
+                                                new LinkedList<>()
                     );
 
                     DireccionDTO direccionSucursal3 = new DireccionDTO(
@@ -122,11 +124,12 @@ public class App {
                                                     "Bicentenario",
                                                     "44", 
                                                     "5695"
-                                                );
+                   );
 
                     SucursalDTO sucursal3 = new SucursalDatosCompletosRelacionesDTO(
                                                 false, 
-                                                direccionSucursal3
+                                                direccionSucursal3,
+                                                new LinkedList<>()
                     );
 
                     DireccionDTO direccionSucursal4 = new DireccionDTO(
@@ -134,11 +137,12 @@ public class App {
                                                     "Ciudad Obregón Centro",
                                                     "Guerrero",
                                                     "200"
-                                                );
+                    );
 
                     SucursalDTO sucursal4 = new SucursalDatosCompletosRelacionesDTO(
                                                 false,
-                                                direccionSucursal4
+                                                direccionSucursal4,
+                                                new LinkedList<>()
                     );
 
                     // Se crea una lista con las sucursales creadas y se guardan utilizando la
@@ -236,7 +240,12 @@ public class App {
                     Proveedor.agregar(listaProveedores);
 
                     // Se guardan también sus direcciones con la clase envolvente Direccion
-                    List<DireccionDTO> listaDireccionesProveedores = Arrays.asList(direccionProveedor1, direccionProveedor2, direccionProveedor3, direccionProveedor4);
+                    List<DireccionDTO> listaDireccionesProveedores = Arrays.asList(
+                            direccionProveedor1,
+                            direccionProveedor2, 
+                            direccionProveedor3, 
+                            direccionProveedor4,
+                            direccionProveedor5);
                     Direccion.agregar(listaDireccionesProveedores);
 
 
@@ -472,66 +481,66 @@ public class App {
                     // Se crean e insertan los DTOs de productos en inventario disponibles,
                     // se registran utilizando la clase envolvente ProductoInventario
 
-                    ProductoInventarioDTO productoInventario1 = new ProductoInventarioDatosCompletosRelacionesDTO(producto1, sucursal1);
-                    ProductoInventarioDTO productoInventario2 = new ProductoInventarioDatosCompletosRelacionesDTO(producto1, sucursal1);
+                    ProductoInventarioDTO productoInventario1 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto1, sucursal1);
+                    ProductoInventarioDTO productoInventario2 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto1, sucursal1);
 
-                    ProductoInventarioDTO productoInventario3 = new ProductoInventarioDatosCompletosRelacionesDTO(producto2, sucursal1);
-                    ProductoInventarioDTO productoInventario4 = new ProductoInventarioDatosCompletosRelacionesDTO(producto2, sucursal2);
-                    ProductoInventarioDTO productoInventario5 = new ProductoInventarioDatosCompletosRelacionesDTO(producto2, sucursal3);
-                    ProductoInventarioDTO productoInventario6 = new ProductoInventarioDatosCompletosRelacionesDTO(producto2, sucursal4);
+                    ProductoInventarioDTO productoInventario3 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto2, sucursal1);
+                    ProductoInventarioDTO productoInventario4 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto2, sucursal2);
+                    ProductoInventarioDTO productoInventario5 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto2, sucursal3);
+                    ProductoInventarioDTO productoInventario6 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto2, sucursal4);
 
-                    ProductoInventarioDTO productoInventario8 = new ProductoInventarioDatosCompletosRelacionesDTO(producto3, sucursal2);
-                    ProductoInventarioDTO productoInventario9 = new ProductoInventarioDatosCompletosRelacionesDTO(producto3, sucursal3);
-                    ProductoInventarioDTO productoInventario10 = new ProductoInventarioDatosCompletosRelacionesDTO(producto3, sucursal4);
+                    ProductoInventarioDTO productoInventario8 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto3, sucursal2);
+                    ProductoInventarioDTO productoInventario9 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto3, sucursal3);
+                    ProductoInventarioDTO productoInventario10 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto3, sucursal4);
 
-                    ProductoInventarioDTO productoInventario11 = new ProductoInventarioDatosCompletosRelacionesDTO(producto4, sucursal2);
-                    ProductoInventarioDTO productoInventario12 = new ProductoInventarioDatosCompletosRelacionesDTO(producto4, sucursal3);
-                    ProductoInventarioDTO productoInventario13 = new ProductoInventarioDatosCompletosRelacionesDTO(producto4, sucursal3);
-                    ProductoInventarioDTO productoInventario14 = new ProductoInventarioDatosCompletosRelacionesDTO(producto4, sucursal4);
-                    ProductoInventarioDTO productoInventario15 = new ProductoInventarioDatosCompletosRelacionesDTO(producto4, sucursal4);
+                    ProductoInventarioDTO productoInventario11 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto4, sucursal2);
+                    ProductoInventarioDTO productoInventario12 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto4, sucursal3);
+                    ProductoInventarioDTO productoInventario13 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto4, sucursal3);
+                    ProductoInventarioDTO productoInventario14 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto4, sucursal4);
+                    ProductoInventarioDTO productoInventario15 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto4, sucursal4);
 
-                    ProductoInventarioDTO productoInventario16 = new ProductoInventarioDatosCompletosRelacionesDTO(producto5, sucursal1);
-                    ProductoInventarioDTO productoInventario17 = new ProductoInventarioDatosCompletosRelacionesDTO(producto5, sucursal1);
-                    ProductoInventarioDTO productoInventario18 = new ProductoInventarioDatosCompletosRelacionesDTO(producto5, sucursal1);
+                    ProductoInventarioDTO productoInventario16 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto5, sucursal1);
+                    ProductoInventarioDTO productoInventario17 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto5, sucursal1);
+                    ProductoInventarioDTO productoInventario18 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto5, sucursal1);
 
-                    ProductoInventarioDTO productoInventario19 = new ProductoInventarioDatosCompletosRelacionesDTO(producto6, sucursal3);
-                    ProductoInventarioDTO productoInventario20 = new ProductoInventarioDatosCompletosRelacionesDTO(producto6, sucursal1);
+                    ProductoInventarioDTO productoInventario19 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto6, sucursal3);
+                    ProductoInventarioDTO productoInventario20 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto6, sucursal1);
 
-                    ProductoInventarioDTO productoInventario21 = new ProductoInventarioDatosCompletosRelacionesDTO(producto7, sucursal1);
-                    ProductoInventarioDTO productoInventario22 = new ProductoInventarioDatosCompletosRelacionesDTO(producto7, sucursal4);
-                    ProductoInventarioDTO productoInventario23 = new ProductoInventarioDatosCompletosRelacionesDTO(producto7, sucursal4);
-                    ProductoInventarioDTO productoInventario24 = new ProductoInventarioDatosCompletosRelacionesDTO(producto7, sucursal2);
-                    ProductoInventarioDTO productoInventario25 = new ProductoInventarioDatosCompletosRelacionesDTO(producto7, sucursal3);
-                    ProductoInventarioDTO productoInventario26 = new ProductoInventarioDatosCompletosRelacionesDTO(producto7, sucursal2);
-                    ProductoInventarioDTO productoInventario27 = new ProductoInventarioDatosCompletosRelacionesDTO(producto7, sucursal2);
-                    ProductoInventarioDTO productoInventario28 = new ProductoInventarioDatosCompletosRelacionesDTO(producto7, sucursal4);
+                    ProductoInventarioDTO productoInventario21 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto7, sucursal1);
+                    ProductoInventarioDTO productoInventario22 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto7, sucursal4);
+                    ProductoInventarioDTO productoInventario23 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto7, sucursal4);
+                    ProductoInventarioDTO productoInventario24 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto7, sucursal2);
+                    ProductoInventarioDTO productoInventario25 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto7, sucursal3);
+                    ProductoInventarioDTO productoInventario26 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto7, sucursal2);
+                    ProductoInventarioDTO productoInventario27 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto7, sucursal2);
+                    ProductoInventarioDTO productoInventario28 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto7, sucursal4);
 
-                    ProductoInventarioDTO productoInventario29 = new ProductoInventarioDatosCompletosRelacionesDTO(producto8, sucursal1);
+                    ProductoInventarioDTO productoInventario29 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto8, sucursal1);
 
-                    ProductoInventarioDTO productoInventario30 = new ProductoInventarioDatosCompletosRelacionesDTO(producto9, sucursal1);
-                    ProductoInventarioDTO productoInventario31 = new ProductoInventarioDatosCompletosRelacionesDTO(producto9, sucursal4);
-                    ProductoInventarioDTO productoInventario32 = new ProductoInventarioDatosCompletosRelacionesDTO(producto9, sucursal4);
-                    ProductoInventarioDTO productoInventario33 = new ProductoInventarioDatosCompletosRelacionesDTO(producto9, sucursal2);
+                    ProductoInventarioDTO productoInventario30 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto9, sucursal1);
+                    ProductoInventarioDTO productoInventario31 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto9, sucursal4);
+                    ProductoInventarioDTO productoInventario32 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto9, sucursal4);
+                    ProductoInventarioDTO productoInventario33 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto9, sucursal2);
 
-                    ProductoInventarioDTO productoInventario34 = new ProductoInventarioDatosCompletosRelacionesDTO(producto10, sucursal1);
-                    ProductoInventarioDTO productoInventario35 = new ProductoInventarioDatosCompletosRelacionesDTO(producto10, sucursal4);
-                    ProductoInventarioDTO productoInventario36 = new ProductoInventarioDatosCompletosRelacionesDTO(producto10, sucursal4);
-                    ProductoInventarioDTO productoInventario37 = new ProductoInventarioDatosCompletosRelacionesDTO(producto10, sucursal2);
-                    ProductoInventarioDTO productoInventario38 = new ProductoInventarioDatosCompletosRelacionesDTO(producto10, sucursal3);
-                    ProductoInventarioDTO productoInventario39 = new ProductoInventarioDatosCompletosRelacionesDTO(producto10, sucursal2);
-                    ProductoInventarioDTO productoInventario40 = new ProductoInventarioDatosCompletosRelacionesDTO(producto10, sucursal1);
-                    ProductoInventarioDTO productoInventario41 = new ProductoInventarioDatosCompletosRelacionesDTO(producto10, sucursal4);
-                    ProductoInventarioDTO productoInventario42 = new ProductoInventarioDatosCompletosRelacionesDTO(producto10, sucursal3);
-                    ProductoInventarioDTO productoInventario43 = new ProductoInventarioDatosCompletosRelacionesDTO(producto10, sucursal2);
-                    ProductoInventarioDTO productoInventario44 = new ProductoInventarioDatosCompletosRelacionesDTO(producto10, sucursal1);
-                    ProductoInventarioDTO productoInventario45 = new ProductoInventarioDatosCompletosRelacionesDTO(producto10, sucursal4);
+                    ProductoInventarioDTO productoInventario34 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto10, sucursal1);
+                    ProductoInventarioDTO productoInventario35 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto10, sucursal4);
+                    ProductoInventarioDTO productoInventario36 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto10, sucursal4);
+                    ProductoInventarioDTO productoInventario37 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto10, sucursal2);
+                    ProductoInventarioDTO productoInventario38 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto10, sucursal3);
+                    ProductoInventarioDTO productoInventario39 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto10, sucursal2);
+                    ProductoInventarioDTO productoInventario40 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto10, sucursal1);
+                    ProductoInventarioDTO productoInventario41 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto10, sucursal4);
+                    ProductoInventarioDTO productoInventario42 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto10, sucursal3);
+                    ProductoInventarioDTO productoInventario43 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto10, sucursal2);
+                    ProductoInventarioDTO productoInventario44 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto10, sucursal1);
+                    ProductoInventarioDTO productoInventario45 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto10, sucursal4);
 
-                    ProductoInventarioDTO productoInventario46 = new ProductoInventarioDatosCompletosRelacionesDTO(producto11, sucursal2);
-                    ProductoInventarioDTO productoInventario47 = new ProductoInventarioDatosCompletosRelacionesDTO(producto11, sucursal2);
-                    ProductoInventarioDTO productoInventario48 = new ProductoInventarioDatosCompletosRelacionesDTO(producto11, sucursal2);
+                    ProductoInventarioDTO productoInventario46 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto11, sucursal2);
+                    ProductoInventarioDTO productoInventario47 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto11, sucursal2);
+                    ProductoInventarioDTO productoInventario48 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto11, sucursal2);
 
-                    ProductoInventarioDTO productoInventario49 = new ProductoInventarioDatosCompletosRelacionesDTO(producto12, sucursal1);
-                    ProductoInventarioDTO productoInventario50 = new ProductoInventarioDatosCompletosRelacionesDTO(producto12, sucursal4);
+                    ProductoInventarioDTO productoInventario49 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto12, sucursal1);
+                    ProductoInventarioDTO productoInventario50 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto12, sucursal4);
 
 
                     List<ProductoInventarioDTO> listaProductosInventario = Arrays.asList(

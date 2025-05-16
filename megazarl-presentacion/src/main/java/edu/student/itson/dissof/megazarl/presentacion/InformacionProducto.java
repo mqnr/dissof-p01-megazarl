@@ -395,7 +395,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
         int disponibilidadProducto = control.verificarExistenciasProducto((Long) informacionProducto.get("Id"));
         int cantidadTexto = Integer.parseInt(cantidadLabel.getText());
         
-        if(cantidadTexto > disponibilidadProducto){
+        if((cantidadTexto > disponibilidadProducto)){
             
             int cantidadPedidoAnticipado = cantidadTexto - disponibilidadProducto;
             
@@ -416,11 +416,18 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
             avisoPedidoAnticipado2.setText(palabraUnidades + " del producto de las que");
             avisoPedidoAnticipado3.setText("no tenemos stock, se realizará su compra lo antes posible.");
 
-        } else{
+        } else if(disponibilidadProducto == 0){
+            avisoPedidoAnticipado1.setText("El producto no cuenta con stock actualmente. ");
+            avisoCantidadPedidoAnticipado.setText(" ");
+            avisoPedidoAnticipado2.setText("");
+            avisoPedidoAnticipado3.setText("Puede pedirlos y solicitaremos su compra inmediata.");
+        }
+        else{
             avisoPedidoAnticipado1.setText(" ");
             avisoCantidadPedidoAnticipado.setText(" ");
             avisoPedidoAnticipado2.setText(" ");
             avisoPedidoAnticipado3.setText(" ");
+            
         }
         
     }
@@ -466,7 +473,13 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
             avisoPedidoAnticipado2.setText(palabraUnidades + " del producto de las que");
             avisoPedidoAnticipado3.setText("no tenemos stock, se realizará su compra lo antes posible.");
 
-        } else{
+        } else if(disponibilidadProducto == 0){
+            avisoPedidoAnticipado1.setText("El producto no cuenta con stock actualmente. ");
+            avisoCantidadPedidoAnticipado.setText(" ");
+            avisoPedidoAnticipado2.setText(" ");
+            avisoPedidoAnticipado3.setText("Puede pedirlos y solicitaremos su compra inmediata.");
+        }
+        else{
             avisoPedidoAnticipado1.setText(" ");
             avisoCantidadPedidoAnticipado.setText(" ");
             avisoPedidoAnticipado2.setText(" ");

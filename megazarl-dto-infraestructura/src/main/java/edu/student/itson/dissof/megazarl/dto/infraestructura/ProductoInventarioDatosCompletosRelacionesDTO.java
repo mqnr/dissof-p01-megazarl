@@ -15,10 +15,24 @@ public class ProductoInventarioDatosCompletosRelacionesDTO extends ProductoInven
     private SucursalDTO sucursal;
     
     public ProductoInventarioDatosCompletosRelacionesDTO(
+            Long id,
+            Boolean apartado,
             ProductoDTO producto,
             SucursalDTO sucursal){
         
-        super();
+        super(id, apartado);
+        
+        this.producto = producto;
+        this.sucursal = sucursal;
+        
+    }
+     
+    public ProductoInventarioDatosCompletosRelacionesDTO(
+            Boolean apartado,
+            ProductoDTO producto,
+            SucursalDTO sucursal){
+        
+        super(apartado);
         
         this.producto = producto;
         this.sucursal = sucursal;
@@ -27,6 +41,10 @@ public class ProductoInventarioDatosCompletosRelacionesDTO extends ProductoInven
     
     public ProductoDTO getProducto(){
         return producto;
+    }
+    
+    public SucursalDTO getSucursal(){
+        return sucursal;
     }
 
     @Override

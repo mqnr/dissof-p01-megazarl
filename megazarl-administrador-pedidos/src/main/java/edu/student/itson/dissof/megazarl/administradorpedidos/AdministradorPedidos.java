@@ -18,8 +18,10 @@ import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.Pedido
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdSucursalInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInventarioInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DatosTiempoTrasladoUbicacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
@@ -47,6 +49,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoPr
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoSucursalMatrizDTO;
 import edu.student.itson.dissof.megazarl.mapas.IAdministradorMapas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Pedido;
+import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
 import java.util.ArrayList;
 
 import java.util.Collections;
@@ -396,7 +399,12 @@ class AdministradorPedidos implements IAdministradorPedidos {
                 throw new PedidosIdProductoInvalidoException("El ID de proveedor es inválido.");
             }
 
-            int cantidadProductoDisponible = producto.getIdsProductosInventario().size();
+            int cantidadProductoDisponible;
+            try {
+                cantidadProductoDisponible = administradorProductos.cosultarInventarioProducto(new IdProductoDTO(idProducto));
+            } catch (ProductosIdProductoInvalidoException ex) {
+                throw new PedidosIdProductoInvalidoException(ex.getMessage());
+            }
             int cantidadProductoRequerido = mapaProductosCantidades.get(idProducto);
 
             HashMap<ProductoInventarioDTO, Float> mapaProductosInventarioTiempoTrasladoMatriz = new HashMap<>();
@@ -540,11 +548,12 @@ class AdministradorPedidos implements IAdministradorPedidos {
                 
                 mapaSucursalesPesosProductos.put(sucursalProductoInventario, nuevoPesoKgProductosSucursal);
                         
-                        
                 // Se suma el peso del producto en inventario
                 sumaKgTotal += pesoKgProducto;
 
             }
+            
+               
             
             
             // Se obtiene el costo de envío de la compra de productos sin existencias
@@ -568,25 +577,21 @@ class AdministradorPedidos implements IAdministradorPedidos {
                 
                 float costoProductosComprar;
                 try {
-                    
-                    try {
-                        costoProductosComprar = administradorPaqueterias.obtenerCostoEnvioProveedorMatriz(informacionEnvioProductoProveedorMatrizDTO);
-                    } catch (PaqueteriasIdDireccionInvalidoException ex) {
-                        throw new PedidosIdDireccionInvalidoException(ex.getMessage());
-                    }
-                    
+                   
+                    costoProductosComprar = administradorPaqueterias.obtenerCostoEnvioProveedorMatriz(informacionEnvioProductoProveedorMatrizDTO);
+
                 } catch (PaqueteriasIdPaqueteriaInvalidoException ex) {
                     throw new PedidosIdPaqueteriaInvalidoException(ex.getMessage());
                 } catch (PaqueteriasIdProveedorInvalidoException ex) {
                     throw new PedidosIdProveedorInvalidoException(ex.getMessage());
+                }catch (PaqueteriasIdDireccionInvalidoException ex) {
+                        throw new PedidosIdDireccionInvalidoException(ex.getMessage());
                 }
 
                 costoTotalEnvio += costoProductosComprar;
                     
-
-                
             }
- 
+            
         }   
         
         // Se recorren las sucursales que contienen los productos en inventario necesarios
@@ -803,19 +808,36 @@ class AdministradorPedidos implements IAdministradorPedidos {
             
             int cantidadProductoSolicitado = productoRequerido.getValue();
             
-            int cantidadProductoDisponibles = 0;
+            int cantidadProductoDisponible = 0;
             
             for(ProductoInventarioDTO productoInventarioDTO: mapaProductosInventarioTiemposTrasladoOrdenado.keySet()){
                 
-                if(productoInventarioDTO.getIdProducto().equals(productoRequerido.getKey()))
-                    cantidadProductoDisponibles++;
+                if(productoInventarioDTO.getIdProducto().getIdProducto().equals(productoRequerido.getKey()) && !productoInventarioDTO.getApartado()) {
+                    cantidadProductoDisponible++;
+                   
+                    
+                    try {
+
+                        administradorProductos.apartarProductoInventarioPedido(new IdProductoInventarioDTO(productoInventarioDTO.getId()));
+                        
+                    } catch (ProductosIdProductoInventarioInvalidoException ex) {
+                        throw new PedidosIdProductoInventarioInvalidoException(ex.getMessage());
+                    }
+                    
+                }
+                
+                if(cantidadProductoDisponible >= cantidadProductoSolicitado){
+                    break;
+                }
+                  
+                    
             }
             
             listaProductosPedido.add(
                     new ProductoPedidoDatosCompletosRelacionesDTO( 
                             cantidadProductoSolicitado,
-                            cantidadProductoDisponibles,
                             producto));
+            
 
         }
         
@@ -827,8 +849,10 @@ class AdministradorPedidos implements IAdministradorPedidos {
                 listaProductosPedido
         );
         
+        
         Pedido.agregar(pedido);
-
+        
         return pedido;
     }
+
 }

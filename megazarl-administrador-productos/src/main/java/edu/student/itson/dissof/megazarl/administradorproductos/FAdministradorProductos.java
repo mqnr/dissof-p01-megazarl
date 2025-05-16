@@ -2,6 +2,7 @@ package edu.student.itson.dissof.megazarl.administradorproductos;
 
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInventarioInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoDTO;
@@ -156,6 +157,11 @@ public class FAdministradorProductos implements IAdministradorProductos {
         return administradorProductos.obtenerProducto(idProductoDTO);
     }
 
+    @Override
+    public void apartarProductoInventarioPedido(IdProductoInventarioDTO idProductoInventarioDTO) throws ProductosIdProductoInventarioInvalidoException {
+        administradorProductos.apartarProductoInventarioPedido(idProductoInventarioDTO);
+    }
+    
     /**
      * Implementación del método validarIdProductoInventario(), de la interfaz
      * {@link IAdministradorProductos}, que permite verificar si el ID
@@ -175,5 +181,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
     public ProductoInventarioDTO obtenerProductoInventario(IdProductoInventarioDTO idProductoInventario) {
         return administradorProductos.obtenerProductoInventario(idProductoInventario);
     }
+
+    
 
 }

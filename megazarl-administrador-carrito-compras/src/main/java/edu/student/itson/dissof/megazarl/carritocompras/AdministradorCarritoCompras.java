@@ -155,15 +155,6 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             throw new CarritoComprasIdProductoInvalidoException("El ID de producto es inválido.");
         }
 
-        try {
-            // Se verifica que haya existencias de los productos.
-            if (administradorProductos.cosultarInventarioProducto(idProductoDTO) <= 0) {
-                throw new CarritoComprasProductoSinInventarioException("No hay existencias del producto que se intentó agregar.");
-            }
-        } catch (ProductosIdProductoInvalidoException ex) {
-            throw new CarritoComprasIdProductoInvalidoException(ex.getMessage());
-        }
-
         CarritoComprasDTO carritoComprasCliente = obtenerCarritoComprasCliente(new IdClienteDTO(idCliente));
         
         int cantidad = informacionProductoAgregarCarrito.getCantidad();
@@ -727,6 +718,14 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             try {
                 // Se realiza el pedido utilizando el método realziarPedido(), del subsistema administradorPedidos.
                 administradorPedidos.realizarPedido(informacionClientePaqueteriaProductosCantidadPedidoDTO);
+                
+                ActualizacionCarritoComprasDTO actualizacionCarritoComprasDTO  
+                        = new ActualizacionCarritoComprasDTO(carritoComprasCliente.getId());
+                
+                actualizacionCarritoComprasDTO.setEsVigente(false);
+                
+                CarritoCompras.actualizar(actualizacionCarritoComprasDTO);
+                
             } catch (PedidosIdProductoInventarioInvalidoException ex) {
                 throw new CarritoComprasIdProductoInvalidoException(ex.getMessage());
             } catch (PedidosIdSucursalInvalidoException ex) {
@@ -746,7 +745,7 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         CarritoComprasDTO carritoComprasRecuperado = null;
         
         for(CarritoComprasDTO carritoCompras: CarritoCompras.recuperarTodos()){
-            if(carritoCompras.getIdCliente().getIdCliente().equals(idCliente)){
+            if(carritoCompras.getIdCliente().getIdCliente().equals(idCliente) &&  carritoCompras.getEsVigente()){
                 carritoComprasRecuperado = carritoCompras;
             }
         }

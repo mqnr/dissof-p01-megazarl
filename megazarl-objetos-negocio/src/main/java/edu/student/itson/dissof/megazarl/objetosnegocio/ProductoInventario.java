@@ -2,6 +2,7 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioProductoInventario;
@@ -36,6 +37,10 @@ public class ProductoInventario {
     
     public static void agregar(Collection<ProductoInventarioDTO> productosInventario) {
         repositorio.agregar(productosInventario);
+    }
+    
+    public static ProductoInventarioDTO actualizar(ActualizacionProductoInventarioDTO actualizacionProductoInventarioDTO){
+        return repositorio.actualizar(actualizacionProductoInventarioDTO);
     }
      
     public static List<ProductoInventarioDTO> recuperarTodos() {

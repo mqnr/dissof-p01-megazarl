@@ -10,13 +10,11 @@ public class ProductoPedidoDatosCompletosRelacionesDTO extends ProductoPedidoDTO
     public ProductoPedidoDatosCompletosRelacionesDTO(
             Long id,
             Integer cantidadRequerida,
-            Integer cantidadCompleta,
             ProductoDTO producto,
             PedidoDTO pedido) {
         super(
             id, 
-            cantidadRequerida,
-            cantidadCompleta);
+            cantidadRequerida);
         
         this.producto = producto;     
         this.pedido = pedido;
@@ -24,12 +22,10 @@ public class ProductoPedidoDatosCompletosRelacionesDTO extends ProductoPedidoDTO
     
     public ProductoPedidoDatosCompletosRelacionesDTO(
             Integer cantidadRequerida,
-            Integer cantidadCompleta,
             ProductoDTO producto,
             PedidoDTO pedido) {
         super(
-            cantidadRequerida,
-            cantidadCompleta);
+            cantidadRequerida);
         
         this.producto = producto;     
         this.pedido = pedido;
@@ -37,11 +33,9 @@ public class ProductoPedidoDatosCompletosRelacionesDTO extends ProductoPedidoDTO
     
     public ProductoPedidoDatosCompletosRelacionesDTO(
             Integer cantidadRequerida,
-            Integer cantidadCompleta,
             ProductoDTO producto) {
         super(
-            cantidadRequerida,
-            cantidadCompleta);
+            cantidadRequerida);
         
         this.producto = producto;     
     }

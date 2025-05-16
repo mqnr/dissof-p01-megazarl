@@ -154,20 +154,37 @@ public class RepositorioProductoCarritoEnMemoria implements RepositorioProductoC
         ProductoCarritoDatosCompletosRelacionesDTO productoCarritoDatosCompletosRelacionesDTO
                 = (ProductoCarritoDatosCompletosRelacionesDTO) productoCarritoDTO;
         
-        ((CarritoComprasDatosCompletosRelacionesDTO)productoCarritoDatosCompletosRelacionesDTO.getCarritoCompras())
-            .getProductosCarrito()
-            .removeIf(productoCarrito ->
-            productoCarritoDatosCompletosRelacionesDTO.getProducto() != null &&
-            productoCarritoDatosCompletosRelacionesDTO.getId().equals(idProductoCarritoDTO.getIdProductoCarrito()));
+        ((CarritoComprasDatosCompletosRelacionesDTO) productoCarritoDatosCompletosRelacionesDTO.getCarritoCompras())
+        .getProductosCarrito()
+        .remove(
+            ((CarritoComprasDatosCompletosRelacionesDTO) productoCarritoDatosCompletosRelacionesDTO.getCarritoCompras())
+                .getProductosCarrito()
+                .stream()
+                .filter(productoCarrito -> productoCarritoDatosCompletosRelacionesDTO.getCarritoCompras() != null &&
+                    productoCarritoDatosCompletosRelacionesDTO.getId().equals(idProductoCarritoDTO.getIdProductoCarrito()))
+                .findFirst()
+                .orElse(null)
+        );
         
-        ((ProductoDatosCompletosRelacionesDTO)productoCarritoDatosCompletosRelacionesDTO.getProducto()).getProductosCarrito()
-                .removeIf(productoCarrito ->
-            productoCarritoDatosCompletosRelacionesDTO.getProducto() != null &&
-            productoCarritoDatosCompletosRelacionesDTO.getId().equals(idProductoCarritoDTO.getIdProductoCarrito()));
+        ((ProductoDatosCompletosRelacionesDTO) productoCarritoDatosCompletosRelacionesDTO.getProducto())
+        .getProductosCarrito()
+        .remove(
+            ((ProductoDatosCompletosRelacionesDTO) productoCarritoDatosCompletosRelacionesDTO.getProducto())
+                .getProductosCarrito()
+                .stream()
+                .filter(productoCarrito -> productoCarritoDatosCompletosRelacionesDTO.getProducto() != null &&
+                    productoCarritoDatosCompletosRelacionesDTO.getId().equals(idProductoCarritoDTO.getIdProductoCarrito()))
+                .findFirst()
+                .orElse(null)
+        );
         
-        listaProductosCarrito.removeIf(productoCarrito ->
-            productoCarritoDatosCompletosRelacionesDTO.getProducto() != null &&
-            productoCarritoDatosCompletosRelacionesDTO.getId().equals(idProductoCarritoDTO.getIdProductoCarrito())
+        listaProductosCarrito.remove(
+            listaProductosCarrito.stream()
+                .filter(productoCarrito ->
+                    productoCarritoDatosCompletosRelacionesDTO.getProducto() != null &&
+                    productoCarritoDatosCompletosRelacionesDTO.getId().equals(idProductoCarritoDTO.getIdProductoCarrito()))
+                .findFirst()
+                .orElse(null)
         );
         
         

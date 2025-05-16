@@ -6,24 +6,18 @@ public abstract class ProductoPedidoDTO {
     
     protected Long id;
     
-    protected Integer cantidadRequerida;
-    
-    protected Integer cantidadCompleta;
+    protected Integer cantidadRequerida; 
 
     public ProductoPedidoDTO(
             Long id,
-            Integer cantidadRequerida,
-            Integer cantidadCompleta) {
+            Integer cantidadRequerida) {
         this.id = id;
         this.cantidadRequerida = cantidadRequerida;
-        this.cantidadCompleta = cantidadCompleta;
     }
     
     public ProductoPedidoDTO(
-            Integer cantidadRequerida,
-            Integer cantidadCompleta) {
+            Integer cantidadRequerida) {
         this.cantidadRequerida = cantidadRequerida;
-        this.cantidadCompleta = cantidadCompleta;
     }
 
     public Long getId() {
@@ -32,10 +26,6 @@ public abstract class ProductoPedidoDTO {
 
     public Integer getCantidadRequerida() {
         return cantidadRequerida;
-    }
-    
-    public Integer getCantidadCompleta() {
-        return cantidadCompleta;
     }
     
     public void setId(Long id) {

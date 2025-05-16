@@ -6,7 +6,7 @@
         <artifactId>megazarl</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>megazarl-administrador-gerenteVentas</artifactId>
+    <artifactId>megazarl-administrador-gerente-ventas</artifactId>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
@@ -20,4 +20,5 @@
         <maven.compiler.target>21</maven.compiler.target>
         <exec.mainClass>edu.student.itson.dissof.megazarl.administrador.gerenteventas.MegazarlAdministradorGerenteVentas</exec.mainClass>
     </properties>
+    <name>megazarl-administrador-gerente-ventas</name>
 </project>
