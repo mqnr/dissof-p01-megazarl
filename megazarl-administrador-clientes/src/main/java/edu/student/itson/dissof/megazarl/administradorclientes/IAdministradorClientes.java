@@ -70,7 +70,8 @@ public interface IAdministradorClientes {
      * del Cliente es inválido, en este subsistema.
      */
     public abstract InformacionNoDerivadaCPDireccionDTO obtenerInformacionNoDerivadaCPDireccionEnvio(IdClienteDTO idClienteDTO)
-            throws ClientesIdClienteInvalidoException;
+            throws ClientesIdClienteInvalidoException,
+            ClientesIdDireccionInvalidoException;
     
     /**
      * Método que permite obtener la información sobre la dirección derivada de un cliente.

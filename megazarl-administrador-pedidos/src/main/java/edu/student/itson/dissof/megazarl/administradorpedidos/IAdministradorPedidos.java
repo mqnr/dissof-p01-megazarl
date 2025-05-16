@@ -2,8 +2,10 @@ package edu.student.itson.dissof.megazarl.administradorpedidos;
 
 
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdClienteInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdDireccionInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProductoInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProductoInventarioInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdSucursalInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
@@ -43,11 +45,17 @@ public interface IAdministradorPedidos {
      * @throws                                          PedidosIdProductoInvalidoException Se lanza si el id de uno de los productos
      *                                                  recibidos es inválido, dentro del subsistema adminsitradorPedidos
      * @throws PedidosIdProveedorInvalidoException
-     * @throws edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdSucursalInvalidoException
+     * @throws PedidosIdSucursalInvalidoException
+     * @throws PedidosIdProductoInventarioInvalidoException
+     * @throws PedidosIdDireccionInvalidoException
      */
     public abstract float obtenerTiempoEstimadoPreparacion(List<IdProductoCantidadCarritoDTO> listaIdProductoCantidadCarritoDTO)
             throws PedidosIdProductoInvalidoException,
+            PedidosIdProductoInvalidoException,
             PedidosIdProveedorInvalidoException,
+            PedidosIdProveedorInvalidoException,
+            PedidosIdProductoInventarioInvalidoException,
+            PedidosIdDireccionInvalidoException,
             PedidosIdSucursalInvalidoException;
     
     /**
@@ -63,13 +71,17 @@ public interface IAdministradorPedidos {
      *                                         el id de Paquetería es inválido, dentro del subsitema administradorPedidos.
      * @throws PedidosIdSucursalInvalidoException
      * @throws PedidosIdProveedorInvalidoException
+     * @throws PedidosIdDireccionInvalidoException
+     * @throws PedidosIdProductoInventarioInvalidoException
      */
     public abstract float calcularCostoEnvioProductosPaqueteria(InformacionPedidoClienteDTO informacionCalculoCostoPedidoDTO)
             throws PedidosIdClienteInvalidoException,
             PedidosIdProductoInvalidoException,
             PedidosIdPaqueteriaInvalidoException,
             PedidosIdSucursalInvalidoException,
-            PedidosIdProveedorInvalidoException;
+            PedidosIdProveedorInvalidoException,
+            PedidosIdDireccionInvalidoException,
+            PedidosIdProductoInventarioInvalidoException;
 
     /**
      * Método que permite realizar un pedido con los productos especificados,
@@ -82,10 +94,16 @@ public interface IAdministradorPedidos {
      *                                  de producto es inválido, dentro del subsistema administradorPedidos.
      * @throws                          ProductosIdProductoInvalidoException Se lanza si se comprueba que el
      *                                  ID de producto es inválido, dentro del subsistema administradorProductos.
+     * @throws PedidosIdProductoInventarioInvalidoException
+     * @throws PedidosIdSucursalInvalidoException
+     * @throws PedidosIdDireccionInvalidoException
      */
     public abstract PedidoDTO realizarPedido(InformacionCrearPedidoDTO informacionCrearPedidoDTO)
         throws PedidosIdProductoInvalidoException, 
             PedidosIdProductoInvalidoException, 
             PedidosIdProductoInvalidoException,
-            ProductosIdProductoInvalidoException;
+            ProductosIdProductoInvalidoException,
+            PedidosIdProductoInventarioInvalidoException,
+            PedidosIdSucursalInvalidoException,
+            PedidosIdDireccionInvalidoException;
 }

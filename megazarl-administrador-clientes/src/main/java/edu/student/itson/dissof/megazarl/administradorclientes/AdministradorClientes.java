@@ -20,8 +20,6 @@ import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDir
 import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoClienteDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 
@@ -81,7 +79,8 @@ class AdministradorClientes implements IAdministradorClientes {
     
     @Override
     public InformacionNoDerivadaCPDireccionDTO obtenerInformacionNoDerivadaCPDireccionEnvio(IdClienteDTO idClienteDTO) 
-            throws ClientesIdClienteInvalidoException{
+            throws ClientesIdClienteInvalidoException,
+            ClientesIdDireccionInvalidoException{
         
         if(!validarCliente(idClienteDTO)){
             throw new ClientesIdClienteInvalidoException("El ID de cliente es inválido.");
@@ -92,13 +91,23 @@ class AdministradorClientes implements IAdministradorClientes {
         if(cliente == null){
             throw new ClientesIdClienteInvalidoException("El ID de cliente es inválido.");
         }
+        
+        IdDireccionDTO idDireccionEnvioCliente = cliente.getIdDireccionEnvio();
+        
+        if(!administradorDirecciones.validarDireccion(idDireccionEnvioCliente)){
+            throw new ClientesIdDireccionInvalidoException("El ID de la dirección de envío del cliente es inválido.");
+        }
+        
+        DireccionDTO direccionEnvioCliente = administradorDirecciones.obtenerDireccion(idDireccionEnvioCliente);
+        
+        
 
         InformacionNoDerivadaCPDireccionDTO informacionNoDerivadaCPDireccionDTO 
                 = new InformacionNoDerivadaCPDireccionDTO(
-                    cliente.getDireccionEnvio().getNumero(),
-                    cliente.getDireccionEnvio().getCalle(),
-                    cliente.getDireccionEnvio().getColonia(),
-                    cliente.getDireccionEnvio().getCodigoPostal());   
+                    direccionEnvioCliente.getNumero(),
+                    direccionEnvioCliente.getCalle(),
+                    direccionEnvioCliente.getColonia(),
+                    direccionEnvioCliente.getCodigoPostal());   
         
        return informacionNoDerivadaCPDireccionDTO;
     }
@@ -120,22 +129,22 @@ class AdministradorClientes implements IAdministradorClientes {
             throw new ClientesIdClienteInvalidoException("El ID de cliente es inválido.");
         }
 
-        Long idDireccionCliente = cliente.getDireccionEnvio().getId();
+        IdDireccionDTO idDireccionEnvioCliente = cliente.getIdDireccionEnvio();
         
-        if(!administradorDirecciones.validarDireccion(new IdDireccionDTO(idDireccionCliente))){
+        if(!administradorDirecciones.validarDireccion(idDireccionEnvioCliente)){
             throw new ClientesIdDireccionInvalidoException("El ID de la dirección del cliente es inválido.");
         }
         
-        DireccionDTO direccionCliente = administradorDirecciones.obtenerDireccion(new IdDireccionDTO(idDireccionCliente));
+        DireccionDTO direccionEnvioCliente = administradorDirecciones.obtenerDireccion(idDireccionEnvioCliente);
         
-        if(direccionCliente == null){
+        if(direccionEnvioCliente == null){
             throw new ClientesIdDireccionInvalidoException("El ID de la dirección del cliente es inválido.");
         }
         
         InformacionDerivadaCPDireccionDTO informacionDerivadaCPDireccionDTO 
                 = new InformacionDerivadaCPDireccionDTO(
-                        direccionCliente.getEstado(), 
-                        direccionCliente.getCiudad());
+                        direccionEnvioCliente.getEstado(), 
+                        direccionEnvioCliente.getCiudad());
 
         return informacionDerivadaCPDireccionDTO;
     }

@@ -1,6 +1,10 @@
 package edu.student.itson.dissof.megazarl.administradorsucursales;
 
-import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdSucursalException;
+import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdDireccionInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdSucursalInvalidoException;
+import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.SucursalDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigosSucursalesDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdSucursalDTO;
@@ -11,6 +15,13 @@ import java.util.List;
 
 class AdministradorSucursales implements IAdministradorSucursales {
 
+    
+    private final IAdministradorDirecciones administradorDirecciones;
+    
+    public AdministradorSucursales(IAdministradorDirecciones administradorDirecciones){
+        this.administradorDirecciones = administradorDirecciones;
+    }
+    
     @Override
     public CodigosSucursalesDTO obtenerCodigosSucursales(){
         List<Long> idsSucursales = new LinkedList<>();
@@ -34,55 +45,101 @@ class AdministradorSucursales implements IAdministradorSucursales {
     }
 
     @Override
-    public String obtenerCodigoPostal(IdSucursalDTO idSucursalDTO) throws SucursalesIdSucursalException{
+    public String obtenerCodigoPostal(IdSucursalDTO idSucursalDTO) 
+            throws SucursalesIdSucursalInvalidoException,
+            SucursalesIdDireccionInvalidoException{
+        
         // Se valida el ID de sucursal.
         if (!validarSucursal(idSucursalDTO)) {
-            throw new SucursalesIdSucursalException("El ID de sucursal es inválido.");
+            throw new SucursalesIdSucursalInvalidoException("El ID de sucursal es inválido.");
         }
 
         SucursalDTO sucursal = obtenerSucursal(idSucursalDTO);
 
         if(sucursal == null){
-            throw new SucursalesIdSucursalException("El ID de sucursal es inválido.");
+            throw new SucursalesIdSucursalInvalidoException("El ID de sucursal es inválido.");
         }
+        
+        IdDireccionDTO idDireccionSucursal = sucursal.getIdDireccion();
+        
+        if(!administradorDirecciones.validarDireccion(idDireccionSucursal)){
+            throw new SucursalesIdDireccionInvalidoException("El ID de dirección de sucursal es inválido.");
+        }
+        
+        DireccionDTO direccionSucursal = administradorDirecciones.obtenerDireccion(idDireccionSucursal);
+        
+        if(direccionSucursal == null){
+            throw new SucursalesIdDireccionInvalidoException("El ID de dirección de sucursal es inválido.");
+        }
+        
 
         // Se recupera y devuelve el Código Postal.
-        return sucursal.getDireccion().getCodigoPostal();
+        return direccionSucursal.getCodigoPostal();
 
     }
 
     @Override
-    public String obtenerCalle(IdSucursalDTO idSucursalDTO) throws SucursalesIdSucursalException {
+    public String obtenerCalle(IdSucursalDTO idSucursalDTO) 
+            throws SucursalesIdSucursalInvalidoException,
+            SucursalesIdDireccionInvalidoException{
+        
         // Se valida el ID de sucursal.
         if (!validarSucursal(idSucursalDTO)) {
-            throw new SucursalesIdSucursalException("El ID de sucursal es inválido.");
+            throw new SucursalesIdSucursalInvalidoException("El ID de sucursal es inválido.");
         }
 
         SucursalDTO sucursal = obtenerSucursal(idSucursalDTO);
 
         if (sucursal == null) {
-            throw new SucursalesIdSucursalException("El ID de sucursal es inválido.");
+            throw new SucursalesIdSucursalInvalidoException("El ID de sucursal es inválido.");
+        }
+        
+        IdDireccionDTO idDireccionSucursal = sucursal.getIdDireccion();
+        
+        if(!administradorDirecciones.validarDireccion(idDireccionSucursal)){
+            throw new SucursalesIdDireccionInvalidoException("El ID de dirección de sucursal es inválido.");
+        }
+        
+        DireccionDTO direccionSucursal = administradorDirecciones.obtenerDireccion(idDireccionSucursal);
+        
+        if(direccionSucursal == null){
+            throw new SucursalesIdDireccionInvalidoException("El ID de dirección de sucursal es inválido.");
         }
 
         // Se recupera y devuelve la Calle.
-        return sucursal.getDireccion().getCalle();
+        return direccionSucursal.getCalle();
     }
 
     @Override
-    public String obtenerNumero(IdSucursalDTO idSucursalDTO) throws SucursalesIdSucursalException{
+    public String obtenerNumero(IdSucursalDTO idSucursalDTO) 
+            throws SucursalesIdSucursalInvalidoException,
+            SucursalesIdDireccionInvalidoException{
+        
         // Se valida la ID de sucursal
         if (!validarSucursal(idSucursalDTO)) {
-            throw new SucursalesIdSucursalException("El ID de sucursal es inválido.");
+            throw new SucursalesIdSucursalInvalidoException("El ID de sucursal es inválido.");
         }
 
         SucursalDTO sucursal = obtenerSucursal(idSucursalDTO);
-
-        if(sucursal == null){
-            throw new SucursalesIdSucursalException("El ID de sucursal es inválido.");
+        
+        if (sucursal == null) {
+            throw new SucursalesIdSucursalInvalidoException("El ID de sucursal es inválido.");
         }
 
+        IdDireccionDTO idDireccionSucursal = sucursal.getIdDireccion();
+        
+        if(!administradorDirecciones.validarDireccion(idDireccionSucursal)){
+            throw new SucursalesIdDireccionInvalidoException("El ID de dirección de sucursal es inválido.");
+        }
+        
+        DireccionDTO direccionSucursal = administradorDirecciones.obtenerDireccion(idDireccionSucursal);
+        
+        if(direccionSucursal == null){
+            throw new SucursalesIdDireccionInvalidoException("El ID de dirección de sucursal es inválido.");
+        }
+ 
         // Se recupera y devuelve el Número.
-        return sucursal.getDireccion().getNumero();
+        return direccionSucursal.getNumero();
     }
 
     @Override

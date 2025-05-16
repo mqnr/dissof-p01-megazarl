@@ -22,7 +22,7 @@ import java.util.Objects;
  * ID: 00000251923
  * 
  */
-public class ClienteDTO{
+public abstract class ClienteDTO{
     
     /**
      * Objeto Long que representa el ID del cliente.
@@ -53,17 +53,6 @@ public class ClienteDTO{
      * Objeto String que representa el correo electrónico del cliente.
      */
     private String correoElectronico;
-    
-    /**
-     * Objeto DireccionDTO que representa la dirección de envío del cliente.
-     */
-    private DireccionDTO direccionEnvio;
-    
-    /**
-     * Objeto {@literal List<CarritoComprasDTO>} que representa la lista de carritos
-     * de compra vigentes y no vigentes que tiene o ha tenido.
-     */
-    private List<CarritoComprasDTO> listaCarritosCompras = new LinkedList<>();
 
     /**
      * Consutructor que permite instanciar un objeto de tipo ClienteDTO, que recibe
@@ -74,7 +63,6 @@ public class ClienteDTO{
      * @param apellidoMaterno       Objeto String que representa el apellido materno del cliente.
      * @param telefono              Objeto String que representa el telefono del cliente.
      * @param correoElectronico     Objeto String que representa el correo electrónico del cliente.
-     * @param direccionEnvio        Objecto DireccionDTO que representa la dirección de envío del cliente.
      */
     public ClienteDTO(
             Long id,
@@ -82,44 +70,16 @@ public class ClienteDTO{
             String apellidoPaterno, 
             String apellidoMaterno,
             String telefono, 
-            String correoElectronico,
-            DireccionDTO direccionEnvio) {
+            String correoElectronico) {
         
         this.id = id;
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
-        this.direccionEnvio = direccionEnvio;
+        this.apellidoMaterno = apellidoMaterno;;
     }
     
     /**
      * Consutructor que permite instanciar un objeto de tipo ClienteDTO.
-     * @param nombres               Objeto String que representa los nombres del cliente.
-     * @param apellidoPaterno       Objeto String que representa el apellido paterno del cliente.
-     * @param apellidoMaterno       Objeto String que representa el apellido materno del cliente.
-     * @param telefono              Objeto String que representa el telefono del cliente.
-     * @param correoElectronico     Objeto String que representa el correo electrónico del cliente.
-     * @param direccionEnvio        Objecto DireccionDTO que representa la dirección de envío del cliente.
-     */
-    public ClienteDTO(
-            String nombres,
-            String apellidoPaterno, 
-            String apellidoMaterno,
-            String telefono, 
-            String correoElectronico,
-            DireccionDTO direccionEnvio) {
-        
-        this.nombres = nombres;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
-        this.telefono = telefono;
-        this.correoElectronico = correoElectronico;
-        this.direccionEnvio = direccionEnvio;
-    }
-    
-    /**
-     * Consutructor que permite instanciar un objeto de tipo ClienteDTO, sin ID ni dirección
-     * de envío.
      * @param nombres               Objeto String que representa los nombres del cliente.
      * @param apellidoPaterno       Objeto String que representa el apellido paterno del cliente.
      * @param apellidoMaterno       Objeto String que representa el apellido materno del cliente.
@@ -188,22 +148,9 @@ public class ClienteDTO{
         return correoElectronico;
     }
 
-    /**
-     * Método que permite obtener la dirección de envío del cliente.
-     * @return Objeto DireccionDTO que representa la dirección de envío del cliente.
-     */
-    public DireccionDTO getDireccionEnvio() {
-        return direccionEnvio;
-    }
+    public abstract IdDireccionDTO getIdDireccionEnvio();
 
-    /**
-     * Método que permite obtener la lista de carritos de compras del cliente.
-     * @return Objeto {@literal List<CarritoComprasDTO>} que representa la lista
-     * de carritos de compra que ha tenido el cliente.
-     */
-    public List<CarritoComprasDTO> getListaCarritosCompras() {
-        return listaCarritosCompras;
-    }
+    public abstract List<IdCarritoComprasDTO> getIdsCarritosCompras();
 
     /**
      * Mètodo que permite establecer el ID del cliente.
@@ -212,8 +159,6 @@ public class ClienteDTO{
     public void setId(Long id) {
         this.id = id;
     }
-    
-    
 
     /**
      * Método que permite obtener el hash code del cliente, a partir de su ID.

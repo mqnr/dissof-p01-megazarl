@@ -12,6 +12,7 @@ import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArch
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProveedorDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioActualizadaClienteDTO;
@@ -56,6 +57,7 @@ public class ControlRegistroProveedor<t> {
     
     public void guardarDatosProveedor(String nombre, String telefono, String correoElectronico,
             String direccionImagen,String codigoPostal, String colonia, String calle, String numero){
+<<<<<<< Updated upstream
         if(nombre.equals("")||telefono.equals("")|| correoElectronico.equals("")||
                 direccionImagen.equals("")||codigoPostal.equals("")||colonia.equals("")
                 ||calle.equals("")||numero.equals("")){
@@ -76,6 +78,23 @@ public class ControlRegistroProveedor<t> {
         } else{
             mostrarMensaje("el proveedor ya existe", COLOR_MENSAJE_ERROR);
         }
+=======
+        
+        DireccionDTO direccionProveedor = new DireccionDTO(
+                        codigoPostal, 
+                        colonia, 
+                        calle,
+                        numero);
+        ProveedorDTO proveedor = new ProveedorDatosCompletosRelacionesDTO(
+                    nombre, 
+                    telefono, 
+                    correoElectronico,
+                    direccionImagen, 
+                    new LinkedList<>(),
+                    direccionProveedor
+            );
+        
+>>>>>>> Stashed changes
 
     }
     

@@ -117,7 +117,7 @@ public enum ConfiguracionApp {
         }
         String coordinadorLogistica = configuracion.obtenerString("fuentes", "coordinadorLogistica");
         if (coordinadorLogistica != null) {
-            fuentes.productoCarrito = FuenteDatos.de(coordinadorLogistica);
+            fuentes.coordinadorLogistica = FuenteDatos.de(coordinadorLogistica);
 
         }
         String gerenteVentas = configuracion.obtenerString("fuentes", "gerenteVentas");
@@ -129,6 +129,10 @@ public enum ConfiguracionApp {
         if(auxiliarVentas != null){
             fuentes.direccion = FuenteDatos.de(auxiliarVentas);
             
+        }
+        String productoPedido = configuracion.obtenerString("fuentes", "productoPedido");
+        if (productoPedido != null) {
+            fuentes.productoPedido = FuenteDatos.de(productoPedido);
         }
 
         return new ConfiguracionFuentes(
@@ -144,7 +148,8 @@ public enum ConfiguracionApp {
                 fuentes.productoCarrito,
                 fuentes.coordinadorLogistica,
                 fuentes.gerenteVentas,
-                fuentes.auxiliarVentas
+                fuentes.auxiliarVentas,
+                fuentes.productoPedido
 
         );
     }

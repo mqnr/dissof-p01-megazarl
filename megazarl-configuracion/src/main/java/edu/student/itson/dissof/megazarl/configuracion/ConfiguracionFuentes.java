@@ -13,5 +13,6 @@ public record ConfiguracionFuentes(
         FuenteDatos productoCarrito,
         FuenteDatos coordinadorLogistica,
         FuenteDatos gerenteVentas,
-        FuenteDatos auxiliarVentas
+        FuenteDatos auxiliarVentas,
+        FuenteDatos productoPedido
 ){}

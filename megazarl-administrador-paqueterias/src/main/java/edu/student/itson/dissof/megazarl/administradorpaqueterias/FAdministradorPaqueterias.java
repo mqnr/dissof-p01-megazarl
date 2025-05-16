@@ -4,10 +4,12 @@ package edu.student.itson.dissof.megazarl.administradorpaqueterias;
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdClienteInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdDireccionInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdSucursalInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
+import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.PaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdPaqueteriaDTO;
@@ -46,6 +48,7 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
             IAdministradorClientes administradorClientes,
             IAdministradorSucursales administradorSucursales,
             IAdministradorProveedores administradorProveedores,
+            IAdministradorDirecciones administradorDirecciones,
             IAdministradorMapas administradorMapas,
             DireccionDTO direccionDefectoPaqueteria){
         
@@ -53,6 +56,7 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
                 administradorClientes, 
                 administradorSucursales, 
                 administradorProveedores,
+                administradorDirecciones,
                 administradorMapas, 
                 direccionDefectoPaqueteria);
         
@@ -96,7 +100,8 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
     @Override
     public float obtenerCostoEnvioSucursalMatriz(InformacionEnvioProductoSucursalMatrizDTO informacionEnvioProductoSucursalMatrizDTO)
             throws PaqueteriasIdPaqueteriaInvalidoException,
-            PaqueteriasIdSucursalInvalidoException{
+            PaqueteriasIdSucursalInvalidoException,
+            PaqueteriasIdDireccionInvalidoException{
         
         return administradorPaqueterias.obtenerCostoEnvioSucursalMatriz(informacionEnvioProductoSucursalMatrizDTO);
         
@@ -115,7 +120,8 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
     @Override
     public float obtenerCostoEnvioMatrizCliente(InformacionEnvioProductoMatrizClienteDTO informacionEnvioProductoMatrizClienteDTO) 
             throws PaqueteriasIdPaqueteriaInvalidoException,
-            PaqueteriasIdClienteInvalidoException{
+            PaqueteriasIdClienteInvalidoException,
+            PaqueteriasIdDireccionInvalidoException{
         
         return administradorPaqueterias.obtenerCostoEnvioMatrizCliente(informacionEnvioProductoMatrizClienteDTO);
     }
@@ -133,7 +139,8 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
     @Override
     public float obtenerCostoEnvioProveedorMatriz(InformacionEnvioProductoProveedorMatrizDTO informacionEnvioProductoProveedorMatrizDTO) 
             throws PaqueteriasIdPaqueteriaInvalidoException,
-            PaqueteriasIdProveedorInvalidoException{
+            PaqueteriasIdProveedorInvalidoException,
+            PaqueteriasIdDireccionInvalidoException{
         
         return administradorPaqueterias.obtenerCostoEnvioProveedorMatriz(informacionEnvioProductoProveedorMatrizDTO);
         
@@ -145,10 +152,12 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
      * tiempo máximo de envío a Matriz, de entre las paqueterías registradas.
      * @return Objeto Float que representa el tiempo máximo de envío a Matriz en horas
      * de las paqueterías registradas, null si no existen paqueterías registradas.
+     * @throws PaqueteriasIdDireccionInvalidoException
      */
     @Override
     public Float obtenerTiempoEnvioMatrizEstimado(IdProveedorDTO idProveedorDTO) 
-            throws PaqueteriasIdProveedorInvalidoException {
+            throws PaqueteriasIdProveedorInvalidoException, 
+            PaqueteriasIdDireccionInvalidoException {
         
         return administradorPaqueterias.obtenerTiempoEnvioMatrizEstimado(idProveedorDTO);
     }

@@ -3,15 +3,17 @@ package edu.student.itson.dissof.megazarl.administradorpedidos;
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
-import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdClienteInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdDireccionInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdPaqueteriaInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProductoInventarioInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdSucursalInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
+import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.PedidoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoCantidadCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionPedidoClienteDTO;
@@ -48,6 +50,7 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
             IAdministradorClientes administradorClientes,
             IAdministradorPaqueterias administradorPaqueterias,
             IAdministradorProveedores administradorProveedores,
+            IAdministradorDirecciones administradorDirecciones,
             IAdministradorMapas administradorMapas){
         
         this.administradorPedidos = new AdministradorPedidos(
@@ -56,6 +59,7 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
                 administradorClientes,
                 administradorPaqueterias,
                 administradorProveedores,
+                administradorDirecciones,
                 administradorMapas);
     }
     
@@ -73,7 +77,9 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
     public float obtenerTiempoEstimadoPreparacion(List<IdProductoCantidadCarritoDTO> listaIdProductoCantidadCarritoDTO) 
             throws PedidosIdProductoInvalidoException,
             PedidosIdProveedorInvalidoException,
-            PedidosIdSucursalInvalidoException {
+            PedidosIdSucursalInvalidoException,
+            PedidosIdProductoInventarioInvalidoException,
+            PedidosIdDireccionInvalidoException {
         
         return administradorPedidos.obtenerTiempoEstimadoPreparacion(listaIdProductoCantidadCarritoDTO);
     }
@@ -98,7 +104,9 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
             PedidosIdProductoInvalidoException,
             PedidosIdPaqueteriaInvalidoException,
             PedidosIdSucursalInvalidoException,
-            PedidosIdProveedorInvalidoException {
+            PedidosIdProveedorInvalidoException,
+            PedidosIdDireccionInvalidoException,
+            PedidosIdProductoInventarioInvalidoException {
         
         return administradorPedidos.calcularCostoEnvioProductosPaqueteria(informacionCalculoCostoPedidoDTO);
     }
@@ -120,7 +128,10 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
             throws PedidosIdProductoInvalidoException,
             PedidosIdProductoInvalidoException,
             PedidosIdProductoInvalidoException,
-            ProductosIdProductoInvalidoException {
+            ProductosIdProductoInvalidoException,
+            PedidosIdProductoInventarioInvalidoException,
+            PedidosIdSucursalInvalidoException,
+            PedidosIdDireccionInvalidoException {
         
         return administradorPedidos.realizarPedido(informacionCrearPedidoDTO);
     }

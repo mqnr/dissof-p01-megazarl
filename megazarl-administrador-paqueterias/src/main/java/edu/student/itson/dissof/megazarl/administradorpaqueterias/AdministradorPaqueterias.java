@@ -3,10 +3,12 @@ package edu.student.itson.dissof.megazarl.administradorpaqueterias;
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdClienteInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdDireccionInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdSucursalInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
+import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DatosTiempoTrasladoUbicacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
@@ -15,6 +17,7 @@ import edu.student.itson.dissof.megazarl.dto.infraestructura.ProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.SucursalDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.TiempoTrasladoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdPaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdSucursalDTO;
@@ -26,12 +29,15 @@ import edu.student.itson.dissof.megazarl.mapas.IAdministradorMapas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Paqueteria;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class AdministradorPaqueterias implements IAdministradorPaqueterias {
     
     private final IAdministradorClientes administradorClientes;
     private final IAdministradorProveedores administradorProveedores;
     private final IAdministradorSucursales administradorSucursales;
+    private final IAdministradorDirecciones administradorDirecciones;
     private final IAdministradorMapas administradorMapas;
     
     private final DireccionDTO DIRECCION_DEFECTO_PAQUETERIA;
@@ -40,6 +46,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
             IAdministradorClientes administradorClientes,
             IAdministradorSucursales administradorSucursales,
             IAdministradorProveedores administradorProveedores,
+            IAdministradorDirecciones administradorDirecciones,
             IAdministradorMapas administradorMapas,
             DireccionDTO direccionDefectoPaqueteria){
         
@@ -47,6 +54,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         this.administradorSucursales = administradorSucursales;
         this.administradorProveedores = administradorProveedores;
         this.administradorMapas = administradorMapas;
+        this.administradorDirecciones = administradorDirecciones;
         this.DIRECCION_DEFECTO_PAQUETERIA = direccionDefectoPaqueteria;
         
     }
@@ -70,7 +78,8 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
     @Override
     public float obtenerCostoEnvioSucursalMatriz(InformacionEnvioProductoSucursalMatrizDTO informacionEnvioProductoSucursalMatrizDTO)
             throws PaqueteriasIdPaqueteriaInvalidoException,
-            PaqueteriasIdSucursalInvalidoException{
+            PaqueteriasIdSucursalInvalidoException,
+            PaqueteriasIdDireccionInvalidoException{
         
         // Se valida la paqueteria
         Long idPaqueteria = informacionEnvioProductoSucursalMatrizDTO.getIdPaqueteria();
@@ -107,15 +116,42 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         // Se obtiene el peso del peso en Kg del producto de la DTO del parámetro y su tiempo de envío
         Double pesoKgProducto = informacionEnvioProductoSucursalMatrizDTO.getPesoKgTotal();
         
-        String numeroSucursal = sucursal.getDireccion().getNumero();
-        String calleSucursal = sucursal.getDireccion().getCalle();
-        String coloniaSucursal = sucursal.getDireccion().getColonia();
-        String codigoPostalSucursal = sucursal.getDireccion().getCodigoPostal();
+        // Se valida el ID de la dirección de la sucursal
+        IdDireccionDTO idDireccionSucursal = sucursal.getIdDireccion();
         
-        String numeroMatriz = sucursalMatriz.getDireccion().getNumero();
-        String calleMatriz = sucursalMatriz.getDireccion().getCalle();
-        String coloniaMatriz = sucursalMatriz.getDireccion().getColonia();
-        String codigoPostalMatriz = sucursalMatriz.getDireccion().getCodigoPostal();
+        if(!administradorDirecciones.validarDireccion(idDireccionSucursal)){
+            throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de la sucursal es inválido.");
+        }
+        
+        DireccionDTO direccionSucursal = administradorDirecciones.obtenerDireccion(idDireccionSucursal);
+        
+        if(direccionSucursal == null){
+            throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de la sucursal es inválido.");
+        }
+        
+        // Se valida el ID de la dirección de Matriz
+        IdDireccionDTO idDireccionMatriz = sucursalMatriz.getIdDireccion();
+        
+        if(!administradorDirecciones.validarDireccion(idDireccionMatriz)){
+            throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
+        }
+        
+        DireccionDTO direccionMatriz = administradorDirecciones.obtenerDireccion(idDireccionMatriz);
+        
+        if(direccionMatriz == null){
+            throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
+        }
+        
+        
+        String numeroSucursal = direccionSucursal.getNumero();
+        String calleSucursal = direccionSucursal.getCalle();
+        String coloniaSucursal = direccionSucursal.getColonia();
+        String codigoPostalSucursal = direccionSucursal.getCodigoPostal();
+        
+        String numeroMatriz = direccionMatriz.getNumero();
+        String calleMatriz = direccionMatriz.getCalle();
+        String coloniaMatriz = direccionMatriz.getColonia();
+        String codigoPostalMatriz = direccionMatriz.getCodigoPostal();
         
         DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoUbicacionesDTO = 
                 new DatosTiempoTrasladoUbicacionesDTO(
@@ -139,7 +175,8 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
     @Override
     public float obtenerCostoEnvioMatrizCliente(InformacionEnvioProductoMatrizClienteDTO informacionEnvioProductoMatrizClienteDTO)
             throws PaqueteriasIdPaqueteriaInvalidoException,
-            PaqueteriasIdClienteInvalidoException{
+            PaqueteriasIdClienteInvalidoException,
+            PaqueteriasIdDireccionInvalidoException{
         
         // Se valida la paqueteria
         Long idPaqueteria = informacionEnvioProductoMatrizClienteDTO.getIdPaqueteria();
@@ -176,15 +213,41 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         // Se obtiene el peso del peso en Kg del producto de la DTO del parámetro y su tiempo de envío
         Double pesoKgProducto = informacionEnvioProductoMatrizClienteDTO.getPesoKgTotal();
         
-        String numeroCliente = cliente.getDireccionEnvio().getNumero();
-        String calleCliente = cliente.getDireccionEnvio().getCalle();
-        String coloniaCliente = cliente.getDireccionEnvio().getColonia();
-        String codigoPostalCliente = cliente.getDireccionEnvio().getCodigoPostal();
+        // Se valida de la dirección de envío el ID del cliente
+        IdDireccionDTO idDireccionEnvioCliente = cliente.getIdDireccionEnvio();
         
-        String numeroMatriz = sucursalMatriz.getDireccion().getNumero();
-        String calleMatriz = sucursalMatriz.getDireccion().getCalle();
-        String coloniaMatriz = sucursalMatriz.getDireccion().getColonia();
-        String codigoPostalMatriz = sucursalMatriz.getDireccion().getCodigoPostal();
+        if(!administradorDirecciones.validarDireccion(idDireccionEnvioCliente)){
+            throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de envío del cliente es inválido.");
+        }
+        
+        DireccionDTO direccionEnvioCliente = administradorDirecciones.obtenerDireccion(idDireccionEnvioCliente);
+        
+        if(direccionEnvioCliente == null){
+            throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de envío del cliente es inválido.");
+        }
+        
+        // Se valida el ID de la dirección de la Matriz
+        IdDireccionDTO idDireccionMatriz = sucursalMatriz.getIdDireccion();
+        
+        if(!administradorDirecciones.validarDireccion(idDireccionMatriz)){
+            throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
+        }
+        
+        DireccionDTO direccionMatriz = administradorDirecciones.obtenerDireccion(idDireccionMatriz);
+        
+        if(direccionMatriz == null){
+            throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
+        }
+        
+        String numeroCliente = direccionEnvioCliente.getNumero();
+        String calleCliente = direccionEnvioCliente.getCalle();
+        String coloniaCliente = direccionEnvioCliente.getColonia();
+        String codigoPostalCliente = direccionEnvioCliente.getCodigoPostal();
+        
+        String numeroMatriz = direccionMatriz.getNumero();
+        String calleMatriz = direccionMatriz.getCalle();
+        String coloniaMatriz = direccionMatriz.getColonia();
+        String codigoPostalMatriz = direccionMatriz.getCodigoPostal();
         
         DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoUbicacionesDTO = 
                 new DatosTiempoTrasladoUbicacionesDTO(
@@ -209,7 +272,8 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
     @Override
     public float obtenerCostoEnvioProveedorMatriz(InformacionEnvioProductoProveedorMatrizDTO informacionEnvioProductoProveedorMatrizDTO)
             throws PaqueteriasIdPaqueteriaInvalidoException,
-            PaqueteriasIdProveedorInvalidoException{
+            PaqueteriasIdProveedorInvalidoException,
+            PaqueteriasIdDireccionInvalidoException{
         
         // Se valida la paqueteria
         Long idPaqueteria = informacionEnvioProductoProveedorMatrizDTO.getIdPaqueteria();
@@ -245,15 +309,54 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         // Se obtiene el peso del peso en Kg del producto de la DTO del parámetro y su tiempo de envío
         Double pesoKgProducto = informacionEnvioProductoProveedorMatrizDTO.getPesoKgTotal();
         
-        String numeroProveedor = proveedor.getDireccion().getNumero();
-        String calleProveedor = proveedor.getDireccion().getCalle();
-        String coloniaProveedor = proveedor.getDireccion().getColonia();
-        String codigoPostalProveedor = proveedor.getDireccion().getCodigoPostal();
+        // Se valida de la dirección del ID del proveedor
+        IdDireccionDTO idDireccionProveedor = proveedor.getIdDireccion();
         
-        String numeroMatriz = sucursalMatriz.getDireccion().getNumero();
-        String calleMatriz = sucursalMatriz.getDireccion().getCalle();
-        String coloniaMatriz = sucursalMatriz.getDireccion().getColonia();
-        String codigoPostalMatriz = sucursalMatriz.getDireccion().getCodigoPostal();
+        if(!administradorDirecciones.validarDireccion(idDireccionProveedor)){
+            throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección del proveedor es inválido.");
+        }
+        
+        DireccionDTO direccionProveedor = administradorDirecciones.obtenerDireccion(idDireccionProveedor);
+        
+        if(direccionProveedor == null){
+            throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección del proveedor es inválido.");
+        }
+        
+        // Se valida el ID de la dirección de la Matriz
+        IdDireccionDTO idDireccionMatriz = sucursalMatriz.getIdDireccion();
+        
+        if(!administradorDirecciones.validarDireccion(idDireccionMatriz)){
+            throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
+        }
+        
+        DireccionDTO direccionMatriz = administradorDirecciones.obtenerDireccion(idDireccionMatriz);
+        
+        if(direccionMatriz == null){
+            throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
+        }
+        
+        // Se valida el ID de la dirección de la paqueteria
+        IdDireccionDTO idDireccionPaqueteria = paqueteria.getIdDireccion();
+        
+        if(!administradorDirecciones.validarDireccion(idDireccionPaqueteria)){
+            throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de la paquetería es inválido.");
+        }
+        
+        DireccionDTO direccionPaqueteria = administradorDirecciones.obtenerDireccion(idDireccionPaqueteria);
+        
+        if(direccionPaqueteria == null){
+            throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de la paquetería es inválido.");
+        }
+        
+        String numeroProveedor = direccionProveedor.getNumero();
+        String calleProveedor = direccionProveedor.getCalle();
+        String coloniaProveedor = direccionProveedor.getColonia();
+        String codigoPostalProveedor = direccionProveedor.getCodigoPostal();
+        
+        String numeroMatriz = direccionMatriz.getNumero();
+        String calleMatriz = direccionMatriz.getCalle();
+        String coloniaMatriz = direccionMatriz.getColonia();
+        String codigoPostalMatriz = direccionMatriz.getCodigoPostal();
         
         DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoPaqueteriaProveedorDTO = 
                 new DatosTiempoTrasladoUbicacionesDTO(
@@ -270,10 +373,10 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         
         float tiempoTraslado = tiempoTrasladoDTO.getTiempoTraslado();
         
-        String numeroPaqueteria = paqueteria.getDireccion().getNumero();
-        String callePaqueteria = paqueteria.getDireccion().getCalle();
-        String coloniaPaqueteria = paqueteria.getDireccion().getColonia();
-        String codigoPostalPaqueteria = paqueteria.getDireccion().getCodigoPostal();
+        String numeroPaqueteria = direccionPaqueteria.getNumero();
+        String callePaqueteria = direccionPaqueteria.getCalle();
+        String coloniaPaqueteria = direccionPaqueteria.getColonia();
+        String codigoPostalPaqueteria = direccionPaqueteria.getCodigoPostal();
         
         DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoProveedorMatrizDTO = 
                 new DatosTiempoTrasladoUbicacionesDTO(
@@ -304,7 +407,8 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
      */
     @Override
     public Float obtenerTiempoEnvioMatrizEstimado(IdProveedorDTO idProveedorDTO) 
-            throws PaqueteriasIdProveedorInvalidoException{
+            throws PaqueteriasIdProveedorInvalidoException,
+            PaqueteriasIdDireccionInvalidoException{
         
         // Se valida el ID de proveedor.
         if(!administradorProveedores.validarProveedor(idProveedorDTO)){
@@ -317,17 +421,44 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
             throw new PaqueteriasIdProveedorInvalidoException("El ID de proveedor es inválido.");
         }
         
+        // Se valida de la dirección del ID del proveedor
+        IdDireccionDTO idDireccionProveedor = proveedor.getIdDireccion();
+        
+        if(!administradorDirecciones.validarDireccion(idDireccionProveedor)){
+            throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección del proveedor es inválido.");
+        }
+        
+        DireccionDTO direccionProveedor = administradorDirecciones.obtenerDireccion(idDireccionProveedor);
+        
+        if(direccionProveedor == null){
+            throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección del proveedor es inválido.");
+        }
+        
         SucursalDTO sucursalMatriz = administradorSucursales.obtenerSucursalMatriz();
         
-        String codigoPostalProveedor = proveedor.getDireccion().getCodigoPostal();
-        String coloniaProveedor = proveedor.getDireccion().getColonia();
-        String calleProveedor = proveedor.getDireccion().getCalle();
-        String numeroProveedor = proveedor.getDireccion().getNumero();
+        // Se valida el ID de la dirección de la Matriz
+        IdDireccionDTO idDireccionMatriz = sucursalMatriz.getIdDireccion();
         
-        String codigoPostalMatriz = sucursalMatriz.getDireccion().getCodigoPostal();
-        String coloniaMatriz = sucursalMatriz.getDireccion().getColonia();
-        String calleMatriz = sucursalMatriz.getDireccion().getCalle();
-        String numeroMatriz = sucursalMatriz.getDireccion().getNumero();
+        if(!administradorDirecciones.validarDireccion(idDireccionMatriz)){
+            throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
+        }
+        
+        DireccionDTO direccionMatriz = administradorDirecciones.obtenerDireccion(idDireccionMatriz);
+        
+        if(direccionMatriz == null){
+            throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
+        }
+        
+        
+        String codigoPostalProveedor = direccionProveedor.getCodigoPostal();
+        String coloniaProveedor = direccionProveedor.getColonia();
+        String calleProveedor = direccionProveedor.getCalle();
+        String numeroProveedor = direccionProveedor.getNumero();
+        
+        String codigoPostalMatriz = direccionMatriz.getCodigoPostal();
+        String coloniaMatriz = direccionMatriz.getColonia();
+        String calleMatriz = direccionMatriz.getCalle();
+        String numeroMatriz = direccionMatriz.getNumero();
         
         DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoProveedorMatriz
                 = new DatosTiempoTrasladoUbicacionesDTO(
@@ -374,10 +505,23 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
             
             for(PaqueteriaDTO paqueteria: listaPaqueterias){
             
-                String codigoPostalPaqueteria = paqueteria.getDireccion().getCodigoPostal();
-                String coloniaPaqueteria = paqueteria.getDireccion().getColonia();
-                String callePaqueteria = paqueteria.getDireccion().getCalle();
-                String numeroPaqueteria = paqueteria.getDireccion().getNumero();
+                // Se valida el ID de la dirección de la paqueteria
+                IdDireccionDTO idDireccionPaqueteria = paqueteria.getIdDireccion();
+                
+                if(!administradorDirecciones.validarDireccion(idDireccionPaqueteria)){
+                    throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de la paquetería es inválido.");
+                }
+
+                DireccionDTO direccionPaqueteria = administradorDirecciones.obtenerDireccion(idDireccionPaqueteria);
+
+                if(direccionPaqueteria == null){
+                    throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de la paquetería es inválido.");
+                }
+        
+                String codigoPostalPaqueteria = direccionPaqueteria.getCodigoPostal();
+                String coloniaPaqueteria = direccionPaqueteria.getColonia();
+                String callePaqueteria = direccionPaqueteria.getCalle();
+                String numeroPaqueteria = direccionPaqueteria.getNumero();
 
                  datosTiempoTrasladoPaqueteriaProveedor 
                         = new DatosTiempoTrasladoUbicacionesDTO(
@@ -406,6 +550,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         return tiempoTrasladoMaximoPaqueteriaProveedor + tiempoTrasladoProveedorMatriz;
         
     }
+    private static final Logger LOG = Logger.getLogger(AdministradorPaqueterias.class.getName());
     
     @Override
     public boolean validarPaqueteria(IdPaqueteriaDTO idPaqueteriaDTO) {

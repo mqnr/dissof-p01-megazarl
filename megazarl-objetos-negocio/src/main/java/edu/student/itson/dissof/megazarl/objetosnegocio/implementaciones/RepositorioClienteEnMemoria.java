@@ -2,6 +2,7 @@ package edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones;
 
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdClienteDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioCliente;
 
@@ -88,14 +89,17 @@ public class RepositorioClienteEnMemoria implements RepositorioCliente {
 
     private ClienteDTO aplicar(ClienteDTO clienteOriginal, ActualizacionClienteDTO actualizacionClienteDTO) {
         
-        return new ClienteDTO(
-                actualizacionClienteDTO.getId(),
+        return new ClienteDatosCompletosRelacionesDTO(
+                ((ClienteDatosCompletosRelacionesDTO)clienteOriginal).getId(),
                 actualizacionClienteDTO.tieneNombres() ? actualizacionClienteDTO.getNombres() : clienteOriginal.getNombres(),
                 actualizacionClienteDTO.tieneApellidoPaterno() ? actualizacionClienteDTO.getApellidoPaterno() : clienteOriginal.getApellidoPaterno(),
                 actualizacionClienteDTO.tieneApellidoMaterno() ? actualizacionClienteDTO.getApellidoMaterno() : clienteOriginal.getApellidoMaterno(),
                 clienteOriginal.getTelefono(),
                 clienteOriginal.getCorreoElectronico(),
-                actualizacionClienteDTO.tieneDireccionEnvio() ? actualizacionClienteDTO.getDireccionEnvio() : clienteOriginal.getDireccionEnvio()
+                actualizacionClienteDTO.tieneDireccionEnvio() 
+                        ? actualizacionClienteDTO.getDireccionEnvio() 
+                        : ((ClienteDatosCompletosRelacionesDTO)clienteOriginal).getDireccionEnvio(),
+                ((ClienteDatosCompletosRelacionesDTO)clienteOriginal).getCarritosCompras()
         );
     }
 

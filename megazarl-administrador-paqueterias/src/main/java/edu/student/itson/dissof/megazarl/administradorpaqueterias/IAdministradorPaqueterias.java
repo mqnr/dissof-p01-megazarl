@@ -1,6 +1,7 @@
 package edu.student.itson.dissof.megazarl.administradorpaqueterias;
 
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdClienteInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdDireccionInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdSucursalInvalidoException;
@@ -63,10 +64,12 @@ public interface IAdministradorPaqueterias {
      * @throws PaqueteriasIdPaqueteriaInvalidoException Se lanza si se comprueba que el ID
      * de la paquetería es inválido, dentro de este subsistema.
      * @throws PaqueteriasIdSucursalInvalidoException
+     * @throws PaqueteriasIdDireccionInvalidoException
      */
     public abstract float obtenerCostoEnvioSucursalMatriz(InformacionEnvioProductoSucursalMatrizDTO informacionEnvioProductoSucursalMatrizDTO) 
             throws PaqueteriasIdPaqueteriaInvalidoException,
-            PaqueteriasIdSucursalInvalidoException;
+            PaqueteriasIdSucursalInvalidoException,
+            PaqueteriasIdDireccionInvalidoException;
     
     /**
      * Método que permite calcular el costo de envío desde la Matriz de la empresa
@@ -77,11 +80,13 @@ public interface IAdministradorPaqueterias {
      * @return Objeto Float que representa el costo de envío calculado.
      * @throws PaqueteriasIdPaqueteriaInvalidoException Se lanza si se comprueba que el ID
      * de la paquetería es inválido, dentro de este subsistema.
-     * @throws edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdClienteInvalidoException
+     * @throws PaqueteriasIdClienteInvalidoException
+     * @throws PaqueteriasIdDireccionInvalidoException
      */
     public abstract float obtenerCostoEnvioMatrizCliente(InformacionEnvioProductoMatrizClienteDTO informacionEnvioProductoMatrizClienteDTO) 
             throws PaqueteriasIdPaqueteriaInvalidoException,
-            PaqueteriasIdClienteInvalidoException;
+            PaqueteriasIdClienteInvalidoException,
+            PaqueteriasIdDireccionInvalidoException;
     
     /**
      * Método que permite calcular el costo de envío de un producto desde un proveedor
@@ -93,10 +98,12 @@ public interface IAdministradorPaqueterias {
      * @throws PaqueteriasIdPaqueteriaInvalidoException Se lanza si se comprueba que el ID
      * de la paquetería es inválido, dentro de este subsistema.
      * @throws PaqueteriasIdProveedorInvalidoException
+     * @throws PaqueteriasIdDireccionInvalidoException
      */
     public abstract float obtenerCostoEnvioProveedorMatriz(InformacionEnvioProductoProveedorMatrizDTO informacionEnvioProductoProveedorMatrizDTO) 
             throws PaqueteriasIdPaqueteriaInvalidoException,
-            PaqueteriasIdProveedorInvalidoException;
+            PaqueteriasIdProveedorInvalidoException,
+            PaqueteriasIdDireccionInvalidoException;
     
     /**
      * Método que permite obtener el tiempo máximo de envío a Matriz, de entre las 
@@ -107,9 +114,11 @@ public interface IAdministradorPaqueterias {
      * de las paqueterías registradas, null si no existen paqueterías registradas.
      * @throws PaqueteriasIdProveedorInvalidoException Se lanza si se comprueba que
      * el ID de paquetería es inválido, dentro de este subsistema.
+     * @throws PaqueteriasIdDireccionInvalidoException
      */
     public abstract Float obtenerTiempoEnvioMatrizEstimado(IdProveedorDTO idProveedorDTO)
-            throws PaqueteriasIdProveedorInvalidoException;
+            throws PaqueteriasIdProveedorInvalidoException,
+            PaqueteriasIdDireccionInvalidoException;
     
     /**
      * Método que permite verificar si el ID de una paquetería es válido.

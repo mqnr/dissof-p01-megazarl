@@ -7,10 +7,15 @@ import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoCompr
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasCarritoSinProductoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasCarritoVacioException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasClienteSinCarritoVigenteException;
+import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdDireccionInvalidoException;
+import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdProductoCarritoInvalidoException;
+import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdProductoInventarioInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdSucursalInvalidoException;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdClientePaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoCarritoDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoAgregarCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoEliminarCarritoDTO;
@@ -48,10 +53,12 @@ public interface IAdministradorCarritoCompras {
      * @throws CarritoComprasIdClienteInvalidoException Se lanza si se comprueba que el ID
      * del cliente es inválido, dentro de este subsistema.
      * @throws CarritoComprasIdProductoInvalidoException
+     * @throws CarritoComprasIdProductoCarritoInvalidoException
      */
     public abstract List<InformacionProductoCarritoDTO> obtenerProductos(IdClienteDTO idClienteDTO)
             throws CarritoComprasIdClienteInvalidoException,
-            CarritoComprasIdProductoInvalidoException;
+            CarritoComprasIdProductoInvalidoException,
+            CarritoComprasIdProductoCarritoInvalidoException;
 
     /**
      * Método que permite agregar un producto al carrito de un cliente.
@@ -65,13 +72,15 @@ public interface IAdministradorCarritoCompras {
      * del producto es inválido, dentro de este subsistema.
      * @throws CarritoComprasProductoSinInventarioException Se lanza si se comprueba que no
      * hay suficiente inventario del producto, dentro de este subsistema.
+     * @throws CarritoComprasIdProductoCarritoInvalidoException
      */
     public abstract void agregarProducto(InformacionProductoAgregarCarritoDTO informacionProductoAgregarCarritoDTO) 
             throws CarritoComprasIdClienteInvalidoException,
             CarritoComprasIdProductoInvalidoException,
             CarritoComprasProductoSinInventarioException,
             CarritoComprasIdProductoInvalidoException,
-            CarritoComprasProductoSinInventarioException;
+            CarritoComprasProductoSinInventarioException,
+            CarritoComprasIdProductoCarritoInvalidoException;
 
     /**
      * Método que permite eliminar un producto del carrito de un cliente.
@@ -92,7 +101,8 @@ public interface IAdministradorCarritoCompras {
             throws CarritoComprasIdClienteInvalidoException,
             CarritoComprasIdProductoInvalidoException,
             CarritoComprasCarritoSinProductoException,
-            CarritoComprasClienteSinCarritoVigenteException;
+            CarritoComprasClienteSinCarritoVigenteException,
+            CarritoComprasIdProductoCarritoInvalidoException;
 
     /**
      * Método que permite obtener el número total de productos en el carrito de un cliente.
@@ -101,9 +111,11 @@ public interface IAdministradorCarritoCompras {
      * @return Objeto Integer que representa el número total de productos en el carrito.
      * @throws CarritoComprasIdClienteInvalidoException Se lanza si se comprueba que el ID
      * del cliente es inválido, dentro de este subsistema.
+     * @throws CarritoComprasIdProductoCarritoInvalidoException
      */
     public abstract Integer obtenerNumeroProductos(IdClienteDTO idClienteDTO)
-            throws CarritoComprasIdClienteInvalidoException;
+            throws CarritoComprasIdClienteInvalidoException,
+            CarritoComprasIdProductoCarritoInvalidoException;
 
     /**
      * Método que permite obtener el tiempo estimado de preparación de los productos en
@@ -116,16 +128,22 @@ public interface IAdministradorCarritoCompras {
      * ID del cliente es inválido, dentro de este subsistema.
      * @throws CarritoComprasClienteSinCarritoVigenteException Se lanza si se comprueba que
      * el cliente no tiene un carrito de compras vigente.
-     * @throws edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdProveedorInvalidoException
-     * @throws edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdSucursalInvalidoException
-     * @throws edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdProductoInvalidoException
+     * @throws CarritoComprasIdProveedorInvalidoException
+     * @throws CarritoComprasIdSucursalInvalidoException
+     * @throws CarritoComprasIdProductoInvalidoException
+     * @throws CarritoComprasIdProductoCarritoInvalidoException
+     * @throws CarritoComprasIdProductoInventarioInvalidoException
+     * @throws CarritoComprasIdDireccionInvalidoException
      */
     public abstract TiempoEstimadoPreparacionEnvioPedidoDTO obtenerTiempoEstimadoPreparacionProductos(IdClienteDTO idClienteDTO)
             throws CarritoComprasIdClienteInvalidoException,
             CarritoComprasClienteSinCarritoVigenteException,
             CarritoComprasIdProveedorInvalidoException,
             CarritoComprasIdSucursalInvalidoException,
-            CarritoComprasIdProductoInvalidoException;
+            CarritoComprasIdProductoInvalidoException,
+            CarritoComprasIdProductoCarritoInvalidoException,
+            CarritoComprasIdProductoInventarioInvalidoException,
+            CarritoComprasIdDireccionInvalidoException;
 
     /**
      * Método que permite obtener información sobre el monto mínimo requerido para envío
@@ -138,12 +156,14 @@ public interface IAdministradorCarritoCompras {
      * ID del cliente es inválido, dentro de este subsistema.
      * @throws CarritoComprasClienteSinCarritoVigenteException Se Se lanza si se comprueba que
      * el cliente no tiene un carrito de compras vigente.
-     * @throws edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdProductoInvalidoException
+     * @throws CarritoComprasIdProductoInvalidoException
+     * @throws CarritoComprasIdProductoCarritoInvalidoException
      */
     public abstract MontoMinimoEnvioGratuitoDTO obtenerInformacionMontoEnvioMinimoGratuito(IdClienteDTO idClienteDTO)
             throws CarritoComprasIdClienteInvalidoException,
             CarritoComprasClienteSinCarritoVigenteException,
-            CarritoComprasIdProductoInvalidoException;
+            CarritoComprasIdProductoInvalidoException,
+            CarritoComprasIdProductoCarritoInvalidoException;
     
     
     /**
@@ -161,6 +181,9 @@ public interface IAdministradorCarritoCompras {
      * @throws CarritoComprasIdProductoInvalidoException
      * @throws CarritoComprasIdSucursalInvalidoException
      * @throws CarritoComprasIdProveedorInvalidoException
+     * @throws edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdDireccionInvalidoException
+     * @throws edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdProductoInventarioInvalidoException
+     * @throws edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdProductoCarritoInvalidoException
      */
     public abstract float obtenerCostoEnvioProductos(IdClientePaqueteriaDTO idClientePaqueteriaDTO)
             throws CarritoComprasIdClienteInvalidoException,
@@ -168,7 +191,10 @@ public interface IAdministradorCarritoCompras {
             CarritoComprasClienteSinCarritoVigenteException,
             CarritoComprasIdProductoInvalidoException,
             CarritoComprasIdSucursalInvalidoException,
-            CarritoComprasIdProveedorInvalidoException;
+            CarritoComprasIdProveedorInvalidoException,
+            CarritoComprasIdDireccionInvalidoException,
+            CarritoComprasIdProductoInventarioInvalidoException,
+            CarritoComprasIdProductoCarritoInvalidoException;
 
     /**
      * Método que permite asignar una paquetería al carrito de un cliente.
@@ -198,11 +224,24 @@ public interface IAdministradorCarritoCompras {
      * @throws CarritoComprasCarritoVacioException Se lanza si se comprueba que el carrito
      * del cliente está vacío.
      * @throws CarritoComprasIdProductoInvalidoException
+     * @throws CarritoComprasIdSucursalInvalidoException
+     * @throws CarritoComprasIdDireccionInvalidoException
+     * @throws CarritoComprasIdProductoInventarioInvalidoException
+     * @throws CarritoComprasIdProductoCarritoInvalidoException
      */
     public abstract void crearPedidoProductosCarritoCliente(IdClienteDTO idClienteDTO)
             throws CarritoComprasIdClienteInvalidoException,
             CarritoComprasClienteSinCarritoVigenteException,
             CarritoComprasCarritoVacioException,
-            CarritoComprasIdProductoInvalidoException;
+            CarritoComprasIdProductoInvalidoException,
+            CarritoComprasIdSucursalInvalidoException,
+            CarritoComprasIdDireccionInvalidoException,
+            CarritoComprasIdProductoInventarioInvalidoException,
+            CarritoComprasIdProductoCarritoInvalidoException;
+    
+    
+    public abstract boolean validarProductoCarrito(IdProductoCarritoDTO idProductoCarritoDTO);
+    
+    public abstract ProductoCarritoDTO obtenerProductoCarrito(IdProductoCarritoDTO idProductoCarritoDTO);
     
 }

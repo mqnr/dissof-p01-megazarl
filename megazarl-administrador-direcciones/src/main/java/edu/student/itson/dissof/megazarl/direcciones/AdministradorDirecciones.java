@@ -16,6 +16,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class AdministradorDirecciones implements IAdministradorDirecciones {
     
@@ -26,12 +28,14 @@ class AdministradorDirecciones implements IAdministradorDirecciones {
 
     @Override
     public boolean validarDireccion(IdDireccionDTO idDireccionDTO) {
+        
         if (idDireccionDTO == null || idDireccionDTO.getIdDireccion()== null || !Direccion.existePorId(idDireccionDTO)) {
             return false;
         }
         
         return true;
     }
+    private static final Logger LOG = Logger.getLogger(AdministradorDirecciones.class.getName());
     
     @Override
     public InformacionDerivadaCPDireccionDTO obtenerDatosDireccionDerivados(CodigoPostalDTO codigoPostalDTO)

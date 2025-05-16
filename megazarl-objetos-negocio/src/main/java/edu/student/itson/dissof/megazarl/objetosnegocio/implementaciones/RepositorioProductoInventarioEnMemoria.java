@@ -3,11 +3,15 @@ package edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones;
 
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDatosCompletosRelacionesDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoInventarioDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioProductoInventario;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 
@@ -47,7 +51,16 @@ public class RepositorioProductoInventarioEnMemoria implements RepositorioProduc
     public void agregar(ProductoInventarioDTO productoInventario) {
         
         productoInventario.setId(ID_ACTUAL_PRODUCTO_INVENTARIO++);
-        productoInventario.getProducto().getProductosInventario().add(productoInventario);
+        
+        ProductoInventarioDatosCompletosRelacionesDTO productoInventarioDatosCompletosRelacionesDTO 
+                    = (ProductoInventarioDatosCompletosRelacionesDTO) productoInventario;
+            
+            ProductoDatosCompletosRelacionesDTO productoDatosCompletosRelacionesDTO 
+                    = ((ProductoDatosCompletosRelacionesDTO)productoInventarioDatosCompletosRelacionesDTO.getProducto());
+            
+            
+            productoDatosCompletosRelacionesDTO.getProductosInventario().add(productoInventario);
+            
         listaProductosInventario.add(productoInventario);
         
     }
@@ -58,14 +71,22 @@ public class RepositorioProductoInventarioEnMemoria implements RepositorioProduc
         for(ProductoInventarioDTO productoInventario: productosInventario){
             
             productoInventario.setId(ID_ACTUAL_PRODUCTO_INVENTARIO++);
-            productoInventario.getProducto().getProductosInventario().add(productoInventario);
+            
+            ProductoInventarioDatosCompletosRelacionesDTO productoInventarioDatosCompletosRelacionesDTO 
+                    = (ProductoInventarioDatosCompletosRelacionesDTO) productoInventario;
+            
+            ProductoDatosCompletosRelacionesDTO productoDatosCompletosRelacionesDTO 
+                    = ((ProductoDatosCompletosRelacionesDTO)productoInventarioDatosCompletosRelacionesDTO.getProducto());
+            
+            
+            productoDatosCompletosRelacionesDTO.getProductosInventario().add(productoInventario);
+            
             
         }
         
-        
-        
         listaProductosInventario.addAll(productosInventario);
     }
+    
 
     @Override
     public List<ProductoInventarioDTO> recuperarTodos() {

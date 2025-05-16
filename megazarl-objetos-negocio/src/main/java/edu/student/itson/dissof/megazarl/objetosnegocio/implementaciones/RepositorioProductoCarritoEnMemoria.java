@@ -2,15 +2,16 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones;
 
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionProductoCarritoDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.CarritoComprasDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoCarritoDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoCarritoDatosCompletosRelacionesDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioProductoCarrito;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -58,17 +59,29 @@ public class RepositorioProductoCarritoEnMemoria implements RepositorioProductoC
             
             if (productoCarrito.getId().equals(actualizacionProductoCarritoDTO.getId())) {
                 
+                // Se agrega el producto en carrito de compras al carrito asociado.
                 ProductoCarritoDTO productoCarritoActualizado = aplicar(productoCarrito, actualizacionProductoCarritoDTO);
                 
+                ProductoCarritoDatosCompletosRelacionesDTO productoCarritoDatosCompletosRelacionesDTO 
+                        = (ProductoCarritoDatosCompletosRelacionesDTO) productoCarritoActualizado;
                 
-                List<ProductoCarritoDTO> listaProductosCarritoCarritoCompras = productoCarritoActualizado.getCarritoCompras().getProductosCarrito();
+                CarritoComprasDatosCompletosRelacionesDTO carritoComprasDatosCompletosRelacionesDTO
+                        = (CarritoComprasDatosCompletosRelacionesDTO) productoCarritoDatosCompletosRelacionesDTO.getCarritoCompras();
+                
+                List<ProductoCarritoDTO> listaProductosCarritoCarritoCompras 
+                        = carritoComprasDatosCompletosRelacionesDTO.getProductosCarrito();
                 
                 IntStream.range(0, listaProductosCarritoCarritoCompras.size())
                     .filter(j -> listaProductosCarritoCarritoCompras.get(j).getId().equals(productoCarritoActualizado.getId()))
                     .findFirst()
                     .ifPresent(j -> listaProductosCarritoCarritoCompras.set(j, productoCarritoActualizado));
           
-                List<ProductoCarritoDTO> listaProductosCarritoProducto = productoCarritoActualizado.getProducto().getProductosCarrito();
+                // Se agrega el producto en carrito de compras al producto asociado.
+                ProductoDatosCompletosRelacionesDTO productoDatosCompletosRelacionesDTO 
+                        = (ProductoDatosCompletosRelacionesDTO) productoCarritoDatosCompletosRelacionesDTO.getProducto();
+                
+                List<ProductoCarritoDTO> listaProductosCarritoProducto 
+                        = productoDatosCompletosRelacionesDTO.getProductosCarrito();
                 
                 IntStream.range(0, listaProductosCarritoProducto.size())
                     .filter(j -> listaProductosCarritoProducto.get(j).getId().equals(productoCarritoActualizado.getId()))
@@ -86,8 +99,22 @@ public class RepositorioProductoCarritoEnMemoria implements RepositorioProductoC
     @Override
     public void agregar(ProductoCarritoDTO productoCarrito) {
         productoCarrito.setId(ID_PAQUETERIA_ACTUAL++);
-        productoCarrito.getCarritoCompras().getProductosCarrito().add(productoCarrito);
-        productoCarrito.getProducto().getProductosCarrito().add(productoCarrito);
+        
+        ProductoCarritoDatosCompletosRelacionesDTO productoCarritoDatosCompletosRelacionesDTO
+                = (ProductoCarritoDatosCompletosRelacionesDTO) productoCarrito;
+        
+        
+        CarritoComprasDatosCompletosRelacionesDTO carritoComprasDatosCompletosRelacionesDTO
+                = (CarritoComprasDatosCompletosRelacionesDTO) productoCarritoDatosCompletosRelacionesDTO.getCarritoCompras();
+                
+        ProductoDatosCompletosRelacionesDTO productoDatosCompletosRelacionesDTO
+                = (ProductoDatosCompletosRelacionesDTO) productoCarritoDatosCompletosRelacionesDTO.getProducto();
+        
+        
+        carritoComprasDatosCompletosRelacionesDTO.getProductosCarrito().add(productoCarrito);
+        
+        productoDatosCompletosRelacionesDTO.getProductosCarrito().add(productoCarrito);
+        
         listaProductosCarrito.add(productoCarrito);
         
         
@@ -98,8 +125,20 @@ public class RepositorioProductoCarritoEnMemoria implements RepositorioProductoC
         
         for(ProductoCarritoDTO productoCarrito: productosCarrito){
             productoCarrito.setId(ID_PAQUETERIA_ACTUAL++);
-            productoCarrito.getCarritoCompras().getProductosCarrito().add(productoCarrito);
-            productoCarrito.getProducto().getProductosCarrito().add(productoCarrito);
+                
+            ProductoCarritoDatosCompletosRelacionesDTO productoCarritoDatosCompletosRelacionesDTO
+                = (ProductoCarritoDatosCompletosRelacionesDTO) productoCarrito;
+            
+            CarritoComprasDatosCompletosRelacionesDTO carritoComprasDatosCompletosRelacionesDTO
+                = (CarritoComprasDatosCompletosRelacionesDTO) productoCarritoDatosCompletosRelacionesDTO.getCarritoCompras();
+                
+            ProductoDatosCompletosRelacionesDTO productoDatosCompletosRelacionesDTO
+                = (ProductoDatosCompletosRelacionesDTO) productoCarritoDatosCompletosRelacionesDTO.getProducto();
+        
+        
+        carritoComprasDatosCompletosRelacionesDTO.getProductosCarrito().add(productoCarrito);
+        
+        productoDatosCompletosRelacionesDTO.getProductosCarrito().add(productoCarrito);
         }
         this.listaProductosCarrito.addAll(productosCarrito);
     }
@@ -112,17 +151,23 @@ public class RepositorioProductoCarritoEnMemoria implements RepositorioProductoC
             .findFirst()
             .orElse(null);
         
-        productoCarritoDTO.getCarritoCompras().getProductosCarrito().removeIf(productoCarrito ->
-            productoCarrito.getProducto() != null &&
-            productoCarrito.getId().equals(idProductoCarritoDTO.getIdProductoCarrito()));
+        ProductoCarritoDatosCompletosRelacionesDTO productoCarritoDatosCompletosRelacionesDTO
+                = (ProductoCarritoDatosCompletosRelacionesDTO) productoCarritoDTO;
         
-        productoCarritoDTO.getProducto().getProductosCarrito().removeIf(productoCarrito ->
-            productoCarrito.getProducto() != null &&
-            productoCarrito.getId().equals(idProductoCarritoDTO.getIdProductoCarrito()));
+        ((CarritoComprasDatosCompletosRelacionesDTO)productoCarritoDatosCompletosRelacionesDTO.getCarritoCompras())
+            .getProductosCarrito()
+            .removeIf(productoCarrito ->
+            productoCarritoDatosCompletosRelacionesDTO.getProducto() != null &&
+            productoCarritoDatosCompletosRelacionesDTO.getId().equals(idProductoCarritoDTO.getIdProductoCarrito()));
+        
+        ((ProductoDatosCompletosRelacionesDTO)productoCarritoDatosCompletosRelacionesDTO.getProducto()).getProductosCarrito()
+                .removeIf(productoCarrito ->
+            productoCarritoDatosCompletosRelacionesDTO.getProducto() != null &&
+            productoCarritoDatosCompletosRelacionesDTO.getId().equals(idProductoCarritoDTO.getIdProductoCarrito()));
         
         listaProductosCarrito.removeIf(productoCarrito ->
-            productoCarrito.getProducto() != null &&
-            productoCarrito.getId().equals(idProductoCarritoDTO.getIdProductoCarrito())
+            productoCarritoDatosCompletosRelacionesDTO.getProducto() != null &&
+            productoCarritoDatosCompletosRelacionesDTO.getId().equals(idProductoCarritoDTO.getIdProductoCarrito())
         );
         
         
@@ -145,11 +190,11 @@ public class RepositorioProductoCarritoEnMemoria implements RepositorioProductoC
     
     private ProductoCarritoDTO aplicar(ProductoCarritoDTO productoCarritoOriginal, ActualizacionProductoCarritoDTO actualizacionProductoCarritoDTO) {
         
-        return new ProductoCarritoDTO(
-                actualizacionProductoCarritoDTO.getId(),
+        return new ProductoCarritoDatosCompletosRelacionesDTO(
+                productoCarritoOriginal.getId(),
                 actualizacionProductoCarritoDTO.tieneCantidad() ? actualizacionProductoCarritoDTO.getCantidad() : productoCarritoOriginal.getCantidad(),
-                productoCarritoOriginal.getCarritoCompras(),
-                productoCarritoOriginal.getProducto()    
+                ((ProductoCarritoDatosCompletosRelacionesDTO)productoCarritoOriginal).getCarritoCompras(),
+                ((ProductoCarritoDatosCompletosRelacionesDTO)productoCarritoOriginal).getProducto()    
         );
         
     }

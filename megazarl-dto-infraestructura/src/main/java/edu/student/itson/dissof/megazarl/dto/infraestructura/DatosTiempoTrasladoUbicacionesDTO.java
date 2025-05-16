@@ -11,7 +11,16 @@ public class DatosTiempoTrasladoUbicacionesDTO {
     @SerializedName("codigo_postal_destino")
     private String codigoPostalB;
 
-    public DatosTiempoTrasladoUbicacionesDTO(String numeroA, String calleA, String coloniaA, String codigoPostalA, String numeroB, String calleB, String coloniaB, String codigoPostalB) {
+    public DatosTiempoTrasladoUbicacionesDTO(
+            String numeroA, 
+            String calleA, 
+            String coloniaA,
+            String codigoPostalA, 
+            String numeroB, 
+            String calleB,
+            String coloniaB, 
+            String codigoPostalB) {
+        
         this.codigoPostalA = codigoPostalA;
         this.codigoPostalB = codigoPostalB;
     }

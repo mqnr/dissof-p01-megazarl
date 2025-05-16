@@ -14,6 +14,7 @@ public class ConfiguracionFuentesIntermedia {
     public FuenteDatos productoCarrito;
     public FuenteDatos coordinadorLogistica;
     public FuenteDatos auxiliarVentas;
+    public FuenteDatos productoPedido;
 
     public void todos(FuenteDatos fuente) {
         cliente = fuente;
@@ -28,5 +29,6 @@ public class ConfiguracionFuentesIntermedia {
         productoCarrito = fuente;
         coordinadorLogistica = fuente;
         auxiliarVentas = fuente;
+        productoPedido = fuente;
     }
 }

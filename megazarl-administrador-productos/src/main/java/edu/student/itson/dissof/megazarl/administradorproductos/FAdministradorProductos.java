@@ -1,9 +1,12 @@
 package edu.student.itson.dissof.megazarl.administradorproductos;
 
+import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoDetalladaDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoInicioDTO;
 import java.util.List;
@@ -32,8 +35,8 @@ public class FAdministradorProductos implements IAdministradorProductos {
 
     private final AdministradorProductos administradorProductos;
     
-    public FAdministradorProductos(){
-        this.administradorProductos = new AdministradorProductos();
+    public FAdministradorProductos(IAdministradorProveedores administradorProveedores){
+        this.administradorProductos = new AdministradorProductos(administradorProveedores);
     }
     
     /**
@@ -118,7 +121,7 @@ public class FAdministradorProductos implements IAdministradorProductos {
     @Override
     public List<InformacionProductoInicioDTO> obtenerProductosBusquedaNombreProductoProveedor(
             String nombreProducto,
-            String proveedorProducto) {
+            String proveedorProducto) throws ProductosIdProveedorInvalidoException {
         
         return  administradorProductos.obtenerProductosBusquedaNombreProductoProveedor(nombreProducto, proveedorProducto);
     }
@@ -166,6 +169,11 @@ public class FAdministradorProductos implements IAdministradorProductos {
     @Override
     public boolean validarProductoInventario(IdProductoInventarioDTO idProductoInventarioDTO) {
         return  administradorProductos.validarProductoInventario(idProductoInventarioDTO);
+    }
+
+    @Override
+    public ProductoInventarioDTO obtenerProductoInventario(IdProductoInventarioDTO idProductoInventario) {
+        return administradorProductos.obtenerProductoInventario(idProductoInventario);
     }
 
 }

@@ -1,6 +1,7 @@
 package edu.student.itson.dissof.megazarl.administradorsucursales;
 
-import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdSucursalException;
+import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdDireccionInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdSucursalInvalidoException;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.SucursalDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigosSucursalesDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdSucursalDTO;
@@ -30,37 +31,46 @@ public interface IAdministradorSucursales {
      * Método que permite obtener la lista de IDs de todas las sucursales registradas en el sistema.
      *
      * @return Objeto CodigosSucursalesDTO que contiene la lista de IDs de las sucursales.
-     * @throws SucursalesIdSucursalException Se lanza si ocurre un error al obtener los códigos
+     * @throws SucursalesIdSucursalInvalidoException Se lanza si ocurre un error al obtener los códigos
      * de las sucursales.
      */
-    public abstract CodigosSucursalesDTO obtenerCodigosSucursales() throws SucursalesIdSucursalException;
+    public abstract CodigosSucursalesDTO obtenerCodigosSucursales() throws SucursalesIdSucursalInvalidoException;
 
     /**
      * Método que permite obtener el código postal de una sucursal específica.
      *
      * @param idSucursalDTO Objeto IdSucursalDTO que representa el ID de la sucursal.
      * @return Objeto String que representa el código postal de la sucursal.
-     * @throws SucursalesIdSucursalException Se lanza si el ID de la sucursal es inválido.
+     * @throws SucursalesIdSucursalInvalidoException Se lanza si el ID de la sucursal es inválido.
+     * @throws SucursalesIdDireccionInvalidoException
      */
-    public abstract String obtenerCodigoPostal(IdSucursalDTO idSucursalDTO) throws SucursalesIdSucursalException;
+    public abstract String obtenerCodigoPostal(IdSucursalDTO idSucursalDTO) 
+            throws SucursalesIdSucursalInvalidoException,
+            SucursalesIdDireccionInvalidoException;
 
     /**
      * Método que permite obtener la calle donde se ubica una sucursal específica.
      *
      * @param idSucursalDTO Objeto IdSucursalDTO que contiene el ID de la sucursal.
      * @return Objeto String que representa la calle donde se ubica la sucursal.
-     * @throws SucursalesIdSucursalException Se lanza si el ID de la sucursal es inválido.
+     * @throws SucursalesIdSucursalInvalidoException Se lanza si el ID de la sucursal es inválido.
+     * @throws SucursalesIdDireccionInvalidoException
      */
-    public abstract String obtenerCalle(IdSucursalDTO idSucursalDTO) throws SucursalesIdSucursalException;
+    public abstract String obtenerCalle(IdSucursalDTO idSucursalDTO)
+            throws SucursalesIdSucursalInvalidoException,
+            SucursalesIdDireccionInvalidoException;
 
     /**
      * Método que permite obtener el número de domicilio de una sucursal específica.
      *
      * @param idSucursalDTO Objeto IdSucursalDTO que contiene el ID de la sucursal.
      * @return Objeto String que representa el número de domicilio de la sucursal.
-     * @throws SucursalesIdSucursalException Se lanza si el ID de la sucursal es inválido.
+     * @throws SucursalesIdSucursalInvalidoException Se lanza si el ID de la sucursal es inválido.
+     * @throws SucursalesIdDireccionInvalidoException
      */
-    public abstract String obtenerNumero(IdSucursalDTO idSucursalDTO) throws SucursalesIdSucursalException;
+    public abstract String obtenerNumero(IdSucursalDTO idSucursalDTO) 
+            throws SucursalesIdSucursalInvalidoException,
+            SucursalesIdDireccionInvalidoException;
 
     /**
      * Método que permite obtener un objetoDTO con la información de la sucursal matriz

@@ -3,6 +3,7 @@ package edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones;
 
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionCarritoComprasDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.CarritoComprasDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.CarritoComprasDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdCarritoComprasDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioCarritoCompras;
 import java.util.ArrayList;
@@ -92,12 +93,14 @@ public class RepositorioCarritoComprasEnMemoria implements RepositorioCarritoCom
     
     private CarritoComprasDTO aplicar(CarritoComprasDTO carritoComprasOriginal, ActualizacionCarritoComprasDTO actualizacionCarritoComprasDTO) {
         
-        return new CarritoComprasDTO(
+        return new CarritoComprasDatosCompletosRelacionesDTO(
                 actualizacionCarritoComprasDTO.getId(),
-                carritoComprasOriginal.getCliente(),
-                actualizacionCarritoComprasDTO.tienePaqueteria() ? actualizacionCarritoComprasDTO.getPaqueteria() : carritoComprasOriginal.getPaqueteria(),
-                carritoComprasOriginal.getPedido(),
-                carritoComprasOriginal.getProductosCarrito()
+                carritoComprasOriginal.getEsVigente(),
+                ((CarritoComprasDatosCompletosRelacionesDTO)carritoComprasOriginal).getCliente(),
+                actualizacionCarritoComprasDTO.tienePaqueteria() 
+                        ? actualizacionCarritoComprasDTO.getPaqueteria() 
+                        : ((CarritoComprasDatosCompletosRelacionesDTO)carritoComprasOriginal).getPaqueteria(),
+                ((CarritoComprasDatosCompletosRelacionesDTO)carritoComprasOriginal).getProductosCarrito()
         );
         
     }

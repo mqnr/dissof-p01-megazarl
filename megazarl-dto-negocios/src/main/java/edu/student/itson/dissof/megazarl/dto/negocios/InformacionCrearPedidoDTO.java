@@ -42,12 +42,7 @@ public class InformacionCrearPedidoDTO {
      * de estos productos.
      */
     private HashMap<Long, Integer> mapaIdsProductosCantidad;
-    
-    /**
-     * Objeto CarritoComprasDTO que representa el carrito de compras que está asociado al
-     * pedido.
-     */
-    private CarritoComprasDTO carritoCompras;
+
 
     /**
      * Constructor de la clase que recibe como parámetros
@@ -98,12 +93,4 @@ public class InformacionCrearPedidoDTO {
         return mapaIdsProductosCantidad;
     }
     
-    /**
-     * Método que permite obtener el carrito de compras asociado al pedido.
-     * @return Objeto CarritoComprasDTO que representa el ID del carrito de compras que está asociado al
-     * pedido.
-     */
-    public CarritoComprasDTO getCarritoCompras() {
-        return carritoCompras;
-    }
 }

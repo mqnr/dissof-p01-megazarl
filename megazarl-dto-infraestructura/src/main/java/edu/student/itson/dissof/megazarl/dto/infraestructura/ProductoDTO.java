@@ -22,7 +22,7 @@ import java.util.Objects;
  * ID: 00000251923
  * 
  */
-public class ProductoDTO {
+public abstract class ProductoDTO {
 
     /**
      * Objeto Long que representa el ID del producto
@@ -64,21 +64,6 @@ public class ProductoDTO {
      */
     private String direccionImagen;
 
-    /**
-     * Objeto ProveedorDTO que representa el proveedor del producto
-     */
-    private ProveedorDTO proveedor;
-
-    /**
-     * Objeto {@literal List<ProductoInventarioDTO>} que representa el inventario asociado al producto.
-     */
-    private List<ProductoInventarioDTO> productosInventario;
-    
-    /**
-     * Objeto {@literal List<ProductoCarritoDTO>} que representa las unidades de este producto en diferentes
-     * carritos de compras de clientes.
-     */
-    private List<ProductoCarritoDTO> productosCarritos;
 
     /**
      * Constructor que permite instanciar un objeto de tipo ProductoDTO
@@ -90,10 +75,6 @@ public class ProductoDTO {
      * @param precio                    Objeto Double que representa el precio del producto
      * @param pesoKg                    Objeto Double que representa el peso del producto en kilogramos
      * @param direccionImagen           Objeto String que representa la dirección de la imagen del producto
-     * @param proveedor                 Objeto ProveedorDTO que representa el proveedor del producto
-     * @param productosInventario       Objeto {@literal List<ProductoInventarioDTO>} que representa el inventario asociado al producto.
-     * @param productosCarritos         Objeto {@literal List<ProductoCarritoDTO>} que representa las unidades de este producto en diferentes
-     *                                  carritos de compras de clientes.
      */
     public ProductoDTO(
             Long id, 
@@ -103,10 +84,7 @@ public class ProductoDTO {
             Integer milesSemillas, 
             Double precio,
             Double pesoKg,
-            String direccionImagen, 
-            ProveedorDTO proveedor, 
-            List<ProductoInventarioDTO> productosInventario,
-            List<ProductoCarritoDTO> productosCarritos) {
+            String direccionImagen) {
         
         this.id = id;
         this.nombre = nombre;
@@ -116,9 +94,6 @@ public class ProductoDTO {
         this.precio = precio;
         this.pesoKg = pesoKg;
         this.direccionImagen = direccionImagen;
-        this.proveedor = proveedor;
-        this.productosInventario = productosInventario;
-        this.productosCarritos = productosCarritos;
     }
     
     /**
@@ -130,10 +105,6 @@ public class ProductoDTO {
      * @param precio                    Objeto Double que representa el precio del producto
      * @param pesoKg                    Objeto Double que representa el peso del producto en kilogramos
      * @param direccionImagen           Objeto String que representa la dirección de la imagen del producto
-     * @param proveedor                 Objeto ProveedorDTO que representa el proveedor del producto
-     * @param productosInventario       Objeto {@literal List<ProductoInventarioDTO>} que representa el inventario asociado al producto
-     * @param productosCarritos         Objeto {@literal List<ProductoCarritoDTO>} que representa las unidades de este producto en diferentes
-     *                                  carritos de compras de clientes.
      */
     public ProductoDTO(
             String nombre, 
@@ -142,10 +113,7 @@ public class ProductoDTO {
             Integer milesSemillas, 
             Double precio,
             Double pesoKg,
-            String direccionImagen, 
-            ProveedorDTO proveedor, 
-            List<ProductoInventarioDTO> productosInventario,
-            List<ProductoCarritoDTO> productosCarritos) {
+            String direccionImagen) {
 
         this.nombre = nombre;
         this.variedad = variedad;
@@ -154,9 +122,6 @@ public class ProductoDTO {
         this.precio = precio;
         this.pesoKg = pesoKg;
         this.direccionImagen = direccionImagen;
-        this.proveedor = proveedor;
-        this.productosInventario = productosInventario;
-        this.productosCarritos = productosCarritos;
     }
     
 
@@ -224,26 +189,15 @@ public class ProductoDTO {
         return direccionImagen;
     }
 
-    /**
-     * Método que permite obtener el proveedor del producto
-     * @return Objeto ProveedorDTO que representa el proveedor del producto
-     */
-    public ProveedorDTO getProveedor() {
-        return proveedor;
-    }
 
-    /**
-     * Método que permite obtener la lista de inventarios asociados al producto.
-     * @return Objeto {@literal List<ProductoInventarioDTO>} que representa el inventario asociado al producto
-     */
-    public List<ProductoInventarioDTO> getProductosInventario() {
-        return productosInventario;
-    }
+    public abstract List<IdProductoInventarioDTO> getIdsProductosInventario();
     
-    public List<ProductoCarritoDTO> getProductosCarrito(){
-        return productosCarritos;
-    }
-
+    public abstract List<IdProductoCarritoDTO> getIdsProductosCarrito();
+    
+    public abstract List<IdProductoPedidoDTO> getIdsProductosPedido();
+    
+    public abstract IdProveedorDTO getIdProveedor();
+    
     /**
      * Método que permite establecer el ID del producto.
      * @param id Objeto Long que representa el ID del producto.

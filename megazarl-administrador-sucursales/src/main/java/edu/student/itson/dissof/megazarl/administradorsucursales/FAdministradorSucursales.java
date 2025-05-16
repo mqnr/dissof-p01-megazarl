@@ -1,7 +1,9 @@
 
 package edu.student.itson.dissof.megazarl.administradorsucursales;
 
-import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdSucursalException;
+import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdDireccionInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdSucursalInvalidoException;
+import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.SucursalDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigosSucursalesDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdSucursalDTO;
@@ -30,9 +32,9 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
     
     private final AdministradorSucursales administradorSucursales;
     
-    public FAdministradorSucursales(){
+    public FAdministradorSucursales(IAdministradorDirecciones administradorDirecciones){
         
-        this.administradorSucursales = new AdministradorSucursales();
+        this.administradorSucursales = new AdministradorSucursales(administradorDirecciones);
  
     }
     
@@ -53,7 +55,7 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
      * @return Objeto CodigosSucursalesDTO que contiene la lista de IDs de las sucursales.
      */
     @Override
-    public CodigosSucursalesDTO obtenerCodigosSucursales() throws SucursalesIdSucursalException {
+    public CodigosSucursalesDTO obtenerCodigosSucursales() throws SucursalesIdSucursalInvalidoException {
         return administradorSucursales.obtenerCodigosSucursales();
     }
 
@@ -62,11 +64,14 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
      *
      * @param idSucursalDTO Objeto IdSucursalDTO que contiene el ID de la sucursal.
      * @return Objeto String que representa el código postal de la sucursal.
-     * @throws SucursalesIdSucursalException Se lanza si el ID de la sucursal es inválido o
+     * @throws SucursalesIdSucursalInvalidoException Se lanza si el ID de la sucursal es inválido o
      * no existe en el sistema.
      */
     @Override
-    public String obtenerCodigoPostal(IdSucursalDTO idSucursalDTO) throws SucursalesIdSucursalException {
+    public String obtenerCodigoPostal(IdSucursalDTO idSucursalDTO) 
+            throws SucursalesIdSucursalInvalidoException,
+            SucursalesIdDireccionInvalidoException {
+        
         return administradorSucursales.obtenerCodigoPostal(idSucursalDTO);
     }
 
@@ -75,11 +80,14 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
      *
      * @param idSucursalDTO Objeto IdSucursalDTO que contiene el ID de la sucursal.
      * @return Objeto String que representa la calle donde se ubica la sucursal.
-     * @throws SucursalesIdSucursalException Se lanza si el ID de la sucursal es inválido o
+     * @throws SucursalesIdSucursalInvalidoException Se lanza si el ID de la sucursal es inválido o
      * no existe en el sistema.
      */
     @Override
-    public String obtenerCalle(IdSucursalDTO idSucursalDTO) throws SucursalesIdSucursalException {
+    public String obtenerCalle(IdSucursalDTO idSucursalDTO)
+            throws SucursalesIdSucursalInvalidoException,
+            SucursalesIdDireccionInvalidoException{
+        
         return administradorSucursales.obtenerCalle(idSucursalDTO);
     }
 
@@ -88,11 +96,14 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
      *
      * @param idSucursalDTO Objeto IdSucursalDTO que contiene el ID de la sucursal.
      * @return Objeto String que representa el número de domicilio de la sucursal.
-     * @throws SucursalesIdSucursalException Se lanza si el ID de la sucursal es inválido o
+     * @throws SucursalesIdSucursalInvalidoException Se lanza si el ID de la sucursal es inválido o
      * no existe en el sistema.
      */
     @Override
-    public String obtenerNumero(IdSucursalDTO idSucursalDTO) throws SucursalesIdSucursalException {
+    public String obtenerNumero(IdSucursalDTO idSucursalDTO)
+            throws SucursalesIdSucursalInvalidoException,
+            SucursalesIdDireccionInvalidoException {
+        
         return administradorSucursales.obtenerNumero(idSucursalDTO);
     }
 

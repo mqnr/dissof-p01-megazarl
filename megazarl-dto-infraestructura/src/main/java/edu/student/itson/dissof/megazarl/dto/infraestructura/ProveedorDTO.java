@@ -1,7 +1,6 @@
 
 package edu.student.itson.dissof.megazarl.dto.infraestructura;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -23,7 +22,7 @@ import java.util.List;
  * ID: 00000251923
  *
  */
-public class ProveedorDTO {
+public abstract class ProveedorDTO {
 
     /**
      * Objeto Long que representa el ID del proveedor.
@@ -50,16 +49,6 @@ public class ProveedorDTO {
      */
     private String direccionImagen;
     
-    /**
-     * Objeto {@literal List<ProductoDTO>} que representa la lista de productos.
-     * ofrecidos por el proveedor.
-     */
-    private List<ProductoDTO> listaProductosOfrecidos = new LinkedList<>();
-    
-    /**
-     * Objeto DireccionDTO que representa la dirección del proveedor.
-     */
-    private DireccionDTO direccion;
 
     /**
      * Constructor que permite instanciar un objeto de tipo ProveedorDTO
@@ -68,9 +57,6 @@ public class ProveedorDTO {
      * @param telefono                  Objeto String que representa el teléfono del proveedor.
      * @param correoElectronico         Objeto String que representa el correo electrónico del proveedor.
      * @param direccionImagen           Objeto String que representa la dirección de la imagen del proveedor.
-     * @param listaProductosOfrecidos   Objeto {@literal List<ProductoDTO>} que representa la lista de productos
-     *                                  ofrecidos por el proveedor.
-     * @param direccion                 Objeto DireccionDTO que representa la dirección del proveedor.
      * 
     */
     public ProveedorDTO(
@@ -78,17 +64,13 @@ public class ProveedorDTO {
             String nombre,
             String telefono,
             String correoElectronico,
-            String direccionImagen,
-            List<ProductoDTO> listaProductosOfrecidos,
-            DireccionDTO direccion) {
+            String direccionImagen) {
         
         this.id = id;
         this.nombre = nombre;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
         this.direccionImagen = direccionImagen;
-        this.listaProductosOfrecidos = listaProductosOfrecidos;
-        this.direccion = direccion;
     }
     
     /**
@@ -97,25 +79,18 @@ public class ProveedorDTO {
      * @param telefono                  Objeto String que representa el teléfono del proveedor.
      * @param correoElectronico         Objeto String que representa el correo electrónico del proveedor.
      * @param direccionImagen           Objeto String que representa la dirección de la imagen del proveedor.
-     * @param listaProductosOfrecidos   Objeto {@literal List<ProductoDTO>} que representa la lista de productos
-     *                                  ofrecidos por el proveedor.
-     * @param direccion                 Objeto DireccionDTO que representa la dirección del proveedor.
      * 
     */
     public ProveedorDTO(
             String nombre,
             String telefono,
             String correoElectronico,
-            String direccionImagen,
-            List<ProductoDTO> listaProductosOfrecidos,
-            DireccionDTO direccion) {
+            String direccionImagen) {
         
         this.nombre = nombre;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
         this.direccionImagen = direccionImagen;
-        this.listaProductosOfrecidos = listaProductosOfrecidos;
-        this.direccion = direccion;
     }
 
     /**
@@ -158,22 +133,12 @@ public class ProveedorDTO {
         return direccionImagen;
     }
 
-    /**
-     * Método que permite obtener la lista de productos ofrecidos por el proveedor.
-     * @return Objeto {@literal List<ProductoDTO>} que representa la lista de productos ofrecidos por el proveedor.
-     */
-    public List<ProductoDTO> getListaProductosOfrecidos() {
-        return listaProductosOfrecidos;
-    }
 
-    /**
-     * Método que permite obtenre la dirección del proveedor.
-     * @return Objeto DireccionDTO que representa la dirección del proveedor.
-     */
-    public DireccionDTO getDireccion() {
-        return direccion;
-    }
+    public abstract List<IdProductoDTO> getListaIdsProductosOfrecidos();
 
+
+    public abstract IdDireccionDTO getIdDireccion();
+    
     /**
      * Métdo que permite establecer el ID del proveedor.
      * @param id Objeto Long que representa el ID del proveedor.

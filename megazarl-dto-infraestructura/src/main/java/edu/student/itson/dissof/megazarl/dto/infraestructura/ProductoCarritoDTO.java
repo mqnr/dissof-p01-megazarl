@@ -18,7 +18,7 @@ package edu.student.itson.dissof.megazarl.dto.infraestructura;
  * ID: 00000251923
  *
  */
-public class ProductoCarritoDTO {
+public abstract class ProductoCarritoDTO {
     
     /**
      * Objeto Long que representa el ID del producto en el carrito.
@@ -30,52 +30,28 @@ public class ProductoCarritoDTO {
      */
     private Integer cantidad;
     
-    /**
-     * Objeto CarritoComprasDTO que representa el carrito compras al que pertenece el
-     * producto.
-     */
-    private CarritoComprasDTO carritoCompras;
-    
-    /**
-     * Objeto ProductoDTO que representa el producto dentro del carrito.
-     */
-    private ProductoDTO producto;
 
     /**
      * Constructor de la clase que recibe los valores de todos sus atributos.
      * @param id Objeto Long que representa el ID del producto en carrito.
      * @param cantidad Objeto Integer que representa la cantidad del producto en el carrito.
-     * @param carritoCompras Objeto CarritoComprasDTO que representa el carrito compras al que pertenece el
-     * producto.
-     * @param producto Objeto ProductoDTO que representa el producto dentro del carrito.
      */
     public ProductoCarritoDTO(
             Long id, 
-            Integer cantidad,
-            CarritoComprasDTO carritoCompras,
-            ProductoDTO producto) {
+            Integer cantidad) {
         
         this.id = id;
         this.cantidad = cantidad;
-        this.carritoCompras = carritoCompras;
-        this.producto = producto;
     }
     
     /**
      * Constructor de la clase que recibe los valores de todos sus atributos, excepto el ID.
      * @param cantidad Objeto Integer que representa la cantidad del producto en el carrito.
-     * @param carritoCompras Objeto CarritoComprasDTO que representa el carrito compras al que pertenece el
-     * producto.
-     * @param producto Objeto ProductoDTO que representa el producto dentro del carrito.
      */
     public ProductoCarritoDTO(
-            Integer cantidad,
-            CarritoComprasDTO carritoCompras,
-            ProductoDTO producto) {
+            Integer cantidad) {
         
         this.cantidad = cantidad;
-        this.carritoCompras = carritoCompras;
-        this.producto = producto;
     }
     
 
@@ -95,22 +71,10 @@ public class ProductoCarritoDTO {
         return cantidad;
     }
 
-    /**
-     * Método que permite obtener el carrto de compras al que pertence el producto.
-     * @return Objeto CarritoComprasDTO que representa el carrito compras al que pertenece el
-     * producto.
-     */
-    public CarritoComprasDTO getCarritoCompras() {
-        return carritoCompras;
-    }
 
-    /**
-     * Método que permite obtener el producto dentro del carrito de compras.
-     * @return 
-     */
-    public ProductoDTO getProducto() {
-        return producto;
-    }
+    public abstract IdCarritoComprasDTO getIdCarritoCompras();
+
+    public abstract IdProductoDTO getIdProducto();
 
     /**
      * Método que permite obtener el ID del producto en carrito.
@@ -121,5 +85,5 @@ public class ProductoCarritoDTO {
     }
     
     
-     
+    
 }

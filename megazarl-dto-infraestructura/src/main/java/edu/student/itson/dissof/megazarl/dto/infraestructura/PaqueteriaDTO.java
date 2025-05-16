@@ -18,37 +18,33 @@ package edu.student.itson.dissof.megazarl.dto.infraestructura;
  * ID: 00000251923
  *
  */
-public class PaqueteriaDTO {
+public abstract class PaqueteriaDTO {
 
     /**
      * Objeto Long que representa el ID de la paquetería.
      */
-    private Long id;
+    protected Long id;
 
     /**
      * Objeto String que representa el nombre de la paquetería.
      */
-    private String nombre;
+    protected String nombre;
 
     /**
      * Objeto Float que representa el costo de envío por kilogramo.
      */
-    private Float cobroKg;
+    protected Float cobroKg;
 
     /**
      * Objeto Float que representa el costo de envío por hora.
      */
-    private Float cobroHora;
+    protected Float cobroHora;
     
     /**
      * Objeto String que representa la dirección de la imagen de la paquetería.
      */
-    private String direccionImagenPaqueteria;
+    protected String direccionImagenPaqueteria;
     
-    /**
-     * Objeto DireccionDTO que representa la dirección de la paquetería.
-     */
-    private DireccionDTO direccion;
     
 
     /**
@@ -59,7 +55,6 @@ public class PaqueteriaDTO {
      * @param cobroKg                   Objeto Float que representa el costo de envío por kilogramo.
      * @param cobroHora                 Objeto Float que representa el costo de envío por hora.
      * @param direccionImagenPaqueteria Objeto String que representa la dirección de la imagen de la paquetería.
-     * @param direccion                 Objeto DireccionDTO que representa la dirección de la paquetería.
      * 
      */
     public PaqueteriaDTO(  
@@ -67,15 +62,13 @@ public class PaqueteriaDTO {
             String nombre, 
             Float cobroKg, 
             Float cobroHora, 
-            String direccionImagenPaqueteria,
-            DireccionDTO direccion) {
+            String direccionImagenPaqueteria) {
 
         this.id = id;
         this.nombre = nombre;
         this.cobroKg = cobroKg;
         this.cobroHora = cobroHora;
         this.direccionImagenPaqueteria = direccionImagenPaqueteria;
-        this.direccion = direccion;
     }
     
     /**
@@ -85,21 +78,18 @@ public class PaqueteriaDTO {
      * @param cobroKg                   Objeto Float que representa el costo de envío por kilogramo.
      * @param cobroHora                 Objeto Float que representa el costo de envío por hora.
      * @param direccionImagenPaqueteria Objeto String que representa la dirección de la imagen de la paquetería.
-     * @param direccion                 Objeto DireccionDTO que representa la dirección de la paquetería.
      * 
      */
     public PaqueteriaDTO(  
             String nombre, 
             Float cobroKg, 
             Float cobroHora, 
-            String direccionImagenPaqueteria,
-            DireccionDTO direccion) {
+            String direccionImagenPaqueteria) {
 
         this.nombre = nombre;
         this.cobroKg = cobroKg;
         this.cobroHora = cobroHora;
         this.direccionImagenPaqueteria = direccionImagenPaqueteria;
-        this.direccion = direccion;
     }
     
 
@@ -148,14 +138,6 @@ public class PaqueteriaDTO {
     }
 
     /**
-     * Método que permite obtener la dirección de la paquetería.
-     * @return Objeto DireccionDTO que representa la dirección de la paquetería.
-     */
-    public DireccionDTO getDireccion() {
-        return direccion;
-    }
-
-    /**
      * Método que permite establecer el ID de la paquetería.
      * @param id Objeto Long que representa el ID de la paquetería.
      */
@@ -163,8 +145,8 @@ public class PaqueteriaDTO {
         this.id = id;
     }
     
+    public abstract IdDireccionDTO getIdDireccion();
     
-
     /**
      * Método que permite obtener el hash code de la paquetería, a partir de su ID.
      * @return Dato int que representa el hash code de la paquetería.

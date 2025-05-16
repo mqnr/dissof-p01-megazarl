@@ -7,6 +7,7 @@ import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.Clien
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesTelefonoNuevoClienteYaExisteException;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.AuxiliarVentasDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdAuxiliarVentasDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoAuxiliarVentasDTO;
 import edu.student.itson.dissof.megazarl.negocio.FabricaSubsistemas;
@@ -71,7 +72,7 @@ public class ControlRegistroCliente {
         String telefono = (String)datosCliente.get(3);
         String correoElectronico = (String)datosCliente.get(4);
         
-        ClienteDTO nuevoCliente = new ClienteDTO(nombres, apellidoPaterno, apellidoMaterno, telefono, correoElectronico);
+        ClienteDTO nuevoCliente = new ClienteDatosCompletosRelacionesDTO(nombres, apellidoPaterno, apellidoMaterno, telefono, correoElectronico, null);
         
         IAdministradorClientes administradorClientes = FabricaSubsistemas.obtenerAdministradorClientes();
         

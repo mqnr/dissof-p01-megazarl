@@ -36,7 +36,8 @@ public class FabricaSubsistemas {
     
     public static IAdministradorSucursales obtenerAdministradorSucursales(){
         
-        IAdministradorSucursales administradorSucursales = new FAdministradorSucursales();
+        IAdministradorDirecciones administradorDirecciones = obtenerAdministradorDirecciones();
+        IAdministradorSucursales administradorSucursales = new FAdministradorSucursales(administradorDirecciones);
         
         return administradorSucursales;
     }
@@ -53,12 +54,14 @@ public class FabricaSubsistemas {
         IAdministradorClientes administradorClientes = obtenerAdministradorClientes();
         IAdministradorSucursales administradorSucursales = obtenerAdministradorSucursales();
         IAdministradorProveedores administradorProveedores = obtenerAdministradorProveedores();
+        IAdministradorDirecciones administradorDirecciones = obtenerAdministradorDirecciones();
         IAdministradorMapas administradorMapas = obtenerAdministradorMapas();
         
         IAdministradorPaqueterias administradorPaqueterias = new FAdministradorPaqueterias(
                 administradorClientes, 
                 administradorSucursales,
                 administradorProveedores,
+                administradorDirecciones,
                 administradorMapas,
                 direccionDefectoPaqueteria);
         
@@ -68,7 +71,8 @@ public class FabricaSubsistemas {
     
     public static IAdministradorProductos obtenerAdministradorProductos(){
         
-        IAdministradorProductos administradorProductos = new FAdministradorProductos();
+        IAdministradorProveedores administradorProveedores = obtenerAdministradorProveedores();
+        IAdministradorProductos administradorProductos = new FAdministradorProductos(administradorProveedores);
         
         return administradorProductos;
     }
@@ -89,6 +93,7 @@ public class FabricaSubsistemas {
         IAdministradorClientes administradorClientes = obtenerAdministradorClientes();
         IAdministradorPaqueterias administradorPaqueterias = obtenerAdministradorPaqueterias(direccionDefectoPaqueteria);
         IAdministradorProveedores administradorProveedores = obtenerAdministradorProveedores();
+        IAdministradorDirecciones administradorDirecciones = obtenerAdministradorDirecciones();
         IAdministradorMapas administradorMapas = obtenerAdministradorMapas();
         
         IAdministradorPedidos administradorPedidos = new FAdministradorPedidos(
@@ -97,6 +102,7 @@ public class FabricaSubsistemas {
                 administradorClientes,
                 administradorPaqueterias,
                 administradorProveedores,
+                administradorDirecciones,
                 administradorMapas);
         
         return administradorPedidos;

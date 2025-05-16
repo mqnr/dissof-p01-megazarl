@@ -22,7 +22,7 @@ import java.util.Objects;
  * ID: 00000251923
  *
  */
-public class SucursalDTO {
+public abstract class SucursalDTO {
     
     /**
      * Objeto Long que representa el ID de la sucursal
@@ -34,39 +34,28 @@ public class SucursalDTO {
      */
     private Boolean esMatriz;
     
-    /**
-     * Objeto DireccionDTO que representa la dirección de la sucursal.
-     */
-    private DireccionDTO direccion;
     
     /**
      * Constructor que permite instanciar un objeto de tipo SucursalDTO.
      * @param id           Objeto Long que representa el ID de la sucursal.
      * @param esMatriz     Objeto Boolean que indica si la sucursal es la Matriz.
-     * @param direccion    Objeto DireccionDTO que representala dirección de la sucursal.
      */
     public SucursalDTO(
             Long id,
-            Boolean esMatriz,
-            DireccionDTO direccion) {
+            Boolean esMatriz) {
         
         this.id = id;
         this.esMatriz = esMatriz;
-        this.direccion = direccion;
     }
     
     /**
      * Constructor que permite instanciar un objeto de tipo SucursalDTO, sin ID
      * @param esMatriz     Objeto Boolean que indica si la sucursal es la Matriz.
-     * @param direccion    Objeto DireccionDTO que representala dirección de la sucursal.
      */
     public SucursalDTO(
-            Boolean esMatriz,
-            DireccionDTO direccion) {
+            Boolean esMatriz) {
         
-        this.id = id;
         this.esMatriz = esMatriz;
-        this.direccion = direccion;
     }
     
     /**
@@ -85,13 +74,8 @@ public class SucursalDTO {
         return esMatriz;
     }
 
-    /**
-     * Método que permite obtener la dirección de la sucursal.
-     * @return Objeto DireccionDTO que rerepresenta la dirección de la sucursal.
-     */
-    public DireccionDTO getDireccion() {
-        return direccion;
-    }
+    
+    public abstract IdDireccionDTO getIdDireccion();
 
     /**
      * Método que permite establecer el ID de la sucursal.

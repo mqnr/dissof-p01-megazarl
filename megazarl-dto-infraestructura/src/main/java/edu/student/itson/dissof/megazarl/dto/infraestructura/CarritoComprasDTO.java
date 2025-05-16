@@ -22,69 +22,29 @@ import java.util.List;
  * ID: 00000251923
  *
  */
-public class CarritoComprasDTO {
+public abstract class CarritoComprasDTO {
 
     /**
      * Objeto Long que representa el ID del carrito de compras.
      */
     private Long id;
+    
+    private Boolean esVigente;
 
-    /**
-     * Objeto ClienteDTO que representa el cliente asociado a este carrito de compras.
-     */
-    private ClienteDTO cliente;
 
-    /**
-     * Objeto PaqueteriaDTO que representa la paquetería asociada a este carrito de compras.
-     */
-    private PaqueteriaDTO paqueteria;
 
-    /**
-     * Objeto PedidoDTO que representa el pedido de productos asociado a este carrito de compras.
-     */
-    private PedidoDTO pedido;
-
-    /**
-     * Objeto {@literal List<ProductoCarritoDTO>} que representa los productos dentro de este carrito.
-     */
-    private List<ProductoCarritoDTO> productosCarrito;
-
-    /**
-     * Constructor que permite instanciar un objeto de tipo CarritoComprasDTO.
-     * @param id                   Objeto Long que representa el ID del carrito de compras.
-     * @param cliente              Objeto ClienteDTO que representa el cliente asociado a este carrito de compras.
-     * @param paqueteria           Objeto PaqueteriaDTO que representa la paquetería asociada a este carrito de compras.
-     * @param pedido               Objeto PedidoDTO que representa el pedido asociado a este carrito de compras.
-     * @param productosCarrito     Objeto {@literal List<ProductoCarritoDTO>} que representa los productos dentro de este carrito.
-     */
     public CarritoComprasDTO(
-            Long id, 
-            ClienteDTO cliente, 
-            PaqueteriaDTO paqueteria, 
-            PedidoDTO pedido, 
-            List<ProductoCarritoDTO> productosCarrito) {
+            Long id,
+            Boolean esVigente) {
         
         this.id = id;
-        this.cliente = cliente;
-        this.paqueteria = paqueteria;
-        this.pedido = pedido;
-        this.productosCarrito = productosCarrito;
+        this.esVigente = esVigente;
     }
     
-    /**
-     * Constructor que permite instanciar un objeto de tipo CarritoComprasDTO.
-     * @param cliente              Objeto ClienteDTO que representa el cliente asociado a este carrito de compras.
-     * @param pedido               Objeto PedidoDTO que representa el pedido asociado a este carrito de compras.
-     * @param productosCarrito     Objeto {@literal List<ProductoCarritoDTO>} que representa los productos dentro de este carrito.
-     */
     public CarritoComprasDTO(
-            ClienteDTO cliente, 
-            PedidoDTO pedido, 
-            List<ProductoCarritoDTO> productosCarrito) {
+            Boolean esVigente) {
         
-        this.cliente = cliente;
-        this.pedido = pedido;
-        this.productosCarrito = productosCarrito;
+        this.esVigente = esVigente;
     }
 
     /**
@@ -103,37 +63,31 @@ public class CarritoComprasDTO {
         return id;
     }
 
+    public Boolean getEsVigente() {
+        return esVigente;
+    }
+
+    public void setEsVigente(Boolean esVigente) {
+        this.esVigente = esVigente;
+    }
+
     /**
      * Método que permite obtener el cliente asociado a este carrito de compras.
      * @return Objeto ClienteDTO que representa el cliente asociado a este carrito de compras.
      */
-    public ClienteDTO getCliente() {
-        return cliente;
-    }
+    public abstract IdClienteDTO getIdCliente();
 
     /**
      * Método que permite obtener la paquetería asociada a este carrito de compras.
      * @return Objeto PaqueteriaDTO que representa la paquetería asociada a este carrito de compras.
      */
-    public PaqueteriaDTO getPaqueteria() {
-        return paqueteria;
-    }
-
-    /**
-     * Método que permite obtener el pedido asociado a este carrito de compras.
-     * @return Objeto PedidoDTO que representa el pedido asociado a este carrito de compras.
-     */
-    public PedidoDTO getPedido() {
-        return pedido;
-    }
+    public abstract IdPaqueteriaDTO getIdPaqueteria();
 
     /**
      * Método que permite obtener el objeto {@literal List<ProductoCarritoDTO>} que representa los productos dentro de este carrito.
      * @return Objeto {@literal List<ProductoCarritoDTO>} que representa los productos dentro de este carrito.
      */
-    public List<ProductoCarritoDTO> getProductosCarrito() {
-        return productosCarrito;
-    }
+    public abstract List<IdProductoCarritoDTO> getIdsProductosCarrito();
 
     /**
      * Método que permite obtener el hash code del carrito de compras, a partir de su ID.

@@ -89,7 +89,8 @@ public class FAdministradorClientes implements IAdministradorClientes{
      */
     @Override
     public InformacionNoDerivadaCPDireccionDTO obtenerInformacionNoDerivadaCPDireccionEnvio(IdClienteDTO idClienteDTO) 
-            throws ClientesIdClienteInvalidoException {
+            throws ClientesIdClienteInvalidoException,
+            ClientesIdDireccionInvalidoException{
         
         return administradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(idClienteDTO);
         

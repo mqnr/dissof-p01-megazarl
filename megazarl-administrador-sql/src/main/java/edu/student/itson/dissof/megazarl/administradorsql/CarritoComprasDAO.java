@@ -36,38 +36,52 @@ public class CarritoComprasDAO {
 //            throws RegistroIdNuloException,
 //            RegistroInexistenteException {
 //        
-//        // Validación de entrada
-//        if (idCarritoComprasDTO == null || idCarritoComprasDTO.getIdCarritoCompras() == null) {
-//            throw new RegistroIdNuloException("El ID de Carrito de compras recibido es nulo.");
-//        }
-//
-//        Long idCarritoCompra = idCarritoComprasDTO.getIdCarritoCompras();
-//
-//        // Se obtiene el EntityManager para interactuar con la base de datos
-//        EntityManager entityManager = ManejadorConexiones.getEntityManager();
-//
-//        String jpqlQuery = """
-//                           SELECT new edu.student.itson.dissof.megazarl.dto.infraestructura.CarritoComprasDTO(
-//                           
-//                           CC.id, 
-//                           new edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO(
-//                                CL.id
-//                                CL.
-//                           )
-//                           L.id, 
-//                           L.nombre
-//                           
-//                           )
-//                           
-//                           
-//                           CC FROM Logro L
-//                           JOIN L.videjuego V
-//                           """;
-//        
-//        TypedQuery<LogroVideojuegoDTO> query = entityManager.createQuery(jpqlQuery, LogroVideojuegoDTO.class);
-//        
-//        return query.getResultList();
-//        
+////        // Validación de entrada
+////        if (idCarritoComprasDTO == null || idCarritoComprasDTO.getIdCarritoCompras() == null) {
+////            throw new RegistroIdNuloException("El ID de Carrito de compras recibido es nulo.");
+////        }
+////
+////        Long idCarritoCompra = idCarritoComprasDTO.getIdCarritoCompras();
+////
+////        // Se obtiene el EntityManager para interactuar con la base de datos
+////        EntityManager entityManager = ManejadorConexiones.getEntityManager();
+////
+////        String jpqlQuery = """
+////                            SELECT new edu.student.itson.dissof.megazarl.dto.infraestructura.CarritoComprasDTO(
+////
+////                                CC.id, 
+////
+////                                new edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO(
+////                                    CL.id,
+////                                    CL.nombres, 
+////                                    CL.apellidoPaterno,
+////                                    CL.apellidoMaterno,
+////                                    CL.telefono,
+////                                    CL.correoElectronico,
+////                                    CL.direccionEnvio
+////                                )
+////                                
+////                                new edu.student.itson.dissof.megazarl.dto.infraestructura.PaqueteriaDTO(
+////                                    PA.id,
+////                                    PA.nombre,
+////                                    PA.cobroKg,
+////                                    PA.cobroHora,
+////                                    PA.direccionImagenPaqueteria
+////                                )
+////                                L.id, 
+////                                L.nombre
+////
+////                            )
+////                           
+////                           
+////                           CC FROM Logro L
+////                           JOIN L.videjuego V
+////                           """;
+////        
+////        TypedQuery<LogroVideojuegoDTO> query = entityManager.createQuery(jpqlQuery, LogroVideojuegoDTO.class);
+////        
+////        return query.getResultList();
+////        
 //        
 //    }
 }

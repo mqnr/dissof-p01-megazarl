@@ -52,5 +52,10 @@
       <artifactId>megazarl-administrador-proveedores</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>megazarl-administrador-direcciones</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>

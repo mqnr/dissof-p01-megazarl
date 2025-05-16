@@ -1,12 +1,11 @@
 
 package edu.student.itson.dissof.megazarl.administradorsucursales.excepciones;
 
-
 /**
- * SucursalesIdSucursalException.java
- * 
- * Clase que representa una excepción lanzada cuando se comprueba que el ID
- * de una Sucursal es inválido, dentro del subsitema administradorSucursales.
+ * SucursalesIdSucursalInvalidoException.java
+
+ Clase que representa una excepción lanzada cuando se comprueba que el ID
+ de una dirección es inválido, dentro del subsitema administradorSucursales.
  * 
  * @author Yuri Germán García López
  * ID: 00000252583
@@ -19,19 +18,18 @@ package edu.student.itson.dissof.megazarl.administradorsucursales.excepciones;
  * @author Martín Zamorano Acuña
  * ID: 00000251923
  */
-public class SucursalesIdSucursalException extends Exception{
-    
+public class SucursalesIdDireccionInvalidoException extends Exception{
     /**
-     * Constrctor por defecto
-     */
-    public SucursalesIdSucursalException() {
+    * Constrctor por defecto
+    */
+    public SucursalesIdDireccionInvalidoException() {
     }
 
     /***
      * Método constructor que recibe un mensaje.
      * @param message Objeto String que representa el mensaje de la excepción.
      */
-    public SucursalesIdSucursalException(String message) {
+    public SucursalesIdDireccionInvalidoException(String message) {
         super(message);
     }
 }

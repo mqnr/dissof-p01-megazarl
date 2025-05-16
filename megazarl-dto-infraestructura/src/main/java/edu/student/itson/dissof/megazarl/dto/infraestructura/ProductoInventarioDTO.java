@@ -22,36 +22,12 @@ import java.util.Objects;
  * 
  */
 
-public class ProductoInventarioDTO {
+public abstract class ProductoInventarioDTO {
 
     /**
      * Objeto Long que representa el id del producto en inventario
      */
     private Long id;
-
-    /**
-     * Objeto ProductoDTO que representa el producto asociado a este producto en inventario
-     */
-    private ProductoDTO producto;
-
-    /**
-     * Objeto SucursalDTO que representa la sucursal a la que pertenece este producto en inventario
-     */
-    private SucursalDTO sucursal;
-
-    /**
-     * Constructor que permite instanciar un objeto de tipo ProductoInventarioDTO.
-     *
-     * @param producto Objeto ProductoDTO que representa el producto asociado a este producto en inventario
-     * @param sucursal Objeto SucursalDTO que representa la sucursal a la que pertenece este producto en inventario
-     */
-    public ProductoInventarioDTO(
-            ProductoDTO producto,
-            SucursalDTO sucursal) {
-
-        this.producto = producto;
-        this.sucursal = sucursal;
-    }
 
     /**
      * Método que permite obtener el id del producto en inventario
@@ -60,22 +36,13 @@ public class ProductoInventarioDTO {
     public Long getId() {
         return id;
     }
-
-    /**
-     * Método que permite obtener el producto asociado a este producto en inventario
-     * @return Objeto ProductoDTO que representa el producto asociado a este producto en inventario
-     */
-    public ProductoDTO getProducto() {
-        return producto;
+    
+    public ProductoInventarioDTO(){
     }
 
-    /**
-     * Método que permite obtener la sucursal a la que pertenece este producto en inventario
-     * @return Objeto SucursalDTO que representa la sucursal a la que pertenece este producto en inventario
-     */
-    public SucursalDTO getSucursal() {
-        return sucursal;
-    }
+    public abstract IdProductoDTO getIdProducto();
+
+    public abstract IdSucursalDTO getIdSucursal();
 
     /**
      * Mètodo que permite establecer el ID del producto en inventario.
@@ -84,8 +51,6 @@ public class ProductoInventarioDTO {
     public void setId(Long id) {
         this.id = id;
     }
-    
-    
 
     /**
      * Método que permite obtener el hash code del producto en inventario, a partir de su Id

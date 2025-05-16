@@ -1,9 +1,11 @@
 package edu.student.itson.dissof.megazarl.administradorproductos;
 
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoDetalladaDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoInicioDTO;
 import java.util.List;
@@ -101,10 +103,12 @@ public interface IAdministradorProductos {
      * nombre del proveedor del producto a buscar.
      * @return Objeto List de InformacionProductoInicioDTO que contiene la información
      * resumida de los productos que coinciden con los criterios de búsqueda.
+     * @throws administradorproductos.excepciones.ProductosIdProveedorInvalidoException
      */
     public abstract List<InformacionProductoInicioDTO> obtenerProductosBusquedaNombreProductoProveedor(
             String nombreProducto,
-            String nombreProveedor);
+            String nombreProveedor)
+            throws ProductosIdProveedorInvalidoException;
 
 
     /**
@@ -114,6 +118,15 @@ public interface IAdministradorProductos {
      * @return Objeto Producto que representa el producto con el ID especificado.
      */
     public abstract ProductoDTO obtenerProducto(IdProductoDTO idProductoDTO);
+    
+    /**
+     * Método que permite obtener un producto en inventario específico identificado por su ID.
+     *
+     * @param idProductoInventario Objeto IdProductoInventarioDTO que contiene el 
+     * ID del producto en inventario a obtener.
+     * @return Objeto Producto que representa el producto con el ID especificado.
+     */
+    public abstract ProductoInventarioDTO obtenerProductoInventario(IdProductoInventarioDTO idProductoInventario);
 
     /**
      * Método que permite verificar si el ID de un producto en inventario es válido.
