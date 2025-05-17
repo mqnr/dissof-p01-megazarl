@@ -25,6 +25,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -56,7 +57,8 @@ public class RegistroProveedor extends JFrame implements IVista{
     private JLabel etqCalle;
     private JLabel etqColonia;
     private JLabel etqNumero;
-
+    private JLabel etqImagen;
+    private JLabel imagen;
 
     private JLabel etqMensajeValidacionGmail;
     private JLabel etqMensajeValidacionCodigoPostal;
@@ -69,6 +71,8 @@ public class RegistroProveedor extends JFrame implements IVista{
     private JTextField txtCalle;
     private JComboBox<String> comboBoxColonia;
     private JTextField txtNumero;
+    
+    private String ruta;
 
     private JButton btnCancelar;
     private JButton btnGuardar;
@@ -82,9 +86,10 @@ public class RegistroProveedor extends JFrame implements IVista{
     private String coloniaEnvio;
     private String GmailEnvio;
     private String telefonoEnvio;
-    private String direccionImagen;
     private String calleEnvio;
     private String nombreEnvio;
+    
+    private ImageIcon direccionImagen;
     
     private boolean nombreValido;
     private boolean calleValida;
@@ -102,7 +107,7 @@ public class RegistroProveedor extends JFrame implements IVista{
         this.control = control;
         setTitle("Semillas MEGAZARL - Agregar Proveedor");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1200, 800);
+        setSize(1200, 1000);
         setLocationRelativeTo(null);
         Image iconoPropio = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/iconoApp.png")).getScaledInstance(90, 90, Image.SCALE_SMOOTH);
         setIconImage(iconoPropio);
@@ -202,7 +207,11 @@ public class RegistroProveedor extends JFrame implements IVista{
         btnLogo.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent evt){
-                direccionImagen = obtenerDireccionLogo();
+                imagen = new JLabel("");
+                imagen.setPreferredSize(new Dimension(300,300));
+                imagen.setIcon(obtenerDireccionLogo());
+                imagen.revalidate();
+                imagen.repaint();
             }
         });
         
@@ -367,6 +376,21 @@ public class RegistroProveedor extends JFrame implements IVista{
             panelNumero.add(txtNumero);
 
             panelDatosProveedor.add(panelNumero);
+            
+            // imagen
+            JPanel panelImagen = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            panelImagen.setOpaque(false);
+            
+            etqImagen = new JLabel("Logo:");
+            etqImagen.setFont(new Font("Segoe UI", Font.BOLD, 14));
+            
+            imagen = new JLabel();
+            imagen.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+            
+            panelImagen.add(etqImagen);
+            panelImagen.add(imagen);
+            panelDatosProveedor.add(panelImagen);
+
         }
 
 
@@ -380,11 +404,11 @@ public class RegistroProveedor extends JFrame implements IVista{
         }
 
         public void guardarDatosProveedor() {
-            control.guardarDatosProveedor(txtNombre.getText(), telefonoEnvio,GmailEnvio, 
-                    direccionImagen, codigoPostalEnvio,
+            control.guardarDatosProveedor(nombreEnvio, telefonoEnvio,GmailEnvio, 
+                    ruta, codigoPostalEnvio,
                     coloniaEnvio, calleEnvio,numeroEnvio);      
         }
-        public String obtenerDireccionLogo(){
+        public ImageIcon obtenerDireccionLogo(){
             JFileChooser fileChooser = new JFileChooser();
             FileNameExtensionFilter filtro = new FileNameExtensionFilter(
                 "Imágenes (*.png)", "png");
@@ -392,13 +416,27 @@ public class RegistroProveedor extends JFrame implements IVista{
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
             int resultado = fileChooser.showOpenDialog(null);
+
             if (resultado == JFileChooser.APPROVE_OPTION) {
                 File archivoSeleccionado = fileChooser.getSelectedFile();
+                
+                if (!archivoSeleccionado.exists()) {
+                    System.err.println("El archivo no existe.");
+                    return null;
+                }
+
+                ruta = archivoSeleccionado.getAbsolutePath();
+                System.out.println("Ruta seleccionada: " + ruta);
+                
+                ImageIcon icono = new ImageIcon(ruta);
+                if (icono.getIconWidth() == -1) {
+                    System.err.println("La imagen no se pudo cargar. Verifica el archivo.");
+                    return null;
+                }
+
                 imagenValido = true;
                 habilitarBotonGuardar();
-                String nombreArchivo = "/" + archivoSeleccionado.getName();
-                System.out.println(nombreArchivo);
-                return nombreArchivo;
+                return icono;
             } else {
                 return null;
             }
@@ -675,7 +713,7 @@ public class RegistroProveedor extends JFrame implements IVista{
 
                 if(!nombre.isBlank()) {
                     nombreValido = true;
-                    nombreEnvio = txtCalle.getText();
+                    nombreEnvio = txtNombre.getText();
                 } else {
                     nombreValido = false;
                 }
