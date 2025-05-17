@@ -1,6 +1,6 @@
-
 package edu.student.itson.dissof.megazarl.presentacion;
 
+import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesAccesoArchivoCodigosPostalesFallidoException;
@@ -24,6 +24,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -58,34 +59,15 @@ public class ControlRegistroProveedor<t> {
     public void guardarDatosProveedor(String nombre, String telefono, String correoElectronico,
             String direccionImagen,String codigoPostal, String colonia, String calle, String numero){
 
-        if(nombre.equals("")||telefono.equals("")|| correoElectronico.equals("")||
-                direccionImagen.equals("")||codigoPostal.equals("")||colonia.equals("")
-                ||calle.equals("")||numero.equals("")){
+        //if(nombre.equals("")||telefono.equals("")|| correoElectronico.equals("")||
+                //direccionImagen.equals("")||codigoPostal.equals("")||colonia.equals("")
+                //||calle.equals("")||numero.equals("")){
             
-            DireccionDTO direccionProveedor = new DireccionDTO(
-                        codigoPostal, 
-                        colonia, 
-                        calle,
-                        numero);
-            ProveedorDTO proveedor = new ProveedorDatosCompletosRelacionesDTO(
-                        nombre, 
-                        telefono, 
-                        correoElectronico,
-                        direccionImagen, 
-                        new LinkedList<>(),
-                        direccionProveedor
-            );
-
-            mostrarMensaje("Se ha registrado el proveedor", COLOR_MENSAJE_EXITOSO);
-        } else{
-            mostrarMensaje("el proveedor ya existe", COLOR_MENSAJE_ERROR);
+            mostrarMensaje("Se ha registrado el proveedor correctamente", COLOR_MENSAJE_EXITOSO);
+        //} else{
+        
         }
-
-        
-        
-        
-
-    }
+    
     
      /**
      * Método que permite obtener los datos de la dirección de envío del Cliente
@@ -134,3 +116,4 @@ public class ControlRegistroProveedor<t> {
         mensaje.mostrarMensaje();
     }
 }
+
