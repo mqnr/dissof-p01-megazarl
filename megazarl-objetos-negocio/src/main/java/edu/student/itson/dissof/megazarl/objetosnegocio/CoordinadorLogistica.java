@@ -5,7 +5,7 @@ import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.CoordinadorLogisticaDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdCoordinadorLogisticaDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioCoordinadorLogistica;
-import edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones.RepositorioCoordinadorLogisticaEnMemoria;
+import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioCoordinadorLogisticaEnMemoria;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
@@ -40,10 +40,6 @@ public class CoordinadorLogistica {
 
     public static List<CoordinadorLogisticaDTO> recuperarTodos() {
         return repositorio.recuperarTodos();
-    }
-
-    public static long cuenta() {
-        return repositorio.cuenta();
     }
 
     public static boolean existe(Predicate<CoordinadorLogisticaDTO> criterio) {

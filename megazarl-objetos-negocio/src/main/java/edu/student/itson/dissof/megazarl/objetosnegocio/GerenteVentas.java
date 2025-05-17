@@ -4,7 +4,7 @@ import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.GerenteVentasDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdGerenteVentasDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioGerenteVentas;
-import edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones.RepositorioGerenteVentasEnMemoria;
+import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioGerenteVentasEnMemoria;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
@@ -46,9 +46,6 @@ public class GerenteVentas {
         return repositorio.recuperarTodos();
     }
     
-    public static long cuenta(){
-        return repositorio.cuenta();
-    }
     
     public static boolean existe(Predicate<GerenteVentasDTO> criterio){
         return repositorio.existe(criterio);

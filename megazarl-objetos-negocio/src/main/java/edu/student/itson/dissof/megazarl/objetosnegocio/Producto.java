@@ -4,7 +4,7 @@ import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioProducto;
-import edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones.RepositorioProductoEnMemoria;
+import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioProductoEnMemoria;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
@@ -39,10 +39,6 @@ public class Producto {
      
     public static List<ProductoDTO> recuperarTodos() {
         return repositorio.recuperarTodos();
-    }
-    
-    public static long cuenta() {
-        return repositorio.cuenta();
     }
     
     public static boolean existe(Predicate<ProductoDTO> criterio) {

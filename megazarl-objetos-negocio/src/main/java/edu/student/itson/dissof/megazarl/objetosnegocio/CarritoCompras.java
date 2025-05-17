@@ -6,7 +6,8 @@ import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionCarrit
 import edu.student.itson.dissof.megazarl.dto.infraestructura.CarritoComprasDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdCarritoComprasDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioCarritoCompras;
-import edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones.RepositorioCarritoComprasEnMemoria;
+import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioCarritoComprasEnMemoria;
+import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.sql.RepositorioCarritoComprasEnMySql;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
@@ -17,8 +18,9 @@ public class CarritoCompras {
     private static final RepositorioCarritoCompras repositorio;
     
     static {
-        repositorio = switch (ConfiguracionApp.INSTANCIA.fuentes().producto()) {
+        repositorio = switch (ConfiguracionApp.INSTANCIA.fuentes().carritoCompras()) {
             case MEMORIA -> new RepositorioCarritoComprasEnMemoria();
+//            case MYSQL -> new RepositorioCarritoComprasEnMySql();
             default -> throw new UnsupportedOperationException("Not implemented");
         };
     }
@@ -46,10 +48,7 @@ public class CarritoCompras {
     public static List<CarritoComprasDTO> recuperarTodos() {
         return repositorio.recuperarTodos();
     }
-    
-    public static long cuenta() {
-        return repositorio.cuenta();
-    }
+
     
     public static boolean existe(Predicate<CarritoComprasDTO> criterio) {
         return repositorio.existe(criterio);

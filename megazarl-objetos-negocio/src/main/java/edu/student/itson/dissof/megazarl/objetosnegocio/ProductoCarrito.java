@@ -6,7 +6,7 @@ import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionProduc
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoCarritoDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioProductoCarrito;
-import edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones.RepositorioProductoCarritoEnMemoria;
+import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioProductoCarritoEnMemoria;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
@@ -49,10 +49,6 @@ public class ProductoCarrito {
      
     public static List<ProductoCarritoDTO> recuperarTodos() {
         return repositorio.recuperarTodos();
-    }
-    
-    public static long cuenta() {
-        return repositorio.cuenta();
     }
     
     public static boolean existe(Predicate<ProductoCarritoDTO> criterio) {

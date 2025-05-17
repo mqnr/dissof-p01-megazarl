@@ -6,7 +6,7 @@ import edu.student.itson.dissof.megazarl.dto.infraestructura.AuxiliarVentasDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdAuxiliarVentasDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdCarritoComprasDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioAuxiliarVentas;
-import edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones.RepositorioAuxiliarVentasEnMemoria;
+import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioAuxiliarVentasEnMemoria;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
@@ -47,10 +47,6 @@ public class AuxiliarVentas {
      
     public static List<AuxiliarVentasDTO> recuperarTodos() {
         return repositorio.recuperarTodos();
-    }
-    
-    public static long cuenta() {
-        return repositorio.cuenta();
     }
     
     public static boolean existe(Predicate<AuxiliarVentasDTO> criterio) {

@@ -6,7 +6,7 @@ import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionProduc
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioProductoInventario;
-import edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones.RepositorioProductoInventarioEnMemoria;
+import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioProductoInventarioEnMemoria;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
@@ -46,11 +46,7 @@ public class ProductoInventario {
     public static List<ProductoInventarioDTO> recuperarTodos() {
         return repositorio.recuperarTodos();
     }
-    
-    public static long cuenta() {
-        return repositorio.cuenta();
-    }
-    
+
     public static boolean existe(Predicate<ProductoInventarioDTO> criterio) {
         return repositorio.existe(criterio);
     }

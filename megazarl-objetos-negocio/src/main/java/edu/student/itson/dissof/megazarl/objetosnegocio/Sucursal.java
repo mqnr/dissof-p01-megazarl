@@ -6,7 +6,7 @@ import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.SucursalDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdSucursalDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioSucursal;
-import edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones.RepositorioSucursalEnMemoria;
+import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioSucursalEnMemoria;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
@@ -44,10 +44,6 @@ public class Sucursal {
     
     public static SucursalDTO obtenerSucursalMatriz(){
         return repositorio.obtenerSucursalMatriz();
-    }
-    
-    public static long cuenta() {
-        return repositorio.cuenta();
     }
     
     public static boolean existe(Predicate<SucursalDTO> criterio) {

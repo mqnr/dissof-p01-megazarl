@@ -6,7 +6,7 @@ import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdDireccionDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioDireccion;
-import edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones.RepositorioDireccionEnMemoria;
+import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioDireccionEnMemoria;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
@@ -44,10 +44,6 @@ public class Direccion {
 
     public static List<DireccionDTO> recuperarTodos() {
         return repositorio.recuperarTodos();
-    }
-
-    public static long cuenta() {
-        return repositorio.cuenta();
     }
 
     public static boolean existe(Predicate<DireccionDTO> criterio) {

@@ -11,7 +11,5 @@ public interface Repositorio<T> {
 
     List<T> recuperarTodos();
 
-    long cuenta();
-
     boolean existe(Predicate<T> criterio);
 }

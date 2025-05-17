@@ -47,4 +47,6 @@ megazarl.config.ini
 # MEGAZARL properties file 
 megazarl-administrador-sql\src\main\resources\META-INF
 
-/megazarl-administrador-sql/src/main/resources/META-INF/properties.txt
+/megazarl-administrador-mysql/src/main/resources/META-INF/properties.txt
+/megazarl-administrador-mysql/nbproject/
+/megazarl-administrador-mysqlwerwer/nbproject/

@@ -4,7 +4,7 @@ import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.PaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdPaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioPaqueteria;
-import edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones.RepositorioPaqueteriaEnMemoria;
+import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioPaqueteriaEnMemoria;
 
 import java.util.Collection;
 import java.util.List;
@@ -44,11 +44,7 @@ public class Paqueteria {
     public static Stream<PaqueteriaDTO> stream() {
         return repositorio.stream();
     }
-
-    public static long cuenta() {
-        return repositorio.cuenta();
-    }
-
+    
     public static boolean existe(Predicate<PaqueteriaDTO> criterio) {
         return repositorio.existe(criterio);
     }

@@ -26,6 +26,21 @@ public class CarritoComprasIdsRelacionesDTO extends CarritoComprasDTO{
         this.idsProductosCarrito = idsProductosCarrito;
     }
     
+    public CarritoComprasIdsRelacionesDTO(
+            Long id,
+            Boolean esVigente,
+            IdClienteDTO idCliente,
+            List<IdProductoCarritoDTO> idsProductosCarrito) {
+        
+        super(id, esVigente);
+        
+        this.idCliente = idCliente;
+    }
+
+    public void setIdPaqueteria(IdPaqueteriaDTO idPaqueteria){
+        this.idPaqueteria = idPaqueteria;
+    }
+
     @Override
     public IdClienteDTO getIdCliente() {
         return idCliente;

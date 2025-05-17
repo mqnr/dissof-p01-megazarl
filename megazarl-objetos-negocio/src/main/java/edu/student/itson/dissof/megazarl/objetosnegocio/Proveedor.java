@@ -5,7 +5,7 @@ import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProveedorDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioProveedor;
-import edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones.RepositorioProveedorEnMemoria;
+import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioProveedorEnMemoria;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
@@ -40,9 +40,6 @@ public class Proveedor {
         return repositorio.recuperarTodos();
     }
     
-    public static long cuenta() {
-        return repositorio.cuenta();
-    }
     
     public static boolean existe(Predicate<ProveedorDTO> criterio) {
         return repositorio.existe(criterio);

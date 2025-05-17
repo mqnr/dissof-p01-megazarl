@@ -36,7 +36,28 @@ public class CarritoComprasDatosCompletosRelacionesDTO extends CarritoComprasDTO
         this.productosCarrito = productosCarrito;
     }
     
-     public CarritoComprasDatosCompletosRelacionesDTO(
+    public CarritoComprasDatosCompletosRelacionesDTO(
+            Boolean esVigente,
+            ClienteDTO cliente,
+            PaqueteriaDTO paqueteria) {
+        
+        super(esVigente);
+        
+        this.cliente = cliente;
+        this.paqueteria = paqueteria;
+    }
+    
+    public CarritoComprasDatosCompletosRelacionesDTO(
+            Boolean esVigente,
+            ClienteDTO cliente) {
+        
+        super(esVigente);
+        
+        this.cliente = cliente;
+        this.paqueteria = paqueteria;
+    }
+    
+    public CarritoComprasDatosCompletosRelacionesDTO(
             Boolean esVigente,
             ClienteDTO cliente,
             List<ProductoCarritoDTO> productosCarrito) {

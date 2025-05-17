@@ -5,7 +5,7 @@ import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.IdClienteDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioCliente;
-import edu.student.itson.dissof.megazarl.objetosnegocio.implementaciones.RepositorioClienteEnMemoria;
+import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioClienteEnMemoria;
 
 import java.util.Collection;
 import java.util.List;
@@ -44,10 +44,6 @@ public class Cliente {
 
     public static List<ClienteDTO> recuperarTodos() {
         return repositorio.recuperarTodos();
-    }
-
-    public static long cuenta() {
-        return repositorio.cuenta();
     }
 
     public static boolean existe(Predicate<ClienteDTO> criterio) {

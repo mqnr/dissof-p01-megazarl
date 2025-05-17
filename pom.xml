@@ -26,10 +26,10 @@
     <module>megazarl-dto-negocios</module>
     <module>megazarl-dto-infraestructura</module>
     <module>megazarl-negocios</module>
-    <module>megazarl-administrador-sql</module>
       <module>megazarl-servicios</module>
     <module>megazarl-administrador-auxiliares-ventas</module>
     <module>megazarl-administrador-gerente-ventas</module>
+    <module>megazarl-administrador-mysql</module>
   </modules>
 
   <properties>
