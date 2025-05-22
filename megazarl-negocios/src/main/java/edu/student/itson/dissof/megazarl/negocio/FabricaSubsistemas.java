@@ -5,6 +5,8 @@ import edu.student.itson.dissof.administradorproveedores.FAdministradorProveedor
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
 import edu.student.itson.dissof.megazarl.administrador.auxiliares.ventas.FAdministradorAuxiliaresVentas;
 import edu.student.itson.dissof.megazarl.administrador.auxiliares.ventas.IAdministradorAuxiliaresVentas;
+import edu.student.itson.dissof.megazarl.administrador.gerenteventas.FAdministradorGerenteVentas;
+import edu.student.itson.dissof.megazarl.administrador.gerenteventas.IAdministradorGerenteVentas;
 import edu.student.itson.dissof.megazarl.administradorclientes.FAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.FAdministradorPaqueterias;
@@ -144,5 +146,12 @@ public class FabricaSubsistemas {
         
     }
     
+    public static IAdministradorGerenteVentas obtenerAdministradorGerenteVentas(){
+        
+        IAdministradorGerenteVentas administradorGerenteVentas = new FAdministradorGerenteVentas();
+        
+        return administradorGerenteVentas;
+        
+    }
     
 }

@@ -37,6 +37,6 @@ public interface IAdministradorGerenteVentas {
      * @throws IdGerenteVentasInvalidoException Se lanza si se comprueba que el ID 
      * del Gerente de Ventas es inválido, en este subsistema.
      */
-    public abstract NombresApellidoGerenteVentasDTO obtenerNombresApellidoCliente(IdGerenteVentasDTO idGerenteVentasDTO)
+    public abstract NombresApellidoGerenteVentasDTO obtenerNombresApellidoGerenteVentas(IdGerenteVentasDTO idGerenteVentasDTO)
             throws IdGerenteVentasInvalidoException;
 }

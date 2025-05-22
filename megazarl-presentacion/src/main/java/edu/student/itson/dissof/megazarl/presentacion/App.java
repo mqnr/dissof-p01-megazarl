@@ -5,6 +5,7 @@ import edu.student.itson.dissof.megazarl.dto.infraestructura.AuxiliarVentasDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.infraestructura.GerenteVentasDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.PaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.PaqueteriaDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
@@ -18,6 +19,7 @@ import edu.student.itson.dissof.megazarl.dto.infraestructura.SucursalDatosComple
 import edu.student.itson.dissof.megazarl.objetosnegocio.AuxiliarVentas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Direccion;
+import edu.student.itson.dissof.megazarl.objetosnegocio.GerenteVentas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Paqueteria;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Producto;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
@@ -833,6 +835,23 @@ public class App {
                 case 4:
                     
                     System.out.println("Ejecutando Registro de orden de compra");
+    
+                    GerenteVentasDTO gerenteVentas1 = new GerenteVentasDTO(
+                                "Andrés", 
+                                "Gutiérrez",
+                                "Mendoza");
+                        GerenteVentas.agregar(gerenteVentas1);
+                    
+                    ControlOrdenCompra controlOrdenCompra = new ControlOrdenCompra();
+                    
+                    IVista ordenCompra = new OrdenCompra(controlOrdenCompra, gerenteVentas1.getId());
+                    
+                    IMensaje mensajeOrdenCompra = new Mensaje();
+                    
+                    controlOrdenCompra.setVistas(mensajeOrdenCompra, ordenCompra);
+                    
+                    controlOrdenCompra.iniciarOrdenCompra();
+                    
                     break;
                     
                 case 5:

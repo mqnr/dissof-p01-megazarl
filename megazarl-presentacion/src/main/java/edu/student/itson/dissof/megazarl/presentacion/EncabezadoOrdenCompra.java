@@ -80,7 +80,7 @@ public class EncabezadoOrdenCompra extends JPanel {
         this.setBackground(COLOR_FONDO);
         panelFila1 = new JPanel();
         panelFila2 = new JPanel();
-        panelFila1.setLayout(new GridLayout(1, 3));
+        panelFila1.setLayout(new GridLayout(1, 2));
         panelFila2.setLayout(new GridLayout(1, 3));
         panelFila1.setOpaque(false);
         panelFila2.setOpaque(false);

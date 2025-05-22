@@ -45,6 +45,8 @@ public class Cliente implements Serializable {
      * @param nombres Representa los nombres del cliente
      * @param apellidoPaterno Representa el apellido paterno del cliente
      * @param apellidoMaterno Representa el apellido materno del cliente
+     * @param telefono
+     * @param correoElectronico
      * @param direccionEnvio Representa la dirección de envío del cliente
      */
     public Cliente(
@@ -68,6 +70,8 @@ public class Cliente implements Serializable {
      * @param nombres Representa los nombres del cliente
      * @param apellidoPaterno Representa el apellido paterno del cliente
      * @param apellidoMaterno Representa el apellido materno del cliente
+     * @param correoElectronico
+     * @param telefono
      */
     public Cliente(
             String nombres,
