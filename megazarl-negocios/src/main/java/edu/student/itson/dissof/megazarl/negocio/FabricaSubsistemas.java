@@ -21,7 +21,7 @@ import edu.student.itson.dissof.megazarl.carritocompras.FAdministradorCarritoCom
 import edu.student.itson.dissof.megazarl.carritocompras.IAdministradorCarritoCompras;
 import edu.student.itson.dissof.megazarl.direcciones.FAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
 import edu.student.itson.dissof.megazarl.mapas.FAdministradorMapas;
 import edu.student.itson.dissof.megazarl.mapas.IAdministradorMapas;
 

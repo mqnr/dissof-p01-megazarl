@@ -1,7 +1,6 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
-import edu.student.itson.dissof.megazarl.dto.infraestructura.CarritoComprasDTO;
 import java.util.HashMap;
 
 /**

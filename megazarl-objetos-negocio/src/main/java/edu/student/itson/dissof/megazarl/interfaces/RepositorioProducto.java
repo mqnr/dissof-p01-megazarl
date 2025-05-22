@@ -1,8 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.interfaces;
 
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTO;
 
 
 public interface RepositorioProducto extends RepositorioInmutable<ProductoDTO> {

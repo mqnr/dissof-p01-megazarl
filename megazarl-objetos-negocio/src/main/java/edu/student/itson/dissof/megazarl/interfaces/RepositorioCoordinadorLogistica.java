@@ -1,8 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.interfaces;
 
-import edu.student.itson.dissof.megazarl.dto.infraestructura.CoordinadorLogisticaDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdCoordinadorLogisticaDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.CoordinadorLogisticaDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdCoordinadorLogisticaDTO;
 
 
 public interface RepositorioCoordinadorLogistica extends RepositorioInmutable<CoordinadorLogisticaDTO>{

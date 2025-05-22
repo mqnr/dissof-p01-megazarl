@@ -1,9 +1,9 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioCliente;
 import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioClienteEnMemoria;
 

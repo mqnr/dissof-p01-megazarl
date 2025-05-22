@@ -14,8 +14,8 @@ import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorPr
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.PedidoDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoCantidadCarritoDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.PedidoDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoCantidadCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionPedidoClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionCrearPedidoDTO;
 import edu.student.itson.dissof.megazarl.mapas.IAdministradorMapas;

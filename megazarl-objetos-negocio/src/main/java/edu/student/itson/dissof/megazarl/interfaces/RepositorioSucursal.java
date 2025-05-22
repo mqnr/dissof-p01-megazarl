@@ -1,8 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.interfaces;
 
-import edu.student.itson.dissof.megazarl.dto.infraestructura.SucursalDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdSucursalDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTO;
 
 
 public interface RepositorioSucursal extends RepositorioInmutable<SucursalDTO>{

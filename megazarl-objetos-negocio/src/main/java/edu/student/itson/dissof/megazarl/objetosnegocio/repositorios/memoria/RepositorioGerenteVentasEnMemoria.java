@@ -1,7 +1,7 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
-import edu.student.itson.dissof.megazarl.dto.infraestructura.GerenteVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdGerenteVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.GerenteVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdGerenteVentasDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioGerenteVentas;
 import java.util.ArrayList;
 import java.util.Collection;

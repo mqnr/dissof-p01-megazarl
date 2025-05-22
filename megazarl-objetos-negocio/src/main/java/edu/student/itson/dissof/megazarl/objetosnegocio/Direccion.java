@@ -2,9 +2,9 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdDireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionDireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioDireccion;
 import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioDireccionEnMemoria;
 import java.util.Collection;

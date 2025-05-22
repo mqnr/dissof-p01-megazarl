@@ -5,9 +5,9 @@ import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.Pa
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdSucursalInvalidoException;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.PaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.PaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoMatrizClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoProveedorMatrizDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoSucursalMatrizDTO;

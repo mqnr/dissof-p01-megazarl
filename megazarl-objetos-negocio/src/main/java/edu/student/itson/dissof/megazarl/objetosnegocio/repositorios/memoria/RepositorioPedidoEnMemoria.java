@@ -2,7 +2,7 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
 
-import edu.student.itson.dissof.megazarl.dto.infraestructura.PedidoDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.PedidoDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioPedido;
 import java.util.ArrayList;
 import java.util.Collection;
