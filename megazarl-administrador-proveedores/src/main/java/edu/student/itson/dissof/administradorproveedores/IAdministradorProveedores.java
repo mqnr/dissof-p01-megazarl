@@ -63,4 +63,14 @@ public interface IAdministradorProveedores {
      * @return true si el ID del proveedor es válido, false en caso contrario.
      */
     public abstract boolean validarProveedor(IdProveedorDTO idProveedorDTO);
+
+    /**
+     * metodo que perimite registrar el proveedor
+     * @param proveedorDTO objeto proveedorDTO que contiene al Proveedor a registrar
+     * @return true si el proveedor fue registrado, false en caso contrario
+     * @throws ProveedorNoRegistradoException  se lanza si el proveedor no se registro
+     */
+    /**
+    public abstract boolean agregarProveedor(ProveedorDTO proveedorDTO) throws ProveedorNoRegistradoException ;
+    * */
 }
