@@ -1,6 +1,8 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
+import edu.student.itson.dissof.administradorproveedores.FAdministradorProveedores;
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
+import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedorNoRegistradoException;
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesAccesoArchivoCodigosPostalesFallidoException;
@@ -54,19 +56,40 @@ public class ControlRegistroProveedor<t> {
         registroProveedor.actualizarDatosEncabezado();
     }
     
-    
-    
+    /**
+     * metodo que guardar los datos de un proveedor para
+     * ser registrado.
+     * @param nombre objeto String que representa el nombre del proveedor
+     * @param telefono objeto String que representa el nombre del proveedor
+     * @param correoElectronico objeto String que representa el telefono del proveedor
+     * @param direccionImagen objeto String que representa el logo del proveedor
+     * @param codigoPostal objeto String que representa el codigo postal del proveedor
+     * @param colonia objeto String que representa la colonia del proveedor
+     * @param calle objeto String que representa la calle del proveedor
+     * @param numero objeto String que representa el numero del proveedor
+     */
     public void guardarDatosProveedor(String nombre, String telefono, String correoElectronico,
             String direccionImagen,String codigoPostal, String colonia, String calle, String numero){
-
-        //if(nombre.equals("")||telefono.equals("")|| correoElectronico.equals("")||
-                //direccionImagen.equals("")||codigoPostal.equals("")||colonia.equals("")
-                //||calle.equals("")||numero.equals("")){
-            
+        /**
+        try{
+            DireccionDTO direccionProveedor = new DireccionDTO( codigoPostal,colonia,calle, numero);
+            ProveedorDTO proveedorDTO = new ProveedorDatosCompletosRelacionesDTO(
+                    nombre, 
+                    telefono, 
+                    correoElectronico, 
+                    direccionImagen,
+                    new LinkedList<>(),
+                    direccionProveedor); 
+            IAdministradorProveedores  administradorProveedores = new FAdministradorProveedores();
+            administradorProveedores.agregarProveedor(proveedorDTO);
+            * */
             mostrarMensaje("Se ha registrado el proveedor correctamente", COLOR_MENSAJE_EXITOSO);
-        //} else{
-        
+        /**
+        } catch(ProveedorNoRegistradoException e){
+            mostrarMensaje("No se pudo registrar el proveedor", COLOR_MENSAJE_ERROR);
         }
+        * */
+    }
     
     
      /**
@@ -116,4 +139,3 @@ public class ControlRegistroProveedor<t> {
         mensaje.mostrarMensaje();
     }
 }
-
