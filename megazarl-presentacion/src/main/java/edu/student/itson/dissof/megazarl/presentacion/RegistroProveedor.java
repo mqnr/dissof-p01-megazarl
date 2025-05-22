@@ -18,10 +18,13 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -58,8 +61,12 @@ public class RegistroProveedor extends JFrame implements IVista{
     private JLabel etqColonia;
     private JLabel etqNumero;
     private JLabel etqImagen;
-    private JLabel imagen;
-
+        
+    private JLabel JImagen;
+    private File arch;
+    private BufferedImage imagen;
+    private ImageIcon logo;
+    
     private JLabel etqMensajeValidacionGmail;
     private JLabel etqMensajeValidacionCodigoPostal;
     private JLabel etqMensajeValidacionTelefono;
@@ -72,7 +79,6 @@ public class RegistroProveedor extends JFrame implements IVista{
     private JComboBox<String> comboBoxColonia;
     private JTextField txtNumero;
     
-    private String ruta;
 
     private JButton btnCancelar;
     private JButton btnGuardar;
@@ -88,8 +94,8 @@ public class RegistroProveedor extends JFrame implements IVista{
     private String telefonoEnvio;
     private String calleEnvio;
     private String nombreEnvio;
+    private String imagenEnvio;
     
-    private ImageIcon direccionImagen;
     
     private boolean nombreValido;
     private boolean calleValida;
@@ -151,7 +157,7 @@ public class RegistroProveedor extends JFrame implements IVista{
         panelContenedorFormulario.add(Box.createVerticalStrut(30));
 
         panelDatosProveedor = new RegistroProveedor.PanelRedondeado(10, new Color(226, 234, 206));
-        panelDatosProveedor.setPreferredSize(new Dimension(400, 400));
+        panelDatosProveedor.setPreferredSize(new Dimension(400, 650));
         panelDatosProveedor.setLayout(new BoxLayout(panelDatosProveedor, BoxLayout.Y_AXIS));
         panelDatosProveedor.setBorder(new EmptyBorder(20,20,20,20));
         
@@ -199,7 +205,6 @@ public class RegistroProveedor extends JFrame implements IVista{
                 txtCodigoPostal.setText("");
                 txtCalle.setText("");
                 txtNumero.setText("");
-                direccionImagen = null;
                 
             }
         });
@@ -207,11 +212,15 @@ public class RegistroProveedor extends JFrame implements IVista{
         btnLogo.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent evt){
-                imagen = new JLabel("");
-                imagen.setPreferredSize(new Dimension(300,300));
-                imagen.setIcon(obtenerDireccionLogo());
-                imagen.revalidate();
-                imagen.repaint();
+                try{
+                    imagenValido = true;
+                    arch = new File(obtenerDireccionLogo());
+                    imagen = ImageIO.read(arch);
+                    logo = new ImageIcon(imagen);
+                    JImagen.setIcon(logo);
+                } catch(IOException e){
+                    System.out.print(e);
+                }
             }
         });
         
@@ -236,6 +245,7 @@ public class RegistroProveedor extends JFrame implements IVista{
             txtNombre.setFont(new Font("Segoe UI", Font.PLAIN, 14));
             txtNombre.setEditable(true);
             txtNombre.setEnabled(true);
+            txtNombre.setText("rafael");
 
             panelNombre.add(etqNombre);
             panelNombre.add(txtNombre);
@@ -253,6 +263,7 @@ public class RegistroProveedor extends JFrame implements IVista{
             txtGmail.setFont(new Font("Segoe UI", Font.PLAIN, 14));
             txtGmail.setEditable(true);
             txtGmail.setEnabled(true);
+            txtGmail.setText("luis@gmail.com");
 
             panelGmail.add(etqGmail);
             panelGmail.add(txtGmail);
@@ -276,10 +287,11 @@ public class RegistroProveedor extends JFrame implements IVista{
 
             etqTelefono = new JLabel("Telefono:");
             etqTelefono.setFont(new Font("Segoe UI", Font.BOLD, 14));
-
+           
             txtTelefono = new JTextField(20);
             txtTelefono.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-
+            txtTelefono.setText("6441500616");
+            
             panelTelefono.add(etqTelefono);
             panelTelefono.add(txtTelefono);
 
@@ -304,6 +316,7 @@ public class RegistroProveedor extends JFrame implements IVista{
 
             txtCodigoPostal = new JTextField(20);
             txtCodigoPostal.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+            txtCodigoPostal.setText("85000");
 
             panelCodigoPostal.add(etqCodigoPostal);
             panelCodigoPostal.add(txtCodigoPostal);
@@ -353,6 +366,7 @@ public class RegistroProveedor extends JFrame implements IVista{
 
             txtCalle = new JTextField(20);
             txtCalle.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+            txtCalle.setText("san marino");
 
             panelCalle.add(etqCalle);
             panelCalle.add(txtCalle);
@@ -371,6 +385,7 @@ public class RegistroProveedor extends JFrame implements IVista{
             txtNumero.setFont(new Font("Segoe UI", Font.PLAIN, 14));
             txtNumero.setEditable(true);
             txtNumero.setEnabled(true);
+            txtNumero.setText("654");
 
             panelNumero.add(etqNumero);
             panelNumero.add(txtNumero);
@@ -380,15 +395,22 @@ public class RegistroProveedor extends JFrame implements IVista{
             // imagen
             JPanel panelImagen = new JPanel(new FlowLayout(FlowLayout.RIGHT));
             panelImagen.setOpaque(false);
-            
+          
             etqImagen = new JLabel("Logo:");
             etqImagen.setFont(new Font("Segoe UI", Font.BOLD, 14));
+            try{
+                arch = new File("src/main/logo/imagenNulo.png");
+                imagen = ImageIO.read(arch);
+                logo = new ImageIcon(imagen);
+                JImagen = new JLabel(logo); 
+            } catch(IOException e){
+                System.out.print(e);
+            }
             
-            imagen = new JLabel();
-            imagen.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+            
             
             panelImagen.add(etqImagen);
-            panelImagen.add(imagen);
+            panelImagen.add(JImagen);
             panelDatosProveedor.add(panelImagen);
 
         }
@@ -404,42 +426,50 @@ public class RegistroProveedor extends JFrame implements IVista{
         }
 
         public void guardarDatosProveedor() {
+            System.out.println(nombreEnvio); 
+            System.out.println(telefonoEnvio);
+            System.out.println(GmailEnvio);
+            System.out.println(imagenEnvio);
+            System.out.println(codigoPostalEnvio);
+            System.out.println(coloniaEnvio); 
+            System.out.println(calleEnvio);
+            System.out.println(numeroEnvio);
             control.guardarDatosProveedor(nombreEnvio, telefonoEnvio,GmailEnvio, 
-                    ruta, codigoPostalEnvio,
+                    imagenEnvio, codigoPostalEnvio,
                     coloniaEnvio, calleEnvio,numeroEnvio);      
         }
-        public ImageIcon obtenerDireccionLogo(){
-            JFileChooser fileChooser = new JFileChooser();
-            FileNameExtensionFilter filtro = new FileNameExtensionFilter(
-                "Imágenes (*.png)", "png");
-            fileChooser.setFileFilter(filtro);
-            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-            int resultado = fileChooser.showOpenDialog(null);
-
+        
+        public String obtenerDireccionLogo(){
+            JFileChooser selector = new JFileChooser();
+            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Solo imágenes PNG", "png");
+            selector.setFileFilter(filtro);
+            int resultado = selector.showOpenDialog(null);
             if (resultado == JFileChooser.APPROVE_OPTION) {
-                File archivoSeleccionado = fileChooser.getSelectedFile();
-                
-                if (!archivoSeleccionado.exists()) {
-                    System.err.println("El archivo no existe.");
+                File archivo = selector.getSelectedFile();
+                try {
+                    imagen = ImageIO.read(archivo);
+                    if (imagen == null) {
+                        JOptionPane.showMessageDialog(null, "El archivo seleccionado no es una imagen válida.", "Error", JOptionPane.ERROR_MESSAGE);
+                        return null;
+                    }
+                    String rutaArchivo = archivo.getAbsolutePath();
+                    String rutaProyecto = new File("src").getAbsoluteFile().getParentFile().getAbsolutePath();
+                    if (rutaArchivo.startsWith(rutaProyecto)) {
+                        String rutaRelativa = rutaArchivo.substring(rutaProyecto.length() + 1); 
+                        rutaRelativa = rutaRelativa.replace(File.separatorChar, '/');
+                        return rutaRelativa;
+                    } else {
+                        imagenEnvio = "src/main/logo/" + archivo.getName();
+                        return "src/main/logo/" + archivo.getName();
+                    }
+
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null, "Error al cargar la imagen.", "Error", JOptionPane.ERROR_MESSAGE);
                     return null;
                 }
-
-                ruta = archivoSeleccionado.getAbsolutePath();
-                System.out.println("Ruta seleccionada: " + ruta);
-                
-                ImageIcon icono = new ImageIcon(ruta);
-                if (icono.getIconWidth() == -1) {
-                    System.err.println("La imagen no se pudo cargar. Verifica el archivo.");
-                    return null;
-                }
-
-                imagenValido = true;
-                habilitarBotonGuardar();
-                return icono;
-            } else {
-                return null;
             }
+
+            return null; 
         }
     @Override
     public void actualizarDatosEncabezado() {
@@ -603,7 +633,7 @@ public class RegistroProveedor extends JFrame implements IVista{
                 if (nuevoTelefono.matches("\\d{10}")) {
                     etqMensajeValidacionTelefono.setText(" ");
                     telefonoValido = true;
-                    telefonoEnvio = txtNumero.getText();
+                    telefonoEnvio = txtTelefono.getText();
                     txtTelefono.setForeground(Color.BLACK);
                 } else if(nuevoTelefono.isBlank()) {
                     etqMensajeValidacionTelefono.setText("Este campo es obligatorio");
