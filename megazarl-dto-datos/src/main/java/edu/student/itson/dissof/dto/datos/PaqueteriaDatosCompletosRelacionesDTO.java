@@ -1,5 +1,7 @@
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+
 /**
  * PaqueteriaDatosCompletosRelacionesDTO.java
 
@@ -23,7 +25,7 @@ public class PaqueteriaDatosCompletosRelacionesDTO extends PaqueteriaDTO{
     private DireccionDTO direccion;
 
     public PaqueteriaDatosCompletosRelacionesDTO(
-            Long id, 
+            IdEntidadGenerico id, 
             String nombre,
             Float cobroKg, 
             Float cobroHora,
@@ -61,7 +63,7 @@ public class PaqueteriaDatosCompletosRelacionesDTO extends PaqueteriaDTO{
     }
 
     @Override
-    public Long getIdDireccion() {
+    public IdEntidadGenerico getIdDireccion() {
         return direccion.getId();
     }
     

@@ -8,8 +8,6 @@ public class ProductoInventario {
     
     private ObjectId id;
     
-    private Long idLong;
-    
     private Producto producto;
     
     private Sucursal sucursal;
@@ -28,14 +26,6 @@ public class ProductoInventario {
 
     public void setId(ObjectId id) {
         this.id = id;
-    }
-
-    public Long getIdLong() {
-        return idLong;
-    }
-
-    public void setIdLong(Long idLong) {
-        this.idLong = idLong;
     }
     
     public Producto getProducto() {

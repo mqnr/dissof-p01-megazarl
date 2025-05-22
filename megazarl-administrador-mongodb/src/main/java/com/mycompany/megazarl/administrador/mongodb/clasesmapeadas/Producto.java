@@ -14,9 +14,7 @@ public class Producto {
     
     
     private ObjectId id;
-    
-    private Long idLong;
-    
+
     private String nombre;
     
     private String variedad;
@@ -49,14 +47,6 @@ public class Producto {
 
     public void setId(ObjectId id) {
         this.id = id;
-    }
-
-    public Long getIdLong() {
-        return idLong;
-    }
-
-    public void setIdLong(Long idLong) {
-        this.idLong = idLong;
     }
 
     public String getNombre() {

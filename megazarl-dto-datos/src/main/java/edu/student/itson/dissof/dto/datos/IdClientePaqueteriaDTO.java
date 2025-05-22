@@ -1,5 +1,7 @@
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+
 /**
  * IdClientePaqueteriaDTO.java
  * 
@@ -22,21 +24,21 @@ public class IdClientePaqueteriaDTO {
     /**
      * Objeto Long que representa el ID del cliente.
      */
-    private Long idCliente;
+    private IdEntidadGenerico idCliente;
     
     /**
      * Objeto Long que representa el ID de la paquetería.
      */
-    private Long idPaqueteria;
+    private IdEntidadGenerico idPaqueteria;
 
     /**
      * Consutructor que recibe el ID del cliente y el ID de la paquetería.
-     * @param idCliente     Objeto Long que representa el ID del cliente.
-     * @param idPaqueteria  Objeto Long que representa el ID de la paquetería.
+     * @param idCliente     Objeto IdEntidadGenerico que representa el ID del cliente.
+     * @param idPaqueteria  Objeto IdEntidadGenerico que representa el ID de la paquetería.
      */
     public IdClientePaqueteriaDTO(
-            Long idCliente,
-            Long idPaqueteria) {
+            IdEntidadGenerico idCliente,
+            IdEntidadGenerico idPaqueteria) {
         
         this.idCliente = idCliente;
         this.idPaqueteria = idPaqueteria;
@@ -44,9 +46,9 @@ public class IdClientePaqueteriaDTO {
 
     /**
      * Método que permite obtener el ID del cliente.
-     * @return Objeto Long que representa el ID del cliente.
+     * @return Objeto IdEntidadGenerico que representa el ID del cliente.
      */
-    public Long getIdCliente() {
+    public IdEntidadGenerico getIdCliente() {
         return idCliente;
     }
 
@@ -54,7 +56,7 @@ public class IdClientePaqueteriaDTO {
      * Método que permite obtenre el ID de la paquetería.
      * @return Objeto Long que representa el ID de la paquetería.
      */
-    public Long getIdPaqueteria() {
+    public IdEntidadGenerico getIdPaqueteria() {
         return idPaqueteria;
     }
 }

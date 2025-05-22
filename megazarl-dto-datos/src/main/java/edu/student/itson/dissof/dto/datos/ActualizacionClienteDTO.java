@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+
 
 /**
  * Objeto DTO que contiene la información a actualizar de un cliente registrado.
@@ -22,7 +24,7 @@ public class ActualizacionClienteDTO {
     /**
      * Objeto Long que representa el ID del cliente a actualizar.
      */
-    private Long id;
+    private IdEntidadGenerico id;
     
     /**
      * Objeto String que representa los nuevos nombres del cliente.
@@ -48,7 +50,7 @@ public class ActualizacionClienteDTO {
      * Contructor de la clase que recibe el ID del cliente actualizar.
      * @param id Objeto Long que representa el ID de cliente a actualizar.
      */
-    public ActualizacionClienteDTO(Long id) {
+    public ActualizacionClienteDTO(IdEntidadGenerico id) {
         this.id = id;
     }
 
@@ -56,7 +58,7 @@ public class ActualizacionClienteDTO {
      * Método que permite obtener el ID del cliente a actualizar.
      * @return Objeto Long que representa el ID del cliente a actualizar.
      */
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
 

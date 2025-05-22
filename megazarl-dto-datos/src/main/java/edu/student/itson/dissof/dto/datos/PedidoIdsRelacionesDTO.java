@@ -1,23 +1,24 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
 import java.util.List;
 
 public class PedidoIdsRelacionesDTO extends PedidoDTO{
     
-    private Long idCliente;
+    private IdEntidadGenerico idCliente;
     
-    private Long idPaqueteria;
+    private IdEntidadGenerico idPaqueteria;
     
-    private List<Long> idsProductoPedido;
+    private List<IdEntidadGenerico> idsProductoPedido;
 
     public PedidoIdsRelacionesDTO(
-            Long id,
+            IdEntidadGenerico id,
             String estado,
             ClienteDTO cliente,
             PaqueteriaDTO paqueteria,
-            Long idCliente,
-            Long idPaqueteria) {
+            IdEntidadGenerico idCliente,
+            IdEntidadGenerico idPaqueteria) {
         
         super(
             id,
@@ -28,22 +29,22 @@ public class PedidoIdsRelacionesDTO extends PedidoDTO{
     }
 
     @Override
-    public Long getIdCliente() {
+    public IdEntidadGenerico getIdCliente() {
         return idCliente;
     }
 
     @Override
-    public void setIdCliente(Long idCliente) {
+    public void setIdCliente(IdEntidadGenerico idCliente) {
         this.idCliente = idCliente;
     }
 
     @Override
-    public Long getIdPaqueteria() {
+    public IdEntidadGenerico getIdPaqueteria() {
         return idPaqueteria;
     }
 
     @Override
-    public List<Long> getIdsProductosPedido() {
+    public List<IdEntidadGenerico> getIdsProductosPedido() {
         return idsProductoPedido;
     }
     

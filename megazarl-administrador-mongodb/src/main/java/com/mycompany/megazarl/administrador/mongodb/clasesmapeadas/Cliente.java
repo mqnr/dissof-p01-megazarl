@@ -7,7 +7,6 @@ public class Cliente {
     
     private ObjectId id;
     
-    private Long idLong;
     private String nombres;
     private String apellidoMaterno;
     private String apellidoPaterno;
@@ -37,14 +36,6 @@ public class Cliente {
 
     public void setId(ObjectId id) {
         this.id = id;
-    }
-
-    public Long getIdLong() {
-        return idLong;
-    }
-
-    public void setIdLong(Long idLong) {
-        this.idLong = idLong;
     }
 
     public String getNombres() {

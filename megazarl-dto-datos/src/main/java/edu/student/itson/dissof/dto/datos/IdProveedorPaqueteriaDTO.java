@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+
 /**
  * Clase DTO que contiene los IDs de un proveedor y una paquetería, necesarios
  * para realizar el cálculo de tiempo de envío de productos por una paquetería
@@ -21,23 +23,23 @@ package edu.student.itson.dissof.dto.datos;
 public class IdProveedorPaqueteriaDTO {
     
     /**
-     * Objeto Long que representa el ID de un proveedor.
+     * Objeto IdEntidadGenerico que representa el ID de un proveedor.
      */
-    private Long idProveedor;
+    private IdEntidadGenerico idProveedor;
     
     /**
-     * Objeto Long que representa el ID de una paquetería.
+     * Objeto IdEntidadGenerico que representa el ID de una paquetería.
      */
-    private Long idPaqueteria;
+    private IdEntidadGenerico idPaqueteria;
 
     /**
      * Constructor de la clase que recibe un ID de proveedor y un ID de paquetería.
-     * @param idProveedor   Objeto Long que representa el ID de un proveedor.
-     * @param idPaqueteria  Objeto Long que representa el ID de una paquetería.
+     * @param idProveedor   Objeto IdEntidadGenerico que representa el ID de un proveedor.
+     * @param idPaqueteria  Objeto IdEntidadGenerico que representa el ID de una paquetería.
      */
     public IdProveedorPaqueteriaDTO(
-            Long idProveedor, 
-            Long idPaqueteria){
+            IdEntidadGenerico idProveedor, 
+            IdEntidadGenerico idPaqueteria){
         
         this.idProveedor = idPaqueteria;
         this.idPaqueteria = idPaqueteria;
@@ -45,17 +47,17 @@ public class IdProveedorPaqueteriaDTO {
             
     /**
      * Método que permite obtener el ID del proveedor.
-     * @return Objeto Long que representa el ID de un proveedor.
+     * @return Objeto IdEntidadGenerico que representa el ID de un proveedor.
      */
-    public Long getIdProveedor() {
+    public IdEntidadGenerico getIdProveedor() {
         return idProveedor;
     }
 
     /**
      * Método que pemite obtener el ID de la paquetería.
-     * @return Objeto Long que representa el ID de una paquetería.s
+     * @return Objeto IdEntidadGenerico que representa el ID de una paquetería.s
      */
-    public Long getIdPaqueteria() {
+    public IdEntidadGenerico getIdPaqueteria() {
         return idPaqueteria;
     }
      

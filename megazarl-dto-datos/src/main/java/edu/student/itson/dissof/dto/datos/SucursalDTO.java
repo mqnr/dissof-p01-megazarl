@@ -1,6 +1,7 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,9 +27,9 @@ import java.util.Objects;
 public abstract class SucursalDTO {
     
     /**
-     * Objeto Long que representa el ID de la sucursal
+     * Objeto IdEntidadGenerico que representa el ID de la sucursal
      */
-    private Long id;
+    private IdEntidadGenerico id;
     
     /**
      * Objeto Boolean que indica si la sucursal es la Matriz
@@ -38,11 +39,11 @@ public abstract class SucursalDTO {
     
     /**
      * Constructor que permite instanciar un objeto de tipo SucursalDTO.
-     * @param id           Objeto Long que representa el ID de la sucursal.
+     * @param id           Objeto IdEntidadGenerico que representa el ID de la sucursal.
      * @param esMatriz     Objeto Boolean que indica si la sucursal es la Matriz.
      */
     public SucursalDTO(
-            Long id,
+            IdEntidadGenerico id,
             Boolean esMatriz) {
         
         this.id = id;
@@ -61,9 +62,9 @@ public abstract class SucursalDTO {
     
     /**
      * Método que permite obtener el ID de la sucursal.
-     * @return Objeto Long que representa el id de la sucursal.
+     * @return Objeto IdEntidadGenerico que representa el id de la sucursal.
      */
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
     
@@ -76,14 +77,14 @@ public abstract class SucursalDTO {
     }
 
     
-    public abstract List<Long> getIdsProductosInventario();
-    public abstract Long getIdDireccion();
+    public abstract List<IdEntidadGenerico> getIdsProductosInventario();
+    public abstract IdEntidadGenerico getIdDireccion();
 
     /**
      * Método que permite establecer el ID de la sucursal.
-     * @param id Objeto Long que representa el ID de la sucursal.
+     * @param id Objeto IdEntidadGenerico que representa el ID de la sucursal.
      */
-    public void setId(Long id) {
+    public void setId(IdEntidadGenerico id) {
         this.id = id;
     }
     

@@ -1,13 +1,15 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+
 
 public class ActualizacionProductoCarritoDTO {
 
     /**
-     * Objeto Long que representa el ID del producto en el carrito.
+     * Objeto IdEntidadGenerico que representa el ID del producto en el carrito.
      */
-    private Long id;
+    private IdEntidadGenerico id;
     
     /**
      * Objeto Integer que representa la cantidad del producto en el carrito.
@@ -15,21 +17,21 @@ public class ActualizacionProductoCarritoDTO {
     private Integer cantidad;
     
     /**
-     * Objeto Long que representa el carrito compras al que pertenece el
+     * Objeto IdEntidadGenerico que representa el carrito compras al que pertenece el
      * producto.
      */
-    private Long idCarritoCompras;
+    private IdEntidadGenerico idCarritoCompras;
     
     /**
-     * Objeto Long que representa el producto dentro del carrito.
+     * Objeto IdEntidadGenerico que representa el producto dentro del carrito.
      */
-    private Long idProducto;
+    private IdEntidadGenerico idProducto;
 
     /**
      * Constructor de la clase que recibe el ID.
      * @param id Objeto Long que representa el ID del producto en el carrito.
      */
-    public ActualizacionProductoCarritoDTO(Long id) {
+    public ActualizacionProductoCarritoDTO(IdEntidadGenerico id) {
         this.id = id;
     }
     
@@ -37,7 +39,7 @@ public class ActualizacionProductoCarritoDTO {
      * Método que permite obtener el ID del producto en carrito.
      * @return Objeto Long que representa el ID del producto en carrito.
      */
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
 
@@ -54,7 +56,7 @@ public class ActualizacionProductoCarritoDTO {
      * @return Objeto Long que representa el carrito compras al que pertenece el
      * producto.
      */
-    public Long getIdCarritoCompras() {
+    public IdEntidadGenerico getIdCarritoCompras() {
         return idCarritoCompras;
     }
 
@@ -62,7 +64,7 @@ public class ActualizacionProductoCarritoDTO {
      * Método que permite obtener el producto dentro del carrito de compras.
      * @return Objeto Integer que representa la cantidad del producto en el carrito.
      */
-    public Long getIdProducto() {
+    public IdEntidadGenerico getIdProducto() {
         return idProducto;
     }
     
@@ -70,7 +72,7 @@ public class ActualizacionProductoCarritoDTO {
      * Método que permite establecer el id del pedido.
      * @param id Objeto Long que representa el ID del pedido.
      */
-    public void setId(Long id) {
+    public void setId(IdEntidadGenerico id) {
         this.id = id;
     }
 

@@ -1,13 +1,15 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+
 
 public class AuxiliarVentasDTO {
     
     /**
      * Objeto Long que representa el ID del Auxiliar de ventas.
      */
-    private Long id;
+    private IdEntidadGenerico id;
     
     /**
      * Objeto String que representa el o lo nombres del Auxiliar de ventas.
@@ -26,13 +28,13 @@ public class AuxiliarVentasDTO {
 
     /**
      * Constructor de la clase que recibe valores para todos los atributos.
-     * @param id                Objeto Long que representa el ID del Auxiliar de ventas.
+     * @param id                Objeto IdEntidadGenerico que representa el ID del Auxiliar de ventas.
      * @param nombres           Objeto String que representa el o lo nombres del Auxiliar de ventas.
      * @param apellidoPaterno   Objeto String que representa el apellido paterno del Auxiliar de ventas.
      * @param apellidoMaterno   Objeto String que representa el apellido materno del Auxiliar de ventas.
      */
     public AuxiliarVentasDTO(
-            Long id,
+            IdEntidadGenerico id,
             String nombres,
             String apellidoPaterno, 
             String apellidoMaterno) {
@@ -59,9 +61,9 @@ public class AuxiliarVentasDTO {
 
     /**
      * Método que permite obtener el ID del Auxiliar de ventas.
-     * @return Objeto Long que representa el ID del Auxiliar de ventas.
+     * @return Objeto IdEntidadGenerico que representa el ID del Auxiliar de ventas.
      */
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
 
@@ -91,9 +93,9 @@ public class AuxiliarVentasDTO {
 
     /**
      * Método que permite establecer el ID del Auxiliar de ventas.
-     * @param id Objeto Long que representa el nuevo ID del Auxiliar de ventas.
+     * @param id Objeto IdEntidadGenerico que representa el nuevo ID del Auxiliar de ventas.
      */
-    public void setId(Long id) {
+    public void setId(IdEntidadGenerico id) {
         this.id = id;
     }
     

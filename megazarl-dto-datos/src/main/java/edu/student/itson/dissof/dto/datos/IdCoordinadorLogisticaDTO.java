@@ -1,16 +1,18 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+
 
 public class IdCoordinadorLogisticaDTO {
     
-    private Long idCoordinadorLogistica;
+    private IdEntidadGenerico idCoordinadorLogistica;
 
-    public IdCoordinadorLogisticaDTO(Long idCoordinadorLogistica) {
+    public IdCoordinadorLogisticaDTO(IdEntidadGenerico idCoordinadorLogistica) {
         this.idCoordinadorLogistica = idCoordinadorLogistica;
     }
 
-    public Long getIdCoordinadorLogistica() {
+    public IdEntidadGenerico getIdCoordinadorLogistica() {
         return idCoordinadorLogistica;
     }
     

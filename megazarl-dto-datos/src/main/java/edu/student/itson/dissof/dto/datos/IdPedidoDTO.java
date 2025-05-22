@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+
 /**
  * Clase DTO que contiene el ID de un pedido realizado por un cliente.
  * 
@@ -15,23 +17,23 @@ package edu.student.itson.dissof.dto.datos;
 public class IdPedidoDTO {
     
     /**
-     * Objeto Long que representa el ID de un pedido.
+     * Objeto IdEntidadGenerico que representa el ID de un pedido.
      */
-    private Long idPedido;
+    private IdEntidadGenerico idPedido;
 
     /**
      * Constructor que recibe el ID dle pedido.
      * @param idPedido 
      */
-    public IdPedidoDTO(Long idPedido) {
+    public IdPedidoDTO(IdEntidadGenerico idPedido) {
         this.idPedido = idPedido;
     }
 
     /**
      * Método que permite obtener el ID del pedido.
-     * @return Objeto Long que representa el ID de un pedido.
+     * @return Objeto IdEntidadGenerico que representa el ID de un pedido.
      */
-    public Long getIdPedido() {
+    public IdEntidadGenerico getIdPedido() {
         return idPedido;
     }
     

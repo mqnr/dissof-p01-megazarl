@@ -1,10 +1,12 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+
 
 public class CoordinadorLogisticaDTO {
     
-    private Long id;
+    private IdEntidadGenerico id;
     
     private String nombres;
     
@@ -12,7 +14,7 @@ public class CoordinadorLogisticaDTO {
     
     private String apellidoMaterno;
 
-    public CoordinadorLogisticaDTO(Long id, String nombres, String apellidoPaterno, String apellidoMaterno) {
+    public CoordinadorLogisticaDTO(IdEntidadGenerico id, String nombres, String apellidoPaterno, String apellidoMaterno) {
         this.id = id;
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
@@ -25,7 +27,7 @@ public class CoordinadorLogisticaDTO {
         this.apellidoMaterno = apellidoMaterno;
     }
 
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
 
@@ -41,7 +43,7 @@ public class CoordinadorLogisticaDTO {
         return apellidoMaterno;
     }
 
-    public void setId(Long id) {
+    public void setId(IdEntidadGenerico id) {
         this.id = id;
     }
     

@@ -1,23 +1,24 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
 import java.util.List;
 
 
 public class CarritoComprasIdsRelacionesDTO extends CarritoComprasDTO{
 
-    private Long idCliente;
+    private IdEntidadGenerico idCliente;
 
-    private Long idPaqueteria;
+    private IdEntidadGenerico idPaqueteria;
 
-    private List<Long> idsProductosCarrito;
+    private List<IdEntidadGenerico> idsProductosCarrito;
 
     public CarritoComprasIdsRelacionesDTO(
-            Long id,
+            IdEntidadGenerico id,
             Boolean esVigente,
-            Long idCliente,
-            Long idPaqueteria,
-            List<Long> idsProductosCarrito) {
+            IdEntidadGenerico idCliente,
+            IdEntidadGenerico idPaqueteria,
+            List<IdEntidadGenerico> idsProductosCarrito) {
         
         super(id, esVigente);
         
@@ -27,10 +28,10 @@ public class CarritoComprasIdsRelacionesDTO extends CarritoComprasDTO{
     }
     
     public CarritoComprasIdsRelacionesDTO(
-            Long id,
+            IdEntidadGenerico id,
             Boolean esVigente,
-            Long idCliente,
-            List<Long> idsProductosCarrito) {
+            IdEntidadGenerico idCliente,
+            List<IdEntidadGenerico> idsProductosCarrito) {
         
         super(id, esVigente);
         
@@ -39,22 +40,22 @@ public class CarritoComprasIdsRelacionesDTO extends CarritoComprasDTO{
     }
     
 
-    public void setIdPaqueteria(Long idPaqueteria){
+    public void setIdPaqueteria(IdEntidadGenerico idPaqueteria){
         this.idPaqueteria = idPaqueteria;
     }
 
     @Override
-    public Long getIdCliente() {
+    public IdEntidadGenerico getIdCliente() {
         return idCliente;
     }
 
     @Override
-    public Long getIdPaqueteria() {
+    public IdEntidadGenerico getIdPaqueteria() {
         return idPaqueteria;
     }
 
     @Override
-    public List<Long> getIdsProductosCarrito() {
+    public List<IdEntidadGenerico> getIdsProductosCarrito() {
         return idsProductosCarrito;
     }
     

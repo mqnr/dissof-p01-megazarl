@@ -1,5 +1,7 @@
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+
 /**
  * PaqueteriaDatosCompletosRelacionesDTO.java
 
@@ -17,15 +19,15 @@ package edu.student.itson.dissof.dto.datos;
 public class PaqueteriaIdsRelacionesDTO extends PaqueteriaDTO{
 
     
-    private Long idDireccionDTO;
+    private IdEntidadGenerico idDireccionDTO;
 
     public PaqueteriaIdsRelacionesDTO(
-            Long id,
+            IdEntidadGenerico id,
             String nombre,
             Float cobroKg, 
             Float cobroHora, 
             String direccionImagenPaqueteria,
-            Long idDireccionDTO) {
+            IdEntidadGenerico idDireccionDTO) {
         
         super(
             id,
@@ -38,7 +40,7 @@ public class PaqueteriaIdsRelacionesDTO extends PaqueteriaDTO{
     }
 
     @Override
-    public Long getIdDireccion() {
+    public IdEntidadGenerico getIdDireccion() {
         return idDireccionDTO;
     }
 }

@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+
 /**
  * IdProductoInventarioDTO.java
  *
@@ -21,23 +23,23 @@ package edu.student.itson.dissof.dto.datos;
 public class IdProductoInventarioDTO {
     
     /**
-     * Objeto Long que representa el ID del producto en inventario.
+     * Objeto IdEntidadGenerico que representa el ID del producto en inventario.
      */
-    private Long idProductoInventario;
+    private IdEntidadGenerico idProductoInventario;
 
     /**
      * Constructor de la clase que recibe el ID del producto en inventario.
      * @param idProductoInventario Objeto Long que representa el ID del producto en inventario.
      */
-    public IdProductoInventarioDTO(Long idProductoInventario) {
+    public IdProductoInventarioDTO(IdEntidadGenerico idProductoInventario) {
         this.idProductoInventario = idProductoInventario;
     }
 
     /**
      * Método que permite obtener el ID del producto en inventario.
-     * @return Objeto Long que representa el ID del producto en inventario.
+     * @return Objeto IdEntidadGenerico que representa el ID del producto en inventario.
      */
-    public Long getIdProductoInventario() {
+    public IdEntidadGenerico getIdProductoInventario() {
         return idProductoInventario;
     }
 }

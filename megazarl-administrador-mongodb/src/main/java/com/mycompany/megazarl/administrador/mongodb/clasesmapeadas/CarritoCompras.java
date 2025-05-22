@@ -1,6 +1,7 @@
 
 package com.mycompany.megazarl.administrador.mongodb.clasesmapeadas;
 
+import java.util.List;
 import org.bson.types.ObjectId;
 
 
@@ -8,15 +9,15 @@ public class CarritoCompras {
     
     private ObjectId id;
     
-    private Long idLong;
-    
     private Boolean esVigente;
     
-    private Cliente cliente;
+    private ObjectId cliente;
     
-    private Paqueteria paqueteria;
+    private ObjectId paqueteria;
+    
+    private List<ProductoCarrito> productoCarrito;
 
-    public CarritoCompras(Boolean esVigente, Cliente cliente, Paqueteria paqueteria) {
+    public CarritoCompras(Boolean esVigente, ObjectId cliente, ObjectId paqueteria) {
         this.esVigente = esVigente;
         this.cliente = cliente;
         this.paqueteria = paqueteria;
@@ -32,14 +33,6 @@ public class CarritoCompras {
     public void setId(ObjectId id) {
         this.id = id;
     }
-
-    public Long getIdLong() {
-        return idLong;
-    }
-
-    public void setIdLong(Long idLong) {
-        this.idLong = idLong;
-    }
     
     public Boolean getEsVigente() {
         return esVigente;
@@ -49,21 +42,31 @@ public class CarritoCompras {
         this.esVigente = esVigente;
     }
 
-    public Cliente getCliente() {
+    public ObjectId getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(ObjectId cliente) {
         this.cliente = cliente;
     }
 
-    public Paqueteria getPaqueteria() {
+    public ObjectId getPaqueteria() {
         return paqueteria;
     }
 
-    public void setPaqueteria(Paqueteria paqueteria) {
+    public void setPaqueteria(ObjectId paqueteria) {
         this.paqueteria = paqueteria;
     }
+
+    public List<ProductoCarrito> getProductoCarrito() {
+        return productoCarrito;
+    }
+
+    public void setProductoCarrito(List<ProductoCarrito> productoCarrito) {
+        this.productoCarrito = productoCarrito;
+    }
+    
+    
     
     
     

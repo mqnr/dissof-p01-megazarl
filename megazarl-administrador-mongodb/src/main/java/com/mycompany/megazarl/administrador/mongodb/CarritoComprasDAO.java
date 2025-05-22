@@ -7,6 +7,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mycompany.megazarl.administrador.mongodb.clasesmapeadas.CarritoCompras;
 import com.mycompany.megazarl.administrador.mongodb.excepciones.AgregarInformacionNulaException;
 import com.mycompany.megazarl.administrador.mongodb.excepciones.FormatoInvalidoIdConversionException;
+import com.mycompany.megazarl.administrador.mongodb.excepciones.RegistroInexistenteException;
 import com.mycompany.megazarl.administrador.mongodb.excepciones.RegistroMismoIdExisteException;
 import com.mycompany.megazarl.administrador.mongodb.manejadorconexiones.ManejadorConexiones;
 import com.mycompany.megazarl.administrador.mongodb.utils.ConversorIds;
@@ -54,71 +55,104 @@ public class CarritoComprasDAO {
     public void actualizar(){
         
     }
-    
-    public void agregar(CarritoComprasIdsRelacionesDTO carritoComprasIdsRelacionesDTO) throws AgregarInformacionNulaException, FormatoInvalidoIdConversionException, RegistroMismoIdExisteException{
-        
-        if(carritoComprasIdsRelacionesDTO == null){
-            throw new AgregarInformacionNulaException(String.format(MENSAJE_DTO_AGREGAR_NULO_EXCEPCION, NOMBRE_ENTIDAD_CARRITO_COMPRAS));
+   
+    public void agregar(CarritoComprasIdsRelacionesDTO nuevoCarrito) 
+    throws AgregarInformacionNulaException, 
+           FormatoInvalidoIdConversionException, 
+           RegistroMismoIdExisteException, 
+           RegistroInexistenteException {
+
+        // Validaciones iniciales (nulo y campos obligatorios)
+        if (nuevoCarrito == null) {
+            throw new AgregarInformacionNulaException(
+                String.format(MENSAJE_DTO_AGREGAR_NULO_EXCEPCION, NOMBRE_ENTIDAD_CARRITO_COMPRAS));
         }
-        
-        if(carritoComprasIdsRelacionesDTO.getId() == null){
-            throw new AgregarInformacionNulaException(String.format(
-                    MENSAJE_PARAMETRO_AGREGAR_NULO_EXCEPCION, 
-                    "id", 
-                    NOMBRE_ENTIDAD_CARRITO_COMPRAS));
+
+        if (nuevoCarrito.getId() == null) {
+            throw new AgregarInformacionNulaException(
+                String.format(MENSAJE_PARAMETRO_AGREGAR_NULO_EXCEPCION, "id", NOMBRE_ENTIDAD_CARRITO_COMPRAS));
         }
-        
-        if(carritoComprasIdsRelacionesDTO.getEsVigente() == null){
-            throw new AgregarInformacionNulaException(String.format(
-                    MENSAJE_PARAMETRO_AGREGAR_NULO_EXCEPCION, 
-                    "esVigente",
-                    NOMBRE_ENTIDAD_CARRITO_COMPRAS));
+
+        if (nuevoCarrito.getEsVigente() == null) {
+            throw new AgregarInformacionNulaException(
+                String.format(MENSAJE_PARAMETRO_AGREGAR_NULO_EXCEPCION, "esVigente", NOMBRE_ENTIDAD_CARRITO_COMPRAS));
         }
-        
-        if(carritoComprasIdsRelacionesDTO.getIdCliente() == null){
-            throw new AgregarInformacionNulaException(String.format(
-                    MENSAJE_PARAMETRO_AGREGAR_NULO_EXCEPCION, 
-                    "idCliente",
-                    NOMBRE_ENTIDAD_CARRITO_COMPRAS));
+
+        if (nuevoCarrito.getIdCliente() == null) {
+            throw new AgregarInformacionNulaException(
+                String.format(MENSAJE_PARAMETRO_AGREGAR_NULO_EXCEPCION, "idCliente", NOMBRE_ENTIDAD_CARRITO_COMPRAS));
         }
-        
+
         MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
-        
-//        MongoCollection<CarritoCompras> coleccion = baseDatos.getCollection(COLECCION, CarritoCompras.class);
-//        
-//        Document filtrosBusquedaCarrito = new Document();
-//        
-//        String idHexadecimal = ConversorIds.convertirIdLongAHex(carritoComprasIdsRelacionesDTO.getId());
-//        
-//        filtrosBusquedaCarrito.append(CAMPO_ID, new ObjectId(idHexadecimal));
-//        
-//        coleccion.find(filtrosBusquedaCarrito);
+
+        // Validar formato del ID del carrito (si es ObjectId)
+        String idNuevoCarrito = (String) nuevoCarrito.getId().getId();
+        ObjectId idCarritoObjectId;
+        try {
+            idCarritoObjectId = new ObjectId(idNuevoCarrito); // Convierte String a ObjectId
+        } catch (IllegalArgumentException e) {
+            throw new FormatoInvalidoIdConversionException("Formato de ID inválido para carrito.");
+        }
+
+        // Validar existencia del ID en carritos
+        MongoCollection<CarritoCompras> carritosCollection = baseDatos.getCollection(
+            COLECCION_CARRITOS_COMPRA, 
+            CarritoCompras.class
+        );
+
+        Document filtroCarrito = new Document(CAMPO_ID, idCarritoObjectId); // Usa ObjectId
+
+        if (carritosCollection.find(filtroCarrito).first() != null) {
+            throw new RegistroMismoIdExisteException(
+                String.format(MENSAJE_REGISTRO_EXISTENTE_EXCEPCION, NOMBRE_ENTIDAD_CARRITO_COMPRAS, CAMPO_ID));
+        }
+
+        // Validar existencia del cliente (usando ObjectId)
+        String idClienteString = (String) nuevoCarrito.getIdCliente().getId();
+        ObjectId idClienteObjectId;
+        try {
+            idClienteObjectId = new ObjectId(idClienteString);
+        } catch (IllegalArgumentException e) {
+            throw new FormatoInvalidoIdConversionException("Formato de ID de cliente inválido.");
+        }
+
+        MongoCollection<Document> clientesCollection = baseDatos.getCollection(COLECCION_CLIENTES);
+        Document filtroCliente = new Document(CAMPO_ID, idClienteObjectId);
+
+        if (clientesCollection.find(filtroCliente).first() == null) {
+            throw new RegistroInexistenteException(
+                String.format(MENSAJE_REGISTRO_INEXISTENTE_EXCEPCION, NOMBRE_ENTIDAD_CLIENTE, nuevoCarrito.getIdCliente()));
+        }
+
+        // Validar paquetería si existe
+        ObjectId idPaqueteriaObjectId = null;
+        if (nuevoCarrito.getIdPaqueteria() != null) {
+            String idPaqueteriaString = (String) nuevoCarrito.getIdPaqueteria().getId();
+            try {
+                idPaqueteriaObjectId = new ObjectId(idPaqueteriaString);
+            } catch (IllegalArgumentException e) {
+                throw new FormatoInvalidoIdConversionException("Formato de ID de paquetería inválido.");
+            }
+
+            MongoCollection<Document> paqueteriasCollection = baseDatos.getCollection(COLECCION_PAQUETERIAS);
+            Document filtroPaqueteria = new Document(CAMPO_ID, idPaqueteriaObjectId);
+
+            if (paqueteriasCollection.find(filtroPaqueteria).first() == null) {
+                throw new RegistroInexistenteException(
+                    String.format(MENSAJE_REGISTRO_INEXISTENTE_EXCEPCION, NOMBRE_ENTIDAD_PAQUETERIA, nuevoCarrito.getIdPaqueteria()));
+            }
+        }
+
+//        // Crear y guardar nuevo carrito con _id correcto
+//        CarritoCompras carrito = new CarritoCompras(
+//            idCarritoObjectId, // Asigna el ObjectId como _id
+//            nuevoCarrito.getEsVigente(),
+//            idClienteObjectId.toString(), // Convierte a String si es necesario
+//            idPaqueteriaObjectId != null ? idPaqueteriaObjectId.toString() : null
+//        );
 //
-//        FindIterable<CarritoCompras> resultados = coleccion.find(filtrosBusquedaCarrito);
-//        
-//        CarritoCompras carritoCompras = resultados.first();
-//        
-//        if(carritoCompras != null){
-//            throw new RegistroMismoIdExisteException(String.format(MENSAJE_REGISTRO_EXISTENTE_EXCEPCION, NOMBRE_ENTIDAD_CARRITO_COMPRAS, CAMPO_ID));
-//        }
-//        
-//        // Recuperación de cliente asociado
-//        
-//        // Recuperacion de paqueteria asociada
-//        
-        
-        
-        
-//        
-//        CarritoCompras nuevoCarritoCompras = new CarritoCompras(
-//                carritoComprasIdsRelacionesDTO.getEsVigente(),
-//                carritoComprasIdsRelacionesDTO,
-//                null);
-//        
-//        // Tipo Document - Objeto JSON - Es como un hashMap
-//        coleccion.insertOne(nuevoCarritoCompras);
-        
+//        carritosCollection.insertOne(carrito); // Inserta el objeto correcto
     }
-    
+
     
 }

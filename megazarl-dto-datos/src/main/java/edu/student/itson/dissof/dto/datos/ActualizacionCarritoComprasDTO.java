@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+
 
 /**
  * Clase DTO que contiene la información necesaria para actualizar un carrito de 
@@ -23,7 +25,7 @@ public class ActualizacionCarritoComprasDTO {
     /**
      * Objeto Long que representa el ID del carrito de compras a actualizar.
      */
-    private Long id;
+    private IdEntidadGenerico id;
     
     private Boolean esVigente;
     
@@ -31,13 +33,13 @@ public class ActualizacionCarritoComprasDTO {
      * Objeto PaqueteriaDTO que representa la nueva paquetería del carrito de
      * compras.
      */
-    private Long idPaqueteria;
+    private IdEntidadGenerico idPaqueteria;
 
     /**
      * Constructor de la clase que recibe el ID del carrito de compras a actualizar.
      * @param id Objeto Long que representa el ID del carrito de compras a actualizar.
      */
-    public ActualizacionCarritoComprasDTO(Long id) {
+    public ActualizacionCarritoComprasDTO(IdEntidadGenerico id) {
         this.id = id;
     }
 
@@ -45,7 +47,7 @@ public class ActualizacionCarritoComprasDTO {
      * Método que permite obtener el ID del carrito de compras a actualizar.
      * @return Objeto Long que representa el ID del carrito de compras a actualizar.
      */
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
 
@@ -54,7 +56,7 @@ public class ActualizacionCarritoComprasDTO {
      * @return Objeto PaqueteriaDTO que representa la nueva paquetería del carrito de
      * compras.
      */
-    public Long getIdPaqueteria() {
+    public IdEntidadGenerico getIdPaqueteria() {
         return idPaqueteria;
     }
 
@@ -64,7 +66,7 @@ public class ActualizacionCarritoComprasDTO {
      * @param idPaqueteria Objeto Long que representa la nueva paquetería del carrito de
      * compras.
      */
-    public void setIdPaqueteria(Long idPaqueteria) {
+    public void setIdPaqueteria(IdEntidadGenerico idPaqueteria) {
         this.idPaqueteria = idPaqueteria;
     }
 

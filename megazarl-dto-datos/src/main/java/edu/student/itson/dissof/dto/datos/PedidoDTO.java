@@ -2,6 +2,7 @@
 package edu.student.itson.dissof.dto.datos;
 
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -27,9 +28,9 @@ import java.util.Objects;
 public abstract class PedidoDTO {
 
     /**
-     * Objeto Long que representa el ID del pedido.
+     * Objeto IdEntidadGenerico que representa el ID del pedido.
      */
-    private Long id;
+    private IdEntidadGenerico id;
 
     
     /**
@@ -39,12 +40,12 @@ public abstract class PedidoDTO {
 
     /**
      * Constructor que permite instanciar un objeto de tipo PedidoDTO.
-     * @param id                      Objeto Long que representa el ID del pedido.
+     * @param id                      Objeto IdEntidadGenerico que representa el ID del pedido.
      *                                que representa los productos en inventario requeridos por el pedido.
      * @param estado                  Objeto EstadoPedido que representa el estado actual del pedido
      */
     public PedidoDTO(
-            Long id, 
+            IdEntidadGenerico id, 
             String estado) {
         
         this.id = id;
@@ -53,7 +54,7 @@ public abstract class PedidoDTO {
     
     /**
      * Constructor que permite instanciar un objeto de tipo PedidoDTO.
-     * @param estado                  Objeto EstadoPedido que representa el estado actual del pedido.
+     * @param estado Objeto EstadoPedido que representa el estado actual del pedido.
      */
     public PedidoDTO(String estado) {
         
@@ -62,17 +63,17 @@ public abstract class PedidoDTO {
 
     /**
      * Método que permite establecer el id del pedido.
-     * @param id Objeto Long que representa el ID del pedido.
+     * @param id Objeto IdEntidadGenerico que representa el ID del pedido.
      */
-    public void setId(Long id) {
+    public void setId(IdEntidadGenerico id) {
         this.id = id;
     }
     
     /**
      * Método que permite obtener el ID del pedido.
-     * @return Objeto Long que representa el ID del pedido.
+     * @return Objeto IdEntidadGenerico que representa el ID del pedido.
      */
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
 
@@ -89,13 +90,13 @@ public abstract class PedidoDTO {
      * Método que permite obtener el ID del cliente que realiza el pedido.
      * @return Objeto Long que representa el ID del cliente que realiza el pedido.
      */
-    public abstract Long getIdCliente();
+    public abstract IdEntidadGenerico getIdCliente();
 
-    public abstract Long getIdPaqueteria();
+    public abstract IdEntidadGenerico getIdPaqueteria();
     
-    public abstract List<Long> getIdsProductosPedido();
+    public abstract List<IdEntidadGenerico> getIdsProductosPedido();
     
-    public abstract void setIdCliente(Long idClienteDTO);
+    public abstract void setIdCliente(IdEntidadGenerico idClienteDTO);
     
     
     

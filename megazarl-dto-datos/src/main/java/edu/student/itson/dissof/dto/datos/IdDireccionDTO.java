@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+
 /**
  * IdDireccionDTO.java
  *
@@ -20,23 +22,23 @@ package edu.student.itson.dissof.dto.datos;
  */
 public class IdDireccionDTO {
     /**
-     * Objeto Long que representa el ID de la dirección.
+     * Objeto IdEntidadGenerico que representa el ID de la dirección.
      */
-    private Long idDireccion;
+    private IdEntidadGenerico idDireccion;
 
     /**
      * Consutructor de la clase que recibe el ID de la dirección.
-     * @param idDireccion Objeto Long que representa el ID de la dirección.
+     * @param idDireccion Objeto IdEntidadGenerico que representa el ID de la dirección.
      */
-    public IdDireccionDTO(Long idDireccion) {
+    public IdDireccionDTO(IdEntidadGenerico idDireccion) {
         this.idDireccion = idDireccion;
     }
 
     /**
      * Método que permite obtener el ID de la dirección.
-     * @return Objeto Long que representa el ID de la dirección.
+     * @return Objeto IdEntidadGenerico que representa el ID de la dirección.
      */
-    public Long getIdDireccion() {
+    public IdEntidadGenerico getIdDireccion() {
         return idDireccion;
     }
     

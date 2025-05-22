@@ -1,6 +1,7 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
 import java.util.List;
 
 /**
@@ -25,9 +26,9 @@ import java.util.List;
 public abstract class ProveedorDTO {
 
     /**
-     * Objeto Long que representa el ID del proveedor.
+     * Objeto IdEntidadGenerico que representa el ID del proveedor.
      */
-    private Long id;
+    private IdEntidadGenerico id;
 
     /**
      * Objeto String que representa el nombre del proveedor.
@@ -52,7 +53,7 @@ public abstract class ProveedorDTO {
 
     /**
      * Constructor que permite instanciar un objeto de tipo ProveedorDTO
-     * @param id                        Objeto Long que representa el ID del proveedor.
+     * @param id                        Objeto IdEntidadGenerico que representa el ID del proveedor.
      * @param nombre                    Objeto String que representa el nombre del proveedor.
      * @param telefono                  Objeto String que representa el teléfono del proveedor.
      * @param correoElectronico         Objeto String que representa el correo electrónico del proveedor.
@@ -60,7 +61,7 @@ public abstract class ProveedorDTO {
      * 
     */
     public ProveedorDTO(
-            Long id, 
+            IdEntidadGenerico id, 
             String nombre,
             String telefono,
             String correoElectronico,
@@ -97,7 +98,7 @@ public abstract class ProveedorDTO {
      * Método que permite obtener el ID del proveedor.
      * @return Objeto Long que representa el ID del proveedor.
      */
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
 
@@ -134,16 +135,16 @@ public abstract class ProveedorDTO {
     }
 
 
-    public abstract List<Long> getListaIdsProductosOfrecidos();
+    public abstract List<IdEntidadGenerico> getListaIdsProductosOfrecidos();
 
 
-    public abstract Long getIdDireccion();
+    public abstract IdEntidadGenerico getIdDireccion();
     
     /**
      * Métdo que permite establecer el ID del proveedor.
      * @param id Objeto Long que representa el ID del proveedor.
      */
-    public void setId(Long id) {
+    public void setId(IdEntidadGenerico id) {
         this.id = id;
     }
     

@@ -1,6 +1,7 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
 import java.util.List;
 
 /**
@@ -27,21 +28,21 @@ public abstract class CarritoComprasDTO {
     /**
      * Objeto Long que representa el ID del carrito de compras.
      */
-    private Long id;
+    private IdEntidadGenerico id;
     
     private Boolean esVigente;
 
 
 
     public CarritoComprasDTO(
-            Long id,
+            IdEntidadGenerico id,
             Boolean esVigente) {
         
         this.id = id;
         this.esVigente = esVigente;
     }
     
-    public CarritoComprasDTO(Long id) {  
+    public CarritoComprasDTO(IdEntidadGenerico id) {  
         this.id = id;
     }
     
@@ -54,7 +55,7 @@ public abstract class CarritoComprasDTO {
      * Método que permite establecer el id del carrito de compras.
      * @param id Objeto Long que representa el nuevo ID del carrito de compras.
      */
-    public void setId(Long id) {
+    public void setId(IdEntidadGenerico id) {
         this.id = id;
     }
     
@@ -62,7 +63,7 @@ public abstract class CarritoComprasDTO {
      * Método que permite obtener el id del carrito de compras.
      * @return Objeto Long que representa el ID del carrito de compras.
      */
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
 
@@ -78,19 +79,19 @@ public abstract class CarritoComprasDTO {
      * Método que permite obtener el cliente asociado a este carrito de compras.
      * @return Objeto ClienteDTO que representa el cliente asociado a este carrito de compras.
      */
-    public abstract Long getIdCliente();
+    public abstract IdEntidadGenerico getIdCliente();
 
     /**
      * Método que permite obtener la paquetería asociada a este carrito de compras.
      * @return Objeto PaqueteriaDTO que representa la paquetería asociada a este carrito de compras.
      */
-    public abstract Long getIdPaqueteria();
+    public abstract IdEntidadGenerico getIdPaqueteria();
 
     /**
      * Método que permite obtener el objeto {@literal List<ProductoCarritoDTO>} que representa los productos dentro de este carrito.
      * @return Objeto {@literal List<ProductoCarritoDTO>} que representa los productos dentro de este carrito.
      */
-    public abstract List<Long> getIdsProductosCarrito();
+    public abstract List<IdEntidadGenerico> getIdsProductosCarrito();
 
     /**
      * Método que permite obtener el hash code del carrito de compras, a partir de su ID.

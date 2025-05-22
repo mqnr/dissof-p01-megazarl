@@ -9,8 +9,6 @@ public class Pedido {
     
     private ObjectId id;
     
-    private Long idLong;
-    
     private Cliente cliente;
     
     private List<ProductoPedido> productosPedido;
@@ -26,14 +24,6 @@ public class Pedido {
 
     public void setId(ObjectId id) {
         this.id = id;
-    }
-
-    public Long getIdLong() {
-        return idLong;
-    }
-
-    public void setIdLong(Long idLong) {
-        this.idLong = idLong;
     }
 
     public Cliente getCliente() {

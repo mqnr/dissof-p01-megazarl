@@ -10,9 +10,7 @@ import org.bson.types.ObjectId;
 public class Direccion {
     
     private ObjectId id;
-    
-    private Long idLong;
-    
+
     private String codigoPostal;
     
     private String colonia;
@@ -37,16 +35,6 @@ public class Direccion {
     public void setId(ObjectId id) {
         this.id = id;
     }
-
-    public Long getIdLong() {
-        return idLong;
-    }
-
-    public void setIdLong(Long idLong) {
-        this.idLong = idLong;
-    }
-    
-    
 
     public String getCodigoPostal() {
         return codigoPostal;

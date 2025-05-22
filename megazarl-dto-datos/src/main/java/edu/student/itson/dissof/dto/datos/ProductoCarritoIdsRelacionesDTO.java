@@ -1,22 +1,24 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+
 
 public class ProductoCarritoIdsRelacionesDTO extends ProductoCarritoDTO{
 
 
-    private Long idCarritoCompras;
+    private IdEntidadGenerico idCarritoCompras;
     
     /**
      * Objeto ProductoDTO que representa el producto dentro del carrito.
      */
-    private Long idProducto;
+    private IdEntidadGenerico idProducto;
 
     public ProductoCarritoIdsRelacionesDTO(
-            Long id, 
+            IdEntidadGenerico id, 
             Integer cantidad,
-            Long idCarritoCompras,
-            Long idProducto) {
+            IdEntidadGenerico idCarritoCompras,
+            IdEntidadGenerico idProducto) {
         
         super(
             id,
@@ -29,8 +31,8 @@ public class ProductoCarritoIdsRelacionesDTO extends ProductoCarritoDTO{
     
     public ProductoCarritoIdsRelacionesDTO(
             Integer cantidad,
-            Long idCarritoCompras,
-            Long idProducto) {
+            IdEntidadGenerico idCarritoCompras,
+            IdEntidadGenerico idProducto) {
         
         super(
             cantidad);
@@ -42,12 +44,12 @@ public class ProductoCarritoIdsRelacionesDTO extends ProductoCarritoDTO{
 
 
     @Override
-    public Long getIdCarritoCompras() {
+    public IdEntidadGenerico getIdCarritoCompras() {
         return idCarritoCompras;
     }
 
     @Override
-    public Long getIdProducto() {
+    public IdEntidadGenerico getIdProducto() {
         return idProducto;
     }
 

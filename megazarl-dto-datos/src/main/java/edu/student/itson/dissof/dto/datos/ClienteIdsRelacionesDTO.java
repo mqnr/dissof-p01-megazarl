@@ -1,6 +1,7 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,19 +9,19 @@ import java.util.List;
 public class ClienteIdsRelacionesDTO extends ClienteDTO {
     
 
-    private Long idDireccionEnvio;
+    private IdEntidadGenerico idDireccionEnvio;
 
-    private List<Long> idsCarritosCompras = new LinkedList<>();
+    private List<IdEntidadGenerico> idsCarritosCompras = new LinkedList<>();
 
     public ClienteIdsRelacionesDTO(
-            Long id,
+            IdEntidadGenerico id,
             String nombres,
             String apellidoPaterno,
             String apellidoMaterno,
             String telefono,
             String correoElectronico,
-            Long idDireccionEnvio,
-            List<Long> idsCarritosCompras) {
+            IdEntidadGenerico idDireccionEnvio,
+            List<IdEntidadGenerico> idsCarritosCompras) {
         
         super(
             id,
@@ -41,8 +42,8 @@ public class ClienteIdsRelacionesDTO extends ClienteDTO {
             String apellidoMaterno,
             String telefono,
             String correoElectronico,
-            Long idDireccionEnvio,
-            List<Long> idsCarritosCompras) {
+            IdEntidadGenerico idDireccionEnvio,
+            List<IdEntidadGenerico> idsCarritosCompras) {
         
         super(
             nombres,
@@ -62,7 +63,7 @@ public class ClienteIdsRelacionesDTO extends ClienteDTO {
             String apellidoMaterno,
             String telefono,
             String correoElectronico,
-            List<Long> idsCarritosCompras) {
+            List<IdEntidadGenerico> idsCarritosCompras) {
         
         super(
             nombres,
@@ -76,12 +77,12 @@ public class ClienteIdsRelacionesDTO extends ClienteDTO {
     }
 
     @Override
-    public Long getIdDireccionEnvio() {
+    public IdEntidadGenerico getIdDireccionEnvio() {
         return idDireccionEnvio;
     }
 
     @Override
-    public List<Long> getIdsCarritosCompras() {
+    public List<IdEntidadGenerico> getIdsCarritosCompras() {
         
         return idsCarritosCompras;
         

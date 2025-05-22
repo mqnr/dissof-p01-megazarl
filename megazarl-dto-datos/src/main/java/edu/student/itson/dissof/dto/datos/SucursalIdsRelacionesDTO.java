@@ -1,19 +1,20 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
 import java.util.List;
 
 
 public class SucursalIdsRelacionesDTO extends SucursalDTO{
 
-    private List<Long> idsProductoInventario;
+    private List<IdEntidadGenerico> idsProductoInventario;
     
-    private Long idDireccion;
+    private IdEntidadGenerico idDireccion;
     
     public SucursalIdsRelacionesDTO(
-            Long id,
+            IdEntidadGenerico id,
             Boolean esMatriz,
-            Long idDireccion) {
+            IdEntidadGenerico idDireccion) {
         
         super(
               id,
@@ -24,7 +25,7 @@ public class SucursalIdsRelacionesDTO extends SucursalDTO{
     
     public SucursalIdsRelacionesDTO(
             Boolean esMatriz,
-            Long idDireccion) {
+            IdEntidadGenerico idDireccion) {
         
         super(
               esMatriz);
@@ -33,12 +34,12 @@ public class SucursalIdsRelacionesDTO extends SucursalDTO{
     }
 
     @Override
-    public Long getIdDireccion() {
+    public IdEntidadGenerico getIdDireccion() {
         return idDireccion;
     }
 
     @Override
-    public List<Long> getIdsProductosInventario() {
+    public List<IdEntidadGenerico> getIdsProductosInventario() {
         return idsProductoInventario;
     }
 }

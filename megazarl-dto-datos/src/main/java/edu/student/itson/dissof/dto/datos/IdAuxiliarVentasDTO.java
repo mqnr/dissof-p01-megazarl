@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+
 /**
  *  
  * IdAuxiliarVentasDTO.java
@@ -16,21 +18,21 @@ public class IdAuxiliarVentasDTO {
     /**
      * Objeto Long que representa el ID del Auxiliar de ventas.
      */
-    private Long idAuxiliarVentas;
+    private IdEntidadGenerico idAuxiliarVentas;
 
     /**
      * Constructor de la clase que recibe el valor para el ID.
-     * @param idAuxiliarVentas Objeto Long que representa el ID del Auxiliar de ventas.
+     * @param idAuxiliarVentas Objeto IdEntidadGenerico que representa el ID del Auxiliar de ventas.
      */
-    public IdAuxiliarVentasDTO(Long idAuxiliarVentas) {
+    public IdAuxiliarVentasDTO(IdEntidadGenerico idAuxiliarVentas) {
         this.idAuxiliarVentas = idAuxiliarVentas;
     }
 
     /**
      * Método que permite obtener el ID del Auxiliar de ventas.
-     * @return Objeto Long que representa el ID del Auxiliar de ventas.
+     * @return Objeto IdEntidadGenerico que representa el ID del Auxiliar de ventas.
      */
-    public Long getIdAuxiliarVentas() {
+    public IdEntidadGenerico getIdAuxiliarVentas() {
         return idAuxiliarVentas;
     }
     

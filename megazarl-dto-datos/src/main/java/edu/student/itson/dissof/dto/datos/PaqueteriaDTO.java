@@ -1,5 +1,7 @@
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+
 /**
  * PaqueteriaDTO.java
  *
@@ -21,9 +23,9 @@ package edu.student.itson.dissof.dto.datos;
 public abstract class PaqueteriaDTO {
 
     /**
-     * Objeto Long que representa el ID de la paquetería.
+     * Objeto IdEntidadGenerico que representa el ID de la paquetería.
      */
-    protected Long id;
+    protected IdEntidadGenerico id;
 
     /**
      * Objeto String que representa el nombre de la paquetería.
@@ -58,7 +60,7 @@ public abstract class PaqueteriaDTO {
      * 
      */
     public PaqueteriaDTO(  
-            Long id,
+            IdEntidadGenerico id,
             String nombre, 
             Float cobroKg, 
             Float cobroHora, 
@@ -98,7 +100,7 @@ public abstract class PaqueteriaDTO {
      *
      * @return Objeto Long que representa el id de la paquetería.
      */
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
 
@@ -141,11 +143,11 @@ public abstract class PaqueteriaDTO {
      * Método que permite establecer el ID de la paquetería.
      * @param id Objeto Long que representa el ID de la paquetería.
      */
-    public void setId(Long id) {
+    public void setId(IdEntidadGenerico id) {
         this.id = id;
     }
     
-    public abstract Long getIdDireccion();
+    public abstract IdEntidadGenerico getIdDireccion();
     
     /**
      * Método que permite obtener el hash code de la paquetería, a partir de su ID.

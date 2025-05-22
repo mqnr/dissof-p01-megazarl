@@ -8,8 +8,6 @@ public class Sucursal {
     
     private ObjectId id;
     
-    private Long idLong;
-    
     private Boolean esMatriz;
 
     public Sucursal(ObjectId id, Boolean esMatriz) {
@@ -27,15 +25,6 @@ public class Sucursal {
     public void setId(ObjectId id) {
         this.id = id;
     }
-
-    public Long getIdLong() {
-        return idLong;
-    }
-
-    public void setIdLong(Long idLong) {
-        this.idLong = idLong;
-    }
-    
 
     public Boolean getEsMatriz() {
         return esMatriz;

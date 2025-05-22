@@ -7,9 +7,7 @@ import org.bson.types.ObjectId;
 public class ProductoCarrito {
     
     private ObjectId id;
-    
-    private Long idLong;
-    
+
     private CarritoCompras carritoCompras;
     
     private Producto producto;
@@ -31,14 +29,6 @@ public class ProductoCarrito {
 
     public void setId(ObjectId id) {
         this.id = id;
-    }
-
-    public Long getIdLong() {
-        return idLong;
-    }
-
-    public void setIdLong(Long idLong) {
-        this.idLong = idLong;
     }
 
     public CarritoCompras getCarritoCompras() {

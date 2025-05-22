@@ -1,6 +1,7 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
 import java.util.Objects;
 
 /**
@@ -25,9 +26,9 @@ import java.util.Objects;
 public abstract class ProductoInventarioDTO {
 
     /**
-     * Objeto Long que representa el id del producto en inventario
+     * Objeto IdEntidadGenerico que representa el id del producto en inventario
      */
-    private Long id;
+    private IdEntidadGenerico id;
     
     private Boolean apartado;
 
@@ -35,14 +36,14 @@ public abstract class ProductoInventarioDTO {
      * Método que permite obtener el id del producto en inventario
      * @return Objeto Integer que representa el id del producto en inventario
      */
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
     
     public ProductoInventarioDTO(){
     }
     
-    public ProductoInventarioDTO(Long id, Boolean apartado){
+    public ProductoInventarioDTO(IdEntidadGenerico id, Boolean apartado){
         this.id = id;
         this.apartado = apartado;
     }
@@ -51,15 +52,15 @@ public abstract class ProductoInventarioDTO {
         this.apartado = apartado;
     }
 
-    public abstract Long getIdProducto();
+    public abstract IdEntidadGenerico getIdProducto();
 
-    public abstract Long getIdSucursal();
+    public abstract IdEntidadGenerico getIdSucursal();
 
     /**
      * Mètodo que permite establecer el ID del producto en inventario.
-     * @param id Objeto Long que representa el ID del producto en inventario.
+     * @param id Objeto IdEntidadGenerico que representa el ID del producto en inventario.
      */
-    public void setId(Long id) {
+    public void setId(IdEntidadGenerico id) {
         this.id = id;
     }
 

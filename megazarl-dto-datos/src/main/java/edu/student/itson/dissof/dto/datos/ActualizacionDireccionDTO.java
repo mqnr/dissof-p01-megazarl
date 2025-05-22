@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+
 /**
  * IdProductoDTO.java
  *
@@ -23,7 +25,7 @@ public class ActualizacionDireccionDTO {
     /**
      * Objeto Long que representa el ID de la dirección.
      */
-    private Long id;
+    private IdEntidadGenerico id;
     
     /**
      * Objeto String que representa el estado de la dirección.
@@ -57,7 +59,7 @@ public class ActualizacionDireccionDTO {
 
     /**
      * Constructor de la clase que recibe los datos necesarios para actualizar una dirección.
-     * @param id            Objeto Long que representa el ID de la dirección.
+     * @param id            Objeto IdEntidadGenerico que representa el ID de la dirección.
      * @param estado        Objeto String que representa el estado de la dirección.
      * @param ciudad        Objeto String que representa la ciudad de la dirección.
      * @param codigoPostal  Objeto String que representa el Código Postal de la dirección.
@@ -65,7 +67,7 @@ public class ActualizacionDireccionDTO {
      * @param calle         Objeto String que representa la calle de la dirección.
      * @param numero        Objeto String que representa el número de la dirección.
      */
-    public ActualizacionDireccionDTO(Long id, String estado, String ciudad, String codigoPostal, String colonia, String calle, String numero) {
+    public ActualizacionDireccionDTO(IdEntidadGenerico id, String estado, String ciudad, String codigoPostal, String colonia, String calle, String numero) {
         this.id = id;
         this.estado = estado;
         this.ciudad = ciudad;
@@ -79,7 +81,7 @@ public class ActualizacionDireccionDTO {
      * Método que permite obtener el ID de la dirección.
      * @return Objeto Long que representa el ID de la dirección.
      */
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
 

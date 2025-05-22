@@ -1,5 +1,6 @@
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +28,7 @@ public abstract class ClienteDTO{
     /**
      * Objeto Long que representa el ID del cliente.
      */
-    private Long id;
+    private IdEntidadGenerico id;
     
     /**
      * Objeto String que representa los nombres del cliente.
@@ -65,7 +66,7 @@ public abstract class ClienteDTO{
      * @param correoElectronico     Objeto String que representa el correo electrónico del cliente.
      */
     public ClienteDTO(
-            Long id,
+            IdEntidadGenerico id,
             String nombres,
             String apellidoPaterno, 
             String apellidoMaterno,
@@ -102,9 +103,9 @@ public abstract class ClienteDTO{
 
     /**
      * Métdo que permit obtener el ID del cliente.
-     * @return Objeto Long que representa el ID del cliente.
+     * @return Objeto IdEntidadGenerico que representa el ID del cliente.
      */
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
 
@@ -148,15 +149,15 @@ public abstract class ClienteDTO{
         return correoElectronico;
     }
 
-    public abstract Long getIdDireccionEnvio();
+    public abstract IdEntidadGenerico getIdDireccionEnvio();
 
-    public abstract List<Long> getIdsCarritosCompras();
+    public abstract List<IdEntidadGenerico> getIdsCarritosCompras();
 
     /**
      * Mètodo que permite establecer el ID del cliente.
      * @param id Objeto Long que representa el ID del cliente.
      */
-    public void setId(Long id) {
+    public void setId(IdEntidadGenerico id) {
         this.id = id;
     }
 

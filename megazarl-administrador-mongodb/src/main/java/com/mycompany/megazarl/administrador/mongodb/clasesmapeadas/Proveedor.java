@@ -7,10 +7,9 @@ import org.bson.types.ObjectId;
 public class Proveedor {
     
     private ObjectId id;
-    
-    private Long idLong;
-    
+
     private String nombre;
+    
     private String telefono;
     
     private String direccionImagen;

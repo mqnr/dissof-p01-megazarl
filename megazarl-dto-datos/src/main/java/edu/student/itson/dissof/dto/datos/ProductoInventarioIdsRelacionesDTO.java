@@ -1,17 +1,19 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+
 
 public class ProductoInventarioIdsRelacionesDTO extends ProductoInventarioDTO{
 
     
-    private Long idProducto;
+    private IdEntidadGenerico idProducto;
 
-    private Long idSucursal;
+    private IdEntidadGenerico idSucursal;
     
     public ProductoInventarioIdsRelacionesDTO(
-            Long idProducto,
-            Long idSucursal){
+            IdEntidadGenerico idProducto,
+            IdEntidadGenerico idSucursal){
         
         super();
         
@@ -21,12 +23,12 @@ public class ProductoInventarioIdsRelacionesDTO extends ProductoInventarioDTO{
     }
 
     @Override
-    public Long getIdProducto() {
+    public IdEntidadGenerico getIdProducto() {
         return idProducto;
     }
 
     @Override
-    public Long getIdSucursal() {
+    public IdEntidadGenerico getIdSucursal() {
         return idSucursal;
     }
 

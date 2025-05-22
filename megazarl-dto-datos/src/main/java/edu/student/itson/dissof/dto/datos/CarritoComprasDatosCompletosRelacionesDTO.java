@@ -1,6 +1,7 @@
 
 package edu.student.itson.dissof.dto.datos;
 
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class CarritoComprasDatosCompletosRelacionesDTO extends CarritoComprasDTO
     private List<ProductoCarritoDTO> productosCarrito;
 
     public CarritoComprasDatosCompletosRelacionesDTO(
-            Long id,
+            IdEntidadGenerico id,
             Boolean esVigente,
             ClienteDTO cliente,
             PaqueteriaDTO paqueteria,
@@ -37,7 +38,7 @@ public class CarritoComprasDatosCompletosRelacionesDTO extends CarritoComprasDTO
     }
     
     public CarritoComprasDatosCompletosRelacionesDTO(
-            Long id,
+            IdEntidadGenerico id,
             Boolean esVigente,
             ClienteDTO cliente,
             PaqueteriaDTO paqueteria) {
@@ -49,7 +50,7 @@ public class CarritoComprasDatosCompletosRelacionesDTO extends CarritoComprasDTO
     }
     
     public CarritoComprasDatosCompletosRelacionesDTO(
-            Long id,
+            IdEntidadGenerico id,
             Boolean esVigente,
             ClienteDTO cliente,
             List<ProductoCarritoDTO> productosCarrito) {
@@ -78,7 +79,6 @@ public class CarritoComprasDatosCompletosRelacionesDTO extends CarritoComprasDTO
         super(esVigente);
         
         this.cliente = cliente;
-        this.paqueteria = paqueteria;
     }
     
     public CarritoComprasDatosCompletosRelacionesDTO(
@@ -105,19 +105,19 @@ public class CarritoComprasDatosCompletosRelacionesDTO extends CarritoComprasDTO
     }
     
     @Override
-    public Long getIdCliente() {
+    public IdEntidadGenerico getIdCliente() {
         return cliente.getId();
     }
 
     @Override
-    public Long getIdPaqueteria() {
+    public IdEntidadGenerico getIdPaqueteria() {
         return paqueteria.getId();
     }
 
     @Override
-    public List<Long> getIdsProductosCarrito() {
+    public List<IdEntidadGenerico> getIdsProductosCarrito() {
         
-        List<Long> idsProductoCarrito = new LinkedList();
+        List<IdEntidadGenerico> idsProductoCarrito = new LinkedList();
         
         for(ProductoCarritoDTO productoCarritoDTO: productosCarrito){
             idsProductoCarrito.add(productoCarritoDTO.getId());
