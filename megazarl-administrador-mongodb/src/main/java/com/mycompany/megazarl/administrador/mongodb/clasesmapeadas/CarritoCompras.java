@@ -11,16 +11,16 @@ public class CarritoCompras {
     
     private Boolean esVigente;
     
-    private ObjectId cliente;
+    private ObjectId idCliente;
     
-    private ObjectId paqueteria;
+    private ObjectId idPaqueteria;
     
-    private List<ProductoCarrito> productoCarrito;
+    private List<ProductoCarrito> productosCarrito;
 
     public CarritoCompras(Boolean esVigente, ObjectId cliente, ObjectId paqueteria) {
         this.esVigente = esVigente;
-        this.cliente = cliente;
-        this.paqueteria = paqueteria;
+        this.idCliente = cliente;
+        this.idPaqueteria = paqueteria;
     }
 
     public CarritoCompras() {
@@ -42,32 +42,28 @@ public class CarritoCompras {
         this.esVigente = esVigente;
     }
 
-    public ObjectId getCliente() {
-        return cliente;
+    public ObjectId getIdCliente() {
+        return idCliente;
     }
 
-    public void setCliente(ObjectId cliente) {
-        this.cliente = cliente;
+    public void setIdCliente(ObjectId idCliente) {
+        this.idCliente = idCliente;
     }
 
     public ObjectId getPaqueteria() {
-        return paqueteria;
+        return idPaqueteria;
     }
 
-    public void setPaqueteria(ObjectId paqueteria) {
-        this.paqueteria = paqueteria;
+    public void setPaqueteria(ObjectId idPaqueteria) {
+        this.idPaqueteria = idPaqueteria;
     }
 
-    public List<ProductoCarrito> getProductoCarrito() {
-        return productoCarrito;
+    public List<ProductoCarrito> getProductosCarrito() {
+        return productosCarrito;
     }
 
     public void setProductoCarrito(List<ProductoCarrito> productoCarrito) {
-        this.productoCarrito = productoCarrito;
+        this.productosCarrito = productoCarrito;
     }
-    
-    
-    
-    
     
 }

@@ -29,7 +29,6 @@
     <module>megazarl-servicios</module>
     <module>megazarl-administrador-auxiliares-ventas</module>
     <module>megazarl-administrador-gerente-ventas</module>
-    <module>megazarl-administrador-mysql</module>
     <module>megazarl-dto-datos</module>
     <module>megazarl-administrador-mongodb</module>
   </modules>

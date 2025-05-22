@@ -68,6 +68,7 @@ public interface IAdministradorClientes {
      * Postal, Calle y Número de la dirección de envío del Cliente.
      * @throws ClientesIdClienteInvalidoException Se lanza si se comprueba que el ID 
      * del Cliente es inválido, en este subsistema.
+     * @throws ClientesIdDireccionInvalidoException
      */
     public abstract InformacionNoDerivadaCPDireccionDTO obtenerInformacionNoDerivadaCPDireccionEnvio(IdClienteDTO idClienteDTO)
             throws ClientesIdClienteInvalidoException,

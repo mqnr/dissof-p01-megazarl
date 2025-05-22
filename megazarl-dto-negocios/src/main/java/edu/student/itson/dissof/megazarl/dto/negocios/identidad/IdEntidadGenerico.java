@@ -18,6 +18,25 @@ public class IdEntidadGenerico<T> {
     public T getId() {
         return id;
     }
+    
+    public Long getLong() {
+        if (id instanceof Long) {
+            return (Long) id;
+        }
+        try {
+            return Long.valueOf(id.toString());
+        } catch (NumberFormatException e) {
+            throw new IllegalStateException("El ID no se puede convertir a Long: " + id);
+        }
+    }
+
+    public String getString() {
+        if (id instanceof String) {
+            return (String) id;
+        }
+        // Si no es String, se convierte a String utilizando toString()
+        return id.toString();
+    }
 
     @Override
     public int hashCode() {

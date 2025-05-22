@@ -39,6 +39,19 @@ public class CarritoComprasIdsRelacionesDTO extends CarritoComprasDTO{
         this.idsProductosCarrito = idsProductosCarrito;
     }
     
+    public CarritoComprasIdsRelacionesDTO(
+            Boolean esVigente,
+            IdEntidadGenerico idCliente,
+            IdEntidadGenerico idPaqueteria,
+            List<IdEntidadGenerico> idsProductosCarrito) {
+        
+        super(esVigente);
+        
+        this.idCliente = idCliente;
+        this.idPaqueteria = idPaqueteria;
+        this.idsProductosCarrito = idsProductosCarrito;
+    }
+    
 
     public void setIdPaqueteria(IdEntidadGenerico idPaqueteria){
         this.idPaqueteria = idPaqueteria;

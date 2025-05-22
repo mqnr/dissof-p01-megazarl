@@ -37,7 +37,10 @@ public class RepositorioClienteEnMemoria implements RepositorioCliente {
 
     @Override
     public boolean existePorId(IdClienteDTO idClienteDTO) {
-        return existe(cliente -> cliente.getId().equals(idClienteDTO.getIdCliente()));
+        
+        return existe(cliente ->
+            cliente.getId().getLong().equals(idClienteDTO.getIdCliente().getLong())
+        );
     }
 
     @Override
@@ -80,9 +83,11 @@ public class RepositorioClienteEnMemoria implements RepositorioCliente {
 
     @Override
     public boolean existe(Predicate<ClienteDTO> criterio) {
+        
         return listaClientes.stream().anyMatch(criterio);
     }
-
+    
+    
     private ClienteDTO aplicar(ClienteDTO clienteOriginal, ActualizacionClienteDTO actualizacionClienteDTO) {
         
         return new ClienteDatosCompletosRelacionesDTO(

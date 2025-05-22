@@ -35,6 +35,26 @@ public class ClienteIdsRelacionesDTO extends ClienteDTO {
         this.idsCarritosCompras = idsCarritosCompras;
         
     }
+    public ClienteIdsRelacionesDTO(
+            IdEntidadGenerico id,
+            String nombres,
+            String apellidoPaterno,
+            String apellidoMaterno,
+            String telefono,
+            String correoElectronico,
+            IdEntidadGenerico idDireccionEnvio) {
+        
+        super(
+            id,
+            nombres,
+            apellidoPaterno,
+            apellidoMaterno, 
+            telefono,
+            correoElectronico);
+        
+        this.idDireccionEnvio = idDireccionEnvio;
+        
+    }
     
     public ClienteIdsRelacionesDTO(
             String nombres,

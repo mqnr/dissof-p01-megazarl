@@ -12,18 +12,20 @@ public class Proveedor {
     
     private String telefono;
     
+    private String correoElectronico;
+    
     private String direccionImagen;
     
-    private Direccion direccion;
+    private ObjectId idDireccion;
 
     public Proveedor() {
     }
 
-    public Proveedor(String nombre, String telefono, String direccionImagen, Direccion direccion) {
+    public Proveedor(String nombre, String telefono, String direccionImagen, ObjectId direccion) {
         this.nombre = nombre;
         this.telefono = telefono;
         this.direccionImagen = direccionImagen;
-        this.direccion = direccion;
+        this.idDireccion = direccion;
     }
 
     public ObjectId getId() {
@@ -58,19 +60,21 @@ public class Proveedor {
         this.direccionImagen = direccionImagen;
     }
 
-    public Direccion getDireccion() {
-        return direccion;
+    public String getCorreoElectronico() {
+        return correoElectronico;
     }
 
-    public void setDireccion(Direccion direccion) {
-        this.direccion = direccion;
-    }
-
-    @Override
-    public String toString() {
-        return "Proveedor{" + "id=" + id + ", nombre=" + nombre + ", telefono=" + telefono + ", direccionImagen=" + direccionImagen + ", direccion=" + direccion + '}';
+    public void setCorreoElectronico(String correoElectronico) {
+        this.correoElectronico = correoElectronico;
     }
     
+    public ObjectId getIdDireccion() {
+        return idDireccion;
+    }
+
+    public void setIdDireccion(ObjectId idDireccion) {
+        this.idDireccion = idDireccion;
+    }
     
     
 }

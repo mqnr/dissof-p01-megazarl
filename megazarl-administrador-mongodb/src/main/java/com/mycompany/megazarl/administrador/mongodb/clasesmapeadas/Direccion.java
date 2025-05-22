@@ -16,6 +16,7 @@ public class Direccion {
     private String colonia;
     
     private String calle;
+    
     private String numero;
 
     public Direccion(String codigoPostal, String colonia, String calle, String numero) {

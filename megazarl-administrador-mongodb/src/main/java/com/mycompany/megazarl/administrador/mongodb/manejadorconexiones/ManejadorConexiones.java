@@ -13,7 +13,7 @@ import org.bson.codecs.pojo.PojoCodecProvider;
 
 public class ManejadorConexiones {
    
-    private static final String BASE_DATOS = "SistemaVentas";
+    private static final String BASE_DATOS = "sistema_megazarl_bd";
    
     public static MongoDatabase obtenerBaseDatos(){
 

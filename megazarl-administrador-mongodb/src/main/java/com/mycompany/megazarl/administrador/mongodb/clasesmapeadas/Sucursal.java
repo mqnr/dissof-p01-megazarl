@@ -9,6 +9,8 @@ public class Sucursal {
     private ObjectId id;
     
     private Boolean esMatriz;
+    
+    private Direccion direccion;
 
     public Sucursal(ObjectId id, Boolean esMatriz) {
         this.id = id;
@@ -33,5 +35,15 @@ public class Sucursal {
     public void setEsMatriz(Boolean esMatriz) {
         this.esMatriz = esMatriz;
     }
+
+    public Direccion getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
+    }
+    
+    
     
 }

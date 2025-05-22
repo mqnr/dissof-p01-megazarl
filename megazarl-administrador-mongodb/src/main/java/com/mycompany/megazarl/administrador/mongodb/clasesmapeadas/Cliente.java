@@ -8,26 +8,28 @@ public class Cliente {
     private ObjectId id;
     
     private String nombres;
+    
     private String apellidoMaterno;
+    
     private String apellidoPaterno;
     
     private String telefono;
     
     private String correoElectronico;
     
-    private Direccion direccionEnvio;
+    private ObjectId idDireccionEnvio;
 
     public Cliente() {
         
     }
      
-    public Cliente(String nombres, String apellidoMaterno, String apellidoPaterno, String telefono, String correoElectronico, Direccion direccionEnvio) {
+    public Cliente(String nombres, String apellidoMaterno, String apellidoPaterno, String telefono, String correoElectronico, ObjectId idDireccionEnvio) {
         this.nombres = nombres;
         this.apellidoMaterno = apellidoMaterno;
         this.apellidoPaterno = apellidoPaterno;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
-        this.direccionEnvio = direccionEnvio;
+        this.idDireccionEnvio = idDireccionEnvio;
     }
 
     public ObjectId getId() {
@@ -78,17 +80,12 @@ public class Cliente {
         this.correoElectronico = correoElectronico;
     }
 
-    public Direccion getDireccionEnvio() {
-        return direccionEnvio;
+    public ObjectId getIdDireccionEnvio() {
+        return idDireccionEnvio;
     }
 
-    public void setDireccionEnvio(Direccion direccionEnvio) {
-        this.direccionEnvio = direccionEnvio;
+    public void setIdDireccionEnvio(ObjectId idDireccionEnvio) {
+        this.idDireccionEnvio = idDireccionEnvio;
     }
-
-    
-    
-    
-    
-    
+   
 }
