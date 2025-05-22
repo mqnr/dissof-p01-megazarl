@@ -9,10 +9,10 @@ import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.Clien
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ProveedorDatosCompletosRelacionesDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioActualizadaClienteDTO;

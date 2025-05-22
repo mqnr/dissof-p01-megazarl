@@ -1,8 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
-import edu.student.itson.dissof.megazarl.dto.infraestructura.AuxiliarVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdAuxiliarVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.AuxiliarVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdAuxiliarVentasDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioAuxiliarVentas;
 import java.util.ArrayList;
 import java.util.Collection;

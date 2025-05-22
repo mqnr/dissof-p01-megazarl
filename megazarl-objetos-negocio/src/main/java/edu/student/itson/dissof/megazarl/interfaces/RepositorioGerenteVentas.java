@@ -1,7 +1,7 @@
 package edu.student.itson.dissof.megazarl.interfaces;
 
-import edu.student.itson.dissof.megazarl.dto.infraestructura.GerenteVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdGerenteVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.GerenteVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdGerenteVentasDTO;
 /**
  * RepositorioGerenteVentas.java
  * 

@@ -2,12 +2,12 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
 
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDatosCompletosRelacionesDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoInventarioDatosCompletosRelacionesDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.SucursalDatosCompletosRelacionesDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDatosCompletosRelacionesDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoInventarioDatosCompletosRelacionesDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioProductoInventario;
 import java.util.ArrayList;
 import java.util.Collection;

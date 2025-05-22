@@ -5,10 +5,10 @@ import edu.student.itson.dissof.megazarl.administrador.auxiliares.ventas.IAdmini
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesCorreoElectronicoYaExisteException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesTelefonoNuevoClienteYaExisteException;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.AuxiliarVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDatosCompletosRelacionesDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdAuxiliarVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.AuxiliarVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDatosCompletosRelacionesDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdAuxiliarVentasDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoAuxiliarVentasDTO;
 import edu.student.itson.dissof.megazarl.negocio.FabricaSubsistemas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.AuxiliarVentas;

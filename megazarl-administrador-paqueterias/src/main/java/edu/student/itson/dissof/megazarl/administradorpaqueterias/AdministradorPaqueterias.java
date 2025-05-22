@@ -9,18 +9,18 @@ import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.Pa
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdSucursalInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DatosTiempoTrasladoUbicacionesDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.PaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.SucursalDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.PaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.TiempoTrasladoDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdSucursalDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoMatrizClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoProveedorMatrizDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoSucursalMatrizDTO;
@@ -117,7 +117,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         Double pesoKgProducto = informacionEnvioProductoSucursalMatrizDTO.getPesoKgTotal();
         
         // Se valida el ID de la dirección de la sucursal
-        IdDireccionDTO idDireccionSucursal = sucursal.getIdDireccion();
+        IdDireccionDTO idDireccionSucursal = new IdDireccionDTO(sucursal.getIdDireccion());
         
         if(!administradorDirecciones.validarDireccion(idDireccionSucursal)){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de la sucursal es inválido.");
@@ -130,7 +130,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         }
         
         // Se valida el ID de la dirección de Matriz
-        IdDireccionDTO idDireccionMatriz = sucursalMatriz.getIdDireccion();
+        IdDireccionDTO idDireccionMatriz = new IdDireccionDTO(sucursalMatriz.getIdDireccion());
         
         if(!administradorDirecciones.validarDireccion(idDireccionMatriz)){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
@@ -214,7 +214,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         Double pesoKgProducto = informacionEnvioProductoMatrizClienteDTO.getPesoKgTotal();
         
         // Se valida de la dirección de envío el ID del cliente
-        IdDireccionDTO idDireccionEnvioCliente = cliente.getIdDireccionEnvio();
+        IdDireccionDTO idDireccionEnvioCliente = new IdDireccionDTO(cliente.getIdDireccionEnvio());
         
         if(!administradorDirecciones.validarDireccion(idDireccionEnvioCliente)){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de envío del cliente es inválido.");
@@ -227,7 +227,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         }
         
         // Se valida el ID de la dirección de la Matriz
-        IdDireccionDTO idDireccionMatriz = sucursalMatriz.getIdDireccion();
+        IdDireccionDTO idDireccionMatriz = new IdDireccionDTO(sucursalMatriz.getIdDireccion());
         
         if(!administradorDirecciones.validarDireccion(idDireccionMatriz)){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
@@ -310,7 +310,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         Double pesoKgProducto = informacionEnvioProductoProveedorMatrizDTO.getPesoKgTotal();
         
         // Se valida de la dirección del ID del proveedor
-        IdDireccionDTO idDireccionProveedor = proveedor.getIdDireccion();
+        IdDireccionDTO idDireccionProveedor = new IdDireccionDTO(proveedor.getIdDireccion());
         
         if(!administradorDirecciones.validarDireccion(idDireccionProveedor)){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección del proveedor es inválido.");
@@ -323,7 +323,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         }
         
         // Se valida el ID de la dirección de la Matriz
-        IdDireccionDTO idDireccionMatriz = sucursalMatriz.getIdDireccion();
+        IdDireccionDTO idDireccionMatriz = new IdDireccionDTO(sucursalMatriz.getIdDireccion());
         
         if(!administradorDirecciones.validarDireccion(idDireccionMatriz)){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
@@ -336,7 +336,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         }
         
         // Se valida el ID de la dirección de la paqueteria
-        IdDireccionDTO idDireccionPaqueteria = paqueteria.getIdDireccion();
+        IdDireccionDTO idDireccionPaqueteria = new IdDireccionDTO(paqueteria.getIdDireccion());
         
         if(!administradorDirecciones.validarDireccion(idDireccionPaqueteria)){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de la paquetería es inválido.");
@@ -422,7 +422,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         }
         
         // Se valida de la dirección del ID del proveedor
-        IdDireccionDTO idDireccionProveedor = proveedor.getIdDireccion();
+        IdDireccionDTO idDireccionProveedor = new IdDireccionDTO(proveedor.getIdDireccion());
         
         if(!administradorDirecciones.validarDireccion(idDireccionProveedor)){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección del proveedor es inválido.");
@@ -437,7 +437,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         SucursalDTO sucursalMatriz = administradorSucursales.obtenerSucursalMatriz();
         
         // Se valida el ID de la dirección de la Matriz
-        IdDireccionDTO idDireccionMatriz = sucursalMatriz.getIdDireccion();
+        IdDireccionDTO idDireccionMatriz = new IdDireccionDTO(sucursalMatriz.getIdDireccion());
         
         if(!administradorDirecciones.validarDireccion(idDireccionMatriz)){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
@@ -506,7 +506,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
             for(PaqueteriaDTO paqueteria: listaPaqueterias){
             
                 // Se valida el ID de la dirección de la paqueteria
-                IdDireccionDTO idDireccionPaqueteria = paqueteria.getIdDireccion();
+                IdDireccionDTO idDireccionPaqueteria = new IdDireccionDTO(paqueteria.getIdDireccion());
                 
                 if(!administradorDirecciones.validarDireccion(idDireccionPaqueteria)){
                     throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de la paquetería es inválido.");

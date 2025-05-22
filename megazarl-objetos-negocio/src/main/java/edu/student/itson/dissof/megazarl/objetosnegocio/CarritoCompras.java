@@ -2,12 +2,11 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionCarritoComprasDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.CarritoComprasDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdCarritoComprasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionCarritoComprasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.CarritoComprasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdCarritoComprasDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioCarritoCompras;
 import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioCarritoComprasEnMemoria;
-import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.sql.RepositorioCarritoComprasEnMySql;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
@@ -20,7 +19,6 @@ public class CarritoCompras {
     static {
         repositorio = switch (ConfiguracionApp.INSTANCIA.fuentes().carritoCompras()) {
             case MEMORIA -> new RepositorioCarritoComprasEnMemoria();
-//            case MYSQL -> new RepositorioCarritoComprasEnMySql();
             default -> throw new UnsupportedOperationException("Not implemented");
         };
     }

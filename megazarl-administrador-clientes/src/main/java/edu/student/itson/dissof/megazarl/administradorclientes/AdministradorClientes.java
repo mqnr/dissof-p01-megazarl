@@ -9,11 +9,11 @@ import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.Clien
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.DireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdDireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioActualizadaClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionDTO;
@@ -92,13 +92,15 @@ class AdministradorClientes implements IAdministradorClientes {
             throw new ClientesIdClienteInvalidoException("El ID de cliente es inválido.");
         }
         
-        IdDireccionDTO idDireccionEnvioCliente = cliente.getIdDireccionEnvio();
+        Long idDireccionEnvioCliente = cliente.getIdDireccionEnvio();
         
-        if(!administradorDirecciones.validarDireccion(idDireccionEnvioCliente)){
+        IdDireccionDTO idDireccionDTO = new IdDireccionDTO(idDireccionEnvioCliente);
+        
+        if(!administradorDirecciones.validarDireccion(new IdDireccionDTO(idDireccionEnvioCliente))){
             throw new ClientesIdDireccionInvalidoException("El ID de la dirección de envío del cliente es inválido.");
         }
         
-        DireccionDTO direccionEnvioCliente = administradorDirecciones.obtenerDireccion(idDireccionEnvioCliente);
+        DireccionDTO direccionEnvioCliente = administradorDirecciones.obtenerDireccion(idDireccionDTO);
         
         
 
@@ -129,13 +131,15 @@ class AdministradorClientes implements IAdministradorClientes {
             throw new ClientesIdClienteInvalidoException("El ID de cliente es inválido.");
         }
 
-        IdDireccionDTO idDireccionEnvioCliente = cliente.getIdDireccionEnvio();
+        Long idDireccionEnvioCliente = cliente.getIdDireccionEnvio();
         
-        if(!administradorDirecciones.validarDireccion(idDireccionEnvioCliente)){
+        IdDireccionDTO idDireccionDTO = new IdDireccionDTO(idDireccionEnvioCliente);
+        
+        if(!administradorDirecciones.validarDireccion(idDireccionDTO)){
             throw new ClientesIdDireccionInvalidoException("El ID de la dirección del cliente es inválido.");
         }
         
-        DireccionDTO direccionEnvioCliente = administradorDirecciones.obtenerDireccion(idDireccionEnvioCliente);
+        DireccionDTO direccionEnvioCliente = administradorDirecciones.obtenerDireccion(idDireccionDTO);
         
         if(direccionEnvioCliente == null){
             throw new ClientesIdDireccionInvalidoException("El ID de la dirección del cliente es inválido.");

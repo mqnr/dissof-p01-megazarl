@@ -1,7 +1,7 @@
 
 package edu.student.itson.dissof.megazarl.administrador.auxiliares.ventas;
 
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdAuxiliarVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdAuxiliarVentasDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoAuxiliarVentasDTO;
 
 /**

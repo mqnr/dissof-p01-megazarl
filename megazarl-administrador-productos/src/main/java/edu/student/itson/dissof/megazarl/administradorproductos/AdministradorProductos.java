@@ -6,13 +6,13 @@ import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.Prod
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.utils.CadenasTextoUtils;
 import edu.student.itson.dissof.megazarl.administradorproductos.utils.Normalizador;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ActualizacionProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.ProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoInventarioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoInicioDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoDetalladaDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Producto;
@@ -51,12 +51,13 @@ class AdministradorProductos implements IAdministradorProductos {
         
         // Se obtiene la cantidad de objetos de tipo ProductoInventario de la lista
         // del objeto Producto con el ID del parámetro.
-        List<IdProductoInventarioDTO> idsProductosInventario = producto.getIdsProductosInventario();
+        List<Long> idsProductosInventario = producto.getIdsProductosInventario();
         
         int disponibilidadProducto = 0;
 
-        for(IdProductoInventarioDTO idProductoInventarioDTO: idsProductosInventario){
+        for(Long idProductoInventario: idsProductosInventario){
             
+            IdProductoInventarioDTO idProductoInventarioDTO = new IdProductoInventarioDTO(idProductoInventario);
              
             if(!validarProductoInventario(idProductoInventarioDTO)){
                 throw new ProductosIdProductoInvalidoException("El ID de producto en inventario es inválido.");
@@ -98,7 +99,7 @@ class AdministradorProductos implements IAdministradorProductos {
                     producto.getPrecio(),
                     producto.getMilesSemillas(),
                     producto.getDireccionImagen(),
-                    producto.getIdProveedor().getIdProveedor())
+                    producto.getIdProveedor())
 
             );
 
@@ -151,7 +152,7 @@ class AdministradorProductos implements IAdministradorProductos {
                         producto.getPrecio(),
                         producto.getMilesSemillas(),
                         producto.getDireccionImagen(),
-                        producto.getIdProveedor().getIdProveedor())
+                        producto.getIdProveedor())
                 );
             }
         }
@@ -201,7 +202,7 @@ class AdministradorProductos implements IAdministradorProductos {
                         producto.getPrecio(),
                         producto.getMilesSemillas(),
                         producto.getDireccionImagen(),
-                        producto.getIdProveedor().getIdProveedor())
+                        producto.getIdProveedor())
                 );
             }
         }
@@ -240,7 +241,7 @@ class AdministradorProductos implements IAdministradorProductos {
             
             String nombreProductoActualMinusculasSinEspacios = nombreProductoActualSinAcentos.toLowerCase().replaceAll("\\s", "");
             
-            IdProveedorDTO idProveedorDTO = producto.getIdProveedor();
+            IdProveedorDTO idProveedorDTO = new IdProveedorDTO(producto.getIdProveedor());
             
             if(!administradorProveedores.validarProveedor(idProveedorDTO)){
                 throw new ProductosIdProveedorInvalidoException("El ID de proveedor es inválido");
@@ -262,7 +263,7 @@ class AdministradorProductos implements IAdministradorProductos {
                         producto.getPrecio(),
                         producto.getMilesSemillas(),
                         producto.getDireccionImagen(),
-                        producto.getIdProveedor().getIdProveedor())
+                        producto.getIdProveedor())
                 );
             }
         }
@@ -296,7 +297,7 @@ class AdministradorProductos implements IAdministradorProductos {
                 productoRecuperado.getPrecio(),
                 productoRecuperado.getMilesSemillas(),
                 productoRecuperado.getDireccionImagen(),
-                productoRecuperado.getIdProveedor().getIdProveedor());
+                productoRecuperado.getIdProveedor());
 
         return informacionProductoDTO;
 

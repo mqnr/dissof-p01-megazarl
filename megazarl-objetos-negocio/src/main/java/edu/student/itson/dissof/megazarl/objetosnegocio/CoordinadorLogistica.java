@@ -2,8 +2,8 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.CoordinadorLogisticaDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdCoordinadorLogisticaDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.CoordinadorLogisticaDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdCoordinadorLogisticaDTO;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioCoordinadorLogistica;
 import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioCoordinadorLogisticaEnMemoria;
 import java.util.Collection;

@@ -1,8 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.interfaces;
 
-import edu.student.itson.dissof.megazarl.dto.infraestructura.AuxiliarVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdAuxiliarVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.AuxiliarVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdAuxiliarVentasDTO;
 
 /**
  * RepositorioAuxiliarVentas.java
