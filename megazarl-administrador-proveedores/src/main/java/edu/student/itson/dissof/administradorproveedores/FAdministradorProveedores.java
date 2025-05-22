@@ -91,4 +91,18 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
         return administradorProveedores.obtenerNombreProveedor(idProveedorDTO);
     }
 
+        /**
+     * Implementación del método agregarProveedor(), de la interfaz
+     * {@link IAdministradorProveedores}, que permite registrar un proveedor.
+     * @param proveedorDTO objeto ProveedorDTO que contiene el proveedor
+     * @return objeto boolean que representa el proveedor 
+     * @throws ProveedorNoRegistradoException  se lanza si no se registra el proveedor
+     */
+    
+    /**
+    @Override
+    public boolean agregarProveedor(ProveedorDTO proveedorDTO) throws ProveedorNoRegistradoException {
+        return administradorProveedores.agregarProveedor(proveedorDTO);
+    }
+    * */
 }
