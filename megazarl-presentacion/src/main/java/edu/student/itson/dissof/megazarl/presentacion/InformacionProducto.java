@@ -32,8 +32,8 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
     private ControlCompra control;
     private int cantidad;
     private JLabel cantidadLabel;
-    private Long idCliente;
-    private Long idProducto;
+    private Object idCliente;
+    private Object idProducto;
 
     private EncabezadoCompra encabezado;
 
@@ -72,7 +72,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
     
     private final Color COLOR_FONDO_IMAGEN_PRODUCTO = new Color(229, 221, 204);
 
-    public InformacionProducto(ControlCompra control, Long idCliente) {
+    public InformacionProducto(ControlCompra control, Object idCliente) {
         setTitle("Semillas MEGAZARL - Información de producto");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);

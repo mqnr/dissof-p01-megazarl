@@ -4,6 +4,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioCliente;
 
 import java.util.ArrayList;
@@ -60,14 +61,14 @@ public class RepositorioClienteEnMemoria implements RepositorioCliente {
 
     @Override
     public void agregar(ClienteDTO cliente) {
-        cliente.setId(ID_CLIENTE_ACTUAL++);
+        cliente.setId(new IdEntidadGenerico(ID_CLIENTE_ACTUAL++));
         listaClientes.add(cliente);
     }
 
     @Override
     public void agregar(Collection<ClienteDTO> clientes) {
         for(ClienteDTO cliente: clientes){
-            cliente.setId(ID_CLIENTE_ACTUAL++);
+            cliente.setId(new IdEntidadGenerico(ID_CLIENTE_ACTUAL++));
         }
         listaClientes.addAll(clientes);
     }

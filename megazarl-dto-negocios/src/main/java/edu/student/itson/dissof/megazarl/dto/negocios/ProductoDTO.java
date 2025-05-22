@@ -1,6 +1,7 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,7 +28,7 @@ public abstract class ProductoDTO {
     /**
      * Objeto Long que representa el ID del producto
      */
-    private Long id;
+    private IdEntidadGenerico id;
 
     /**
      * Objeto String que representa el nombre del producto
@@ -67,7 +68,7 @@ public abstract class ProductoDTO {
 
     /**
      * Constructor que permite instanciar un objeto de tipo ProductoDTO
-     * @param id                        Objeto Long que representa el ID del producto
+     * @param id                        Objeto IdEntidadGenerico que representa el ID del producto
      * @param nombre                    Objeto String que representa el nombre del producto
      * @param variedad                  Objeto String que representa la variedad del producto
      * @param descripcion               Objeto String que representa la descripción del producto
@@ -77,7 +78,7 @@ public abstract class ProductoDTO {
      * @param direccionImagen           Objeto String que representa la dirección de la imagen del producto
      */
     public ProductoDTO(
-            Long id, 
+            IdEntidadGenerico id, 
             String nombre, 
             String variedad,
             String descripcion, 
@@ -129,7 +130,7 @@ public abstract class ProductoDTO {
      * Método que permite obtener el id del producto
      * @return Objeto Long que representa el ID del producto
      */
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
 
@@ -190,19 +191,19 @@ public abstract class ProductoDTO {
     }
 
 
-    public abstract List<Long> getIdsProductosInventario();
+    public abstract List<IdEntidadGenerico> getIdsProductosInventario();
     
-    public abstract List<Long> getIdsProductosCarrito();
+    public abstract List<IdEntidadGenerico> getIdsProductosCarrito();
     
-    public abstract List<Long> getIdsProductosPedido();
+    public abstract List<IdEntidadGenerico> getIdsProductosPedido();
     
-    public abstract Long getIdProveedor();
+    public abstract IdEntidadGenerico getIdProveedor();
     
     /**
      * Método que permite establecer el ID del producto.
      * @param id Objeto Long que representa el ID del producto.
      */
-    public void setId(Long id) {
+    public void setId(IdEntidadGenerico id) {
         this.id = id;
     }
 

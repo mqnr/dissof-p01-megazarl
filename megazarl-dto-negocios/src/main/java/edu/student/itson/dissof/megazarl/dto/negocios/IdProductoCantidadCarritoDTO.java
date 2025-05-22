@@ -1,5 +1,7 @@
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 /**
  * IdProductoCantidadCarritoDTO.java
  *
@@ -21,19 +23,19 @@ package edu.student.itson.dissof.megazarl.dto.negocios;
  */
 public class IdProductoCantidadCarritoDTO {
 
-    private Long idProducto;
+    private IdEntidadGenerico idProducto;
     private Integer cantidad;
 
-    public IdProductoCantidadCarritoDTO(Long idProducto, Integer cantidad) {
+    public IdProductoCantidadCarritoDTO(IdEntidadGenerico idProducto, Integer cantidad) {
         this.idProducto = idProducto;
         this.cantidad = cantidad;
     }
 
-    public Long getIdProducto() {
+    public IdEntidadGenerico getIdProducto() {
         return idProducto;
     }
 
-    public void setIdProducto(Long idProducto) {
+    public void setIdProducto(IdEntidadGenerico idProducto) {
         this.idProducto = idProducto;
     }
 

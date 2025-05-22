@@ -1,5 +1,6 @@
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import java.util.List;
 
 /**
@@ -21,13 +22,13 @@ import java.util.List;
  *
  */
 public class CodigosSucursalesDTO {
-    private List<Long> codigosSucursales;
+    private List<IdEntidadGenerico> codigosSucursales;
 
-    public CodigosSucursalesDTO(List<Long> codigosSucursales) {
+    public CodigosSucursalesDTO(List<IdEntidadGenerico> codigosSucursales) {
         this.codigosSucursales = codigosSucursales;
     }
 
-    public List<Long> getCodigosSucursales() {
+    public List<IdEntidadGenerico> getCodigosSucursales() {
         return codigosSucursales;
     }
 }

@@ -7,6 +7,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.ProductoCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoCarritoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProductoCarritoDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDatosCompletosRelacionesDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioProductoCarrito;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -98,7 +99,7 @@ public class RepositorioProductoCarritoEnMemoria implements RepositorioProductoC
 
     @Override
     public void agregar(ProductoCarritoDTO productoCarrito) {
-        productoCarrito.setId(ID_PAQUETERIA_ACTUAL++);
+        productoCarrito.setId(new IdEntidadGenerico(ID_PAQUETERIA_ACTUAL++));
         
         ProductoCarritoDatosCompletosRelacionesDTO productoCarritoDatosCompletosRelacionesDTO
                 = (ProductoCarritoDatosCompletosRelacionesDTO) productoCarrito;
@@ -124,7 +125,7 @@ public class RepositorioProductoCarritoEnMemoria implements RepositorioProductoC
     public void agregar(Collection<ProductoCarritoDTO> productosCarrito) {
         
         for(ProductoCarritoDTO productoCarrito: productosCarrito){
-            productoCarrito.setId(ID_PAQUETERIA_ACTUAL++);
+            productoCarrito.setId(new IdEntidadGenerico(ID_PAQUETERIA_ACTUAL++));
                 
             ProductoCarritoDatosCompletosRelacionesDTO productoCarritoDatosCompletosRelacionesDTO
                 = (ProductoCarritoDatosCompletosRelacionesDTO) productoCarrito;

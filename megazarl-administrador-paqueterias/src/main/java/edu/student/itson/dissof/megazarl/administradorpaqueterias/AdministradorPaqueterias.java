@@ -25,6 +25,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoMa
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoProveedorMatrizDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoSucursalMatrizDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionSeleccionPaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.mapas.IAdministradorMapas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Paqueteria;
 
@@ -82,7 +83,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
             PaqueteriasIdDireccionInvalidoException{
         
         // Se valida la paqueteria
-        Long idPaqueteria = informacionEnvioProductoSucursalMatrizDTO.getIdPaqueteria();
+        IdEntidadGenerico idPaqueteria = informacionEnvioProductoSucursalMatrizDTO.getIdPaqueteria();
 
         if(!validarPaqueteria(new IdPaqueteriaDTO(idPaqueteria))){
             throw new PaqueteriasIdPaqueteriaInvalidoException("El ID de paquetería es inválido.");
@@ -95,7 +96,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         }
         
         // Se valida la sucursal
-        Long idSucursal = informacionEnvioProductoSucursalMatrizDTO.getIdSucursal();
+        IdEntidadGenerico idSucursal = informacionEnvioProductoSucursalMatrizDTO.getIdSucursal();
         
         if(!administradorSucursales.validarSucursal(new IdSucursalDTO(idSucursal))){
             throw new PaqueteriasIdSucursalInvalidoException("El ID de sucursal es inválido.");
@@ -179,7 +180,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
             PaqueteriasIdDireccionInvalidoException{
         
         // Se valida la paqueteria
-        Long idPaqueteria = informacionEnvioProductoMatrizClienteDTO.getIdPaqueteria();
+        IdEntidadGenerico idPaqueteria = informacionEnvioProductoMatrizClienteDTO.getIdPaqueteria();
 
         if(!validarPaqueteria(new IdPaqueteriaDTO(idPaqueteria))){
             throw new PaqueteriasIdPaqueteriaInvalidoException("El ID de paquetería es inválido.");
@@ -192,7 +193,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         }
         
         // Se valida el cliente
-        Long idCliente = informacionEnvioProductoMatrizClienteDTO.getIdCliente();
+        IdEntidadGenerico idCliente = informacionEnvioProductoMatrizClienteDTO.getIdCliente();
         
         if(!administradorClientes.validarCliente(new IdClienteDTO(idCliente))){
             throw new PaqueteriasIdClienteInvalidoException("El ID de cliente es inválido.");
@@ -276,7 +277,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
             PaqueteriasIdDireccionInvalidoException{
         
         // Se valida la paqueteria
-        Long idPaqueteria = informacionEnvioProductoProveedorMatrizDTO.getIdPaqueteria();
+        IdEntidadGenerico idPaqueteria = informacionEnvioProductoProveedorMatrizDTO.getIdPaqueteria();
 
         if(!validarPaqueteria(new IdPaqueteriaDTO(idPaqueteria))){
             throw new PaqueteriasIdPaqueteriaInvalidoException("El ID de paquetería es inválido.");
@@ -289,7 +290,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         }
         
         // Se valida el cliente
-        Long idProveedor = informacionEnvioProductoProveedorMatrizDTO.getIdProveedor();
+        IdEntidadGenerico idProveedor = informacionEnvioProductoProveedorMatrizDTO.getIdProveedor();
         
         if(!administradorProveedores.validarProveedor(new IdProveedorDTO(idProveedor))){
             throw new PaqueteriasIdProveedorInvalidoException("El ID de proveedor es inválido.");

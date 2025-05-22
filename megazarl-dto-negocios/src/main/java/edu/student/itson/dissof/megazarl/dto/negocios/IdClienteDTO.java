@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 /**
  * IdClienteDTO.java
  *
@@ -23,13 +25,13 @@ public class IdClienteDTO {
     /**
      * Objeto Long que representa el ID del cliente.
      */
-    private Long idCliente;
+    private IdEntidadGenerico idCliente;
 
     /**
      * Constructor de la clase que recibe el ID del cliente.
      * @param idCliente Objeto Long que representa el ID del cliente.
      */
-    public IdClienteDTO(Long idCliente) {
+    public IdClienteDTO(IdEntidadGenerico idCliente) {
         this.idCliente = idCliente;
     }
 
@@ -37,7 +39,7 @@ public class IdClienteDTO {
      * Método que permite obtener el ID del cliente.
      * @return Objeto Long que representa el ID del cliente.
      */
-    public Long getIdCliente() {
+    public IdEntidadGenerico getIdCliente() {
         return idCliente;
     }
     

@@ -1,6 +1,7 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class ProveedorDatosCompletosRelacionesDTO extends ProveedorDTO {
     
     
     public ProveedorDatosCompletosRelacionesDTO(
-            Long id, 
+            IdEntidadGenerico id, 
             String nombre,
             String telefono,
             String correoElectronico, 
@@ -51,9 +52,9 @@ public class ProveedorDatosCompletosRelacionesDTO extends ProveedorDTO {
     }
 
     @Override
-    public List<Long> getListaIdsProductosOfrecidos() {
+    public List<IdEntidadGenerico> getListaIdsProductosOfrecidos() {
         
-        List<Long> idsProductosOfrecidos = new LinkedList<>();
+        List<IdEntidadGenerico> idsProductosOfrecidos = new LinkedList<>();
         
         for(ProductoDTO productoDTO: productosOfrecidos){
             idsProductosOfrecidos.add(productoDTO.getId());
@@ -63,7 +64,7 @@ public class ProveedorDatosCompletosRelacionesDTO extends ProveedorDTO {
     }
 
     @Override
-    public Long getIdDireccion() {
+    public IdEntidadGenerico getIdDireccion() {
         return direccion.getId();
     }
     

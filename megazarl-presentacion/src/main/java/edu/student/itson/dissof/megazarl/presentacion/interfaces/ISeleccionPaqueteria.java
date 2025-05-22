@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public interface ISeleccionPaqueteria {
 
-    public abstract void setPaqueterias(HashMap<Long, String> datosPaqueterias);
+    public abstract void setPaqueterias(HashMap<Object, String> datosPaqueterias);
     
     public abstract void setEnvioGratis(boolean envioGratis);
     

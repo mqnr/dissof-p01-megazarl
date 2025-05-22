@@ -1,5 +1,6 @@
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import java.util.HashMap;
 
 /**
@@ -23,29 +24,29 @@ import java.util.HashMap;
  */
 public class InformacionPedidoClienteDTO {
     
-    Long idCliente;
-    Long idPaqueteria;
-    HashMap<Long, Integer> mapaProductosCantidades;
+    IdEntidadGenerico idCliente;
+    IdEntidadGenerico idPaqueteria;
+    HashMap<IdEntidadGenerico, Integer> mapaProductosCantidades;
 
     public InformacionPedidoClienteDTO(
-            Long idCliente, 
-            Long idPaqueteria, 
-            HashMap<Long, Integer> mapaProductosCantidades) {
+            IdEntidadGenerico idCliente, 
+            IdEntidadGenerico idPaqueteria, 
+            HashMap<IdEntidadGenerico, Integer> mapaProductosCantidades) {
         
         this.idCliente = idCliente;
         this.idPaqueteria = idPaqueteria;
         this.mapaProductosCantidades = mapaProductosCantidades;
     }
 
-    public Long getIdCliente() {
+    public IdEntidadGenerico getIdCliente() {
         return idCliente;
     }
 
-    public Long getIdPaqueteria() {
+    public IdEntidadGenerico getIdPaqueteria() {
         return idPaqueteria;
     }
 
-    public HashMap<Long, Integer> getMapaProductosCantidades() {
+    public HashMap<IdEntidadGenerico, Integer> getMapaProductosCantidades() {
         return mapaProductosCantidades;
     }
 }

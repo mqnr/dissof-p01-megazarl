@@ -3,6 +3,7 @@ package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
 import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioProducto;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,7 +47,7 @@ public class RepositorioProductoEnMemoria implements RepositorioProducto{
     @Override
     public void agregar(ProductoDTO producto) {
         
-        producto.setId(ID_PRODUCTO_ACTUAL++);
+        producto.setId(new IdEntidadGenerico(ID_PRODUCTO_ACTUAL++));
         listaProductos.add(producto);
     }
 
@@ -54,7 +55,7 @@ public class RepositorioProductoEnMemoria implements RepositorioProducto{
     public void agregar(Collection<ProductoDTO> productos) {
         for(ProductoDTO producto: productos){
 
-            producto.setId(ID_PRODUCTO_ACTUAL++);
+            producto.setId(new IdEntidadGenerico(ID_PRODUCTO_ACTUAL++));
             
         }
         listaProductos.addAll(productos);

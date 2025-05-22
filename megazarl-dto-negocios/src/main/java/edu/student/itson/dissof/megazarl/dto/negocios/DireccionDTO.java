@@ -1,5 +1,6 @@
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import java.util.Objects;
 
 /**
@@ -24,7 +25,7 @@ public class DireccionDTO{
     /**
      * Objeto Long que representa el ID de la dirección.
      */
-    private Long id;
+    private IdEntidadGenerico id;
     
     /**
      * Objeto String que representa el estado de la dirección.
@@ -59,7 +60,7 @@ public class DireccionDTO{
     /**
      * Constructor de la clase que recibe los parámetros necesarios para crear
      * una dirección, incluyendo el ID.
-     * @param id            Objeto Long que representa el ID de la dirección.
+     * @param id            Objeto IdEntidadGenerico que representa el ID de la dirección.
      * @param estado        Objeto String que representa el estado de la dirección.
      * @param ciudad        Objeto String que representa la ciudad de la dirección.
      * @param codigoPostal  Objeto String que representa el Código Postal de la dirección.
@@ -68,7 +69,7 @@ public class DireccionDTO{
      * @param numero        Objeto String que representa el número de la dirección.
      */
     public DireccionDTO(
-            Long id,
+            IdEntidadGenerico id,
             String estado,
             String ciudad,
             String codigoPostal, 
@@ -134,14 +135,14 @@ public class DireccionDTO{
     /**
      * Constructor de la clase que recibe los parámetros necesarios para crear
      * una dirección, incluyendo el ID.
-     * @param id            Objeto Long que representa el ID de la dirección.
+     * @param id            Objeto IdEntidadGenerico que representa el ID de la dirección.
      * @param codigoPostal  Objeto String que representa el Código Postal de la dirección.
      * @param colonia       Objeto String que rerpesenta la colonia de la dirección.
      * @param calle         Objeto String que representa la calle de la dirección.
      * @param numero        Objeto String que representa el número de la dirección.
      */
     public DireccionDTO(
-            Long id,
+            IdEntidadGenerico id,
             String codigoPostal, 
             String colonia, 
             String calle, 
@@ -159,7 +160,7 @@ public class DireccionDTO{
      * Mètodo que permite obtener el ID de la dirección.
      * @return Objeto Long que representa el ID de la dirección.
      */
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
 
@@ -216,7 +217,7 @@ public class DireccionDTO{
      * Método que permite establecer el ID de la dirección.
      * @param id Objeto Long que representa el ID de la dirección.
      */
-    public void setId(Long id) {
+    public void setId(IdEntidadGenerico id) {
         this.id = id;
     }
     

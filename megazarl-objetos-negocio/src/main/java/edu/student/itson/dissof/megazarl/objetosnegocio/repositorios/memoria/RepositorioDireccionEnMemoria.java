@@ -4,6 +4,7 @@ package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioDireccion;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,7 +59,7 @@ public class RepositorioDireccionEnMemoria implements RepositorioDireccion{
 
     @Override
     public void agregar(DireccionDTO direccion) {
-        direccion.setId(ID_ACTUAL_DIRECCION++);
+        direccion.setId(new IdEntidadGenerico(ID_ACTUAL_DIRECCION++));
         listaDirecciones.add(direccion);
     }
 
@@ -66,7 +67,7 @@ public class RepositorioDireccionEnMemoria implements RepositorioDireccion{
     public void agregar(Collection<DireccionDTO> direcciones) {
          for(DireccionDTO direccion: direcciones){
             if(direccion.getId() == null){
-                direccion.setId(ID_ACTUAL_DIRECCION++);
+                direccion.setId(new IdEntidadGenerico(ID_ACTUAL_DIRECCION++));
             }
         }
         listaDirecciones.addAll(direcciones);
@@ -84,7 +85,7 @@ public class RepositorioDireccionEnMemoria implements RepositorioDireccion{
 
     private DireccionDTO aplicar(DireccionDTO direccionOriginal, ActualizacionDireccionDTO actualizacionDireccion) {
         return new DireccionDTO(
-                actualizacionDireccion.getId(),
+                new IdEntidadGenerico(actualizacionDireccion.getId()),
                 actualizacionDireccion.tieneEstado() ? actualizacionDireccion.getEstado(): direccionOriginal.getEstado(),
                 actualizacionDireccion.tieneCiudad() ? actualizacionDireccion.getCiudad() : direccionOriginal.getCiudad(),
                 actualizacionDireccion.tieneCodigoPostal() ? actualizacionDireccion.getCodigoPostal(): direccionOriginal.getCodigoPostal(),

@@ -1,14 +1,12 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
-import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
 import edu.student.itson.dissof.megazarl.administrador.gerenteventas.IAdministradorGerenteVentas;
 import edu.student.itson.dissof.megazarl.administrador.gerenteventas.excepciones.IdGerenteVentasInvalidoException;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdGerenteVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdGerenteVentasDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoGerenteVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.negocio.FabricaSubsistemas;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.IOrdenCompra;
-import edu.student.itson.dissof.megazarl.presentacion.interfaces.IProveedor;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.awt.Color;
 import java.util.List;
@@ -93,7 +91,7 @@ public class ControlOrdenCompra {
         NombresApellidoGerenteVentasDTO nombreApellidoGerenteVentasDTO;
         try {
             IAdministradorGerenteVentas administradorGerenteVentas = FabricaSubsistemas.obtenerAdministradorGerenteVentas();
-            nombreApellidoGerenteVentasDTO = administradorGerenteVentas.obtenerNombresApellidoGerenteVentas(new IdGerenteVentasDTO(idGerenteVentas));
+            nombreApellidoGerenteVentasDTO = administradorGerenteVentas.obtenerNombresApellidoGerenteVentas(new IdGerenteVentasDTO(new IdEntidadGenerico(idGerenteVentas)));
             String[] nombreApellidoGerenteVentas = {nombreApellidoGerenteVentasDTO.getNombresGerenteVentas(), nombreApellidoGerenteVentasDTO.getApellidoPaternoGerenteVentas()};
             return nombreApellidoGerenteVentas;
             

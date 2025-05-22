@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 /**
  * InformacionProductoAgregarCarritoDTO.java
  * 
@@ -24,12 +26,12 @@ public class InformacionProductoAgregarCarritoDTO {
      * Objeto Long que representa el ID del cliente del que se va a agregar el
      * producto.
      */
-    private Long idCliente;
+    private IdEntidadGenerico idCliente;
     
     /**
      * Objeto Long que representa el ID del producto a agregar.
      */
-    private Long idProducto;
+    private IdEntidadGenerico idProducto;
     
     /**
      * Objeto int que representa la cantidad del producto a agregar.
@@ -44,8 +46,8 @@ public class InformacionProductoAgregarCarritoDTO {
      * @param cantidad      Objeto int que representa la cantidad del producto a eliminar.
      */
     public InformacionProductoAgregarCarritoDTO(
-            Long idCliente, 
-            Long idProducto,
+            IdEntidadGenerico idCliente, 
+            IdEntidadGenerico idProducto,
             int cantidad){
         
         this.idCliente = idCliente;
@@ -59,7 +61,7 @@ public class InformacionProductoAgregarCarritoDTO {
      * producto. 
      * @return Objeto Long que representa el ID del cliente.
      */
-    public Long getIdCliente() {
+    public IdEntidadGenerico getIdCliente() {
         return idCliente;
     }
 
@@ -67,7 +69,7 @@ public class InformacionProductoAgregarCarritoDTO {
      * Método que permite obtener el ID del producto a agregar.
      * @return Objeto Long que representa el ID del producto a agregar.
      */
-    public Long getIdProducto() {
+    public IdEntidadGenerico getIdProducto() {
         return idProducto;
     }
 

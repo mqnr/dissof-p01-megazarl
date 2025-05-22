@@ -1,6 +1,7 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import java.util.HashMap;
 
 /**
@@ -27,20 +28,20 @@ public class InformacionCrearPedidoDTO {
     /**
      * Objeto Long que representa el ID del cliente que realiza el pedido.
      */
-    private Long idCliente;
+    private IdEntidadGenerico idCliente;
     
     /**
      * Objeto Long que representa el ID de la paquetería con la que se enviarán
      * los productos del pedido.
      */
-    private Long idPaqueteria;
+    private IdEntidadGenerico idPaqueteria;
     
     /**
      * Mapa que representa la cantidad requerida por producto, las llaves son
      * los ID de los productos seleccionados, el valor es la cantidad seleciconada
      * de estos productos.
      */
-    private HashMap<Long, Integer> mapaIdsProductosCantidad;
+    private HashMap<IdEntidadGenerico, Integer> mapaIdsProductosCantidad;
 
 
     /**
@@ -53,9 +54,9 @@ public class InformacionCrearPedidoDTO {
      *                                      de estos productos.
      */
     public InformacionCrearPedidoDTO(
-            Long idCliente,
-            Long idPaqueteria,
-            HashMap<Long, Integer> mapaIdsProductosCantidad) {
+            IdEntidadGenerico idCliente,
+            IdEntidadGenerico idPaqueteria,
+            HashMap<IdEntidadGenerico, Integer> mapaIdsProductosCantidad) {
         
         this.idCliente = idCliente;
         this.idPaqueteria = idPaqueteria;
@@ -67,7 +68,7 @@ public class InformacionCrearPedidoDTO {
      * Método que permite obtener el ID del cliente que realiza el pedido.
      * @return Objeto Long que representa el ID del cliente que realiza el pedido.
      */
-    public Long getIdCliente() {
+    public IdEntidadGenerico getIdCliente() {
         return idCliente;
     }
 
@@ -77,7 +78,7 @@ public class InformacionCrearPedidoDTO {
      * @return Objeto Long que representa el ID de la paquetería con la que se enviarán
      * los productos del pedido.
      */
-    public Long getIdPaqueteria() {
+    public IdEntidadGenerico getIdPaqueteria() {
         return idPaqueteria;
     }
 
@@ -88,7 +89,7 @@ public class InformacionCrearPedidoDTO {
      * los ID de los productos seleccionados, el valor es la cantidad seleciconada
      * de estos productos.
      */
-    public HashMap<Long, Integer> getMapaIdsProductosCantidad() {
+    public HashMap<IdEntidadGenerico, Integer> getMapaIdsProductosCantidad() {
         return mapaIdsProductosCantidad;
     }
     

@@ -1,6 +1,7 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class ProductoDatosCompletosRelacionesDTO extends ProductoDTO{
     private List<ProductoPedidoDTO> productosPedido;
 
     public ProductoDatosCompletosRelacionesDTO(
-            Long id, 
+            IdEntidadGenerico id, 
             String nombre,
             String variedad, 
             String descripcion,
@@ -88,8 +89,8 @@ public class ProductoDatosCompletosRelacionesDTO extends ProductoDTO{
     }
     
     @Override
-    public List<Long> getIdsProductosInventario() {
-        List<Long> idsProductosInventario = new LinkedList<>();
+    public List<IdEntidadGenerico> getIdsProductosInventario() {
+        List<IdEntidadGenerico> idsProductosInventario = new LinkedList<>();
         
         for(ProductoInventarioDTO productoInventario: productosInventario){
             idsProductosInventario.add(productoInventario.getId());
@@ -98,10 +99,10 @@ public class ProductoDatosCompletosRelacionesDTO extends ProductoDTO{
     }
 
     @Override
-    public List<Long> getIdsProductosCarrito() {
-        List<Long> idsProductosCarrito = new LinkedList<>();
+    public List<IdEntidadGenerico> getIdsProductosCarrito() {
+        List<IdEntidadGenerico> idsProductosCarrito = new LinkedList<>();
         
-        for(Long idProductoCarrito: idsProductosCarrito){
+        for(IdEntidadGenerico idProductoCarrito: idsProductosCarrito){
             
             idsProductosCarrito.add(idProductoCarrito);
         }
@@ -110,10 +111,10 @@ public class ProductoDatosCompletosRelacionesDTO extends ProductoDTO{
     }
 
     @Override
-    public List<Long> getIdsProductosPedido() {
-        List<Long> idsProductosPedido = new LinkedList<>();
+    public List<IdEntidadGenerico> getIdsProductosPedido() {
+        List<IdEntidadGenerico> idsProductosPedido = new LinkedList<>();
         
-        for(Long idProductoPedido: idsProductosPedido){
+        for(IdEntidadGenerico idProductoPedido: idsProductosPedido){
             
             idsProductosPedido.add(idProductoPedido);
         }
@@ -122,7 +123,7 @@ public class ProductoDatosCompletosRelacionesDTO extends ProductoDTO{
     }
 
     @Override
-    public Long getIdProveedor() {
+    public IdEntidadGenerico getIdProveedor() {
         return proveedor.getId();
     }
     

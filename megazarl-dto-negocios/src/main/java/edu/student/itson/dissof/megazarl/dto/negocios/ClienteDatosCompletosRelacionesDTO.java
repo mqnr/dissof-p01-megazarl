@@ -1,6 +1,7 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class ClienteDatosCompletosRelacionesDTO extends ClienteDTO{
     private List<CarritoComprasDTO> carritosCompras = new LinkedList<>();
 
     public ClienteDatosCompletosRelacionesDTO(
-            Long id,
+            IdEntidadGenerico id,
             String nombres,
             String apellidoPaterno,
             String apellidoMaterno,
@@ -42,7 +43,7 @@ public class ClienteDatosCompletosRelacionesDTO extends ClienteDTO{
     }
     
     public ClienteDatosCompletosRelacionesDTO(
-            Long id,
+            IdEntidadGenerico id,
             String nombres,
             String apellidoPaterno,
             String apellidoMaterno,
@@ -113,14 +114,14 @@ public class ClienteDatosCompletosRelacionesDTO extends ClienteDTO{
     }
     
     @Override
-    public Long getIdDireccionEnvio() {
+    public IdEntidadGenerico getIdDireccionEnvio() {
         return direccionEnvio.getId();
     }
 
     @Override
-    public List<Long> getIdsCarritosCompras() {
+    public List<IdEntidadGenerico> getIdsCarritosCompras() {
         
-        List<Long> idsCarritosCompras = new LinkedList<>();
+        List<IdEntidadGenerico> idsCarritosCompras = new LinkedList<>();
         
         for(CarritoComprasDTO carritoComprasDTO: carritosCompras){
             idsCarritosCompras.add(carritoComprasDTO.getId());

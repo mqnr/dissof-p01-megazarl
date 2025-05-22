@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 
 /**
  * InformacionDireccionEnvioActualizadaClienteDTO.java
@@ -25,7 +27,7 @@ public class InformacionDireccionEnvioActualizadaClienteDTO {
     /**
      * Objeto Long que representa el ID del cliente al que se actualizará la dirección.
      */
-    private Long idCliente;
+    private IdEntidadGenerico idCliente;
     
     /**
      * Objeto String que representa el nuevo Código Postal.
@@ -50,13 +52,13 @@ public class InformacionDireccionEnvioActualizadaClienteDTO {
     /**
      * Constructor de la clase que recibe la información necesaria para actualizar
      * la dirección de un cliente.
-     * @param idCliente     Objeto Long que representa el ID del cliente al que se actualizará la dirección.
+     * @param idCliente     Objeto IdEntidadGenerico que representa el ID del cliente al que se actualizará la dirección.
      * @param codigoPostal  Objeto String que representa el nuevo Código Postal.
      * @param colonia       Objeto String que representa la nueva colonia.
      * @param calle         Objeto String que representa la nueva calle.
      * @param numero        Objeto String que representa el nuevo número.
      */
-    public InformacionDireccionEnvioActualizadaClienteDTO(Long idCliente, String codigoPostal, String colonia, String calle, String numero) {
+    public InformacionDireccionEnvioActualizadaClienteDTO(IdEntidadGenerico idCliente, String codigoPostal, String colonia, String calle, String numero) {
         this.idCliente = idCliente;
         this.codigoPostal = codigoPostal;
         this.colonia = colonia;
@@ -68,7 +70,7 @@ public class InformacionDireccionEnvioActualizadaClienteDTO {
      * Método que permite obtener el ID del cliente.
      * @return Objeto Long que representa el ID del cliente al que se actualizará la dirección.
      */
-    public Long getIdCliente() {
+    public IdEntidadGenerico getIdCliente() {
         return idCliente;
     }
 

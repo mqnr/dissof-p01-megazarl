@@ -1,4 +1,7 @@
 package edu.student.itson.dissof.megazarl.dto.negocios;
+
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 /**
  * IdGerenteVentas.java
  *
@@ -12,13 +15,13 @@ public class IdGerenteVentasDTO {
     /**
      * Objeto Long que representa el ID del gerente de ventas.
      */
-    private Long idGerenteVentas;
+    private IdEntidadGenerico idGerenteVentas;
 
     /**
      * Constructor de la clase que recibe el ID del gerente de ventas.
      * @param idGerenteVentas Objeto Long que representa el ID del gerente de ventas.
      */
-    public IdGerenteVentasDTO(Long idGerenteVentas) {
+    public IdGerenteVentasDTO(IdEntidadGenerico idGerenteVentas) {
         this.idGerenteVentas = idGerenteVentas;
     }
 
@@ -26,7 +29,7 @@ public class IdGerenteVentasDTO {
      * Método que permite obtener el ID del gerente de ventas.
      * @return Objeto Long que representa el ID del gerente de ventas.
      */
-    public Long getIdGerenteVentas() {
+    public IdEntidadGenerico getIdGerenteVentas() {
         return idGerenteVentas;
     }
  

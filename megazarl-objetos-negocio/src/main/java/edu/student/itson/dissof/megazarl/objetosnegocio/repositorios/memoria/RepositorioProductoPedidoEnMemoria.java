@@ -5,6 +5,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoPedidoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProductoPedidoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProductoPedidoDatosCompletosRelacionesDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioProductoPedido;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,7 +49,7 @@ public class RepositorioProductoPedidoEnMemoria implements RepositorioProductoPe
     @Override
     public void agregar(ProductoPedidoDTO productoPedido) {
         
-        productoPedido.setId(ID_ACTUAL_PRODUCTO_PEDIDO++);
+        productoPedido.setId(new IdEntidadGenerico(ID_ACTUAL_PRODUCTO_PEDIDO++));
         
         ProductoPedidoDatosCompletosRelacionesDTO productoPedidoDatosCompletosDTO
                 = (ProductoPedidoDatosCompletosRelacionesDTO)productoPedido;
@@ -67,7 +68,7 @@ public class RepositorioProductoPedidoEnMemoria implements RepositorioProductoPe
         
         for(ProductoPedidoDTO productoPedido: productosPedido){
             
-            productoPedido.setId(ID_ACTUAL_PRODUCTO_PEDIDO++);
+            productoPedido.setId(new IdEntidadGenerico(ID_ACTUAL_PRODUCTO_PEDIDO++));
             
             ProductoPedidoDatosCompletosRelacionesDTO productoPedidoDatosCompletosDTO
                 = (ProductoPedidoDatosCompletosRelacionesDTO)productoPedido;

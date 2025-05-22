@@ -1,18 +1,20 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 /**
  * @author Manuel Romo López
  */
 public class IdProductoCarritoDTO {
     
-    private Long idProductoCarrito;
+    private IdEntidadGenerico idProductoCarrito;
 
-    public IdProductoCarritoDTO(Long idProductoCarrito) {
+    public IdProductoCarritoDTO(IdEntidadGenerico idProductoCarrito) {
         this.idProductoCarrito = idProductoCarrito;
     }
 
-    public Long getIdProductoCarrito() {
+    public IdEntidadGenerico getIdProductoCarrito() {
         return idProductoCarrito;
     }
     

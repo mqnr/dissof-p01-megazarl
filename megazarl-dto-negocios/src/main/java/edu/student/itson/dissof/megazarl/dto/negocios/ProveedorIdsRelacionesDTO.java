@@ -1,23 +1,24 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import java.util.List;
 
 
 public class ProveedorIdsRelacionesDTO extends ProveedorDTO{
     
-    private List<Long> idsProductosOfrecidos;
+    private List<IdEntidadGenerico> idsProductosOfrecidos;
     
-    private Long idDireccion;
+    private IdEntidadGenerico idDireccion;
     
     public ProveedorIdsRelacionesDTO(
-            Long id, 
+            IdEntidadGenerico id, 
             String nombre,
             String telefono,
             String correoElectronico, 
             String direccionImagen, 
-            List<Long> idsProductosOfrecidos, 
-            Long idDireccion) {
+            List<IdEntidadGenerico> idsProductosOfrecidos, 
+            IdEntidadGenerico idDireccion) {
         
         super(
             id, 
@@ -35,8 +36,8 @@ public class ProveedorIdsRelacionesDTO extends ProveedorDTO{
             String telefono,
             String correoElectronico, 
             String direccionImagen, 
-            List<Long> idsProductosOfrecidos, 
-            Long idDireccion) {
+            List<IdEntidadGenerico> idsProductosOfrecidos, 
+            IdEntidadGenerico idDireccion) {
         
         super(
             nombre,
@@ -49,14 +50,14 @@ public class ProveedorIdsRelacionesDTO extends ProveedorDTO{
     }
 
     @Override
-    public List<Long> getListaIdsProductosOfrecidos() {
+    public List<IdEntidadGenerico> getListaIdsProductosOfrecidos() {
         
         return idsProductosOfrecidos;
         
     }
 
     @Override
-    public Long getIdDireccion() {
+    public IdEntidadGenerico getIdDireccion() {
         return idDireccion;
     }
     

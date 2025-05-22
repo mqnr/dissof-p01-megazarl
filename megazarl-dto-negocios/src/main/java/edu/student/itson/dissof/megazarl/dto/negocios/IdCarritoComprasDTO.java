@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 /**
  * IdCarritoComprasDTO.java
  *
@@ -23,13 +25,13 @@ public class IdCarritoComprasDTO {
     /**
      * Objeto Long que representa el ID del carrito de compras.
      */
-    private Long idCarritoCompras;
+    private IdEntidadGenerico idCarritoCompras;
     
     /**
      * Constructor de la clase que recibe el ID del carrito de compras.
      * @param idCarritoCompras Objeto Long que representa el ID del carrito de compras.
      */
-    public IdCarritoComprasDTO(Long idCarritoCompras) {
+    public IdCarritoComprasDTO(IdEntidadGenerico idCarritoCompras) {
         this.idCarritoCompras = idCarritoCompras;
     }
 
@@ -37,7 +39,7 @@ public class IdCarritoComprasDTO {
      * Método que permite obtener el ID del carrito de comprass.
      * @return Objeto Long que representa el ID del carrito de compras.
      */
-    public Long getIdCarritoCompras() {
+    public IdEntidadGenerico getIdCarritoCompras() {
         return idCarritoCompras;
     }
 }

@@ -18,6 +18,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioA
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
 import java.util.List;
 
@@ -43,7 +44,7 @@ class AdministradorClientes implements IAdministradorClientes {
             ClientesAccesoArchivoCodigosPostalesFallidoException,
             ClientesArchivoCodigosPostalesVacioException{
         
-        Long idCliente = informacionDireccionEnvioActualizadaClienteDTO.getIdCliente();
+        IdEntidadGenerico idCliente = informacionDireccionEnvioActualizadaClienteDTO.getIdCliente();
         
         if(!validarCliente(new IdClienteDTO(idCliente))){
             throw new ClientesIdClienteInvalidoException("El ID de cliente es inválido.");
@@ -92,7 +93,7 @@ class AdministradorClientes implements IAdministradorClientes {
             throw new ClientesIdClienteInvalidoException("El ID de cliente es inválido.");
         }
         
-        Long idDireccionEnvioCliente = cliente.getIdDireccionEnvio();
+        IdEntidadGenerico idDireccionEnvioCliente = cliente.getIdDireccionEnvio();
         
         IdDireccionDTO idDireccionDTO = new IdDireccionDTO(idDireccionEnvioCliente);
         
@@ -131,7 +132,7 @@ class AdministradorClientes implements IAdministradorClientes {
             throw new ClientesIdClienteInvalidoException("El ID de cliente es inválido.");
         }
 
-        Long idDireccionEnvioCliente = cliente.getIdDireccionEnvio();
+        IdEntidadGenerico idDireccionEnvioCliente = cliente.getIdDireccionEnvio();
         
         IdDireccionDTO idDireccionDTO = new IdDireccionDTO(idDireccionEnvioCliente);
         

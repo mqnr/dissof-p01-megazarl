@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 /**
  * Clase DTO que contiene el ID de un proveedor registrado.
  * 
@@ -21,13 +23,13 @@ public class IdProveedorDTO {
     /**
      * Objeto Long que representa el ID de un proveedor.
      */
-    private Long idProveedor;
+    private IdEntidadGenerico idProveedor;
 
     /**
      * Constructor de la clase que recibe el ID de proveedor.
      * @param idProveedor Objeto Long que representa el ID de un proveedor.
      */
-    public IdProveedorDTO(Long idProveedor) {
+    public IdProveedorDTO(IdEntidadGenerico idProveedor) {
         this.idProveedor = idProveedor;
     }
     
@@ -35,7 +37,7 @@ public class IdProveedorDTO {
      * Método que permite obtener el ID de un proveedor.
      * @return Objeto Long que representa el ID de un proveedor
      */
-    public Long getIdProveedor() {
+    public IdEntidadGenerico getIdProveedor() {
         return idProveedor;
     }
     

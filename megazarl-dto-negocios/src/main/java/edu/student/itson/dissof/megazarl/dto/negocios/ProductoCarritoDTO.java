@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 /**
  * ProductoCarritoDTO.java
  *
@@ -23,7 +25,7 @@ public abstract class ProductoCarritoDTO {
     /**
      * Objeto Long que representa el ID del producto en el carrito.
      */
-    private Long id;
+    private IdEntidadGenerico id;
     
     /**
      * Objeto Integer que representa la cantidad del producto en el carrito.
@@ -37,7 +39,7 @@ public abstract class ProductoCarritoDTO {
      * @param cantidad Objeto Integer que representa la cantidad del producto en el carrito.
      */
     public ProductoCarritoDTO(
-            Long id, 
+            IdEntidadGenerico id, 
             Integer cantidad) {
         
         this.id = id;
@@ -59,7 +61,7 @@ public abstract class ProductoCarritoDTO {
      * Método que permite obtener el ID del producto en carrito.
      * @return Objeto Long que representa el ID del producto en carrito.
      */
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
 
@@ -72,15 +74,15 @@ public abstract class ProductoCarritoDTO {
     }
 
 
-    public abstract Long getIdCarritoCompras();
+    public abstract IdEntidadGenerico getIdCarritoCompras();
 
-    public abstract Long getIdProducto();
+    public abstract IdEntidadGenerico getIdProducto();
 
     /**
      * Método que permite obtener el ID del producto en carrito.
      * @param id Objeto Long que representa el ID del producto en carrito.
      */
-    public void setId(Long id) {
+    public void setId(IdEntidadGenerico id) {
         this.id = id;
     }
     

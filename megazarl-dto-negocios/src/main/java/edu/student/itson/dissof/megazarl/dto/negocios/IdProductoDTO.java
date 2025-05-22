@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 /**
  * IdProductoDTO.java
  *
@@ -21,15 +23,15 @@ package edu.student.itson.dissof.megazarl.dto.negocios;
 public class IdProductoDTO {
     
     /**
-     * Objeto Long que representa el ID del producto.
+     * Objeto IdEntidadGenerico que representa el ID del producto.
      */
-    private Long idProducto;
+    private IdEntidadGenerico idProducto;
 
     /**
      * Constructor de la clase que recibe el ID del producto.
      * @param idProducto Objeto Long que representa el ID del producto.
      */
-    public IdProductoDTO(Long idProducto) {
+    public IdProductoDTO(IdEntidadGenerico idProducto) {
         this.idProducto = idProducto;
     }
 
@@ -37,7 +39,7 @@ public class IdProductoDTO {
      * Método que permite obtener el ID del producto.
      * @return Objeto Long que representa el ID del producto.
      */
-    public Long getIdProducto() {
+    public IdEntidadGenerico getIdProducto() {
         return idProducto;
     }
     

@@ -14,7 +14,7 @@ import javax.swing.*;
 public class Carrito extends JFrame implements ICarrito, IVista {
 
     private ControlCompra control;
-    private Long idCliente;
+    private Object idCliente;
     private EncabezadoCompra encabezado;
     private JPanel panelPrincipal;
     private JPanel panelContenedorCarrito;
@@ -31,7 +31,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
     // Emojis
     private final String emojiBasura = new String(Character.toChars(0x1F5D1));
 
-    public Carrito(ControlCompra control, Long idCliente) {
+    public Carrito(ControlCompra control, Object idCliente) {
         setTitle("Semillas MEGAZARL - Carrito");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);
@@ -449,7 +449,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
             JLabel cantidadLabel, 
             JLabel avisoMaximoProductos){
         
-        control.agregarProductoCarrito(idCliente, (Long) informacionProducto.get("Id"), 1, Carrito.this);
+        control.agregarProductoCarrito(idCliente, informacionProducto.get("Id"), 1, Carrito.this);
         
         int disponibilidadProducto = control.verificarExistenciasProducto((Long) informacionProducto.get("Id"));
         int cantidadTexto = Integer.parseInt(cantidadLabel.getText());

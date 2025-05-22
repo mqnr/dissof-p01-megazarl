@@ -67,7 +67,7 @@ public class ActualizacionDireccion extends JFrame implements IVista, IDireccion
 
     private EncabezadoCompra encabezado;
     private ControlCompra control;
-    private Long idCliente;
+    private Object idCliente;
 
     private String codigoPostalEnvio;
     private String numeroEnvio;
@@ -81,7 +81,7 @@ public class ActualizacionDireccion extends JFrame implements IVista, IDireccion
     
     private Font FUENTE_TEXTO_BOTONES = new Font("Segoe UI", Font.BOLD, 14);
 
-    public ActualizacionDireccion(ControlCompra control, Long idCliente) {
+    public ActualizacionDireccion(ControlCompra control, Object idCliente) {
         this.control = control;
         this.idCliente = idCliente;
 

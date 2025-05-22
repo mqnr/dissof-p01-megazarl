@@ -5,6 +5,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionCarritoCompra
 import edu.student.itson.dissof.megazarl.dto.negocios.CarritoComprasDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.CarritoComprasDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdCarritoComprasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioCarritoCompras;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -61,7 +62,7 @@ public class RepositorioCarritoComprasEnMemoria implements RepositorioCarritoCom
     @Override
     public void agregar(CarritoComprasDTO carritoCompras) {
         if(carritoCompras.getId() == null){
-            carritoCompras.setId(ID_ACTUAL_CARIITO++);
+            carritoCompras.setId(new IdEntidadGenerico(ID_ACTUAL_CARIITO++));
         }
         listaCarritosCompras.add(carritoCompras);
     }
@@ -70,7 +71,7 @@ public class RepositorioCarritoComprasEnMemoria implements RepositorioCarritoCom
     public void agregar(Collection<CarritoComprasDTO> carritosCompras) {
         for(CarritoComprasDTO carritoCompras: carritosCompras){
             if(carritoCompras.getId() == null){
-                carritoCompras.setId(ID_ACTUAL_CARIITO++);
+                carritoCompras.setId(new IdEntidadGenerico(ID_ACTUAL_CARIITO++));
             }
         }
         listaCarritosCompras.addAll(carritosCompras);
@@ -89,7 +90,7 @@ public class RepositorioCarritoComprasEnMemoria implements RepositorioCarritoCom
     private CarritoComprasDTO aplicar(CarritoComprasDTO carritoComprasOriginal, ActualizacionCarritoComprasDTO actualizacionCarritoComprasDTO) {
         
         return new CarritoComprasDatosCompletosRelacionesDTO(
-                actualizacionCarritoComprasDTO.getId(),
+                new IdEntidadGenerico(actualizacionCarritoComprasDTO.getId().getId()),
                 actualizacionCarritoComprasDTO.tieneEsVigente() ? actualizacionCarritoComprasDTO.getEsVigente() : carritoComprasOriginal.getEsVigente(),
                 ((CarritoComprasDatosCompletosRelacionesDTO)carritoComprasOriginal).getCliente(),
                 actualizacionCarritoComprasDTO.tienePaqueteria() 

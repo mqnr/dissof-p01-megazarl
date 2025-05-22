@@ -1,8 +1,11 @@
 
 package edu.student.itson.dissof.megazarl.administrador.mysql.manejadorconexiones;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -24,43 +27,6 @@ public class ManejadorConexiones {
      */
     public static void setConexionTest(boolean conexionTestActiva){
         conexionTest = conexionTestActiva;
-    }
-    
-    public static EntityManager getEntityManager() {
-        EntityManagerFactory emFactory;
-
-        Properties propiedades = new Properties();
-        try (InputStream inputStream = ManejadorConexiones.class.getClassLoader()
-                .getResourceAsStream("META-INF/properties.txt")) {
-            propiedades.load(inputStream);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-        Properties propsPU = new Properties();
-        Properties propsPUTest = new Properties();
-
-        for (String key : propiedades.stringPropertyNames()) {
-            if (key.startsWith("edu.student.itson.dissof_megazarl-administrador-mysql_jar_1.0-SNAPSHOTPU.")) {
-                String cleanKey = key.substring("edu.student.itson.dissof_megazarl-administrador-mysql_jar_1.0-SNAPSHOTPU.".length());
-                propsPU.put(cleanKey, propiedades.getProperty(key));
-            } else if (key.startsWith("edu.student.itson.dissof_megazarl-administrador-mysql_jar_1.0-SNAPSHOTPU2.")) {
-                String cleanKey = key.substring("edu.student.itson.dissof_megazarl-administrador-mysql_jar_1.0-SNAPSHOTPU2.".length());
-                propsPUTest.put(cleanKey, propiedades.getProperty(key));
-            }
-        }
-
-        if (conexionTest) {
-            emFactory = Persistence.createEntityManagerFactory(
-                "edu.student.itson.dissof_megazarl-administrador-mysql_jar_1.0-SNAPSHOTPU2",
-                propsPUTest);
-        } else {
-            emFactory = Persistence.createEntityManagerFactory(
-                "edu.student.itson.dissof_megazarl-administrador-mysql_jar_1.0-SNAPSHOTPU",
-                propsPU);
-        }
-
-        return emFactory.createEntityManager();
     }
     
     

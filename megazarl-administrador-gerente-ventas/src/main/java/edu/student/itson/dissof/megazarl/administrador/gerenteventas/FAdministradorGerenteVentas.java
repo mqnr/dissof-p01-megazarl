@@ -1,8 +1,8 @@
 package edu.student.itson.dissof.megazarl.administrador.gerenteventas;
 
 import edu.student.itson.dissof.megazarl.administrador.gerenteventas.excepciones.IdGerenteVentasInvalidoException;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.GerenteVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdGerenteVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.GerenteVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdGerenteVentasDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoGerenteVentasDTO;
 /**
  * FAdministradorGerenteVentas.java

@@ -14,7 +14,7 @@ import javax.swing.border.EmptyBorder;
 public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
 
     private final ControlCompra control;
-    private Long idCliente;
+    private Object idCliente;
 
     private EncabezadoCompra encabezado;
 
@@ -61,7 +61,7 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
     private JComboBox comboBoxFiltroVariedad;
     private JComboBox comboBoxFiltroProveedor;
 
-    public ProductosVenta(ControlCompra control, Long idCliente) {
+    public ProductosVenta(ControlCompra control, Object idCliente) {
         setTitle("Semillas MEGAZARL - Productos en venta");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);

@@ -3,6 +3,7 @@ package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioSucursal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,7 +46,7 @@ public class RepositorioSucursalEnMemoria implements RepositorioSucursal{
 
     @Override
     public void agregar(SucursalDTO sucursal) {
-        sucursal.setId(ID_SUCURSAL_ACTUAL++);
+        sucursal.setId(new IdEntidadGenerico(ID_SUCURSAL_ACTUAL++));
         listaSucursales.add(sucursal);
     }
 
@@ -53,7 +54,7 @@ public class RepositorioSucursalEnMemoria implements RepositorioSucursal{
     public void agregar(Collection<SucursalDTO> sucursales) {
         
         for(SucursalDTO sucursal: sucursales){
-            sucursal.setId(ID_SUCURSAL_ACTUAL++);
+            sucursal.setId(new IdEntidadGenerico(ID_SUCURSAL_ACTUAL++));
         }
         
         listaSucursales.addAll(sucursales);

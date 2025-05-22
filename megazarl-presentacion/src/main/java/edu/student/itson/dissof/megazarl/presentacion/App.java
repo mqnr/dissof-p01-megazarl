@@ -5,6 +5,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.AuxiliarVentasDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.GerenteVentasDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.PaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.PaqueteriaDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDTO;
@@ -15,6 +16,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDatosCompletosRelacionesDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.objetosnegocio.AuxiliarVentas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Direccion;
@@ -712,9 +714,9 @@ public class App {
                     // Se crea una instancia del control del caso de uso compra.
                     ControlCompra controlCompra = new ControlCompra();
 
-                    Long idCliente = cliente.getId();
+                    IdEntidadGenerico idCliente = cliente.getId();
                     // Se crean las vistas de la clase de presentación, del tipo de una interfaz definida.
-                    IVista productosVenta = new ProductosVenta(controlCompra, idCliente);
+                    IVista productosVenta = new ProductosVenta(controlCompra, idCliente.getId());
                     IVista informacionProducto = new InformacionProducto(controlCompra, idCliente);
                     IVista seleccionPaqueteria = new SeleccionPaqueteria(controlCompra, idCliente);
                     IVista carrito = new Carrito(controlCompra, idCliente);

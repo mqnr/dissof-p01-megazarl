@@ -60,7 +60,7 @@ public class EncabezadoCompra extends JPanel {
     private final String EMOJI_CARRITO = new String(Character.toChars(0x1F6D2));
     private final String EMOJI_LUPA = new String(Character.toChars(0x1F50D));
     
-    private Long idCliente;
+    private Object idCliente;
     
     JButton btnActualizarDireccionEnvio;
     JButton btnCarritoCompras;
@@ -69,7 +69,7 @@ public class EncabezadoCompra extends JPanel {
 
     private ControlCompra control;
 
-    public EncabezadoCompra(ControlCompra control, Long idCliente, IVista vistaPadre) {
+    public EncabezadoCompra(ControlCompra control, Object idCliente, IVista vistaPadre) {
         this.control = control;
         this.idCliente = idCliente;
         this.vistaPadre = vistaPadre;

@@ -15,6 +15,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.ProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoInicioDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoDetalladaDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Producto;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
 
@@ -51,11 +52,11 @@ class AdministradorProductos implements IAdministradorProductos {
         
         // Se obtiene la cantidad de objetos de tipo ProductoInventario de la lista
         // del objeto Producto con el ID del parámetro.
-        List<Long> idsProductosInventario = producto.getIdsProductosInventario();
+        List<IdEntidadGenerico> idsProductosInventario = producto.getIdsProductosInventario();
         
         int disponibilidadProducto = 0;
 
-        for(Long idProductoInventario: idsProductosInventario){
+        for(IdEntidadGenerico idProductoInventario: idsProductosInventario){
             
             IdProductoInventarioDTO idProductoInventarioDTO = new IdProductoInventarioDTO(idProductoInventario);
              
@@ -126,7 +127,7 @@ class AdministradorProductos implements IAdministradorProductos {
         // que tengan existencias y su nombre este contenido dentro del nombre del parámetro.
         for(ProductoDTO producto: Producto.recuperarTodos()){
             
-            Long idProducto = producto.getId();
+            IdEntidadGenerico idProducto = producto.getId();
 
             int cantidadProducto = 0;
             try {
@@ -178,7 +179,7 @@ class AdministradorProductos implements IAdministradorProductos {
         // que tengan existencias, cuyo su nombre este contenido dentro del nombre del parámetro,
         // y cuya variedad esté contenida detro de la variedad del parámetro.
         for(ProductoDTO producto: Producto.recuperarTodos()){
-            Long idProducto = producto.getId();
+            IdEntidadGenerico idProducto = producto.getId();
 
             int cantidadProducto = 0;
             try {
@@ -230,7 +231,7 @@ class AdministradorProductos implements IAdministradorProductos {
         // y cuyo nombre de proveedor esté contenido detro del nombre de proveedor del parámetro del parámetro.
         List<ProductoDTO> listaProductos = Producto.recuperarTodos();
         for(ProductoDTO producto: listaProductos){
-            Long idProducto = producto.getId();
+            IdEntidadGenerico idProducto = producto.getId();
 
             int cantidadProducto = 0;
             try {

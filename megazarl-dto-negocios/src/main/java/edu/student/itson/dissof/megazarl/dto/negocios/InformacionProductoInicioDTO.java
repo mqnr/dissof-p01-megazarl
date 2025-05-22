@@ -1,5 +1,7 @@
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 /**
  * InformacionProductoInicioDTO.java
  *
@@ -24,7 +26,7 @@ public class InformacionProductoInicioDTO {
     /**
      * Objeto Long que representa el ID del producto.
      */
-    private Long idProducto;
+    private IdEntidadGenerico idProducto;
     /**
      * Objeto String que representa el nombre del producto.
      */
@@ -55,7 +57,7 @@ public class InformacionProductoInicioDTO {
     /**
      * Objeto Long que representa el id del proveedor del producto.
      */
-    private Long idProveedor;
+    private IdEntidadGenerico idProveedor;
 
     /**
      * Objeto String que representa la dirección de la imagen del proveedor del producto.
@@ -75,13 +77,13 @@ public class InformacionProductoInicioDTO {
      * @param idProveedor               Objeto Long que representa el ID del proveedor.
      */
     public InformacionProductoInicioDTO(
-            Long idProducto, 
+            IdEntidadGenerico idProducto, 
             String nombreProducto,
             String variedadProducto,
             Double precioProducto, 
             Integer milesSemillasProducto,
             String direccionImagenProducto,
-            Long idProveedor) {
+            IdEntidadGenerico idProveedor) {
         
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
@@ -97,7 +99,7 @@ public class InformacionProductoInicioDTO {
      * Método que permite obener el ID del producto.
      * @return Objeto Long que representa el ID del producto.
      */
-    public Long getIdProducto() {
+    public IdEntidadGenerico getIdProducto() {
         return idProducto;
     }
 
@@ -150,7 +152,7 @@ public class InformacionProductoInicioDTO {
      * Método que permite obtener el ID del proveedor del producto.
      * @return Objeto Long que representa el ID del proveedor del producto.
      */
-    public Long getIdProveedor() {
+    public IdEntidadGenerico getIdProveedor() {
         return idProveedor;
     }
     

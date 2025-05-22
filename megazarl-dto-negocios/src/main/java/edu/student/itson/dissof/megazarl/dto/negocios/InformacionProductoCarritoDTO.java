@@ -1,5 +1,7 @@
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 /**
  * InformacionProductoCarritoDTO.java
  *
@@ -20,7 +22,7 @@ package edu.student.itson.dissof.megazarl.dto.negocios;
  *
  */
 public class InformacionProductoCarritoDTO {
-    private Long id;
+    private IdEntidadGenerico id;
     private String nombre;
     private String variedad;
     private Double precio;
@@ -29,12 +31,12 @@ public class InformacionProductoCarritoDTO {
     private String nombreProveedor;
     private String direccionImagenProducto;
 
-    public InformacionProductoCarritoDTO(Long id, Integer cantidad) {
+    public InformacionProductoCarritoDTO(IdEntidadGenerico id, Integer cantidad) {
         this.id = id;
         this.cantidad = cantidad;
     }
 
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
 

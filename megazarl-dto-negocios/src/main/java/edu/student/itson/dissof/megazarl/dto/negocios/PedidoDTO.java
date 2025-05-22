@@ -2,6 +2,7 @@
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -29,7 +30,7 @@ public abstract class PedidoDTO {
     /**
      * Objeto Long que representa el ID del pedido.
      */
-    private Long id;
+    private IdEntidadGenerico id;
 
     
     /**
@@ -44,7 +45,7 @@ public abstract class PedidoDTO {
      * @param estado                  Objeto EstadoPedido que representa el estado actual del pedido
      */
     public PedidoDTO(
-            Long id, 
+            IdEntidadGenerico id, 
             String estado) {
         
         this.id = id;
@@ -64,7 +65,7 @@ public abstract class PedidoDTO {
      * Método que permite establecer el id del pedido.
      * @param id Objeto Long que representa el ID del pedido.
      */
-    public void setId(Long id) {
+    public void setId(IdEntidadGenerico id) {
         this.id = id;
     }
     
@@ -72,7 +73,7 @@ public abstract class PedidoDTO {
      * Método que permite obtener el ID del pedido.
      * @return Objeto Long que representa el ID del pedido.
      */
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
 
@@ -89,13 +90,13 @@ public abstract class PedidoDTO {
      * Método que permite obtener el ID del cliente que realiza el pedido.
      * @return Objeto Long que representa el ID del cliente que realiza el pedido.
      */
-    public abstract Long getIdCliente();
+    public abstract IdEntidadGenerico getIdCliente();
 
-    public abstract Long getIdPaqueteria();
+    public abstract IdEntidadGenerico getIdPaqueteria();
     
-    public abstract List<Long> getIdsProductosPedido();
+    public abstract List<IdEntidadGenerico> getIdsProductosPedido();
     
-    public abstract void setIdCliente(Long idClienteDTO);
+    public abstract void setIdCliente(IdEntidadGenerico idClienteDTO);
     
     
     

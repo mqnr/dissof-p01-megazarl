@@ -1,22 +1,23 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import java.util.List;
 
 
 public class ProductoIdsRelacionesDTO extends ProductoDTO {
     
 
-    private Long idProveedor;
+    private IdEntidadGenerico idProveedor;
 
-    private List<Long> idsProductosInventario;
+    private List<IdEntidadGenerico> idsProductosInventario;
 
-    private List<Long> idsProductosCarrito;
+    private List<IdEntidadGenerico> idsProductosCarrito;
     
-    private List<Long> idsProductosPedido;
+    private List<IdEntidadGenerico> idsProductosPedido;
 
     public ProductoIdsRelacionesDTO(
-            Long id, 
+            IdEntidadGenerico id, 
             String nombre, 
             String variedad, 
             String descripcion, 
@@ -24,10 +25,10 @@ public class ProductoIdsRelacionesDTO extends ProductoDTO {
             Double precio, 
             Double pesoKg, 
             String direccionImagen,
-            Long idProveedor,
-            List<Long> idsProductosInventario,
-            List<Long> idsProductosCarrito,
-            List<Long> idsProductosPedido) {
+            IdEntidadGenerico idProveedor,
+            List<IdEntidadGenerico> idsProductosInventario,
+            List<IdEntidadGenerico> idsProductosCarrito,
+            List<IdEntidadGenerico> idsProductosPedido) {
         
         super(
             id, 
@@ -47,22 +48,22 @@ public class ProductoIdsRelacionesDTO extends ProductoDTO {
     }
 
     @Override
-    public Long getIdProveedor() {
+    public IdEntidadGenerico getIdProveedor() {
         return idProveedor;
     }
     
     @Override
-    public List<Long> getIdsProductosInventario() {
+    public List<IdEntidadGenerico> getIdsProductosInventario() {
         return idsProductosInventario;
     }
 
     @Override
-    public List<Long> getIdsProductosCarrito() {
+    public List<IdEntidadGenerico> getIdsProductosCarrito() {
         return idsProductosCarrito;
     }
 
     @Override
-    public List<Long> getIdsProductosPedido() {
+    public List<IdEntidadGenerico> getIdsProductosPedido() {
         return idsProductosPedido;
     }
 

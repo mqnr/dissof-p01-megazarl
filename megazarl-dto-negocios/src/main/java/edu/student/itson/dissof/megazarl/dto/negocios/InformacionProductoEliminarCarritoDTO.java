@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 /**
  * InformacionProductoEliminarCarritoDTO.java
  * 
@@ -21,15 +23,15 @@ package edu.student.itson.dissof.megazarl.dto.negocios;
  */
 public class InformacionProductoEliminarCarritoDTO {
     /**
-     * Objeto Long que representa el ID del cliente del que se va a eliminar el
+     * Objeto IdEntidadGenerico que representa el ID del cliente del que se va a eliminar el
      * producto.
      */
-    private Long idCliente;
+    private IdEntidadGenerico idCliente;
     
     /**
-     * Objeto Long que representa el ID del producto a eliminar.
+     * Objeto IdEntidadGenerico que representa el ID del producto a eliminar.
      */
-    private Long idProducto;
+    private IdEntidadGenerico idProducto;
     
     /**
      * Objeto int que representa la cantidad del producto a eliminar.
@@ -44,8 +46,8 @@ public class InformacionProductoEliminarCarritoDTO {
      * @param cantidad      Objeto int que representa la cantidad del producto a eliminar.
      */
     public InformacionProductoEliminarCarritoDTO(
-            Long idCliente, 
-            Long idProducto,
+            IdEntidadGenerico idCliente, 
+            IdEntidadGenerico idProducto,
             int cantidad){
         
         this.idCliente = idCliente;
@@ -59,7 +61,7 @@ public class InformacionProductoEliminarCarritoDTO {
      * producto. 
      * @return Objeto Long que representa el ID del cliente.
      */
-    public Long getIdCliente() {
+    public IdEntidadGenerico getIdCliente() {
         return idCliente;
     }
 
@@ -67,7 +69,7 @@ public class InformacionProductoEliminarCarritoDTO {
      * Método que permite obtener el ID del producto a eliminar.
      * @return Objeto Long que representa el ID del producto a eliminar.
      */
-    public Long getIdProducto() {
+    public IdEntidadGenerico getIdProducto() {
         return idProducto;
     }
 

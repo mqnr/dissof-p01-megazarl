@@ -8,13 +8,12 @@ import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProductoInventarioDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDatosCompletosRelacionesDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioProductoInventario;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -54,7 +53,7 @@ public class RepositorioProductoInventarioEnMemoria implements RepositorioProduc
     @Override
     public void agregar(ProductoInventarioDTO productoInventario) {
         
-        productoInventario.setId(ID_ACTUAL_PRODUCTO_INVENTARIO++);
+        productoInventario.setId(new IdEntidadGenerico(ID_ACTUAL_PRODUCTO_INVENTARIO++));
         
         ProductoInventarioDatosCompletosRelacionesDTO productoInventarioDatosCompletosRelacionesDTO 
                     = (ProductoInventarioDatosCompletosRelacionesDTO) productoInventario;
@@ -74,7 +73,7 @@ public class RepositorioProductoInventarioEnMemoria implements RepositorioProduc
         
         for(ProductoInventarioDTO productoInventario: productosInventario){
             
-            productoInventario.setId(ID_ACTUAL_PRODUCTO_INVENTARIO++);
+            productoInventario.setId(new IdEntidadGenerico(ID_ACTUAL_PRODUCTO_INVENTARIO++));
             
             ProductoInventarioDatosCompletosRelacionesDTO productoInventarioDatosCompletosRelacionesDTO 
                     = (ProductoInventarioDatosCompletosRelacionesDTO) productoInventario;
@@ -126,11 +125,7 @@ public class RepositorioProductoInventarioEnMemoria implements RepositorioProduc
         }
         return null;
     }
-    private static final Logger LOG = Logger.getLogger(RepositorioProductoInventarioEnMemoria.class.getName());
     
-    
-    
-
     @Override
     public List<ProductoInventarioDTO> recuperarTodos() {
         return new ArrayList<>(listaProductosInventario);

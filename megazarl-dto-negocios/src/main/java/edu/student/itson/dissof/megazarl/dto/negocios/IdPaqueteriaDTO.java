@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 /**
  * Clase DTO que contiene el ID de una paquetería registrada en la empresa.
  * 
@@ -21,13 +23,13 @@ public class IdPaqueteriaDTO {
     /**
      * Objeto Long que representa el ID de la paquetería.
      */
-    private Long idPaqueteria;
+    private IdEntidadGenerico idPaqueteria;
 
     /**
      * Consutrctor de la clase que recibe el ID de la paquetería.
      * @param idPaqueteria Objeto Long que representa el ID de la paquetería.
      */
-    public IdPaqueteriaDTO(Long idPaqueteria) {
+    public IdPaqueteriaDTO(IdEntidadGenerico idPaqueteria) {
         this.idPaqueteria = idPaqueteria;
     }
 
@@ -35,7 +37,7 @@ public class IdPaqueteriaDTO {
      * Método que permite obtener el ID de la paquetería.
      * @return Objeto Long que representa el ID de la paquetería.
      */
-    public Long getIdPaqueteria() {
+    public IdEntidadGenerico getIdPaqueteria() {
         return idPaqueteria;
     }
     

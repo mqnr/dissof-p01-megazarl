@@ -1,18 +1,20 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 
 public class ActualizacionProductoInventarioDTO {
     
-    private Long id;
+    private IdEntidadGenerico id;
     
     private Boolean apartado;
 
-    public ActualizacionProductoInventarioDTO(Long id) {
+    public ActualizacionProductoInventarioDTO(IdEntidadGenerico id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public IdEntidadGenerico getId() {
         return id;
     }
 

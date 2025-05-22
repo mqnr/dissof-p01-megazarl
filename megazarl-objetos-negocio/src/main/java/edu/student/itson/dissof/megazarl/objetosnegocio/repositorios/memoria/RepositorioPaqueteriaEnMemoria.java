@@ -2,6 +2,7 @@ package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
 import edu.student.itson.dissof.megazarl.dto.negocios.PaqueteriaDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioPaqueteria;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class RepositorioPaqueteriaEnMemoria implements RepositorioPaqueteria {
 
     @Override
     public void agregar(PaqueteriaDTO paqueteria) {
-        paqueteria.setId(ID_PAQUETERIA_ACTUAL++);
+        paqueteria.setId(new IdEntidadGenerico(ID_PAQUETERIA_ACTUAL++));
         paqueterias.add(paqueteria);
     }
 
@@ -53,7 +54,7 @@ public class RepositorioPaqueteriaEnMemoria implements RepositorioPaqueteria {
     public void agregar(Collection<PaqueteriaDTO> paqueterias) {
         
         for(PaqueteriaDTO paqueteria: paqueterias){
-            paqueteria.setId(ID_PAQUETERIA_ACTUAL++);
+            paqueteria.setId(new IdEntidadGenerico(ID_PAQUETERIA_ACTUAL++));
         }
         this.paqueterias.addAll(paqueterias);
     }

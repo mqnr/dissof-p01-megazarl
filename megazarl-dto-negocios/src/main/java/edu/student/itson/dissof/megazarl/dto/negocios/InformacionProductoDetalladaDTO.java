@@ -1,5 +1,7 @@
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 /**
  * InformacionProductoDetalladaDTO.java
 
@@ -23,7 +25,7 @@ public class InformacionProductoDetalladaDTO {
     /**
      * Objeto Long que representa el ID del producto.
      */
-    private Long idProducto;
+    private IdEntidadGenerico idProducto;
     
     /**
      * Objeto String que representa el nombre del producto.
@@ -59,7 +61,7 @@ public class InformacionProductoDetalladaDTO {
     /**
      * Objeto Long que representa el ID del proveedor del producto.
      */
-    private Long idProveedor;
+    private IdEntidadGenerico idProveedor;
     
     /**
      * Objeto String que representa el nombre del proveedor del producto.
@@ -72,14 +74,14 @@ public class InformacionProductoDetalladaDTO {
     private String direccionImagenProveedor; 
 
     public InformacionProductoDetalladaDTO(
-            Long idProducto,
+            IdEntidadGenerico idProducto,
             String nombreProducto, 
             String variedadProducto, 
             String descripcionProducto,
             Double precioProducto, 
             Integer milesSemillasProducto, 
             String direccionImagenProducto,
-            Long idProveedor) {
+            IdEntidadGenerico idProveedor) {
         
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
@@ -91,7 +93,7 @@ public class InformacionProductoDetalladaDTO {
         this.idProveedor = idProveedor;
     }
 
-    public Long getIdProducto() {
+    public IdEntidadGenerico getIdProducto() {
         return idProducto;
     }
 
@@ -119,7 +121,7 @@ public class InformacionProductoDetalladaDTO {
         return direccionImagenProducto;
     }
 
-    public Long getIdProveedor() {
+    public IdEntidadGenerico getIdProveedor() {
         return idProveedor;
     }
 

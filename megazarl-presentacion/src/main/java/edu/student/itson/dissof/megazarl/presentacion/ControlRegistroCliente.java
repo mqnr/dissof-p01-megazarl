@@ -10,6 +10,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdAuxiliarVentasDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoAuxiliarVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.negocio.FabricaSubsistemas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.AuxiliarVentas;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
@@ -102,7 +103,8 @@ public class ControlRegistroCliente {
         IAdministradorAuxiliaresVentas administradorAuxiliaresVentas = FabricaSubsistemas.obtenerAdministradorAuxiliaresVentas();
         
         NombresApellidoAuxiliarVentasDTO nombresApellidoAuxiliarVentasDTO
-                = administradorAuxiliaresVentas.obtenerNombreApellidoAuxiliarVentas(new IdAuxiliarVentasDTO(idAuxiliarVentas));
+                = administradorAuxiliaresVentas.obtenerNombreApellidoAuxiliarVentas(
+                        new IdAuxiliarVentasDTO((new IdEntidadGenerico(idAuxiliarVentas))));
         
         String[] arregloNombresApellidos = {
             nombresApellidoAuxiliarVentasDTO.getNombreAuxiliarVentas(),

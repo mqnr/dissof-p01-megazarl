@@ -45,6 +45,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.MontoMinimoEnvioGratuitoDT
 import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoInicioDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.TiempoEstimadoPreparacionEnvioPedidoDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.negocio.FabricaSubsistemas;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ICarrito;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IDireccion;
@@ -218,7 +219,7 @@ public class ControlCompra {
             
             mapaInformacionProductoInicio.put("DireccionImagenProveedor", direccionImagenProveedor);
             
-            String nombreProveedor = obtenerNombreProveedor(informacionProductoInicioDTO.getIdProveedor());
+            String nombreProveedor = obtenerNombreProveedor(new IdEntidadGenerico(informacionProductoInicioDTO.getIdProveedor()));
             informacionProductoInicioDTO.setProveedorProducto(nombreProveedor);
             
             mapaInformacionProductoInicio.put("NombreProveedor", nombreProveedor);
@@ -269,7 +270,7 @@ public class ControlCompra {
             mapaInformacionProductoInicio.put("MilesSemillas", productoInicioDTO.getMilesSemillasProducto());
             mapaInformacionProductoInicio.put("DireccionImagenProducto", productoInicioDTO.getDireccionImagenProducto());
               
-            String direccionImagenProveedor = obtenerDireccionImagenProveedor(productoInicioDTO.getIdProveedor()); 
+            String direccionImagenProveedor = obtenerDireccionImagenProveedor(productoInicioDTO.getIdProveedor().getId()); 
             productoInicioDTO.setDireccionImagenProveedor(direccionImagenProveedor); 
             
             mapaInformacionProductoInicio.put("DireccionImagenProveedor", direccionImagenProveedor);
@@ -414,7 +415,8 @@ public class ControlCompra {
         IAdministradorProductos administradorProductos = FabricaSubsistemas.obtenerAdministradorProductos();
         
         try {
-            InformacionProductoDetalladaDTO informacionProductoDTO = administradorProductos.obtenerInformacionProductoVenta(new IdProductoDTO(idProducto));
+            InformacionProductoDetalladaDTO informacionProductoDTO 
+                    = administradorProductos.obtenerInformacionProductoVenta(new IdProductoDTO(new IdEntidadGenerico(idProducto)));
             Map<String, Object> mapaInformacionProducto = new HashMap<>();
             
             if (informacionProductoDTO != null) {
@@ -456,8 +458,8 @@ public class ControlCompra {
      * @param vistaActual Objeto que implementa la interfaz IVista, representa
      * la ventana actual que será cerrada.
      */
-    public void mostrarCarritoCompras(Long idCliente, IVista vistaActual) {
-        List<Map<String, Object>> listaInformacionProductosCarrito = obtenerInformacionProductosCarrito(idCliente);
+    public void mostrarCarritoCompras(Object idCliente, IVista vistaActual) {
+        List<Map<String, Object>> listaInformacionProductosCarrito = obtenerInformacionProductosCarrito(new IdEntidadGenerico(idCliente));
         if(!listaInformacionProductosCarrito.isEmpty()){
             carrito.actualizarDatosEncabezado();
             ((ICarrito)carrito).setProductos(listaInformacionProductosCarrito);
@@ -477,8 +479,8 @@ public class ControlCompra {
      * @param idCliente Objeto Integer que representa el ID del Cliente del que se 
      * mostrará la información del carrito.
      */
-    public void mostrarCarritoCompras(Long idCliente) {
-        List<Map<String, Object>> listaInformacionProductosCarrito = obtenerInformacionProductosCarrito(idCliente);
+    public void mostrarCarritoCompras(Object idCliente) {
+        List<Map<String, Object>> listaInformacionProductosCarrito = obtenerInformacionProductosCarrito(new IdEntidadGenerico(idCliente));
         
         if(!listaInformacionProductosCarrito.isEmpty()){
             carrito.actualizarDatosEncabezado();
@@ -501,7 +503,7 @@ public class ControlCompra {
      * de los productos del carrito del Cliente con el ID del parámetro, cada producto
      * es representado con un mapa.
      */
-    public List<Map<String, Object>> obtenerInformacionProductosCarrito(Long idCliente) {
+    public List<Map<String, Object>> obtenerInformacionProductosCarrito(IdEntidadGenerico idCliente) {
         
         List<InformacionProductoCarritoDTO> listaInformacionProductoCarritoDTO = new LinkedList<>();
         List<Map<String, Object>> listaInformacionProductosCarrito = new LinkedList<>();
@@ -511,7 +513,7 @@ public class ControlCompra {
             IAdministradorCarritoCompras administradorCarritoCompras 
                     = FabricaSubsistemas.obtenerAdministradorCarritoCompras(montoMinimoEnvioGratuito, direccionDefectoPaquetería);
             
-            listaInformacionProductoCarritoDTO = administradorCarritoCompras.obtenerProductos(new IdClienteDTO(idCliente));
+            listaInformacionProductoCarritoDTO = administradorCarritoCompras.obtenerProductos(new IdClienteDTO(new IdEntidadGenerico(idCliente)));
             
             IAdministradorProductos administradorProductos = FabricaSubsistemas.obtenerAdministradorProductos();
             
@@ -569,12 +571,12 @@ public class ControlCompra {
      * @return Objeto String que representa imagen del logotipo del proveedor con el
      * ID del parámetro dentro de la aplicación.
      */
-    public String obtenerDireccionImagenProveedor(Long idProveedor){
+    public String obtenerDireccionImagenProveedor(Object idProveedor){
         
         String direccionImagenProveedor = null;
         try {
             IAdministradorProveedores administradorProveedores = FabricaSubsistemas.obtenerAdministradorProveedores();
-            direccionImagenProveedor = administradorProveedores.obtenerDireccionImagenProveedor(new IdProveedorDTO(idProveedor));
+            direccionImagenProveedor = administradorProveedores.obtenerDireccionImagenProveedor(new IdProveedorDTO(new IdEntidadGenerico(idProveedor)));
             
         } catch (ProveedoresIdProveedorInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error al obtener la información del proveedor.", COLOR_MENSAJE_ERROR);
@@ -591,12 +593,12 @@ public class ControlCompra {
      * @return Objeto String que representa el nombre del Proveedor con el ID
      * del parámetro.
      */
-    public String obtenerNombreProveedor(Long idProveedor){
+    public String obtenerNombreProveedor(Object idProveedor){
 
         try {
             
             IAdministradorProveedores administradorProveedores = FabricaSubsistemas.obtenerAdministradorProveedores();   
-            return administradorProveedores.obtenerNombreProveedor(new IdProveedorDTO(idProveedor));
+            return administradorProveedores.obtenerNombreProveedor((new IdProveedorDTO(new IdEntidadGenerico(idProveedor))));
             
         } catch (ProveedoresIdProveedorInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error al obtener la información del proveedor.", COLOR_MENSAJE_ERROR);
@@ -617,7 +619,7 @@ public class ControlCompra {
         try {
             
             IAdministradorProductos administradorProductos = FabricaSubsistemas.obtenerAdministradorProductos();
-            return administradorProductos.cosultarInventarioProducto(new IdProductoDTO(idProducto));
+            return administradorProductos.cosultarInventarioProducto(new IdProductoDTO(new IdEntidadGenerico(idProducto)));
             
         } catch (ProductosIdProductoInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error al verificar las exisencias de los productos.", COLOR_MENSAJE_ERROR);
@@ -640,8 +642,8 @@ public class ControlCompra {
      * @return 
      */
     public boolean agregarProductoCarrito(
-            Long idCliente,
-            Long idProducto, 
+            Object idCliente,
+            Object idProducto, 
             int cantidad, 
             IVista vistaActual) {
 
@@ -650,11 +652,13 @@ public class ControlCompra {
         try {
             
             IAdministradorCarritoCompras administradorCarritoCompras 
-                    = FabricaSubsistemas.obtenerAdministradorCarritoCompras(montoMinimoEnvioGratuito, direccionDefectoPaquetería);
+                    = FabricaSubsistemas.obtenerAdministradorCarritoCompras(
+                            montoMinimoEnvioGratuito, 
+                            direccionDefectoPaquetería);
             
             administradorCarritoCompras.agregarProducto(new InformacionProductoAgregarCarritoDTO(
-                    idCliente,
-                    idProducto,
+                    new IdEntidadGenerico(idCliente),
+                    new IdEntidadGenerico(idProducto),
                     cantidad));
             
             productoAgregado = true;
@@ -687,7 +691,7 @@ public class ControlCompra {
      * @return true si se pudo eliminar la cantidad especificada del Producto especificado,
      * false en caso contrario.
      */
-    public boolean eliminarProductoCarrito(Long idCliente, Long idProducto, int cantidad) {
+    public boolean eliminarProductoCarrito(Object idCliente, Object idProducto, int cantidad) {
         
         boolean productoEliminado = false;
         
@@ -696,12 +700,12 @@ public class ControlCompra {
                     = FabricaSubsistemas.obtenerAdministradorCarritoCompras(montoMinimoEnvioGratuito, direccionDefectoPaquetería);
             
             administradorCarritoCompras.eliminarProducto(new InformacionProductoEliminarCarritoDTO(
-                    idCliente, 
-                    idProducto,
+                    new IdEntidadGenerico(idCliente), 
+                    new IdEntidadGenerico(idProducto),
                     cantidad));
             
             productoEliminado = true;
-            mostrarCarritoCompras(idCliente, (IVista)carrito);
+            mostrarCarritoCompras(new IdEntidadGenerico(idCliente), (IVista)carrito);
 
         } catch (CarritoComprasIdClienteInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
@@ -724,14 +728,14 @@ public class ControlCompra {
      * se obtedrá el total de unidades de todos los productos agregados a su carrito.
      * @return 
      */
-    public int obtenerNumeroProductosCarrito(Long idCliente) {
+    public int obtenerNumeroProductosCarrito(Object idCliente) {
 
         int numeroProductosCarrito = 0;
         try {
             
             IAdministradorCarritoCompras administradorCarritoCompras 
                     = FabricaSubsistemas.obtenerAdministradorCarritoCompras(montoMinimoEnvioGratuito, direccionDefectoPaquetería);
-            numeroProductosCarrito = administradorCarritoCompras.obtenerNumeroProductos(new IdClienteDTO(idCliente));
+            numeroProductosCarrito = administradorCarritoCompras.obtenerNumeroProductos(new IdClienteDTO(new IdEntidadGenerico(idCliente)));
             
         } catch (CarritoComprasIdClienteInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
@@ -754,14 +758,14 @@ public class ControlCompra {
      * del carrito del Cliente, como el monto mínomo necesario para obtener un envío
      * gratuito. Null si ocurre una excepción.
      */
-    public Double[] obtenerInformacionMontoEnvioGratuito(Long idCliente) {
+    public Double[] obtenerInformacionMontoEnvioGratuito(Object idCliente) {
         
         IAdministradorCarritoCompras administradorCarritoCompras
                 = FabricaSubsistemas.obtenerAdministradorCarritoCompras(montoMinimoEnvioGratuito, direccionDefectoPaquetería);
         
         try {
             MontoMinimoEnvioGratuitoDTO montoMinimoEnvioGratuitoDTO 
-                    = administradorCarritoCompras.obtenerInformacionMontoEnvioMinimoGratuito(new IdClienteDTO(idCliente));
+                    = administradorCarritoCompras.obtenerInformacionMontoEnvioMinimoGratuito(new IdClienteDTO(new IdEntidadGenerico(idCliente)));
             
             Double[] informacionMontoEnvioGratuito = {montoMinimoEnvioGratuitoDTO.getMontoActual(), montoMinimoEnvioGratuitoDTO.getMontoMinimo()};
             
@@ -786,13 +790,13 @@ public class ControlCompra {
      * @return Objeto String[] que contiene el nombre o nombres y el apellido paterno
      * del Cliente.
      */
-    public String[] obtenerNombreApellidoCliente(Long idCliente) {
+    public String[] obtenerNombreApellidoCliente(Object idCliente) {
 
         NombresApellidoClienteDTO nombreApellidoClienteDTO;
         try {
             
             IAdministradorClientes administradorClientes = FabricaSubsistemas.obtenerAdministradorClientes();
-            nombreApellidoClienteDTO = administradorClientes.obtenerNombresApellidoCliente(new IdClienteDTO(idCliente));
+            nombreApellidoClienteDTO = administradorClientes.obtenerNombresApellidoCliente(new IdClienteDTO(new IdEntidadGenerico(idCliente)));
             String[] nombreApellidoCliente = {nombreApellidoClienteDTO.getNombresCliente(), nombreApellidoClienteDTO.getApellidoMaternoCliente()};
             return nombreApellidoCliente;
             
@@ -814,13 +818,14 @@ public class ControlCompra {
      * @return Objeto int[] que contiene el mínimo y máximo de días de preparación
      * del pedido del Cliente.
      */
-    public int[] obtenerRangoDiasFechaEstimadaPreparacion(Long idCliente) {
+    public int[] obtenerRangoDiasFechaEstimadaPreparacion(Object idCliente) {
         TiempoEstimadoPreparacionEnvioPedidoDTO tiempoEstimadoPreparacionEnvioPedidoDTO;
         
         try {
             IAdministradorCarritoCompras administradorCarritoCompras 
                     = FabricaSubsistemas.obtenerAdministradorCarritoCompras(montoMinimoEnvioGratuito, direccionDefectoPaquetería);
-            tiempoEstimadoPreparacionEnvioPedidoDTO = administradorCarritoCompras.obtenerTiempoEstimadoPreparacionProductos(new IdClienteDTO(idCliente));
+            tiempoEstimadoPreparacionEnvioPedidoDTO 
+                    = administradorCarritoCompras.obtenerTiempoEstimadoPreparacionProductos(new IdClienteDTO(new IdEntidadGenerico(idCliente)));
             
             if(tiempoEstimadoPreparacionEnvioPedidoDTO != null){
             int[] rangoDiasEstimadoPreparacion = {tiempoEstimadoPreparacionEnvioPedidoDTO.getDiasLimiteInferior(),
@@ -866,9 +871,9 @@ public class ControlCompra {
      * @param vistaActual Objeto que implementa la interfaz IVista, que representa
      * la ventana actual que será cerrada.
      */
-    public void mostrarSeleccionPaqueteria(Long idCliente, boolean envioGratis, IVista vistaActual) {
+    public void mostrarSeleccionPaqueteria(Object idCliente, boolean envioGratis, IVista vistaActual) {
         
-        HashMap<Long, String> datosPaqueterias = this.obtenerPaqueterias();
+        HashMap<Object, String> datosPaqueterias = this.obtenerPaqueterias();
         
         String[] datosDireccionCliente = recuperarDatosDireccionCliente(idCliente);
         
@@ -888,19 +893,20 @@ public class ControlCompra {
      * Método que permite obtener algunos datos que componen la dirección de envío
      * del Cliente con el ID del parámetro, estos son el número, calle, colonia
      * y Código Postal.
-     * @param idCliente Objeto Integer que representa el ID del Cliente del que 
+     * @param idCliente Objeto IdEntidadGenerico que representa el ID del Cliente del que 
      * se obtendrán los datos de la dirección de envío.
      * @return Objeto String[] que contiene los datos de la dirección de envío
      * del Cliente.
      */
-    public String[] recuperarDatosDireccionCliente(Long idCliente){
+    public String[] recuperarDatosDireccionCliente(Object idCliente){
         
         InformacionNoDerivadaCPDireccionDTO informacionNoDerivadaCPDireccionEnvioDTO;
         try {
             
             IAdministradorClientes administradorClientes = FabricaSubsistemas.obtenerAdministradorClientes();
             
-            informacionNoDerivadaCPDireccionEnvioDTO = administradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(new IdClienteDTO(idCliente));
+            informacionNoDerivadaCPDireccionEnvioDTO 
+                    = administradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(new IdClienteDTO(new IdEntidadGenerico(idCliente)));
             
             String calleCliente = informacionNoDerivadaCPDireccionEnvioDTO.getCalle();
             String numeroCliente =  informacionNoDerivadaCPDireccionEnvioDTO.getNumero();
@@ -930,16 +936,17 @@ public class ControlCompra {
      * y la dirección de la imagen de su logotipo dentro de la aplicación.
      * @return 
      */
-    public HashMap<Long, String> obtenerPaqueterias() {
+    public HashMap<Object, String> obtenerPaqueterias() {
         
         IAdministradorPaqueterias administradorPaqueterias = FabricaSubsistemas.obtenerAdministradorPaqueterias(direccionDefectoPaquetería);
         
         List<InformacionSeleccionPaqueteriaDTO> listaInformacionSeleccionPaqueteriaDTO = administradorPaqueterias.obtenerPaqueterias();
         
-        HashMap<Long, String> datosPaqueterias = new HashMap<>();
+        HashMap<Object, String> datosPaqueterias = new HashMap<>();
         
         for(InformacionSeleccionPaqueteriaDTO informacionSeleccionPaqueteriaDTO: listaInformacionSeleccionPaqueteriaDTO){
-            datosPaqueterias.put(informacionSeleccionPaqueteriaDTO.getIdPaqueteria(), informacionSeleccionPaqueteriaDTO.getDireccionImagenPaqueteria());
+            datosPaqueterias.put(informacionSeleccionPaqueteriaDTO.getIdPaqueteria().getId(),
+                    informacionSeleccionPaqueteriaDTO.getDireccionImagenPaqueteria());
         }
         
         return datosPaqueterias;
@@ -955,10 +962,10 @@ public class ControlCompra {
      * la que se realizará el pedido.
      * @return 
      */
-    public Float obtenerCostoEnvioPaqueteria(Long idCliente, Long idPqueteia){
+    public Float obtenerCostoEnvioPaqueteria(Object idCliente, Object idPqueteia){
         
         IdClientePaqueteriaDTO idClientePaqueteriaCalculoCostoEnvioDTO =
-                new IdClientePaqueteriaDTO(idCliente, idPqueteia);
+                new IdClientePaqueteriaDTO(new IdEntidadGenerico(idCliente), new IdEntidadGenerico(idPqueteia));
         
         Float costoEnvioPaqueteria = null;
         try {
@@ -990,20 +997,21 @@ public class ControlCompra {
      * @param vistaActual Objeto que implementa la interfaz IVista, que representa
      * la ventana actual que será cerrada.
      */
-    public void mostrarActualizacionDireccionEnvio(Long idCliente, IVista vistaActual){
+    public void mostrarActualizacionDireccionEnvio(Object idCliente, IVista vistaActual){
         
         InformacionNoDerivadaCPDireccionDTO informacionNoDerivadaCPDireccionEnvioDTO;
         try {
             IAdministradorClientes administradorClientes = FabricaSubsistemas.obtenerAdministradorClientes();
             
-            informacionNoDerivadaCPDireccionEnvioDTO = administradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(new IdClienteDTO(idCliente));
+            informacionNoDerivadaCPDireccionEnvioDTO = administradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(
+                    new IdClienteDTO(new IdEntidadGenerico(idCliente)));
             String calleEnvio = informacionNoDerivadaCPDireccionEnvioDTO.getCalle();
             String numeroEnvio =  informacionNoDerivadaCPDireccionEnvioDTO.getNumero();
             String coloniaEnvio = informacionNoDerivadaCPDireccionEnvioDTO.getColonia();
             String codigoPostalEnvio = informacionNoDerivadaCPDireccionEnvioDTO.getCodigoPostal();
 
             InformacionDerivadaCPDireccionDTO informacionDerivadaCPDirecciionDTO 
-                    = administradorClientes.obtenerInformacionDerivadaCPDireccionEnvio(new IdClienteDTO(idCliente));
+                    = administradorClientes.obtenerInformacionDerivadaCPDireccionEnvio(new IdClienteDTO(new IdEntidadGenerico(idCliente)));
             
             String estadoEnvio = informacionDerivadaCPDirecciionDTO.getEstado();
             String ciudadEnvio =  informacionDerivadaCPDirecciionDTO.getCiudad();
@@ -1075,7 +1083,7 @@ public class ControlCompra {
     public void actualizarDatosDireccionCliente(List<Object> datosCliente, IVista vistaActual){
         InformacionDireccionEnvioActualizadaClienteDTO informacionDireccionEnvioActualizadaClienteDTO = 
                 new InformacionDireccionEnvioActualizadaClienteDTO(
-                        (Long)datosCliente.get(0), 
+                        new IdEntidadGenerico(datosCliente.get(0)), 
                         (String)datosCliente.get(1),
                         (String)datosCliente.get(2),
                         (String)datosCliente.get(3),
@@ -1108,15 +1116,16 @@ public class ControlCompra {
      * la ventana actual que será cerrada.
      */
     public void asignarPaqueteriaCarritoCliente(
-            Long idCliente,
-            Long idPaqueteria, 
+            Object idCliente,
+            Object idPaqueteria, 
             IVista vistaActual){
         
         try {
             
             IAdministradorCarritoCompras administradorCarritoCompras 
                     = FabricaSubsistemas.obtenerAdministradorCarritoCompras(montoMinimoEnvioGratuito, direccionDefectoPaquetería);
-            administradorCarritoCompras.asignarPaqueteriaCarritoCliente(new IdClientePaqueteriaDTO(idCliente, idPaqueteria));
+            administradorCarritoCompras.asignarPaqueteriaCarritoCliente(new IdClientePaqueteriaDTO(
+                    new IdEntidadGenerico(idCliente), new IdEntidadGenerico(idPaqueteria)));
             
             ejecutarCasoUsoPagar(idCliente, vistaActual);
             
@@ -1135,12 +1144,12 @@ public class ControlCompra {
      * @param idCliente Objeto Integer que representa el ID del Cliente al que se
      * realizará el pedido con los productos de su carrito.
      */
-    public void realizarPedido(Long idCliente){
+    public void realizarPedido(Object idCliente){
         
         try {
             IAdministradorCarritoCompras administradorCarritoCompras 
                     = FabricaSubsistemas.obtenerAdministradorCarritoCompras(montoMinimoEnvioGratuito, direccionDefectoPaquetería);
-            administradorCarritoCompras.crearPedidoProductosCarritoCliente(new IdClienteDTO(idCliente));
+            administradorCarritoCompras.crearPedidoProductosCarritoCliente(new IdClienteDTO(new IdEntidadGenerico(idCliente)));
             mostrarProductosVenta(direccion);
             mostrarConfirmacionPedido();
                  
@@ -1173,7 +1182,7 @@ public class ControlCompra {
      * @param vistaActual Objeto Integer que representa el ID del Cliente al que se
      * realizará el pedido con los productos de su carrito.
      */
-    public void ejecutarCasoUsoPagar(Long idCliente, IVista vistaActual){
+    public void ejecutarCasoUsoPagar(Object idCliente, IVista vistaActual){
         
         vistaActual.cerrar();
         

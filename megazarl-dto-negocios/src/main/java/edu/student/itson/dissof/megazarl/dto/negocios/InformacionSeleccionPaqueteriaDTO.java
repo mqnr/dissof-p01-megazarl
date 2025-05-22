@@ -1,5 +1,7 @@
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 /**
  * InformacionSeleccionPaqueteriaDTO.java
  *
@@ -20,9 +22,9 @@ package edu.student.itson.dissof.megazarl.dto.negocios;
  */
 public class InformacionSeleccionPaqueteriaDTO {
     /**
-     * Objeto Long que representa el ID de la paquetería.
+     * Objeto IdEntidadGenerico que representa el ID de la paquetería.
      */
-    private Long idPaqueteria;
+    private IdEntidadGenerico idPaqueteria;
     
     /**
      * Objeto String que representa la dirección de la imagen de la paquetería.
@@ -32,12 +34,12 @@ public class InformacionSeleccionPaqueteriaDTO {
     /**
      * Consutructor de la clase que recibe la información necesaria para mostrar
      * la paquetería en la selección de servicio de envío.
-     * @param idPaqueteria              Objeto Long que representa el ID de la paquetería.
+     * @param idPaqueteria              Objeto IdEntidadGenerico que representa el ID de la paquetería.
      * @param direccionImagenPaqueteria Objeto String que representa la dirección de la imagen de la paquetería.
      */
     public InformacionSeleccionPaqueteriaDTO(
             
-            Long idPaqueteria, 
+            IdEntidadGenerico idPaqueteria, 
             String direccionImagenPaqueteria) {
         
         this.idPaqueteria = idPaqueteria;
@@ -48,7 +50,7 @@ public class InformacionSeleccionPaqueteriaDTO {
      * Método que permite obener el ID de la paquetería a mostrar.
      * @return Objeto Long que representa el ID de la paquetería.
      */
-    public Long getIdPaqueteria() {
+    public IdEntidadGenerico getIdPaqueteria() {
         return idPaqueteria;
     }
 

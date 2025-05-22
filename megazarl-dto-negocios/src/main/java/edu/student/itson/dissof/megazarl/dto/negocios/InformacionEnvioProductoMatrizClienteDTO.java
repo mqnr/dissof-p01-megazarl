@@ -1,5 +1,7 @@
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 /**
  * InformacionEnvioProductoMatrizClienteDTO.java
 
@@ -24,12 +26,12 @@ public class InformacionEnvioProductoMatrizClienteDTO {
     /**
      * Objeto Long que representa el ID de la paqueteria.
      */
-    private Long idPaqueteria;
+    private IdEntidadGenerico idPaqueteria;
     
     /**
      * Objeto Long que representa el ID del cliente.
      */
-    private Long idCliente;
+    private IdEntidadGenerico idCliente;
     
     /**
      * Objeto Double que representa el peso total del producto en kilogramos.
@@ -39,13 +41,13 @@ public class InformacionEnvioProductoMatrizClienteDTO {
     /**
      * Constructor de la clase que recibe el ID de la paquetería, los datos de la 
      * dirección del cliente, y los datos de la dirección de la Matriz.
-     * @param idPaqueteria          Objeto Long que representa el ID de la paqueteria.
-     * @param idCliente             Objeto Long que representa el ID del cliente.
+     * @param idPaqueteria          Objeto IdEntidadGenerico que representa el ID de la paqueteria.
+     * @param idCliente             Objeto IdEntidadGenerico que representa el ID del cliente.
      * @param pesoKgTotal           Objeto Double que representa el peso total del producto en kilogramos.
      */
     public InformacionEnvioProductoMatrizClienteDTO(
-            Long idPaqueteria,
-            Long idCliente,
+            IdEntidadGenerico idPaqueteria,
+            IdEntidadGenerico idCliente,
             Double pesoKgTotal) {
         
         this.idPaqueteria = idPaqueteria;
@@ -56,17 +58,17 @@ public class InformacionEnvioProductoMatrizClienteDTO {
 
     /**
      * Método que permite obtener el ID de la paqueteria.
-     * @return Objeto Long que representa el ID de la paqueteria.
+     * @return Objeto IdEntidadGenerico que representa el ID de la paqueteria.
      */
-    public Long getIdPaqueteria() {
+    public IdEntidadGenerico getIdPaqueteria() {
         return idPaqueteria;
     }
 
     /**
      * Método que permite obtener el ID del cliente.
-     * @return Objeto Long que representa el ID del cliente.
+     * @return Objeto IdEntidadGenerico que representa el ID del cliente.
      */
-    public Long getIdCliente() {
+    public IdEntidadGenerico getIdCliente() {
         return idCliente;
     }
 

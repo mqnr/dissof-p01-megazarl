@@ -23,7 +23,7 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
     private JPanel panelBotones;
     private JLabel labelCosto;
     private JLabel labelError;
-    private Long idCliente;
+    private Object idCliente;
     private boolean envioGratis;
     
     private String calleEnvio;
@@ -44,9 +44,9 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
 
     private final ControlCompra control;
     
-    private Long idPaqueteriaSeleccionada;
+    private Object idPaqueteriaSeleccionada;
 
-    public SeleccionPaqueteria(ControlCompra control, Long idCliente) {
+    public SeleccionPaqueteria(ControlCompra control, Object idCliente) {
         setTitle("Semillas MEGAZARL - Seleccionar paquetería");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);
@@ -124,7 +124,7 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
     }
 
     @Override
-    public void setPaqueterias(HashMap<Long, String> datosPaqueterias) {
+    public void setPaqueterias(HashMap<Object, String> datosPaqueterias) {
         
         
         panelPaqueterias.removeAll();
@@ -139,7 +139,7 @@ public class SeleccionPaqueteria extends JFrame implements ISeleccionPaqueteria,
 
         panelPaqueterias.setLayout(new GridLayout(Math.ceilDiv(datosPaqueterias.size(), 5), 5));
 
-        for (HashMap.Entry<Long, String> datosPaqueteria : datosPaqueterias.entrySet()) {
+        for (HashMap.Entry<Object, String> datosPaqueteria : datosPaqueterias.entrySet()) {
 
             String direccionImagenPaqueteria = datosPaqueteria.getValue();
             

@@ -21,7 +21,6 @@ import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.Prod
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInventarioInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
-import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionProductoInventarioDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTO;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DatosTiempoTrasladoUbicacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
@@ -47,9 +46,9 @@ import edu.student.itson.dissof.megazarl.dto.negocios.ProductoPedidoDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProductoPedidoDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoProveedorMatrizDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoSucursalMatrizDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.mapas.IAdministradorMapas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Pedido;
-import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
 import java.util.ArrayList;
 
 import java.util.Collections;
@@ -59,8 +58,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 class AdministradorPedidos implements IAdministradorPedidos {
     
@@ -118,7 +115,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
 
         for(IdProductoCantidadCarritoDTO idProductoCantidadCarritoDTO: listaIdProductoCantidadCarritoDTO){
             
-            Long idProducto = idProductoCantidadCarritoDTO.getIdProducto();
+            IdEntidadGenerico idProducto = idProductoCantidadCarritoDTO.getIdProducto();
             
             IdProductoDTO idProductoDTO = new IdProductoDTO(idProducto);
             if (!administradorProductos.validarProducto(idProductoDTO)) {
@@ -131,7 +128,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
                 throw new PedidosIdProductoInvalidoException("El ID de producto es inválido.");
             }
                     
-            List<Long> listaIdsProductosInventario = producto.getIdsProductosInventario();
+            List<IdEntidadGenerico> listaIdsProductosInventario = producto.getIdsProductosInventario();
  
             // Se crea un hashMap para almacenar los productos en inventario del producto
             // como clave, y su tiempo de traslado a matriz como valor
@@ -159,7 +156,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
             
             boolean todosProductosDisponibles = true;
                     
-            for(Long idProductoInventario: listaIdsProductosInventario){
+            for(IdEntidadGenerico idProductoInventario: listaIdsProductosInventario){
                 
                 IdProductoInventarioDTO idProductoInventarioDTO = new IdProductoInventarioDTO(idProductoInventario);
                 
@@ -318,7 +315,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
             PedidosIdDireccionInvalidoException,
             PedidosIdProductoInventarioInvalidoException{
 
-        Long idCliente = informacionPedidoClienteDTO.getIdCliente();
+        IdEntidadGenerico idCliente = informacionPedidoClienteDTO.getIdCliente();
         
         IdClienteDTO idClienteDTO = new IdClienteDTO(idCliente);
         
@@ -327,7 +324,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
             throw new PedidosIdClienteInvalidoException("El ID de cliente es inválido.");
         }
 
-        Long idPaqueteria = informacionPedidoClienteDTO.getIdPaqueteria();
+        IdEntidadGenerico idPaqueteria = informacionPedidoClienteDTO.getIdPaqueteria();
         
         IdPaqueteriaDTO idPaqueteriaDTO = new IdPaqueteriaDTO(idPaqueteria);
 
@@ -343,10 +340,10 @@ class AdministradorPedidos implements IAdministradorPedidos {
         }
 
         // Se obtiene el mapa con la información de las cantidades solicitades por producto
-        HashMap<Long, Integer> mapaProductosCantidades = informacionPedidoClienteDTO.getMapaProductosCantidades();
+        HashMap<IdEntidadGenerico, Integer> mapaProductosCantidades = informacionPedidoClienteDTO.getMapaProductosCantidades();
         
         // Se validan los IDs de los productos
-        for (Long idProducto: mapaProductosCantidades.keySet()) {
+        for (IdEntidadGenerico idProducto: mapaProductosCantidades.keySet()) {
             if (!administradorProductos.validarProducto(new IdProductoDTO(idProducto))) {
                 throw new PedidosIdProductoInvalidoException("El ID de producto es inválido.");
             }
@@ -384,7 +381,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
         double sumaKgTotal = 0;
 
         // Se calcula el costo de envio de productos a matriz:
-        for (Long idProducto: mapaProductosCantidades.keySet()) {
+        for (IdEntidadGenerico idProducto: mapaProductosCantidades.keySet()) {
 
             // Se valida el ID del producto
             if(!administradorProductos.validarProducto(new IdProductoDTO(idProducto))){
@@ -413,9 +410,9 @@ class AdministradorPedidos implements IAdministradorPedidos {
 
             // Se obtiene la lista de productos en inventario asociados al 
             // producto actual
-            List<Long> listaIdsProductosInventario = producto.getIdsProductosInventario();
+            List<IdEntidadGenerico> listaIdsProductosInventario = producto.getIdsProductosInventario();
 
-            for(Long idProductoInventario: listaIdsProductosInventario){
+            for(IdEntidadGenerico idProductoInventario: listaIdsProductosInventario){
                 
                 IdProductoInventarioDTO idProductoInventarioDTO = new IdProductoInventarioDTO(idProductoInventario);
                 
@@ -570,7 +567,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
                 
                 sumaKgTotal += pesoKgProductoComprar;
                 
-                Long idProveedor = idProveedorDTO.getIdProveedor();
+                IdEntidadGenerico idProveedor = idProveedorDTO.getIdProveedor();
                 
                 InformacionEnvioProductoProveedorMatrizDTO informacionEnvioProductoProveedorMatrizDTO
                         = new InformacionEnvioProductoProveedorMatrizDTO(
@@ -606,7 +603,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
 
             double pesoKgProductosSucursal = entrada.getValue();
 
-            Long idSucursal = sucursalProductosInventario.getId();
+            IdEntidadGenerico idSucursal = sucursalProductosInventario.getId();
 
             InformacionEnvioProductoSucursalMatrizDTO informacionEnvioProductoSucursalMatriz
                     = new InformacionEnvioProductoSucursalMatrizDTO(
@@ -679,7 +676,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
             PedidosIdSucursalInvalidoException,
             PedidosIdDireccionInvalidoException{
 
-        Long idCliente = informacionCrearPedidoDTO.getIdCliente();
+        IdEntidadGenerico idCliente = informacionCrearPedidoDTO.getIdCliente();
 
         IdClienteDTO idClienteDTO = new IdClienteDTO(idCliente);
         
@@ -693,7 +690,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
             throw new PedidosIdProductoInvalidoException("El ID de cliente es inválido.");
         }
 
-        Long idPaqueteria = informacionCrearPedidoDTO.getIdPaqueteria();
+        IdEntidadGenerico idPaqueteria = informacionCrearPedidoDTO.getIdPaqueteria();
         
         IdPaqueteriaDTO idPaqueteriaDTO = new IdPaqueteriaDTO(idPaqueteria);
 
@@ -703,9 +700,9 @@ class AdministradorPedidos implements IAdministradorPedidos {
         }
         
 
-        HashMap<Long,Integer> mapaProductosCantidadPedido = informacionCrearPedidoDTO.getMapaIdsProductosCantidad();
+        HashMap<IdEntidadGenerico,Integer> mapaProductosCantidadPedido = informacionCrearPedidoDTO.getMapaIdsProductosCantidad();
 
-        for (Long idProducto: mapaProductosCantidadPedido.keySet()) {
+        for (IdEntidadGenerico idProducto: mapaProductosCantidadPedido.keySet()) {
             if (!administradorProductos.validarProducto(new IdProductoDTO(idProducto))) {
                 throw new PedidosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
             }
@@ -713,13 +710,13 @@ class AdministradorPedidos implements IAdministradorPedidos {
 
         HashMap<ProductoInventarioDTO, Float> mapaProductosInventarioTiempoTrasladoMatriz = new HashMap<>();
 
-        for (Long idProducto: mapaProductosCantidadPedido.keySet()) {
+        for (IdEntidadGenerico idProducto: mapaProductosCantidadPedido.keySet()) {
 
             ProductoDTO producto = administradorProductos.obtenerProducto(new IdProductoDTO(idProducto));
 
-            List<Long> listaIdsProductosInventario = producto.getIdsProductosInventario();
+            List<IdEntidadGenerico> listaIdsProductosInventario = producto.getIdsProductosInventario();
 
-            for (Long idProductoInventario: listaIdsProductosInventario) {
+            for (IdEntidadGenerico idProductoInventario: listaIdsProductosInventario) {
                 
                 IdProductoInventarioDTO idProductoInventarioDTO = new IdProductoInventarioDTO(idProductoInventario);
                 
@@ -808,7 +805,7 @@ class AdministradorPedidos implements IAdministradorPedidos {
         List<ProductoPedidoDTO> listaProductosPedido = new LinkedList<>();
         
         
-        for(Map.Entry<Long, Integer> productoRequerido : mapaProductosCantidadPedido.entrySet()){
+        for(Map.Entry<IdEntidadGenerico, Integer> productoRequerido : mapaProductosCantidadPedido.entrySet()){
            
             ProductoDTO producto = administradorProductos.obtenerProducto(new IdProductoDTO(productoRequerido.getKey()));
             

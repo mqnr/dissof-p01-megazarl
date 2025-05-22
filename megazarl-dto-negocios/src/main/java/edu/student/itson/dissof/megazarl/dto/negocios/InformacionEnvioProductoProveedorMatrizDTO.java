@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 /**
  * InformacionEnvioProductoProveedorMatrizDTO.java
  *
@@ -25,12 +27,12 @@ public class InformacionEnvioProductoProveedorMatrizDTO {
     /**
      * Objeto Long que representa el ID de la paquetería.
      */
-    private Long idPaqueteria;
+    private IdEntidadGenerico idPaqueteria;
     
     /**
      * Objeto Long que representa el ID del proveedor.
      */
-    private Long idProveedor;
+    private IdEntidadGenerico idProveedor;
     
     /**
      * Objeto Double que representa el peso total del producto en kilogramos.
@@ -44,8 +46,8 @@ public class InformacionEnvioProductoProveedorMatrizDTO {
      * @param pesoKgTotal   Objeto Double que representa el peso total del producto en kilogramos.
      */
     public InformacionEnvioProductoProveedorMatrizDTO(
-            Long idPaqueteria, 
-            Long idProveedor,
+            IdEntidadGenerico idPaqueteria, 
+            IdEntidadGenerico idProveedor,
             Double pesoKgTotal) {
         
         this.idPaqueteria = idPaqueteria;
@@ -57,7 +59,7 @@ public class InformacionEnvioProductoProveedorMatrizDTO {
      * Método que permite obtener el ID de la paquetería.
      * @return Objeto Long que representa el ID de la paquetería.
      */
-    public Long getIdPaqueteria() {
+    public IdEntidadGenerico getIdPaqueteria() {
         return idPaqueteria;
     }
 
@@ -65,7 +67,7 @@ public class InformacionEnvioProductoProveedorMatrizDTO {
      * Método que permite obtener el ID del proveedor.
      * @return Objeto Long que representa el ID del proveedor.
      */
-    public Long getIdProveedor() {
+    public IdEntidadGenerico getIdProveedor() {
         return idProveedor;
     }
     

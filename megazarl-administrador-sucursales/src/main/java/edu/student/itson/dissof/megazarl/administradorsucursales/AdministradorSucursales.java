@@ -8,6 +8,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigosSucursalesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Sucursal;
 
 import java.util.LinkedList;
@@ -24,7 +25,7 @@ class AdministradorSucursales implements IAdministradorSucursales {
     
     @Override
     public CodigosSucursalesDTO obtenerCodigosSucursales(){
-        List<Long> idsSucursales = new LinkedList<>();
+        List<IdEntidadGenerico> idsSucursales = new LinkedList<>();
 
         for (SucursalDTO sucursal: Sucursal.recuperarTodos()) {
             idsSucursales.add(sucursal.getId());

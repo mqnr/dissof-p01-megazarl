@@ -1,6 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+
 /**
  * IdSucursalDTO.java
  *
@@ -23,13 +25,13 @@ public class IdSucursalDTO {
     /**
      * Objeto Long que representa el ID de la sucursal.
      */
-    private Long idSucursal;
+    private IdEntidadGenerico idSucursal;
 
     /**
      * Constructor de la clase que recibe el ID de la sucursal.
      * @param idSucursal Objeto Long que representa el ID de la sucursal.
      */
-    public IdSucursalDTO(Long idSucursal) {
+    public IdSucursalDTO(IdEntidadGenerico idSucursal) {
         this.idSucursal = idSucursal;
     }
 
@@ -37,7 +39,7 @@ public class IdSucursalDTO {
      * Método que permite obtener el ID de la sucursal.
      * @return Objeto Long que representa el ID de la sucursal.
      */
-    public Long getIdSucursal() {
+    public IdEntidadGenerico getIdSucursal() {
         return idSucursal;
     }
     

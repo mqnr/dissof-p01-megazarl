@@ -1,8 +1,8 @@
 package edu.student.itson.dissof.megazarl.administrador.gerenteventas;
 
 import edu.student.itson.dissof.megazarl.administrador.gerenteventas.excepciones.IdGerenteVentasInvalidoException;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.GerenteVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.infraestructura.IdGerenteVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.GerenteVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdGerenteVentasDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoGerenteVentasDTO;
 import edu.student.itson.dissof.megazarl.objetosnegocio.GerenteVentas;
 /**
@@ -40,7 +40,7 @@ public class AdministradorGerenteVentas implements IAdministradorGerenteVentas {
             throw new IdGerenteVentasInvalidoException("El ID del gerente de ventas es inválido.");
         }
 
-        return new NombresApellidoGerenteVentasDTO(gerenteVentas.getNombres(), gerenteVentas.getApellidoPaterno());
+        return new NombresApellidoGerenteVentasDTO(gerenteVentas.getNombre(), gerenteVentas.getApellidoPaterno());
     }
 
 }

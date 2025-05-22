@@ -3,6 +3,7 @@ package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
 import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioProveedor;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,7 +46,7 @@ public class RepositorioProveedorEnMemoria implements RepositorioProveedor{
 
     @Override
     public void agregar(ProveedorDTO proveedor) {
-        proveedor.setId(ID_PROVEEDOR_ACTUAL++);
+        proveedor.setId(new IdEntidadGenerico(ID_PROVEEDOR_ACTUAL++));
         listaProveedores.add(proveedor);
     }
 
@@ -53,7 +54,7 @@ public class RepositorioProveedorEnMemoria implements RepositorioProveedor{
     public void agregar(Collection<ProveedorDTO> proveedores) {
         
         for(ProveedorDTO proveedor: proveedores){
-            proveedor.setId(ID_PROVEEDOR_ACTUAL++);
+            proveedor.setId(new IdEntidadGenerico(ID_PROVEEDOR_ACTUAL++));
         }
         
         listaProveedores.addAll(proveedores);
