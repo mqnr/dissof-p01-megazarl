@@ -2,7 +2,6 @@ package edu.student.itson.dissof.megazarl.presentacion;
 
 import edu.student.itson.dissof.administradorproveedores.FAdministradorProveedores;
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
-import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedorNoRegistradoException;
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesAccesoArchivoCodigosPostalesFallidoException;
