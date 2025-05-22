@@ -66,4 +66,15 @@ class AdministradorProveedores implements IAdministradorProveedores {
         return true;
         
     }
+    /**
+    @Override
+    public boolean agregarProveedor(ProveedorDTO proveedorDTO) throws ProveedorNoRegistradoException {
+        if (proveedorDTO == null) {
+            return false;
+        } else {
+            Proveedor.agregar(proveedorDTO);
+            return true;
+        }
+    }
+    **/
 }
