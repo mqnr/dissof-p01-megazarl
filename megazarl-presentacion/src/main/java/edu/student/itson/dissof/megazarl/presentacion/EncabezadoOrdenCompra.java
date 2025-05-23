@@ -1,5 +1,6 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import edu.student.itson.dissof.megazarl.presentacion.utils.ButtonBuilder;
 import java.awt.Color;
@@ -55,6 +56,9 @@ public class EncabezadoOrdenCompra extends JPanel {
     
     private final int ANCHO_BOTON_SALIR = 80;
     private final int ALTO_BOTON_SALIR = 30;
+    
+    private final int ANCHO_BOTON_REALIZAR_ORDEN = 230;
+    private final int ALTO_BOTON_REALIZAR_ORDEN = 30;
 
     private final int MARGEN_VERTICAL_COMPONENTES = 40;
     
@@ -62,14 +66,15 @@ public class EncabezadoOrdenCompra extends JPanel {
     
     private final String EMOJI_LUPA = new String(Character.toChars(0x1F50D));
     
-    private Long idGerenteVentas;
+    private IdEntidadGenerico idGerenteVentas;
     
     JButton botonBusqueda;
     JButton btnSalir;
+    JButton btnRealizarOrdenCompra;
     
     private ControlOrdenCompra control;
     
-    public EncabezadoOrdenCompra(ControlOrdenCompra control, Long idGerenteVentas, IVista vistaPadre) {
+    public EncabezadoOrdenCompra(ControlOrdenCompra control, IdEntidadGenerico idGerenteVentas, IVista vistaPadre) {
         this.control = control;
         this.idGerenteVentas = idGerenteVentas;
         this.vistaPadre = vistaPadre;
@@ -160,6 +165,9 @@ public class EncabezadoOrdenCompra extends JPanel {
         
         panelBusqueda2.add(cargarBtnBuscar());
         
+        // Botones "Realizar orden" y "Salir"
+        panelSalir2.add(cargarBtnRealizarOrden());
+        panelSalir2.add(Box.createHorizontalStrut(10)); // Espaciado entre botones
         panelSalir2.add(cargarBtnSalir());
 
     }
@@ -173,6 +181,17 @@ public class EncabezadoOrdenCompra extends JPanel {
                 .onClick(e -> control.finalizarCasoUso(vistaPadre))
                 .build();
         return btnSalir;
+    }
+    
+    private JButton cargarBtnRealizarOrden(){
+        btnRealizarOrdenCompra = new ButtonBuilder()
+                .withText("Realizar orden de compra")
+                .withFont(FUENTE_BOTONES)
+                .withBackground(COLOR_BOTONES)
+                .withPreferredSize(ANCHO_BOTON_REALIZAR_ORDEN, ALTO_BOTON_REALIZAR_ORDEN)
+                .onClick(e -> control.realizarOrdenCompra())
+                .build();
+        return btnRealizarOrdenCompra;
     }
     
     private JButton cargarBtnBuscar(){

@@ -1,6 +1,7 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
+
 import edu.student.itson.dissof.megazarl.dto.negocios.AuxiliarVentasDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDatosCompletosRelacionesDTONegocios;
@@ -841,6 +842,312 @@ public class App {
                                 "Gutiérrez",
                                 "Mendoza");
                         GerenteVentas.agregar(gerenteVentas1);
+                        
+                    DireccionDTO direccionProveedor6 = new DireccionDTO(
+                                "Sinaloa", 
+                                "Los Mochis", 
+                                "81255",
+                                "Zona Industrial",
+                                "Jiquilpan",
+                                "3000");
+                        
+                    ProveedorDTO proveedor6 = new ProveedorDatosCompletosRelacionesDTO(
+                            "Seminis", 
+                            "6441022785", 
+                            "seminis@gmail.com",
+                            "src/main/resources/seminis.png", 
+                            new LinkedList<>(),
+                            direccionProveedor6
+                    );
+
+                    DireccionDTO direccionProveedor7 = new DireccionDTO(
+                                "Baja California", 
+                                "Mexicali", 
+                                "21394",
+                                "Venustiano Carranza",
+                                "De las Misiones Norte",
+                                "168");
+
+                    ProveedorDTO proveedor7 = new ProveedorDatosCompletosRelacionesDTO(
+                            "Harris Moran", 
+                            "6442365984",
+                            "hmoran@gmail.com",
+                            "src/main/resources/harrisMoran.png", 
+                            new LinkedList<>(),
+                            direccionProveedor7);
+
+                    DireccionDTO direccionProveedor8 = new DireccionDTO(
+                                "Sinaloa", 
+                                "Culiacán", 
+                                "80393",
+                                "Parque Industrial El Trébol",
+                                "Carretera Federal 15D",
+                                "450");
+                    
+                    ProveedorDTO proveedor8 =  new ProveedorDatosCompletosRelacionesDTO(
+                            "Enza Zaden",
+                            "6442059876",
+                            "enzazaden@gmail.com",
+                            "src/main/resources/enzaZaden.png",
+                            new LinkedList<>(),
+                            direccionProveedor8);
+
+                    DireccionDTO direccionProveedor9 = new DireccionDTO(
+                                "Chihuahua", 
+                                "Chihuahua", 
+                                "31385",
+                                "Parque Industrial Chihuahua Sur",
+                                "Paseos de aura",
+                                "1458");
+                    
+                    ProveedorDTO proveedor9 =  new ProveedorDatosCompletosRelacionesDTO(
+                            "Nunhems",
+                            "6447856986",
+                            "nunhmes@gmail.com", 
+                            "src/main/resources/nunhems.png", 
+                            new LinkedList<>(),
+                            direccionProveedor9);
+                    
+                    DireccionDTO direccionProveedor10 = new DireccionDTO(
+                                "Guanajuato", 
+                                "León de los Aldama", 
+                                "37150",
+                                "Lomas del Campestre",
+                                "Blvd. Campestre",
+                                "102");
+
+                    ProveedorDTO proveedor10 =  new ProveedorDatosCompletosRelacionesDTO(
+                            "Lark Seeds",
+                            "6442326587",
+                            "larkseeds@gmail.com",  
+                            "src/main/resources/larkSeeds.png", 
+                            new LinkedList<>(),
+                            direccionProveedor10);
+                    
+                    List<ProveedorDTO> listaProveedores2 = Arrays.asList(proveedor6, proveedor7, proveedor8, proveedor9, proveedor10);     
+                    Proveedor.agregar(listaProveedores2);
+                    
+                    List<DireccionDTO> listaDireccionesProveedores2 = Arrays.asList(
+                            direccionProveedor6,
+                            direccionProveedor7, 
+                            direccionProveedor8, 
+                            direccionProveedor9,
+                            direccionProveedor10);
+                    Direccion.agregar(listaDireccionesProveedores2);
+                    
+                    DireccionDTO direccionSucursal5 = new DireccionDTO(
+                                                    "Sonora",
+                                                    "Hermosillo",
+                                                    "83118",
+                                                    "Parque Industrial Hermosillo Norte",
+                                                    "José Alberto Healy Noriega",
+                                                    "1000"
+                    );
+
+                    SucursalDTO sucursal5 = new SucursalDatosCompletosRelacionesDTO(
+                                                true,
+                                                direccionSucursal5,
+                                                new LinkedList<>()
+                    );
+                    
+                    DireccionDTO direccionSucursal6 = new DireccionDTO(
+                                                    "Sonora",
+                                                    "Puerto Peñasco",
+                                                    "83557",
+                                                    "San Rafael",
+                                                    "Río Mocorito",
+                                                    "123"
+                    );
+
+                    SucursalDTO sucursal6 = new SucursalDatosCompletosRelacionesDTO(
+                                                false,
+                                                direccionSucursal6,
+                                                new LinkedList<>()
+                    );
+                    
+                    DireccionDTO direccionSucursal7 = new DireccionDTO(
+                                                    "Sonora",
+                                                    "Agua Prieta",
+                                                    "84269",
+                                                    "Bicentenario",
+                                                    "44",
+                                                    "5695"
+                    );
+
+                    SucursalDTO sucursal7 = new SucursalDatosCompletosRelacionesDTO(
+                                                false,
+                                                direccionSucursal7,
+                                                new LinkedList<>()
+                    );
+                    
+                    ProductoDTO producto13 = new ProductoDatosCompletosRelacionesDTO(
+                                "Semillas de Sandía",
+                                "Summer Breeze",
+                                """
+                                    Summer Breeze es una Sandia Triploide o sin semilla de madurez 
+                                    intermedio precoz y buena capacidad y amarre de frutos de alta calidad 
+                                    para el mercado de exportación.
+                                """,
+                                5,
+                                9400d,
+                                5d,
+                                "src/main/resources/sandiaSummerBreeze.png",
+                                proveedor6,
+                                new LinkedList<>(),
+                                new LinkedList<>(),
+                                new LinkedList<>());
+
+                    ProductoDTO producto14 = new ProductoDatosCompletosRelacionesDTO(
+                                "Semillas de Sandía",
+                                "Fascination",
+                                """
+                                    Planta de porte vigoroso, potencial de rebrote que le brinda alto potencial de rendimiento. 
+                                    Forma de fruto ligeramente conca de color oscuro de 4 1/2 a 5 pulgada. Frutos de paredes gruesas 
+                                    con buen llenado. Variedad con alto potencial de rendimiento, resistencia a BLS y planta vigorosa.
+                                """,
+                                25,
+                                10200d,
+                                1d,
+                                "src/main/resources/sandiaFascination.png",
+                                proveedor7,
+                                new LinkedList<>(),
+                                new LinkedList<>(),
+                                new LinkedList<>());
+
+                    List<ProductoDTO> listaProductos2 = Arrays.asList(
+                            producto13,
+                            producto14
+                    );
+                    Producto.agregar(listaProductos2);
+                    
+                    // Se crean e insertan los DTOs de productos en inventario disponibles,
+                    // se registran utilizando la clase envolvente ProductoInventario
+
+                    ProductoInventarioDTO productoInventario51 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto13, sucursal5);
+                    ProductoInventarioDTO productoInventario52 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto13, sucursal5);
+
+                    ProductoInventarioDTO productoInventario53 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto14, sucursal5);
+                    ProductoInventarioDTO productoInventario54 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto14, sucursal6);
+                    ProductoInventarioDTO productoInventario55 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto14, sucursal7);
+                    ProductoInventarioDTO productoInventario56 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto14, sucursal7);
+
+                    List<ProductoInventarioDTO> listaProductosInventario2 = Arrays.asList(
+                            productoInventario51,
+                            productoInventario52,
+
+                            productoInventario53,
+                            productoInventario54,
+                            productoInventario55,
+                            productoInventario56
+                    );
+
+
+                    ProductoInventario.agregar(listaProductosInventario2);
+
+
+                    DireccionDTO direccionPaqueteria6 = new DireccionDTO(
+                                "83240",
+                                "Fuentes del Mezquital", 
+                                "Las Ceibas", 
+                                "1247"
+                    );
+                    
+                    // Se crean los DTO de las paqueterías asociadas con la empresa y son almacenadas
+                    // utilizando la clase envolvente Paqueteria.
+                    PaqueteriaDTO paqueteria6 = new PaqueteriaDatosCompletosRelacionesDTO(
+                            "DHL", 
+                            100F, 
+                            150F, 
+                            "/dhl.png",
+                            direccionPaqueteria6
+                    );
+
+                    
+                    DireccionDTO direccionPaqueteria7 = new DireccionDTO(
+                                "83120",
+                                "Los Viñedos",
+                                "Cristobal Colón",
+                                "257"
+                    );
+                    
+                    PaqueteriaDTO paqueteria7 = new PaqueteriaDatosCompletosRelacionesDTO( 
+                            "Fedex", 
+                            120F, 
+                            125F,
+                            "/fedex.png",
+                            direccionPaqueteria7     
+                    );
+
+                    DireccionDTO direccionPaqueteria8 = new DireccionDTO(
+                                    "83200", 
+                                    "Villa Satélite", 
+                                    "Parroquia", 
+                                    "659");
+                    
+                    PaqueteriaDTO paqueteria8 = new PaqueteriaDatosCompletosRelacionesDTO(
+                            "PCP",
+                            90F, 
+                            100F,
+                            "/pcp.png",
+                            direccionPaqueteria8
+                    );
+
+                    
+                    DireccionDTO direccionPaqueteria9 = new DireccionDTO(
+                                "83288", 
+                                "La Verbena",
+                                "De los Panaderos",
+                                "708"
+                    );
+                    
+                    PaqueteriaDTO paqueteria9  = new PaqueteriaDatosCompletosRelacionesDTO( 
+                            "UPS", 
+                            106F,
+                            110F,
+                            "/ups.png",
+                            direccionPaqueteria9
+
+                    );
+                    
+                    DireccionDTO dieccionPaqueteria10 = new DireccionDTO(
+                                "83280",
+                                "La Candelaria",
+                                "Real de San Pablo",
+                                "1646"
+                    );
+
+                    PaqueteriaDTO paqueteria10 =  new PaqueteriaDatosCompletosRelacionesDTO(
+                            "Estafeta", 
+                            110F, 
+                            105F,
+                            "/estafeta.png",
+                            dieccionPaqueteria10
+
+                    );
+
+                    List<PaqueteriaDTO> listaPaqueterias2 = Arrays.asList(
+                            paqueteria6,
+                            paqueteria7,
+                            paqueteria8,
+                            paqueteria9,
+                            paqueteria10);
+                    
+                    List<DireccionDTO> listaDireccionesPaqueterias2 = Arrays.asList(
+                            direccionPaqueteria6, 
+                            direccionPaqueteria7, 
+                            direccionPaqueteria8,
+                            direccionPaqueteria9,
+                            dieccionPaqueteria10);
+
+                    Paqueteria.agregar(listaPaqueterias2);
+                    
+                    Direccion.agregar(listaDireccionesPaqueterias2);
+
+                    List<SucursalDTO> listaSucursales2 = Arrays.asList(sucursal5, sucursal6, sucursal7);
+                    Sucursal.agregar(listaSucursales2);
+
+                    List<DireccionDTO> listaDireccionesSucursales2 = Arrays.asList(direccionSucursal5, direccionSucursal6, direccionSucursal7);
+                    Direccion.agregar(listaDireccionesSucursales2);
                     
                     ControlOrdenCompra controlOrdenCompra = new ControlOrdenCompra();
                     

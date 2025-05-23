@@ -2,6 +2,7 @@
 package edu.student.itson.dissof.administradorproveedores;
 
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
+
 import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
 
@@ -91,18 +92,17 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
         return administradorProveedores.obtenerNombreProveedor(idProveedorDTO);
     }
 
-        /**
-     * Implementación del método agregarProveedor(), de la interfaz
-     * {@link IAdministradorProveedores}, que permite registrar un proveedor.
-     * @param proveedorDTO objeto ProveedorDTO que contiene el proveedor
-     * @return objeto boolean que representa el proveedor 
-     * @throws ProveedorNoRegistradoException  se lanza si no se registra el proveedor
-     */
-    
     /**
+     * Implementación del método obtenerProveedores(), de la interfaz
+     * {@link IAdministradorProveedores}, que permte obtener la información de los
+     * proveedores registrados en el sistema.
+     * 
+     * @return Objeto List {@literal <InformacionProvedorInicioDTO\>} que contiene
+     * DTOs con la información de los proveedores a mostrar. 
+    */
     @Override
-    public boolean agregarProveedor(ProveedorDTO proveedorDTO) throws ProveedorNoRegistradoException {
-        return administradorProveedores.agregarProveedor(proveedorDTO);
+    public List<InformacionProveedorInicioDTO> obtenerProveedores() {
+        return administradorProveedores.obtenerProveedores();
     }
-    * */
+  
 }

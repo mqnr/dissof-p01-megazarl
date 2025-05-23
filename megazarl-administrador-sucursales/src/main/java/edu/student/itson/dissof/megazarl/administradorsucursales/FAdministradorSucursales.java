@@ -4,6 +4,7 @@ package edu.student.itson.dissof.megazarl.administradorsucursales;
 import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdDireccionInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdSucursalInvalidoException;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
+
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigosSucursalesDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTONegocios;
@@ -121,5 +122,10 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
     @Override
     public SucursalDTONegocios obtenerSucursal(IdSucursalDTONegocios idSucursalDTONegocios) {
         return administradorSucursales.obtenerSucursal(idSucursalDTONegocios);
+    }
+
+    @Override
+    public List<InformacionSucursalInicioDTO> obtenerSucursales() {
+        return administradorSucursales.obtenerSucursales();
     }
 }

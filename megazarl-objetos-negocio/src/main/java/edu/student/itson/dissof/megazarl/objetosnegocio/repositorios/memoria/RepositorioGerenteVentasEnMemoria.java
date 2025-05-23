@@ -45,8 +45,9 @@ public class RepositorioGerenteVentasEnMemoria implements RepositorioGerenteVent
     }
     
     @Override
-    public void agregar(GerenteVentasDTONegocios gerente) {
-        gerente.setId(ID_GERENTE_VENTAS_ACTUAL++);
+
+    public void agregar(GerenteVentasDTO gerente) {
+        gerente.setId(new IdEntidadGenerico(ID_GERENTE_VENTAS_ACTUAL++));
         listaGerentesVentas.add(gerente);
     }
 

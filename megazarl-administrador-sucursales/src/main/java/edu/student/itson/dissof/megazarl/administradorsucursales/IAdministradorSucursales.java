@@ -2,9 +2,11 @@ package edu.student.itson.dissof.megazarl.administradorsucursales;
 
 import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdDireccionInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdSucursalInvalidoException;
+
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigosSucursalesDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTONegocios;
+
 
 /**
  * IAdministradorSucursales.java
@@ -92,5 +94,15 @@ public interface IAdministradorSucursales {
      * @param idSucursalDTONegocios Objeto IdSucursalDTONegocios que contiene el ID de la sucursal a validar.
      * @return true si el ID de la sucursal es válido, false en caso contrario.
      */
+
     public abstract boolean validarSucursal(IdSucursalDTONegocios idSucursalDTONegocios);
+    
+    /**
+     * Método que permite obtener la lista de todas las sucursales registradas en el sistema.
+     *
+     * @return Objeto List de InformacionSucursalInicioDTO que contiene la información
+     * resumida de las sucursales registradas.
+     */
+    public abstract List<InformacionSucursalInicioDTO> obtenerSucursales();
 }
+
