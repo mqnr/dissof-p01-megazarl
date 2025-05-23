@@ -2,10 +2,10 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
-import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioDireccion;
+import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionDireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioDireccion;
 import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioDireccionEnMemoria;
 import java.util.Collection;
 import java.util.List;
@@ -22,31 +22,28 @@ public class Direccion {
         };
     }
 
-    public static DireccionDTO recuperarPorId(IdDireccionDTO idDireccionDTO) {
+    public static DireccionDTONegocios recuperarPorId(IdDireccionDTONegocios idDireccionDTO) {
         return repositorio.recuperarPorId(idDireccionDTO);
     }
 
-    public static boolean existePorId(IdDireccionDTO idDireccionDTO) {
+    public static boolean existePorId(IdDireccionDTONegocios idDireccionDTO) {
         return repositorio.existePorId(idDireccionDTO);
     }
 
-    public static DireccionDTO actualizar(ActualizacionDireccionDTO actualizacionDireccionDTO) {
+    public static DireccionDTONegocios actualizar(ActualizacionDireccionDTONegocios actualizacionDireccionDTO) {
         return repositorio.actualizar(actualizacionDireccionDTO);
     }
 
-    public static void agregar(DireccionDTO direccion) {
+    public static void agregar(DireccionDTONegocios direccion) {
         repositorio.agregar(direccion);
     }
 
-    public static void agregar(Collection<DireccionDTO> direcciones) {
+    public static void agregar(Collection<DireccionDTONegocios> direcciones) {
         repositorio.agregar(direcciones);
     }
 
-    public static List<DireccionDTO> recuperarTodos() {
+    public static List<DireccionDTONegocios> recuperarTodos() {
         return repositorio.recuperarTodos();
     }
 
-    public static boolean existe(Predicate<DireccionDTO> criterio) {
-        return repositorio.existe(criterio);
-    }
 }

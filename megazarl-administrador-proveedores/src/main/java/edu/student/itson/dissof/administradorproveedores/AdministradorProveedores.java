@@ -1,8 +1,8 @@
 package edu.student.itson.dissof.administradorproveedores;
 
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Proveedor;;
 
 
@@ -13,21 +13,21 @@ class AdministradorProveedores implements IAdministradorProveedores {
     }
     
     @Override
-    public ProveedorDTO obtenerProveedor(IdProveedorDTO idProveedorDTO){
+    public ProveedorDTONegocios obtenerProveedor(IdProveedorDTONegocios idProveedorDTO){
         
         return Proveedor.recuperarPorId(idProveedorDTO);
 
     }
 
     @Override
-    public String obtenerDireccionImagenProveedor(IdProveedorDTO idProveedorDTO) throws ProveedoresIdProveedorInvalidoException{
+    public String obtenerDireccionImagenProveedor(IdProveedorDTONegocios idProveedorDTO) throws ProveedoresIdProveedorInvalidoException{
         
         // Se valida el ID del proevedor.
         if (!validarProveedor(idProveedorDTO)) {
             throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor es inválido.");
         }
 
-        ProveedorDTO proveedor = obtenerProveedor(idProveedorDTO);
+        ProveedorDTONegocios proveedor = obtenerProveedor(idProveedorDTO);
 
         if (proveedor == null) {
             throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor es inválido.");
@@ -39,14 +39,14 @@ class AdministradorProveedores implements IAdministradorProveedores {
     
 
     @Override
-    public String obtenerNombreProveedor(IdProveedorDTO idProveedorDTO) throws ProveedoresIdProveedorInvalidoException{
+    public String obtenerNombreProveedor(IdProveedorDTONegocios idProveedorDTO) throws ProveedoresIdProveedorInvalidoException{
         
         // Se valida el ID del proevedor.
         if (!validarProveedor(idProveedorDTO)) {
             throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor es inválido.");
         }
 
-        ProveedorDTO proveedor = obtenerProveedor(idProveedorDTO);
+        ProveedorDTONegocios proveedor = obtenerProveedor(idProveedorDTO);
 
         if (proveedor == null) {
             throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor es inválido.");
@@ -57,7 +57,7 @@ class AdministradorProveedores implements IAdministradorProveedores {
     }
     
     @Override
-    public boolean validarProveedor(IdProveedorDTO idProveedorDTO){
+    public boolean validarProveedor(IdProveedorDTONegocios idProveedorDTO){
         
         if (idProveedorDTO == null || idProveedorDTO.getIdProveedor() == null || !Proveedor.existePorId(idProveedorDTO)) {
             return false;

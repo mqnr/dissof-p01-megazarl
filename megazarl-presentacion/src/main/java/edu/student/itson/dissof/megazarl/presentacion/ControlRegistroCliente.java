@@ -5,13 +5,13 @@ import edu.student.itson.dissof.megazarl.administrador.auxiliares.ventas.IAdmini
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesCorreoElectronicoYaExisteException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesTelefonoNuevoClienteYaExisteException;
-import edu.student.itson.dissof.megazarl.dto.negocios.AuxiliarVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDatosCompletosRelacionesDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdAuxiliarVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoAuxiliarVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
-import edu.student.itson.dissof.megazarl.negocio.FabricaSubsistemas;
+import edu.student.itson.dissof.megazarl.dto.negocios.AuxiliarVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDatosCompletosRelacionesDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdAuxiliarVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoAuxiliarVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
+import edu.student.itson.dissof.megazarl.negocios.FabricaSubsistemas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.AuxiliarVentas;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
@@ -48,7 +48,7 @@ public class ControlRegistroCliente {
         
         if(usuarioAuxiliarVentas){
             
-            AuxiliarVentasDTO auxiliarVentas1 = new AuxiliarVentasDTO(
+            AuxiliarVentasDTONegocios auxiliarVentas1 = new AuxiliarVentasDTONegocios(
                     "María", 
                     "González",
                     "Juárez");
@@ -73,7 +73,7 @@ public class ControlRegistroCliente {
         String telefono = (String)datosCliente.get(3);
         String correoElectronico = (String)datosCliente.get(4);
         
-        ClienteDTO nuevoCliente = new ClienteDatosCompletosRelacionesDTO(nombres, apellidoPaterno, apellidoMaterno, telefono, correoElectronico, null);
+        ClienteDTONegocios nuevoCliente = new ClienteDatosCompletosRelacionesDTONegocios(nombres, apellidoPaterno, apellidoMaterno, telefono, correoElectronico, null);
         
         IAdministradorClientes administradorClientes = FabricaSubsistemas.obtenerAdministradorClientes();
         
@@ -102,9 +102,8 @@ public class ControlRegistroCliente {
         
         IAdministradorAuxiliaresVentas administradorAuxiliaresVentas = FabricaSubsistemas.obtenerAdministradorAuxiliaresVentas();
         
-        NombresApellidoAuxiliarVentasDTO nombresApellidoAuxiliarVentasDTO
-                = administradorAuxiliaresVentas.obtenerNombreApellidoAuxiliarVentas(
-                        new IdAuxiliarVentasDTO((new IdEntidadGenerico(idAuxiliarVentas))));
+        NombresApellidoAuxiliarVentasDTONegocios nombresApellidoAuxiliarVentasDTO
+                = administradorAuxiliaresVentas.obtenerNombreApellidoAuxiliarVentas(new IdAuxiliarVentasDTONegocios((new IdEntidadGenericoNegocios(idAuxiliarVentas))));
         
         String[] arregloNombresApellidos = {
             nombresApellidoAuxiliarVentasDTO.getNombreAuxiliarVentas(),

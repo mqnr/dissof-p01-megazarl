@@ -5,13 +5,13 @@ import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.Pa
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdSucursalInvalidoException;
-import edu.student.itson.dissof.megazarl.dto.negocios.PaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoMatrizClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoProveedorMatrizDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoSucursalMatrizDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionSeleccionPaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.PaqueteriaDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoMatrizClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoProveedorMatrizDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoSucursalMatrizDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionSeleccionPaqueteriaDTONegocios;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public interface IAdministradorPaqueterias {
      * @param idPaqueteriaDTO Objeto IdPaqueteriaDTO que contiene el ID de la paquetería a obtener.
      * @return Objeto Paqueteria que representa la paquetería con el ID especificado.
      */
-    public abstract PaqueteriaDTO obtenerPaqueteria(IdPaqueteriaDTO idPaqueteriaDTO);
+    public abstract PaqueteriaDTONegocios obtenerPaqueteria(IdPaqueteriaDTONegocios idPaqueteriaDTO);
 
     /**
      * Método que permite obtener la lista de todas las paqueterías disponibles
@@ -51,7 +51,7 @@ public interface IAdministradorPaqueterias {
      * @return Objeto List de InformacionSeleccionPaqueteriaDTO que contiene la información
      * básica de las paqueterías disponibles.
      */
-    public abstract List<InformacionSeleccionPaqueteriaDTO> obtenerPaqueterias();
+    public abstract List<InformacionSeleccionPaqueteriaDTONegocios> obtenerPaqueterias();
     
     /**
      * Método que permite calcular el costo de envío de un producto desde una sucursal
@@ -66,7 +66,7 @@ public interface IAdministradorPaqueterias {
      * @throws PaqueteriasIdSucursalInvalidoException
      * @throws PaqueteriasIdDireccionInvalidoException
      */
-    public abstract float obtenerCostoEnvioSucursalMatriz(InformacionEnvioProductoSucursalMatrizDTO informacionEnvioProductoSucursalMatrizDTO) 
+    public abstract float obtenerCostoEnvioSucursalMatriz(InformacionEnvioProductoSucursalMatrizDTONegocios informacionEnvioProductoSucursalMatrizDTO) 
             throws PaqueteriasIdPaqueteriaInvalidoException,
             PaqueteriasIdSucursalInvalidoException,
             PaqueteriasIdDireccionInvalidoException;
@@ -83,7 +83,7 @@ public interface IAdministradorPaqueterias {
      * @throws PaqueteriasIdClienteInvalidoException
      * @throws PaqueteriasIdDireccionInvalidoException
      */
-    public abstract float obtenerCostoEnvioMatrizCliente(InformacionEnvioProductoMatrizClienteDTO informacionEnvioProductoMatrizClienteDTO) 
+    public abstract float obtenerCostoEnvioMatrizCliente(InformacionEnvioProductoMatrizClienteDTONegocios informacionEnvioProductoMatrizClienteDTO) 
             throws PaqueteriasIdPaqueteriaInvalidoException,
             PaqueteriasIdClienteInvalidoException,
             PaqueteriasIdDireccionInvalidoException;
@@ -100,7 +100,7 @@ public interface IAdministradorPaqueterias {
      * @throws PaqueteriasIdProveedorInvalidoException
      * @throws PaqueteriasIdDireccionInvalidoException
      */
-    public abstract float obtenerCostoEnvioProveedorMatriz(InformacionEnvioProductoProveedorMatrizDTO informacionEnvioProductoProveedorMatrizDTO) 
+    public abstract float obtenerCostoEnvioProveedorMatriz(InformacionEnvioProductoProveedorMatrizDTONegocios informacionEnvioProductoProveedorMatrizDTO) 
             throws PaqueteriasIdPaqueteriaInvalidoException,
             PaqueteriasIdProveedorInvalidoException,
             PaqueteriasIdDireccionInvalidoException;
@@ -116,7 +116,7 @@ public interface IAdministradorPaqueterias {
      * el ID de paquetería es inválido, dentro de este subsistema.
      * @throws PaqueteriasIdDireccionInvalidoException
      */
-    public abstract Float obtenerTiempoEnvioMatrizEstimado(IdProveedorDTO idProveedorDTO)
+    public abstract Float obtenerTiempoEnvioMatrizEstimado(IdProveedorDTONegocios idProveedorDTO)
             throws PaqueteriasIdProveedorInvalidoException,
             PaqueteriasIdDireccionInvalidoException;
     
@@ -125,6 +125,6 @@ public interface IAdministradorPaqueterias {
      * @param idPaqueteriaDTO Objeto IdPaqueteriaDTO que contiene el ID de la paquetería a validar.
      * @return true si el ID de la paquetería es válido, false en caso contrario.
      */
-    public abstract boolean validarPaqueteria(IdPaqueteriaDTO idPaqueteriaDTO);
+    public abstract boolean validarPaqueteria(IdPaqueteriaDTONegocios idPaqueteriaDTO);
     
 }

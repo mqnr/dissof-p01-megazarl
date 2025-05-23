@@ -1,10 +1,10 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
-import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioCliente;
+import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioCliente;
 import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioClienteEnMemoria;
 
 import java.util.Collection;
@@ -22,31 +22,27 @@ public class Cliente {
         };
     }
     
-    public static ClienteDTO recuperarPorId(IdClienteDTO idClienteDTO) {
+    public static ClienteDTONegocios recuperarPorId(IdClienteDTONegocios idClienteDTO) {
         return repositorio.recuperarPorId(idClienteDTO);
     }
 
-    public static boolean existePorId(IdClienteDTO idClienteDTO) {
+    public static boolean existePorId(IdClienteDTONegocios idClienteDTO) {
         return repositorio.existePorId(idClienteDTO);
     }
 
-    public static ClienteDTO actualizar(ActualizacionClienteDTO actualizacionClienteDTO) {
+    public static ClienteDTONegocios actualizar(ActualizacionClienteDTONegocios actualizacionClienteDTO) {
         return repositorio.actualizar(actualizacionClienteDTO);
     }
 
-    public static void agregar(ClienteDTO clienteDTO) {
+    public static void agregar(ClienteDTONegocios clienteDTO) {
         repositorio.agregar(clienteDTO);
     }
 
-    public static void agregar(Collection<ClienteDTO> clientes) {
+    public static void agregar(Collection<ClienteDTONegocios> clientes) {
         repositorio.agregar(clientes);
     }
 
-    public static List<ClienteDTO> recuperarTodos() {
+    public static List<ClienteDTONegocios> recuperarTodos() {
         return repositorio.recuperarTodos();
-    }
-
-    public static boolean existe(Predicate<ClienteDTO> criterio) {
-        return repositorio.existe(criterio);
     }
 }

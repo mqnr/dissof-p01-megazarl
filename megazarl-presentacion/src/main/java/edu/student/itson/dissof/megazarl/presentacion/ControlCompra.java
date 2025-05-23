@@ -12,6 +12,7 @@ import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorPr
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.IAdministradorCarritoCompras;
+import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasAccesoDatosException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasCarritoSinProductoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasCarritoVacioException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasClienteSinCarritoVigenteException;
@@ -27,26 +28,27 @@ import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoCompr
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
-import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdClientePaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioActualizadaClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoAgregarCarritoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoCarritoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoDetalladaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoEliminarCarritoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionSeleccionPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.MontoMinimoEnvioGratuitoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoInicioDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.TiempoEstimadoPreparacionEnvioPedidoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
-import edu.student.itson.dissof.megazarl.negocio.FabricaSubsistemas;
+import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdClientePaqueteriaDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioActualizadaClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoAgregarCarritoDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoCarritoDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoDetalladaDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoEliminarCarritoDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionSeleccionPaqueteriaDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.MontoMinimoEnvioGratuitoDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoInicioDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.TiempoEstimadoPreparacionEnvioPedidoDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
+import edu.student.itson.dissof.megazarl.negocios.FabricaSubsistemas;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.FormatoIdInvalidoNegocioException;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.ICarrito;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IDireccion;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IInformacionProducto;
@@ -88,11 +90,15 @@ public class ControlCompra {
     private IMensaje mensaje;
     private IVista direccion;
     private Double montoMinimoEnvioGratuito;
-    private DireccionDTO direccionDefectoPaquetería;
+    private DireccionDTONegocios direccionDefectoPaquetería;
 
     private Color COLOR_MENSAJE_EXITOSO = new Color(204, 255, 190);
     private Color COLOR_MENSAJE_ERROR = new Color(255, 195, 195);
     private Color COLOR_MENSAJE_ADVERTENCIA = new Color(255, 253, 222);
+    
+    private String MENSAJE_EXCEPCION_SESION_USUARIO = "Ha ocurrido un error con su sesión";
+    private String MENSAJE_EXCEPCION_REALIZAR_PEDIDO = "Ha ocurrido un error al realizar su pedido";
+    private String MENSAJE_EXCEPCION_SELECCIONAR_PAQUETERIA = "Ha ocurrido un error al asignar la paquetería a su carrito";
     
     private static final Logger LOG = Logger.getLogger(ControlCompra.class.getName());
 
@@ -105,7 +111,7 @@ public class ControlCompra {
             IMensaje mensaje,
             IVista direccion,
             Double montoMinimoEnvioGratuito,
-            DireccionDTO direccionDefectoPaqueteria) {
+            DireccionDTONegocios direccionDefectoPaqueteria) {
 
         this.productosVenta = productosVenta;
         this.informacionProducto = informacionProducto;
@@ -200,12 +206,12 @@ public class ControlCompra {
         
         IAdministradorProductos administradorProductos = FabricaSubsistemas.obtenerAdministradorProductos();
         
-        List<InformacionProductoInicioDTO> listaProductoInicioDTO 
+        List<InformacionProductoInicioDTONegocios> listaProductoInicioDTO 
                 = administradorProductos.obtenerProductosBusquedaNombreProducto(nombreProductoBuscado);
 
         List<Map<String, Object>> listaInformacionProductosBusqueda = new LinkedList<>();
 
-        for (InformacionProductoInicioDTO informacionProductoInicioDTO : listaProductoInicioDTO) {
+        for (InformacionProductoInicioDTONegocios informacionProductoInicioDTO : listaProductoInicioDTO) {
             Map<String, Object> mapaInformacionProductoInicio = new HashMap<>();
             mapaInformacionProductoInicio.put("Id", informacionProductoInicioDTO.getIdProducto().getId());
             mapaInformacionProductoInicio.put("Nombre", informacionProductoInicioDTO.getNombreProducto());
@@ -256,12 +262,12 @@ public class ControlCompra {
         
         IAdministradorProductos administradorProductos = FabricaSubsistemas.obtenerAdministradorProductos();
         
-        List<InformacionProductoInicioDTO> listaProductoInicioDTO
+        List<InformacionProductoInicioDTONegocios> listaProductoInicioDTO
                 = administradorProductos.obtenerProductosBusquedaNombreProductoVariedad(nombreProductoBuscado, nombreVariedadBuscado);
 
         List<Map<String, Object>> listaInformacionProductosBusqueda = new LinkedList<>();
 
-        for (InformacionProductoInicioDTO productoInicioDTO : listaProductoInicioDTO) {
+        for (InformacionProductoInicioDTONegocios productoInicioDTO : listaProductoInicioDTO) {
             Map<String, Object> mapaInformacionProductoInicio = new HashMap<>();
             mapaInformacionProductoInicio.put("Id", productoInicioDTO.getIdProveedor().getId());
             mapaInformacionProductoInicio.put("Nombre", productoInicioDTO.getNombreProducto());
@@ -309,7 +315,7 @@ public class ControlCompra {
         
         IAdministradorProductos administradorProductos = FabricaSubsistemas.obtenerAdministradorProductos();
         
-        List<InformacionProductoInicioDTO> listaProductoInicioDTO;
+        List<InformacionProductoInicioDTONegocios> listaProductoInicioDTO;
         try {
             listaProductoInicioDTO = administradorProductos.obtenerProductosBusquedaNombreProductoProveedor(
                     nombreProductoBuscado, 
@@ -317,7 +323,7 @@ public class ControlCompra {
             
             List<Map<String, Object>> listaInformacionProductosBusqueda = new LinkedList<>();
 
-            for (InformacionProductoInicioDTO informacionProductoInicioDTO : listaProductoInicioDTO) {
+            for (InformacionProductoInicioDTONegocios informacionProductoInicioDTO : listaProductoInicioDTO) {
                 Map<String, Object> mapaInformacionProductoInicio = new HashMap<>();
                 mapaInformacionProductoInicio.put("Id", informacionProductoInicioDTO.getIdProducto().getId());
                 mapaInformacionProductoInicio.put("Nombre", informacionProductoInicioDTO.getNombreProducto());
@@ -355,11 +361,11 @@ public class ControlCompra {
         
         IAdministradorProductos administradorProductos = FabricaSubsistemas.obtenerAdministradorProductos();
         
-        List<InformacionProductoInicioDTO> listaProductoInicioDTO = administradorProductos.obtenerProductosVenta();
+        List<InformacionProductoInicioDTONegocios> listaProductoInicioDTO = administradorProductos.obtenerProductosVenta();
 
         List<Map<String, Object>> listaInformacionProductosInicio = new LinkedList<>();
 
-        for (InformacionProductoInicioDTO informacionProductoInicioDTO : listaProductoInicioDTO) {
+        for (InformacionProductoInicioDTONegocios informacionProductoInicioDTO : listaProductoInicioDTO) {
             Map<String, Object> mapaInformacionProductoInicio = new HashMap<>();
             mapaInformacionProductoInicio.put("Id", informacionProductoInicioDTO.getIdProducto().getId());
             mapaInformacionProductoInicio.put("Nombre", informacionProductoInicioDTO.getNombreProducto());
@@ -415,8 +421,8 @@ public class ControlCompra {
         IAdministradorProductos administradorProductos = FabricaSubsistemas.obtenerAdministradorProductos();
         
         try {
-            InformacionProductoDetalladaDTO informacionProductoDTO 
-                    = administradorProductos.obtenerInformacionProductoVenta(new IdProductoDTO(new IdEntidadGenerico(idProducto)));
+            InformacionProductoDetalladaDTONegocios informacionProductoDTO 
+                    = administradorProductos.obtenerInformacionProductoVenta(new IdProductoDTONegocios(new IdEntidadGenericoNegocios(idProducto)));
             Map<String, Object> mapaInformacionProducto = new HashMap<>();
             
             if (informacionProductoDTO != null) {
@@ -505,7 +511,7 @@ public class ControlCompra {
      */
     public List<Map<String, Object>> obtenerInformacionProductosCarrito(Object idCliente) {
         
-        List<InformacionProductoCarritoDTO> listaInformacionProductoCarritoDTO = new LinkedList<>();
+        List<InformacionProductoCarritoDTONegocios> listaInformacionProductoCarritoDTO = new LinkedList<>();
         List<Map<String, Object>> listaInformacionProductosCarrito = new LinkedList<>();
         
         try {
@@ -513,16 +519,16 @@ public class ControlCompra {
             IAdministradorCarritoCompras administradorCarritoCompras 
                     = FabricaSubsistemas.obtenerAdministradorCarritoCompras(montoMinimoEnvioGratuito, direccionDefectoPaquetería);
             
-            listaInformacionProductoCarritoDTO = administradorCarritoCompras.obtenerProductos(new IdClienteDTO(new IdEntidadGenerico(idCliente)));
+            listaInformacionProductoCarritoDTO = administradorCarritoCompras.obtenerProductos(new IdClienteDTONegocios(new IdEntidadGenericoNegocios(idCliente)));
             
             IAdministradorProductos administradorProductos = FabricaSubsistemas.obtenerAdministradorProductos();
             
-            for (InformacionProductoCarritoDTO informacionProductoCarritoDTO : listaInformacionProductoCarritoDTO) {
+            for (InformacionProductoCarritoDTONegocios informacionProductoCarritoDTO : listaInformacionProductoCarritoDTO) {
 
-                InformacionProductoDetalladaDTO informacionProductoInicioDTO;
+                InformacionProductoDetalladaDTONegocios informacionProductoInicioDTO;
 
                 informacionProductoInicioDTO 
-                        = administradorProductos.obtenerInformacionProductoVenta(new IdProductoDTO(informacionProductoCarritoDTO.getId()));
+                        = administradorProductos.obtenerInformacionProductoVenta(new IdProductoDTONegocios(informacionProductoCarritoDTO.getId()));
 
                 informacionProductoCarritoDTO.setNombre(informacionProductoInicioDTO.getNombreProducto());
                 informacionProductoCarritoDTO.setVariedad(informacionProductoInicioDTO.getVariedadProducto());
@@ -535,7 +541,7 @@ public class ControlCompra {
             }
 
 
-            for (InformacionProductoCarritoDTO informacionProductoCarrito : listaInformacionProductoCarritoDTO) {
+            for (InformacionProductoCarritoDTONegocios informacionProductoCarrito : listaInformacionProductoCarritoDTO) {
                 
                 Map<String, Object> mapaInformacionProductoCarrito = new HashMap<>();
                 mapaInformacionProductoCarrito.put("Id", informacionProductoCarrito.getId().getId());
@@ -573,7 +579,7 @@ public class ControlCompra {
         String direccionImagenProveedor = null;
         try {
             IAdministradorProveedores administradorProveedores = FabricaSubsistemas.obtenerAdministradorProveedores();
-            direccionImagenProveedor = administradorProveedores.obtenerDireccionImagenProveedor(new IdProveedorDTO(new IdEntidadGenerico(idProveedor)));
+            direccionImagenProveedor = administradorProveedores.obtenerDireccionImagenProveedor(new IdProveedorDTONegocios(new IdEntidadGenericoNegocios(idProveedor)));
             
         } catch (ProveedoresIdProveedorInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error al obtener la información del proveedor.", COLOR_MENSAJE_ERROR);
@@ -595,7 +601,7 @@ public class ControlCompra {
         try {
             
             IAdministradorProveedores administradorProveedores = FabricaSubsistemas.obtenerAdministradorProveedores();   
-            return administradorProveedores.obtenerNombreProveedor((new IdProveedorDTO(new IdEntidadGenerico(idProveedor))));
+            return administradorProveedores.obtenerNombreProveedor((new IdProveedorDTONegocios(new IdEntidadGenericoNegocios(idProveedor))));
             
         } catch (ProveedoresIdProveedorInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error al obtener la información del proveedor.", COLOR_MENSAJE_ERROR);
@@ -616,7 +622,7 @@ public class ControlCompra {
         try {
             
             IAdministradorProductos administradorProductos = FabricaSubsistemas.obtenerAdministradorProductos();
-            return administradorProductos.cosultarInventarioProducto(new IdProductoDTO(new IdEntidadGenerico(idProducto)));
+            return administradorProductos.cosultarInventarioProducto(new IdProductoDTONegocios(new IdEntidadGenericoNegocios(idProducto)));
             
         } catch (ProductosIdProductoInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error al verificar las exisencias de los productos.", COLOR_MENSAJE_ERROR);
@@ -653,9 +659,9 @@ public class ControlCompra {
                             montoMinimoEnvioGratuito, 
                             direccionDefectoPaquetería);
             
-            administradorCarritoCompras.agregarProducto(new InformacionProductoAgregarCarritoDTO(
-                    new IdEntidadGenerico(idCliente),
-                    new IdEntidadGenerico(idProducto),
+            administradorCarritoCompras.agregarProducto(new InformacionProductoAgregarCarritoDTONegocios(
+                    new IdEntidadGenericoNegocios(idCliente),
+                    new IdEntidadGenericoNegocios(idProducto),
                     cantidad));
             
             productoAgregado = true;
@@ -663,10 +669,10 @@ public class ControlCompra {
             mostrarCarritoCompras(idCliente, vistaActual);
                         
         } catch (CarritoComprasIdClienteInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
+            mostrarMensaje("Ha ocurrido un error con su sesión", COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
-        } catch (CarritoComprasIdProductoInvalidoException | CarritoComprasIdProductoCarritoInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al obtener el producto que seleccionó", COLOR_MENSAJE_ERROR);
+        } catch (CarritoComprasIdProductoInvalidoException | CarritoComprasIdProductoCarritoInvalidoException | CarritoComprasAccesoDatosException ex) {
+            mostrarMensaje("Ha ocurrido un error al agregar el producto a su carrito", COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
         } catch (CarritoComprasProductoSinInventarioException ex) {
             mostrarMensaje("No hay disponibilidad del producto seleccionado", COLOR_MENSAJE_ERROR);
@@ -696,16 +702,16 @@ public class ControlCompra {
             IAdministradorCarritoCompras administradorCarritoCompras 
                     = FabricaSubsistemas.obtenerAdministradorCarritoCompras(montoMinimoEnvioGratuito, direccionDefectoPaquetería);
             
-            administradorCarritoCompras.eliminarProducto(new InformacionProductoEliminarCarritoDTO(
-                    new IdEntidadGenerico(idCliente), 
-                    new IdEntidadGenerico(idProducto),
+            administradorCarritoCompras.eliminarProducto(new InformacionProductoEliminarCarritoDTONegocios(
+                    new IdEntidadGenericoNegocios(idCliente), 
+                    new IdEntidadGenericoNegocios(idProducto),
                     cantidad));
             
             productoEliminado = true;
             mostrarCarritoCompras(idCliente, (IVista)carrito);
 
         } catch (CarritoComprasIdClienteInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
+            mostrarMensaje(MENSAJE_EXCEPCION_SESION_USUARIO, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
         } catch (CarritoComprasIdProductoInvalidoException | CarritoComprasCarritoSinProductoException | CarritoComprasIdProductoCarritoInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error al eliminar el producto que seleccionó", COLOR_MENSAJE_ERROR);
@@ -732,7 +738,7 @@ public class ControlCompra {
             
             IAdministradorCarritoCompras administradorCarritoCompras 
                     = FabricaSubsistemas.obtenerAdministradorCarritoCompras(montoMinimoEnvioGratuito, direccionDefectoPaquetería);
-            numeroProductosCarrito = administradorCarritoCompras.obtenerNumeroProductos(new IdClienteDTO(new IdEntidadGenerico(idCliente)));
+            numeroProductosCarrito = administradorCarritoCompras.obtenerNumeroProductos(new IdClienteDTONegocios(new IdEntidadGenericoNegocios(idCliente)));
             
         } catch (CarritoComprasIdClienteInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
@@ -761,8 +767,8 @@ public class ControlCompra {
                 = FabricaSubsistemas.obtenerAdministradorCarritoCompras(montoMinimoEnvioGratuito, direccionDefectoPaquetería);
         
         try {
-            MontoMinimoEnvioGratuitoDTO montoMinimoEnvioGratuitoDTO 
-                    = administradorCarritoCompras.obtenerInformacionMontoEnvioMinimoGratuito(new IdClienteDTO(new IdEntidadGenerico(idCliente)));
+            MontoMinimoEnvioGratuitoDTONegocios montoMinimoEnvioGratuitoDTO 
+                    = administradorCarritoCompras.obtenerInformacionMontoEnvioMinimoGratuito(new IdClienteDTONegocios(new IdEntidadGenericoNegocios(idCliente)));
             
             Double[] informacionMontoEnvioGratuito = {montoMinimoEnvioGratuitoDTO.getMontoActual(), montoMinimoEnvioGratuitoDTO.getMontoMinimo()};
             
@@ -789,11 +795,11 @@ public class ControlCompra {
      */
     public String[] obtenerNombreApellidoCliente(Object idCliente) {
 
-        NombresApellidoClienteDTO nombreApellidoClienteDTO;
+        NombresApellidoClienteDTONegocios nombreApellidoClienteDTO;
         try {
             
             IAdministradorClientes administradorClientes = FabricaSubsistemas.obtenerAdministradorClientes();
-            nombreApellidoClienteDTO = administradorClientes.obtenerNombresApellidoCliente(new IdClienteDTO(new IdEntidadGenerico(idCliente)));
+            nombreApellidoClienteDTO = administradorClientes.obtenerNombresApellidoCliente(new IdClienteDTONegocios(new IdEntidadGenericoNegocios(idCliente)));
             String[] nombreApellidoCliente = {nombreApellidoClienteDTO.getNombresCliente(), nombreApellidoClienteDTO.getApellidoMaternoCliente()};
             return nombreApellidoCliente;
             
@@ -816,13 +822,13 @@ public class ControlCompra {
      * del pedido del Cliente.
      */
     public int[] obtenerRangoDiasFechaEstimadaPreparacion(Object idCliente) {
-        TiempoEstimadoPreparacionEnvioPedidoDTO tiempoEstimadoPreparacionEnvioPedidoDTO;
+        TiempoEstimadoPreparacionEnvioPedidoDTONegocios tiempoEstimadoPreparacionEnvioPedidoDTO;
         
         try {
             IAdministradorCarritoCompras administradorCarritoCompras 
                     = FabricaSubsistemas.obtenerAdministradorCarritoCompras(montoMinimoEnvioGratuito, direccionDefectoPaquetería);
             tiempoEstimadoPreparacionEnvioPedidoDTO 
-                    = administradorCarritoCompras.obtenerTiempoEstimadoPreparacionProductos(new IdClienteDTO(new IdEntidadGenerico(idCliente)));
+                    = administradorCarritoCompras.obtenerTiempoEstimadoPreparacionProductos(new IdClienteDTONegocios(new IdEntidadGenericoNegocios(idCliente)));
             
             if(tiempoEstimadoPreparacionEnvioPedidoDTO != null){
             int[] rangoDiasEstimadoPreparacion = {tiempoEstimadoPreparacionEnvioPedidoDTO.getDiasLimiteInferior(),
@@ -890,20 +896,20 @@ public class ControlCompra {
      * Método que permite obtener algunos datos que componen la dirección de envío
      * del Cliente con el ID del parámetro, estos son el número, calle, colonia
      * y Código Postal.
-     * @param idCliente Objeto IdEntidadGenerico que representa el ID del Cliente del que 
-     * se obtendrán los datos de la dirección de envío.
+     * @param idCliente Objeto IdEntidadGenericoNegocios que representa el ID del Cliente del que 
+ se obtendrán los datos de la dirección de envío.
      * @return Objeto String[] que contiene los datos de la dirección de envío
      * del Cliente.
      */
     public String[] recuperarDatosDireccionCliente(Object idCliente){
         
-        InformacionNoDerivadaCPDireccionDTO informacionNoDerivadaCPDireccionEnvioDTO;
+        InformacionNoDerivadaCPDireccionDTONegocios informacionNoDerivadaCPDireccionEnvioDTO;
         try {
             
             IAdministradorClientes administradorClientes = FabricaSubsistemas.obtenerAdministradorClientes();
             
             informacionNoDerivadaCPDireccionEnvioDTO 
-                    = administradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(new IdClienteDTO(new IdEntidadGenerico(idCliente)));
+                    = administradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(new IdClienteDTONegocios(new IdEntidadGenericoNegocios(idCliente)));
             
             String calleCliente = informacionNoDerivadaCPDireccionEnvioDTO.getCalle();
             String numeroCliente =  informacionNoDerivadaCPDireccionEnvioDTO.getNumero();
@@ -937,11 +943,11 @@ public class ControlCompra {
         
         IAdministradorPaqueterias administradorPaqueterias = FabricaSubsistemas.obtenerAdministradorPaqueterias(direccionDefectoPaquetería);
         
-        List<InformacionSeleccionPaqueteriaDTO> listaInformacionSeleccionPaqueteriaDTO = administradorPaqueterias.obtenerPaqueterias();
+        List<InformacionSeleccionPaqueteriaDTONegocios> listaInformacionSeleccionPaqueteriaDTO = administradorPaqueterias.obtenerPaqueterias();
         
         HashMap<Object, String> datosPaqueterias = new HashMap<>();
         
-        for(InformacionSeleccionPaqueteriaDTO informacionSeleccionPaqueteriaDTO: listaInformacionSeleccionPaqueteriaDTO){
+        for(InformacionSeleccionPaqueteriaDTONegocios informacionSeleccionPaqueteriaDTO: listaInformacionSeleccionPaqueteriaDTO){
             datosPaqueterias.put(informacionSeleccionPaqueteriaDTO.getIdPaqueteria().getId(),
                     informacionSeleccionPaqueteriaDTO.getDireccionImagenPaqueteria());
         }
@@ -961,8 +967,8 @@ public class ControlCompra {
      */
     public Float obtenerCostoEnvioPaqueteria(Object idCliente, Object idPqueteia){
         
-        IdClientePaqueteriaDTO idClientePaqueteriaCalculoCostoEnvioDTO =
-                new IdClientePaqueteriaDTO(new IdEntidadGenerico(idCliente), new IdEntidadGenerico(idPqueteia));
+        IdClientePaqueteriaDTONegocios idClientePaqueteriaCalculoCostoEnvioDTO =
+                new IdClientePaqueteriaDTONegocios(new IdEntidadGenericoNegocios(idCliente), new IdEntidadGenericoNegocios(idPqueteia));
         
         Float costoEnvioPaqueteria = null;
         try {
@@ -996,19 +1002,18 @@ public class ControlCompra {
      */
     public void mostrarActualizacionDireccionEnvio(Object idCliente, IVista vistaActual){
         
-        InformacionNoDerivadaCPDireccionDTO informacionNoDerivadaCPDireccionEnvioDTO;
+        InformacionNoDerivadaCPDireccionDTONegocios informacionNoDerivadaCPDireccionEnvioDTO;
         try {
             IAdministradorClientes administradorClientes = FabricaSubsistemas.obtenerAdministradorClientes();
             
-            informacionNoDerivadaCPDireccionEnvioDTO = administradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(
-                    new IdClienteDTO(new IdEntidadGenerico(idCliente)));
+            informacionNoDerivadaCPDireccionEnvioDTO = administradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(new IdClienteDTONegocios(new IdEntidadGenericoNegocios(idCliente)));
             String calleEnvio = informacionNoDerivadaCPDireccionEnvioDTO.getCalle();
             String numeroEnvio =  informacionNoDerivadaCPDireccionEnvioDTO.getNumero();
             String coloniaEnvio = informacionNoDerivadaCPDireccionEnvioDTO.getColonia();
             String codigoPostalEnvio = informacionNoDerivadaCPDireccionEnvioDTO.getCodigoPostal();
 
-            InformacionDerivadaCPDireccionDTO informacionDerivadaCPDirecciionDTO 
-                    = administradorClientes.obtenerInformacionDerivadaCPDireccionEnvio(new IdClienteDTO(new IdEntidadGenerico(idCliente)));
+            InformacionDerivadaCPDireccionDTONegocios informacionDerivadaCPDirecciionDTO 
+                    = administradorClientes.obtenerInformacionDerivadaCPDireccionEnvio(new IdClienteDTONegocios(new IdEntidadGenericoNegocios(idCliente)));
             
             String estadoEnvio = informacionDerivadaCPDirecciionDTO.getEstado();
             String ciudadEnvio =  informacionDerivadaCPDirecciionDTO.getCiudad();
@@ -1045,10 +1050,10 @@ public class ControlCompra {
      */
      public Object[] obtenerDatosDireccionEnvioDerivadosCP(String codigoPostal){
         
-        InformacionDerivadaCPDireccionDTO informacionDerivadaCPDireccionDTO;
+        InformacionDerivadaCPDireccionDTONegocios informacionDerivadaCPDireccionDTO;
         try {
             IAdministradorDirecciones administradorDirecciones = FabricaSubsistemas.obtenerAdministradorDirecciones();
-            informacionDerivadaCPDireccionDTO = administradorDirecciones.obtenerDatosDireccionDerivados(new CodigoPostalDTO(codigoPostal));
+            informacionDerivadaCPDireccionDTO = administradorDirecciones.obtenerDatosDireccionDerivados(new CodigoPostalDTONegocios(codigoPostal));
 
             if (informacionDerivadaCPDireccionDTO != null) {
                 Object[] datosDireccionDerivadosCliente = {
@@ -1078,9 +1083,9 @@ public class ControlCompra {
      * la ventana actual que será cerrada.
      */
     public void actualizarDatosDireccionCliente(List<Object> datosCliente, IVista vistaActual){
-        InformacionDireccionEnvioActualizadaClienteDTO informacionDireccionEnvioActualizadaClienteDTO = 
-                new InformacionDireccionEnvioActualizadaClienteDTO(
-                        new IdEntidadGenerico(datosCliente.get(0)), 
+        InformacionDireccionEnvioActualizadaClienteDTONegocios informacionDireccionEnvioActualizadaClienteDTO = 
+                new InformacionDireccionEnvioActualizadaClienteDTONegocios(
+                        new IdEntidadGenericoNegocios(datosCliente.get(0)), 
                         (String)datosCliente.get(1),
                         (String)datosCliente.get(2),
                         (String)datosCliente.get(3),
@@ -1121,16 +1126,19 @@ public class ControlCompra {
             
             IAdministradorCarritoCompras administradorCarritoCompras 
                     = FabricaSubsistemas.obtenerAdministradorCarritoCompras(montoMinimoEnvioGratuito, direccionDefectoPaquetería);
-            administradorCarritoCompras.asignarPaqueteriaCarritoCliente(new IdClientePaqueteriaDTO(
-                    new IdEntidadGenerico(idCliente), new IdEntidadGenerico(idPaqueteria)));
+            administradorCarritoCompras.asignarPaqueteriaCarritoCliente(new IdClientePaqueteriaDTONegocios(
+                    new IdEntidadGenericoNegocios(idCliente), new IdEntidadGenericoNegocios(idPaqueteria)));
             
             ejecutarCasoUsoPagar(idCliente, vistaActual);
             
         } catch (CarritoComprasIdClienteInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
+            mostrarMensaje(MENSAJE_EXCEPCION_SESION_USUARIO, COLOR_MENSAJE_ERROR);
+            
             LOG.log(Level.SEVERE, ex.getMessage());
-        } catch (CarritoComprasIdPaqueteriaInvalidoException | CarritoComprasClienteSinCarritoVigenteException ex) {
-            mostrarMensaje("Ha ocurrido un error al seleccionar la paquetería", COLOR_MENSAJE_ERROR);
+        } catch (CarritoComprasIdPaqueteriaInvalidoException | CarritoComprasClienteSinCarritoVigenteException |
+                FormatoIdInvalidoNegocioException | CarritoComprasAccesoDatosException ex) {
+            
+            mostrarMensaje(MENSAJE_EXCEPCION_SELECCIONAR_PAQUETERIA, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
         }
     }
@@ -1146,25 +1154,22 @@ public class ControlCompra {
         try {
             IAdministradorCarritoCompras administradorCarritoCompras 
                     = FabricaSubsistemas.obtenerAdministradorCarritoCompras(montoMinimoEnvioGratuito, direccionDefectoPaquetería);
-            administradorCarritoCompras.crearPedidoProductosCarritoCliente(new IdClienteDTO(new IdEntidadGenerico(idCliente)));
+            administradorCarritoCompras.crearPedidoProductosCarritoCliente(new IdClienteDTONegocios(new IdEntidadGenericoNegocios(idCliente)));
             mostrarProductosVenta(direccion);
             mostrarConfirmacionPedido();
                  
         } catch (CarritoComprasIdClienteInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
+            mostrarMensaje(MENSAJE_EXCEPCION_SESION_USUARIO, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
         } catch (CarritoComprasClienteSinCarritoVigenteException | 
                 CarritoComprasCarritoVacioException | CarritoComprasIdSucursalInvalidoException
-                | CarritoComprasIdDireccionInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al realizar su pedido", COLOR_MENSAJE_ERROR);
+                | CarritoComprasIdDireccionInvalidoException | CarritoComprasIdProductoInvalidoException
+                | CarritoComprasIdProductoInventarioInvalidoException | CarritoComprasIdProductoCarritoInvalidoException 
+                | CarritoComprasAccesoDatosException ex) {
+            
+            mostrarMensaje(MENSAJE_EXCEPCION_REALIZAR_PEDIDO, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
-        } catch (CarritoComprasIdProductoInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al obtener la información del usuario", COLOR_MENSAJE_ERROR);
-            LOG.log(Level.SEVERE, ex.getMessage());
-        
-        } catch (CarritoComprasIdProductoInventarioInvalidoException | CarritoComprasIdProductoCarritoInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al obtener la información de los productos a pedir", COLOR_MENSAJE_ERROR);
-            LOG.log(Level.SEVERE, ex.getMessage());
+            
         }
         
     }

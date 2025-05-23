@@ -4,12 +4,12 @@ import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedor
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInventarioInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProveedorInvalidoException;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoDetalladaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoInicioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoInventarioDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoDetalladaDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoInicioDTONegocios;
 import java.util.List;
 
 /**
@@ -43,29 +43,29 @@ public class FAdministradorProductos implements IAdministradorProductos {
     /**
      * Implementación del método cosultarInventarioProducto(), de la interfaz,
      * {@link IAdministradorProductos}, que permite obtener las existencias
-     * de un ProductoDTO a partir de su ID.
-     * @param idProductoDTO Objeto IdProductoDTO que contiene el ID del ProductoDTO del que
-     * se obtendrán sus existencias.
-     * @return Dato int que representa la existencias actuales del ProductoDTO con
-     * el ID del parámetro.
+ de un ProductoDTONegocios a partir de su ID.
+     * @param idProductoDTO Objeto IdProductoDTONegocios que contiene el ID del ProductoDTONegocios del que
+ se obtendrán sus existencias.
+     * @return Dato int que representa la existencias actuales del ProductoDTONegocios con
+ el ID del parámetro.
      * @throws ProductosIdProductoInvalidoException Se lanza cuando se comprueba
-     * que el ID del ProductoDTO es inválido, dentro de este subsistema.
+ que el ID del ProductoDTONegocios es inválido, dentro de este subsistema.
      */
     @Override
-    public int cosultarInventarioProducto(IdProductoDTO idProductoDTO) throws ProductosIdProductoInvalidoException {
+    public int cosultarInventarioProducto(IdProductoDTONegocios idProductoDTO) throws ProductosIdProductoInvalidoException {
         return administradorProductos.cosultarInventarioProducto(idProductoDTO);
     }
 
     /**
      * Implementación del método validarProducto(), de la interfaz
      * {@link IAdministradorProductos}, que permite verificar si el ID
-     * de un producto corresponde a un objeto ProductoDTO real.
+ de un producto corresponde a un objeto ProductoDTONegocios real.
      *
-     * @param idProductoDTO Objeto IdProductoDTO que contiene el ID del producto a validar.
-     * @return true si existe un objeto ProductoDTO con el ID del parámetro, false en caso contrario.
+     * @param idProductoDTO Objeto IdProductoDTONegocios que contiene el ID del producto a validar.
+     * @return true si existe un objeto ProductoDTONegocios con el ID del parámetro, false en caso contrario.
      */
     @Override
-    public boolean validarProducto(IdProductoDTO idProductoDTO) {
+    public boolean validarProducto(IdProductoDTONegocios idProductoDTO) {
         return  administradorProductos.validarProducto(idProductoDTO);
     }
 
@@ -73,11 +73,11 @@ public class FAdministradorProductos implements IAdministradorProductos {
      * Implementación del método obtenerProductosVenta(), de la interfaz
      * {@link IAdministradorProductos}, que permte obtener la información de los
      * productos en venta con existencias disponibles.
-     * @return Objeto List {@literal <InformacionProductoInicioDTO\>} que contiene
+     * @return Objeto List {@literal <InformacionProductoInicioDTONegocios\>} que contiene
      * DTOs con la información de los productos a mostrar.
      */
     @Override
-    public List<InformacionProductoInicioDTO> obtenerProductosVenta() {
+    public List<InformacionProductoInicioDTONegocios> obtenerProductosVenta() {
         return  administradorProductos.obtenerProductosVenta();
     }
 
@@ -86,11 +86,11 @@ public class FAdministradorProductos implements IAdministradorProductos {
      * que permite obtener la información de los productos cuyo nombre esté contenido dentro del
      * nombre recibido como parámetro.
      * @param nombreProducto Objeto String que representa el nombre del producto a buscar.
-     * @return Objeto List {@literal <InformacionProductoInicioDTO\>} que contiene
+     * @return Objeto List {@literal <InformacionProductoInicioDTONegocios\>} que contiene
      * DTOs con la información de los productos a mostrar.
      */
     @Override
-    public List<InformacionProductoInicioDTO> obtenerProductosBusquedaNombreProducto(String nombreProducto) {
+    public List<InformacionProductoInicioDTONegocios> obtenerProductosBusquedaNombreProducto(String nombreProducto) {
         return  administradorProductos.obtenerProductosBusquedaNombreProducto(nombreProducto);
     }
 
@@ -101,11 +101,11 @@ public class FAdministradorProductos implements IAdministradorProductos {
      * recibida como parámetro.
      * @param nombreProducto Objeto String que representa el nombre del o los productos a buscar.
      * @param variedadProducto Objeto String que representa la variedad del o los productos a buscar.
-     * @return Objeto List {@literal <InformacionProductoInicioDTO\>} que contiene
+     * @return Objeto List {@literal <InformacionProductoInicioDTONegocios\>} que contiene
      * DTOs con la información de los productos a mostrar.
      */
     @Override
-    public List<InformacionProductoInicioDTO> obtenerProductosBusquedaNombreProductoVariedad(String nombreProducto, String variedadProducto) {
+    public List<InformacionProductoInicioDTONegocios> obtenerProductosBusquedaNombreProductoVariedad(String nombreProducto, String variedadProducto) {
         return  administradorProductos.obtenerProductosBusquedaNombreProductoVariedad(nombreProducto, variedadProducto);
     }
     
@@ -116,11 +116,11 @@ public class FAdministradorProductos implements IAdministradorProductos {
      * recibido como parámetro.
      * @param nombreProducto Objeto String que representa el nombre del o los productos a buscar.
      * @param proveedorProducto Objeto String que representa el nombre del proveedor del o los productos a buscar.
-     * @return Objeto List {@literal <InformacionProductoInicioDTO\>} que contiene
+     * @return Objeto List {@literal <InformacionProductoInicioDTONegocios\>} que contiene
      * DTOs con la información de los productos a mostrar.
      */
     @Override
-    public List<InformacionProductoInicioDTO> obtenerProductosBusquedaNombreProductoProveedor(
+    public List<InformacionProductoInicioDTONegocios> obtenerProductosBusquedaNombreProductoProveedor(
             String nombreProducto,
             String proveedorProducto) throws ProductosIdProveedorInvalidoException {
         
@@ -130,17 +130,17 @@ public class FAdministradorProductos implements IAdministradorProductos {
     /**
      * Implementación del método obtenerInformacionProducto(), de la interfaz
      * {@link IAdministradorProductos}, que permite obtener la información de un
-     * ProductoDTO a partir de su ID.
-     * @param idProductoDTO Objeto IdProductoDTO que representa el ID del producto del que
-     * se obtendrá su información.
-     * @return Objeto InformacionProductoDetalladaDTO que contiene los valores de los
- atributos del objeto ProductoDTO buscado, null si no se encuentra el Producto.
+ ProductoDTONegocios a partir de su ID.
+     * @param idProductoDTO Objeto IdProductoDTONegocios que representa el ID del producto del que
+ se obtendrá su información.
+     * @return Objeto InformacionProductoDetalladaDTONegocios que contiene los valores de los
+ atributos del objeto ProductoDTONegocios buscado, null si no se encuentra el Producto.
      * @throws ProductosIdProductoInvalidoException Se lanza cuando se verifica que
-     * que ID del ProductoDTO que recibe como parámetro es inválido, dentro de
-     * este subsistema.
+ que ID del ProductoDTONegocios que recibe como parámetro es inválido, dentro de
+ este subsistema.
      */
     @Override
-    public InformacionProductoDetalladaDTO obtenerInformacionProductoVenta(IdProductoDTO idProductoDTO)
+    public InformacionProductoDetalladaDTONegocios obtenerInformacionProductoVenta(IdProductoDTONegocios idProductoDTO)
             throws ProductosIdProductoInvalidoException {
         return  administradorProductos.obtenerInformacionProductoVenta(idProductoDTO);
     }
@@ -148,17 +148,17 @@ public class FAdministradorProductos implements IAdministradorProductos {
     /**
      * Implementación del método obtenerProducto(), de la interfaz
      * {@link IAdministradorProductos}, que permite obtener un objeto de tipo
-     * ProductoDTO a partir de su ID.
-     * @param idProductoDTO Objeto IdProductoDTO que contiene el ID del Producto buscado.
-     * @return Objeto de tipo ProductoDTO cuyo ID es igual al ID del parámetro.
+ ProductoDTONegocios a partir de su ID.
+     * @param idProductoDTO Objeto IdProductoDTONegocios que contiene el ID del Producto buscado.
+     * @return Objeto de tipo ProductoDTONegocios cuyo ID es igual al ID del parámetro.
      */
     @Override
-    public ProductoDTO obtenerProducto(IdProductoDTO idProductoDTO) {
+    public ProductoDTONegocios obtenerProducto(IdProductoDTONegocios idProductoDTO) {
         return administradorProductos.obtenerProducto(idProductoDTO);
     }
 
     @Override
-    public void apartarProductoInventarioPedido(IdProductoInventarioDTO idProductoInventarioDTO) throws ProductosIdProductoInventarioInvalidoException {
+    public void apartarProductoInventarioPedido(IdProductoInventarioDTONegocios idProductoInventarioDTO) throws ProductosIdProductoInventarioInvalidoException {
         administradorProductos.apartarProductoInventarioPedido(idProductoInventarioDTO);
     }
     
@@ -167,18 +167,18 @@ public class FAdministradorProductos implements IAdministradorProductos {
      * {@link IAdministradorProductos}, que permite verificar si el ID
      * de un producto en inventario corresponde a un objeto ProductoInventario
      * real.
-     * @param idProductoInventarioDTO Objeto IdProductoInventarioDTO que contiene el ID del objeto
-     * ProductoInventarioDTO buscado.
+     * @param idProductoInventarioDTO Objeto IdProductoInventarioDTONegocios que contiene el ID del objeto
+ ProductoInventarioDTONegocios buscado.
      * @return true si existe un objeto ProductoInventario con el ID del
      * parámetro, false en caso contrario.
      */
     @Override
-    public boolean validarProductoInventario(IdProductoInventarioDTO idProductoInventarioDTO) {
+    public boolean validarProductoInventario(IdProductoInventarioDTONegocios idProductoInventarioDTO) {
         return  administradorProductos.validarProductoInventario(idProductoInventarioDTO);
     }
 
     @Override
-    public ProductoInventarioDTO obtenerProductoInventario(IdProductoInventarioDTO idProductoInventario) {
+    public ProductoInventarioDTONegocios obtenerProductoInventario(IdProductoInventarioDTONegocios idProductoInventario) {
         return administradorProductos.obtenerProductoInventario(idProductoInventario);
     }
 

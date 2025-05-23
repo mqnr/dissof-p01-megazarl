@@ -2,9 +2,9 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioProveedor;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioProveedor;
 import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioProveedorEnMemoria;
 import java.util.Collection;
 import java.util.List;
@@ -20,28 +20,23 @@ public class Proveedor {
         };
     }
     
-    public static ProveedorDTO recuperarPorId(IdProveedorDTO idProveedorDTO) {
+    public static ProveedorDTONegocios recuperarPorId(IdProveedorDTONegocios idProveedorDTO) {
         return repositorio.recuperarPorId(idProveedorDTO);
     }
     
-     public static boolean existePorId(IdProveedorDTO idProveedorDTO) {
+     public static boolean existePorId(IdProveedorDTONegocios idProveedorDTO) {
         return repositorio.existePorId(idProveedorDTO);
     }
      
-    public static void agregar(ProveedorDTO proveedorDTO) {
+    public static void agregar(ProveedorDTONegocios proveedorDTO) {
         repositorio.agregar(proveedorDTO);
     }
     
-    public static void agregar(Collection<ProveedorDTO> proveedores) {
+    public static void agregar(Collection<ProveedorDTONegocios> proveedores) {
         repositorio.agregar(proveedores);
     }
      
-    public static List<ProveedorDTO> recuperarTodos() {
+    public static List<ProveedorDTONegocios> recuperarTodos() {
         return repositorio.recuperarTodos();
-    }
-    
-    
-    public static boolean existe(Predicate<ProveedorDTO> criterio) {
-        return repositorio.existe(criterio);
     }
 }

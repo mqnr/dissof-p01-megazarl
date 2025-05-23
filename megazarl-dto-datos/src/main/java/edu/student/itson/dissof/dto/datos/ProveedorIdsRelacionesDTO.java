@@ -1,32 +1,55 @@
 
 package edu.student.itson.dissof.dto.datos;
 
-import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenericoDatos;
 import java.util.List;
 
 
-public class ProveedorIdsRelacionesDTO extends ProveedorDTO{
+public class ProveedorIdsRelacionesDTO{
     
-    private List<IdEntidadGenerico> idsProductosOfrecidos;
+    /**
+     * Objeto IdEntidadGenericoDatos que representa el ID del proveedor.
+     */
+    private IdEntidadGenericoDatos id;
+
+    /**
+     * Objeto String que representa el nombre del proveedor.
+     */
+    private String nombre;
+
+    /**
+     * Objeto String que representa el teléfono del proveedor.
+     */
+    private String telefono;
     
-    private IdEntidadGenerico idDireccion;
+    /**
+     * Objeto String que representa el correo electrónico del proveedor.
+     */
+    private String correoElectronico;
+    
+    /**
+     * Objeto String que representa la dirección de la imagen del proveedor.
+     */
+    private String direccionImagen;
+    
+    private List<IdEntidadGenericoDatos> idsProductosOfrecidos;
+    
+    private IdEntidadGenericoDatos idDireccion;
     
     public ProveedorIdsRelacionesDTO(
-            IdEntidadGenerico id, 
+            IdEntidadGenericoDatos id, 
             String nombre,
             String telefono,
             String correoElectronico, 
             String direccionImagen, 
-            List<IdEntidadGenerico> idsProductosOfrecidos, 
-            IdEntidadGenerico idDireccion) {
+            List<IdEntidadGenericoDatos> idsProductosOfrecidos, 
+            IdEntidadGenericoDatos idDireccion) {
         
-        super(
-            id, 
-            nombre,
-            telefono,
-            correoElectronico,
-            direccionImagen);
-        
+        this.id = id;
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.correoElectronico = correoElectronico;
+        this.direccionImagen = direccionImagen;
         this.idsProductosOfrecidos = idsProductosOfrecidos;
         this.idDireccion = idDireccion;
     }
@@ -36,28 +59,51 @@ public class ProveedorIdsRelacionesDTO extends ProveedorDTO{
             String telefono,
             String correoElectronico, 
             String direccionImagen, 
-            List<IdEntidadGenerico> idsProductosOfrecidos, 
-            IdEntidadGenerico idDireccion) {
+            List<IdEntidadGenericoDatos> idsProductosOfrecidos, 
+            IdEntidadGenericoDatos idDireccion) {
         
-        super(
-            nombre,
-            telefono,
-            correoElectronico,
-            direccionImagen);
-        
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.correoElectronico = correoElectronico;
+        this.direccionImagen = direccionImagen;
         this.idsProductosOfrecidos = idsProductosOfrecidos;
         this.idDireccion = idDireccion;
     }
 
-    @Override
-    public List<IdEntidadGenerico> getListaIdsProductosOfrecidos() {
+    public IdEntidadGenericoDatos getId() {
+        return id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public String getCorreoElectronico() {
+        return correoElectronico;
+    }
+
+    public String getDireccionImagen() {
+        return direccionImagen;
+    }
+
+    public List<IdEntidadGenericoDatos> getIdsProductosOfrecidos() {
+        return idsProductosOfrecidos;
+    }
+
+    
+    
+    public List<IdEntidadGenericoDatos> getListaIdsProductosOfrecidos() {
         
         return idsProductosOfrecidos;
         
     }
 
-    @Override
-    public IdEntidadGenerico getIdDireccion() {
+    
+    public IdEntidadGenericoDatos getIdDireccion() {
         return idDireccion;
     }
     

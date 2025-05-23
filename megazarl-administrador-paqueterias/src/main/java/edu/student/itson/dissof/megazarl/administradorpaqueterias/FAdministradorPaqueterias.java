@@ -10,14 +10,14 @@ import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.Pa
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdSucursalInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
-import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.PaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoMatrizClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoProveedorMatrizDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoSucursalMatrizDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionSeleccionPaqueteriaDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.PaqueteriaDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoMatrizClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoProveedorMatrizDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoSucursalMatrizDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionSeleccionPaqueteriaDTONegocios;
 import edu.student.itson.dissof.megazarl.mapas.IAdministradorMapas;
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
             IAdministradorProveedores administradorProveedores,
             IAdministradorDirecciones administradorDirecciones,
             IAdministradorMapas administradorMapas,
-            DireccionDTO direccionDefectoPaqueteria){
+            DireccionDTONegocios direccionDefectoPaqueteria){
         
         this.administradorPaqueterias = new AdministradorPaqueterias(
                 administradorClientes, 
@@ -64,13 +64,13 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
 
     /**
      * Método que permite obtener una paquetería a partir de su ID.
-     * @param idPaqueteriaDTO Objeto IdPaqueteriaDTO que contiene el ID de la paquetería a obtener.
+     * @param idPaqueteriaDTONegocios Objeto IdPaqueteriaDTONegocios que contiene el ID de la paquetería a obtener.
      * @return Objeto Paqueteria que representa la paquetería con el ID especificado,
      * o null si no se encuentra una paquetería con ese ID.
      */
     @Override
-    public PaqueteriaDTO obtenerPaqueteria(IdPaqueteriaDTO idPaqueteriaDTO) {
-        return administradorPaqueterias.obtenerPaqueteria(idPaqueteriaDTO);
+    public PaqueteriaDTONegocios obtenerPaqueteria(IdPaqueteriaDTONegocios idPaqueteriaDTONegocios) {
+        return administradorPaqueterias.obtenerPaqueteria(idPaqueteriaDTONegocios);
     }
 
     /**
@@ -81,7 +81,7 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
      * básica de las paqueterías disponibles.
      */
     @Override
-    public List<InformacionSeleccionPaqueteriaDTO> obtenerPaqueterias() {
+    public List<InformacionSeleccionPaqueteriaDTONegocios> obtenerPaqueterias() {
         return administradorPaqueterias.obtenerPaqueterias();
     }
 
@@ -89,7 +89,7 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
      * Método que permite calcular el costo de envío de un producto desde una sucursal
      * hacia la Matriz.
      *
-     * @param informacionEnvioProductoSucursalMatrizDTO Objeto InformacionEnvioProductoSucursalMatrizDTO
+     * @param informacionEnvioProductoSucursalMatrizDTONegocios Objeto InformacionEnvioProductoSucursalMatrizDTONegocios
      * que contiene los IDs de la sucursal de envío y de la Matriz, así como el ID de la
      * paquetería.
      * @return Objeto Float que representa el costo de envío calculado.
@@ -98,12 +98,12 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
      * @throws PaqueteriasIdSucursalInvalidoException
      */
     @Override
-    public float obtenerCostoEnvioSucursalMatriz(InformacionEnvioProductoSucursalMatrizDTO informacionEnvioProductoSucursalMatrizDTO)
+    public float obtenerCostoEnvioSucursalMatriz(InformacionEnvioProductoSucursalMatrizDTONegocios informacionEnvioProductoSucursalMatrizDTONegocios)
             throws PaqueteriasIdPaqueteriaInvalidoException,
             PaqueteriasIdSucursalInvalidoException,
             PaqueteriasIdDireccionInvalidoException{
         
-        return administradorPaqueterias.obtenerCostoEnvioSucursalMatriz(informacionEnvioProductoSucursalMatrizDTO);
+        return administradorPaqueterias.obtenerCostoEnvioSucursalMatriz(informacionEnvioProductoSucursalMatrizDTONegocios);
         
     }
     
@@ -111,38 +111,37 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
      * Método que permite calcular el costo de envío desde la Matriz de la empresa
      * hasta la dirección de envío de un cliente.
      *
-     * @param informacionEnvioProductoMatrizClienteDTO Objeto InformacionEnvioProductoMatrizClienteDTO
+     * @param informacionEnvioProductoMatrizClienteDTONegocios Objeto InformacionEnvioProductoMatrizClienteDTONegocios
      * que contiene los IDs de paquetería, cliente, y Matriz de la empresa.
      * @return Objeto Float que representa el costo de envío calculado.
      * @throws PaqueteriasIdPaqueteriaInvalidoException Se lanza si se comprueba que el ID
      * de la paquetería es inválido, dentro de este subsistema.
      */
     @Override
-    public float obtenerCostoEnvioMatrizCliente(InformacionEnvioProductoMatrizClienteDTO informacionEnvioProductoMatrizClienteDTO) 
+    public float obtenerCostoEnvioMatrizCliente(InformacionEnvioProductoMatrizClienteDTONegocios informacionEnvioProductoMatrizClienteDTONegocios) 
             throws PaqueteriasIdPaqueteriaInvalidoException,
             PaqueteriasIdClienteInvalidoException,
             PaqueteriasIdDireccionInvalidoException{
         
-        return administradorPaqueterias.obtenerCostoEnvioMatrizCliente(informacionEnvioProductoMatrizClienteDTO);
+        return administradorPaqueterias.obtenerCostoEnvioMatrizCliente(informacionEnvioProductoMatrizClienteDTONegocios);
     }
     
     /**
      * Método que permite calcular el costo de envío de un producto desde un proveedor
      * hacia la Matriz de la empresa.
-     *
-     * @param informacionEnvioProductoProveedorMatrizDTO Objeto InformacionEnvioProductoProveedorMatrizDTO
+     * @param informacionEnvioProductoProveedorMatrizDTONegocios Objeto InformacionEnvioProductoProveedorMatrizDTONegocios
      * que contiene los IDs de paquetería, sucursal Matriz y proveedor.
      * @return Objeto Float que representa el costo de envío calculado.
      * @throws PaqueteriasIdPaqueteriaInvalidoException Se lanza si se comprueba que el ID
      * de la paquetería es inválido, dentro de este subsistema.
      */
     @Override
-    public float obtenerCostoEnvioProveedorMatriz(InformacionEnvioProductoProveedorMatrizDTO informacionEnvioProductoProveedorMatrizDTO) 
+    public float obtenerCostoEnvioProveedorMatriz(InformacionEnvioProductoProveedorMatrizDTONegocios informacionEnvioProductoProveedorMatrizDTONegocios) 
             throws PaqueteriasIdPaqueteriaInvalidoException,
             PaqueteriasIdProveedorInvalidoException,
             PaqueteriasIdDireccionInvalidoException{
         
-        return administradorPaqueterias.obtenerCostoEnvioProveedorMatriz(informacionEnvioProductoProveedorMatrizDTO);
+        return administradorPaqueterias.obtenerCostoEnvioProveedorMatriz(informacionEnvioProductoProveedorMatrizDTONegocios);
         
     }
 
@@ -150,26 +149,27 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
      * Implementación del método obtenerTiempoEnvioMatrizEstimado(), 
      * de la interfaz {@link IAdministradorPaqueterias}, que permite obtener el 
      * tiempo máximo de envío a Matriz, de entre las paqueterías registradas.
+     * @param idProveedorDTONegocios
      * @return Objeto Float que representa el tiempo máximo de envío a Matriz en horas
      * de las paqueterías registradas, null si no existen paqueterías registradas.
      * @throws PaqueteriasIdDireccionInvalidoException
      */
     @Override
-    public Float obtenerTiempoEnvioMatrizEstimado(IdProveedorDTO idProveedorDTO) 
+    public Float obtenerTiempoEnvioMatrizEstimado(IdProveedorDTONegocios idProveedorDTONegocios) 
             throws PaqueteriasIdProveedorInvalidoException, 
             PaqueteriasIdDireccionInvalidoException {
         
-        return administradorPaqueterias.obtenerTiempoEnvioMatrizEstimado(idProveedorDTO);
+        return administradorPaqueterias.obtenerTiempoEnvioMatrizEstimado(idProveedorDTONegocios);
     }
     
     /**
      * Método que permite verificar si el ID de una paquetería es válido.
-     * @param idPaqueteriaDTO Objeto IdPaqueteriaDTO que contiene el ID de la paquetería a validar.
+     * @param idPaqueteriaDTONegocios Objeto IdPaqueteriaDTONegocios que contiene el ID de la paquetería a validar.
      * @return true si el ID de la paquetería es válido y existe en el sistema, false en caso contrario.
      */
     @Override
-    public boolean validarPaqueteria(IdPaqueteriaDTO idPaqueteriaDTO) {
-        return administradorPaqueterias.validarPaqueteria(idPaqueteriaDTO);
+    public boolean validarPaqueteria(IdPaqueteriaDTONegocios idPaqueteriaDTONegocios) {
+        return administradorPaqueterias.validarPaqueteria(idPaqueteriaDTONegocios);
     }
 
 }

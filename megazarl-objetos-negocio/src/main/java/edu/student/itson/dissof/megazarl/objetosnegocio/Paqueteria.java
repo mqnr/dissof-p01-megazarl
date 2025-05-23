@@ -1,9 +1,9 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
-import edu.student.itson.dissof.megazarl.dto.negocios.PaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioPaqueteria;
+import edu.student.itson.dissof.megazarl.dto.negocios.PaqueteriaDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTONegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioPaqueteria;
 import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioPaqueteriaEnMemoria;
 
 import java.util.Collection;
@@ -21,32 +21,23 @@ public class Paqueteria {
         };
     }
 
-    public static PaqueteriaDTO recuperarPorId(IdPaqueteriaDTO idPaqueteriaDTO) {
+    public static PaqueteriaDTONegocios recuperarPorId(IdPaqueteriaDTONegocios idPaqueteriaDTO) {
         return repositorio.recuperarPorId(idPaqueteriaDTO);
     }
 
-    public static boolean existePorId(IdPaqueteriaDTO idPaqueteriaDTO) {
+    public static boolean existePorId(IdPaqueteriaDTONegocios idPaqueteriaDTO) {
         return repositorio.existePorId(idPaqueteriaDTO);
     }
 
-    public static void agregar(PaqueteriaDTO paqueteriaDTO) {
+    public static void agregar(PaqueteriaDTONegocios paqueteriaDTO) {
         repositorio.agregar(paqueteriaDTO);
     }
 
-    public static void agregar(Collection<PaqueteriaDTO> paqueterias) {
+    public static void agregar(Collection<PaqueteriaDTONegocios> paqueterias) {
         repositorio.agregar(paqueterias);
     }
 
-    public static List<PaqueteriaDTO> recuperarTodos() {
+    public static List<PaqueteriaDTONegocios> recuperarTodos() {
         return repositorio.recuperarTodos();
     }
-
-    public static Stream<PaqueteriaDTO> stream() {
-        return repositorio.stream();
-    }
-    
-    public static boolean existe(Predicate<PaqueteriaDTO> criterio) {
-        return repositorio.existe(criterio);
-    }
-    
 }

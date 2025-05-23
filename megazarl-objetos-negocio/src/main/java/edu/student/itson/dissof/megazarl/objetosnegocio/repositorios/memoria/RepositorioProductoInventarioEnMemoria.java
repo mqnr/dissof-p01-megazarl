@@ -2,25 +2,24 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
 
-import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDatosCompletosRelacionesDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProductoInventarioDatosCompletosRelacionesDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDatosCompletosRelacionesDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioProductoInventario;
+import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionProductoInventarioDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoInventarioDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDatosCompletosRelacionesDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoInventarioDatosCompletosRelacionesDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDatosCompletosRelacionesDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioProductoInventario;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 
 public class RepositorioProductoInventarioEnMemoria implements RepositorioProductoInventario{
     
-    private final List<ProductoInventarioDTO> listaProductosInventario;
+    private final List<ProductoInventarioDTONegocios> listaProductosInventario;
     
     private static Long ID_ACTUAL_PRODUCTO_INVENTARIO = 1L;
     
@@ -28,12 +27,12 @@ public class RepositorioProductoInventarioEnMemoria implements RepositorioProduc
         listaProductosInventario = new ArrayList<>();
     }
     
-    public RepositorioProductoInventarioEnMemoria(Collection<ProductoInventarioDTO> productosInventario) {
+    public RepositorioProductoInventarioEnMemoria(Collection<ProductoInventarioDTONegocios> productosInventario) {
         listaProductosInventario = new ArrayList<>(productosInventario);
     }
     
     @Override
-    public ProductoInventarioDTO recuperarPorId(IdProductoInventarioDTO idProductoInventarioDTO) {
+    public ProductoInventarioDTONegocios recuperarPorId(IdProductoInventarioDTONegocios idProductoInventarioDTO) {
         return listaProductosInventario.stream()
                 .filter(productoInventario -> productoInventario.getId().equals(idProductoInventarioDTO.getIdProductoInventario()))
                 .findFirst()
@@ -41,25 +40,23 @@ public class RepositorioProductoInventarioEnMemoria implements RepositorioProduc
     }
 
     @Override
-    public boolean existePorId(IdProductoInventarioDTO idProductoInventarioDTO) {
-        return existe(productoInventario -> productoInventario.getId().equals(idProductoInventarioDTO.getIdProductoInventario()));
+    public boolean existePorId(IdProductoInventarioDTONegocios idProductoInventarioDTO) {
+        
+        return listaProductosInventario.stream().anyMatch(productoInventario 
+                -> productoInventario.getId().equals(idProductoInventarioDTO.getIdProductoInventario()));
+
     }
 
     @Override
-    public Stream<ProductoInventarioDTO> stream() {
-        return listaProductosInventario.stream();
-    }
-
-    @Override
-    public void agregar(ProductoInventarioDTO productoInventario) {
+    public void agregar(ProductoInventarioDTONegocios productoInventario) {
         
-        productoInventario.setId(new IdEntidadGenerico(ID_ACTUAL_PRODUCTO_INVENTARIO++));
+        productoInventario.setId(new IdEntidadGenericoNegocios(ID_ACTUAL_PRODUCTO_INVENTARIO++));
         
-        ProductoInventarioDatosCompletosRelacionesDTO productoInventarioDatosCompletosRelacionesDTO 
-                    = (ProductoInventarioDatosCompletosRelacionesDTO) productoInventario;
+        ProductoInventarioDatosCompletosRelacionesDTONegocios productoInventarioDatosCompletosRelacionesDTO 
+                    = (ProductoInventarioDatosCompletosRelacionesDTONegocios) productoInventario;
             
-            ProductoDatosCompletosRelacionesDTO productoDatosCompletosRelacionesDTO 
-                    = ((ProductoDatosCompletosRelacionesDTO)productoInventarioDatosCompletosRelacionesDTO.getProducto());
+            ProductoDatosCompletosRelacionesDTONegocios productoDatosCompletosRelacionesDTO 
+                    = ((ProductoDatosCompletosRelacionesDTONegocios)productoInventarioDatosCompletosRelacionesDTO.getProducto());
             
             
             productoDatosCompletosRelacionesDTO.getProductosInventario().add(productoInventario);
@@ -69,17 +66,17 @@ public class RepositorioProductoInventarioEnMemoria implements RepositorioProduc
     }
 
     @Override
-    public void agregar(Collection<ProductoInventarioDTO> productosInventario) {
+    public void agregar(Collection<ProductoInventarioDTONegocios> productosInventario) {
         
-        for(ProductoInventarioDTO productoInventario: productosInventario){
+        for(ProductoInventarioDTONegocios productoInventario: productosInventario){
             
-            productoInventario.setId(new IdEntidadGenerico(ID_ACTUAL_PRODUCTO_INVENTARIO++));
+            productoInventario.setId(new IdEntidadGenericoNegocios(ID_ACTUAL_PRODUCTO_INVENTARIO++));
             
-            ProductoInventarioDatosCompletosRelacionesDTO productoInventarioDatosCompletosRelacionesDTO 
-                    = (ProductoInventarioDatosCompletosRelacionesDTO) productoInventario;
+            ProductoInventarioDatosCompletosRelacionesDTONegocios productoInventarioDatosCompletosRelacionesDTO 
+                    = (ProductoInventarioDatosCompletosRelacionesDTONegocios) productoInventario;
             
-            ProductoDatosCompletosRelacionesDTO productoDatosCompletosRelacionesDTO 
-                    = ((ProductoDatosCompletosRelacionesDTO)productoInventarioDatosCompletosRelacionesDTO.getProducto());
+            ProductoDatosCompletosRelacionesDTONegocios productoDatosCompletosRelacionesDTO 
+                    = ((ProductoDatosCompletosRelacionesDTONegocios)productoInventarioDatosCompletosRelacionesDTO.getProducto());
             
             
             productoDatosCompletosRelacionesDTO.getProductosInventario().add(productoInventario);
@@ -91,28 +88,28 @@ public class RepositorioProductoInventarioEnMemoria implements RepositorioProduc
     }
     
     @Override
-    public ProductoInventarioDTO actualizar(ActualizacionProductoInventarioDTO actualizacionProductoInventarioDTO) {
+    public ProductoInventarioDTONegocios actualizar(ActualizacionProductoInventarioDTONegocios actualizacionProductoInventarioDTO) {
         
         for (int i = 0; i < listaProductosInventario.size(); i++) {
-            ProductoInventarioDTO productoInventario = listaProductosInventario.get(i);
+            ProductoInventarioDTONegocios productoInventario = listaProductosInventario.get(i);
             
             if (productoInventario.getId().equals(actualizacionProductoInventarioDTO.getId())) {
-                ProductoInventarioDTO productoInventarioActualizado = aplicar(productoInventario, actualizacionProductoInventarioDTO);
+                ProductoInventarioDTONegocios productoInventarioActualizado = aplicar(productoInventario, actualizacionProductoInventarioDTO);
                 listaProductosInventario.set(i, productoInventarioActualizado);
                 
-                ProductoInventarioDatosCompletosRelacionesDTO productoInventarioDatosCompletosRelacionesDTO = 
-                        (ProductoInventarioDatosCompletosRelacionesDTO) productoInventarioActualizado;
+                ProductoInventarioDatosCompletosRelacionesDTONegocios productoInventarioDatosCompletosRelacionesDTO = 
+                        (ProductoInventarioDatosCompletosRelacionesDTONegocios) productoInventarioActualizado;
                 
-                ProductoDatosCompletosRelacionesDTO productoDatosCompletosDTO 
-                        = (ProductoDatosCompletosRelacionesDTO) productoInventarioDatosCompletosRelacionesDTO.getProducto();
+                ProductoDatosCompletosRelacionesDTONegocios productoDatosCompletosDTO 
+                        = (ProductoDatosCompletosRelacionesDTONegocios) productoInventarioDatosCompletosRelacionesDTO.getProducto();
                 
                 IntStream.range(0, productoDatosCompletosDTO.getProductosInventario().size())
                     .filter(j -> productoDatosCompletosDTO.getProductosInventario().get(j).getId().equals(productoInventarioActualizado.getId()))
                     .findFirst()
                     .ifPresent(j -> productoDatosCompletosDTO.getProductosInventario().set(j, productoInventarioActualizado));
                 
-                SucursalDatosCompletosRelacionesDTO sucursalDatosCompletosDTO 
-                        = (SucursalDatosCompletosRelacionesDTO) productoInventarioDatosCompletosRelacionesDTO.getSucursal();
+                SucursalDatosCompletosRelacionesDTONegocios sucursalDatosCompletosDTO 
+                        = (SucursalDatosCompletosRelacionesDTONegocios) productoInventarioDatosCompletosRelacionesDTO.getSucursal();
                 
                 IntStream.range(0, sucursalDatosCompletosDTO.getProductosInventario().size())
                     .filter(j -> sucursalDatosCompletosDTO.getProductosInventario().get(j).getId().equals(productoInventarioActualizado.getId()))
@@ -127,23 +124,17 @@ public class RepositorioProductoInventarioEnMemoria implements RepositorioProduc
     }
     
     @Override
-    public List<ProductoInventarioDTO> recuperarTodos() {
+    public List<ProductoInventarioDTONegocios> recuperarTodos() {
         return new ArrayList<>(listaProductosInventario);
     }
 
-    @Override
-    public boolean existe(Predicate<ProductoInventarioDTO> criterio) {
-        return listaProductosInventario.stream().anyMatch(criterio);
-    }
-
-
-    private ProductoInventarioDTO aplicar(ProductoInventarioDTO productoInventarioOriginal, ActualizacionProductoInventarioDTO actualizacionProductoInventarioDTO) {
+    private ProductoInventarioDTONegocios aplicar(ProductoInventarioDTONegocios productoInventarioOriginal, ActualizacionProductoInventarioDTONegocios actualizacionProductoInventarioDTO) {
         
-        return new ProductoInventarioDatosCompletosRelacionesDTO(
+        return new ProductoInventarioDatosCompletosRelacionesDTONegocios(
                 productoInventarioOriginal.getId(),
                 actualizacionProductoInventarioDTO.tieneApartado() ? actualizacionProductoInventarioDTO.getApartado() : productoInventarioOriginal.getApartado(),
-                ((ProductoInventarioDatosCompletosRelacionesDTO)productoInventarioOriginal).getProducto(),
-                ((ProductoInventarioDatosCompletosRelacionesDTO)productoInventarioOriginal).getSucursal()
+                ((ProductoInventarioDatosCompletosRelacionesDTONegocios)productoInventarioOriginal).getProducto(),
+                ((ProductoInventarioDatosCompletosRelacionesDTONegocios)productoInventarioOriginal).getSucursal()
         );
         
     }

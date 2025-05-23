@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package edu.student.itson.dissof.megazarl.presentacion;
-import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.awt.BorderLayout;
 import java.awt.Color;

@@ -1,9 +1,9 @@
 package edu.student.itson.dissof.megazarl.administrador.gerenteventas;
 
 import edu.student.itson.dissof.megazarl.administrador.gerenteventas.excepciones.IdGerenteVentasInvalidoException;
-import edu.student.itson.dissof.megazarl.dto.negocios.GerenteVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdGerenteVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoGerenteVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.GerenteVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdGerenteVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoGerenteVentasDTONegocios;
 /**
  * FAdministradorGerenteVentas.java
  * 
@@ -20,17 +20,17 @@ public class FAdministradorGerenteVentas implements IAdministradorGerenteVentas 
     }
 
     @Override
-    public boolean validarGerenteVentas(IdGerenteVentasDTO idGerenteVentasDTO) {
+    public boolean validarGerenteVentas(IdGerenteVentasDTONegocios idGerenteVentasDTO) {
         return administradorGerenteVentas.validarGerenteVentas(idGerenteVentasDTO);
     }
 
     @Override
-    public GerenteVentasDTO obtenerGerenteVentas(IdGerenteVentasDTO idGerenteVentasDTO) {
+    public GerenteVentasDTONegocios obtenerGerenteVentas(IdGerenteVentasDTONegocios idGerenteVentasDTO) {
         return administradorGerenteVentas.obtenerGerenteVentas(idGerenteVentasDTO);
     }
 
     @Override
-    public NombresApellidoGerenteVentasDTO obtenerNombresApellidoGerenteVentas(IdGerenteVentasDTO idGerenteVentasDTO) throws IdGerenteVentasInvalidoException {
+    public NombresApellidoGerenteVentasDTONegocios obtenerNombresApellidoGerenteVentas(IdGerenteVentasDTONegocios idGerenteVentasDTO) throws IdGerenteVentasInvalidoException {
         return administradorGerenteVentas.obtenerNombresApellidoGerenteVentas(idGerenteVentasDTO);
     }
 

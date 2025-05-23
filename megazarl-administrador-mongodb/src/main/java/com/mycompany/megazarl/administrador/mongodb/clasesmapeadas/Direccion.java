@@ -4,8 +4,13 @@ package com.mycompany.megazarl.administrador.mongodb.clasesmapeadas;
 import org.bson.types.ObjectId;
 
 /**
- *
- * @author Laboratorios
+ * Clase que representa una dirección en el sistema.
+ * 
+ * @author Yuri Germán García López
+ * ID: 00000252583
+ * @author Manuel Romo López
+ * ID: 00000253080
+ * 
  */
 public class Direccion {
     

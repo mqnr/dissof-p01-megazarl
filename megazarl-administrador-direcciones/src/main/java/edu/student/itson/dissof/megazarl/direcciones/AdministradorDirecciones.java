@@ -2,10 +2,10 @@ package edu.student.itson.dissof.megazarl.direcciones;
 
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
-import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTONegocios;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Direccion;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -16,29 +16,25 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 class AdministradorDirecciones implements IAdministradorDirecciones {
     
     @Override
-    public DireccionDTO obtenerDireccion(IdDireccionDTO idDireccionDTO) {
-        return Direccion.recuperarPorId(idDireccionDTO);
+    public DireccionDTONegocios obtenerDireccion(IdDireccionDTONegocios idDireccionDTONegocios) {
+        return Direccion.recuperarPorId(idDireccionDTONegocios);
     }
 
     @Override
-    public boolean validarDireccion(IdDireccionDTO idDireccionDTO) {
+    public boolean validarDireccion(IdDireccionDTONegocios idDireccionDTONegocios) {
         
-        if (idDireccionDTO == null || idDireccionDTO.getIdDireccion()== null || !Direccion.existePorId(idDireccionDTO)) {
+        if (idDireccionDTONegocios == null || idDireccionDTONegocios.getIdDireccion()== null || !Direccion.existePorId(idDireccionDTONegocios)) {
             return false;
         }
         
         return true;
     }
-    private static final Logger LOG = Logger.getLogger(AdministradorDirecciones.class.getName());
     
     @Override
-    public InformacionDerivadaCPDireccionDTO obtenerDatosDireccionDerivados(CodigoPostalDTO codigoPostalDTO)
+    public InformacionDerivadaCPDireccionDTONegocios obtenerDatosDireccionDerivados(CodigoPostalDTONegocios codigoPostalDTONegocios)
             throws DireccionesAccesoArchivoCodigosPostalesFallidoException, 
             DireccionesArchivoCodigosPostalesVacioException {
 
@@ -58,9 +54,9 @@ class AdministradorDirecciones implements IAdministradorDirecciones {
             lineasArchivo.remove(1);
 
             // Se instancia un objeto informacionDerivadaDireccionEnvioDTO como null.
-            InformacionDerivadaCPDireccionDTO informacionDerivadaCPDireccionDTO = null;
+            InformacionDerivadaCPDireccionDTONegocios informacionDerivadaCPDireccionDTO = null;
 
-            String codigoPostalBuscar = codigoPostalDTO.getCodigoPostal();
+            String codigoPostalBuscar = codigoPostalDTONegocios.getCodigoPostal();
             
             int i = 0;
 
@@ -95,7 +91,7 @@ class AdministradorDirecciones implements IAdministradorDirecciones {
                 } else if(codigoPostalExiste){
                     
                     // Se asignan los datos a un nuevo DTO de tipo InformacionDerivadaCPDireccionEnvioDTO;
-                    informacionDerivadaCPDireccionDTO = new InformacionDerivadaCPDireccionDTO(colonias, ciudad, estado);
+                    informacionDerivadaCPDireccionDTO = new InformacionDerivadaCPDireccionDTONegocios(colonias, ciudad, estado);
                     
                     break;
                 }
@@ -119,14 +115,14 @@ class AdministradorDirecciones implements IAdministradorDirecciones {
     }
     
     @Override
-    public DireccionDTO registrarDireccion(DireccionDTO direccionDTO) 
+    public DireccionDTONegocios registrarDireccion(DireccionDTONegocios direccionDTO) 
             throws DireccionesAccesoArchivoCodigosPostalesFallidoException,
             DireccionesArchivoCodigosPostalesVacioException{
         
         String codigoPostalNuevaDireccion = direccionDTO.getCodigoPostal();
         
-        InformacionDerivadaCPDireccionDTO informacionDerivadaCPDireccionDTO
-                = obtenerDatosDireccionDerivados(new CodigoPostalDTO(codigoPostalNuevaDireccion));
+        InformacionDerivadaCPDireccionDTONegocios informacionDerivadaCPDireccionDTO
+                = obtenerDatosDireccionDerivados(new CodigoPostalDTONegocios(codigoPostalNuevaDireccion));
         
         String estadoDireccion = informacionDerivadaCPDireccionDTO.getEstado();
         String ciudadDireccion = informacionDerivadaCPDireccionDTO.getCiudad();

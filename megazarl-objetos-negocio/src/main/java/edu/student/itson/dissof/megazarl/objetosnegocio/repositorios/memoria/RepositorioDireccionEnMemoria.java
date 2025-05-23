@@ -1,11 +1,11 @@
 
 package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioDireccion;
+import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionDireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioDireccion;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class RepositorioDireccionEnMemoria implements RepositorioDireccion{
-    private final List<DireccionDTO> listaDirecciones;
+    private final List<DireccionDTONegocios> listaDirecciones;
 
      private static Long ID_ACTUAL_DIRECCION = 1L;
     
@@ -21,12 +21,12 @@ public class RepositorioDireccionEnMemoria implements RepositorioDireccion{
         listaDirecciones = new ArrayList<>();
     }
 
-    public RepositorioDireccionEnMemoria(Collection<DireccionDTO> direcciones) {
+    public RepositorioDireccionEnMemoria(Collection<DireccionDTONegocios> direcciones) {
         listaDirecciones = new ArrayList<>(direcciones);
     }
 
     @Override
-    public DireccionDTO recuperarPorId(IdDireccionDTO idDireccionDTO) {
+    public DireccionDTONegocios recuperarPorId(IdDireccionDTONegocios idDireccionDTO) {
         return listaDirecciones.stream()
                 .filter(direccion -> direccion.getId().equals(idDireccionDTO.getIdDireccion()))
                 .findFirst()
@@ -34,17 +34,19 @@ public class RepositorioDireccionEnMemoria implements RepositorioDireccion{
     }
 
     @Override
-    public boolean existePorId(IdDireccionDTO idDireccionDTO) {
-        return existe(direccion -> direccion.getId().equals(idDireccionDTO.getIdDireccion()));
+    public boolean existePorId(IdDireccionDTONegocios idDireccionDTO) {
+        
+        return listaDirecciones.stream().anyMatch(direccion -> direccion.getId().equals(idDireccionDTO.getIdDireccion()));
+
     }
 
     @Override
-    public DireccionDTO actualizar(ActualizacionDireccionDTO actualizacionDireccionDTO) {
+    public DireccionDTONegocios actualizar(ActualizacionDireccionDTONegocios actualizacionDireccionDTO) {
         
         for (int i = 0; i < listaDirecciones.size(); i++) {
-            DireccionDTO direccion = listaDirecciones.get(i);
+            DireccionDTONegocios direccion = listaDirecciones.get(i);
             if (direccion.getId().equals(actualizacionDireccionDTO.getId())) {
-                DireccionDTO direccionActualizada = aplicar(direccion, actualizacionDireccionDTO);
+                DireccionDTONegocios direccionActualizada = aplicar(direccion, actualizacionDireccionDTO);
                 listaDirecciones.set(i, direccionActualizada);
                 return direccionActualizada;
             }
@@ -53,39 +55,29 @@ public class RepositorioDireccionEnMemoria implements RepositorioDireccion{
     }
 
     @Override
-    public Stream<DireccionDTO> stream() {
-        return listaDirecciones.stream();
-    }
-
-    @Override
-    public void agregar(DireccionDTO direccion) {
-        direccion.setId(new IdEntidadGenerico(ID_ACTUAL_DIRECCION++));
+    public void agregar(DireccionDTONegocios direccion) {
+        direccion.setId(new IdEntidadGenericoNegocios(ID_ACTUAL_DIRECCION++));
         listaDirecciones.add(direccion);
     }
 
     @Override
-    public void agregar(Collection<DireccionDTO> direcciones) {
-         for(DireccionDTO direccion: direcciones){
+    public void agregar(Collection<DireccionDTONegocios> direcciones) {
+         for(DireccionDTONegocios direccion: direcciones){
             if(direccion.getId() == null){
-                direccion.setId(new IdEntidadGenerico(ID_ACTUAL_DIRECCION++));
+                direccion.setId(new IdEntidadGenericoNegocios(ID_ACTUAL_DIRECCION++));
             }
         }
         listaDirecciones.addAll(direcciones);
     }
 
     @Override
-    public List<DireccionDTO> recuperarTodos() {
+    public List<DireccionDTONegocios> recuperarTodos() {
         return new ArrayList<>(listaDirecciones);
     }
-    
-    @Override
-    public boolean existe(Predicate<DireccionDTO> criterio) {
-        return listaDirecciones.stream().anyMatch(criterio);
-    }
 
-    private DireccionDTO aplicar(DireccionDTO direccionOriginal, ActualizacionDireccionDTO actualizacionDireccion) {
-        return new DireccionDTO(
-                new IdEntidadGenerico(actualizacionDireccion.getId()),
+    private DireccionDTONegocios aplicar(DireccionDTONegocios direccionOriginal, ActualizacionDireccionDTONegocios actualizacionDireccion) {
+        return new DireccionDTONegocios(
+                new IdEntidadGenericoNegocios(actualizacionDireccion.getId()),
                 actualizacionDireccion.tieneEstado() ? actualizacionDireccion.getEstado(): direccionOriginal.getEstado(),
                 actualizacionDireccion.tieneCiudad() ? actualizacionDireccion.getCiudad() : direccionOriginal.getCiudad(),
                 actualizacionDireccion.tieneCodigoPostal() ? actualizacionDireccion.getCodigoPostal(): direccionOriginal.getCodigoPostal(),

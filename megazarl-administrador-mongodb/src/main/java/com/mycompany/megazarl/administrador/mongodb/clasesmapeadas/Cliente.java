@@ -3,6 +3,15 @@ package com.mycompany.megazarl.administrador.mongodb.clasesmapeadas;
 
 import org.bson.types.ObjectId;
 
+/**
+ * Clase que representa un cliente en el sistema.
+ * 
+ * @author Yuri Germán García López
+ * ID: 00000252583
+ * @author Manuel Romo López
+ * ID: 00000253080
+ * 
+ */
 public class Cliente {
     
     private ObjectId id;
@@ -17,19 +26,19 @@ public class Cliente {
     
     private String correoElectronico;
     
-    private ObjectId idDireccionEnvio;
+    private Direccion direccionEnvio;
 
     public Cliente() {
         
     }
      
-    public Cliente(String nombres, String apellidoMaterno, String apellidoPaterno, String telefono, String correoElectronico, ObjectId idDireccionEnvio) {
+    public Cliente(String nombres, String apellidoMaterno, String apellidoPaterno, String telefono, String correoElectronico, Direccion direccionEnvio) {
         this.nombres = nombres;
         this.apellidoMaterno = apellidoMaterno;
         this.apellidoPaterno = apellidoPaterno;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
-        this.idDireccionEnvio = idDireccionEnvio;
+        this.direccionEnvio = direccionEnvio;
     }
 
     public ObjectId getId() {
@@ -80,12 +89,12 @@ public class Cliente {
         this.correoElectronico = correoElectronico;
     }
 
-    public ObjectId getIdDireccionEnvio() {
-        return idDireccionEnvio;
+    public Direccion getDireccionEnvio() {
+        return direccionEnvio;
     }
 
-    public void setIdDireccionEnvio(ObjectId idDireccionEnvio) {
-        this.idDireccionEnvio = idDireccionEnvio;
+    public void setIdDireccionEnvio(Direccion direccionEnvio) {
+        this.direccionEnvio = direccionEnvio;
     }
    
 }

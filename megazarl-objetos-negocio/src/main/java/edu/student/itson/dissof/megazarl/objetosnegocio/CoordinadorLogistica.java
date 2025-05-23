@@ -2,9 +2,9 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
-import edu.student.itson.dissof.megazarl.dto.negocios.CoordinadorLogisticaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdCoordinadorLogisticaDTO;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioCoordinadorLogistica;
+import edu.student.itson.dissof.megazarl.dto.negocios.CoordinadorLogisticaDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdCoordinadorLogisticaDTONegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioCoordinadorLogistica;
 import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioCoordinadorLogisticaEnMemoria;
 import java.util.Collection;
 import java.util.List;
@@ -22,30 +22,24 @@ public class CoordinadorLogistica {
         };
     }
 
-    public static CoordinadorLogisticaDTO recuperarPorId(IdCoordinadorLogisticaDTO idCoordinadorLogisticaDTO) {
+    public static CoordinadorLogisticaDTONegocios recuperarPorId(IdCoordinadorLogisticaDTONegocios idCoordinadorLogisticaDTO) {
         return repositorio.recuperarPorId(idCoordinadorLogisticaDTO);
     }
 
-    public static boolean existePorId(IdCoordinadorLogisticaDTO idCoordinadorLogisticaDTO) {
+    public static boolean existePorId(IdCoordinadorLogisticaDTONegocios idCoordinadorLogisticaDTO) {
         return repositorio.existePorId(idCoordinadorLogisticaDTO);
     }
 
-    public static void agregar(CoordinadorLogisticaDTO coordinadorLogistica) {
+    public static void agregar(CoordinadorLogisticaDTONegocios coordinadorLogistica) {
         repositorio.agregar(coordinadorLogistica);
     }
 
-    public static void agregar(Collection<CoordinadorLogisticaDTO> coordinadoresLogistica) {
+    public static void agregar(Collection<CoordinadorLogisticaDTONegocios> coordinadoresLogistica) {
         repositorio.agregar(coordinadoresLogistica);
     }
 
-    public static List<CoordinadorLogisticaDTO> recuperarTodos() {
+    public static List<CoordinadorLogisticaDTONegocios> recuperarTodos() {
         return repositorio.recuperarTodos();
     }
-
-    public static boolean existe(Predicate<CoordinadorLogisticaDTO> criterio) {
-        return repositorio.existe(criterio);
-    }
-    
-    
     
 }

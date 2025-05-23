@@ -5,6 +5,15 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 
+/**
+ * Clase que representa la colección de Carritos de compras en el sistema.
+ * 
+ * @author Yuri Germán García López
+ * ID: 00000252583
+ * @author Manuel Romo López
+ * ID: 00000253080
+ * 
+ */
 public class CarritoCompras {
     
     private ObjectId id;
@@ -54,6 +63,14 @@ public class CarritoCompras {
         return idPaqueteria;
     }
 
+    public ObjectId getIdPaqueteria() {
+        return idPaqueteria;
+    }
+
+    public void setIdPaqueteria(ObjectId idPaqueteria) {
+        this.idPaqueteria = idPaqueteria;
+    }
+
     public void setPaqueteria(ObjectId idPaqueteria) {
         this.idPaqueteria = idPaqueteria;
     }
@@ -62,8 +79,11 @@ public class CarritoCompras {
         return productosCarrito;
     }
 
-    public void setProductoCarrito(List<ProductoCarrito> productoCarrito) {
-        this.productosCarrito = productoCarrito;
+    public void setProductosCarrito(List<ProductoCarrito> productosCarrito) {
+        this.productosCarrito = productosCarrito;
     }
+
+    
+
     
 }

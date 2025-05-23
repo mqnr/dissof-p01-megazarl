@@ -1,335 +1,228 @@
-
 package com.mycompany.megazarl.administrador.mongodb;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mycompany.megazarl.administrador.mongodb.clasesmapeadas.ProductoCarrito;
+import com.mycompany.megazarl.administrador.mongodb.clasesmapeadas.Direccion;
 import com.mycompany.megazarl.administrador.mongodb.clasesmapeadas.Proveedor;
 import com.mycompany.megazarl.administrador.mongodb.excepciones.AgregarInformacionNulaException;
 import com.mycompany.megazarl.administrador.mongodb.excepciones.FormatoInvalidoIdConversionException;
 import com.mycompany.megazarl.administrador.mongodb.excepciones.RegistroInexistenteException;
-import com.mycompany.megazarl.administrador.mongodb.excepciones.RegistroMismoIdExisteException;
 import com.mycompany.megazarl.administrador.mongodb.manejadorconexiones.ManejadorConexiones;
-import edu.student.itson.dissof.dto.datos.IdCarritoComprasDTO;
-import edu.student.itson.dissof.dto.datos.IdProveedorDTO;
+import edu.student.itson.dissof.dto.datos.DireccionDTODatos;
+import edu.student.itson.dissof.dto.datos.ProveedorDTO;
 import edu.student.itson.dissof.dto.datos.ProveedorIdsRelacionesDTO;
-import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenericoDatos;
 import java.util.ArrayList;
 import java.util.List;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
-
 public class ProveedorDAO {
-//    private String COLECCION_PROVEEDORES = "Proveedores";
-//    private String COLECCION_PRODUCTOS = "Productos";
-//    private String COLECCION_DIRECCIONES = "Direcciones";
-//    
-//    private final String CAMPO_ID = "_id";
-//    
-//    private String MENSAJE_DTO_ID_NULO_REGISTRO_EXCEPCION = "El DTO recibido que contiene el ID para realizar la consulta del proveedor es nulo.";
-//    private String MENSAJE_ID_NULO_REGISTRO_EXCEPCION = "El ID recibido para realizar la consulta del proveedor es nulo.";
-//    private String MENSAJE_REGISTRO_INEXISTENTE_EXCEPCION = "No existe un registro de %s con el ID: %s";
-//    private String MENSAJE_DTO_ACTUALIZACION_NULO_EXCEPCION = "El DTO recibido que contiene los datos de actualizacion de un proveedor es nulo.";
-//    private String MENSAJE_ID_ACTUALIZACION_NULO_EXCEPCION = "El ID del DTO con la información para actualizar un proveedor es nulo.";
-//    private String MENSAJE_PARAMETRO_AGREGAR_NULO_EXCEPCION = "El valor del parámetro %s del nuevo %s a registrar es nulo.";
-//    private String MENSAJE_DTO_AGREGAR_NULO_EXCEPCION = "El DTO que contiene los datos del nuevo %s a registrar es nulo.";
-//    private String MENSAJE_LISTA_AGREGAR_VACIA_NULA = "La lista de carritos de compra a agregar no puede ser nula o vacía.";
-//    private String MENSAJE_VARIOS_REGISTROS_INEXISTENTES = "No existen los registros de %s con los ids recibidos";
-//    private String MENSAJE_REGISTRO_EXISTENTE_EXCEPCION = "Ya existe un registro de %s con el mismo valor de %s.";
-//    
-//    private String NOMBRE_ENTIDAD_PRODUCTO = "producto";
-//    private String NOMBRE_ENTIDAD_PROVEEDOR = "proveedor";
-//    
-// 
-//    public boolean existePorId(IdProveedorDTO idProveedorDTO) 
-//        throws FormatoInvalidoIdConversionException {
-//
-//        if(idProveedorDTO == null){
-//             throw new IllegalArgumentException(MENSAJE_DTO_ID_NULO_REGISTRO_EXCEPCION);
-//        }
-//        
-//        String idProveedor = (String)idProveedorDTO.getIdProveedor().getId();
-//        
-//        if (idProveedor == null) {
-//            throw new IllegalArgumentException(MENSAJE_ID_NULO_REGISTRO_EXCEPCION);
-//        }
-//
-//        try {
-//            
-//            ObjectId objectId = new ObjectId(idProveedor);
-//            MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
-//            MongoCollection<Document> carritosCollection = baseDatos.getCollection(COLECCION_PROVEEDORES);
-//            Document filtro = new Document(CAMPO_ID, objectId);
-//            return carritosCollection.countDocuments(filtro) > 0;
-//            
-//        } catch (IllegalArgumentException ex) {
-//            throw new FormatoInvalidoIdConversionException("Formato de ID inválido.");
-//        }
-//    }
-//    
-//    public ProveedorIdsRelacionesDTO recuperarPorId(IdProveedorDTO idProveedorDTO) 
-//        throws FormatoInvalidoIdConversionException, RegistroInexistenteException {
-//
-//        if(idProveedorDTO == null){
-//             throw new IllegalArgumentException(MENSAJE_DTO_ID_NULO_REGISTRO_EXCEPCION);
-//        }
-//        
-//        String idProveedor = (String)idProveedorDTO.getIdProveedor().getId();
-//        
-//        if (idProveedor == null) {
-//            throw new IllegalArgumentException(MENSAJE_ID_NULO_REGISTRO_EXCEPCION);
-//        }
-//
-//        try {
-//            
-//            ObjectId objectId = new ObjectId(idProveedor);
-//            MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
-//            MongoCollection<Proveedor> proveedoresCollection = baseDatos.getCollection(
-//                COLECCION_PROVEEDORES, 
-//                Proveedor.class
-//            );
-//            Document filtro = new Document(CAMPO_ID, objectId);
-//            Proveedor proveedor = proveedoresCollection.find(filtro).first();
-//            
-//            if (proveedor == null) {
-//                throw new RegistroInexistenteException(
-//                    String.format(MENSAJE_REGISTRO_INEXISTENTE_EXCEPCION, NOMBRE_ENTIDAD_PROVEEDOR, idProveedor)
-//                );
-//            }
-//            
-//            List<IdEntidadGenerico> idsProductosGenericos = new ArrayList<>();
-//            if (proveedor.get() != null) {
-//                for (ProductoCarrito producto : carrito.getProductoCarrito()) {
-//                    if (producto.getId() != null) {
-//                        idsProductosGenericos.add(
-//                            new IdEntidadGenerico(producto.getId().toHexString())
-//                        );
-//                    }
-//                }
-//            }
-//            
-//            ProveedorIdsRelacionesDTO proveedorIdsRelacionesDTO = new ProveedorIdsRelacionesDTO(
-//                    new IdEntidadGenerico(proveedor.getId()), 
-//                    proveedor.getNombre(), 
-//                    proveedor.getTelefono(), 
-//                    proveedor.getCorreoElectronico(), 
-//                    proveedor.getDireccionImagen(),
-//                    new IdEntidadGenerico(proveedor.getIdDireccion()));
-//            
-//            return proveedorIdsRelacionesDTO;
-//            
-//        } catch (IllegalArgumentException ex) {
-//            throw new FormatoInvalidoIdConversionException("Formato de ID inválido.");
-//        }
-//    }
-//    
-//    public void agregar(ProveedorIdsRelacionesDTO nuevoProveedor) 
-//    throws AgregarInformacionNulaException, 
-//           FormatoInvalidoIdConversionException, 
-//           RegistroMismoIdExisteException, 
-//           RegistroInexistenteException {
-//
-//
-//        if (nuevoProveedor == null) {
-//            throw new AgregarInformacionNulaException(
-//                String.format(MENSAJE_DTO_AGREGAR_NULO_EXCEPCION, NOMBRE_ENTIDAD_PROVEEDOR));
-//        }
-//
-//        if (nuevoProveedor.getNombre() == null) {
-//            throw new AgregarInformacionNulaException(
-//                String.format(MENSAJE_PARAMETRO_AGREGAR_NULO_EXCEPCION, "nombre", NOMBRE_ENTIDAD_PROVEEDOR));
-//        }
-//
-//        if (nuevoProveedor.getTelefono() == null) {
-//            throw new AgregarInformacionNulaException(
-//                String.format(MENSAJE_PARAMETRO_AGREGAR_NULO_EXCEPCION, "telefono", NOMBRE_ENTIDAD_PROVEEDOR));
-//        }
-//        
-//        if (nuevoProveedor.getCorreoElectronico() == null) {
-//            throw new AgregarInformacionNulaException(
-//                String.format(MENSAJE_PARAMETRO_AGREGAR_NULO_EXCEPCION, "correoElectronico", NOMBRE_ENTIDAD_PROVEEDOR));
-//        }
-//        
-//        if (nuevoProveedor.getIdDireccion() == null) {
-//            throw new AgregarInformacionNulaException(
-//                String.format(MENSAJE_PARAMETRO_AGREGAR_NULO_EXCEPCION, "idCliente", NOMBRE_ENTIDAD_PROVEEDOR));
-//        }
-//        
-//        
-//        MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
-//
-//        MongoCollection<Proveedor> proveedoresCollection = baseDatos.getCollection(
-//            COLECCION_PROVEEDORES, 
-//            Proveedor.class
-//        );
-//
-//        String idProveedorString = (String) nuevoProveedor.getId().getId();
-//        
-//        ObjectId idClienteObjectId;
-//        try {
-//            idClienteObjectId = new ObjectId(idProveedorString);
-//        } catch (IllegalArgumentException e) {
-//            throw new FormatoInvalidoIdConversionException("Formato de ID de proveedor inválido.");
-//        }
-//        
-//        Document filtroProveedor = new Document(CAMPO_ID, idClienteObjectId);
-//        
-//        if (proveedoresCollection.find(filtroProveedor).first() == null) {
-//            throw new RegistroInexistenteException(
-//                String.format(MENSAJE_REGISTRO_INEXISTENTE_EXCEPCION, NOMBRE_ENTIDAD_PROVEEDOR, nuevoProveedor.getId().getId()));
-//        }
-//
-//        List<IdEntidadGenerico> idsProductosGenericos = new ArrayList<>();
-//        if (proveedor.getProductoCarrito() != null) {
-//            for (ProductoCarrito producto : carrito.getProductoCarrito()) {
-//                if (producto.getId() != null) {
-//                    idsProductosGenericos.add(
-//                        new IdEntidadGenerico(producto.getId().toHexString())
-//                    );
-//                }
-//            }
-//        }
-//
-//        Proveedor proveedor = new Proveedor(
-//            new IdEntidadGenerico(proveedor.getId()),
-//            nuevoProveedor.getNombre(),
-//            nuevoProveedor.getCorreoElectronico(),
-//            nuevoProveedor.getDireccionImagen(),
-//            nuevoProveedor.getIdDireccion(),
-//            
-//                
-//        );
-//
-//        carritosCollection.insertOne(carrito);
-//    }
-//    
-//    public void agregar(List<CarritoComprasIdsRelacionesDTO> nuevosCarritos) 
-//        throws AgregarInformacionNulaException, 
-//               FormatoInvalidoIdConversionException, 
-//               RegistroMismoIdExisteException, 
-//               RegistroInexistenteException {
-//
-//        // Validar lista nula o vacía
-//        if (nuevosCarritos == null) {
-//            throw new AgregarInformacionNulaException(
-//                String.format(MENSAJE_DTO_AGREGAR_NULO_EXCEPCION, NOMBRE_ENTIDAD_CARRITO_COMPRAS));
-//        }
-//
-//        if (nuevosCarritos.isEmpty()) {
-//            throw new AgregarInformacionNulaException(
-//                String.format(MENSAJE_DTO_AGREGAR_NULO_EXCEPCION, NOMBRE_ENTIDAD_CARRITO_COMPRAS));
-//        }
-//
-//        MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
-//        MongoCollection<CarritoCompras> carritosCollection = baseDatos.getCollection(
-//            COLECCION_CARRITOS_COMPRA, 
-//            CarritoCompras.class
-//        );
-//
-//        List<CarritoCompras> carritosParaInsertar = new ArrayList<>();
-//
-//        for (CarritoComprasIdsRelacionesDTO carritoComprasIdsRelacionesDTO : nuevosCarritos) {
-//            // Validar DTO individual
-//            if (carritoComprasIdsRelacionesDTO == null) {
-//                throw new AgregarInformacionNulaException(
-//                    String.format(MENSAJE_DTO_AGREGAR_NULO_EXCEPCION, NOMBRE_ENTIDAD_CARRITO_COMPRAS));
-//            }
-//
-//            if (carritoComprasIdsRelacionesDTO.getEsVigente() == null) {
-//                throw new AgregarInformacionNulaException(
-//                    String.format(MENSAJE_PARAMETRO_AGREGAR_NULO_EXCEPCION, "esVigente", NOMBRE_ENTIDAD_CARRITO_COMPRAS));
-//            }
-//
-//            if (carritoComprasIdsRelacionesDTO.getIdCliente() == null) {
-//                throw new AgregarInformacionNulaException(
-//                    String.format(MENSAJE_PARAMETRO_AGREGAR_NULO_EXCEPCION, "idCliente", NOMBRE_ENTIDAD_CARRITO_COMPRAS));
-//            }
-//
-//            // Convertir ID cliente
-//            String idClienteString = (String) carritoComprasIdsRelacionesDTO.getIdCliente().getId();
-//            ObjectId idClienteObjectId;
-//            try {
-//                idClienteObjectId = new ObjectId(idClienteString);
-//            } catch (IllegalArgumentException e) {
-//                throw new FormatoInvalidoIdConversionException("Formato de ID de cliente inválido.");
-//            }
-//
-//            // Verificar existencia del cliente
-//            MongoCollection<Document> clientesCollection = baseDatos.getCollection(COLECCION_CLIENTES);
-//            Document filtroCliente = new Document(CAMPO_ID, idClienteObjectId);
-//            if (clientesCollection.find(filtroCliente).first() == null) {
-//                throw new RegistroInexistenteException(
-//                    String.format(MENSAJE_REGISTRO_INEXISTENTE_EXCEPCION, NOMBRE_ENTIDAD_CLIENTE, idClienteString));
-//            }
-//
-//            // Validar paquetería si existe
-//            ObjectId idPaqueteriaObjectId = null;
-//            if (carritoComprasIdsRelacionesDTO.getIdPaqueteria() != null) {
-//                String idPaqueteriaString = (String) carritoComprasIdsRelacionesDTO.getIdPaqueteria().getId();
-//                try {
-//                    idPaqueteriaObjectId = new ObjectId(idPaqueteriaString);
-//                } catch (IllegalArgumentException e) {
-//                    throw new FormatoInvalidoIdConversionException("Formato de ID de paquetería inválido.");
-//                }
-//
-//                MongoCollection<Document> paqueteriasCollection = baseDatos.getCollection(COLECCION_PAQUETERIAS);
-//                Document filtroPaqueteria = new Document(CAMPO_ID, idPaqueteriaObjectId);
-//                if (paqueteriasCollection.find(filtroPaqueteria).first() == null) {
-//                    throw new RegistroInexistenteException(
-//                        String.format(MENSAJE_REGISTRO_INEXISTENTE_EXCEPCION, NOMBRE_ENTIDAD_PAQUETERIA, idPaqueteriaString));
-//                }
-//            }
-//
-//            // Crear entidad
-//            CarritoCompras carrito = new CarritoCompras(
-//                carritoComprasIdsRelacionesDTO.getEsVigente(),
-//                idClienteObjectId,
-//                idPaqueteriaObjectId
-//            );
-//
-//            carritosParaInsertar.add(carrito);
-//        }
-//
-//        // Insertar todos los carritos válidos
-//        if (!carritosParaInsertar.isEmpty()) {
-//            carritosCollection.insertMany(carritosParaInsertar);
-//        }
-//    }
-//    
-//    private ProveedorIdsRelacionesDTO convertirProveedorADTO(Proveedor proveedor) {
-//
-//        IdEntidadGenerico idCarritoGenerico = (proveedor.getId() != null)
-//            ? new IdEntidadGenerico(proveedor.getId().toHexString())
-//            : null;
-//
-//        IdEntidadGenerico idClienteGenerico = (proveedor.getCliente() != null)
-//            ? new IdEntidadGenerico(carrito.getCliente().toHexString())
-//            : null;
-//
-//        IdEntidadGenerico idPaqueteriaGenerico = null;
-//        if (carrito.getPaqueteria() != null) {
-//            idPaqueteriaGenerico = new IdEntidadGenerico(carrito.getPaqueteria().toHexString());
-//        }
-//
-//        List<IdEntidadGenerico> idsProductosGenericos = new ArrayList<>();
-//        if (carrito.getProductoCarrito() != null) {
-//            for (ProductoCarrito producto : carrito.getProductoCarrito()) {
-//                if (producto.getId() != null) {
-//                    idsProductosGenericos.add(
-//                        new IdEntidadGenerico(producto.getId().toHexString())
-//                    );
-//                }
-//            }
-//        }
-//
-//
-//        return new CarritoComprasIdsRelacionesDTO(
-//            idCarritoGenerico,
-//            carrito.getEsVigente(),
-//            idClienteGenerico,
-//            idPaqueteriaGenerico,
-//            idsProductosGenericos
-//        );
-//    }
+
+    private final String COLECCION_PROVEEDORES = "Proveedores";
+    private final String COLECCION_DIRECCIONES = "Direcciones";
+    private final String CAMPO_ID = "_id";
+    
+    // Mensajes de excepción
+    private final String MENSAJE_DTO_ID_NULO = "El DTO recibido para consulta es nulo.";
+    private final String MENSAJE_ID_NULO = "El ID recibido es nulo.";
+    private final String MENSAJE_REGISTRO_INEXISTENTE = "No existe un registro de %s con ID: %s";
+    private final String MENSAJE_DTO_AGREGAR_NULO = "El DTO del nuevo %s es nulo.";
+    private final String MENSAJE_PARAMETRO_NULO = "El parámetro '%s' del %s es nulo.";
+    
+    private final String NOMBRE_ENTIDAD_PROVEEDOR = "proveedor";
+    private final String NOMBRE_ENTIDAD_DIRECCION = "dirección";
+
+    public boolean existePorId(IdEntidadGenericoDatos idProveedorDTO) 
+        throws FormatoInvalidoIdConversionException {
+        
+        if (idProveedorDTO == null) {
+            throw new IllegalArgumentException(MENSAJE_DTO_ID_NULO);
+        }
+        
+        String idProveedor = (String) idProveedorDTO.getId();
+        
+        try {
+            ObjectId objectId = new ObjectId(idProveedor);
+            MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
+            MongoCollection<Document> proveedoresCollection = baseDatos.getCollection(COLECCION_PROVEEDORES);
+            return proveedoresCollection.countDocuments(new Document(CAMPO_ID, objectId)) > 0;
+        } catch (IllegalArgumentException e) {
+            throw new FormatoInvalidoIdConversionException("Formato de ID inválido.");
+        }
+    }
+
+    public ProveedorDTO recuperarPorId(IdEntidadGenericoDatos idProveedorDTO) 
+        throws FormatoInvalidoIdConversionException, RegistroInexistenteException {
+        
+        if (idProveedorDTO == null) {
+            throw new IllegalArgumentException(MENSAJE_DTO_ID_NULO);
+        }
+        
+        String idProveedor = (String) idProveedorDTO.getId();
+        
+        try {
+            ObjectId objectId = new ObjectId(idProveedor);
+            MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
+            MongoCollection<Proveedor> proveedoresCollection = baseDatos.getCollection(
+                COLECCION_PROVEEDORES, 
+                Proveedor.class
+            );
+            
+            Proveedor proveedor = proveedoresCollection.find(new Document(CAMPO_ID, objectId)).first();
+            
+            if (proveedor == null) {
+                throw new RegistroInexistenteException(
+                    String.format(MENSAJE_REGISTRO_INEXISTENTE, NOMBRE_ENTIDAD_PROVEEDOR, idProveedor)
+                );
+            }
+            
+            return convertirProveedorADTO(proveedor);
+            
+        } catch (IllegalArgumentException e) {
+            throw new FormatoInvalidoIdConversionException("Formato de ID inválido.");
+        }
+    }
+
+    public void agregar(ProveedorIdsRelacionesDTO nuevoProveedor) 
+        throws AgregarInformacionNulaException, 
+               FormatoInvalidoIdConversionException, 
+               RegistroInexistenteException {
+        
+        if (nuevoProveedor == null) {
+            throw new AgregarInformacionNulaException(
+                String.format(MENSAJE_DTO_AGREGAR_NULO, NOMBRE_ENTIDAD_PROVEEDOR));
+        }
+
+        validarCamposObligatorios(nuevoProveedor);
+        Direccion direccion = obtenerDireccionCompleta(nuevoProveedor.getIdDireccion());
+
+        MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
+        MongoCollection<Proveedor> proveedoresCollection = baseDatos.getCollection(
+            COLECCION_PROVEEDORES, 
+            Proveedor.class
+        );
+
+        Proveedor proveedor = new Proveedor();
+        proveedor.setNombre(nuevoProveedor.getNombre());
+        proveedor.setTelefono(nuevoProveedor.getTelefono());
+        proveedor.setCorreoElectronico(nuevoProveedor.getCorreoElectronico());
+        proveedor.setDireccionImagen(nuevoProveedor.getDireccionImagen());
+        proveedor.setDireccion(direccion);
+        
+        proveedoresCollection.insertOne(proveedor);
+    }
+
+    public void agregar(List<ProveedorIdsRelacionesDTO> nuevosProveedoresDTO) 
+        throws AgregarInformacionNulaException, 
+               FormatoInvalidoIdConversionException, 
+               RegistroInexistenteException {
+        
+        if (nuevosProveedoresDTO == null || nuevosProveedoresDTO.isEmpty()) {
+            throw new AgregarInformacionNulaException(
+                String.format(MENSAJE_DTO_AGREGAR_NULO, NOMBRE_ENTIDAD_PROVEEDOR));
+        }
+
+        MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
+        MongoCollection<Proveedor> proveedoresCollection = baseDatos.getCollection(
+            COLECCION_PROVEEDORES, 
+            Proveedor.class
+        );
+
+        List<Proveedor> proveedoresParaInsertar = new ArrayList<>();
+
+        for (ProveedorIdsRelacionesDTO proveedorDTO : nuevosProveedoresDTO) {
+            if (proveedorDTO == null) {
+                throw new AgregarInformacionNulaException(
+                    String.format(MENSAJE_DTO_AGREGAR_NULO, NOMBRE_ENTIDAD_PROVEEDOR));
+            }
+
+            validarCamposObligatorios(proveedorDTO);
+            Direccion direccion = obtenerDireccionCompleta(proveedorDTO.getIdDireccion());
+            
+            Proveedor proveedor = new Proveedor();
+            proveedor.setNombre(proveedorDTO.getNombre());
+            proveedor.setTelefono(proveedorDTO.getTelefono());
+            proveedor.setCorreoElectronico(proveedorDTO.getCorreoElectronico());
+            proveedor.setDireccionImagen(proveedorDTO.getDireccionImagen());
+            proveedor.setDireccion(direccion);
+            
+            proveedoresParaInsertar.add(proveedor);
+        }
+
+        proveedoresCollection.insertMany(proveedoresParaInsertar);
+    }
+
+    private void validarCamposObligatorios(ProveedorIdsRelacionesDTO proveedorDTO) 
+        throws AgregarInformacionNulaException {
+        
+        if (proveedorDTO.getNombre() == null) {
+            throw new AgregarInformacionNulaException(
+                String.format(MENSAJE_PARAMETRO_NULO, "nombre", NOMBRE_ENTIDAD_PROVEEDOR));
+        }
+        if (proveedorDTO.getTelefono() == null) {
+            throw new AgregarInformacionNulaException(
+                String.format(MENSAJE_PARAMETRO_NULO, "teléfono", NOMBRE_ENTIDAD_PROVEEDOR));
+        }
+        if (proveedorDTO.getDireccionImagen() == null) {
+            throw new AgregarInformacionNulaException(
+                String.format(MENSAJE_PARAMETRO_NULO, "dirección imagen", NOMBRE_ENTIDAD_PROVEEDOR));
+        }
+        if (proveedorDTO.getIdDireccion() == null) {
+            throw new AgregarInformacionNulaException(
+                String.format(MENSAJE_PARAMETRO_NULO, "idDirección", NOMBRE_ENTIDAD_PROVEEDOR));
+        }
+    }
+
+    private Direccion obtenerDireccionCompleta(IdEntidadGenericoDatos idDireccionDTO) 
+        throws FormatoInvalidoIdConversionException, RegistroInexistenteException {
+        
+        String idDireccionString = (String) idDireccionDTO.getId();
+        
+        try {
+            ObjectId idDireccion = new ObjectId(idDireccionString);
+            
+            MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
+            MongoCollection<Direccion> direccionesCollection = baseDatos.getCollection(
+                COLECCION_DIRECCIONES, 
+                Direccion.class
+            );
+            
+            Direccion direccion = direccionesCollection.find(new Document(CAMPO_ID, idDireccion)).first();
+            
+            if (direccion == null) {
+                throw new RegistroInexistenteException(
+                    String.format(MENSAJE_REGISTRO_INEXISTENTE, NOMBRE_ENTIDAD_DIRECCION, idDireccionString)
+                );
+            }
+            
+            return direccion;
+            
+        } catch (IllegalArgumentException e) {
+            throw new FormatoInvalidoIdConversionException("Formato de ID de dirección inválido.");
+        }
+    }
+    
+    private ProveedorDTO convertirProveedorADTO(Proveedor proveedor) {
+        IdEntidadGenericoDatos idProveedor = new IdEntidadGenericoDatos(proveedor.getId().toHexString());
+        DireccionDTODatos direccionDTO = convertirDireccionADTO(proveedor.getDireccion());
+        
+        return new ProveedorDTO(
+            idProveedor,
+            proveedor.getNombre(),
+            proveedor.getTelefono(),
+            proveedor.getCorreoElectronico(),
+            proveedor.getDireccionImagen(),
+            direccionDTO
+        );
+    }
+
+    private DireccionDTODatos convertirDireccionADTO(Direccion direccion) {
+        return new DireccionDTODatos(
+            direccion.getCodigoPostal(),
+            direccion.getColonia(),
+            direccion.getCalle(),
+            direccion.getNumero()
+        );
+    }
 }

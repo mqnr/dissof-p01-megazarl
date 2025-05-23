@@ -1,414 +1,463 @@
-
 package com.mycompany.megazarl.administrador.mongodb;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import static com.mongodb.client.model.Filters.eq;
 import com.mycompany.megazarl.administrador.mongodb.clasesmapeadas.CarritoCompras;
 import com.mycompany.megazarl.administrador.mongodb.clasesmapeadas.ProductoCarrito;
 import com.mycompany.megazarl.administrador.mongodb.excepciones.AgregarInformacionNulaException;
 import com.mycompany.megazarl.administrador.mongodb.excepciones.FormatoInvalidoIdConversionException;
+import com.mycompany.megazarl.administrador.mongodb.excepciones.ParametroNuloException;
 import com.mycompany.megazarl.administrador.mongodb.excepciones.RegistroInexistenteException;
-import com.mycompany.megazarl.administrador.mongodb.excepciones.RegistroMismoIdExisteException;
 import com.mycompany.megazarl.administrador.mongodb.manejadorconexiones.ManejadorConexiones;
-import edu.student.itson.dissof.dto.datos.ActualizacionCarritoComprasDTO;
-import edu.student.itson.dissof.dto.datos.CarritoComprasIdsRelacionesDTO;
-import edu.student.itson.dissof.dto.datos.IdCarritoComprasDTO;
-import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenerico;
+import edu.student.itson.dissof.dto.datos.ActualizacionCarritoComprasDTODatos;
+import edu.student.itson.dissof.dto.datos.CarritoComprasDTODatos;
+import edu.student.itson.dissof.dto.datos.IdCarritoComprasDTODatos;
+import edu.student.itson.dissof.dto.datos.ProductoCarritoDTODatos;
+import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenericoDatos;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import java.util.List;
+import java.util.stream.Collectors;
 
-
+/**
+ * Clase de acceso a datos para operaciones con carritos de compras.
+ * 
+ * @author Yuri Germán García López
+ * ID: 00000252583
+ * @author Manuel Romo López
+ * ID: 00000253080
+ */
 public class CarritoComprasDAO {
-    
-    private String COLECCION_CARRITOS_COMPRA = "CarritosCompra";
-    private String COLECCION_CLIENTES = "Clientes";
-    private String COLECCION_PAQUETERIAS = "Paqueterias";
-    
+
+    private final String COLECCION_CARRITOS = "CarritosCompras";
+    private final String COLECCION_CLIENTES = "Clientes";
+    private final String COLECCION_PAQUETERIAS = "Paqueterias";
     private final String CAMPO_ID = "_id";
     
-    private String MENSAJE_DTO_ID_NULO_REGISTRO_EXCEPCION = "El DTO recibido que contiene el ID para realizar la consulta del carrito de compras es nulo.";
-    private String MENSAJE_ID_NULO_REGISTRO_EXCEPCION = "El ID recibido para realizar la consulta del carrito de compras es nulo.";
-    private String MENSAJE_REGISTRO_INEXISTENTE_EXCEPCION = "No existe un registro de %s con el ID: %s";
-    private String MENSAJE_DTO_ACTUALIZACION_NULO_EXCEPCION = "El DTO recibido que contiene los datos de actualizacion de un carrito de compras es nulo.";
-    private String MENSAJE_ID_ACTUALIZACION_NULO_EXCEPCION = "El ID del DTO con la información para actualizar un carrito de compras es nulo.";
-    private String MENSAJE_PARAMETRO_AGREGAR_NULO_EXCEPCION = "El valor del parámetro %s del nuevo %s a registrar es nulo.";
-    private String MENSAJE_DTO_AGREGAR_NULO_EXCEPCION = "El DTO que contiene los datos del nuevo %s a registrar es nulo.";
-    private String MENSAJE_LISTA_AGREGAR_VACIA_NULA = "La lista de carritos de compra a agregar no puede ser nula o vacía.";
-    private String MENSAJE_VARIOS_REGISTROS_INEXISTENTES = "No existen los registros de %s con los ids recibidos";
-    private String MENSAJE_REGISTRO_EXISTENTE_EXCEPCION = "Ya existe un registro de %s con el mismo valor de %s.";
+    // Mensajes de excepción
+    private final String MENSAJE_DTO_ID_NULO = "El DTO recibido para consulta es nulo.";
+    private final String MENSAJE_REGISTRO_INEXISTENTE = "No existe un registro de %s con ID: %s";
+    private final String MENSAJE_DTO_ACTUALIZACION_NULO = "DTO de actualización nulo.";
+    private final String MENSAJE_PARAMETRO_NULO = "El parámetro '%s' del %s es nulo.";
+    private final String MENSAJE_DTO_AGREGAR_NULO = "El DTO del nuevo %s es nulo.";
+    private final String MENSAJE_ID_FORMATO_INVALIDO = "El formato de ID de %s es inválido.";
     
-    private String NOMBRE_ENTIDAD_CARRITO_COMPRAS = "carrito de compras";
-    private String NOMBRE_ENTIDAD_PAQUETERIA = "paqueteria";
-    private String NOMBRE_ENTIDAD_CLIENTE = "cliente";
-    private String NOMBRE_ENTIDAD_PRODUCTO_CARRITO = "producto en carrito";
-    
- 
-    public boolean existePorId(IdCarritoComprasDTO idCarritoComprasDTO) 
-        throws FormatoInvalidoIdConversionException {
+    private final String NOMBRE_ENTIDAD_CARRITO = "carrito de compras";
+    private final String NOMBRE_ENTIDAD_CLIENTE = "cliente";
+    private final String NOMBRE_ENTIDAD_PAQUETERIA = "paqueteria";
 
-        if(idCarritoComprasDTO == null){
-             throw new IllegalArgumentException(MENSAJE_DTO_ID_NULO_REGISTRO_EXCEPCION);
+    /**
+     * Método que permite determinar si exite un registro de carrito de compras 
+     * almacenado a partir de su ID.
+     * @param idCarritoComprasDTODatos Objeto IdCarritoComprasDTODatos que contiene
+     * el ID de carrito de compras a buscar.
+     * @return Valor booleano, true si el registro de carrito existe, false en caso contrario.
+     * @throws ParametroNuloException Se lanza si se determina que uno de los
+     * parámetros recibidos es nulo.
+     * @throws FormatoInvalidoIdConversionException Se lanza si se determia que
+     * el formato de ID recibido es inválido.
+     */
+    public boolean existePorId(IdCarritoComprasDTODatos idCarritoComprasDTODatos) 
+        throws ParametroNuloException,
+            FormatoInvalidoIdConversionException {
+        
+        if (idCarritoComprasDTODatos == null){
+            throw new ParametroNuloException(MENSAJE_DTO_ID_NULO);
         }
         
-        String idCarritoCompras = (String)idCarritoComprasDTO.getIdCarritoCompras().getId();
-        
-        if (idCarritoCompras == null) {
-            throw new IllegalArgumentException(MENSAJE_ID_NULO_REGISTRO_EXCEPCION);
+        if(idCarritoComprasDTODatos.getIdCarritoCompras() == null){
+            throw new ParametroNuloException(String.format(MENSAJE_PARAMETRO_NULO, "id", NOMBRE_ENTIDAD_CARRITO));
         }
-
+        
+        String idCarrito = (String) idCarritoComprasDTODatos.getIdCarritoCompras().getId();
+        
         try {
             
-            ObjectId objectId = new ObjectId(idCarritoCompras);
+            ObjectId objectId = new ObjectId(idCarrito);
             MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
-            MongoCollection<Document> carritosCollection = baseDatos.getCollection(COLECCION_CARRITOS_COMPRA);
-            Document filtro = new Document(CAMPO_ID, objectId);
-            return carritosCollection.countDocuments(filtro) > 0;
+            return baseDatos.getCollection(COLECCION_CARRITOS).countDocuments(new Document(CAMPO_ID, objectId)) > 0;
             
-        } catch (IllegalArgumentException ex) {
-            throw new FormatoInvalidoIdConversionException("Formato de ID inválido.");
+        } catch (IllegalArgumentException e) {
+            throw new FormatoInvalidoIdConversionException(String.format(MENSAJE_ID_FORMATO_INVALIDO, NOMBRE_ENTIDAD_CARRITO));
         }
     }
-    
-    public CarritoComprasIdsRelacionesDTO recuperarPorId(IdCarritoComprasDTO idCarritoComprasDTO) 
-        throws FormatoInvalidoIdConversionException, RegistroInexistenteException {
 
-        if(idCarritoComprasDTO == null){
-             throw new IllegalArgumentException(MENSAJE_DTO_ID_NULO_REGISTRO_EXCEPCION);
+    /**
+     * Método que permite obtener un objeto CarritoComprasDTODatos que representa la
+     * información de un registro de carrito de compras almacenado.
+     * @param idCarritoComprasDTODatos Objeto IdCarritoComprasDTODatos que contiene
+     * el ID del carrito de compras a recuperar.
+     * @return Objeto CarritoComprasDTODatos que representa la
+     * información de un registro de carrito de compras almacenado.
+     * @throws FormatoInvalidoIdConversionException Se lanza si se comprueba que el 
+     * ID de carrito a recuperar no tiene un formato válido.
+     * @throws RegistroInexistenteException Se lanza si se comprueba que no existe
+     * un carrito de compras registrado con el ID del parámetro.
+     */
+    public CarritoComprasDTODatos recuperarPorId(IdCarritoComprasDTODatos idCarritoComprasDTODatos) 
+        throws FormatoInvalidoIdConversionException, RegistroInexistenteException, ParametroNuloException {
+        
+        if (idCarritoComprasDTODatos == null){
+            throw new ParametroNuloException(MENSAJE_DTO_ID_NULO);
         }
         
-        String idCarritoCompras = (String)idCarritoComprasDTO.getIdCarritoCompras().getId();
-        
-        if (idCarritoCompras == null) {
-            throw new IllegalArgumentException(MENSAJE_ID_NULO_REGISTRO_EXCEPCION);
+        if(idCarritoComprasDTODatos.getIdCarritoCompras() == null){
+            throw new ParametroNuloException(String.format(MENSAJE_PARAMETRO_NULO, "id", NOMBRE_ENTIDAD_CARRITO));
         }
-
+        
+        String idCarrito = (String) idCarritoComprasDTODatos.getIdCarritoCompras().getId();
+        
         try {
             
-            ObjectId objectId = new ObjectId(idCarritoCompras);
+            ObjectId objectId = new ObjectId(idCarrito);
             MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
-            MongoCollection<CarritoCompras> carritosCollection = baseDatos.getCollection(
-                COLECCION_CARRITOS_COMPRA, 
-                CarritoCompras.class
-            );
-            Document filtro = new Document(CAMPO_ID, objectId);
-            CarritoCompras carrito = carritosCollection.find(filtro).first();
+            MongoCollection<CarritoCompras> carritosCollection = baseDatos.getCollection(COLECCION_CARRITOS, CarritoCompras.class);
+            
+            CarritoCompras carrito = carritosCollection.find(new Document(CAMPO_ID, objectId)).first();
             
             if (carrito == null) {
                 throw new RegistroInexistenteException(
-                    String.format(MENSAJE_REGISTRO_INEXISTENTE_EXCEPCION, NOMBRE_ENTIDAD_CARRITO_COMPRAS, idCarritoCompras)
+                    String.format(MENSAJE_REGISTRO_INEXISTENTE, NOMBRE_ENTIDAD_CARRITO, idCarrito)
                 );
             }
             
-            List<IdEntidadGenerico> idsProductosGenericos = new ArrayList<>();
-            if (carrito.getProductosCarrito() != null) {
-                for (ProductoCarrito producto : carrito.getProductosCarrito()) {
-                    if (producto.getId() != null) {
-                        idsProductosGenericos.add(
-                            new IdEntidadGenerico(producto.getId().toHexString())
-                        );
-                    }
-                }
-            }
-      
-            CarritoComprasIdsRelacionesDTO carritoComprasIdsRelacionesDTO 
-                    = new CarritoComprasIdsRelacionesDTO(
-                            new IdEntidadGenerico(carrito.getIdCliente()),
-                            carrito.getEsVigente(),
-                            new IdEntidadGenerico(carrito.getIdCliente()),
-                            idsProductosGenericos);
-            
-            
-            return carritoComprasIdsRelacionesDTO;
+            return convertirCarritoADTO(carrito);
             
         } catch (IllegalArgumentException ex) {
-            throw new FormatoInvalidoIdConversionException("Formato de ID inválido.");
+            throw new FormatoInvalidoIdConversionException(String.format(MENSAJE_ID_FORMATO_INVALIDO, NOMBRE_ENTIDAD_CARRITO));
         }
     }
-    
-    public CarritoComprasIdsRelacionesDTO actualizar(ActualizacionCarritoComprasDTO actualizacionCarritoComprasDTO) 
+
+    /**
+     * Método que permite actualizar los datos de un registro de carrito de compras
+     * dentro de la colección de carritos de compras almacenados.
+     * @param actualizacionCarritoComprasDTODatos Objeto ActualizacionCarritoComprasDTODatos que contiene
+     * la información a actualizar para el carrito de compras a actualizar, incluyendo 
+     * su ID para identificarlo.
+     * @return Objeto CarritoComprasDTODatos que contiene los datos del carrito de compras
+     * actualizado de la base de datos.
+     * @throws AgregarInformacionNulaException Se lanza si se comprueba que algún dato
+     * dentro del DTO con la información del carrito de compras a actualizar es nulo.
+     * @throws FormatoInvalidoIdConversionException Se lanza si se comprueba que un ID
+     * no tiene un formato válido.
+     * @throws RegistroInexistenteException Se lanza si no se encuentra un registro
+     * de carrito de compras con el ID del parámetro para actualizar.
+     */
+    public CarritoComprasDTODatos actualizar(ActualizacionCarritoComprasDTODatos actualizacionCarritoComprasDTODatos)
         throws AgregarInformacionNulaException, 
                FormatoInvalidoIdConversionException, 
                RegistroInexistenteException {
 
-        if (actualizacionCarritoComprasDTO == null) {
-            throw new AgregarInformacionNulaException(
-                String.format(MENSAJE_DTO_AGREGAR_NULO_EXCEPCION, NOMBRE_ENTIDAD_CARRITO_COMPRAS)
-            );
+        if (actualizacionCarritoComprasDTODatos == null) {
+            throw new AgregarInformacionNulaException(MENSAJE_DTO_ACTUALIZACION_NULO);
         }
 
-        if (actualizacionCarritoComprasDTO.getId() == null || actualizacionCarritoComprasDTO.getId().getId() == null) {
-            throw new AgregarInformacionNulaException("El ID del carrito no puede ser nulo.");
-        }
-
-        String idCarritoString = (String) actualizacionCarritoComprasDTO.getId().getId();
-        ObjectId idCarrito;
-        try {
-            idCarrito = new ObjectId(idCarritoString);
-        } catch (IllegalArgumentException e) {
-            throw new FormatoInvalidoIdConversionException("Formato de ID del carrito inválido.");
-        }
+        String idCarritoString = validarIdActualizacion(actualizacionCarritoComprasDTODatos.getId());
+        ObjectId idCarrito = new ObjectId(idCarritoString);
 
         MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
-        MongoCollection<CarritoCompras> carritosCollection = baseDatos.getCollection(
-            COLECCION_CARRITOS_COMPRA, 
-            CarritoCompras.class
-        );
+        MongoCollection<CarritoCompras> carritosCollection = 
+                baseDatos.getCollection(COLECCION_CARRITOS, CarritoCompras.class);
 
-        // Verificar existencia del carrito
-        Document filtroCarrito = new Document(CAMPO_ID, idCarrito);
-        CarritoCompras carritoExistente = carritosCollection.find(filtroCarrito).first();
-        if (carritoExistente == null) {
-            throw new RegistroInexistenteException(
-                String.format(MENSAJE_REGISTRO_INEXISTENTE_EXCEPCION, NOMBRE_ENTIDAD_CARRITO_COMPRAS, idCarritoString)
+        verificarExistenciaCarrito(idCarrito, carritosCollection);
+
+        CarritoCompras carrito = carritosCollection.find(Filters.eq(CAMPO_ID, idCarrito)).first();
+        if (carrito == null) {
+            throw new RegistroInexistenteException(String.format(MENSAJE_REGISTRO_INEXISTENTE, NOMBRE_ENTIDAD_CARRITO, idCarritoString));
+        }
+
+        if (actualizacionCarritoComprasDTODatos.tieneEsVigente()) {
+            carrito.setEsVigente(actualizacionCarritoComprasDTODatos.getEsVigente());
+        }
+
+        if (actualizacionCarritoComprasDTODatos.tieneIdPaqueteria()) {
+            ObjectId idPaqueteria = validarExistenciaPaqueteria(actualizacionCarritoComprasDTODatos.getIdPaqueteria());
+            carrito.setIdPaqueteria(idPaqueteria);
+        }
+
+        if (actualizacionCarritoComprasDTODatos.tieneIdsProductosCarrito()) {
+            carrito.setProductosCarrito(
+                convertirProductosCarritoDTO(actualizacionCarritoComprasDTODatos.getIdsProductosCarrito())
             );
         }
 
-        // Construir actualizaciones
-        Document actualizaciones = new Document();
-        if (actualizacionCarritoComprasDTO.tieneEsVigente()) {
-            actualizaciones.append("esVigente", actualizacionCarritoComprasDTO.getEsVigente());
-        }
+        carritosCollection.replaceOne(Filters.eq(CAMPO_ID, idCarrito), carrito);
 
-        ObjectId idPaqueteriaActualizado = null;
-        if (actualizacionCarritoComprasDTO.tienePaqueteria()) {
-            String idPaqueteriaString = (String) actualizacionCarritoComprasDTO.getIdPaqueteria().getId();
-            try {
-                idPaqueteriaActualizado = new ObjectId(idPaqueteriaString);
-            } catch (IllegalArgumentException e) {
-                throw new FormatoInvalidoIdConversionException("Formato de ID de paquetería inválido.");
-            }
-
-            // Validar existencia de la nueva paquetería
-            MongoCollection<Document> paqueteriasCollection = baseDatos.getCollection(COLECCION_PAQUETERIAS);
-            Document filtroPaqueteria = new Document(CAMPO_ID, idPaqueteriaActualizado);
-            if (paqueteriasCollection.find(filtroPaqueteria).first() == null) {
-                throw new RegistroInexistenteException(
-                    String.format(MENSAJE_REGISTRO_INEXISTENTE_EXCEPCION, NOMBRE_ENTIDAD_PAQUETERIA, idPaqueteriaString)
-                );
-            }
-            actualizaciones.append("idPaqueteria", idPaqueteriaActualizado);
-        }
-
-        // Si no hay cambios, retornar DTO actual
-        if (actualizaciones.isEmpty()) {
-            return convertirCarritoADTO(carritoExistente);
-        }
-
-        // Aplicar actualización
-        carritosCollection.updateOne(filtroCarrito, new Document("$set", actualizaciones));
-
-        // Recuperar carrito actualizado
-        CarritoCompras carritoActualizado = carritosCollection.find(filtroCarrito).first();
-
-        // Convertir a DTO
-        return convertirCarritoADTO(carritoActualizado);
+        return convertirCarritoADTO(carrito);
     }
-   
-    public void agregar(CarritoComprasIdsRelacionesDTO nuevoCarrito) 
-    throws AgregarInformacionNulaException, 
-           FormatoInvalidoIdConversionException, 
-           RegistroMismoIdExisteException, 
-           RegistroInexistenteException {
 
-
+    /**
+     * Método que permite agregar un nuevo carrito de compras a la colección
+     * de carritos de compras.
+     * @param nuevoCarrito Objeto CarritoComprasDTODatos que contiene los datos
+     * necesarios para registrar un nuevo carrito de compras.
+     * @throws AgregarInformacionNulaException Se lanza si se determina que uno o
+     * más datos necesarios para el registro del nuevo carrito de compras 
+     * son nulos.
+     * @throws FormatoInvalidoIdConversionException Se lanza si se comprueba que 
+     * un ID tiene formato inválido.
+     * @throws RegistroInexistenteException Si lanza si se comprueba que no existen
+     * los registros en las colecciones con las que se relaciona el nuevo
+     * carrito de compras.
+     */
+    public void agregar(CarritoComprasDTODatos nuevoCarrito) 
+        throws AgregarInformacionNulaException, 
+               FormatoInvalidoIdConversionException, 
+               RegistroInexistenteException {
+        
         if (nuevoCarrito == null) {
             throw new AgregarInformacionNulaException(
-                String.format(MENSAJE_DTO_AGREGAR_NULO_EXCEPCION, NOMBRE_ENTIDAD_CARRITO_COMPRAS));
-        }
-
-        if (nuevoCarrito.getEsVigente() == null) {
-            throw new AgregarInformacionNulaException(
-                String.format(MENSAJE_PARAMETRO_AGREGAR_NULO_EXCEPCION, "esVigente", NOMBRE_ENTIDAD_CARRITO_COMPRAS));
+                String.format(MENSAJE_DTO_AGREGAR_NULO, NOMBRE_ENTIDAD_CARRITO));
         }
 
         if (nuevoCarrito.getIdCliente() == null) {
-            throw new AgregarInformacionNulaException(
-                String.format(MENSAJE_PARAMETRO_AGREGAR_NULO_EXCEPCION, "idCliente", NOMBRE_ENTIDAD_CARRITO_COMPRAS));
-        }
-
-        MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
-
-        MongoCollection<CarritoCompras> carritosCollection = baseDatos.getCollection(
-            COLECCION_CARRITOS_COMPRA, 
-            CarritoCompras.class
-        );
-
-        String idClienteString = (String) nuevoCarrito.getIdCliente().getId();
-        
-        ObjectId idClienteObjectId;
-        try {
-            idClienteObjectId = new ObjectId(idClienteString);
-        } catch (IllegalArgumentException e) {
-            throw new FormatoInvalidoIdConversionException("Formato de ID de cliente inválido.");
+            throw new AgregarInformacionNulaException(String.format(MENSAJE_PARAMETRO_NULO, "id", NOMBRE_ENTIDAD_CLIENTE));
+            
         }
         
-        MongoCollection<Document> clientesCollection = baseDatos.getCollection(COLECCION_CLIENTES);
-        Document filtroCliente = new Document(CAMPO_ID, idClienteObjectId);
-        
-        if (clientesCollection.find(filtroCliente).first() == null) {
-            throw new RegistroInexistenteException(
-                String.format(MENSAJE_REGISTRO_INEXISTENTE_EXCEPCION, NOMBRE_ENTIDAD_CLIENTE, nuevoCarrito.getIdCliente().getId()));
-        }
-
-        // Validar paquetería si existe
-        ObjectId idPaqueteriaObjectId = null;
-        if (nuevoCarrito.getIdPaqueteria() != null) {
-            String idPaqueteriaString = (String) nuevoCarrito.getIdPaqueteria().getId();
-            try {
-                idPaqueteriaObjectId = new ObjectId(idPaqueteriaString);
-            } catch (IllegalArgumentException e) {
-                throw new FormatoInvalidoIdConversionException("Formato de ID de paquetería inválido.");
-            }
-
-            MongoCollection<Document> paqueteriasCollection = baseDatos.getCollection(COLECCION_PAQUETERIAS);
-            Document filtroPaqueteria = new Document(CAMPO_ID, idPaqueteriaObjectId);
-
-            if (paqueteriasCollection.find(filtroPaqueteria).first() == null) {
-                throw new RegistroInexistenteException(
-                    String.format(MENSAJE_REGISTRO_INEXISTENTE_EXCEPCION, NOMBRE_ENTIDAD_PAQUETERIA, nuevoCarrito.getIdPaqueteria().getId()));
-            }
-        }
-
+        validarExistenciaCliente(nuevoCarrito.getIdCliente());
+        validarExistenciaPaqueteria(nuevoCarrito.getIdPaqueteria());
 
         CarritoCompras carrito = new CarritoCompras(
             nuevoCarrito.getEsVigente(),
-            idClienteObjectId,
-            idPaqueteriaObjectId != null ? idPaqueteriaObjectId : null
+            new ObjectId((String)nuevoCarrito.getIdCliente().getId()),
+            new ObjectId((String)nuevoCarrito.getIdPaqueteria().getId())
         );
+        
+        carrito.setProductosCarrito(convertirProductosCarritoDTO(nuevoCarrito.getProductosCarrito()));
 
-        carritosCollection.insertOne(carrito);
+        MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
+        baseDatos.getCollection(COLECCION_CARRITOS, CarritoCompras.class).insertOne(carrito);
     }
     
-    public void agregar(List<CarritoComprasIdsRelacionesDTO> nuevosCarritos) 
-        throws AgregarInformacionNulaException, 
-               FormatoInvalidoIdConversionException, 
-               RegistroMismoIdExisteException, 
-               RegistroInexistenteException {
+    /**
+    * Método que permite agregar una colección de nuevos carritos de compras a la
+    * colección de carritos de compras.
+    * @param nuevosCarritos Colección de objetos CarritoComprasDTODatos que contienen 
+    * los datos necesarios para registrar nuevos carritos de compras.
+    * @throws AgregarInformacionNulaException Se lanza si se determina que la colección
+    * o uno o más datos necesarios para el registro de alguno de los nuevos carritos son nulos.
+    * @throws FormatoInvalidoIdConversionException Se lanza si se comprueba que un ID tiene formato inválido.
+    * @throws RegistroInexistenteException Se lanza si se comprueba que no existen los registros en las
+    * colecciones con las que se relaciona alguno de los nuevos carritos.
+    */
+   public void agregar(Collection<CarritoComprasDTODatos> nuevosCarritos) 
+            throws AgregarInformacionNulaException, 
+                   FormatoInvalidoIdConversionException, 
+                   RegistroInexistenteException {
 
-        // Validar lista nula o vacía
-        if (nuevosCarritos == null) {
+        if (nuevosCarritos == null || nuevosCarritos.isEmpty()) {
             throw new AgregarInformacionNulaException(
-                String.format(MENSAJE_DTO_AGREGAR_NULO_EXCEPCION, NOMBRE_ENTIDAD_CARRITO_COMPRAS));
+                String.format(MENSAJE_DTO_AGREGAR_NULO, NOMBRE_ENTIDAD_CARRITO)
+            );
         }
 
-        if (nuevosCarritos.isEmpty()) {
-            throw new AgregarInformacionNulaException(
-                String.format(MENSAJE_DTO_AGREGAR_NULO_EXCEPCION, NOMBRE_ENTIDAD_CARRITO_COMPRAS));
+        List<CarritoCompras> carritos = new ArrayList<>();
+
+        for (CarritoComprasDTODatos nuevoCarrito : nuevosCarritos) {
+            if (nuevoCarrito.getIdCliente() == null) {
+                throw new AgregarInformacionNulaException(
+                    String.format(MENSAJE_PARAMETRO_NULO, "id", NOMBRE_ENTIDAD_CLIENTE)
+                );
+            }
+
+            validarExistenciaCliente(nuevoCarrito.getIdCliente());
+            validarExistenciaPaqueteria(nuevoCarrito.getIdPaqueteria());
+
+            CarritoCompras carrito = new CarritoCompras(
+                nuevoCarrito.getEsVigente(),
+                new ObjectId((String) nuevoCarrito.getIdCliente().getId()),
+                new ObjectId((String) nuevoCarrito.getIdPaqueteria().getId())
+            );
+
+            carrito.setProductosCarrito(
+                convertirProductosCarritoDTO(nuevoCarrito.getProductosCarrito())
+            );
+
+            carritos.add(carrito);
         }
 
         MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
-        MongoCollection<CarritoCompras> carritosCollection = baseDatos.getCollection(
-            COLECCION_CARRITOS_COMPRA, 
-            CarritoCompras.class
-        );
+        MongoCollection<CarritoCompras> collection = 
+             baseDatos.getCollection(COLECCION_CARRITOS, CarritoCompras.class);
 
-        List<CarritoCompras> carritosParaInsertar = new ArrayList<>();
+        collection.insertMany(carritos);
+    }
+   
+   /**
+    * Método que permite recuperar todos los carritos de compras registrados en el sistema.
+    * @return Objeto {@literal List<CarritoComprasDTODatos>} que representa la lsita de los objetos 
+    * CarritoComprasDTODatos de cada uno de los carritos registrados.
+    */
+   public List<CarritoComprasDTODatos> recuperarTodos() {
+       MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
+       MongoCollection<CarritoCompras> carritosCollection = 
+           baseDatos.getCollection(COLECCION_CARRITOS, CarritoCompras.class);
 
-        for (CarritoComprasIdsRelacionesDTO carritoComprasIdsRelacionesDTO : nuevosCarritos) {
-            // Validar DTO individual
-            if (carritoComprasIdsRelacionesDTO == null) {
-                throw new AgregarInformacionNulaException(
-                    String.format(MENSAJE_DTO_AGREGAR_NULO_EXCEPCION, NOMBRE_ENTIDAD_CARRITO_COMPRAS));
-            }
+       return carritosCollection.find()
+           .into(new ArrayList<>())
+           .stream()
+           .map(this::convertirCarritoADTO)
+           .collect(Collectors.toList());
+   }
 
-            if (carritoComprasIdsRelacionesDTO.getEsVigente() == null) {
-                throw new AgregarInformacionNulaException(
-                    String.format(MENSAJE_PARAMETRO_AGREGAR_NULO_EXCEPCION, "esVigente", NOMBRE_ENTIDAD_CARRITO_COMPRAS));
-            }
+    /**
+     * Método auxiliar que permite validar el ID del registro que quiere actuaizarse.
+     * Se devuelve el ID pero como una cadena de texto que reprsenta un número
+     * hexadecimal de 24 dígitos.
+     * @param idEntidadGenericoDatos Objeto IdEntidadGenericoDatos que contiene
+     * el ID del registro que quiere actualizarse.
+     * @return Objeto String que representa el ID en una cadena de texto, en 
+     * formato hexadecimal de 24 dígitos.
+     * @throws FormatoInvalidoIdConversionException Se lanza si se comprueba que
+     * el formato del ID es inválido.
+     */
+    private String validarIdActualizacion(IdEntidadGenericoDatos idEntidadGenericoDatos) 
+        throws FormatoInvalidoIdConversionException {
+        if (idEntidadGenericoDatos == null || idEntidadGenericoDatos.getId() == null) throw new IllegalArgumentException("ID nulo");
+        try {
+            return new ObjectId((String) idEntidadGenericoDatos.getId()).toHexString();
+        } catch (IllegalArgumentException e) {
+            throw new FormatoInvalidoIdConversionException(MENSAJE_ID_FORMATO_INVALIDO);
+        }
+    }
 
-            if (carritoComprasIdsRelacionesDTO.getIdCliente() == null) {
-                throw new AgregarInformacionNulaException(
-                    String.format(MENSAJE_PARAMETRO_AGREGAR_NULO_EXCEPCION, "idCliente", NOMBRE_ENTIDAD_CARRITO_COMPRAS));
-            }
-
-            // Convertir ID cliente
-            String idClienteString = (String) carritoComprasIdsRelacionesDTO.getIdCliente().getId();
-            ObjectId idClienteObjectId;
-            try {
-                idClienteObjectId = new ObjectId(idClienteString);
-            } catch (IllegalArgumentException e) {
-                throw new FormatoInvalidoIdConversionException("Formato de ID de cliente inválido.");
-            }
-
-            // Verificar existencia del cliente
-            MongoCollection<Document> clientesCollection = baseDatos.getCollection(COLECCION_CLIENTES);
-            Document filtroCliente = new Document(CAMPO_ID, idClienteObjectId);
-            if (clientesCollection.find(filtroCliente).first() == null) {
-                throw new RegistroInexistenteException(
-                    String.format(MENSAJE_REGISTRO_INEXISTENTE_EXCEPCION, NOMBRE_ENTIDAD_CLIENTE, idClienteString));
-            }
-
-            // Validar paquetería si existe
-            ObjectId idPaqueteriaObjectId = null;
-            if (carritoComprasIdsRelacionesDTO.getIdPaqueteria() != null) {
-                String idPaqueteriaString = (String) carritoComprasIdsRelacionesDTO.getIdPaqueteria().getId();
-                try {
-                    idPaqueteriaObjectId = new ObjectId(idPaqueteriaString);
-                } catch (IllegalArgumentException e) {
-                    throw new FormatoInvalidoIdConversionException("Formato de ID de paquetería inválido.");
-                }
-
-                MongoCollection<Document> paqueteriasCollection = baseDatos.getCollection(COLECCION_PAQUETERIAS);
-                Document filtroPaqueteria = new Document(CAMPO_ID, idPaqueteriaObjectId);
-                if (paqueteriasCollection.find(filtroPaqueteria).first() == null) {
-                    throw new RegistroInexistenteException(
-                        String.format(MENSAJE_REGISTRO_INEXISTENTE_EXCEPCION, NOMBRE_ENTIDAD_PAQUETERIA, idPaqueteriaString));
-                }
-            }
-
-            // Crear entidad
-            CarritoCompras carrito = new CarritoCompras(
-                carritoComprasIdsRelacionesDTO.getEsVigente(),
-                idClienteObjectId,
-                idPaqueteriaObjectId
+    /**
+     * Método auxiliar que permite verificar si existe el registro de un carrito de compras
+     * con el ID del parámetro en la colección del parámetro.
+     * @param idCarrito Objeto ObjectId que representa el ID del registro a buscar.
+     * @param collection Objeto {@literal MongoCollection<CarritoCompras>} que representa
+     * la colección en la que será buscado el registro.
+     * @throws RegistroInexistenteException Se lanza si se determina que no existe el registro
+     * en la colección.
+     */
+    private void verificarExistenciaCarrito(ObjectId idCarrito, MongoCollection<CarritoCompras> collection) 
+            throws RegistroInexistenteException {
+        
+        if (collection.countDocuments(eq(CAMPO_ID, idCarrito)) == 0) {
+            
+            throw new RegistroInexistenteException(
+                String.format(MENSAJE_REGISTRO_INEXISTENTE, NOMBRE_ENTIDAD_CARRITO, idCarrito.toHexString())
             );
-
-            carritosParaInsertar.add(carrito);
-        }
-
-        // Insertar todos los carritos válidos
-        if (!carritosParaInsertar.isEmpty()) {
-            carritosCollection.insertMany(carritosParaInsertar);
         }
     }
+
+    /**
+     * Método que permite convertir una lista de objetos ProductoCarritoDTODatos a
+     * una lista de objetos ProductoCarrito.
+     * @param productosCarritoDTO Objeto {@literal List<ProductoCarritoDTODatos>} que representa
+     * la lista de objeto de tipo ProductoCarritoDTODatos que serán convertidos.
+     * @return Objeto {@literal List<ProductoCarrito>} Representa la lsita resultante con
+     * los objetos ProductoCarrito.
+     */
+    private List<ProductoCarrito> convertirProductosCarritoDTO(List<ProductoCarritoDTODatos> productosCarritoDTO) {
+       
+        return productosCarritoDTO.stream()     
+            .map(productoCarrito -> new ProductoCarrito(
+                new ObjectId((String)productoCarrito.getIdProducto().getId()),
+                productoCarrito.getCantidad()
+            ))
+            .collect(Collectors.toList());
+        
+    }
     
-    private CarritoComprasIdsRelacionesDTO convertirCarritoADTO(CarritoCompras carrito) {
+    /**
+     * Método que permite covertir una lista de objetos ProductoCarrito a una lista de
+     * objetos ProductoCarritoDTODatos.
+     * @param productos Objeto {@literal List<ProductoCarrito>} que represeta 
+     * la lista de objetos ProductoCarrito a convertir.
+     * @return Objeto {@literal List<ProductoCarritoDTODatos>} que representa la 
+     * lista de objetos ProductoCarritoDTODatos resultante.
+     */
+    private List<ProductoCarritoDTODatos> convertirProductosEntidad(List<ProductoCarrito> productos) {
+        return productos.stream()
+            .map(productoCarrito -> new ProductoCarritoDTODatos(
+                productoCarrito.getCantidad(),
+                new IdEntidadGenericoDatos(productoCarrito.getId().toHexString())
+                
+            ))
+            .collect(Collectors.toList());
+    }
 
-        IdEntidadGenerico idCarritoGenerico = (carrito.getId() != null)
-            ? new IdEntidadGenerico(carrito.getId().toHexString())
-            : null;
-
-        IdEntidadGenerico idClienteGenerico = (carrito.getIdCliente() != null)
-            ? new IdEntidadGenerico(carrito.getIdCliente().toHexString())
-            : null;
-
-        IdEntidadGenerico idPaqueteriaGenerico = null;
-        if (carrito.getPaqueteria() != null) {
-            idPaqueteriaGenerico = new IdEntidadGenerico(carrito.getPaqueteria().toHexString());
-        }
-
-        List<IdEntidadGenerico> idsProductosGenericos = new ArrayList<>();
-        if (carrito.getProductosCarrito() != null) {
-            for (ProductoCarrito producto : carrito.getProductosCarrito()) {
-                if (producto.getId() != null) {
-                    idsProductosGenericos.add(
-                        new IdEntidadGenerico(producto.getId().toHexString())
-                    );
-                }
-            }
-        }
-
-
-        return new CarritoComprasIdsRelacionesDTO(
-            idCarritoGenerico,
+    /**
+     * Método que permite realizar la conversión de un objeto CarritoCompras
+     * a un DTO de tipo CarritoComprasDTODatos.
+     * @param carrito Objeto CarritoCompras del que se obtendrán los datos para
+     * armar al DTO.
+     * @return Objeto CarritoComprasDTODatos que representa el DTO que contiene
+     * los datos del carrito de compras.
+     */
+    private CarritoComprasDTODatos convertirCarritoADTO(CarritoCompras carrito) {
+        
+        return new CarritoComprasDTODatos(
+            new IdEntidadGenericoDatos(carrito.getId().toHexString()),
             carrito.getEsVigente(),
-            idClienteGenerico,
-            idPaqueteriaGenerico,
-            idsProductosGenericos
+            new IdEntidadGenericoDatos(carrito.getIdCliente().toHexString()),
+            new IdEntidadGenericoDatos(carrito.getIdPaqueteria().toHexString()),
+            convertirProductosEntidad(carrito.getProductosCarrito())
         );
+        
     }
 
+    /**
+     * Método que permite verficar si existe un registro de un cliente con el ID
+     * del parámetro.
+     * @param idEntidadGenericoDatos Objeto IdEntidadGenericoDatos que contiene
+     * el ID del cliente buscado.
+     * @return Objeto ObjectId que representa el ID del registro en la base de datos.
+     * @throws RegistroInexistenteException Se lanza si se comprueba que no existe un registro
+     * del cliente con el ID del parámetro.
+     * @throws FormatoInvalidoIdConversionException Se lanza si se determina que el
+     * formato del ID es inválido.
+     */
+    private void validarExistenciaCliente(IdEntidadGenericoDatos idCliente) 
+        throws RegistroInexistenteException, FormatoInvalidoIdConversionException {
+        
+        try {
+            ObjectId id = new ObjectId((String) idCliente.getId());
+            MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
+            if (baseDatos.getCollection(COLECCION_CLIENTES).countDocuments(new Document(CAMPO_ID, id)) == 0) {
+                throw new RegistroInexistenteException(
+                        String.format(MENSAJE_REGISTRO_INEXISTENTE, NOMBRE_ENTIDAD_CLIENTE, (String) idCliente.getId()));
+            }
+            
+        } catch (IllegalArgumentException ex) {
+            throw new FormatoInvalidoIdConversionException(String.format(MENSAJE_ID_FORMATO_INVALIDO, NOMBRE_ENTIDAD_CLIENTE));
+        }
+    }
     
+    /**
+     * Método que permite verficar si existe un registro de paquetería con el ID
+     * del parámetro.
+     * @param idEntidadGenericoDatos Objeto IdEntidadGenericoDatos que contiene
+     * el ID de la paquetería buscada.
+     * @return Objeto ObjectId que representa el ID del registro en la base de datos.
+     * @throws RegistroInexistenteException Se lanza si se comprueba que no existe un registro
+     * de la paquetería con el ID del parámetor.
+     * @throws FormatoInvalidoIdConversionException Se lanza si se determina que el
+     * formato del ID es inválido.
+     */
+    private ObjectId validarExistenciaPaqueteria(IdEntidadGenericoDatos idPaqueteria) 
+        throws RegistroInexistenteException, FormatoInvalidoIdConversionException {
+
+        try {
+            
+            ObjectId id = new ObjectId((String) idPaqueteria.getId());
+            MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
+            
+            if (baseDatos.getCollection(COLECCION_PAQUETERIAS).countDocuments(eq(CAMPO_ID, id)) == 0) {
+                
+                throw new RegistroInexistenteException(
+                    String.format(MENSAJE_REGISTRO_INEXISTENTE, NOMBRE_ENTIDAD_CLIENTE, (String) idPaqueteria.getId()));
+            }
+            return id;
+
+        } catch (IllegalArgumentException ex) {
+            throw new FormatoInvalidoIdConversionException(String.format(MENSAJE_ID_FORMATO_INVALIDO, NOMBRE_ENTIDAD_PAQUETERIA));
+        }
+    }
 }

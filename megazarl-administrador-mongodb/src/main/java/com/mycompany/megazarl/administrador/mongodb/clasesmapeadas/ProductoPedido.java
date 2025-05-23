@@ -10,13 +10,10 @@ public class ProductoPedido {
     
     private Producto producto;
     
-    private Pedido pedido;
-    
     private Integer cantidad;
 
-    public ProductoPedido(Producto producto, Pedido pedido, Integer cantidad) {
+    public ProductoPedido(Producto producto, Integer cantidad) {
         this.producto = producto;
-        this.pedido = pedido;
         this.cantidad = cantidad;
     }
 
@@ -38,15 +35,7 @@ public class ProductoPedido {
     public void setProducto(Producto producto) {
         this.producto = producto;
     }
-
-    public Pedido getPedido() {
-        return pedido;
-    }
-
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
-    }
-
+    
     public Integer getCantidad() {
         return cantidad;
     }

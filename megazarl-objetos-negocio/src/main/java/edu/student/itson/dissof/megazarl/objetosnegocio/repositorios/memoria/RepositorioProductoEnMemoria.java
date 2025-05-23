@@ -1,20 +1,18 @@
 
 package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioProducto;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioProducto;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 
 public class RepositorioProductoEnMemoria implements RepositorioProducto{
 
-    private final List<ProductoDTO> listaProductos;
+    private final List<ProductoDTONegocios> listaProductos;
     
     private static Long ID_PRODUCTO_ACTUAL = 1L;
     
@@ -22,12 +20,12 @@ public class RepositorioProductoEnMemoria implements RepositorioProducto{
         listaProductos = new ArrayList<>();
     }
     
-    public RepositorioProductoEnMemoria(Collection<ProductoDTO> productos) {
+    public RepositorioProductoEnMemoria(Collection<ProductoDTONegocios> productos) {
         listaProductos = new ArrayList<>(productos);
     }
     
     @Override
-    public ProductoDTO recuperarPorId(IdProductoDTO idProductoDTO) {
+    public ProductoDTONegocios recuperarPorId(IdProductoDTONegocios idProductoDTO) {
         return listaProductos.stream()
                 .filter(producto -> producto.getId().equals(idProductoDTO.getIdProducto()))
                 .findFirst()
@@ -35,40 +33,32 @@ public class RepositorioProductoEnMemoria implements RepositorioProducto{
     }
 
     @Override
-    public boolean existePorId(IdProductoDTO idProductoDTO) {
-        return existe(producto -> producto.getId().equals(idProductoDTO.getIdProducto()));
-    }
-
-    @Override
-    public Stream<ProductoDTO> stream() {
-        return listaProductos.stream();
-    }
-
-    @Override
-    public void agregar(ProductoDTO producto) {
+    public boolean existePorId(IdProductoDTONegocios idProductoDTO) {
         
-        producto.setId(new IdEntidadGenerico(ID_PRODUCTO_ACTUAL++));
+        return listaProductos.stream().anyMatch(producto -> producto.getId().equals(idProductoDTO.getIdProducto()));
+
+    }
+
+    @Override
+    public void agregar(ProductoDTONegocios producto) {
+        
+        producto.setId(new IdEntidadGenericoNegocios(ID_PRODUCTO_ACTUAL++));
         listaProductos.add(producto);
     }
 
     @Override
-    public void agregar(Collection<ProductoDTO> productos) {
-        for(ProductoDTO producto: productos){
+    public void agregar(Collection<ProductoDTONegocios> productos) {
+        for(ProductoDTONegocios producto: productos){
 
-            producto.setId(new IdEntidadGenerico(ID_PRODUCTO_ACTUAL++));
+            producto.setId(new IdEntidadGenericoNegocios(ID_PRODUCTO_ACTUAL++));
             
         }
         listaProductos.addAll(productos);
     }
 
     @Override
-    public List<ProductoDTO> recuperarTodos() {
+    public List<ProductoDTONegocios> recuperarTodos() {
         return new ArrayList<>(listaProductos);
-    }
-
-    @Override
-    public boolean existe(Predicate<ProductoDTO> criterio) {
-        return listaProductos.stream().anyMatch(criterio);
     }
     
 }

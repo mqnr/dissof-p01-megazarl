@@ -1,6 +1,7 @@
 
 package com.mycompany.megazarl.administrador.mongodb.clasesmapeadas;
 
+import edu.student.itson.dissof.dto.datos.enumeradores.EstadoPedido;
 import java.util.List;
 import org.bson.types.ObjectId;
 
@@ -9,12 +10,15 @@ public class Pedido {
     
     private ObjectId id;
     
-    private Cliente cliente;
+    private ObjectId idCliente;
+    
+    private EstadoPedido estado;
     
     private List<ProductoPedido> productosPedido;
 
-    public Pedido(Cliente cliente, List<ProductoPedido> productosPedido) {
-        this.cliente = cliente;
+    public Pedido(ObjectId idCliente, EstadoPedido estado, List<ProductoPedido> productosPedido) {
+        this.idCliente = idCliente;
+        this.estado = estado;
         this.productosPedido = productosPedido;
     }
 
@@ -26,21 +30,28 @@ public class Pedido {
         this.id = id;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public ObjectId getIdCliente() {
+        return idCliente;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setIdCliente(ObjectId idCliente) {
+        this.idCliente = idCliente;
     }
 
+    public EstadoPedido getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoPedido estado) {
+        this.estado = estado;
+    }
+    
     public List<ProductoPedido> getProductosPedido() {
         return productosPedido;
     }
 
     public void setProductosPedido(List<ProductoPedido> productosPedido) {
         this.productosPedido = productosPedido;
-    }
-    
+    }   
     
 }

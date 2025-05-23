@@ -8,18 +8,15 @@ public class ProductoCarrito {
     
     private ObjectId id;
 
-    private CarritoCompras carritoCompras;
-    
-    private Producto producto;
+    private ObjectId idProducto;
     
     private Integer cantidad;
 
     public ProductoCarrito() {
     }
 
-    public ProductoCarrito(CarritoCompras carritoCompras, Producto producto, Integer cantidad) {
-        this.carritoCompras = carritoCompras;
-        this.producto = producto;
+    public ProductoCarrito(ObjectId idProducto, Integer cantidad) {
+        this.idProducto = idProducto;
         this.cantidad = cantidad;
     }
 
@@ -31,20 +28,12 @@ public class ProductoCarrito {
         this.id = id;
     }
 
-    public CarritoCompras getCarritoCompras() {
-        return carritoCompras;
+    public ObjectId getIdProducto() {
+        return idProducto;
     }
 
-    public void setCarritoCompras(CarritoCompras carritoCompras) {
-        this.carritoCompras = carritoCompras;
-    }
-
-    public Producto getProducto() {
-        return producto;
-    }
-
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public void setIdProducto(ObjectId idProducto) {
+        this.idProducto = idProducto;
     }
 
     public Integer getCantidad() {

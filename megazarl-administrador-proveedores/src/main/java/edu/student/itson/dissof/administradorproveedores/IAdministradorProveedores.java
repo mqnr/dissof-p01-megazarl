@@ -2,8 +2,8 @@
 package edu.student.itson.dissof.administradorproveedores;
 
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
 
 /**
  * IAdministradorProveedores.java
@@ -31,38 +31,38 @@ public interface IAdministradorProveedores {
      * Método que permite obtener la ruta de la imagen o logotipo de un proveedor
      * específico identificado por su ID.
      *
-     * @param idProveedorDTO Objeto IdProveedorDTO que contiene el ID del proveedor.
+     * @param idProveedorDTO Objeto IdProveedorDTONegocios que contiene el ID del proveedor.
      * @return Objeto String que representa la ruta de la imagen del proveedor.
      * @throws ProveedoresIdProveedorInvalidoException Se lanza si se comprueba que el ID
      * del proveedor es inválido, dentro de este subsistema.
      */
-    public abstract String obtenerDireccionImagenProveedor(IdProveedorDTO idProveedorDTO) throws ProveedoresIdProveedorInvalidoException;
+    public abstract String obtenerDireccionImagenProveedor(IdProveedorDTONegocios idProveedorDTO) throws ProveedoresIdProveedorInvalidoException;
 
     /**
      * Método que permite obtener el nombre de un proveedor específico identificado por su ID.
      *
-     * @param idProveedorDTO Objeto IdProveedorDTO que contiene el ID del proveedor.
+     * @param idProveedorDTO Objeto IdProveedorDTONegocios que contiene el ID del proveedor.
      * @return Objeto String que representa el nombre del proveedor.
      * @throws ProveedoresIdProveedorInvalidoException Se lanza si se comprueba que el ID
      * del proveedor es inválido, dentro de este subsistema.
      */
-    public abstract String obtenerNombreProveedor(IdProveedorDTO idProveedorDTO) throws ProveedoresIdProveedorInvalidoException;
+    public abstract String obtenerNombreProveedor(IdProveedorDTONegocios idProveedorDTO) throws ProveedoresIdProveedorInvalidoException;
 
     /**
      * Método que permite obtener un proveedor específico identificado por su ID.
      *
-     * @param idProveedorDTO Objeto IdProveedorDTO que representa el ID del proveedor a obtener.
+     * @param idProveedorDTO Objeto IdProveedorDTONegocios que representa el ID del proveedor a obtener.
      * @return Objeto Proveedor que representa el proveedor con el ID especificado.
      */
-    public abstract ProveedorDTO obtenerProveedor(IdProveedorDTO idProveedorDTO);
+    public abstract ProveedorDTONegocios obtenerProveedor(IdProveedorDTONegocios idProveedorDTO);
     
     /**
      * Método que permite verificar si el ID de un proveedor es válido.
      *
-     * @param idProveedorDTO Objeto IdProveedorDTO que contiene el ID del proveedor a validar.
+     * @param idProveedorDTO Objeto IdProveedorDTONegocios que contiene el ID del proveedor a validar.
      * @return true si el ID del proveedor es válido, false en caso contrario.
      */
-    public abstract boolean validarProveedor(IdProveedorDTO idProveedorDTO);
+    public abstract boolean validarProveedor(IdProveedorDTONegocios idProveedorDTO);
 
     /**
      * metodo que perimite registrar el proveedor

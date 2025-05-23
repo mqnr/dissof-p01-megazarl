@@ -2,10 +2,10 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
-import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionProductoCarritoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProductoCarritoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoCarritoDTO;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioProductoCarrito;
+import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionProductoCarritoDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoCarritoDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoCarritoDTONegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioProductoCarrito;
 import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioProductoCarritoEnMemoria;
 import java.util.Collection;
 import java.util.List;
@@ -23,35 +23,32 @@ public class ProductoCarrito {
         };
     }
     
-    public static ProductoCarritoDTO recuperarPorId(IdProductoCarritoDTO idProductoCarritoDTO) {
+    public static ProductoCarritoDTONegocios recuperarPorId(IdProductoCarritoDTONegocios idProductoCarritoDTO) {
         return repositorio.recuperarPorId(idProductoCarritoDTO);
     }
     
-    public static boolean existePorId(IdProductoCarritoDTO idProductoCarritoDTO) {
+    public static boolean existePorId(IdProductoCarritoDTONegocios idProductoCarritoDTO) {
         return repositorio.existePorId(idProductoCarritoDTO);
     }
      
-    public static ProductoCarritoDTO actualizar(ActualizacionProductoCarritoDTO actualizacionProductoCarritoDTO){
+    public static ProductoCarritoDTONegocios actualizar(ActualizacionProductoCarritoDTONegocios actualizacionProductoCarritoDTO){
         return repositorio.actualizar(actualizacionProductoCarritoDTO);
     }
      
-    public static void agregar(ProductoCarritoDTO productoCarrito) {
+    public static void agregar(ProductoCarritoDTONegocios productoCarrito) {
         repositorio.agregar(productoCarrito);
     }
     
-    public static void agregar(Collection<ProductoCarritoDTO> productosCarrito) {
+    public static void agregar(Collection<ProductoCarritoDTONegocios> productosCarrito) {
         repositorio.agregar(productosCarrito);
     }
     
-    public static void removerPorId(IdProductoCarritoDTO idProductoCarritoDTO){
+    public static void removerPorId(IdProductoCarritoDTONegocios idProductoCarritoDTO){
         repositorio.removerPorId(idProductoCarritoDTO);
     }
      
-    public static List<ProductoCarritoDTO> recuperarTodos() {
+    public static List<ProductoCarritoDTONegocios> recuperarTodos() {
         return repositorio.recuperarTodos();
     }
     
-    public static boolean existe(Predicate<ProductoCarritoDTO> criterio) {
-        return repositorio.existe(criterio);
-    }
 }

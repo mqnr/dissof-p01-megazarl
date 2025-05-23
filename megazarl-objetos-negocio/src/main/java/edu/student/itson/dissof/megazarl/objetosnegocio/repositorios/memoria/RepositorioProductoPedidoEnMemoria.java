@@ -1,22 +1,21 @@
 
 package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoPedidoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDatosCompletosRelacionesDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProductoPedidoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProductoPedidoDatosCompletosRelacionesDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioProductoPedido;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoPedidoDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDatosCompletosRelacionesDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoPedidoDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoPedidoDatosCompletosRelacionesDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioProductoPedido;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 
 public class RepositorioProductoPedidoEnMemoria implements RepositorioProductoPedido{
     
-    private final List<ProductoPedidoDTO> listaProductosPedido;
+    private final List<ProductoPedidoDTONegocios> listaProductosPedido;
     
     private static Long ID_ACTUAL_PRODUCTO_PEDIDO = 1L;
     
@@ -24,12 +23,12 @@ public class RepositorioProductoPedidoEnMemoria implements RepositorioProductoPe
         listaProductosPedido = new ArrayList<>();
     }
     
-    public RepositorioProductoPedidoEnMemoria(Collection<ProductoPedidoDTO> productosPedido) {
+    public RepositorioProductoPedidoEnMemoria(Collection<ProductoPedidoDTONegocios> productosPedido) {
         listaProductosPedido = new ArrayList<>(productosPedido);
     }
     
     @Override
-    public ProductoPedidoDTO recuperarPorId(IdProductoPedidoDTO idProductoPedidoDTO) {
+    public ProductoPedidoDTONegocios recuperarPorId(IdProductoPedidoDTONegocios idProductoPedidoDTO) {
         return listaProductosPedido.stream()
                 .filter(productoPedido -> productoPedido.getId().equals(idProductoPedidoDTO.getIdProductoPedido()))
                 .findFirst()
@@ -37,25 +36,22 @@ public class RepositorioProductoPedidoEnMemoria implements RepositorioProductoPe
     }
 
     @Override
-    public boolean existePorId(IdProductoPedidoDTO idProductoPedidoDTO) {
-        return existe(productoPedido -> productoPedido.getId().equals(idProductoPedidoDTO.getIdProductoPedido()));
+    public boolean existePorId(IdProductoPedidoDTONegocios idProductoPedidoDTO) {
+        
+        return listaProductosPedido.stream().anyMatch(productoPedido -> productoPedido.getId().equals(idProductoPedidoDTO.getIdProductoPedido()));
+
     }
 
     @Override
-    public Stream<ProductoPedidoDTO> stream() {
-        return listaProductosPedido.stream();
-    }
-
-    @Override
-    public void agregar(ProductoPedidoDTO productoPedido) {
+    public void agregar(ProductoPedidoDTONegocios productoPedido) {
         
-        productoPedido.setId(new IdEntidadGenerico(ID_ACTUAL_PRODUCTO_PEDIDO++));
+        productoPedido.setId(new IdEntidadGenericoNegocios(ID_ACTUAL_PRODUCTO_PEDIDO++));
         
-        ProductoPedidoDatosCompletosRelacionesDTO productoPedidoDatosCompletosDTO
-                = (ProductoPedidoDatosCompletosRelacionesDTO)productoPedido;
+        ProductoPedidoDatosCompletosRelacionesDTONegocios productoPedidoDatosCompletosDTO
+                = (ProductoPedidoDatosCompletosRelacionesDTONegocios)productoPedido;
         
-        ProductoDatosCompletosRelacionesDTO productoDatosCompletosRelacionesDTO
-                = (ProductoDatosCompletosRelacionesDTO) productoPedidoDatosCompletosDTO.getProducto();
+        ProductoDatosCompletosRelacionesDTONegocios productoDatosCompletosRelacionesDTO
+                = (ProductoDatosCompletosRelacionesDTONegocios) productoPedidoDatosCompletosDTO.getProducto();
       
         productoDatosCompletosRelacionesDTO.getProductosPedido().add(productoPedido);
         
@@ -64,17 +60,17 @@ public class RepositorioProductoPedidoEnMemoria implements RepositorioProductoPe
     }
 
     @Override
-    public void agregar(Collection<ProductoPedidoDTO> productosPedido) {
+    public void agregar(Collection<ProductoPedidoDTONegocios> productosPedido) {
         
-        for(ProductoPedidoDTO productoPedido: productosPedido){
+        for(ProductoPedidoDTONegocios productoPedido: productosPedido){
             
-            productoPedido.setId(new IdEntidadGenerico(ID_ACTUAL_PRODUCTO_PEDIDO++));
+            productoPedido.setId(new IdEntidadGenericoNegocios(ID_ACTUAL_PRODUCTO_PEDIDO++));
             
-            ProductoPedidoDatosCompletosRelacionesDTO productoPedidoDatosCompletosDTO
-                = (ProductoPedidoDatosCompletosRelacionesDTO)productoPedido;
+            ProductoPedidoDatosCompletosRelacionesDTONegocios productoPedidoDatosCompletosDTO
+                = (ProductoPedidoDatosCompletosRelacionesDTONegocios)productoPedido;
         
-            ProductoDatosCompletosRelacionesDTO productoDatosCompletosRelacionesDTO
-                    = (ProductoDatosCompletosRelacionesDTO) productoPedidoDatosCompletosDTO.getProducto();
+            ProductoDatosCompletosRelacionesDTONegocios productoDatosCompletosRelacionesDTO
+                    = (ProductoDatosCompletosRelacionesDTONegocios) productoPedidoDatosCompletosDTO.getProducto();
 
             productoDatosCompletosRelacionesDTO.getProductosPedido().add(productoPedido);
             
@@ -84,12 +80,8 @@ public class RepositorioProductoPedidoEnMemoria implements RepositorioProductoPe
     }
 
     @Override
-    public List<ProductoPedidoDTO> recuperarTodos() {
+    public List<ProductoPedidoDTONegocios> recuperarTodos() {
         return new ArrayList<>(listaProductosPedido);
     }
 
-    @Override
-    public boolean existe(Predicate<ProductoPedidoDTO> criterio) {
-        return listaProductosPedido.stream().anyMatch(criterio);
-    }
 }

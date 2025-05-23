@@ -10,14 +10,14 @@ import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.Clien
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
-import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDatosCompletosRelacionesDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioActualizadaClienteDTO;
-import edu.student.itson.dissof.megazarl.negocio.FabricaSubsistemas;
+import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDatosCompletosRelacionesDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioActualizadaClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.negocios.FabricaSubsistemas;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.awt.Color;
@@ -103,10 +103,10 @@ public class ControlRegistroProveedor<t> {
      */
     public Object[] obtenerDatosDireccionEnvioDerivadosCP(String codigoPostal){
         
-        InformacionDerivadaCPDireccionDTO informacionDerivadaCPDireccionDTO;
+        InformacionDerivadaCPDireccionDTONegocios informacionDerivadaCPDireccionDTO;
         try {
             IAdministradorDirecciones administradorDirecciones = FabricaSubsistemas.obtenerAdministradorDirecciones();
-            informacionDerivadaCPDireccionDTO = administradorDirecciones.obtenerDatosDireccionDerivados(new CodigoPostalDTO(codigoPostal));
+            informacionDerivadaCPDireccionDTO = administradorDirecciones.obtenerDatosDireccionDerivados(new CodigoPostalDTONegocios(codigoPostal));
 
             if (informacionDerivadaCPDireccionDTO != null) {
                 Object[] datosDireccionDerivadosCliente = {

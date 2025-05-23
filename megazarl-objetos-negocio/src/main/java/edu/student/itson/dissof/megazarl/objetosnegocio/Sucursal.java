@@ -2,10 +2,10 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
-import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTO;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioSucursal;
+import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTONegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioSucursal;
 import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioSucursalEnMemoria;
 import java.util.Collection;
 import java.util.List;
@@ -22,32 +22,28 @@ public class Sucursal {
         };
     }
     
-    public static SucursalDTO recuperarPorId(IdSucursalDTO idSucursalDTO) {
+    public static SucursalDTONegocios recuperarPorId(IdSucursalDTONegocios idSucursalDTO) {
         return repositorio.recuperarPorId(idSucursalDTO);
     }
     
-     public static boolean existePorId(IdSucursalDTO idSucursalDTO) {
+     public static boolean existePorId(IdSucursalDTONegocios idSucursalDTO) {
         return repositorio.existePorId(idSucursalDTO);
     }
      
-    public static void agregar(SucursalDTO sucursal) {
+    public static void agregar(SucursalDTONegocios sucursal) {
         repositorio.agregar(sucursal);
     }
 
-    public static void agregar(Collection<SucursalDTO> sucursales) {
+    public static void agregar(Collection<SucursalDTONegocios> sucursales) {
         repositorio.agregar(sucursales);
     }
      
-    public static List<SucursalDTO> recuperarTodos() {
+    public static List<SucursalDTONegocios> recuperarTodos() {
         return repositorio.recuperarTodos();
     }
     
-    public static SucursalDTO obtenerSucursalMatriz(){
+    public static SucursalDTONegocios obtenerSucursalMatriz(){
         return repositorio.obtenerSucursalMatriz();
-    }
-    
-    public static boolean existe(Predicate<SucursalDTO> criterio) {
-        return repositorio.existe(criterio);
     }
     
 }

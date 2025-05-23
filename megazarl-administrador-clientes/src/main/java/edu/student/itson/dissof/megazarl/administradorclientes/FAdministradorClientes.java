@@ -6,12 +6,12 @@ import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.Clien
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdDireccionInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesTelefonoNuevoClienteYaExisteException;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
-import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioActualizadaClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioActualizadaClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoClienteDTONegocios;
 
 /**
  * FAdministradorClientes.java
@@ -42,35 +42,35 @@ public class FAdministradorClientes implements IAdministradorClientes{
     /**
      * Implementación del método validarCliente, de la interfaz {@link IAdministradorClientes},
      * que permite verificar si el ID recibido corresponde a un cliente real o no.
-     * @param idClienteDTO Objeto IdClienteDTO que contiene el ID del cliente a validar.
+     * @param idClienteDTO Objeto IdClienteDTONegocios que contiene el ID del cliente a validar.
      * @return true, si el ID del cliente es válido, false en caso contrario.
      */
     @Override
-    public boolean validarCliente(IdClienteDTO idClienteDTO) {
+    public boolean validarCliente(IdClienteDTONegocios idClienteDTO) {
         return administradorClientes.validarCliente(idClienteDTO);
     }
 
     /**
      * Implementación del método obtenerCliente() de la interfaz {@link IAdministradorClientes},
      * permite obtener un objeto Cliente a partir de si ID, si este existe.
-     * @param idClienteDTO Objeto IdClienteDTO que contiene el ID del cliente a obtener.
+     * @param idClienteDTO Objeto IdClienteDTONegocios que contiene el ID del cliente a obtener.
      * @return Objeto Cliente que representa al cliente con el ID del parémetro.
      */
     @Override
-    public ClienteDTO obtenerCliente(IdClienteDTO idClienteDTO) {
+    public ClienteDTONegocios obtenerCliente(IdClienteDTONegocios idClienteDTO) {
         return administradorClientes.obtenerCliente(idClienteDTO);
     }
 
     /**
      * Implementación del método actualizarDireccionCliente(), de la interfaz {@link IAdministradorClientes},
      * permite actualizar los datos de la dirección de envío del cliente, que son Código Postal, Calle y Número.
-     * @param informacionDireccionEnvioActualizadaClienteDTO Objeto InformacionDireccionEnvioActualizadaClienteDTO que representa 
-     * los nuevos datos para actualizar la dirección de un cliente.
+     * @param informacionDireccionEnvioActualizadaClienteDTO Objeto InformacionDireccionEnvioActualizadaClienteDTONegocios que representa 
+ los nuevos datos para actualizar la dirección de un cliente.
      * @throws ClientesIdClienteInvalidoException Se lanza si se comprueba que el ID de
      * Cliente recibido es inválido, dentro de este subsistema.
      */
     @Override
-    public void actualizarDireccionCliente(InformacionDireccionEnvioActualizadaClienteDTO informacionDireccionEnvioActualizadaClienteDTO) 
+    public void actualizarDireccionCliente(InformacionDireccionEnvioActualizadaClienteDTONegocios informacionDireccionEnvioActualizadaClienteDTO) 
             throws ClientesIdClienteInvalidoException,
             ClientesAccesoArchivoCodigosPostalesFallidoException, 
             ClientesArchivoCodigosPostalesVacioException {
@@ -81,14 +81,14 @@ public class FAdministradorClientes implements IAdministradorClientes{
     /**
      * Implementación del método obtenerInformacionNoDerivadaCPDireccionEnvio(), de la interfaz {@link IAdministradorClientes},
      * que permite obtener la información sobre la dirección de envío de un cliente que este ingresa (Código Postal, Calle y Número)
-     * @param idClienteDTO Objeto IdClienteDTO que contiene el ID del cliente a buscar sus datos de dirección.
-     * @return Objeto InformacionNoDerivadaCPDireccionDTO que contiene el Código
-     * Postal, Calle y Número de la dirección de envío del cliente.
+     * @param idClienteDTO Objeto IdClienteDTONegocios que contiene el ID del cliente a buscar sus datos de dirección.
+     * @return Objeto InformacionNoDerivadaCPDireccionDTONegocios que contiene el Código
+ Postal, Calle y Número de la dirección de envío del cliente.
      * @throws ClientesIdClienteInvalidoException Se lanza si se comprueba que el ID
      * del Cliente es inválido, en este subsistema.
      */
     @Override
-    public InformacionNoDerivadaCPDireccionDTO obtenerInformacionNoDerivadaCPDireccionEnvio(IdClienteDTO idClienteDTO) 
+    public InformacionNoDerivadaCPDireccionDTONegocios obtenerInformacionNoDerivadaCPDireccionEnvio(IdClienteDTONegocios idClienteDTO) 
             throws ClientesIdClienteInvalidoException,
             ClientesIdDireccionInvalidoException{
         
@@ -99,18 +99,18 @@ public class FAdministradorClientes implements IAdministradorClientes{
     /**
      * Implementación del método obtenerNombreApellidoCliente(), de la interfaz {@link IAdministradorClientes},
      * que permite obtener el o los nombres y el apellido paterno de un cliente.
-     * @param idClienteDTO Objeto IdClienteDTO que contiene el ID del cliente a obtener los datos.
-     * @return Objeto NombresApellidoClienteDTO que contiene el o lo nombres y el apellido paterno del cliente.
+     * @param idClienteDTO Objeto IdClienteDTONegocios que contiene el ID del cliente a obtener los datos.
+     * @return Objeto NombresApellidoClienteDTONegocios que contiene el o lo nombres y el apellido paterno del cliente.
      * @throws ClientesIdClienteInvalidoException Se lanza si se comprueba que el ID
      * es inválido, en este subsistema.
      */
     @Override
-    public NombresApellidoClienteDTO obtenerNombresApellidoCliente(IdClienteDTO idClienteDTO) throws ClientesIdClienteInvalidoException {
+    public NombresApellidoClienteDTONegocios obtenerNombresApellidoCliente(IdClienteDTONegocios idClienteDTO) throws ClientesIdClienteInvalidoException {
         return administradorClientes.obtenerNombresApellidoCliente(idClienteDTO);
     }
 
     @Override
-    public InformacionDerivadaCPDireccionDTO obtenerInformacionDerivadaCPDireccionEnvio(IdClienteDTO idClienteDTO) 
+    public InformacionDerivadaCPDireccionDTONegocios obtenerInformacionDerivadaCPDireccionEnvio(IdClienteDTONegocios idClienteDTO) 
             throws ClientesIdClienteInvalidoException,
             ClientesIdDireccionInvalidoException {
         
@@ -119,7 +119,7 @@ public class FAdministradorClientes implements IAdministradorClientes{
     }
 
     @Override
-    public void registrarCliente(ClienteDTO clienteDTO) 
+    public void registrarCliente(ClienteDTONegocios clienteDTO) 
             throws ClientesTelefonoNuevoClienteYaExisteException,
             ClientesCorreoElectronicoYaExisteException{
         

@@ -1,23 +1,20 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDatosCompletosRelacionesDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioCliente;
+import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDatosCompletosRelacionesDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioCliente;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Stream;
 
 public class RepositorioClienteEnMemoria implements RepositorioCliente {
     
-    private final List<ClienteDTO> listaClientes;
+    private final List<ClienteDTONegocios> listaClientes;
     
     private static Long ID_CLIENTE_ACTUAL = 1L;
 
@@ -25,12 +22,12 @@ public class RepositorioClienteEnMemoria implements RepositorioCliente {
         listaClientes = new ArrayList<>();
     }
 
-    public RepositorioClienteEnMemoria(Collection<ClienteDTO> clientes) {
+    public RepositorioClienteEnMemoria(Collection<ClienteDTONegocios> clientes) {
         listaClientes = new ArrayList<>(clientes);
     }
 
     @Override
-    public ClienteDTO recuperarPorId(IdClienteDTO idClienteDTO) {
+    public ClienteDTONegocios recuperarPorId(IdClienteDTONegocios idClienteDTO) {
         return listaClientes.stream()
                 .filter(cliente -> cliente.getId().getId().equals(idClienteDTO.getIdCliente().getId()))
                 .findFirst()
@@ -38,25 +35,19 @@ public class RepositorioClienteEnMemoria implements RepositorioCliente {
     }
 
     @Override
-    public boolean existePorId(IdClienteDTO idClienteDTO) {
+    public boolean existePorId(IdClienteDTONegocios idClienteDTO) {
         
-        return existe(cliente ->
-            cliente.getId().getId().equals(idClienteDTO.getIdCliente().getId())
-        );
+        return listaClientes.stream().anyMatch(cliente -> cliente.getId().getId().equals(idClienteDTO.getIdCliente().getId()));
+
     }
     
-    private static final Logger LOG = Logger.getLogger(RepositorioClienteEnMemoria.class.getName());
-
-    
-    
-    
     @Override
-    public ClienteDTO actualizar(ActualizacionClienteDTO actualizacionClienteDTO) {
+    public ClienteDTONegocios actualizar(ActualizacionClienteDTONegocios actualizacionClienteDTO) {
         
         for (int i = 0; i < listaClientes.size(); i++) {
-            ClienteDTO cliente = listaClientes.get(i);
+            ClienteDTONegocios cliente = listaClientes.get(i);
             if (cliente.getId().equals(actualizacionClienteDTO.getId())) {
-                ClienteDTO clienteActualizado = aplicar(cliente, actualizacionClienteDTO);
+                ClienteDTONegocios clienteActualizado = aplicar(cliente, actualizacionClienteDTO);
                 listaClientes.set(i, clienteActualizado);
                 return clienteActualizado;
             }
@@ -65,40 +56,29 @@ public class RepositorioClienteEnMemoria implements RepositorioCliente {
     }
 
     @Override
-    public Stream<ClienteDTO> stream() {
-        return listaClientes.stream();
-    }
-
-    @Override
-    public void agregar(ClienteDTO cliente) {
-        cliente.setId(new IdEntidadGenerico(ID_CLIENTE_ACTUAL++));
+    public void agregar(ClienteDTONegocios cliente) {
+        cliente.setId(new IdEntidadGenericoNegocios(ID_CLIENTE_ACTUAL++));
         listaClientes.add(cliente);
     }
 
     @Override
-    public void agregar(Collection<ClienteDTO> clientes) {
-        for(ClienteDTO cliente: clientes){
-            cliente.setId(new IdEntidadGenerico(ID_CLIENTE_ACTUAL++));
+    public void agregar(Collection<ClienteDTONegocios> clientes) {
+        for(ClienteDTONegocios cliente: clientes){
+            cliente.setId(new IdEntidadGenericoNegocios(ID_CLIENTE_ACTUAL++));
         }
         listaClientes.addAll(clientes);
     }
 
     @Override
-    public List<ClienteDTO> recuperarTodos() {
+    public List<ClienteDTONegocios> recuperarTodos() {
         return new ArrayList<>(listaClientes);
     }
-
-    @Override
-    public boolean existe(Predicate<ClienteDTO> criterio) {
-        
-        return listaClientes.stream().anyMatch(criterio);
-    }
     
     
-    private ClienteDTO aplicar(ClienteDTO clienteOriginal, ActualizacionClienteDTO actualizacionClienteDTO) {
+    private ClienteDTONegocios aplicar(ClienteDTONegocios clienteOriginal, ActualizacionClienteDTONegocios actualizacionClienteDTO) {
         
-        return new ClienteDatosCompletosRelacionesDTO(
-                ((ClienteDatosCompletosRelacionesDTO)clienteOriginal).getId(),
+        return new ClienteDatosCompletosRelacionesDTONegocios(
+                ((ClienteDatosCompletosRelacionesDTONegocios)clienteOriginal).getId(),
                 actualizacionClienteDTO.tieneNombres() ? actualizacionClienteDTO.getNombres() : clienteOriginal.getNombres(),
                 actualizacionClienteDTO.tieneApellidoPaterno() ? actualizacionClienteDTO.getApellidoPaterno() : clienteOriginal.getApellidoPaterno(),
                 actualizacionClienteDTO.tieneApellidoMaterno() ? actualizacionClienteDTO.getApellidoMaterno() : clienteOriginal.getApellidoMaterno(),
@@ -106,8 +86,8 @@ public class RepositorioClienteEnMemoria implements RepositorioCliente {
                 clienteOriginal.getCorreoElectronico(),
                 actualizacionClienteDTO.tieneDireccionEnvio() 
                         ? actualizacionClienteDTO.getDireccionEnvio()
-                        : ((ClienteDatosCompletosRelacionesDTO)clienteOriginal).getDireccionEnvio(),
-                ((ClienteDatosCompletosRelacionesDTO)clienteOriginal).getCarritosCompras()
+                        : ((ClienteDatosCompletosRelacionesDTONegocios)clienteOriginal).getDireccionEnvio(),
+                ((ClienteDatosCompletosRelacionesDTONegocios)clienteOriginal).getCarritosCompras()
         );
     }
 

@@ -2,8 +2,8 @@
 package edu.student.itson.dissof.administradorproveedores;
 
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
 
 /**
  * FAdministradorProveedores.java
@@ -39,11 +39,11 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      * {@link IAdministradorProveedores}, que permite verificar si el ID
      * de un proveedor corresponde a un objeto Proveedor real.
      *
-     * @param idProveedorDTO Objeto IdProveedorDTO que contiene el ID del proveedor a validar.
+     * @param idProveedorDTO Objeto IdProveedorDTONegocios que contiene el ID del proveedor a validar.
      * @return true si existe un objeto Proveedor con el ID del parámetro, false en caso contrario.
      */
     @Override
-    public boolean validarProveedor(IdProveedorDTO idProveedorDTO) {
+    public boolean validarProveedor(IdProveedorDTONegocios idProveedorDTO) {
         return administradorProveedores.validarProveedor(idProveedorDTO);
     }
 
@@ -52,12 +52,12 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      * {@link IAdministradorProveedores}, que permite obtener un objeto Proveedor
      * específico a partir de su ID.
      *
-     * @param idProveedorDTO Objeto IdProveedorDTO que representa el ID del proveedor a obtener.
+     * @param idProveedorDTO Objeto IdProveedorDTONegocios que representa el ID del proveedor a obtener.
      * @return Objeto Proveedor que representa el proveedor con el ID especificado,
      * o null si no se encuentra un proveedor con ese ID.
      */
     @Override
-    public ProveedorDTO obtenerProveedor(IdProveedorDTO idProveedorDTO) {
+    public ProveedorDTONegocios obtenerProveedor(IdProveedorDTONegocios idProveedorDTO) {
         return administradorProveedores.obtenerProveedor(idProveedorDTO);
     }
 
@@ -66,13 +66,13 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      * {@link IAdministradorProveedores}, que permite obtener la ruta de la imagen
      * o logotipo de un proveedor específico.
      *
-     * @param idProveedorDTO Objeto IdProveedorDTO que contiene el ID del proveedor.
+     * @param idProveedorDTO Objeto IdProveedorDTONegocios que contiene el ID del proveedor.
      * @return Objeto String que representa la ruta de la imagen del proveedor.
      * @throws ProveedoresIdProveedorInvalidoException Se lanza si se comprueba que el ID
      * del proveedor es inválido o no existe en el sistema.
      */
     @Override
-    public String obtenerDireccionImagenProveedor(IdProveedorDTO idProveedorDTO) throws ProveedoresIdProveedorInvalidoException {
+    public String obtenerDireccionImagenProveedor(IdProveedorDTONegocios idProveedorDTO) throws ProveedoresIdProveedorInvalidoException {
         return administradorProveedores.obtenerDireccionImagenProveedor(idProveedorDTO);
     }
 
@@ -81,13 +81,13 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      * {@link IAdministradorProveedores}, que permite obtener el nombre
      * de un proveedor específico.
      *
-     * @param idProveedorDTO Objeto IdProveedorDTO que contiene el ID del proveedor.
+     * @param idProveedorDTO Objeto IdProveedorDTONegocios que contiene el ID del proveedor.
      * @return Objeto String que representa el nombre del proveedor.
      * @throws ProveedoresIdProveedorInvalidoException Se lanza si se comprueba que el ID
      * del proveedor es inválido o no existe en el sistema.
      */
     @Override
-    public String obtenerNombreProveedor(IdProveedorDTO idProveedorDTO) throws ProveedoresIdProveedorInvalidoException {
+    public String obtenerNombreProveedor(IdProveedorDTONegocios idProveedorDTO) throws ProveedoresIdProveedorInvalidoException {
         return administradorProveedores.obtenerNombreProveedor(idProveedorDTO);
     }
 

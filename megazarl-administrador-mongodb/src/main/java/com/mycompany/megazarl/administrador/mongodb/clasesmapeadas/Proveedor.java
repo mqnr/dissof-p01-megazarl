@@ -16,16 +16,16 @@ public class Proveedor {
     
     private String direccionImagen;
     
-    private ObjectId idDireccion;
+    private Direccion direccion;
 
     public Proveedor() {
     }
 
-    public Proveedor(String nombre, String telefono, String direccionImagen, ObjectId direccion) {
+    public Proveedor(String nombre, String telefono, String direccionImagen, Direccion direccion) {
         this.nombre = nombre;
         this.telefono = telefono;
         this.direccionImagen = direccionImagen;
-        this.idDireccion = direccion;
+        this.direccion = direccion;
     }
 
     public ObjectId getId() {
@@ -68,12 +68,12 @@ public class Proveedor {
         this.correoElectronico = correoElectronico;
     }
     
-    public ObjectId getIdDireccion() {
-        return idDireccion;
+    public Direccion getDireccion() {
+        return direccion;
     }
 
-    public void setIdDireccion(ObjectId idDireccion) {
-        this.idDireccion = idDireccion;
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
     }
     
     

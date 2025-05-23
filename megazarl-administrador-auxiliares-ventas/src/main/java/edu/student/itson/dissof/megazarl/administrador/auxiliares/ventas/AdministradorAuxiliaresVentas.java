@@ -1,8 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.administrador.auxiliares.ventas;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.IdAuxiliarVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoAuxiliarVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdAuxiliarVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoAuxiliarVentasDTONegocios;
 
 /**
  *
@@ -10,8 +10,8 @@ import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoAuxiliarVen
  */
 public class AdministradorAuxiliaresVentas {
     
-    public NombresApellidoAuxiliarVentasDTO obtenerNombreApellidoAuxiliarVentas(IdAuxiliarVentasDTO idAuxiliarVentasDTO){
-        return new NombresApellidoAuxiliarVentasDTO("María", "González");
+    public NombresApellidoAuxiliarVentasDTONegocios obtenerNombreApellidoAuxiliarVentas(IdAuxiliarVentasDTONegocios idAuxiliarVentasDTONegocios){
+        return new NombresApellidoAuxiliarVentasDTONegocios("María", "González");
     }
     
 }

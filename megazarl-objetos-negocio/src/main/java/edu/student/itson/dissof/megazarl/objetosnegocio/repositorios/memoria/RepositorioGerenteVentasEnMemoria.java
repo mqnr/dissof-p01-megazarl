@@ -1,13 +1,12 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.GerenteVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdGerenteVentasDTO;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioGerenteVentas;
+import edu.student.itson.dissof.megazarl.dto.negocios.GerenteVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdGerenteVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioGerenteVentas;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
+
 /**
  * RepositorioGerenteVentasEnMemoria.java
  * 
@@ -17,7 +16,7 @@ import java.util.stream.Stream;
  */
 public class RepositorioGerenteVentasEnMemoria implements RepositorioGerenteVentas {
 
-    private final List<GerenteVentasDTO> listaGerentesVentas;
+    private final List<GerenteVentasDTONegocios> listaGerentesVentas;
     
     private static Long ID_GERENTE_VENTAS_ACTUAL = 1L;
     
@@ -25,12 +24,13 @@ public class RepositorioGerenteVentasEnMemoria implements RepositorioGerenteVent
         listaGerentesVentas = new ArrayList<>();
     }
 
-    public RepositorioGerenteVentasEnMemoria(Collection<GerenteVentasDTO> gerentes) {
+    public RepositorioGerenteVentasEnMemoria(Collection<GerenteVentasDTONegocios> gerentes) {
         listaGerentesVentas = new ArrayList<>(gerentes);
     }
     
     @Override
-    public GerenteVentasDTO recuperarPorId(IdGerenteVentasDTO idGerenteVentasDTO) {
+    public GerenteVentasDTONegocios recuperarPorId(IdGerenteVentasDTONegocios idGerenteVentasDTO) {
+        
         return listaGerentesVentas.stream()
                 .filter(cliente -> cliente.getId().equals(idGerenteVentasDTO.getIdGerenteVentas()))
                 .findFirst()
@@ -38,24 +38,21 @@ public class RepositorioGerenteVentasEnMemoria implements RepositorioGerenteVent
     }
 
     @Override
-    public boolean existePorId(IdGerenteVentasDTO idGerenteVentasDTO) {
-        return existe(gerente -> gerente.getId().equals(idGerenteVentasDTO.getIdGerenteVentas()));
-    }
+    public boolean existePorId(IdGerenteVentasDTONegocios idGerenteVentasDTO) {
+        
+        return listaGerentesVentas.stream().anyMatch(gerente -> gerente.getId().equals(idGerenteVentasDTO.getIdGerenteVentas()));
 
-    @Override
-    public Stream<GerenteVentasDTO> stream() {
-        return listaGerentesVentas.stream();
     }
-
+    
     @Override
-    public void agregar(GerenteVentasDTO gerente) {
+    public void agregar(GerenteVentasDTONegocios gerente) {
         gerente.setId(ID_GERENTE_VENTAS_ACTUAL++);
         listaGerentesVentas.add(gerente);
     }
 
     @Override
-    public void agregar(Collection<GerenteVentasDTO> gerentes) {
-        for(GerenteVentasDTO gerente: gerentes){
+    public void agregar(Collection<GerenteVentasDTONegocios> gerentes) {
+        for(GerenteVentasDTONegocios gerente: gerentes){
             gerente.setId(ID_GERENTE_VENTAS_ACTUAL++);
         }
         listaGerentesVentas.addAll(gerentes);
@@ -63,13 +60,8 @@ public class RepositorioGerenteVentasEnMemoria implements RepositorioGerenteVent
     }
 
     @Override
-    public List<GerenteVentasDTO> recuperarTodos() {
+    public List<GerenteVentasDTONegocios> recuperarTodos() {
         return new ArrayList<>(listaGerentesVentas);
-    }
-
-    @Override
-    public boolean existe(Predicate<GerenteVentasDTO> criterio) {
-        return listaGerentesVentas.stream().anyMatch(criterio);
     }
     
 }

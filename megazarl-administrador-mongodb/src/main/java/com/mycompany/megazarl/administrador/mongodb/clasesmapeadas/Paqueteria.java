@@ -4,6 +4,15 @@ package com.mycompany.megazarl.administrador.mongodb.clasesmapeadas;
 import org.bson.types.ObjectId;
 
 
+/**
+ * Clase que representa una paquetería en el sistema.
+ * 
+ * @author Yuri Germán García López
+ * ID: 00000252583
+ * @author Manuel Romo López
+ * ID: 00000253080
+ * 
+ */
 public class Paqueteria {
     
     private ObjectId id;

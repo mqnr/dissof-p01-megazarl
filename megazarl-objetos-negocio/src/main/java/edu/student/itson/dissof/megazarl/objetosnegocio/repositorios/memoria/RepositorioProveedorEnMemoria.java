@@ -1,10 +1,10 @@
 
 package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioProveedor;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioProveedor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 public class RepositorioProveedorEnMemoria implements RepositorioProveedor{
     
-    private final List<ProveedorDTO> listaProveedores;
+    private final List<ProveedorDTONegocios> listaProveedores;
     
     private static Long ID_PROVEEDOR_ACTUAL = 1L;
     
@@ -22,12 +22,12 @@ public class RepositorioProveedorEnMemoria implements RepositorioProveedor{
         listaProveedores = new ArrayList<>();
     }
     
-    public RepositorioProveedorEnMemoria(Collection<ProveedorDTO> proveedores) {
+    public RepositorioProveedorEnMemoria(Collection<ProveedorDTONegocios> proveedores) {
         listaProveedores = new ArrayList<>(proveedores);
     }
     
     @Override
-    public ProveedorDTO recuperarPorId(IdProveedorDTO idProveedorDTO) {
+    public ProveedorDTONegocios recuperarPorId(IdProveedorDTONegocios idProveedorDTO) {
         return listaProveedores.stream()
                 .filter(proveedor -> proveedor.getId().equals(idProveedorDTO.getIdProveedor()))
                 .findFirst()
@@ -35,38 +35,30 @@ public class RepositorioProveedorEnMemoria implements RepositorioProveedor{
     }
 
     @Override
-    public boolean existePorId(IdProveedorDTO idProveedorDTO) {
-        return existe(proveedor -> proveedor.getId().equals(idProveedorDTO.getIdProveedor()));
+    public boolean existePorId(IdProveedorDTONegocios idProveedorDTO) {
+        
+        return listaProveedores.stream().anyMatch(proveedor -> proveedor.getId().equals(idProveedorDTO.getIdProveedor()));
+
     }
 
     @Override
-    public Stream<ProveedorDTO> stream() {
-        return listaProveedores.stream();
-    }
-
-    @Override
-    public void agregar(ProveedorDTO proveedor) {
-        proveedor.setId(new IdEntidadGenerico(ID_PROVEEDOR_ACTUAL++));
+    public void agregar(ProveedorDTONegocios proveedor) {
+        proveedor.setId(new IdEntidadGenericoNegocios(ID_PROVEEDOR_ACTUAL++));
         listaProveedores.add(proveedor);
     }
 
     @Override
-    public void agregar(Collection<ProveedorDTO> proveedores) {
+    public void agregar(Collection<ProveedorDTONegocios> proveedores) {
         
-        for(ProveedorDTO proveedor: proveedores){
-            proveedor.setId(new IdEntidadGenerico(ID_PROVEEDOR_ACTUAL++));
+        for(ProveedorDTONegocios proveedor: proveedores){
+            proveedor.setId(new IdEntidadGenericoNegocios(ID_PROVEEDOR_ACTUAL++));
         }
         
         listaProveedores.addAll(proveedores);
     }
 
     @Override
-    public List<ProveedorDTO> recuperarTodos() {
+    public List<ProveedorDTONegocios> recuperarTodos() {
         return new ArrayList<>(listaProveedores);
-    }
-
-    @Override
-    public boolean existe(Predicate<ProveedorDTO> criterio) {
-        return listaProveedores.stream().anyMatch(criterio);
     }
 }

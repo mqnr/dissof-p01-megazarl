@@ -1,8 +1,8 @@
 
 package edu.student.itson.dissof.megazarl.administrador.auxiliares.ventas;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.IdAuxiliarVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoAuxiliarVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdAuxiliarVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoAuxiliarVentasDTONegocios;
 
 /**
  *
@@ -19,8 +19,8 @@ public class FAdministradorAuxiliaresVentas implements IAdministradorAuxiliaresV
     }
     
     @Override
-    public NombresApellidoAuxiliarVentasDTO obtenerNombreApellidoAuxiliarVentas(IdAuxiliarVentasDTO idAuxiliarVentasDTO) {
-        return administradorAuxiliaresVentas.obtenerNombreApellidoAuxiliarVentas(idAuxiliarVentasDTO);
+    public NombresApellidoAuxiliarVentasDTONegocios obtenerNombreApellidoAuxiliarVentas(IdAuxiliarVentasDTONegocios idAuxiliarVentasDTONegocios) {
+        return administradorAuxiliaresVentas.obtenerNombreApellidoAuxiliarVentas(idAuxiliarVentasDTONegocios);
     }
     
 }

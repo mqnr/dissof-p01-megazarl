@@ -9,29 +9,28 @@ import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.Pa
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdSucursalInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
-import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DatosTiempoTrasladoUbicacionesDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.PaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.PaqueteriaDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.TiempoTrasladoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoMatrizClienteDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoProveedorMatrizDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoSucursalMatrizDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionSeleccionPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoMatrizClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoProveedorMatrizDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoSucursalMatrizDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionSeleccionPaqueteriaDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 import edu.student.itson.dissof.megazarl.mapas.IAdministradorMapas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Paqueteria;
+import java.util.LinkedList;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 class AdministradorPaqueterias implements IAdministradorPaqueterias {
     
@@ -41,7 +40,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
     private final IAdministradorDirecciones administradorDirecciones;
     private final IAdministradorMapas administradorMapas;
     
-    private final DireccionDTO DIRECCION_DEFECTO_PAQUETERIA;
+    private final DireccionDTONegocios DIRECCION_DEFECTO_PAQUETERIA;
     
     public AdministradorPaqueterias(
             IAdministradorClientes administradorClientes,
@@ -49,7 +48,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
             IAdministradorProveedores administradorProveedores,
             IAdministradorDirecciones administradorDirecciones,
             IAdministradorMapas administradorMapas,
-            DireccionDTO direccionDefectoPaqueteria){
+            DireccionDTONegocios direccionDefectoPaqueteria){
         
         this.administradorClientes = administradorClientes;
         this.administradorSucursales = administradorSucursales;
@@ -61,83 +60,89 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
     }
 
     @Override
-    public PaqueteriaDTO obtenerPaqueteria(IdPaqueteriaDTO idPaqueteriaDTO) {
-        return Paqueteria.recuperarPorId(idPaqueteriaDTO);
+    public PaqueteriaDTONegocios obtenerPaqueteria(IdPaqueteriaDTONegocios idPaqueteriaDTONegocios) {
+        return Paqueteria.recuperarPorId(idPaqueteriaDTONegocios);
     }
 
     @Override
-    public List<InformacionSeleccionPaqueteriaDTO> obtenerPaqueterias() {
-        return Paqueteria.stream().map(
-                paqueteria ->
-                        new InformacionSeleccionPaqueteriaDTO(
+    public List<InformacionSeleccionPaqueteriaDTONegocios> obtenerPaqueterias() {
+        
+        List<InformacionSeleccionPaqueteriaDTONegocios> listaInformacionSeleccionPaqueteriaDTONegocios = new LinkedList<>();
+        
+        for(PaqueteriaDTONegocios paqueteria : Paqueteria.recuperarTodos()){
+            listaInformacionSeleccionPaqueteriaDTONegocios.add(
+                    new InformacionSeleccionPaqueteriaDTONegocios(
                                 paqueteria.getId(),
                                 paqueteria.getDireccionImagenPaqueteria()
-                        )
-        ).toList();
+                    )   
+            );
+        }
+        
+        return listaInformacionSeleccionPaqueteriaDTONegocios;
     }
 
     @Override
-    public float obtenerCostoEnvioSucursalMatriz(InformacionEnvioProductoSucursalMatrizDTO informacionEnvioProductoSucursalMatrizDTO)
+    public float obtenerCostoEnvioSucursalMatriz(InformacionEnvioProductoSucursalMatrizDTONegocios informacionEnvioProductoSucursalMatrizDTONegocios)
             throws PaqueteriasIdPaqueteriaInvalidoException,
             PaqueteriasIdSucursalInvalidoException,
             PaqueteriasIdDireccionInvalidoException{
         
         // Se valida la paqueteria
-        IdEntidadGenerico idPaqueteria = informacionEnvioProductoSucursalMatrizDTO.getIdPaqueteria();
+        IdEntidadGenericoNegocios idPaqueteria = informacionEnvioProductoSucursalMatrizDTONegocios.getIdPaqueteria();
 
-        if(!validarPaqueteria(new IdPaqueteriaDTO(idPaqueteria))){
+        if(!validarPaqueteria(new IdPaqueteriaDTONegocios(idPaqueteria))){
             throw new PaqueteriasIdPaqueteriaInvalidoException("El ID de paquetería es inválido.");
         }
         
-        PaqueteriaDTO paqueteria = obtenerPaqueteria(new IdPaqueteriaDTO(idPaqueteria));
+        PaqueteriaDTONegocios paqueteria = obtenerPaqueteria(new IdPaqueteriaDTONegocios(idPaqueteria));
         
         if (paqueteria == null) {
             throw new PaqueteriasIdPaqueteriaInvalidoException("El ID de paquetería es inválido.");
         }
         
         // Se valida la sucursal
-        IdEntidadGenerico idSucursal = informacionEnvioProductoSucursalMatrizDTO.getIdSucursal();
+        IdEntidadGenericoNegocios idSucursal = informacionEnvioProductoSucursalMatrizDTONegocios.getIdSucursal();
         
-        if(!administradorSucursales.validarSucursal(new IdSucursalDTO(idSucursal))){
+        if(!administradorSucursales.validarSucursal(new IdSucursalDTONegocios(idSucursal))){
             throw new PaqueteriasIdSucursalInvalidoException("El ID de sucursal es inválido.");
         }
         
-        SucursalDTO sucursal = administradorSucursales.obtenerSucursal(new IdSucursalDTO(idSucursal));
+        SucursalDTONegocios sucursal = administradorSucursales.obtenerSucursal(new IdSucursalDTONegocios(idSucursal));
         
         if(sucursal == null){
             throw new PaqueteriasIdSucursalInvalidoException("El ID de sucursal es inválido.");
         }
         
-        SucursalDTO sucursalMatriz = administradorSucursales.obtenerSucursalMatriz();
+        SucursalDTONegocios sucursalMatriz = administradorSucursales.obtenerSucursalMatriz();
         
         
         Float cobroKg = paqueteria.getCobroKg();
         Float cobroHora = paqueteria.getCobroHora();
 
         // Se obtiene el peso del peso en Kg del producto de la DTO del parámetro y su tiempo de envío
-        Double pesoKgProducto = informacionEnvioProductoSucursalMatrizDTO.getPesoKgTotal();
+        Double pesoKgProducto = informacionEnvioProductoSucursalMatrizDTONegocios.getPesoKgTotal();
         
         // Se valida el ID de la dirección de la sucursal
-        IdDireccionDTO idDireccionSucursal = new IdDireccionDTO(sucursal.getIdDireccion());
+        IdDireccionDTONegocios idDireccionSucursal = new IdDireccionDTONegocios(sucursal.getIdDireccion());
         
         if(!administradorDirecciones.validarDireccion(idDireccionSucursal)){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de la sucursal es inválido.");
         }
         
-        DireccionDTO direccionSucursal = administradorDirecciones.obtenerDireccion(idDireccionSucursal);
+        DireccionDTONegocios direccionSucursal = administradorDirecciones.obtenerDireccion(idDireccionSucursal);
         
         if(direccionSucursal == null){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de la sucursal es inválido.");
         }
         
         // Se valida el ID de la dirección de Matriz
-        IdDireccionDTO idDireccionMatriz = new IdDireccionDTO(sucursalMatriz.getIdDireccion());
+        IdDireccionDTONegocios idDireccionMatriz = new IdDireccionDTONegocios(sucursalMatriz.getIdDireccion());
         
         if(!administradorDirecciones.validarDireccion(idDireccionMatriz)){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
         }
         
-        DireccionDTO direccionMatriz = administradorDirecciones.obtenerDireccion(idDireccionMatriz);
+        DireccionDTONegocios direccionMatriz = administradorDirecciones.obtenerDireccion(idDireccionMatriz);
         
         if(direccionMatriz == null){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
@@ -174,67 +179,67 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
     }
     
     @Override
-    public float obtenerCostoEnvioMatrizCliente(InformacionEnvioProductoMatrizClienteDTO informacionEnvioProductoMatrizClienteDTO)
+    public float obtenerCostoEnvioMatrizCliente(InformacionEnvioProductoMatrizClienteDTONegocios informacionEnvioProductoMatrizClienteDTONegocios)
             throws PaqueteriasIdPaqueteriaInvalidoException,
             PaqueteriasIdClienteInvalidoException,
             PaqueteriasIdDireccionInvalidoException{
         
         // Se valida la paqueteria
-        IdEntidadGenerico idPaqueteria = informacionEnvioProductoMatrizClienteDTO.getIdPaqueteria();
+        IdEntidadGenericoNegocios idPaqueteria = informacionEnvioProductoMatrizClienteDTONegocios.getIdPaqueteria();
 
-        if(!validarPaqueteria(new IdPaqueteriaDTO(idPaqueteria))){
+        if(!validarPaqueteria(new IdPaqueteriaDTONegocios(idPaqueteria))){
             throw new PaqueteriasIdPaqueteriaInvalidoException("El ID de paquetería es inválido.");
         }
         
-        PaqueteriaDTO paqueteria = obtenerPaqueteria(new IdPaqueteriaDTO(idPaqueteria));
+        PaqueteriaDTONegocios paqueteria = obtenerPaqueteria(new IdPaqueteriaDTONegocios(idPaqueteria));
         
         if (paqueteria == null) {
             throw new PaqueteriasIdPaqueteriaInvalidoException("El ID de paquetería es inválido.");
         }
         
         // Se valida el cliente
-        IdEntidadGenerico idCliente = informacionEnvioProductoMatrizClienteDTO.getIdCliente();
+        IdEntidadGenericoNegocios idCliente = informacionEnvioProductoMatrizClienteDTONegocios.getIdCliente();
         
-        if(!administradorClientes.validarCliente(new IdClienteDTO(idCliente))){
+        if(!administradorClientes.validarCliente(new IdClienteDTONegocios(idCliente))){
             throw new PaqueteriasIdClienteInvalidoException("El ID de cliente es inválido.");
         }
         
-        ClienteDTO cliente = administradorClientes.obtenerCliente(new IdClienteDTO(idCliente));
+        ClienteDTONegocios cliente = administradorClientes.obtenerCliente(new IdClienteDTONegocios(idCliente));
         
         if(cliente == null){
             throw new PaqueteriasIdClienteInvalidoException("El ID de cliente es inválido.");
         }
         
-        SucursalDTO sucursalMatriz = administradorSucursales.obtenerSucursalMatriz();
+        SucursalDTONegocios sucursalMatriz = administradorSucursales.obtenerSucursalMatriz();
         
         
         Float cobroKg = paqueteria.getCobroKg();
         Float cobroHora = paqueteria.getCobroHora();
 
         // Se obtiene el peso del peso en Kg del producto de la DTO del parámetro y su tiempo de envío
-        Double pesoKgProducto = informacionEnvioProductoMatrizClienteDTO.getPesoKgTotal();
+        Double pesoKgProducto = informacionEnvioProductoMatrizClienteDTONegocios.getPesoKgTotal();
         
         // Se valida de la dirección de envío el ID del cliente
-        IdDireccionDTO idDireccionEnvioCliente = new IdDireccionDTO(cliente.getIdDireccionEnvio());
+        IdDireccionDTONegocios idDireccionEnvioCliente = new IdDireccionDTONegocios(cliente.getIdDireccionEnvio());
         
         if(!administradorDirecciones.validarDireccion(idDireccionEnvioCliente)){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de envío del cliente es inválido.");
         }
         
-        DireccionDTO direccionEnvioCliente = administradorDirecciones.obtenerDireccion(idDireccionEnvioCliente);
+        DireccionDTONegocios direccionEnvioCliente = administradorDirecciones.obtenerDireccion(idDireccionEnvioCliente);
         
         if(direccionEnvioCliente == null){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de envío del cliente es inválido.");
         }
         
         // Se valida el ID de la dirección de la Matriz
-        IdDireccionDTO idDireccionMatriz = new IdDireccionDTO(sucursalMatriz.getIdDireccion());
+        IdDireccionDTONegocios idDireccionMatriz = new IdDireccionDTONegocios(sucursalMatriz.getIdDireccion());
         
         if(!administradorDirecciones.validarDireccion(idDireccionMatriz)){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
         }
         
-        DireccionDTO direccionMatriz = administradorDirecciones.obtenerDireccion(idDireccionMatriz);
+        DireccionDTONegocios direccionMatriz = administradorDirecciones.obtenerDireccion(idDireccionMatriz);
         
         if(direccionMatriz == null){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
@@ -271,38 +276,38 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
     
     
     @Override
-    public float obtenerCostoEnvioProveedorMatriz(InformacionEnvioProductoProveedorMatrizDTO informacionEnvioProductoProveedorMatrizDTO)
+    public float obtenerCostoEnvioProveedorMatriz(InformacionEnvioProductoProveedorMatrizDTONegocios informacionEnvioProductoProveedorMatrizDTO)
             throws PaqueteriasIdPaqueteriaInvalidoException,
             PaqueteriasIdProveedorInvalidoException,
             PaqueteriasIdDireccionInvalidoException{
         
         // Se valida la paqueteria
-        IdEntidadGenerico idPaqueteria = informacionEnvioProductoProveedorMatrizDTO.getIdPaqueteria();
+        IdEntidadGenericoNegocios idPaqueteria = informacionEnvioProductoProveedorMatrizDTO.getIdPaqueteria();
 
-        if(!validarPaqueteria(new IdPaqueteriaDTO(idPaqueteria))){
+        if(!validarPaqueteria(new IdPaqueteriaDTONegocios(idPaqueteria))){
             throw new PaqueteriasIdPaqueteriaInvalidoException("El ID de paquetería es inválido.");
         }
         
-        PaqueteriaDTO paqueteria = obtenerPaqueteria(new IdPaqueteriaDTO(idPaqueteria));
+        PaqueteriaDTONegocios paqueteria = obtenerPaqueteria(new IdPaqueteriaDTONegocios(idPaqueteria));
         
         if (paqueteria == null) {
             throw new PaqueteriasIdPaqueteriaInvalidoException("El ID de paquetería es inválido.");
         }
         
         // Se valida el cliente
-        IdEntidadGenerico idProveedor = informacionEnvioProductoProveedorMatrizDTO.getIdProveedor();
+        IdEntidadGenericoNegocios idProveedor = informacionEnvioProductoProveedorMatrizDTO.getIdProveedor();
         
-        if(!administradorProveedores.validarProveedor(new IdProveedorDTO(idProveedor))){
+        if(!administradorProveedores.validarProveedor(new IdProveedorDTONegocios(idProveedor))){
             throw new PaqueteriasIdProveedorInvalidoException("El ID de proveedor es inválido.");
         }
         
-        ProveedorDTO proveedor = administradorProveedores.obtenerProveedor(new IdProveedorDTO(idProveedor));
+        ProveedorDTONegocios proveedor = administradorProveedores.obtenerProveedor(new IdProveedorDTONegocios(idProveedor));
         
         if(proveedor == null){
             throw new PaqueteriasIdProveedorInvalidoException("El ID de proveedor es inválido.");
         }
         
-        SucursalDTO sucursalMatriz = administradorSucursales.obtenerSucursalMatriz();
+        SucursalDTONegocios sucursalMatriz = administradorSucursales.obtenerSucursalMatriz();
         
         Float cobroKg = paqueteria.getCobroKg();
         Float cobroHora = paqueteria.getCobroHora();
@@ -311,39 +316,39 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         Double pesoKgProducto = informacionEnvioProductoProveedorMatrizDTO.getPesoKgTotal();
         
         // Se valida de la dirección del ID del proveedor
-        IdDireccionDTO idDireccionProveedor = new IdDireccionDTO(proveedor.getIdDireccion());
+        IdDireccionDTONegocios idDireccionProveedor = new IdDireccionDTONegocios(proveedor.getIdDireccion());
         
         if(!administradorDirecciones.validarDireccion(idDireccionProveedor)){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección del proveedor es inválido.");
         }
         
-        DireccionDTO direccionProveedor = administradorDirecciones.obtenerDireccion(idDireccionProveedor);
+        DireccionDTONegocios direccionProveedor = administradorDirecciones.obtenerDireccion(idDireccionProveedor);
         
         if(direccionProveedor == null){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección del proveedor es inválido.");
         }
         
         // Se valida el ID de la dirección de la Matriz
-        IdDireccionDTO idDireccionMatriz = new IdDireccionDTO(sucursalMatriz.getIdDireccion());
+        IdDireccionDTONegocios idDireccionMatriz = new IdDireccionDTONegocios(sucursalMatriz.getIdDireccion());
         
         if(!administradorDirecciones.validarDireccion(idDireccionMatriz)){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
         }
         
-        DireccionDTO direccionMatriz = administradorDirecciones.obtenerDireccion(idDireccionMatriz);
+        DireccionDTONegocios direccionMatriz = administradorDirecciones.obtenerDireccion(idDireccionMatriz);
         
         if(direccionMatriz == null){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
         }
         
         // Se valida el ID de la dirección de la paqueteria
-        IdDireccionDTO idDireccionPaqueteria = new IdDireccionDTO(paqueteria.getIdDireccion());
+        IdDireccionDTONegocios idDireccionPaqueteria = new IdDireccionDTONegocios(paqueteria.getIdDireccion());
         
         if(!administradorDirecciones.validarDireccion(idDireccionPaqueteria)){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de la paquetería es inválido.");
         }
         
-        DireccionDTO direccionPaqueteria = administradorDirecciones.obtenerDireccion(idDireccionPaqueteria);
+        DireccionDTONegocios direccionPaqueteria = administradorDirecciones.obtenerDireccion(idDireccionPaqueteria);
         
         if(direccionPaqueteria == null){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de la paquetería es inválido.");
@@ -407,44 +412,44 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
      * de las paqueterías registradas, null si no existen paqueterías registradas.
      */
     @Override
-    public Float obtenerTiempoEnvioMatrizEstimado(IdProveedorDTO idProveedorDTO) 
+    public Float obtenerTiempoEnvioMatrizEstimado(IdProveedorDTONegocios idProveedorDTONegocios) 
             throws PaqueteriasIdProveedorInvalidoException,
             PaqueteriasIdDireccionInvalidoException{
         
         // Se valida el ID de proveedor.
-        if(!administradorProveedores.validarProveedor(idProveedorDTO)){
+        if(!administradorProveedores.validarProveedor(idProveedorDTONegocios)){
             throw new PaqueteriasIdProveedorInvalidoException("El ID de proveedor es inválido.");
         }
         
-        ProveedorDTO proveedor = administradorProveedores.obtenerProveedor(idProveedorDTO);
+        ProveedorDTONegocios proveedor = administradorProveedores.obtenerProveedor(idProveedorDTONegocios);
         
         if(proveedor == null){
             throw new PaqueteriasIdProveedorInvalidoException("El ID de proveedor es inválido.");
         }
         
         // Se valida de la dirección del ID del proveedor
-        IdDireccionDTO idDireccionProveedor = new IdDireccionDTO(proveedor.getIdDireccion());
+        IdDireccionDTONegocios idDireccionProveedor = new IdDireccionDTONegocios(proveedor.getIdDireccion());
         
         if(!administradorDirecciones.validarDireccion(idDireccionProveedor)){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección del proveedor es inválido.");
         }
         
-        DireccionDTO direccionProveedor = administradorDirecciones.obtenerDireccion(idDireccionProveedor);
+        DireccionDTONegocios direccionProveedor = administradorDirecciones.obtenerDireccion(idDireccionProveedor);
         
         if(direccionProveedor == null){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección del proveedor es inválido.");
         }
         
-        SucursalDTO sucursalMatriz = administradorSucursales.obtenerSucursalMatriz();
+        SucursalDTONegocios sucursalMatriz = administradorSucursales.obtenerSucursalMatriz();
         
         // Se valida el ID de la dirección de la Matriz
-        IdDireccionDTO idDireccionMatriz = new IdDireccionDTO(sucursalMatriz.getIdDireccion());
+        IdDireccionDTONegocios idDireccionMatriz = new IdDireccionDTONegocios(sucursalMatriz.getIdDireccion());
         
         if(!administradorDirecciones.validarDireccion(idDireccionMatriz)){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
         }
         
-        DireccionDTO direccionMatriz = administradorDirecciones.obtenerDireccion(idDireccionMatriz);
+        DireccionDTONegocios direccionMatriz = administradorDirecciones.obtenerDireccion(idDireccionMatriz);
         
         if(direccionMatriz == null){
             throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de Matriz es inválido.");
@@ -474,7 +479,7 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
                 
         float tiempoTrasladoProveedorMatriz = administradorMapas.calcularTiempoTraslado(datosTiempoTrasladoProveedorMatriz).getTiempoTraslado();
         
-        List<PaqueteriaDTO> listaPaqueterias = Paqueteria.recuperarTodos();
+        List<PaqueteriaDTONegocios> listaPaqueterias = Paqueteria.recuperarTodos();
         
         DatosTiempoTrasladoUbicacionesDTO datosTiempoTrasladoPaqueteriaProveedor;
         
@@ -504,16 +509,16 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
             
         } else{
             
-            for(PaqueteriaDTO paqueteria: listaPaqueterias){
+            for(PaqueteriaDTONegocios paqueteria: listaPaqueterias){
             
                 // Se valida el ID de la dirección de la paqueteria
-                IdDireccionDTO idDireccionPaqueteria = new IdDireccionDTO(paqueteria.getIdDireccion());
+                IdDireccionDTONegocios idDireccionPaqueteria = new IdDireccionDTONegocios(paqueteria.getIdDireccion());
                 
                 if(!administradorDirecciones.validarDireccion(idDireccionPaqueteria)){
                     throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de la paquetería es inválido.");
                 }
 
-                DireccionDTO direccionPaqueteria = administradorDirecciones.obtenerDireccion(idDireccionPaqueteria);
+                DireccionDTONegocios direccionPaqueteria = administradorDirecciones.obtenerDireccion(idDireccionPaqueteria);
 
                 if(direccionPaqueteria == null){
                     throw new PaqueteriasIdDireccionInvalidoException("El ID de la dirección de la paquetería es inválido.");
@@ -551,10 +556,9 @@ class AdministradorPaqueterias implements IAdministradorPaqueterias {
         return tiempoTrasladoMaximoPaqueteriaProveedor + tiempoTrasladoProveedorMatriz;
         
     }
-    private static final Logger LOG = Logger.getLogger(AdministradorPaqueterias.class.getName());
     
     @Override
-    public boolean validarPaqueteria(IdPaqueteriaDTO idPaqueteriaDTO) {
+    public boolean validarPaqueteria(IdPaqueteriaDTONegocios idPaqueteriaDTO) {
         
         if(idPaqueteriaDTO == null || idPaqueteriaDTO.getIdPaqueteria() == null || !Paqueteria.existePorId(idPaqueteriaDTO)){
             return false;

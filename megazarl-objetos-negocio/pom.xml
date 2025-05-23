@@ -32,5 +32,10 @@
       <artifactId>megazarl-dto-negocios</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.mycompany</groupId>
+      <artifactId>megazarl-administrador-mongodb</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>

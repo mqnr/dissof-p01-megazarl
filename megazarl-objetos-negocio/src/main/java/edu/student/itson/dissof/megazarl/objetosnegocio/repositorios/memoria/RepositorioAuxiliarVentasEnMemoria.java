@@ -1,9 +1,9 @@
 
 package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.AuxiliarVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdAuxiliarVentasDTO;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioAuxiliarVentas;
+import edu.student.itson.dissof.megazarl.dto.negocios.AuxiliarVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdAuxiliarVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioAuxiliarVentas;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.stream.Stream;
  * ID: 00000253080
  */
 public class RepositorioAuxiliarVentasEnMemoria implements RepositorioAuxiliarVentas{
-    private final List<AuxiliarVentasDTO> listaAuxiliaresVentas;
+    private final List<AuxiliarVentasDTONegocios> listaAuxiliaresVentas;
     
     private Long ID_ACTUAL_AUXILIAR_VENTAS = 1L;
     
@@ -29,12 +29,12 @@ public class RepositorioAuxiliarVentasEnMemoria implements RepositorioAuxiliarVe
         listaAuxiliaresVentas = new ArrayList<>();
     }
     
-    public RepositorioAuxiliarVentasEnMemoria(Collection<AuxiliarVentasDTO> auxiliaresVentas) {
+    public RepositorioAuxiliarVentasEnMemoria(Collection<AuxiliarVentasDTONegocios> auxiliaresVentas) {
         listaAuxiliaresVentas = new ArrayList<>(auxiliaresVentas);
     }
     
     @Override
-    public AuxiliarVentasDTO recuperarPorId(IdAuxiliarVentasDTO idAuxiliarVentasDTO) {
+    public AuxiliarVentasDTONegocios recuperarPorId(IdAuxiliarVentasDTONegocios idAuxiliarVentasDTO) {
         return listaAuxiliaresVentas.stream()
                 .filter(auxiliarVentas -> auxiliarVentas.getId().equals(idAuxiliarVentasDTO.getIdAuxiliarVentas()))
                 .findFirst()
@@ -42,17 +42,15 @@ public class RepositorioAuxiliarVentasEnMemoria implements RepositorioAuxiliarVe
     }
 
     @Override
-    public boolean existePorId(IdAuxiliarVentasDTO idAuxiliarVentasDTO) {
-        return existe(auxiliarVentas -> auxiliarVentas.getId().equals(idAuxiliarVentasDTO.getIdAuxiliarVentas()));
+    public boolean existePorId(IdAuxiliarVentasDTONegocios idAuxiliarVentasDTO) {
+
+        return listaAuxiliaresVentas.stream().anyMatch(auxiliarVentas -> auxiliarVentas.getId().equals(idAuxiliarVentasDTO.getIdAuxiliarVentas()));
+        
     }
 
-    @Override
-    public Stream<AuxiliarVentasDTO> stream() {
-        return listaAuxiliaresVentas.stream();
-    }
 
     @Override
-    public void agregar(AuxiliarVentasDTO auxiliarVentas) {
+    public void agregar(AuxiliarVentasDTONegocios auxiliarVentas) {
         if(auxiliarVentas.getId() == null){
             auxiliarVentas.setId(ID_ACTUAL_AUXILIAR_VENTAS++);
         }
@@ -60,8 +58,8 @@ public class RepositorioAuxiliarVentasEnMemoria implements RepositorioAuxiliarVe
     }
 
     @Override
-    public void agregar(Collection<AuxiliarVentasDTO> auxiliaresVentas) {
-        for(AuxiliarVentasDTO auxiliarVentas: auxiliaresVentas){
+    public void agregar(Collection<AuxiliarVentasDTONegocios> auxiliaresVentas) {
+        for(AuxiliarVentasDTONegocios auxiliarVentas: auxiliaresVentas){
             if(auxiliarVentas.getId() == null){
                 auxiliarVentas.setId(ID_ACTUAL_AUXILIAR_VENTAS++);
             }
@@ -70,13 +68,8 @@ public class RepositorioAuxiliarVentasEnMemoria implements RepositorioAuxiliarVe
     }
 
     @Override
-    public List<AuxiliarVentasDTO> recuperarTodos() {
+    public List<AuxiliarVentasDTONegocios> recuperarTodos() {
         return new ArrayList<>(listaAuxiliaresVentas);
-    }
-
-    @Override
-    public boolean existe(Predicate<AuxiliarVentasDTO> criterio) {
-        return listaAuxiliaresVentas.stream().anyMatch(criterio);
     }
     
 }

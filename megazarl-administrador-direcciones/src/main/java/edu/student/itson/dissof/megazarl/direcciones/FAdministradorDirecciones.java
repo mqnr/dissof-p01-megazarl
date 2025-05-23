@@ -3,15 +3,15 @@ package edu.student.itson.dissof.megazarl.direcciones;
 
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
-import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTONegocios;
 
 /**
  * FAdministradorDirecciones.java
-
- Clase Fachada que representa la implementación de la interfaz {@link IAdministradorDirecciones}
+ *
+ * Clase Fachada que representa la implementación de la interfaz {@link IAdministradorDirecciones}
  * del subsistema Direcciones.
  *
  * @author Yuri Germán García López
@@ -35,39 +35,39 @@ public class FAdministradorDirecciones implements IAdministradorDirecciones{
     }
    
     @Override
-    public DireccionDTO obtenerDireccion(IdDireccionDTO idDireccionDTO) {
-        return administradorDirecciones.obtenerDireccion(idDireccionDTO);
+    public DireccionDTONegocios obtenerDireccion(IdDireccionDTONegocios idDireccionDTONegocios) {
+        return administradorDirecciones.obtenerDireccion(idDireccionDTONegocios);
     }
 
     @Override
-    public boolean validarDireccion(IdDireccionDTO idDireccionDTO) {
-        return administradorDirecciones.validarDireccion(idDireccionDTO);
+    public boolean validarDireccion(IdDireccionDTONegocios idDireccionDTONegocios) {
+        return administradorDirecciones.validarDireccion(idDireccionDTONegocios);
     }
 
     @Override
-    public DireccionDTO registrarDireccion(DireccionDTO direccionDTO) 
+    public DireccionDTONegocios registrarDireccion(DireccionDTONegocios direccionDTONegocios) 
             throws DireccionesAccesoArchivoCodigosPostalesFallidoException, 
             DireccionesArchivoCodigosPostalesVacioException {
-        return administradorDirecciones.registrarDireccion(direccionDTO);
+        return administradorDirecciones.registrarDireccion(direccionDTONegocios);
     }
     
     /**
      * Implementación del método obtenerDatosDireccionDerivados() de la interfaz {@link IAdministradorDirecciones},
      * permite obtener el Estado, Ciudad y Colonia asociados al Código Postal del parámetro.
-     * @param codigoPostalDTO Objeto CodigoPostalDTO que contiene el Código Postal a buscar.
+     * @param codigoPostalDTONegocios Objeto CodigoPostalDTONegocios que contiene el Código Postal a buscar.
      * @return Objeto InformacionDerivadaCPDireccionEnvioDTO, un DTO que contiene el Estado, Ciudad
-    y Colonia asociados al Código Postal del parámetro.
+     * y Colonia asociados al Código Postal del parámetro.
      * @throws DireccionesAccesoArchivoCodigosPostalesFallidoException Se lanza si ocurre un error
      * al acceder al archivo que contiene la información de los Códigos Postales y sus datos asociados.
      * @throws DireccionesArchivoCodigosPostalesVacioException Se lanza si el archivo que contiene
      * la información de los Códigos Postales y sus datos asociados está vacío.
      */
     @Override
-    public InformacionDerivadaCPDireccionDTO obtenerDatosDireccionDerivados(CodigoPostalDTO codigoPostalDTO)
+    public InformacionDerivadaCPDireccionDTONegocios obtenerDatosDireccionDerivados(CodigoPostalDTONegocios codigoPostalDTONegocios)
             throws DireccionesAccesoArchivoCodigosPostalesFallidoException, 
             DireccionesArchivoCodigosPostalesVacioException{
 
-        return administradorDirecciones.obtenerDatosDireccionDerivados(codigoPostalDTO);
+        return administradorDirecciones.obtenerDatosDireccionDerivados(codigoPostalDTONegocios);
     }
 
 }

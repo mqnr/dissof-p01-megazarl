@@ -1,9 +1,9 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.PaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioPaqueteria;
+import edu.student.itson.dissof.megazarl.dto.negocios.PaqueteriaDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioPaqueteria;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 public class RepositorioPaqueteriaEnMemoria implements RepositorioPaqueteria {
     
-    private final List<PaqueteriaDTO> paqueterias;
+    private final List<PaqueteriaDTONegocios> paqueterias;
     
     private static Long ID_PAQUETERIA_ACTUAL = 1L;
 
@@ -22,12 +22,12 @@ public class RepositorioPaqueteriaEnMemoria implements RepositorioPaqueteria {
         paqueterias = new ArrayList<>();
     }
 
-    public RepositorioPaqueteriaEnMemoria(Collection<PaqueteriaDTO> paqueterias) {
+    public RepositorioPaqueteriaEnMemoria(Collection<PaqueteriaDTONegocios> paqueterias) {
         this.paqueterias = new ArrayList<>(paqueterias);
     }
 
     @Override
-    public PaqueteriaDTO recuperarPorId(IdPaqueteriaDTO idPaqueteriaDTO) {
+    public PaqueteriaDTONegocios recuperarPorId(IdPaqueteriaDTONegocios idPaqueteriaDTO) {
         return paqueterias.stream()
                 .filter(paqueteria -> paqueteria.getId().getId().equals(idPaqueteriaDTO.getIdPaqueteria().getId()))
                 .findFirst()
@@ -35,37 +35,30 @@ public class RepositorioPaqueteriaEnMemoria implements RepositorioPaqueteria {
     }
 
     @Override
-    public boolean existePorId(IdPaqueteriaDTO idPaqueteriaDTO) {
-        return existe(paqueteria -> paqueteria.getId().equals(idPaqueteriaDTO.getIdPaqueteria()));
+    public boolean existePorId(IdPaqueteriaDTONegocios idPaqueteriaDTO) {
+        
+        return paqueterias.stream().anyMatch(paqueteria -> paqueteria.getId().equals(idPaqueteriaDTO.getIdPaqueteria()));
+
     }
 
     @Override
-    public Stream<PaqueteriaDTO> stream() {
-        return paqueterias.stream();
-    }
-
-    @Override
-    public void agregar(PaqueteriaDTO paqueteria) {
-        paqueteria.setId(new IdEntidadGenerico(ID_PAQUETERIA_ACTUAL++));
+    public void agregar(PaqueteriaDTONegocios paqueteria) {
+        paqueteria.setId(new IdEntidadGenericoNegocios(ID_PAQUETERIA_ACTUAL++));
         paqueterias.add(paqueteria);
     }
 
     @Override
-    public void agregar(Collection<PaqueteriaDTO> paqueterias) {
+    public void agregar(Collection<PaqueteriaDTONegocios> paqueterias) {
         
-        for(PaqueteriaDTO paqueteria: paqueterias){
-            paqueteria.setId(new IdEntidadGenerico(ID_PAQUETERIA_ACTUAL++));
+        for(PaqueteriaDTONegocios paqueteria: paqueterias){
+            paqueteria.setId(new IdEntidadGenericoNegocios(ID_PAQUETERIA_ACTUAL++));
         }
         this.paqueterias.addAll(paqueterias);
     }
 
     @Override
-    public List<PaqueteriaDTO> recuperarTodos() {
+    public List<PaqueteriaDTONegocios> recuperarTodos() {
         return new ArrayList<>(paqueterias);
     }
 
-    @Override
-    public boolean existe(Predicate<PaqueteriaDTO> criterio) {
-        return paqueterias.stream().anyMatch(criterio);
-    }
 }

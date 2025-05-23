@@ -3,10 +3,10 @@ package edu.student.itson.dissof.megazarl.direcciones;
 
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
-import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTONegocios;
 
 /**
  * IAdministradorDirecciones.java
@@ -28,17 +28,17 @@ import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDirec
  */
 public interface IAdministradorDirecciones {
     
-    public abstract DireccionDTO obtenerDireccion(IdDireccionDTO idDireccionDTO);
+    public abstract DireccionDTONegocios obtenerDireccion(IdDireccionDTONegocios idDireccionDTONegocios);
     
-    public abstract boolean validarDireccion(IdDireccionDTO idDireccionDTO);
+    public abstract boolean validarDireccion(IdDireccionDTONegocios idDireccionDTONegocios);
     
-    public abstract DireccionDTO registrarDireccion(DireccionDTO direccionDTO) 
+    public abstract DireccionDTONegocios registrarDireccion(DireccionDTONegocios direccionDTONegocios) 
             throws DireccionesAccesoArchivoCodigosPostalesFallidoException,
             DireccionesArchivoCodigosPostalesVacioException;
     
     /**
      * Método que permite obtener el Estado, Ciudad y Colonia asociados al Código Postal del parámetro.
-     * @param codigoPostalDTO Objeto String que representa el Código Postal a buscar.
+     * @param codigoPostalDTONegocios Objeto CodigoPostalDTONegocios que representa el Código Postal a buscar.
      * @return Objeto InformacionDerivadaCPDireccionEnvioDTO, un DTO que contiene el Estado, Ciudad
      *  y Colonia asociados al Código Postal del parámetro; nul si el código postal es inválido.
      * @throws DireccionesAccesoArchivoCodigosPostalesFallidoException Se lanza si ocurre un error
@@ -46,7 +46,7 @@ public interface IAdministradorDirecciones {
      * @throws DireccionesArchivoCodigosPostalesVacioException Se lanza si el archivo que contiene 
      * la información de los Códigos Postales y sus datos asociados está vacío.
      */
-    public abstract InformacionDerivadaCPDireccionDTO obtenerDatosDireccionDerivados(CodigoPostalDTO codigoPostalDTO)
+    public abstract InformacionDerivadaCPDireccionDTONegocios obtenerDatosDireccionDerivados(CodigoPostalDTONegocios codigoPostalDTONegocios)
             throws DireccionesAccesoArchivoCodigosPostalesFallidoException, 
             DireccionesArchivoCodigosPostalesVacioException;
     

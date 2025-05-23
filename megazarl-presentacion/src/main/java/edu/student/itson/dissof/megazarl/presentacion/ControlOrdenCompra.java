@@ -2,10 +2,10 @@ package edu.student.itson.dissof.megazarl.presentacion;
 
 import edu.student.itson.dissof.megazarl.administrador.gerenteventas.IAdministradorGerenteVentas;
 import edu.student.itson.dissof.megazarl.administrador.gerenteventas.excepciones.IdGerenteVentasInvalidoException;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdGerenteVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoGerenteVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
-import edu.student.itson.dissof.megazarl.negocio.FabricaSubsistemas;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdGerenteVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoGerenteVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
+import edu.student.itson.dissof.megazarl.negocios.FabricaSubsistemas;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.awt.Color;
@@ -88,10 +88,10 @@ public class ControlOrdenCompra {
      * del Cliente.
      */
     public String[] obtenerNombreApellidoGerenteVentas(Long idGerenteVentas){
-        NombresApellidoGerenteVentasDTO nombreApellidoGerenteVentasDTO;
+        NombresApellidoGerenteVentasDTONegocios nombreApellidoGerenteVentasDTO;
         try {
             IAdministradorGerenteVentas administradorGerenteVentas = FabricaSubsistemas.obtenerAdministradorGerenteVentas();
-            nombreApellidoGerenteVentasDTO = administradorGerenteVentas.obtenerNombresApellidoGerenteVentas(new IdGerenteVentasDTO(new IdEntidadGenerico(idGerenteVentas)));
+            nombreApellidoGerenteVentasDTO = administradorGerenteVentas.obtenerNombresApellidoGerenteVentas(new IdGerenteVentasDTONegocios(new IdEntidadGenericoNegocios(idGerenteVentas)));
             String[] nombreApellidoGerenteVentas = {nombreApellidoGerenteVentasDTO.getNombresGerenteVentas(), nombreApellidoGerenteVentasDTO.getApellidoPaternoGerenteVentas()};
             return nombreApellidoGerenteVentas;
             

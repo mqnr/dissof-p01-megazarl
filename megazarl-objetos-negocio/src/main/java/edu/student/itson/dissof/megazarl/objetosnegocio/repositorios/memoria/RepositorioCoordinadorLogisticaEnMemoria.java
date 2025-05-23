@@ -1,9 +1,9 @@
 
 package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.CoordinadorLogisticaDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdCoordinadorLogisticaDTO;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioCoordinadorLogistica;
+import edu.student.itson.dissof.megazarl.dto.negocios.CoordinadorLogisticaDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdCoordinadorLogisticaDTONegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioCoordinadorLogistica;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 public class RepositorioCoordinadorLogisticaEnMemoria implements RepositorioCoordinadorLogistica{
     
-    private final List<CoordinadorLogisticaDTO> listaCoordinadoresLogistica;
+    private final List<CoordinadorLogisticaDTONegocios> listaCoordinadoresLogistica;
     
     private static Long ID_COORDINADOR_LOGISTICA_ACTUAL = 1L;
     
@@ -22,12 +22,12 @@ public class RepositorioCoordinadorLogisticaEnMemoria implements RepositorioCoor
         listaCoordinadoresLogistica = new ArrayList<>();
     }
 
-    public RepositorioCoordinadorLogisticaEnMemoria(Collection<CoordinadorLogisticaDTO> clientes) {
+    public RepositorioCoordinadorLogisticaEnMemoria(Collection<CoordinadorLogisticaDTONegocios> clientes) {
         listaCoordinadoresLogistica = new ArrayList<>(clientes);
     }
 
     @Override
-    public CoordinadorLogisticaDTO recuperarPorId(IdCoordinadorLogisticaDTO idCoordinadorLogisticaDTO) {
+    public CoordinadorLogisticaDTONegocios recuperarPorId(IdCoordinadorLogisticaDTONegocios idCoordinadorLogisticaDTO) {
         return listaCoordinadoresLogistica.stream()
                 .filter(coordinadorLogistica -> coordinadorLogistica.getId().equals(idCoordinadorLogisticaDTO.getIdCoordinadorLogistica()))
                 .findFirst()
@@ -35,36 +35,26 @@ public class RepositorioCoordinadorLogisticaEnMemoria implements RepositorioCoor
     }
 
     @Override
-    public boolean existePorId(IdCoordinadorLogisticaDTO idCoordinadorLogisticaDTO) {
-        return existe(coordinadorLogistica -> coordinadorLogistica.getId().equals(idCoordinadorLogisticaDTO.getIdCoordinadorLogistica()));
+    public boolean existePorId(IdCoordinadorLogisticaDTONegocios idCoordinadorLogisticaDTO) {
+        return listaCoordinadoresLogistica.stream().anyMatch(coordinadorLogistica -> coordinadorLogistica.getId().equals(idCoordinadorLogisticaDTO.getIdCoordinadorLogistica()));
     }
 
     @Override
-    public Stream<CoordinadorLogisticaDTO> stream() {
-        return listaCoordinadoresLogistica.stream();
-    }
-
-    @Override
-    public void agregar(CoordinadorLogisticaDTO coordinadorLogistica) {
+    public void agregar(CoordinadorLogisticaDTONegocios coordinadorLogistica) {
         coordinadorLogistica.setId(ID_COORDINADOR_LOGISTICA_ACTUAL++);
         listaCoordinadoresLogistica.add(coordinadorLogistica);
     }
 
     @Override
-    public void agregar(Collection<CoordinadorLogisticaDTO> coordinadoresLogistica) {
-        for(CoordinadorLogisticaDTO coordinadorLogistica: coordinadoresLogistica){
+    public void agregar(Collection<CoordinadorLogisticaDTONegocios> coordinadoresLogistica) {
+        for(CoordinadorLogisticaDTONegocios coordinadorLogistica: coordinadoresLogistica){
             coordinadorLogistica.setId(ID_COORDINADOR_LOGISTICA_ACTUAL++);
         }
         listaCoordinadoresLogistica.addAll(coordinadoresLogistica);
     }
-    
-    @Override
-    public boolean existe(Predicate<CoordinadorLogisticaDTO> criterio) {
-        return listaCoordinadoresLogistica.stream().anyMatch(criterio);
-    }
 
     @Override
-    public List<CoordinadorLogisticaDTO> recuperarTodos() {
+    public List<CoordinadorLogisticaDTONegocios> recuperarTodos() {
         return new ArrayList<>(listaCoordinadoresLogistica);
     }
 }

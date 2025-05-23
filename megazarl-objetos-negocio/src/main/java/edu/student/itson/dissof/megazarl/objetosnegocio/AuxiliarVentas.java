@@ -2,10 +2,9 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
-import edu.student.itson.dissof.megazarl.dto.negocios.AuxiliarVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdAuxiliarVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdCarritoComprasDTO;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioAuxiliarVentas;
+import edu.student.itson.dissof.megazarl.dto.negocios.AuxiliarVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdAuxiliarVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioAuxiliarVentas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioAuxiliarVentasEnMemoria;
 import java.util.Collection;
 import java.util.List;
@@ -29,28 +28,24 @@ public class AuxiliarVentas {
         };
     }
     
-    public static AuxiliarVentasDTO recuperarPorId(IdAuxiliarVentasDTO idAuxiliarVentasDTO) {
+    public static AuxiliarVentasDTONegocios recuperarPorId(IdAuxiliarVentasDTONegocios idAuxiliarVentasDTO) {
         return repositorio.recuperarPorId(idAuxiliarVentasDTO);
     }
     
-    public static boolean existePorId(IdAuxiliarVentasDTO idAuxiliarVentasDTO) {
+    public static boolean existePorId(IdAuxiliarVentasDTONegocios idAuxiliarVentasDTO) {
         return repositorio.existePorId(idAuxiliarVentasDTO);
     }
      
-    public static void agregar(AuxiliarVentasDTO auxiliarVentas) {
+    public static void agregar(AuxiliarVentasDTONegocios auxiliarVentas) {
         repositorio.agregar(auxiliarVentas);
     }
     
-    public static void agregar(Collection<AuxiliarVentasDTO> auxiliaresVentas) {
+    public static void agregar(Collection<AuxiliarVentasDTONegocios> auxiliaresVentas) {
         repositorio.agregar(auxiliaresVentas);
     }
      
-    public static List<AuxiliarVentasDTO> recuperarTodos() {
+    public static List<AuxiliarVentasDTONegocios> recuperarTodos() {
         return repositorio.recuperarTodos();
-    }
-    
-    public static boolean existe(Predicate<AuxiliarVentasDTO> criterio) {
-        return repositorio.existe(criterio);
     }
     
 }

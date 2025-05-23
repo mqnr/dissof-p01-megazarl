@@ -2,10 +2,10 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
-import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTO;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioProductoInventario;
+import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionProductoInventarioDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoInventarioDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTONegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioProductoInventario;
 import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioProductoInventarioEnMemoria;
 import java.util.Collection;
 import java.util.List;
@@ -23,32 +23,28 @@ public class ProductoInventario {
         };
     }
     
-    public static ProductoInventarioDTO recuperarPorId(IdProductoInventarioDTO idProductoInventarioDTO) {
+    public static ProductoInventarioDTONegocios recuperarPorId(IdProductoInventarioDTONegocios idProductoInventarioDTO) {
         return repositorio.recuperarPorId(idProductoInventarioDTO);
     }
     
-     public static boolean existePorId(IdProductoInventarioDTO idProductoInventarioDTO) {
+     public static boolean existePorId(IdProductoInventarioDTONegocios idProductoInventarioDTO) {
         return repositorio.existePorId(idProductoInventarioDTO);
     }
      
-    public static void agregar(ProductoInventarioDTO productoInventario) {
+    public static void agregar(ProductoInventarioDTONegocios productoInventario) {
         repositorio.agregar(productoInventario);
     }
     
-    public static void agregar(Collection<ProductoInventarioDTO> productosInventario) {
+    public static void agregar(Collection<ProductoInventarioDTONegocios> productosInventario) {
         repositorio.agregar(productosInventario);
     }
     
-    public static ProductoInventarioDTO actualizar(ActualizacionProductoInventarioDTO actualizacionProductoInventarioDTO){
+    public static ProductoInventarioDTONegocios actualizar(ActualizacionProductoInventarioDTONegocios actualizacionProductoInventarioDTO){
         return repositorio.actualizar(actualizacionProductoInventarioDTO);
     }
      
-    public static List<ProductoInventarioDTO> recuperarTodos() {
+    public static List<ProductoInventarioDTONegocios> recuperarTodos() {
         return repositorio.recuperarTodos();
-    }
-
-    public static boolean existe(Predicate<ProductoInventarioDTO> criterio) {
-        return repositorio.existe(criterio);
     }
     
 }

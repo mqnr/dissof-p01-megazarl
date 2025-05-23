@@ -2,9 +2,9 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoPedidoDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProductoPedidoDTO;
-import edu.student.itson.dissof.megazarl.interfaces.RepositorioProductoPedido;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoPedidoDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProductoPedidoDTONegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioProductoPedido;
 import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioProductoPedidoEnMemoria;
 import java.util.Collection;
 import java.util.List;
@@ -21,28 +21,24 @@ public class ProductoPedido {
         };
     }
     
-    public static ProductoPedidoDTO recuperarPorId(IdProductoPedidoDTO idProductoPedidoDTO) {
+    public static ProductoPedidoDTONegocios recuperarPorId(IdProductoPedidoDTONegocios idProductoPedidoDTO) {
         return repositorio.recuperarPorId(idProductoPedidoDTO);
     }
     
-     public static boolean existePorId(IdProductoPedidoDTO idProductoPedidoDTO) {
+     public static boolean existePorId(IdProductoPedidoDTONegocios idProductoPedidoDTO) {
         return repositorio.existePorId(idProductoPedidoDTO);
     }
      
-    public static void agregar(ProductoPedidoDTO productoPedido) {
+    public static void agregar(ProductoPedidoDTONegocios productoPedido) {
         repositorio.agregar(productoPedido);
     }
     
-    public static void agregar(Collection<ProductoPedidoDTO> productosPedido) {
+    public static void agregar(Collection<ProductoPedidoDTONegocios> productosPedido) {
         repositorio.agregar(productosPedido);
     }
      
-    public static List<ProductoPedidoDTO> recuperarTodos() {
+    public static List<ProductoPedidoDTONegocios> recuperarTodos() {
         return repositorio.recuperarTodos();
     }
     
-    
-    public static boolean existe(Predicate<ProductoPedidoDTO> criterio) {
-        return repositorio.existe(criterio);
-    }
 }
