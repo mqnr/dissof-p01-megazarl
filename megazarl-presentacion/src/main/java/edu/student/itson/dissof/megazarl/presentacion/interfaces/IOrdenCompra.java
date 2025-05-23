@@ -19,7 +19,7 @@ public interface IOrdenCompra {
     
     public abstract void mostrarAvisoSinProveedoresDisponibles();
     
-    public abstract void mostrarAvisoSinProductosOfrecidosDisponibles(); //TODO se necesita mostra aviso en caso de que el proveedor ya no tenga dichos productos, es decir hay un límite??
+    public abstract void mostrarAvisoSinProductosOfrecidosDisponibles();
     
     public abstract void mostrarAvisoSinSucursalesDisponibles();
 }

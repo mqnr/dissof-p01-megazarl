@@ -89,7 +89,7 @@ public class ControlOrdenCompra {
             ((IOrdenCompra)ordenCompra).mostrarAvisoSinSucursalesDisponibles();
         }
         
-        // 
+        //
         ((IOrdenCompra)ordenCompra).setProductosOfrecidosBusqueda(new ArrayList<>());
         
         // Se hace visible la pantalla OrdenCompra
@@ -136,6 +136,9 @@ public class ControlOrdenCompra {
 
             // Nombre del producto
             mapaInformacionProductoInicio.put("Nombre", informacionProductoInicioDTO.getNombreProducto());
+            
+            // Variedad del producto
+            mapaInformacionProductoInicio.put("Variedad", informacionProductoInicioDTO.getVariedadProducto());
 
             // Obtener nombre del proveedor
             IdProveedorDTO idProveedorDTO = new IdProveedorDTO(informacionProductoInicioDTO.getIdProveedor());
@@ -147,11 +150,6 @@ public class ControlOrdenCompra {
 
             // Imagen del producto
             mapaInformacionProductoInicio.put("DireccionImagenProducto", informacionProductoInicioDTO.getDireccionImagenProducto());
-
-            // Imagen del proveedor
-            String direccionImagenProveedor = obtenerDireccionImagenProveedor(informacionProductoInicioDTO.getIdProveedor());
-            informacionProductoInicioDTO.setDireccionImagenProveedor(direccionImagenProveedor);
-            mapaInformacionProductoInicio.put("DireccionImagenProveedor", direccionImagenProveedor);
 
             listaInformacionProductosBusqueda.add(mapaInformacionProductoInicio);
         }

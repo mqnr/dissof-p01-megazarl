@@ -16,7 +16,6 @@ import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDatosCompletosRelacionesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDatosCompletosRelacionesDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.objetosnegocio.AuxiliarVentas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Direccion;
@@ -981,231 +980,168 @@ public class App {
                     );
                     
                     ProductoDTO producto13 = new ProductoDatosCompletosRelacionesDTO(
-                                "Sandía",
+                                "Semillas de Sandía",
                                 "Summer Breeze",
                                 """
-                                    Summer Breeze es una Sandia Triploide o sin semilla de madurez
-                                    intermedio precoz y buena capacidad y amarre de frutos de alta calidad para
-                                    el mercado de exportacion.
+                                    Summer Breeze es una Sandia Triploide o sin semilla de madurez 
+                                    intermedio precoz y buena capacidad y amarre de frutos de alta calidad 
+                                    para el mercado de exportación.
                                 """,
                                 5,
                                 9400d,
-                                1d,
-                                "/sandiaSummerBreeze.png",
+                                5d,
+                                "src/main/resources/sandiaSummerBreeze.png",
                                 proveedor6,
                                 new LinkedList<>(),
                                 new LinkedList<>(),
                                 new LinkedList<>());
 
                     ProductoDTO producto14 = new ProductoDatosCompletosRelacionesDTO(
-                                "Chile Jalapeño",
-                                "Mixteco F1",
+                                "Semillas de Sandía",
+                                "Fascination",
                                 """
-                                    Planta de porte vigoroso, potencial de rebrote que le brinda alto potencial de rendimiento.
-                                    Forma de fruto ligeramente conca de color oscuro de 4 1/2 a 5 pulgadas. Frutos de paredes gruesas 
+                                    Planta de porte vigoroso, potencial de rebrote que le brinda alto potencial de rendimiento. 
+                                    Forma de fruto ligeramente conca de color oscuro de 4 1/2 a 5 pulgada. Frutos de paredes gruesas 
                                     con buen llenado. Variedad con alto potencial de rendimiento, resistencia a BLS y planta vigorosa.
                                 """,
                                 25,
-                                24300d,
-                                0.7d,
-                                "/chileJalapenioMixtecoF1.png",
-                                proveedor6,
-                                new LinkedList<>(),
-                                new LinkedList<>(),
-                                new LinkedList<>());
-
-                    ProductoDTO producto15 = new ProductoDatosCompletosRelacionesDTO(
-                                "Melón",
-                                "Cruiser F1", 
-                                """
-                                    Semilla de melón híbrido Cruiser F1, de amplia adaptabilidad y altos rendimientos,
-                                    frutos grandes y muy uniformes, de alta calidad de empaque. Mantiene tamaños en 
-                                    bajas temperaturas. Su pulpa es firme y crujiente de excelente color. De madurez 
-                                    relativa precoz.
-                                """,        
-                                10, 
-                                7200d, 
-                                2d,
-                                "/melonCruiserF1.png",
+                                10200d,
+                                1d,
+                                "src/main/resources/sandiaFascination.png",
                                 proveedor7,
                                 new LinkedList<>(),
                                 new LinkedList<>(),
                                 new LinkedList<>());
-
-                    ProductoDTO producto16 =  new ProductoDatosCompletosRelacionesDTO(
-                                "Chile Ancho",
-                                "Commander",
-                                """
-                                    De porte alto, fuerte y vigoroso con buena cobertura foliar y excelente concentración de frutos.
-                                    Commander presenta frutos verde oscuro altamente uniformes y con predominancia de dos venas, 
-                                    con paredes gruesas que Ie aportan mayor peso especifico a cada uno de ellos, su maduración es 
-                                    a color chocolate.
-                                """,
-                                10,
-                                12000d,
-                                2.5d,
-                                "/chileAnchoCommander.png",
-                                proveedor7,
-                                new LinkedList<>(),
-                                new LinkedList<>(),
-                                new LinkedList<>());
-
-                    ProductoDTO producto17 = new ProductoDatosCompletosRelacionesDTO(
-                            "Lechuga Romana",
-                            "Plutone",
-                            """
-                                La semilla de lechuga romana Plutone está diseñada para cultivos de alta densidad, 
-                                brindando una producción eficiente y sostenible. Su resistencia a enfermedades comunes asegura 
-                                plantas robustas y lechugas con una textura crujiente y sabor excepcional.
-                            """,
-                            13,
-                            25000d,
-                            3d,
-                            "/lechugaRomanaPlutone.png",
-                            proveedor7,
-                            new LinkedList<>(),
-                            new LinkedList<>(),
-                            new LinkedList<>());
-
-                    ProductoDTO producto18 = new ProductoDatosCompletosRelacionesDTO(
-                            "Calabaza",
-                            "Rocio F1",
-                            """
-                                La Calabaza Rocío F1 es una variedad híbrida que destaca por su alta adaptabilidad y rendimiento. 
-                                Su planta mediana y abierta facilita una cosecha simple y sin cicatrices, mientras que sus frutos 
-                                cilíndricos exhiben una calidad extraordinaria.
-                            """,
-                            3,
-                            6500d,
-                            1d,
-                            "/calabazaRocioF1.png",
-                            proveedor8,
-                            new LinkedList<>(),
-                            new LinkedList<>(),
-                            new LinkedList<>());
-
-                    ProductoDTO producto19 = new ProductoDatosCompletosRelacionesDTO(
-                            "Tomate",
-                            "Succesion",
-                            """
-                                Tomate híbrido bola indeterminado. Ideal para cosecha en racimo de cinco
-                                frutos de tamaño mediano a grande muy uniforme; aún en bajas
-                                condiciones de luz, los racimos tienen una maduración uniforme.
-                                Excelente sabor con larga vida de anaquel.
-                            """,
-                            5,
-                            7000d,
-                            1d,
-                            "/tomateSuccession.png",
-                            proveedor9,
-                            new LinkedList<>(),
-                            new LinkedList<>(),
-                            new LinkedList<>());
-
-                    ProductoDTO producto20 =  new ProductoDatosCompletosRelacionesDTO(
-                            "Rábano",
-                            "Red Diamond F1",
-                            """
-                                El Rábano Red Diamond es una variedad híbrida F1 reconocida 
-                                por su intensa tonalidad roja y su textura crujiente. Gracias a su alta tasa de 
-                                germinación, garantiza uniformidad en tamaño y forma, lo que lo hace ideal para 
-                                productores profesionales y huertos familiares.
-                            """,
-                            50,
-                            1890d,
-                            0.45d,
-                            "/rabanoRedDiamondF1.png",
-                            proveedor10,
-                            new LinkedList<>(),
-                            new LinkedList<>(),
-                            new LinkedList<>());
-
-                    ProductoDTO producto21 = new ProductoDatosCompletosRelacionesDTO(
-                            "Sandía",
-                            "Warrior",
-                            """
-                                Las semillas de la variedad Warrior representan la innovación agrícola de Nunhems,
-                                diseñadas para brindar a los productores una opción de alto rendimiento y calidad
-                                superior. Destaca por su maduración temprana, lo que se traduce en una cosecha más 
-                                rápida y eficiente, ideal para mercados que demandan una respuesta ágil y de excelente calidad.
-                            """,
-                            5,
-                            9650d,
-                            5d,
-                            "/sandiaWarrior.png",
-                            proveedor10,
-                            new LinkedList<>(),
-                            new LinkedList<>(),
-                            new LinkedList<>());
-
-                    ProductoDTO producto22 = new ProductoDatosCompletosRelacionesDTO(
-                            "Sandía",
-                            "Tailgate",
-                            """
-                                Tailgate es una sandia triploide o sin semilla de cascara lisa con bandas verde 
-                                medio y bandas verde oscuro. Es una madurez intermedio precoz con buena capacidad 
-                                de amarre de frutos grandes muy uniformes y potencial de producir rendimiento alto.
-                            """,
-                            7,
-                            9000d,
-                            7d,
-                            "/sandiaTailgate.png",
-                            proveedor8,
-                            new LinkedList<>(),
-                            new LinkedList<>(),
-                            new LinkedList<>());
-
-                    ProductoDTO producto23 = new ProductoDatosCompletosRelacionesDTO(
-                            "Brócoli",
-                            "Kepler F1",
-                            """
-                                El Brócoli Kepler F1 es un híbrido de alta calidad, diseñado para el mercado fresco 
-                                y de procesamiento. Destaca por sus cabezas uniformes de vívido color verde, excelente 
-                                sabor y resistencia a enfermedades, ofreciendo un rendimiento constante y óptimo para 
-                                el cultivo.
-                            """,
-                            25,
-                            3640d,
-                            5d,
-                            "/brocoliKeplerF1.png",
-                            proveedor9,
-                            new LinkedList<>(),
-                            new LinkedList<>(),
-                            new LinkedList<>());
-
-                    ProductoDTO producto24 = new ProductoDatosCompletosRelacionesDTO(
-                            "Melón",
-                            "Saturno",
-                            """
-                                Melón tipo Honeydew suave y diseñado para principios de temporada. Presenta frutos 
-                                de forma redonda a ovalada con cavidad pequeña. Los productores de Saturno pueden 
-                                esperar buen sabor y alto nivel de azúcar con una piel fina y alto potencial de rendimiento.
-                            """,
-                            15,
-                            10000d,
-                            3d,
-                            "/melonSaturno.png",
-                            proveedor8,
-                            new LinkedList<>(),
-                            new LinkedList<>(),
-                            new LinkedList<>());
 
                     List<ProductoDTO> listaProductos2 = Arrays.asList(
                             producto13,
-                            producto14,
-                            producto15,
-                            producto16,
-                            producto17,
-                            producto18,
-                            producto19,
-                            producto20,
-                            producto21,
-                            producto22,
-                            producto23,
-                            producto24
+                            producto14
                     );
                     Producto.agregar(listaProductos2);
                     
+                    // Se crean e insertan los DTOs de productos en inventario disponibles,
+                    // se registran utilizando la clase envolvente ProductoInventario
+
+                    ProductoInventarioDTO productoInventario51 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto13, sucursal5);
+                    ProductoInventarioDTO productoInventario52 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto13, sucursal5);
+
+                    ProductoInventarioDTO productoInventario53 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto14, sucursal5);
+                    ProductoInventarioDTO productoInventario54 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto14, sucursal6);
+                    ProductoInventarioDTO productoInventario55 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto14, sucursal7);
+                    ProductoInventarioDTO productoInventario56 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto14, sucursal7);
+
+                    List<ProductoInventarioDTO> listaProductosInventario2 = Arrays.asList(
+                            productoInventario51,
+                            productoInventario52,
+
+                            productoInventario53,
+                            productoInventario54,
+                            productoInventario55,
+                            productoInventario56
+                    );
+
+
+                    ProductoInventario.agregar(listaProductosInventario2);
+
+
+                    DireccionDTO direccionPaqueteria6 = new DireccionDTO(
+                                "83240",
+                                "Fuentes del Mezquital", 
+                                "Las Ceibas", 
+                                "1247"
+                    );
+                    
+                    // Se crean los DTO de las paqueterías asociadas con la empresa y son almacenadas
+                    // utilizando la clase envolvente Paqueteria.
+                    PaqueteriaDTO paqueteria6 = new PaqueteriaDatosCompletosRelacionesDTO(
+                            "DHL", 
+                            100F, 
+                            150F, 
+                            "/dhl.png",
+                            direccionPaqueteria6
+                    );
+
+                    
+                    DireccionDTO direccionPaqueteria7 = new DireccionDTO(
+                                "83120",
+                                "Los Viñedos",
+                                "Cristobal Colón",
+                                "257"
+                    );
+                    
+                    PaqueteriaDTO paqueteria7 = new PaqueteriaDatosCompletosRelacionesDTO( 
+                            "Fedex", 
+                            120F, 
+                            125F,
+                            "/fedex.png",
+                            direccionPaqueteria7     
+                    );
+
+                    DireccionDTO direccionPaqueteria8 = new DireccionDTO(
+                                    "83200", 
+                                    "Villa Satélite", 
+                                    "Parroquia", 
+                                    "659");
+                    
+                    PaqueteriaDTO paqueteria8 = new PaqueteriaDatosCompletosRelacionesDTO(
+                            "PCP",
+                            90F, 
+                            100F,
+                            "/pcp.png",
+                            direccionPaqueteria8
+                    );
+
+                    
+                    DireccionDTO direccionPaqueteria9 = new DireccionDTO(
+                                "83288", 
+                                "La Verbena",
+                                "De los Panaderos",
+                                "708"
+                    );
+                    
+                    PaqueteriaDTO paqueteria9  = new PaqueteriaDatosCompletosRelacionesDTO( 
+                            "UPS", 
+                            106F,
+                            110F,
+                            "/ups.png",
+                            direccionPaqueteria9
+
+                    );
+                    
+                    DireccionDTO dieccionPaqueteria10 = new DireccionDTO(
+                                "83280",
+                                "La Candelaria",
+                                "Real de San Pablo",
+                                "1646"
+                    );
+
+                    PaqueteriaDTO paqueteria10 =  new PaqueteriaDatosCompletosRelacionesDTO(
+                            "Estafeta", 
+                            110F, 
+                            105F,
+                            "/estafeta.png",
+                            dieccionPaqueteria10
+
+                    );
+
+                    List<PaqueteriaDTO> listaPaqueterias2 = Arrays.asList(
+                            paqueteria6,
+                            paqueteria7,
+                            paqueteria8,
+                            paqueteria9,
+                            paqueteria10);
+                    
+                    List<DireccionDTO> listaDireccionesPaqueterias2 = Arrays.asList(
+                            direccionPaqueteria6, 
+                            direccionPaqueteria7, 
+                            direccionPaqueteria8,
+                            direccionPaqueteria9,
+                            dieccionPaqueteria10);
+
+                    Paqueteria.agregar(listaPaqueterias2);
+                    
+                    Direccion.agregar(listaDireccionesPaqueterias2);
+
                     List<SucursalDTO> listaSucursales2 = Arrays.asList(sucursal5, sucursal6, sucursal7);
                     Sucursal.agregar(listaSucursales2);
 

@@ -39,7 +39,7 @@ import javax.swing.SwingConstants;
  * ID: 00000252583
  * 
  */
-public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO implements IVista
+public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{
     
     private final ControlOrdenCompra control;
     private IdEntidadGenerico idGerenteVentas;
@@ -56,6 +56,11 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
     private final Font FUENTE_AVISO_SIN_PRODUCTOS_OFRECIDOS = new Font("Segoe UI", Font.BOLD, 24);
     private final Font FUENTE_AVISO_SIN_PROVEEDORES_DISPONIBLES = new Font("Segoe UI", Font.BOLD, 24);
     private final Font FUENTE_AVISO_SIN_SUCURSALES_DISPONIBLES = new Font("Segoe UI", Font.BOLD, 24);
+    private final Font FUENTE_PANEL_INFORMACION_PRODUCTOS_NOMBRE = new Font("Segoe UI", Font.BOLD, 14);
+    private final Font FUENTE_PANEL_INFORMACION_PRODUCTOS_PROVEEDOR = new Font("Segoe UI", Font.PLAIN, 14);
+    private final Font FUENTE_PANEL_INFORMACION_PRODUCTOS_VARIEDAD = new Font("Segoe UI", Font.BOLD, 14);
+    private final Font FUENTE_PANEL_INFORMACION_PRODUCTOS_SELECCIONAR = new Font("Segoe UI", Font.BOLD, 14);
+    private final Font FUENTE_PANEL_INFORMACION_PRODUCTOS_CANTIDAD= new Font("Segoe UI", Font.BOLD, 14);
     
     private final int MARGEN_REDONDEO_PANEL = 10;
     
@@ -77,6 +82,11 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
     private final Color COLOR_FONDO_PANEL_SIN_SUCURSALES_DISPONIBLES = new Color(250, 255, 230);
     private final Color COLOR_FONDO_PANEL_SIN_PROVEEDORES_DISPONIBLES = new Color(250, 255, 230);
     
+    /**
+     * 
+     * @param control
+     * @param idGerenteVentas 
+     */
     public OrdenCompra(ControlOrdenCompra control, IdEntidadGenerico idGerenteVentas){
         this.setTitle("Semillas MEGAZARL - Realizar Orden de Compra");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,6 +100,9 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
         this.initComponents();
     }
     
+    /**
+     * 
+     */
     private void initComponents() {
         
         this.setLayout(new BorderLayout());
@@ -106,7 +119,7 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
         JPanel filaSuperior = new JPanel();
         filaSuperior.setLayout(new BoxLayout(filaSuperior, BoxLayout.X_AXIS));
         filaSuperior.setOpaque(false);
-        filaSuperior.setMaximumSize(new Dimension(MARGEN_HORIZONTAL_FILA_SUPERIOR, MARGEN_VERTICAL_FILA_SUPERIOR)); // Tamaño total que tendrá la fila superior
+        filaSuperior.setMaximumSize(new Dimension(MARGEN_HORIZONTAL_FILA_SUPERIOR, MARGEN_VERTICAL_FILA_SUPERIOR));
         filaSuperior.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         // Panel izquierdo: Proveedores
@@ -126,7 +139,7 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
         panelProductosOfrecidos.setMinimumSize(new Dimension(MARGEN_HORIZONTAL_PANEL_PRODUCTOS_OFRECIDOS, MARGEN_VERTICAL_PANEL_PRODUCTOS_OFRECIDOS));
 
         filaSuperior.add(panelProveedores);
-        filaSuperior.add(Box.createHorizontalStrut(20)); // Espacio asignado entre las columnas
+        filaSuperior.add(Box.createHorizontalStrut(20));
         filaSuperior.add(panelProductosOfrecidos);
 
         // Panel inferior: Incluye las sucursales de envío registradas
@@ -144,19 +157,29 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
         panelGeneral.add(panelSucursales);
         
         this.add(panelGeneral, BorderLayout.CENTER);
-        
     }
     
+    /**
+     * 
+     * @param visible 
+     */
     @Override
     public void hacerVisible(boolean visible) {
         setVisible(visible);
     }
 
+    /**
+     * 
+     */
     @Override
     public void cerrar() {
         dispose();
     }
     
+    /**
+     * 
+     * @param listaInformacionProveedores 
+     */
     @Override
     public void setProveedoresTodos(List<Map<String, Object>> listaInformacionProveedores) {
         panelProveedores.removeAll();
@@ -164,25 +187,25 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
         JPanel contenedorEncabezado = new JPanel();
         contenedorEncabezado.setLayout(new BorderLayout());
         contenedorEncabezado.setOpaque(false);
-        contenedorEncabezado.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0)); // separación inferior
+        contenedorEncabezado.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
         JPanel encabezadoProveedores = crearEncabezadoSeccion(
             "Proveedores disponibles", 
             COLOR_FONDO, 
             panelProveedores.getPreferredSize().width
         );
-        encabezadoProveedores.setAlignmentX(Component.LEFT_ALIGNMENT); // Alineación izquierda como en el original
+        encabezadoProveedores.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         contenedorEncabezado.add(encabezadoProveedores, BorderLayout.CENTER);
 
         // Agregar encabezado antes del scroll
-        panelProveedores.removeAll(); // por si lo estás reconstruyendo
+        panelProveedores.removeAll(); 
         panelProveedores.add(contenedorEncabezado);
 
         // Panel que contendrá todos los proveedores
         JPanel panelListaProveedores = new JPanel();
         panelListaProveedores.setLayout(new BoxLayout(panelListaProveedores, BoxLayout.Y_AXIS));
-        panelListaProveedores.setOpaque(false); // Fondo transparente
+        panelListaProveedores.setOpaque(false); 
         ButtonGroup grupoProveedores = new ButtonGroup();
 
         for (Map<String, Object> informacionProveedor : listaInformacionProveedores) {
@@ -202,7 +225,7 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
             // Imagen de cada proveedor
             String rutaImagen = (String) informacionProveedor.get("DireccionImagenProveedor");
             JLabel labelImagen = new JLabel();
-            labelImagen.setPreferredSize(new Dimension(50, 50)); // Asegura el espacio para mostrar
+            labelImagen.setPreferredSize(new Dimension(50, 50)); 
 
             try {
                 File archivo = new File(rutaImagen);
@@ -243,20 +266,24 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
             panelProveedor.add(panelDatos);
 
             panelListaProveedores.add(panelProveedor);
-            panelListaProveedores.add(Box.createVerticalStrut(10)); // Sirve para crear una separación entre proveedores
+            panelListaProveedores.add(Box.createVerticalStrut(10));
         }
 
         // ScrollPane que contiene la lista de proveedores
         JScrollPane scroll = new JScrollPane(panelListaProveedores, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.setPreferredSize(panelProveedores.getPreferredSize());
         scroll.setBorder(BorderFactory.createEmptyBorder());
-        scroll.getVerticalScrollBar().setUnitIncrement(16); // Sirve para que el scroll sea más suave
+        scroll.getVerticalScrollBar().setUnitIncrement(16);
 
         panelProveedores.add(scroll);
         panelProveedores.revalidate();
         panelProveedores.repaint();
     }
 
+    /**
+     * 
+     * @param listaInformacionSucursales 
+     */
     @Override
     public void setSucursalesEnvio(List<Map<String, Object>> listaInformacionSucursales) {
         panelSucursales.removeAll();
@@ -344,6 +371,10 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
         panelSucursales.repaint();
     }
 
+    /**
+     * 
+     * @param listaInformacionProductosOfrecidos 
+     */
     @Override
     public void setProductosOfrecidosBusqueda(List<Map<String, Object>> listaInformacionProductosOfrecidos) {
         panelProductosOfrecidos.removeAll();
@@ -402,17 +433,20 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
             panelCentro.setOpaque(false);
             panelCentro.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
 
-            JLabel lblNombre = new JLabel("Producto: " + producto.get("Nombre"));
-            JLabel lblProveedor = new JLabel("Proveedor: " + producto.get("Proveedor"));
-            lblNombre.setFont(FUENTE_PANEL_INFORMACION_PROVEEDORES);
-            lblProveedor.setFont(FUENTE_PANEL_INFORMACION_PROVEEDORES);
+            JLabel lblNombre = new JLabel("" + producto.get("Nombre"));
+            JLabel lblVariedad = new JLabel("" + producto.get("Variedad"));
+            JLabel lblProveedor = new JLabel("proveedor: " + producto.get("Proveedor"));
+            lblNombre.setFont(FUENTE_PANEL_INFORMACION_PRODUCTOS_NOMBRE);
+            lblVariedad.setFont(FUENTE_PANEL_INFORMACION_PRODUCTOS_VARIEDAD);
+            lblProveedor.setFont(FUENTE_PANEL_INFORMACION_PRODUCTOS_PROVEEDOR);
 
             // Checkbox
             JCheckBox checkSeleccion = new JCheckBox("Seleccionar");
             checkSeleccion.setOpaque(false);
-            checkSeleccion.setFont(FUENTE_PANEL_INFORMACION_PROVEEDORES);
+            checkSeleccion.setFont(FUENTE_PANEL_INFORMACION_PRODUCTOS_SELECCIONAR);
 
             panelCentro.add(lblNombre);
+            panelCentro.add(lblVariedad);
             panelCentro.add(lblProveedor);
             panelCentro.add(Box.createVerticalStrut(5));
             panelCentro.add(checkSeleccion);
@@ -427,7 +461,7 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
             JTextField txtCantidad = new JTextField("0", 3);
             txtCantidad.setHorizontalAlignment(JTextField.CENTER);
             txtCantidad.setMaximumSize(new Dimension(40, 25));
-            txtCantidad.setFont(FUENTE_PANEL_INFORMACION_PROVEEDORES);
+            txtCantidad.setFont(FUENTE_PANEL_INFORMACION_PRODUCTOS_CANTIDAD);
 
             btnMenos.addActionListener(e -> {
                 try {
@@ -468,13 +502,16 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
         JScrollPane scroll = new JScrollPane(panelListaProductos, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.setPreferredSize(panelProductosOfrecidos.getPreferredSize());
         scroll.setBorder(BorderFactory.createEmptyBorder());
-        scroll.getVerticalScrollBar().setUnitIncrement(16); // Scroll suave
+        scroll.getVerticalScrollBar().setUnitIncrement(16);
 
         panelProductosOfrecidos.add(scroll);
         panelProductosOfrecidos.revalidate();
         panelProductosOfrecidos.repaint();
     }
 
+    /**
+     * 
+     */
     @Override
     public void mostrarAvisoSinProductosOfrecidosDisponibles() {
         panelGeneral.removeAll();
@@ -491,6 +528,9 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
         panelGeneral.add(panelSinProductosOfrecidosDisponibles, BorderLayout.CENTER);
     }
     
+    /**
+     * 
+     */
     @Override
     public void mostrarAvisoSinProveedoresDisponibles(){
         panelGeneral.removeAll();
@@ -507,6 +547,9 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
         panelGeneral.add(panelSinProveedoresDisponibles, BorderLayout.CENTER);
     }
     
+    /**
+     * 
+     */
     @Override
     public void mostrarAvisoSinSucursalesDisponibles() {
         panelGeneral.removeAll();
@@ -523,12 +566,22 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
         panelGeneral.add(panelSinSucursalesDisponibles, BorderLayout.CENTER);
     }
 
+    /**
+     * 
+     */
     @Override
     public void actualizarDatosEncabezado() {
         encabezado.mostrarNombreApellidoGerenteVentas();
         encabezado.mostrarBarraBusqueda();
     }
     
+    /**
+     * 
+     * @param titulo
+     * @param colorLinea
+     * @param width
+     * @return 
+     */
     private JPanel crearEncabezadoSeccion(String titulo, Color colorLinea, int width) {
         JPanel panelEncabezado = new JPanel();
         panelEncabezado.setLayout(new BoxLayout(panelEncabezado, BoxLayout.Y_AXIS));
@@ -551,6 +604,9 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
         return panelEncabezado;
     }
 
+    /**
+     * 
+     */
     class PanelRedondeado extends JPanel {
         private int radioEsquinas;
         private Color colorFondo;
