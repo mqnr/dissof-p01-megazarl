@@ -22,12 +22,15 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 /**
  * OrdenCompra.java
@@ -139,10 +142,6 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
         panelGeneral.add(filaSuperior);
         panelGeneral.add(Box.createVerticalStrut(20));
         panelGeneral.add(panelSucursales);
-
-        panelProductosOfrecidos.add(
-            crearEncabezadoSeccion("Productos ofrecidos", COLOR_FONDO, panelProductosOfrecidos.getPreferredSize().width)
-        );
         
         this.add(panelGeneral, BorderLayout.CENTER);
         
@@ -347,7 +346,133 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
 
     @Override
     public void setProductosOfrecidosBusqueda(List<Map<String, Object>> listaInformacionProductosOfrecidos) {
-        
+        panelProductosOfrecidos.removeAll();
+
+        JPanel contenedorEncabezado = new JPanel(new BorderLayout());
+        contenedorEncabezado.setOpaque(false);
+        contenedorEncabezado.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+
+        JPanel encabezadoProductos = crearEncabezadoSeccion(
+            "Productos ofrecidos por proveedores",
+            COLOR_FONDO,
+            panelProductosOfrecidos.getPreferredSize().width
+        );
+        encabezadoProductos.setAlignmentX(Component.LEFT_ALIGNMENT);
+        contenedorEncabezado.add(encabezadoProductos, BorderLayout.CENTER);
+
+        panelProductosOfrecidos.add(contenedorEncabezado);
+
+        // Panel contenedor de todos los productos
+        JPanel panelListaProductos = new JPanel();
+        panelListaProductos.setLayout(new BoxLayout(panelListaProductos, BoxLayout.Y_AXIS));
+        panelListaProductos.setOpaque(false);
+
+        for (Map<String, Object> producto : listaInformacionProductosOfrecidos) {
+            JPanel panelProducto = new JPanel();
+            panelProducto.setLayout(new BoxLayout(panelProducto, BoxLayout.X_AXIS));
+            panelProducto.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            panelProducto.setBackground(COLOR_FONDO_PANEL_INFORMACION_PROVEEDOR);
+            panelProducto.setMaximumSize(new Dimension(panelProductosOfrecidos.getPreferredSize().width - 40, 140));
+            panelProducto.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+            // Botón con imagen del producto (para ver detalles más adelante)
+            String rutaImagenProducto = (String) producto.get("DireccionImagenProducto");
+            JButton btnImagen = new JButton();
+            btnImagen.setPreferredSize(new Dimension(100, 100));
+            btnImagen.setFocusPainted(false);
+            btnImagen.setContentAreaFilled(false);
+            btnImagen.setBorderPainted(false);
+
+            try {
+                File archivo = new File(rutaImagenProducto);
+                if (archivo.exists()) {
+                    ImageIcon iconoOriginal = new ImageIcon(rutaImagenProducto);
+                    Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                    btnImagen.setIcon(new ImageIcon(imagenEscalada));
+                } else {
+                    btnImagen.setText("Sin imagen");
+                }
+            } catch (Exception ex) {
+                btnImagen.setText("Error imagen");
+            }
+
+            // Panel con nombre y proveedor
+            JPanel panelCentro = new JPanel();
+            panelCentro.setLayout(new BoxLayout(panelCentro, BoxLayout.Y_AXIS));
+            panelCentro.setOpaque(false);
+            panelCentro.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+
+            JLabel lblNombre = new JLabel("Producto: " + producto.get("Nombre"));
+            JLabel lblProveedor = new JLabel("Proveedor: " + producto.get("Proveedor"));
+            lblNombre.setFont(FUENTE_PANEL_INFORMACION_PROVEEDORES);
+            lblProveedor.setFont(FUENTE_PANEL_INFORMACION_PROVEEDORES);
+
+            // Checkbox
+            JCheckBox checkSeleccion = new JCheckBox("Seleccionar");
+            checkSeleccion.setOpaque(false);
+            checkSeleccion.setFont(FUENTE_PANEL_INFORMACION_PROVEEDORES);
+
+            panelCentro.add(lblNombre);
+            panelCentro.add(lblProveedor);
+            panelCentro.add(Box.createVerticalStrut(5));
+            panelCentro.add(checkSeleccion);
+
+            // Panel de cantidad con botones + y -
+            JPanel panelCantidad = new JPanel();
+            panelCantidad.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+            panelCantidad.setOpaque(false);
+
+            JButton btnMenos = new JButton("-");
+            JButton btnMas = new JButton("+");
+            JTextField txtCantidad = new JTextField("0", 3);
+            txtCantidad.setHorizontalAlignment(JTextField.CENTER);
+            txtCantidad.setMaximumSize(new Dimension(40, 25));
+            txtCantidad.setFont(FUENTE_PANEL_INFORMACION_PROVEEDORES);
+
+            btnMenos.addActionListener(e -> {
+                try {
+                    int cantidad = Integer.parseInt(txtCantidad.getText());
+                    if (cantidad > 0) {
+                        txtCantidad.setText(String.valueOf(cantidad - 1));
+                    }
+                } catch (NumberFormatException ex) {
+                    txtCantidad.setText("0");
+                }
+            });
+
+            btnMas.addActionListener(e -> {
+                try {
+                    int cantidad = Integer.parseInt(txtCantidad.getText());
+                    txtCantidad.setText(String.valueOf(cantidad + 1));
+                } catch (NumberFormatException ex) {
+                    txtCantidad.setText("1");
+                }
+            });
+
+            panelCantidad.add(btnMenos);
+            panelCantidad.add(txtCantidad);
+            panelCantidad.add(btnMas);
+
+            // Agregar todos los componentes al panel de producto
+            panelProducto.add(btnImagen);
+            panelProducto.add(panelCentro);
+            panelProducto.add(Box.createHorizontalGlue());
+            panelProducto.add(panelCantidad);
+
+            // Separador entre productos
+            panelListaProductos.add(panelProducto);
+            panelListaProductos.add(Box.createVerticalStrut(10));
+        }
+
+        // Scroll que contiene la lista de productos ofrecidos
+        JScrollPane scroll = new JScrollPane(panelListaProductos, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll.setPreferredSize(panelProductosOfrecidos.getPreferredSize());
+        scroll.setBorder(BorderFactory.createEmptyBorder());
+        scroll.getVerticalScrollBar().setUnitIncrement(16); // Scroll suave
+
+        panelProductosOfrecidos.add(scroll);
+        panelProductosOfrecidos.revalidate();
+        panelProductosOfrecidos.repaint();
     }
 
     @Override
@@ -356,7 +481,7 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
         JLabel etqSinProductosOfrecidosDisponibles = new JLabel("No hay existencias de productos ofrecidos en este momento");
         etqSinProductosOfrecidosDisponibles.setFont(FUENTE_AVISO_SIN_PRODUCTOS_OFRECIDOS);
         
-        JPanel panelSinProductosOfrecidosDisponibles = new JPanel();
+        JPanel panelSinProductosOfrecidosDisponibles = new PanelRedondeado(10, COLOR_FONDO_PANEL_SIN_PRODUCTOS_OFRECIDOS);
         panelSinProductosOfrecidosDisponibles.setBackground(COLOR_FONDO_PANEL_SIN_PRODUCTOS_OFRECIDOS);
         panelSinProductosOfrecidosDisponibles.setLayout(new FlowLayout(FlowLayout.CENTER));
         
@@ -372,7 +497,7 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
         JLabel etqSinProveedoresDisponibles = new JLabel("No hay proveedores registrados en este momento");
         etqSinProveedoresDisponibles.setFont(FUENTE_AVISO_SIN_PROVEEDORES_DISPONIBLES);
         
-        JPanel panelSinProveedoresDisponibles = new JPanel();
+        JPanel panelSinProveedoresDisponibles = new PanelRedondeado(10, COLOR_FONDO_PANEL_SIN_PROVEEDORES_DISPONIBLES);
         panelSinProveedoresDisponibles.setBackground(COLOR_FONDO_PANEL_SIN_PROVEEDORES_DISPONIBLES);
         panelSinProveedoresDisponibles.setLayout(new FlowLayout(FlowLayout.CENTER));
         
@@ -388,7 +513,7 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{ //TODO 
         JLabel etqSinSucursalesDisponibles = new JLabel("No hay sucursales registradas en este momento");
         etqSinSucursalesDisponibles.setFont(FUENTE_AVISO_SIN_SUCURSALES_DISPONIBLES);
         
-        JPanel panelSinSucursalesDisponibles = new JPanel();
+        JPanel panelSinSucursalesDisponibles = new PanelRedondeado(10, COLOR_FONDO_PANEL_SIN_SUCURSALES_DISPONIBLES);
         panelSinSucursalesDisponibles.setBackground(COLOR_FONDO_PANEL_SIN_SUCURSALES_DISPONIBLES);
         panelSinSucursalesDisponibles.setLayout(new FlowLayout(FlowLayout.CENTER));
         

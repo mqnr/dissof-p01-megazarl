@@ -23,6 +23,7 @@ import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IOrdenCompra;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,7 +33,7 @@ import java.util.logging.Logger;
 /**
  * ControlOrdenCompra.java
  * 
- * Clase de control de presentación del caso de uso realizar orden de compra
+ * Clase de control de presentación del caso de uso realizar orden de compra.
  * 
  * @author Yuri Germán García López
  * ID: 00000252583
@@ -48,11 +49,19 @@ public class ControlOrdenCompra {
     private Color COLOR_MENSAJE_ERROR = new Color(255, 195, 195);
     private Color COLOR_MENSAJE_ADVERTENCIA = new Color(255, 253, 222);
 
+    /**
+     * 
+     * @param mensaje
+     * @param ordenCompra 
+     */
     public void setVistas(IMensaje mensaje, IVista ordenCompra) {
         this.mensaje = mensaje;
         this.ordenCompra = ordenCompra;
     }
 
+    /**
+     * 
+     */
     public void iniciarOrdenCompra(){
         // Se obtiene la lista de mapas que contienen la información de cada proveedor a mostrar.
         List<Map<String, Object>> listaInformacionProveedores = obtenerProveedores();
@@ -72,14 +81,25 @@ public class ControlOrdenCompra {
         List<Map<String, Object>> listaInformacionSucursales = obtenerSucursales();
 
         if(!listaInformacionSucursales.isEmpty()){
+            // Se establecen las sucursales obtenidas a la ventana para que las muestre, si las hay.
             ((IOrdenCompra)ordenCompra).setSucursalesEnvio(listaInformacionSucursales);
         } else{
+            // Si no hay sucursales registradas, se ejecuta el método de la ventana de sucursales
+            // que muestra un mensaje indicándolo.
             ((IOrdenCompra)ordenCompra).mostrarAvisoSinSucursalesDisponibles();
         }
         
+        // 
+        ((IOrdenCompra)ordenCompra).setProductosOfrecidosBusqueda(new ArrayList<>());
+        
+        // Se hace visible la pantalla OrdenCompra
         ordenCompra.hacerVisible(true);
     }
     
+    /**
+     * 
+     * @param nombreProductoOfrecido 
+     */
     public void mostrarProductosOfrecidosBusquedaNombre(String nombreProductoOfrecido) {
         if(nombreProductoOfrecido.isBlank()){
             iniciarOrdenCompra();
@@ -97,7 +117,9 @@ public class ControlOrdenCompra {
     
     /**
      * Método que permite obtener la información de productos ofrecidos por proveedores a partir de su nombre.
+     * 
      * @param nombreProductoBuscado Objeto String que representa el nombre de producto a buscar.
+     * 
      * @return {@literal List<Map<String, Object>>} Lista con los valores de los atributos
      * de los productos buscados.
      */
@@ -143,11 +165,13 @@ public class ControlOrdenCompra {
     
     /**
      * Método que permite obtener el nombre o nombres y el apellido paterno del
-     * Cliente con el ID del parámetro.
-     * @param idGerenteVentas Objeto Integer que representa el ID del Gerente de Ventas del que 
+     * Gerente de Ventas con el ID del parámetro.
+     * 
+     * @param idGerenteVentas Objeto IdEntidadGenerico que representa el ID del Gerente de Ventas del que 
      * se obtendrá su nombre o nombres y apellido paterno.
-     * @return Objeto String[] que contiene el nombre o nombres y el apellido paterno
-     * del Cliente.
+     * 
+     * @return Arreglo String[] que contiene el nombre o nombres y el apellido paterno
+     * del Gerente de ventas.
      */
     public String[] obtenerNombreApellidoGerenteVentas(IdEntidadGenerico idGerenteVentas){
         NombresApellidoGerenteVentasDTO nombreApellidoGerenteVentasDTO;
@@ -165,6 +189,10 @@ public class ControlOrdenCompra {
         return null;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public List<Map<String, Object>> obtenerProveedores() { 
         IAdministradorProveedores administradorProveedores = FabricaSubsistemas.obtenerAdministradorProveedores();
         
@@ -190,6 +218,10 @@ public class ControlOrdenCompra {
         return listaInformacionProveedoresInicio;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public List<Map<String, Object>> obtenerSucursales(){
         IAdministradorSucursales administradorSucursales = FabricaSubsistemas.obtenerAdministradorSucursales();
         List<InformacionSucursalInicioDTO> listaSucursalDTO = administradorSucursales.obtenerSucursales();
@@ -219,6 +251,11 @@ public class ControlOrdenCompra {
         return listaInformacionSucursalInicio;
     }
     
+    /**
+     * 
+     * @param idProveedor
+     * @return 
+     */
     public String obtenerDireccionImagenProveedor(IdEntidadGenerico idProveedor){
         String direccionImagenProveedor = null;
         try {
@@ -243,6 +280,7 @@ public class ControlOrdenCompra {
     
     /**
      * Método que permite finalizar este Caso de Uso.
+     * 
      * @param vistaActual Objeto Interface que representa el formulario actual
      * realizará la orden de compra al proveedor elegido con los productos seleccionados y sucursal de envío.
      */
