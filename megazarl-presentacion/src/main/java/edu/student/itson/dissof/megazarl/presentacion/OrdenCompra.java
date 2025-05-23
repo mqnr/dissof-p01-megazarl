@@ -46,6 +46,8 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{
     
     private EncabezadoOrdenCompra encabezado;
     
+    private List<Map<String, Object>> productosOfrecidosOriginal;
+    
     private JPanel panelGeneral;
     private JPanel panelProveedores;
     private JPanel panelProductosOfrecidos;
@@ -221,7 +223,7 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{
             radioButton.setAlignmentY(Component.TOP_ALIGNMENT);
             radioButton.setOpaque(false);
             grupoProveedores.add(radioButton);
-
+           
             // Imagen de cada proveedor
             String rutaImagen = (String) informacionProveedor.get("DireccionImagenProveedor");
             JLabel labelImagen = new JLabel();
