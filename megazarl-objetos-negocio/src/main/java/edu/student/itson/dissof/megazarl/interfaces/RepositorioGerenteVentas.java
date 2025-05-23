@@ -1,8 +1,8 @@
 package edu.student.itson.dissof.megazarl.interfaces;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.GerenteVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdGerenteVentasDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+import edu.student.itson.dissof.megazarl.dto.negocios.GerenteVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdGerenteVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 /**
  * RepositorioGerenteVentas.java
  * 
@@ -10,20 +10,20 @@ import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGeneric
  * ID: 00000252583
  * 
  */
-public interface RepositorioGerenteVentas extends RepositorioInmutable<GerenteVentasDTO>{
+public interface RepositorioGerenteVentas{
     
     /**
      * 
-     * @param idGerenteVentasDTO
+     * @param idGerenteVentasDTONegocios
      * @return 
      */
-    public abstract GerenteVentasDTO recuperarPorId(IdGerenteVentasDTO idGerenteVentasDTO);
+    public abstract GerenteVentasDTONegocios recuperarPorId(IdGerenteVentasDTONegocios idGerenteVentasDTONegocios);
 
     /**
      * 
-     * @param idGerenteVentasDTO
+     * @param idGerenteVentasDTONegocios
      * @return 
      */
-    public abstract boolean existePorId(IdGerenteVentasDTO idGerenteVentasDTO);
+    public abstract boolean existePorId(IdGerenteVentasDTONegocios idGerenteVentasDTONegocios);
     
 }

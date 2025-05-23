@@ -5,6 +5,8 @@ import edu.student.itson.dissof.administradorproveedores.excepciones.Proveedores
 
 import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProveedorInicioDTONegocios;
+import java.util.List;
 
 /**
  * FAdministradorProveedores.java
@@ -101,7 +103,7 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      * DTOs con la información de los proveedores a mostrar. 
     */
     @Override
-    public List<InformacionProveedorInicioDTO> obtenerProveedores() {
+    public List<InformacionProveedorInicioDTONegocios> obtenerProveedores() {
         return administradorProveedores.obtenerProveedores();
     }
   

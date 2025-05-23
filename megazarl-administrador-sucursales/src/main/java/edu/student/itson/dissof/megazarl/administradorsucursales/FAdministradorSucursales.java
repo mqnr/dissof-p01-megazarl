@@ -8,6 +8,8 @@ import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigosSucursalesDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionSucursalInicioDTONegocios;
+import java.util.List;
 
 
 /**
@@ -125,7 +127,7 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
     }
 
     @Override
-    public List<InformacionSucursalInicioDTO> obtenerSucursales() {
+    public List<InformacionSucursalInicioDTONegocios> obtenerSucursales() {
         return administradorSucursales.obtenerSucursales();
     }
 }

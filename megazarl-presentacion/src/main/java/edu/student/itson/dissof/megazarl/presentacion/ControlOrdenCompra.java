@@ -10,12 +10,13 @@ import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoGerenteVent
 import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 import edu.student.itson.dissof.megazarl.negocios.FabricaSubsistemas;
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
+import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoInicioDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProveedorInicioDTO;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionSucursalInicioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProveedorInicioDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionSucursalInicioDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Direccion;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Proveedor;
@@ -197,11 +198,11 @@ public class ControlOrdenCompra {
     public List<Map<String, Object>> obtenerProveedores() { 
         IAdministradorProveedores administradorProveedores = FabricaSubsistemas.obtenerAdministradorProveedores();
         
-        List<InformacionProveedorInicioDTO> listaProveedorDTO = administradorProveedores.obtenerProveedores();
+        List<InformacionProveedorInicioDTONegocios> listaProveedorDTO = administradorProveedores.obtenerProveedores();
 
         List<Map<String, Object>> listaInformacionProveedoresInicio = new LinkedList<>();
 
-        for (InformacionProveedorInicioDTO informacionProveedorInicioDTO : listaProveedorDTO) {
+        for (InformacionProveedorInicioDTONegocios informacionProveedorInicioDTO : listaProveedorDTO) {
             Map<String, Object> mapaInformacionProveedorInicio = new HashMap<>();
             mapaInformacionProveedorInicio.put("Nombre", informacionProveedorInicioDTO.getNombreProveedor());
             mapaInformacionProveedorInicio.put("Telefono", informacionProveedorInicioDTO.getTelefonoProveedor());
@@ -225,11 +226,11 @@ public class ControlOrdenCompra {
      */
     public List<Map<String, Object>> obtenerSucursales(){
         IAdministradorSucursales administradorSucursales = FabricaSubsistemas.obtenerAdministradorSucursales();
-        List<InformacionSucursalInicioDTO> listaSucursalDTO = administradorSucursales.obtenerSucursales();
+        List<InformacionSucursalInicioDTONegocios> listaSucursalDTO = administradorSucursales.obtenerSucursales();
 
         List<Map<String, Object>> listaInformacionSucursalInicio = new LinkedList<>();
 
-        for (InformacionSucursalInicioDTO informacionSucursalInicioDTO : listaSucursalDTO) {
+        for (InformacionSucursalInicioDTONegocios informacionSucursalInicioDTO : listaSucursalDTO) {
             Map<String, Object> mapaInformacionSucursalInicio = new HashMap<>();
 
             IdDireccionDTONegocios idDireccionDTO = new IdDireccionDTONegocios(informacionSucursalInicioDTO.getIdDireccionSucursal());

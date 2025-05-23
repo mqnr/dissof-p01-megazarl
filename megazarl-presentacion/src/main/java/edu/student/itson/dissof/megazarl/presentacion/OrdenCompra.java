@@ -1,6 +1,6 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IOrdenCompra;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.awt.BorderLayout;
@@ -42,7 +42,7 @@ import javax.swing.SwingConstants;
 public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{
     
     private final ControlOrdenCompra control;
-    private IdEntidadGenerico idGerenteVentas;
+    private IdEntidadGenericoNegocios idGerenteVentas;
     
     private EncabezadoOrdenCompra encabezado;
     
@@ -89,7 +89,7 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{
      * @param control
      * @param idGerenteVentas 
      */
-    public OrdenCompra(ControlOrdenCompra control, IdEntidadGenerico idGerenteVentas){
+    public OrdenCompra(ControlOrdenCompra control, IdEntidadGenericoNegocios idGerenteVentas){
         this.setTitle("Semillas MEGAZARL - Realizar Orden de Compra");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1200, 1000);

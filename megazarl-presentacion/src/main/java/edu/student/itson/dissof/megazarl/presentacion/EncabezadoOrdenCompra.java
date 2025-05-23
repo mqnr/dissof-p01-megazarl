@@ -1,6 +1,6 @@
 package edu.student.itson.dissof.megazarl.presentacion;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import edu.student.itson.dissof.megazarl.presentacion.utils.ButtonBuilder;
 import java.awt.Color;
@@ -66,7 +66,7 @@ public class EncabezadoOrdenCompra extends JPanel {
     
     private final String EMOJI_LUPA = new String(Character.toChars(0x1F50D));
     
-    private IdEntidadGenerico idGerenteVentas;
+    private IdEntidadGenericoNegocios idGerenteVentas;
     
     JButton botonBusqueda;
     JButton btnSalir;
@@ -74,7 +74,7 @@ public class EncabezadoOrdenCompra extends JPanel {
     
     private ControlOrdenCompra control;
     
-    public EncabezadoOrdenCompra(ControlOrdenCompra control, IdEntidadGenerico idGerenteVentas, IVista vistaPadre) {
+    public EncabezadoOrdenCompra(ControlOrdenCompra control, IdEntidadGenericoNegocios idGerenteVentas, IVista vistaPadre) {
         this.control = control;
         this.idGerenteVentas = idGerenteVentas;
         this.vistaPadre = vistaPadre;

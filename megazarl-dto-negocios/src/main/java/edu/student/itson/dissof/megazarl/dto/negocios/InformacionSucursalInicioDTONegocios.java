@@ -1,24 +1,24 @@
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 
 /**
- * InformacionSucursalInicioDTO.java
- *
- * Clase que representa un objeto de transferencia de datos que contiene
- * la información resumida de una sucursal para ser mostrada en la página
- * del caso de uso orden de compra, incluyendo datos básicos de la sucrusal
+ * InformacionSucursalInicioDTONegocios.java
+
+ Clase que representa un objeto de transferencia de datos que contiene
+ la información resumida de una sucursal para ser mostrada en la página
+ del caso de uso orden de compra, incluyendo datos básicos de la sucrusal
  *
  * @author Yuri Germán García López
  * ID: 00000252583
  *
  */
-public class InformacionSucursalInicioDTO {
+public class InformacionSucursalInicioDTONegocios {
     
     /**
      * Objeto Long que representa el id de la sucursal.
      */
-    private IdEntidadGenerico idSucursal;
+    private IdEntidadGenericoNegocios idSucursal;
     
     /**
      * Objeto Boolean que determina si la sucursal es matriz o no.
@@ -28,7 +28,7 @@ public class InformacionSucursalInicioDTO {
     /**
      * Objeto Long que representa el id de la dirección que tiene la sucursal.
      */
-    private IdEntidadGenerico idDireccionSucursal;
+    private IdEntidadGenericoNegocios idDireccionSucursal;
 
     /**
      * Constructor de la clase que recibe informacion de la sucursal a mostrar 
@@ -38,7 +38,7 @@ public class InformacionSucursalInicioDTO {
      * @param esMatrizSucursal          Objeto Boolean que determina si la sucursal es una matriz o no.
      * @param idDireccionSucursal       Objeto IdEntidadGenerico que representa el id de la dirección que tiene la sucursal.
      */
-    public InformacionSucursalInicioDTO(IdEntidadGenerico idSucursal, Boolean esMatrizSucursal, IdEntidadGenerico idDireccionSucursal) {
+    public InformacionSucursalInicioDTONegocios(IdEntidadGenericoNegocios idSucursal, Boolean esMatrizSucursal, IdEntidadGenericoNegocios idDireccionSucursal) {
         this.idSucursal = idSucursal;
         this.esMatrizSucursal = esMatrizSucursal;
         this.idDireccionSucursal = idDireccionSucursal;
@@ -48,7 +48,7 @@ public class InformacionSucursalInicioDTO {
      * 
      * @return 
      */
-    public IdEntidadGenerico getIdSucursal() {
+    public IdEntidadGenericoNegocios getIdSucursal() {
         return idSucursal;
     }
 
@@ -64,7 +64,7 @@ public class InformacionSucursalInicioDTO {
      * 
      * @return 
      */
-    public IdEntidadGenerico getIdDireccionSucursal() {
+    public IdEntidadGenericoNegocios getIdDireccionSucursal() {
         return idDireccionSucursal;
     }
 

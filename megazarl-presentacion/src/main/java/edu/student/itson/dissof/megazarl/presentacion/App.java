@@ -17,7 +17,6 @@ import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDatosCompletosRelacionesDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDatosCompletosRelacionesDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 import edu.student.itson.dissof.megazarl.objetosnegocio.AuxiliarVentas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Direccion;
@@ -843,7 +842,7 @@ public class App {
                                 "Mendoza");
                         GerenteVentas.agregar(gerenteVentas1);
                         
-                    DireccionDTO direccionProveedor6 = new DireccionDTO(
+                    DireccionDTONegocios direccionProveedor6 = new DireccionDTONegocios(
                                 "Sinaloa", 
                                 "Los Mochis", 
                                 "81255",
@@ -851,7 +850,7 @@ public class App {
                                 "Jiquilpan",
                                 "3000");
                         
-                    ProveedorDTO proveedor6 = new ProveedorDatosCompletosRelacionesDTO(
+                    ProveedorDTONegocios proveedor6 = new ProveedorDatosCompletosRelacionesDTONegocios(
                             "Seminis", 
                             "6441022785", 
                             "seminis@gmail.com",
@@ -860,7 +859,7 @@ public class App {
                             direccionProveedor6
                     );
 
-                    DireccionDTO direccionProveedor7 = new DireccionDTO(
+                    DireccionDTONegocios direccionProveedor7 = new DireccionDTONegocios(
                                 "Baja California", 
                                 "Mexicali", 
                                 "21394",
@@ -868,7 +867,7 @@ public class App {
                                 "De las Misiones Norte",
                                 "168");
 
-                    ProveedorDTO proveedor7 = new ProveedorDatosCompletosRelacionesDTO(
+                    ProveedorDTONegocios proveedor7 = new ProveedorDatosCompletosRelacionesDTONegocios(
                             "Harris Moran", 
                             "6442365984",
                             "hmoran@gmail.com",
@@ -876,7 +875,7 @@ public class App {
                             new LinkedList<>(),
                             direccionProveedor7);
 
-                    DireccionDTO direccionProveedor8 = new DireccionDTO(
+                    DireccionDTONegocios direccionProveedor8 = new DireccionDTONegocios(
                                 "Sinaloa", 
                                 "Culiacán", 
                                 "80393",
@@ -884,7 +883,7 @@ public class App {
                                 "Carretera Federal 15D",
                                 "450");
                     
-                    ProveedorDTO proveedor8 =  new ProveedorDatosCompletosRelacionesDTO(
+                    ProveedorDTONegocios proveedor8 =  new ProveedorDatosCompletosRelacionesDTONegocios(
                             "Enza Zaden",
                             "6442059876",
                             "enzazaden@gmail.com",
@@ -892,7 +891,7 @@ public class App {
                             new LinkedList<>(),
                             direccionProveedor8);
 
-                    DireccionDTO direccionProveedor9 = new DireccionDTO(
+                    DireccionDTONegocios direccionProveedor9 = new DireccionDTONegocios(
                                 "Chihuahua", 
                                 "Chihuahua", 
                                 "31385",
@@ -900,7 +899,7 @@ public class App {
                                 "Paseos de aura",
                                 "1458");
                     
-                    ProveedorDTO proveedor9 =  new ProveedorDatosCompletosRelacionesDTO(
+                    ProveedorDTONegocios proveedor9 =  new ProveedorDatosCompletosRelacionesDTONegocios(
                             "Nunhems",
                             "6447856986",
                             "nunhmes@gmail.com", 
@@ -908,7 +907,7 @@ public class App {
                             new LinkedList<>(),
                             direccionProveedor9);
                     
-                    DireccionDTO direccionProveedor10 = new DireccionDTO(
+                    DireccionDTONegocios direccionProveedor10 = new DireccionDTONegocios(
                                 "Guanajuato", 
                                 "León de los Aldama", 
                                 "37150",
@@ -916,7 +915,7 @@ public class App {
                                 "Blvd. Campestre",
                                 "102");
 
-                    ProveedorDTO proveedor10 =  new ProveedorDatosCompletosRelacionesDTO(
+                    ProveedorDTONegocios proveedor10 =  new ProveedorDatosCompletosRelacionesDTONegocios(
                             "Lark Seeds",
                             "6442326587",
                             "larkseeds@gmail.com",  
@@ -924,10 +923,10 @@ public class App {
                             new LinkedList<>(),
                             direccionProveedor10);
                     
-                    List<ProveedorDTO> listaProveedores2 = Arrays.asList(proveedor6, proveedor7, proveedor8, proveedor9, proveedor10);     
+                    List<ProveedorDTONegocios> listaProveedores2 = Arrays.asList(proveedor6, proveedor7, proveedor8, proveedor9, proveedor10);     
                     Proveedor.agregar(listaProveedores2);
                     
-                    List<DireccionDTO> listaDireccionesProveedores2 = Arrays.asList(
+                    List<DireccionDTONegocios> listaDireccionesProveedores2 = Arrays.asList(
                             direccionProveedor6,
                             direccionProveedor7, 
                             direccionProveedor8, 
@@ -935,7 +934,7 @@ public class App {
                             direccionProveedor10);
                     Direccion.agregar(listaDireccionesProveedores2);
                     
-                    DireccionDTO direccionSucursal5 = new DireccionDTO(
+                    DireccionDTONegocios direccionSucursal5 = new DireccionDTONegocios(
                                                     "Sonora",
                                                     "Hermosillo",
                                                     "83118",
@@ -944,13 +943,13 @@ public class App {
                                                     "1000"
                     );
 
-                    SucursalDTO sucursal5 = new SucursalDatosCompletosRelacionesDTO(
+                    SucursalDTONegocios sucursal5 = new SucursalDatosCompletosRelacionesDTONegocios(
                                                 true,
                                                 direccionSucursal5,
                                                 new LinkedList<>()
                     );
                     
-                    DireccionDTO direccionSucursal6 = new DireccionDTO(
+                    DireccionDTONegocios direccionSucursal6 = new DireccionDTONegocios(
                                                     "Sonora",
                                                     "Puerto Peñasco",
                                                     "83557",
@@ -959,13 +958,13 @@ public class App {
                                                     "123"
                     );
 
-                    SucursalDTO sucursal6 = new SucursalDatosCompletosRelacionesDTO(
+                    SucursalDTONegocios sucursal6 = new SucursalDatosCompletosRelacionesDTONegocios(
                                                 false,
                                                 direccionSucursal6,
                                                 new LinkedList<>()
                     );
                     
-                    DireccionDTO direccionSucursal7 = new DireccionDTO(
+                    DireccionDTONegocios direccionSucursal7 = new DireccionDTONegocios(
                                                     "Sonora",
                                                     "Agua Prieta",
                                                     "84269",
@@ -974,13 +973,13 @@ public class App {
                                                     "5695"
                     );
 
-                    SucursalDTO sucursal7 = new SucursalDatosCompletosRelacionesDTO(
+                    SucursalDTONegocios sucursal7 = new SucursalDatosCompletosRelacionesDTONegocios(
                                                 false,
                                                 direccionSucursal7,
                                                 new LinkedList<>()
                     );
                     
-                    ProductoDTO producto13 = new ProductoDatosCompletosRelacionesDTO(
+                    ProductoDTONegocios producto13 = new ProductoDatosCompletosRelacionesDTONegocios(
                                 "Semillas de Sandía",
                                 "Summer Breeze",
                                 """
@@ -997,7 +996,7 @@ public class App {
                                 new LinkedList<>(),
                                 new LinkedList<>());
 
-                    ProductoDTO producto14 = new ProductoDatosCompletosRelacionesDTO(
+                    ProductoDTONegocios producto14 = new ProductoDatosCompletosRelacionesDTONegocios(
                                 "Semillas de Sandía",
                                 "Fascination",
                                 """
@@ -1014,7 +1013,7 @@ public class App {
                                 new LinkedList<>(),
                                 new LinkedList<>());
 
-                    List<ProductoDTO> listaProductos2 = Arrays.asList(
+                    List<ProductoDTONegocios> listaProductos2 = Arrays.asList(
                             producto13,
                             producto14
                     );
@@ -1023,15 +1022,15 @@ public class App {
                     // Se crean e insertan los DTOs de productos en inventario disponibles,
                     // se registran utilizando la clase envolvente ProductoInventario
 
-                    ProductoInventarioDTO productoInventario51 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto13, sucursal5);
-                    ProductoInventarioDTO productoInventario52 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto13, sucursal5);
+                    ProductoInventarioDTONegocios productoInventario51 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto13, sucursal5);
+                    ProductoInventarioDTONegocios productoInventario52 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto13, sucursal5);
 
-                    ProductoInventarioDTO productoInventario53 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto14, sucursal5);
-                    ProductoInventarioDTO productoInventario54 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto14, sucursal6);
-                    ProductoInventarioDTO productoInventario55 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto14, sucursal7);
-                    ProductoInventarioDTO productoInventario56 = new ProductoInventarioDatosCompletosRelacionesDTO(false, producto14, sucursal7);
+                    ProductoInventarioDTONegocios productoInventario53 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto14, sucursal5);
+                    ProductoInventarioDTONegocios productoInventario54 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto14, sucursal6);
+                    ProductoInventarioDTONegocios productoInventario55 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto14, sucursal7);
+                    ProductoInventarioDTONegocios productoInventario56 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto14, sucursal7);
 
-                    List<ProductoInventarioDTO> listaProductosInventario2 = Arrays.asList(
+                    List<ProductoInventarioDTONegocios> listaProductosInventario2 = Arrays.asList(
                             productoInventario51,
                             productoInventario52,
 
@@ -1045,7 +1044,7 @@ public class App {
                     ProductoInventario.agregar(listaProductosInventario2);
 
 
-                    DireccionDTO direccionPaqueteria6 = new DireccionDTO(
+                    DireccionDTONegocios direccionPaqueteria6 = new DireccionDTONegocios(
                                 "83240",
                                 "Fuentes del Mezquital", 
                                 "Las Ceibas", 
@@ -1054,7 +1053,7 @@ public class App {
                     
                     // Se crean los DTO de las paqueterías asociadas con la empresa y son almacenadas
                     // utilizando la clase envolvente Paqueteria.
-                    PaqueteriaDTO paqueteria6 = new PaqueteriaDatosCompletosRelacionesDTO(
+                    PaqueteriaDTONegocios paqueteria6 = new PaqueteriaDatosCompletosRelacionesDTONegocios(
                             "DHL", 
                             100F, 
                             150F, 
@@ -1063,14 +1062,14 @@ public class App {
                     );
 
                     
-                    DireccionDTO direccionPaqueteria7 = new DireccionDTO(
+                    DireccionDTONegocios direccionPaqueteria7 = new DireccionDTONegocios(
                                 "83120",
                                 "Los Viñedos",
                                 "Cristobal Colón",
                                 "257"
                     );
                     
-                    PaqueteriaDTO paqueteria7 = new PaqueteriaDatosCompletosRelacionesDTO( 
+                    PaqueteriaDTONegocios paqueteria7 = new PaqueteriaDatosCompletosRelacionesDTONegocios( 
                             "Fedex", 
                             120F, 
                             125F,
@@ -1078,13 +1077,13 @@ public class App {
                             direccionPaqueteria7     
                     );
 
-                    DireccionDTO direccionPaqueteria8 = new DireccionDTO(
+                    DireccionDTONegocios direccionPaqueteria8 = new DireccionDTONegocios(
                                     "83200", 
                                     "Villa Satélite", 
                                     "Parroquia", 
                                     "659");
                     
-                    PaqueteriaDTO paqueteria8 = new PaqueteriaDatosCompletosRelacionesDTO(
+                    PaqueteriaDTONegocios paqueteria8 = new PaqueteriaDatosCompletosRelacionesDTONegocios(
                             "PCP",
                             90F, 
                             100F,
@@ -1093,14 +1092,14 @@ public class App {
                     );
 
                     
-                    DireccionDTO direccionPaqueteria9 = new DireccionDTO(
+                    DireccionDTONegocios direccionPaqueteria9 = new DireccionDTONegocios(
                                 "83288", 
                                 "La Verbena",
                                 "De los Panaderos",
                                 "708"
                     );
                     
-                    PaqueteriaDTO paqueteria9  = new PaqueteriaDatosCompletosRelacionesDTO( 
+                    PaqueteriaDTONegocios paqueteria9  = new PaqueteriaDatosCompletosRelacionesDTONegocios( 
                             "UPS", 
                             106F,
                             110F,
@@ -1109,14 +1108,14 @@ public class App {
 
                     );
                     
-                    DireccionDTO dieccionPaqueteria10 = new DireccionDTO(
+                    DireccionDTONegocios dieccionPaqueteria10 = new DireccionDTONegocios(
                                 "83280",
                                 "La Candelaria",
                                 "Real de San Pablo",
                                 "1646"
                     );
 
-                    PaqueteriaDTO paqueteria10 =  new PaqueteriaDatosCompletosRelacionesDTO(
+                    PaqueteriaDTONegocios paqueteria10 =  new PaqueteriaDatosCompletosRelacionesDTONegocios(
                             "Estafeta", 
                             110F, 
                             105F,
@@ -1125,14 +1124,14 @@ public class App {
 
                     );
 
-                    List<PaqueteriaDTO> listaPaqueterias2 = Arrays.asList(
+                    List<PaqueteriaDTONegocios> listaPaqueterias2 = Arrays.asList(
                             paqueteria6,
                             paqueteria7,
                             paqueteria8,
                             paqueteria9,
                             paqueteria10);
                     
-                    List<DireccionDTO> listaDireccionesPaqueterias2 = Arrays.asList(
+                    List<DireccionDTONegocios> listaDireccionesPaqueterias2 = Arrays.asList(
                             direccionPaqueteria6, 
                             direccionPaqueteria7, 
                             direccionPaqueteria8,
@@ -1143,10 +1142,10 @@ public class App {
                     
                     Direccion.agregar(listaDireccionesPaqueterias2);
 
-                    List<SucursalDTO> listaSucursales2 = Arrays.asList(sucursal5, sucursal6, sucursal7);
+                    List<SucursalDTONegocios> listaSucursales2 = Arrays.asList(sucursal5, sucursal6, sucursal7);
                     Sucursal.agregar(listaSucursales2);
 
-                    List<DireccionDTO> listaDireccionesSucursales2 = Arrays.asList(direccionSucursal5, direccionSucursal6, direccionSucursal7);
+                    List<DireccionDTONegocios> listaDireccionesSucursales2 = Arrays.asList(direccionSucursal5, direccionSucursal6, direccionSucursal7);
                     Direccion.agregar(listaDireccionesSucursales2);
                     
                     ControlOrdenCompra controlOrdenCompra = new ControlOrdenCompra();

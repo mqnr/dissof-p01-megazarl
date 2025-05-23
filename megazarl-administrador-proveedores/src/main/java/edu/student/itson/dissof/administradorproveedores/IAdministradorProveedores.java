@@ -5,7 +5,7 @@ import edu.student.itson.dissof.administradorproveedores.excepciones.Proveedores
 
 import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProveedorInicioDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProveedorInicioDTONegocios;
 import java.util.List;
 
 /**
@@ -70,8 +70,8 @@ public interface IAdministradorProveedores {
     /**
      * Método que permite obtener la lista de todos los proveedores registrados en el sistema.
      *
-     * @return Objeto List de InformacionProveedorInicioDTO que contiene la información
-     * resumida de los proveedores disponibles.
+     * @return Objeto List de InformacionProveedorInicioDTONegocios que contiene la información
+ resumida de los proveedores disponibles.
      */
-    public abstract List<InformacionProveedorInicioDTO> obtenerProveedores();
+    public abstract List<InformacionProveedorInicioDTONegocios> obtenerProveedores();
 }

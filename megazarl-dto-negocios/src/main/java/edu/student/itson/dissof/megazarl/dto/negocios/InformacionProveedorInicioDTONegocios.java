@@ -1,24 +1,24 @@
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 
 /**
- * InformacionProveedorInicioDTO.java
- *
- * Clase que representa un objeto de transferencia de datos que contiene
- * la información resumida de un proveedor para ser mostrada en la página
- * del caso de uso orden de compra, incluyendo datos básicos del proveedor
+ * InformacionProveedorInicioDTONegocios.java
+
+ Clase que representa un objeto de transferencia de datos que contiene
+ la información resumida de un proveedor para ser mostrada en la página
+ del caso de uso orden de compra, incluyendo datos básicos del proveedor
  *
  * @author Yuri Germán García López
  * ID: 00000252583
  *
  */
-public class InformacionProveedorInicioDTO {
+public class InformacionProveedorInicioDTONegocios {
     
     /**
      * Objeto Long que representa el ID del proveedor.
      */
-    private IdEntidadGenerico idProveedor;
+    private IdEntidadGenericoNegocios idProveedor;
     
     /**
      * Objeto String que representa el nombre del proveedor.
@@ -50,7 +50,7 @@ public class InformacionProveedorInicioDTO {
      * @param correoElectronicoProveedor    Objeto String que representa el correo electrónico del proveedor.
      * @param direccionImagenProveedor      Objeto String que representa la dirección que guarda la imagen del proveedor.
      */
-    public InformacionProveedorInicioDTO(IdEntidadGenerico idProveedor, String nombreProveedor, String telefonoProveedor, String correoElectronicoProveedor, String direccionImagenProveedor) {
+    public InformacionProveedorInicioDTONegocios(IdEntidadGenericoNegocios idProveedor, String nombreProveedor, String telefonoProveedor, String correoElectronicoProveedor, String direccionImagenProveedor) {
         this.idProveedor = idProveedor;
         this.nombreProveedor = nombreProveedor;
         this.telefonoProveedor = telefonoProveedor;
@@ -62,7 +62,7 @@ public class InformacionProveedorInicioDTO {
      * Método que permite obener el ID del proveedor.
      * @return Objeto IdEntidadGenerico que representa el ID del proveedor.
      */
-    public IdEntidadGenerico getIdProveedor() {
+    public IdEntidadGenericoNegocios getIdProveedor() {
         return idProveedor;
     }
 

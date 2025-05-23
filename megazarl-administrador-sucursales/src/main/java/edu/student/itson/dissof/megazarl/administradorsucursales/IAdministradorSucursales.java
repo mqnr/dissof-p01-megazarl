@@ -6,6 +6,8 @@ import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.Suc
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigosSucursalesDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionSucursalInicioDTONegocios;
+import java.util.List;
 
 
 /**
@@ -103,6 +105,6 @@ public interface IAdministradorSucursales {
      * @return Objeto List de InformacionSucursalInicioDTO que contiene la información
      * resumida de las sucursales registradas.
      */
-    public abstract List<InformacionSucursalInicioDTO> obtenerSucursales();
+    public abstract List<InformacionSucursalInicioDTONegocios> obtenerSucursales();
 }
 

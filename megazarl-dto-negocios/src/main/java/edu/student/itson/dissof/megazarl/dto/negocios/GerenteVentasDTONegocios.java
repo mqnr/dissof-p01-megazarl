@@ -1,12 +1,12 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 
 
 public class GerenteVentasDTONegocios {
     
-    private IdEntidadGenerico id;
+    private IdEntidadGenericoNegocios id;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
@@ -16,11 +16,11 @@ public class GerenteVentasDTONegocios {
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
     }
-    public IdEntidadGenerico getId() {
+    public IdEntidadGenericoNegocios getId() {
         return id;
     }
 
-    public void setId(IdEntidadGenerico id) {
+    public void setId(IdEntidadGenericoNegocios id) {
         this.id = id;
     }
 

@@ -9,6 +9,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigosSucursalesDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionSucursalInicioDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 
 import edu.student.itson.dissof.megazarl.objetosnegocio.Sucursal;
@@ -162,16 +163,16 @@ class AdministradorSucursales implements IAdministradorSucursales {
     }
 
     @Override
-    public List<InformacionSucursalInicioDTO> obtenerSucursales() {
-        List<InformacionSucursalInicioDTO> listaSucursalInicioDTO = new LinkedList<>();
+    public List<InformacionSucursalInicioDTONegocios> obtenerSucursales() {
+        List<InformacionSucursalInicioDTONegocios> listaSucursalInicioDTO = new LinkedList<>();
 
         // Se recorre la lista de Sucursales y se añade la información a la lista
         // de DTOs, de aquellas que esten registradas.
         
-        List<SucursalDTO> listaSucursales = Sucursal.recuperarTodos();
+        List<SucursalDTONegocios> listaSucursales = Sucursal.recuperarTodos();
         
-        for (SucursalDTO sucursal: listaSucursales) {
-            listaSucursalInicioDTO.add(new InformacionSucursalInicioDTO(
+        for (SucursalDTONegocios sucursal: listaSucursales) {
+            listaSucursalInicioDTO.add(new InformacionSucursalInicioDTONegocios(
                     sucursal.getId(),
                     sucursal.esMatriz(),
                     sucursal.getIdDireccion())

@@ -4,7 +4,11 @@ import edu.student.itson.dissof.administradorproveedores.excepciones.Proveedores
 
 import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Proveedor;;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProveedorInicioDTONegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.Proveedor;import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+;
 
 
 
@@ -70,16 +74,16 @@ class AdministradorProveedores implements IAdministradorProveedores {
     }
 
     @Override
-    public List<InformacionProveedorInicioDTO> obtenerProveedores() {
-        List<InformacionProveedorInicioDTO> listaProveedorInicioDTO = new LinkedList<>();
+    public List<InformacionProveedorInicioDTONegocios> obtenerProveedores() {
+        List<InformacionProveedorInicioDTONegocios> listaProveedorInicioDTO = new LinkedList<>();
 
         // Se recorre la lista de Proveedores y se añade la información a la lista
         // de DTOs, de aquellos que esten registrados.
         
-        List<ProveedorDTO> listaProveedores = Proveedor.recuperarTodos();
+        List<ProveedorDTONegocios> listaProveedores = Proveedor.recuperarTodos();
         
-        for (ProveedorDTO proveedor: listaProveedores) {
-            listaProveedorInicioDTO.add(new InformacionProveedorInicioDTO(
+        for (ProveedorDTONegocios proveedor: listaProveedores) {
+            listaProveedorInicioDTO.add(new InformacionProveedorInicioDTONegocios(
                     proveedor.getId(),
                     proveedor.getNombre(),
                     proveedor.getTelefono(),
@@ -89,7 +93,7 @@ class AdministradorProveedores implements IAdministradorProveedores {
         }
         
         // Se ordena la lista de DTO, alfabéticamente
-        listaProveedorInicioDTO.sort(Comparator.comparing(InformacionProveedorInicioDTO::getNombreProveedor));
+        listaProveedorInicioDTO.sort(Comparator.comparing(InformacionProveedorInicioDTONegocios::getNombreProveedor));
         
         return listaProveedorInicioDTO;
     }
