@@ -2,6 +2,7 @@ package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria;
 
 import edu.student.itson.dissof.megazarl.dto.negocios.GerenteVentasDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdGerenteVentasDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.interfaces.RepositorioGerenteVentas;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,14 +50,14 @@ public class RepositorioGerenteVentasEnMemoria implements RepositorioGerenteVent
 
     @Override
     public void agregar(GerenteVentasDTO gerente) {
-        gerente.setId(ID_GERENTE_VENTAS_ACTUAL++);
+        gerente.setId(new IdEntidadGenerico(ID_GERENTE_VENTAS_ACTUAL++));
         listaGerentesVentas.add(gerente);
     }
 
     @Override
     public void agregar(Collection<GerenteVentasDTO> gerentes) {
         for(GerenteVentasDTO gerente: gerentes){
-            gerente.setId(ID_GERENTE_VENTAS_ACTUAL++);
+            gerente.setId(new IdEntidadGenerico(ID_GERENTE_VENTAS_ACTUAL++));
         }
         listaGerentesVentas.addAll(gerentes);
 

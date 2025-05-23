@@ -842,6 +842,149 @@ public class App {
                                 "Gutiérrez",
                                 "Mendoza");
                         GerenteVentas.agregar(gerenteVentas1);
+                        
+                    DireccionDTO direccionProveedor6 = new DireccionDTO(
+                                "Sinaloa", 
+                                "Los Mochis", 
+                                "81255",
+                                "Zona Industrial",
+                                "Jiquilpan",
+                                "3000");
+                        
+                    ProveedorDTO proveedor6 = new ProveedorDatosCompletosRelacionesDTO(
+                            "Seminis", 
+                            "6441022785", 
+                            "seminis@gmail.com",
+                            "src/main/resources/seminis.png", 
+                            new LinkedList<>(),
+                            direccionProveedor6
+                    );
+
+                    DireccionDTO direccionProveedor7 = new DireccionDTO(
+                                "Baja California", 
+                                "Mexicali", 
+                                "21394",
+                                "Venustiano Carranza",
+                                "De las Misiones Norte",
+                                "168");
+
+                    ProveedorDTO proveedor7 = new ProveedorDatosCompletosRelacionesDTO(
+                            "Harris Moran", 
+                            "6442365984",
+                            "hmoran@gmail.com",
+                            "src/main/resources/harrisMoran.png", 
+                            new LinkedList<>(),
+                            direccionProveedor7);
+
+                    DireccionDTO direccionProveedor8 = new DireccionDTO(
+                                "Sinaloa", 
+                                "Culiacán", 
+                                "80393",
+                                "Parque Industrial El Trébol",
+                                "Carretera Federal 15D",
+                                "450");
+                    
+                    ProveedorDTO proveedor8 =  new ProveedorDatosCompletosRelacionesDTO(
+                            "Enza Zaden",
+                            "6442059876",
+                            "enzazaden@gmail.com",
+                            "src/main/resources/enzaZaden.png",
+                            new LinkedList<>(),
+                            direccionProveedor8);
+
+                    DireccionDTO direccionProveedor9 = new DireccionDTO(
+                                "Chihuahua", 
+                                "Chihuahua", 
+                                "31385",
+                                "Parque Industrial Chihuahua Sur",
+                                "Paseos de aura",
+                                "1458");
+                    
+                    ProveedorDTO proveedor9 =  new ProveedorDatosCompletosRelacionesDTO(
+                            "Nunhems",
+                            "6447856986",
+                            "nunhmes@gmail.com", 
+                            "src/main/resources/nunhems.png", 
+                            new LinkedList<>(),
+                            direccionProveedor9);
+                    
+                    DireccionDTO direccionProveedor10 = new DireccionDTO(
+                                "Guanajuato", 
+                                "León de los Aldama", 
+                                "37150",
+                                "Lomas del Campestre",
+                                "Blvd. Campestre",
+                                "102");
+
+                    ProveedorDTO proveedor10 =  new ProveedorDatosCompletosRelacionesDTO(
+                            "Lark Seeds",
+                            "6442326587",
+                            "larkseeds@gmail.com",  
+                            "src/main/resources/larkSeeds.png", 
+                            new LinkedList<>(),
+                            direccionProveedor10);
+                    
+                    List<ProveedorDTO> listaProveedores2 = Arrays.asList(proveedor6, proveedor7, proveedor8, proveedor9, proveedor10);     
+                    Proveedor.agregar(listaProveedores2);
+                    
+                    List<DireccionDTO> listaDireccionesProveedores2 = Arrays.asList(
+                            direccionProveedor6,
+                            direccionProveedor7, 
+                            direccionProveedor8, 
+                            direccionProveedor9,
+                            direccionProveedor10);
+                    Direccion.agregar(listaDireccionesProveedores2);
+                    
+                    DireccionDTO direccionSucursal5 = new DireccionDTO(
+                                                    "Sonora",
+                                                    "Hermosillo",
+                                                    "83118",
+                                                    "Parque Industrial Hermosillo Norte",
+                                                    "José Alberto Healy Noriega",
+                                                    "1000"
+                    );
+
+                    SucursalDTO sucursal5 = new SucursalDatosCompletosRelacionesDTO(
+                                                true,
+                                                direccionSucursal5,
+                                                new LinkedList<>()
+                    );
+                    
+                    DireccionDTO direccionSucursal6 = new DireccionDTO(
+                                                    "Sonora",
+                                                    "Puerto Peñasco",
+                                                    "83557",
+                                                    "San Rafael",
+                                                    "Río Mocorito",
+                                                    "123"
+                    );
+
+                    SucursalDTO sucursal6 = new SucursalDatosCompletosRelacionesDTO(
+                                                false,
+                                                direccionSucursal6,
+                                                new LinkedList<>()
+                    );
+                    
+                    DireccionDTO direccionSucursal7 = new DireccionDTO(
+                                                    "Sonora",
+                                                    "Agua Prieta",
+                                                    "84269",
+                                                    "Bicentenario",
+                                                    "44",
+                                                    "5695"
+                    );
+
+                    SucursalDTO sucursal7 = new SucursalDatosCompletosRelacionesDTO(
+                                                false,
+                                                direccionSucursal7,
+                                                new LinkedList<>()
+                    );
+                    
+                    List<SucursalDTO> listaSucursales2 = Arrays.asList(sucursal5, sucursal6, sucursal7);
+                    Sucursal.agregar(listaSucursales2);
+
+                    List<DireccionDTO> listaDireccionesSucursales2 = Arrays.asList(direccionSucursal5, direccionSucursal6, direccionSucursal7);
+                    Direccion.agregar(listaDireccionesSucursales2);
                     
                     ControlOrdenCompra controlOrdenCompra = new ControlOrdenCompra();
                     

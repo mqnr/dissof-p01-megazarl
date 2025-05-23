@@ -4,6 +4,8 @@ package edu.student.itson.dissof.administradorproveedores;
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProveedorInicioDTO;
+import java.util.List;
 
 /**
  * IAdministradorProveedores.java
@@ -65,12 +67,10 @@ public interface IAdministradorProveedores {
     public abstract boolean validarProveedor(IdProveedorDTO idProveedorDTO);
 
     /**
-     * metodo que perimite registrar el proveedor
-     * @param proveedorDTO objeto proveedorDTO que contiene al Proveedor a registrar
-     * @return true si el proveedor fue registrado, false en caso contrario
-     * @throws ProveedorNoRegistradoException  se lanza si el proveedor no se registro
+     * Método que permite obtener la lista de todos los proveedores registrados en el sistema.
+     *
+     * @return Objeto List de InformacionProveedorInicioDTO que contiene la información
+     * resumida de los proveedores disponibles.
      */
-    /**
-    public abstract boolean agregarProveedor(ProveedorDTO proveedorDTO) throws ProveedorNoRegistradoException ;
-    * */
+    public abstract List<InformacionProveedorInicioDTO> obtenerProveedores();
 }

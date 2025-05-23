@@ -3,7 +3,11 @@ package edu.student.itson.dissof.administradorproveedores;
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTO;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Proveedor;;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProveedorInicioDTO;
+import edu.student.itson.dissof.megazarl.objetosnegocio.Proveedor;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 
 class AdministradorProveedores implements IAdministradorProveedores {
@@ -66,15 +70,30 @@ class AdministradorProveedores implements IAdministradorProveedores {
         return true;
         
     }
-    /**
+
     @Override
-    public boolean agregarProveedor(ProveedorDTO proveedorDTO) throws ProveedorNoRegistradoException {
-        if (proveedorDTO == null) {
-            return false;
-        } else {
-            Proveedor.agregar(proveedorDTO);
-            return true;
+    public List<InformacionProveedorInicioDTO> obtenerProveedores() {
+        List<InformacionProveedorInicioDTO> listaProveedorInicioDTO = new LinkedList<>();
+
+        // Se recorre la lista de Proveedores y se añade la información a la lista
+        // de DTOs, de aquellos que esten registrados.
+        
+        List<ProveedorDTO> listaProveedores = Proveedor.recuperarTodos();
+        
+        for (ProveedorDTO proveedor: listaProveedores) {
+            listaProveedorInicioDTO.add(new InformacionProveedorInicioDTO(
+                    proveedor.getId(),
+                    proveedor.getNombre(),
+                    proveedor.getTelefono(),
+                    proveedor.getCorreoElectronico(),
+                    proveedor.getDireccionImagen())
+            );
         }
+        
+        // Se ordena la lista de DTO, alfabéticamente
+        listaProveedorInicioDTO.sort(Comparator.comparing(InformacionProveedorInicioDTO::getNombreProveedor));
+        
+        return listaProveedorInicioDTO;
     }
-    **/
+
 }

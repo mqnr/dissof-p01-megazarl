@@ -5,6 +5,8 @@ import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.Suc
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigosSucursalesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionSucursalInicioDTO;
+import java.util.List;
 
 /**
  * IAdministradorSucursales.java
@@ -93,4 +95,12 @@ public interface IAdministradorSucursales {
      * @return true si el ID de la sucursal es válido, false en caso contrario.
      */
     public abstract boolean validarSucursal(IdSucursalDTO idSucursalDTO);
+    
+    /**
+     * Método que permite obtener la lista de todas las sucursales registradas en el sistema.
+     *
+     * @return Objeto List de InformacionSucursalInicioDTO que contiene la información
+     * resumida de las sucursales registradas.
+     */
+    public abstract List<InformacionSucursalInicioDTO> obtenerSucursales();
 }

@@ -8,8 +8,10 @@ import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigosSucursalesDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTO;
+import edu.student.itson.dissof.megazarl.dto.negocios.InformacionSucursalInicioDTO;
 import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenerico;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Sucursal;
+import java.util.Comparator;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -156,5 +158,30 @@ class AdministradorSucursales implements IAdministradorSucursales {
         
         return Sucursal.recuperarPorId(idSucursalDTO);
         
+    }
+
+    @Override
+    public List<InformacionSucursalInicioDTO> obtenerSucursales() {
+        List<InformacionSucursalInicioDTO> listaSucursalInicioDTO = new LinkedList<>();
+
+        // Se recorre la lista de Sucursales y se añade la información a la lista
+        // de DTOs, de aquellas que esten registradas.
+        
+        List<SucursalDTO> listaSucursales = Sucursal.recuperarTodos();
+        
+        for (SucursalDTO sucursal: listaSucursales) {
+            listaSucursalInicioDTO.add(new InformacionSucursalInicioDTO(
+                    sucursal.getId(),
+                    sucursal.esMatriz(),
+                    sucursal.getIdDireccion())
+            );
+        }
+        
+        // Se ordena la lista de DTO, por id
+        listaSucursalInicioDTO.sort(
+            Comparator.comparing(dto -> dto.getIdSucursal().getId().toString())
+        );
+        
+        return listaSucursalInicioDTO;
     }
 }
