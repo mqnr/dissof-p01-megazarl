@@ -44,6 +44,8 @@ import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoCarrito;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
@@ -137,7 +139,7 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         if (!administradorClientes.validarCliente(idClienteDTO)) {
             throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
         }
-
+        
         ClienteDTO clienteCarrito = administradorClientes.obtenerCliente(idClienteDTO);
 
         if (clienteCarrito == null) {
@@ -770,6 +772,9 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         return carritoComprasRecuperado;
        
     }
+    private static final Logger LOG = Logger.getLogger(AdministradorCarritoCompras.class.getName());
+    
+    
 
     @Override
     public boolean validarProductoCarrito(IdProductoCarritoDTO idProductoCarritoDTO) {

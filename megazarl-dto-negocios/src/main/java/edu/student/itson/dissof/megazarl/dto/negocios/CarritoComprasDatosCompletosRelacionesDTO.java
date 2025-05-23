@@ -79,7 +79,6 @@ public class CarritoComprasDatosCompletosRelacionesDTO extends CarritoComprasDTO
         super(esVigente);
         
         this.cliente = cliente;
-        this.paqueteria = paqueteria;
     }
     
     public CarritoComprasDatosCompletosRelacionesDTO(

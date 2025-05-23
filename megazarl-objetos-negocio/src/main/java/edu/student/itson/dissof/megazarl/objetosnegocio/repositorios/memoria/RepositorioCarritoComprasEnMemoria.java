@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 
@@ -45,7 +47,7 @@ public class RepositorioCarritoComprasEnMemoria implements RepositorioCarritoCom
     public CarritoComprasDTO actualizar(ActualizacionCarritoComprasDTO actualizacionCarritoComprasDTO) {
         for (int i = 0; i < listaCarritosCompras.size(); i++) {
             CarritoComprasDTO carritoCompras = listaCarritosCompras.get(i);
-            if (carritoCompras.getId().equals(actualizacionCarritoComprasDTO.getId())) {
+            if (carritoCompras.getId().getId().equals(actualizacionCarritoComprasDTO.getId().getId())) {
                 CarritoComprasDTO carritoComprasActualizado = aplicar(carritoCompras, actualizacionCarritoComprasDTO);
                 listaCarritosCompras.set(i, carritoComprasActualizado);
                 return carritoComprasActualizado;
@@ -89,6 +91,8 @@ public class RepositorioCarritoComprasEnMemoria implements RepositorioCarritoCom
     
     private CarritoComprasDTO aplicar(CarritoComprasDTO carritoComprasOriginal, ActualizacionCarritoComprasDTO actualizacionCarritoComprasDTO) {
         
+        LOG.log(Level.SEVERE, String.valueOf(actualizacionCarritoComprasDTO.tienePaqueteria()));
+        
         return new CarritoComprasDatosCompletosRelacionesDTO(
                 new IdEntidadGenerico(actualizacionCarritoComprasDTO.getId().getId()),
                 actualizacionCarritoComprasDTO.tieneEsVigente() ? actualizacionCarritoComprasDTO.getEsVigente() : carritoComprasOriginal.getEsVigente(),
@@ -100,5 +104,8 @@ public class RepositorioCarritoComprasEnMemoria implements RepositorioCarritoCom
         );
         
     }
+    private static final Logger LOG = Logger.getLogger(RepositorioCarritoComprasEnMemoria.class.getName());
+    
+    
     
 }

@@ -21,6 +21,7 @@ public class ConfiguracionFuentesIntermedia {
         paqueteria = fuente;
         producto = fuente;
         productoInventario = fuente;
+        carritoCompras = fuente;
         pedido = fuente;
         sucursal = fuente;
         proveedor = fuente;

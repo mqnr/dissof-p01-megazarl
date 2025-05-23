@@ -714,9 +714,9 @@ public class App {
                     // Se crea una instancia del control del caso de uso compra.
                     ControlCompra controlCompra = new ControlCompra();
 
-                    IdEntidadGenerico idCliente = cliente.getId();
+                    Object idCliente = cliente.getId().getId();
                     // Se crean las vistas de la clase de presentación, del tipo de una interfaz definida.
-                    IVista productosVenta = new ProductosVenta(controlCompra, idCliente.getId());
+                    IVista productosVenta = new ProductosVenta(controlCompra, idCliente);
                     IVista informacionProducto = new InformacionProducto(controlCompra, idCliente);
                     IVista seleccionPaqueteria = new SeleccionPaqueteria(controlCompra, idCliente);
                     IVista carrito = new Carrito(controlCompra, idCliente);

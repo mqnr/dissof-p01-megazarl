@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 public class RepositorioClienteEnMemoria implements RepositorioCliente {
@@ -30,7 +32,7 @@ public class RepositorioClienteEnMemoria implements RepositorioCliente {
     @Override
     public ClienteDTO recuperarPorId(IdClienteDTO idClienteDTO) {
         return listaClientes.stream()
-                .filter(cliente -> cliente.getId().equals(idClienteDTO.getIdCliente()))
+                .filter(cliente -> cliente.getId().getId().equals(idClienteDTO.getIdCliente().getId()))
                 .findFirst()
                 .orElse(null);
     }
@@ -39,10 +41,15 @@ public class RepositorioClienteEnMemoria implements RepositorioCliente {
     public boolean existePorId(IdClienteDTO idClienteDTO) {
         
         return existe(cliente ->
-            cliente.getId().getLong().equals(idClienteDTO.getIdCliente().getLong())
+            cliente.getId().getId().equals(idClienteDTO.getIdCliente().getId())
         );
     }
+    
+    private static final Logger LOG = Logger.getLogger(RepositorioClienteEnMemoria.class.getName());
 
+    
+    
+    
     @Override
     public ClienteDTO actualizar(ActualizacionClienteDTO actualizacionClienteDTO) {
         

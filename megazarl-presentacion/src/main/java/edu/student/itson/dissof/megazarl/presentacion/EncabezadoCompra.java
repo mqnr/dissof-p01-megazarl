@@ -304,7 +304,7 @@ public class EncabezadoCompra extends JPanel {
     }
 
     public void mostrarNombreApellidoCliente() {
-        String[] datosApellidoNombreCliente = this.control.obtenerNombreApellidoCliente(this.idCliente);
+        String[] datosApellidoNombreCliente = this.control.obtenerNombreApellidoCliente(idCliente);
         String nombreApellidoCliente = datosApellidoNombreCliente[0] + " " + datosApellidoNombreCliente[1];
         this.etqNombreUsuario.setText(nombreApellidoCliente);
     }

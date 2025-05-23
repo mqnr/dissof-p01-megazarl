@@ -207,19 +207,19 @@ public class ControlCompra {
 
         for (InformacionProductoInicioDTO informacionProductoInicioDTO : listaProductoInicioDTO) {
             Map<String, Object> mapaInformacionProductoInicio = new HashMap<>();
-            mapaInformacionProductoInicio.put("Id", informacionProductoInicioDTO.getIdProducto());
+            mapaInformacionProductoInicio.put("Id", informacionProductoInicioDTO.getIdProducto().getId());
             mapaInformacionProductoInicio.put("Nombre", informacionProductoInicioDTO.getNombreProducto());
             mapaInformacionProductoInicio.put("Variedad", informacionProductoInicioDTO.getVariedadProducto());
             mapaInformacionProductoInicio.put("Precio", informacionProductoInicioDTO.getPrecioProducto());
             mapaInformacionProductoInicio.put("MilesSemillas", informacionProductoInicioDTO.getMilesSemillasProducto());
             mapaInformacionProductoInicio.put("DireccionImagenProducto", informacionProductoInicioDTO.getDireccionImagenProducto());
             
-            String direccionImagenProveedor = obtenerDireccionImagenProveedor(informacionProductoInicioDTO.getIdProveedor()); 
+            String direccionImagenProveedor = obtenerDireccionImagenProveedor(informacionProductoInicioDTO.getIdProveedor().getId()); 
             informacionProductoInicioDTO.setDireccionImagenProveedor(direccionImagenProveedor);
             
             mapaInformacionProductoInicio.put("DireccionImagenProveedor", direccionImagenProveedor);
             
-            String nombreProveedor = obtenerNombreProveedor(new IdEntidadGenerico(informacionProductoInicioDTO.getIdProveedor()));
+            String nombreProveedor = obtenerNombreProveedor(informacionProductoInicioDTO.getIdProveedor().getId());
             informacionProductoInicioDTO.setProveedorProducto(nombreProveedor);
             
             mapaInformacionProductoInicio.put("NombreProveedor", nombreProveedor);
@@ -263,7 +263,7 @@ public class ControlCompra {
 
         for (InformacionProductoInicioDTO productoInicioDTO : listaProductoInicioDTO) {
             Map<String, Object> mapaInformacionProductoInicio = new HashMap<>();
-            mapaInformacionProductoInicio.put("Id", productoInicioDTO.getIdProveedor());
+            mapaInformacionProductoInicio.put("Id", productoInicioDTO.getIdProveedor().getId());
             mapaInformacionProductoInicio.put("Nombre", productoInicioDTO.getNombreProducto());
             mapaInformacionProductoInicio.put("Variedad", productoInicioDTO.getVariedadProducto());
             mapaInformacionProductoInicio.put("Precio", productoInicioDTO.getPrecioProducto());
@@ -319,14 +319,14 @@ public class ControlCompra {
 
             for (InformacionProductoInicioDTO informacionProductoInicioDTO : listaProductoInicioDTO) {
                 Map<String, Object> mapaInformacionProductoInicio = new HashMap<>();
-                mapaInformacionProductoInicio.put("Id", informacionProductoInicioDTO.getIdProducto());
+                mapaInformacionProductoInicio.put("Id", informacionProductoInicioDTO.getIdProducto().getId());
                 mapaInformacionProductoInicio.put("Nombre", informacionProductoInicioDTO.getNombreProducto());
                 mapaInformacionProductoInicio.put("Variedad", informacionProductoInicioDTO.getVariedadProducto());
                 mapaInformacionProductoInicio.put("Precio", informacionProductoInicioDTO.getPrecioProducto());
                 mapaInformacionProductoInicio.put("MilesSemillas", informacionProductoInicioDTO.getMilesSemillasProducto());
                 mapaInformacionProductoInicio.put("DireccionImagenProducto", informacionProductoInicioDTO.getDireccionImagenProducto());
 
-                String direccionImagenProveedor = obtenerDireccionImagenProveedor(informacionProductoInicioDTO.getIdProveedor()); 
+                String direccionImagenProveedor = obtenerDireccionImagenProveedor(informacionProductoInicioDTO.getIdProveedor().getId()); 
                 informacionProductoInicioDTO.setDireccionImagenProveedor(direccionImagenProveedor);
 
                 mapaInformacionProductoInicio.put("DireccionImagenProveedor", direccionImagenProveedor);
@@ -361,14 +361,14 @@ public class ControlCompra {
 
         for (InformacionProductoInicioDTO informacionProductoInicioDTO : listaProductoInicioDTO) {
             Map<String, Object> mapaInformacionProductoInicio = new HashMap<>();
-            mapaInformacionProductoInicio.put("Id", informacionProductoInicioDTO.getIdProducto());
+            mapaInformacionProductoInicio.put("Id", informacionProductoInicioDTO.getIdProducto().getId());
             mapaInformacionProductoInicio.put("Nombre", informacionProductoInicioDTO.getNombreProducto());
             mapaInformacionProductoInicio.put("Variedad", informacionProductoInicioDTO.getVariedadProducto());
             mapaInformacionProductoInicio.put("Precio", informacionProductoInicioDTO.getPrecioProducto());
             mapaInformacionProductoInicio.put("MilesSemillas", informacionProductoInicioDTO.getMilesSemillasProducto());
             mapaInformacionProductoInicio.put("DireccionImagenProducto", informacionProductoInicioDTO.getDireccionImagenProducto());
             
-            String direccionImagenProveedor = obtenerDireccionImagenProveedor(informacionProductoInicioDTO.getIdProveedor());
+            String direccionImagenProveedor = obtenerDireccionImagenProveedor(informacionProductoInicioDTO.getIdProveedor().getId());
             informacionProductoInicioDTO.setDireccionImagenProveedor(direccionImagenProveedor);
             
             mapaInformacionProductoInicio.put("DireccionImagenProveedor", direccionImagenProveedor);
@@ -420,7 +420,7 @@ public class ControlCompra {
             Map<String, Object> mapaInformacionProducto = new HashMap<>();
             
             if (informacionProductoDTO != null) {
-                mapaInformacionProducto.put("Id", informacionProductoDTO.getIdProducto());
+                mapaInformacionProducto.put("Id", informacionProductoDTO.getIdProducto().getId());
                 mapaInformacionProducto.put("Nombre", informacionProductoDTO.getNombreProducto());
                 mapaInformacionProducto.put("Variedad", informacionProductoDTO.getVariedadProducto());
                 mapaInformacionProducto.put("Descripcion", informacionProductoDTO.getDescripcionProducto());
@@ -428,10 +428,10 @@ public class ControlCompra {
                 mapaInformacionProducto.put("MilesSemillas", informacionProductoDTO.getMilesSemillasProducto());
                 mapaInformacionProducto.put("DireccionImagenProducto", informacionProductoDTO.getDireccionImagenProducto());
                 
-                String nombreProveedor = obtenerNombreProveedor(informacionProductoDTO.getIdProveedor());
+                String nombreProveedor = obtenerNombreProveedor(informacionProductoDTO.getIdProveedor().getId());
                 informacionProductoDTO.setNombreProveedor(nombreProveedor);
                 
-                String direccionImagenProveedor = obtenerDireccionImagenProveedor(informacionProductoDTO.getIdProveedor());
+                String direccionImagenProveedor = obtenerDireccionImagenProveedor(informacionProductoDTO.getIdProveedor().getId());
                 informacionProductoDTO.setDireccionImagenProveedor(direccionImagenProveedor);
                 
                 mapaInformacionProducto.put("NombreProveedor", informacionProductoDTO.getNombreProveedor());
@@ -459,7 +459,7 @@ public class ControlCompra {
      * la ventana actual que será cerrada.
      */
     public void mostrarCarritoCompras(Object idCliente, IVista vistaActual) {
-        List<Map<String, Object>> listaInformacionProductosCarrito = obtenerInformacionProductosCarrito(new IdEntidadGenerico(idCliente));
+        List<Map<String, Object>> listaInformacionProductosCarrito = obtenerInformacionProductosCarrito(idCliente);
         if(!listaInformacionProductosCarrito.isEmpty()){
             carrito.actualizarDatosEncabezado();
             ((ICarrito)carrito).setProductos(listaInformacionProductosCarrito);
@@ -480,7 +480,7 @@ public class ControlCompra {
      * mostrará la información del carrito.
      */
     public void mostrarCarritoCompras(Object idCliente) {
-        List<Map<String, Object>> listaInformacionProductosCarrito = obtenerInformacionProductosCarrito(new IdEntidadGenerico(idCliente));
+        List<Map<String, Object>> listaInformacionProductosCarrito = obtenerInformacionProductosCarrito(idCliente);
         
         if(!listaInformacionProductosCarrito.isEmpty()){
             carrito.actualizarDatosEncabezado();
@@ -503,7 +503,7 @@ public class ControlCompra {
      * de los productos del carrito del Cliente con el ID del parámetro, cada producto
      * es representado con un mapa.
      */
-    public List<Map<String, Object>> obtenerInformacionProductosCarrito(IdEntidadGenerico idCliente) {
+    public List<Map<String, Object>> obtenerInformacionProductosCarrito(Object idCliente) {
         
         List<InformacionProductoCarritoDTO> listaInformacionProductoCarritoDTO = new LinkedList<>();
         List<Map<String, Object>> listaInformacionProductosCarrito = new LinkedList<>();
@@ -530,16 +530,15 @@ public class ControlCompra {
                 informacionProductoCarritoDTO.setMilesSemillas(informacionProductoInicioDTO.getMilesSemillasProducto());
                 informacionProductoCarritoDTO.setDireccionImagenProducto(informacionProductoInicioDTO.getDireccionImagenProducto());
                 
-                String nombreProveedor = obtenerNombreProveedor(informacionProductoInicioDTO.getIdProveedor());
+                String nombreProveedor = obtenerNombreProveedor(informacionProductoInicioDTO.getIdProveedor().getId());
                 informacionProductoCarritoDTO.setNombreProveedor(nombreProveedor);
             }
 
 
             for (InformacionProductoCarritoDTO informacionProductoCarrito : listaInformacionProductoCarritoDTO) {
-
-
+                
                 Map<String, Object> mapaInformacionProductoCarrito = new HashMap<>();
-                mapaInformacionProductoCarrito.put("Id", informacionProductoCarrito.getId());
+                mapaInformacionProductoCarrito.put("Id", informacionProductoCarrito.getId().getId());
                 mapaInformacionProductoCarrito.put("Nombre", informacionProductoCarrito.getNombre());
                 mapaInformacionProductoCarrito.put("Variedad", informacionProductoCarrito.getVariedad());
                 mapaInformacionProductoCarrito.put("Precio", informacionProductoCarrito.getPrecio());
@@ -549,8 +548,6 @@ public class ControlCompra {
                 mapaInformacionProductoCarrito.put("DireccionImagenProducto", informacionProductoCarrito.getDireccionImagenProducto());
 
                 listaInformacionProductosCarrito.add(mapaInformacionProductoCarrito);
-
-
             }
         } catch (CarritoComprasIdClienteInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
@@ -664,7 +661,7 @@ public class ControlCompra {
             productoAgregado = true;
             
             mostrarCarritoCompras(idCliente, vistaActual);
-            
+                        
         } catch (CarritoComprasIdClienteInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
@@ -705,7 +702,7 @@ public class ControlCompra {
                     cantidad));
             
             productoEliminado = true;
-            mostrarCarritoCompras(new IdEntidadGenerico(idCliente), (IVista)carrito);
+            mostrarCarritoCompras(idCliente, (IVista)carrito);
 
         } catch (CarritoComprasIdClienteInvalidoException ex) {
             mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);

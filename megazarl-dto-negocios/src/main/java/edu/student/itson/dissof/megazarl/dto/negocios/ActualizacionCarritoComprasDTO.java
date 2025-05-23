@@ -34,6 +34,7 @@ public class ActualizacionCarritoComprasDTO {
      * compras.
      */
     private IdEntidadGenerico idPaqueteria;
+    
     private PaqueteriaDTO paqueteria;
 
     public PaqueteriaDTO getPaqueteria() {
@@ -95,8 +96,12 @@ public class ActualizacionCarritoComprasDTO {
      * @return Valor true, si el valor del atributo paqueteria no es nulo, false en caso
      * contrario.
      */
-    public boolean tienePaqueteria(){
+    public boolean tieneIdPaqueteria(){
         return idPaqueteria != null;
+    }
+    
+    public boolean tienePaqueteria(){
+        return paqueteria != null;
     }
     
     public boolean tieneEsVigente(){

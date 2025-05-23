@@ -299,10 +299,12 @@ class AdministradorProductos implements IAdministradorProductos {
                 productoRecuperado.getMilesSemillas(),
                 productoRecuperado.getDireccionImagen(),
                 productoRecuperado.getIdProveedor());
-
+        
         return informacionProductoDTO;
 
     }
+
+    
 
     @Override
     public ProductoDTO obtenerProducto(IdProductoDTO idProductoDTO){

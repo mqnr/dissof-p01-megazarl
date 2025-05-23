@@ -29,7 +29,7 @@ public class RepositorioPaqueteriaEnMemoria implements RepositorioPaqueteria {
     @Override
     public PaqueteriaDTO recuperarPorId(IdPaqueteriaDTO idPaqueteriaDTO) {
         return paqueterias.stream()
-                .filter(paqueteria -> paqueteria.getId().equals(idPaqueteriaDTO.getIdPaqueteria()))
+                .filter(paqueteria -> paqueteria.getId().getId().equals(idPaqueteriaDTO.getIdPaqueteria().getId()))
                 .findFirst()
                 .orElse(null);
     }
