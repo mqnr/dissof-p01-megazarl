@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 /**
  * ControlOrdenCompra.java
  * 
@@ -46,7 +47,10 @@ public class ControlOrdenCompra {
     private IMensaje mensaje;
     private IVista ordenCompra;
     
+    private List<Map<String, Object>> listaProductosOfrecidos = new ArrayList<>();
+    
     private static final Logger LOG = Logger.getLogger(ControlRegistroCliente.class.getName());
+    
     private Color COLOR_MENSAJE_EXITOSO = new Color(204, 255, 190);
     private Color COLOR_MENSAJE_ERROR = new Color(255, 195, 195);
     private Color COLOR_MENSAJE_ADVERTENCIA = new Color(255, 253, 222);
@@ -103,9 +107,9 @@ public class ControlOrdenCompra {
      * @param nombreProductoOfrecido 
      */
     public void mostrarProductosOfrecidosBusquedaNombre(String nombreProductoOfrecido) {
-        if(nombreProductoOfrecido.isBlank()){
-            iniciarOrdenCompra();
-        } else{
+        if (nombreProductoOfrecido.isBlank()) {
+            ((IOrdenCompra)ordenCompra).setProductosOfrecidosBusqueda(new ArrayList<>());
+        } else {
             // Se obtiene la lista de mapas que contienen la información de los productos a mostrar.
             List<Map<String, Object>> listaInformacionProductosOfrecidosBusqueda = obtenerProductosOfrecidosBusquedaNombre(nombreProductoOfrecido);
             if (listaInformacionProductosOfrecidosBusqueda.isEmpty()) {
@@ -155,7 +159,7 @@ public class ControlOrdenCompra {
 
             listaInformacionProductosBusqueda.add(mapaInformacionProductoInicio);
         }
-
+        this.listaProductosOfrecidos = listaInformacionProductosBusqueda;
         return listaInformacionProductosBusqueda;
     }
 
@@ -251,6 +255,12 @@ public class ControlOrdenCompra {
         }
 
         return listaInformacionSucursalInicio;
+    }
+    
+    public List<Map<String, Object>> obtenerProductosOfrecidosPorProveedor(String nombreProveedor) {
+        return listaProductosOfrecidos.stream()
+            .filter(p -> p.get("Proveedor").equals(nombreProveedor))
+            .collect(Collectors.toList());
     }
     
     /**

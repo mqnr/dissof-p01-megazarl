@@ -1013,9 +1013,65 @@ public class App {
                                 new LinkedList<>(),
                                 new LinkedList<>());
 
+                    ProductoDTONegocios producto15 = new ProductoDatosCompletosRelacionesDTONegocios(
+                                "Melón",
+                                "Cruiser F1", 
+                                """
+                                    Semilla de melón híbrido Cruiser F1, de amplia adaptabilidad y altos rendimientos,
+                                    frutos grandes y muy uniformes, de alta calidad de empaque. Mantiene tamaños en 
+                                    bajas temperaturas. Su pulpa es firme y crujiente de excelente color. De madurez 
+                                    relativa precoz.
+                                """,        
+                                10, 
+                                7200d, 
+                                2d,
+                                "src/main/resources/melonCruiserF1.png",
+                                proveedor7,
+                                new LinkedList<>(),
+                                new LinkedList<>(),
+                                new LinkedList<>());
+
+                    ProductoDTONegocios producto16 =  new ProductoDatosCompletosRelacionesDTONegocios(
+                                "Chile Ancho",
+                                "Commander",
+                                """
+                                    De porte alto, fuerte y vigoroso con buena cobertura foliar y excelente concentración de frutos.
+                                    Commander presenta frutos verde oscuro altamente uniformes y con predominancia de dos venas, 
+                                    con paredes gruesas que Ie aportan mayor peso especifico a cada uno de ellos, su maduración es 
+                                    a color chocolate.
+                                """,
+                                10,
+                                12000d,
+                                2.5d,
+                                "src/main/resources/chileAnchoCommander.png",
+                                proveedor6,
+                                new LinkedList<>(),
+                                new LinkedList<>(),
+                                new LinkedList<>());
+                    
+                    ProductoDTONegocios producto17 = new ProductoDatosCompletosRelacionesDTONegocios(
+                                "Chile Piquín",
+                                "Daniel MiraMoMos",
+                                """
+                                    Planta de porte vigoroso, potencial de rebrote que le brinda alto potencial de rendimiento.
+                                    Forma de fruto ligeramente conca de color oscuro de 4 1/2 a 5 pulgadas. Frutos de paredes gruesas 
+                                    con buen llenado. Variedad con alto potencial de rendimiento, resistencia a BLS y planta vigorosa.
+                                """,
+                                25,
+                                24300d,
+                                0.7d,
+                                "/chileJalapenioMixtecoF1.png",
+                                proveedor7,
+                                new LinkedList<>(),
+                                new LinkedList<>(),
+                                new LinkedList<>());
+                    
                     List<ProductoDTONegocios> listaProductos2 = Arrays.asList(
                             producto13,
-                            producto14
+                            producto14,
+                            producto15,
+                            producto16,
+                            producto17
                     );
                     Producto.agregar(listaProductos2);
                     
@@ -1029,20 +1085,31 @@ public class App {
                     ProductoInventarioDTONegocios productoInventario54 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto14, sucursal6);
                     ProductoInventarioDTONegocios productoInventario55 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto14, sucursal7);
                     ProductoInventarioDTONegocios productoInventario56 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto14, sucursal7);
+                    
+                    ProductoInventarioDTONegocios productoInventario57 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto15, sucursal5);
+                    ProductoInventarioDTONegocios productoInventario58 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto15, sucursal5);
+                    
+                    ProductoInventarioDTONegocios productoInventario59 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto16, sucursal7);
+                    ProductoInventarioDTONegocios productoInventario60 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto16, sucursal7);
+                    
+                    ProductoInventarioDTONegocios productoInventario61 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto17, sucursal5);
+                    ProductoInventarioDTONegocios productoInventario62 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto17, sucursal7);
 
                     List<ProductoInventarioDTONegocios> listaProductosInventario2 = Arrays.asList(
                             productoInventario51,
                             productoInventario52,
-
                             productoInventario53,
                             productoInventario54,
                             productoInventario55,
-                            productoInventario56
+                            productoInventario56,
+                            productoInventario57,
+                            productoInventario58,
+                            productoInventario59,
+                            productoInventario60,
+                            productoInventario61,
+                            productoInventario62
                     );
-
-
                     ProductoInventario.agregar(listaProductosInventario2);
-
 
                     DireccionDTONegocios direccionPaqueteria6 = new DireccionDTONegocios(
                                 "83240",

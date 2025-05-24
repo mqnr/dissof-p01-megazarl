@@ -15,6 +15,7 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.BorderFactory;
@@ -30,7 +31,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTextField;
+import javax.swing.JViewport;
 import javax.swing.SwingConstants;
 /**
  * OrdenCompra.java
@@ -44,9 +45,9 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{
     private final ControlOrdenCompra control;
     private IdEntidadGenericoNegocios idGerenteVentas;
     
-    private EncabezadoOrdenCompra encabezado;
+    private Map<String, EstadoProductoSeleccionado> estadoProductosSeleccionados = new HashMap<>();
     
-    private List<Map<String, Object>> productosOfrecidosOriginal;
+    private EncabezadoOrdenCompra encabezado;
     
     private JPanel panelGeneral;
     private JPanel panelProveedores;
@@ -105,8 +106,7 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{
     /**
      * 
      */
-    private void initComponents() {
-        
+    private void initComponents() { 
         this.setLayout(new BorderLayout());
 
         encabezado = new EncabezadoOrdenCompra(control, idGerenteVentas, this);
@@ -211,6 +211,8 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{
         ButtonGroup grupoProveedores = new ButtonGroup();
 
         for (Map<String, Object> informacionProveedor : listaInformacionProveedores) {
+            String nombreProveedor = (String) informacionProveedor.get("Nombre");
+            
             JPanel panelProveedor = new JPanel();
             panelProveedor.setLayout(new BoxLayout(panelProveedor, BoxLayout.X_AXIS));
             panelProveedor.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -223,6 +225,10 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{
             radioButton.setAlignmentY(Component.TOP_ALIGNMENT);
             radioButton.setOpaque(false);
             grupoProveedores.add(radioButton);
+            
+            radioButton.addActionListener(e -> {
+                filtrarProductosPorProveedor(nombreProveedor);
+            });
            
             // Imagen de cada proveedor
             String rutaImagen = (String) informacionProveedor.get("DireccionImagenProveedor");
@@ -379,6 +385,38 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{
      */
     @Override
     public void setProductosOfrecidosBusqueda(List<Map<String, Object>> listaInformacionProductosOfrecidos) {
+        for (Component componente : panelProductosOfrecidos.getComponents()) {
+            if (componente instanceof JScrollPane scroll) {
+                JViewport viewport = scroll.getViewport();
+                Component contenido = viewport.getView();
+                if (contenido instanceof JPanel panelLista) {
+                    for (Component panelProductoComp : panelLista.getComponents()) {
+                        if (panelProductoComp instanceof JPanel panelProducto) {
+                            JPanel panelCentro = (JPanel) panelProducto.getComponent(1);
+                            JLabel lblNombre = (JLabel) panelCentro.getComponent(0);
+                            JLabel lblVariedad = (JLabel) panelCentro.getComponent(1); // Nuevo
+                            JLabel lblProveedor = (JLabel) panelCentro.getComponent(2); // Nuevo
+                            JCheckBox check = (JCheckBox) panelCentro.getComponent(4);
+
+                            JPanel panelCantidad = (JPanel) panelProducto.getComponent(3);
+                            JLabel lblCantidad = (JLabel) panelCantidad.getComponent(1);
+
+                            // 🔁 CAMBIO 2: clave compuesta única
+                            String nombre = lblNombre.getText().trim();
+                            String variedad = lblVariedad.getText().trim();
+                            String proveedor = lblProveedor.getText().replace("Proveedor: ", "").trim();
+                            String clave = generarClaveProducto(nombre, variedad, proveedor);
+
+                            boolean seleccionado = check.isSelected();
+                            int cantidad = Integer.parseInt(lblCantidad.getText());
+
+                            estadoProductosSeleccionados.put(clave, new EstadoProductoSeleccionado(seleccionado, cantidad));
+                        }
+                    }
+                }
+            }
+        }
+        
         panelProductosOfrecidos.removeAll();
 
         JPanel contenedorEncabezado = new JPanel(new BorderLayout());
@@ -395,7 +433,6 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{
 
         panelProductosOfrecidos.add(contenedorEncabezado);
 
-        // Panel contenedor de todos los productos
         JPanel panelListaProductos = new JPanel();
         panelListaProductos.setLayout(new BoxLayout(panelListaProductos, BoxLayout.Y_AXIS));
         panelListaProductos.setOpaque(false);
@@ -408,25 +445,26 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{
             panelProducto.setMaximumSize(new Dimension(panelProductosOfrecidos.getPreferredSize().width - 40, 140));
             panelProducto.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-            // Botón con imagen del producto (para ver detalles más adelante)
+            // Imagen del producto como JLabel
             String rutaImagenProducto = (String) producto.get("DireccionImagenProducto");
-            JButton btnImagen = new JButton();
-            btnImagen.setPreferredSize(new Dimension(100, 100));
-            btnImagen.setFocusPainted(false);
-            btnImagen.setContentAreaFilled(false);
-            btnImagen.setBorderPainted(false);
+            JLabel lblImagen = new JLabel();
+            lblImagen.setPreferredSize(new Dimension(120, 100));
 
             try {
                 File archivo = new File(rutaImagenProducto);
                 if (archivo.exists()) {
                     ImageIcon iconoOriginal = new ImageIcon(rutaImagenProducto);
                     Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-                    btnImagen.setIcon(new ImageIcon(imagenEscalada));
+                    lblImagen.setIcon(new ImageIcon(imagenEscalada));
                 } else {
-                    btnImagen.setText("Sin imagen");
+                    lblImagen.setText("Sin imagen");
+                    lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
+                    lblImagen.setVerticalAlignment(SwingConstants.CENTER);
                 }
             } catch (Exception ex) {
-                btnImagen.setText("Error imagen");
+                lblImagen.setText("Error imagen");
+                lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
+                lblImagen.setVerticalAlignment(SwingConstants.CENTER);
             }
 
             // Panel con nombre y proveedor
@@ -437,12 +475,11 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{
 
             JLabel lblNombre = new JLabel("" + producto.get("Nombre"));
             JLabel lblVariedad = new JLabel("" + producto.get("Variedad"));
-            JLabel lblProveedor = new JLabel("proveedor: " + producto.get("Proveedor"));
+            JLabel lblProveedor = new JLabel("Proveedor: " + producto.get("Proveedor"));
             lblNombre.setFont(FUENTE_PANEL_INFORMACION_PRODUCTOS_NOMBRE);
             lblVariedad.setFont(FUENTE_PANEL_INFORMACION_PRODUCTOS_VARIEDAD);
             lblProveedor.setFont(FUENTE_PANEL_INFORMACION_PRODUCTOS_PROVEEDOR);
 
-            // Checkbox
             JCheckBox checkSeleccion = new JCheckBox("Seleccionar");
             checkSeleccion.setOpaque(false);
             checkSeleccion.setFont(FUENTE_PANEL_INFORMACION_PRODUCTOS_SELECCIONAR);
@@ -453,54 +490,56 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{
             panelCentro.add(Box.createVerticalStrut(5));
             panelCentro.add(checkSeleccion);
 
-            // Panel de cantidad con botones + y -
+            // Panel cantidad con JLabel
             JPanel panelCantidad = new JPanel();
             panelCantidad.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
             panelCantidad.setOpaque(false);
 
             JButton btnMenos = new JButton("-");
             JButton btnMas = new JButton("+");
-            JTextField txtCantidad = new JTextField("0", 3);
-            txtCantidad.setHorizontalAlignment(JTextField.CENTER);
-            txtCantidad.setMaximumSize(new Dimension(40, 25));
-            txtCantidad.setFont(FUENTE_PANEL_INFORMACION_PRODUCTOS_CANTIDAD);
+
+            JLabel lblCantidad = new JLabel("0");
+            lblCantidad.setFont(FUENTE_PANEL_INFORMACION_PRODUCTOS_CANTIDAD);
+            lblCantidad.setPreferredSize(new Dimension(30, 25));
+            lblCantidad.setHorizontalAlignment(SwingConstants.CENTER);
 
             btnMenos.addActionListener(e -> {
-                try {
-                    int cantidad = Integer.parseInt(txtCantidad.getText());
-                    if (cantidad > 0) {
-                        txtCantidad.setText(String.valueOf(cantidad - 1));
-                    }
-                } catch (NumberFormatException ex) {
-                    txtCantidad.setText("0");
+                int cantidad = Integer.parseInt(lblCantidad.getText());
+                if (cantidad > 0) {
+                    lblCantidad.setText(String.valueOf(cantidad - 1));
                 }
             });
 
             btnMas.addActionListener(e -> {
-                try {
-                    int cantidad = Integer.parseInt(txtCantidad.getText());
-                    txtCantidad.setText(String.valueOf(cantidad + 1));
-                } catch (NumberFormatException ex) {
-                    txtCantidad.setText("1");
-                }
+                int cantidad = Integer.parseInt(lblCantidad.getText());
+                lblCantidad.setText(String.valueOf(cantidad + 1));
             });
 
+            String nombre = (String) producto.get("Nombre");
+            String variedad = (String) producto.get("Variedad");
+            String proveedor = (String) producto.get("Proveedor");
+
+            String clave = generarClaveProducto(nombre, variedad, proveedor);
+            EstadoProductoSeleccionado estado = estadoProductosSeleccionados.get(clave);
+            if (estado != null) {
+                checkSeleccion.setSelected(estado.isSeleccionado());
+                lblCantidad.setText(String.valueOf(estado.getCantidad()));
+            }
+            
             panelCantidad.add(btnMenos);
-            panelCantidad.add(txtCantidad);
+            panelCantidad.add(lblCantidad);
             panelCantidad.add(btnMas);
 
-            // Agregar todos los componentes al panel de producto
-            panelProducto.add(btnImagen);
+            // Agregar al panel del producto
+            panelProducto.add(lblImagen);
             panelProducto.add(panelCentro);
             panelProducto.add(Box.createHorizontalGlue());
             panelProducto.add(panelCantidad);
 
-            // Separador entre productos
             panelListaProductos.add(panelProducto);
             panelListaProductos.add(Box.createVerticalStrut(10));
         }
 
-        // Scroll que contiene la lista de productos ofrecidos
         JScrollPane scroll = new JScrollPane(panelListaProductos, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.setPreferredSize(panelProductosOfrecidos.getPreferredSize());
         scroll.setBorder(BorderFactory.createEmptyBorder());
@@ -606,6 +645,42 @@ public class OrdenCompra extends JFrame implements IOrdenCompra, IVista{
         return panelEncabezado;
     }
 
+    private void filtrarProductosPorProveedor(String nombreProveedor) {
+        List<Map<String, Object>> productosFiltrados = control.obtenerProductosOfrecidosPorProveedor(nombreProveedor);
+
+        setProductosOfrecidosBusqueda(productosFiltrados);
+    }
+    
+    private String generarClaveProducto(String nombre, String variedad, String proveedor) {
+        return nombre.trim() + "|" + variedad.trim() + "|" + proveedor.trim();
+    }
+    
+    private static class EstadoProductoSeleccionado {
+        private boolean seleccionado;
+        private int cantidad;
+
+        public EstadoProductoSeleccionado(boolean seleccionado, int cantidad) {
+            this.seleccionado = seleccionado;
+            this.cantidad = cantidad;
+        }
+
+        public boolean isSeleccionado() {
+            return seleccionado;
+        }
+
+        public void setSeleccionado(boolean seleccionado) {
+            this.seleccionado = seleccionado;
+        }
+
+        public int getCantidad() {
+            return cantidad;
+        }
+
+        public void setCantidad(int cantidad) {
+            this.cantidad = cantidad;
+        }
+    }
+    
     /**
      * 
      */
