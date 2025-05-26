@@ -5,6 +5,7 @@ import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.Clien
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesCorreoElectronicoYaExisteException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdDireccionInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesTelefonoNuevoClienteYaExisteException;
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTONegocios;
@@ -38,14 +39,14 @@ public interface IAdministradorClientes {
      * @param idClienteDTO IdClienteDTONegocios que contiene el ID del Cliente a validar.
      * @return true, si el ID del cliente es válido, false en caso contrario.
      */
-    public abstract boolean validarCliente(IdClienteDTONegocios idClienteDTO);
+    public abstract boolean validarCliente(IdClienteDTONegocios idClienteDTO) throws ClientesPersistenciaException;
 
     /**
      * Métodoo que permite obtener un objeto Cliente a partir de si ID, si este existe.
      * @param idClienteDTO Objeto IdClienteDTONegocios que contiene el ID del Cliente a obtener.
-     * @return Objeto ClienteDTONegocios que representa al Cliente con el ID del parámetro.
+     * @return Objeto ClienteDTO que representa al Cliente con el ID del parámetro.
      */
-    public abstract ClienteDTONegocios obtenerCliente(IdClienteDTONegocios idClienteDTO);
+    public abstract ClienteDTONegocios obtenerCliente(IdClienteDTONegocios idClienteDTONegocios) throws ClientesPersistenciaException;
 
     /**
      * Método que permite actualizar los datos de la dirección de envío del cliente, que son Código Postal, Calle y Número.
@@ -59,7 +60,8 @@ public interface IAdministradorClientes {
     public abstract void actualizarDireccionCliente(InformacionDireccionEnvioActualizadaClienteDTONegocios informacioDireccionEnvioActualizadaClienteDTO)
             throws ClientesIdClienteInvalidoException,
             ClientesAccesoArchivoCodigosPostalesFallidoException,
-            ClientesArchivoCodigosPostalesVacioException;
+            ClientesArchivoCodigosPostalesVacioException,
+            ClientesPersistenciaException;
     
     /**
      * Método que permite obtener la información sobre la dirección de envío de un Cliente que este ingresa (Código Postal, Calle y Número)
@@ -72,7 +74,8 @@ public interface IAdministradorClientes {
      */
     public abstract InformacionNoDerivadaCPDireccionDTONegocios obtenerInformacionNoDerivadaCPDireccionEnvio(IdClienteDTONegocios idClienteDTO)
             throws ClientesIdClienteInvalidoException,
-            ClientesIdDireccionInvalidoException;
+            ClientesIdDireccionInvalidoException,
+            ClientesPersistenciaException;
     
     /**
      * Método que permite obtener la información sobre la dirección derivada de un cliente.
@@ -85,7 +88,8 @@ public interface IAdministradorClientes {
      */
     public abstract InformacionDerivadaCPDireccionDTONegocios obtenerInformacionDerivadaCPDireccionEnvio(IdClienteDTONegocios idClienteDTO)
             throws ClientesIdClienteInvalidoException,
-            ClientesIdDireccionInvalidoException;
+            ClientesIdDireccionInvalidoException,
+            ClientesPersistenciaException;
 
     /**
      * Método que permite obtener el o los nombres y el apellido paterno de un Cliente.
@@ -95,10 +99,12 @@ public interface IAdministradorClientes {
      * del Cliente es inválido, en este subsistema.
      */
     public abstract NombresApellidoClienteDTONegocios obtenerNombresApellidoCliente(IdClienteDTONegocios idClienteDTO)
-            throws ClientesIdClienteInvalidoException;
+            throws ClientesIdClienteInvalidoException,
+            ClientesPersistenciaException;
     
     
-    public abstract void registrarCliente(ClienteDTONegocios clienteDTO)
+    public abstract void registrarCliente(ClienteDTONegocios clienteDTONegocios)
             throws ClientesTelefonoNuevoClienteYaExisteException,
-            ClientesCorreoElectronicoYaExisteException;
+            ClientesCorreoElectronicoYaExisteException,
+            ClientesPersistenciaException;
 }

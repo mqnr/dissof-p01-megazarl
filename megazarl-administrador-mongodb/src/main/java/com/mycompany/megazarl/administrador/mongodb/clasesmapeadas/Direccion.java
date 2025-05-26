@@ -4,7 +4,8 @@ package com.mycompany.megazarl.administrador.mongodb.clasesmapeadas;
 import org.bson.types.ObjectId;
 
 /**
- * Clase que representa una dirección en el sistema.
+ * Clase que representa una dirección en el sistema, esta anidada dentro de
+ * las clases que representan a un Cliente, Proveedor y Sucursal registrados en el sistema.
  * 
  * @author Yuri Germán García López
  * ID: 00000252583
@@ -24,14 +25,33 @@ public class Direccion {
     
     private String numero;
 
-    public Direccion(String codigoPostal, String colonia, String calle, String numero) {
+    public Direccion() {}
+        
+    public Direccion(
+            ObjectId id,
+            String codigoPostal,
+            String colonia,
+            String calle, 
+            String numero) {
+        
+        this.id = id;
         this.codigoPostal = codigoPostal;
         this.colonia = colonia;
         this.calle = calle;
         this.numero = numero;
     }
-
-    public Direccion() {
+    
+    public Direccion(
+            String codigoPostal,
+            String colonia,
+            String calle, 
+            String numero) {
+        
+        this.id = new ObjectId();
+        this.codigoPostal = codigoPostal;
+        this.colonia = colonia;
+        this.calle = calle;
+        this.numero = numero;
     }
 
     public ObjectId getId() {
@@ -72,11 +92,6 @@ public class Direccion {
 
     public void setNumero(String numero) {
         this.numero = numero;
-    }
-
-    @Override
-    public String toString() {
-        return "Direccion{" + "id=" + id + ", codigoPostal=" + codigoPostal + ", colonia=" + colonia + ", calle=" + calle + ", numero=" + numero + '}';
     }
     
 }

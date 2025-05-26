@@ -1,6 +1,5 @@
 package edu.student.itson.dissof.megazarl.carritocompras;
 
-import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasAccesoDatosException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdProductoInvalidoException;
@@ -13,6 +12,7 @@ import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoCompr
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdProductoInventarioInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdSucursalInvalidoException;
+import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasPersistenciaException;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClientePaqueteriaDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoCarritoDTONegocios;
@@ -60,7 +60,8 @@ public interface IAdministradorCarritoCompras {
     public abstract List<InformacionProductoCarritoDTONegocios> obtenerProductos(IdClienteDTONegocios idClienteDTO)
             throws CarritoComprasIdClienteInvalidoException,
             CarritoComprasIdProductoInvalidoException,
-            CarritoComprasIdProductoCarritoInvalidoException;
+            CarritoComprasIdProductoCarritoInvalidoException,
+            CarritoComprasPersistenciaException;
 
     /**
      * Método que permite agregar un producto al carrito de un cliente.
@@ -75,7 +76,7 @@ public interface IAdministradorCarritoCompras {
      * @throws CarritoComprasProductoSinInventarioException Se lanza si se comprueba que no
      * hay suficiente inventario del producto, dentro de este subsistema.
      * @throws CarritoComprasIdProductoCarritoInvalidoException
-     * @throws edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasAccesoDatosException
+     * @throws CarritoComprasAccesoDatosException
      */
     public abstract void agregarProducto(InformacionProductoAgregarCarritoDTONegocios informacionProductoAgregarCarritoDTO) 
             throws CarritoComprasIdClienteInvalidoException,
@@ -84,7 +85,7 @@ public interface IAdministradorCarritoCompras {
             CarritoComprasIdProductoInvalidoException,
             CarritoComprasProductoSinInventarioException,
             CarritoComprasIdProductoCarritoInvalidoException,
-            CarritoComprasAccesoDatosException;
+            CarritoComprasPersistenciaException;
 
     /**
      * Método que permite eliminar un producto del carrito de un cliente.
@@ -106,7 +107,8 @@ public interface IAdministradorCarritoCompras {
             CarritoComprasIdProductoInvalidoException,
             CarritoComprasCarritoSinProductoException,
             CarritoComprasClienteSinCarritoVigenteException,
-            CarritoComprasIdProductoCarritoInvalidoException;
+            CarritoComprasIdProductoCarritoInvalidoException,
+            CarritoComprasPersistenciaException;
 
     /**
      * Método que permite obtener el número total de productos en el carrito de un cliente.
@@ -119,7 +121,8 @@ public interface IAdministradorCarritoCompras {
      */
     public abstract Integer obtenerNumeroProductos(IdClienteDTONegocios idClienteDTO)
             throws CarritoComprasIdClienteInvalidoException,
-            CarritoComprasIdProductoCarritoInvalidoException;
+            CarritoComprasIdProductoCarritoInvalidoException,
+            CarritoComprasPersistenciaException;
 
     /**
      * Método que permite obtener el tiempo estimado de preparación de los productos en
@@ -147,7 +150,8 @@ public interface IAdministradorCarritoCompras {
             CarritoComprasIdProductoInvalidoException,
             CarritoComprasIdProductoCarritoInvalidoException,
             CarritoComprasIdProductoInventarioInvalidoException,
-            CarritoComprasIdDireccionInvalidoException;
+            CarritoComprasIdDireccionInvalidoException,
+            CarritoComprasPersistenciaException;
 
     /**
      * Método que permite obtener información sobre el monto mínimo requerido para envío
@@ -167,7 +171,8 @@ public interface IAdministradorCarritoCompras {
             throws CarritoComprasIdClienteInvalidoException,
             CarritoComprasClienteSinCarritoVigenteException,
             CarritoComprasIdProductoInvalidoException,
-            CarritoComprasIdProductoCarritoInvalidoException;
+            CarritoComprasIdProductoCarritoInvalidoException,
+            CarritoComprasPersistenciaException;
     
     
     /**
@@ -198,7 +203,8 @@ public interface IAdministradorCarritoCompras {
             CarritoComprasIdProveedorInvalidoException,
             CarritoComprasIdDireccionInvalidoException,
             CarritoComprasIdProductoInventarioInvalidoException,
-            CarritoComprasIdProductoCarritoInvalidoException;
+            CarritoComprasIdProductoCarritoInvalidoException,
+            CarritoComprasPersistenciaException;
 
     /**
      * Método que permite asignar una paquetería al carrito de un cliente.
@@ -217,7 +223,7 @@ public interface IAdministradorCarritoCompras {
             CarritoComprasIdPaqueteriaInvalidoException,
             CarritoComprasClienteSinCarritoVigenteException,
             FormatoIdInvalidoNegocioException,
-            CarritoComprasAccesoDatosException;
+            CarritoComprasPersistenciaException;
 
     /**
      * Método que permite crear un pedido a partir de los productos en el carrito de un cliente.
@@ -245,11 +251,13 @@ public interface IAdministradorCarritoCompras {
             CarritoComprasIdDireccionInvalidoException,
             CarritoComprasIdProductoInventarioInvalidoException,
             CarritoComprasIdProductoCarritoInvalidoException,
-            CarritoComprasAccesoDatosException;
+            CarritoComprasPersistenciaException;
     
     
-    public abstract boolean validarProductoCarrito(IdProductoCarritoDTONegocios idProductoCarritoDTO);
+    public abstract boolean validarProductoCarrito(IdProductoCarritoDTONegocios idProductoCarritoDTO) 
+            throws CarritoComprasPersistenciaException;
     
-    public abstract ProductoCarritoDTONegocios obtenerProductoCarrito(IdProductoCarritoDTONegocios idProductoCarritoDTO);
+    public abstract ProductoCarritoDTONegocios obtenerProductoCarrito(IdProductoCarritoDTONegocios idProductoCarritoDTO) 
+            throws CarritoComprasPersistenciaException;
     
 }

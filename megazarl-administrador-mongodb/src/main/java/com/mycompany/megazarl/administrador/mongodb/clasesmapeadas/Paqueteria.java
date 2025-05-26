@@ -5,7 +5,8 @@ import org.bson.types.ObjectId;
 
 
 /**
- * Clase que representa una paquetería en el sistema.
+ * Clase que representa una paquetería registrada en el sistema que realiza el
+ * envío y traslado de productos entre sucursales y hacie el cliente.
  * 
  * @author Yuri Germán García López
  * ID: 00000252583
@@ -27,8 +28,7 @@ public class Paqueteria {
     
     private Direccion direccion;
 
-    public Paqueteria() {
-    }
+    public Paqueteria() {}
     
     public Paqueteria(String nombre, Float cobroKg, Float cobroHora, String direccionImagen, Direccion direccion) {
         this.nombre = nombre;

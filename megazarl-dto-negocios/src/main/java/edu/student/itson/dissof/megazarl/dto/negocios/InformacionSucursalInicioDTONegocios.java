@@ -26,9 +26,9 @@ public class InformacionSucursalInicioDTONegocios {
     private Boolean esMatrizSucursal;
     
     /**
-     * Objeto Long que representa el id de la dirección que tiene la sucursal.
+     * Objeto DireccionDTONegocios que representa la dirección que tiene la sucursal.
      */
-    private IdEntidadGenericoNegocios idDireccionSucursal;
+    private DireccionDTONegocios direccion;
 
     /**
      * Constructor de la clase que recibe informacion de la sucursal a mostrar 
@@ -36,12 +36,16 @@ public class InformacionSucursalInicioDTONegocios {
      * 
      * @param idSucursal                Objeto IdEntidadGenerico que representa el id de la sucursal.
      * @param esMatrizSucursal          Objeto Boolean que determina si la sucursal es una matriz o no.
-     * @param idDireccionSucursal       Objeto IdEntidadGenerico que representa el id de la dirección que tiene la sucursal.
+     * @param direccion      Objeto IdEntidadGenerico que representa el id de la dirección que tiene la sucursal.
      */
-    public InformacionSucursalInicioDTONegocios(IdEntidadGenericoNegocios idSucursal, Boolean esMatrizSucursal, IdEntidadGenericoNegocios idDireccionSucursal) {
+    public InformacionSucursalInicioDTONegocios(
+            IdEntidadGenericoNegocios idSucursal, 
+            Boolean esMatrizSucursal, 
+            DireccionDTONegocios direccionDTONegocios) {
+        
         this.idSucursal = idSucursal;
         this.esMatrizSucursal = esMatrizSucursal;
-        this.idDireccionSucursal = idDireccionSucursal;
+        this.direccion = direccion;
     }
 
     /**
@@ -64,8 +68,8 @@ public class InformacionSucursalInicioDTONegocios {
      * 
      * @return 
      */
-    public IdEntidadGenericoNegocios getIdDireccionSucursal() {
-        return idDireccionSucursal;
+    public DireccionDTONegocios getDireccionSucursal() {
+        return direccion;
     }
 
     /**

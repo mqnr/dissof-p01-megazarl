@@ -17,17 +17,6 @@ public class ActualizacionProductoCarritoDTODatos {
     private Integer cantidad;
     
     /**
-     * Objeto IdEntidadGenericoDatos que representa el carrito compras al que pertenece el
- producto.
-     */
-    private IdEntidadGenericoDatos idCarritoCompras;
-    
-    /**
-     * Objeto IdEntidadGenericoDatos que representa el producto dentro del carrito.
-     */
-    private IdEntidadGenericoDatos idProducto;
-
-    /**
      * Constructor de la clase que recibe el ID.
      * @param id Objeto Long que representa el ID del producto en el carrito.
      */
@@ -49,23 +38,6 @@ public class ActualizacionProductoCarritoDTODatos {
      */
     public Integer getCantidad() {
         return cantidad;
-    }
-
-    /**
-     * Método que permite obtener el carrto de compras al que pertence el producto.
-     * @return Objeto Long que representa el carrito compras al que pertenece el
-     * producto.
-     */
-    public IdEntidadGenericoDatos getIdCarritoCompras() {
-        return idCarritoCompras;
-    }
-
-    /**
-     * Método que permite obtener el producto dentro del carrito de compras.
-     * @return Objeto Integer que representa la cantidad del producto en el carrito.
-     */
-    public IdEntidadGenericoDatos getIdProducto() {
-        return idProducto;
     }
     
     /**

@@ -23,7 +23,7 @@ import java.util.Objects;
  * ID: 00000251923
  * 
  */
-public abstract class ProductoDTONegocios {
+public class ProductoDTONegocios {
 
     /**
      * Objeto Long que representa el ID del producto
@@ -64,6 +64,8 @@ public abstract class ProductoDTONegocios {
      * Objeto String que representa la dirección de la imagen del producto
      */
     private String direccionImagen;
+    
+    private IdEntidadGenericoNegocios idProveedor;
 
 
     /**
@@ -76,6 +78,7 @@ public abstract class ProductoDTONegocios {
      * @param precio                    Objeto Double que representa el precio del producto
      * @param pesoKg                    Objeto Double que representa el peso del producto en kilogramos
      * @param direccionImagen           Objeto String que representa la dirección de la imagen del producto
+     * @param idProveedor
      */
     public ProductoDTONegocios(
             IdEntidadGenericoNegocios id, 
@@ -85,7 +88,8 @@ public abstract class ProductoDTONegocios {
             Integer milesSemillas, 
             Double precio,
             Double pesoKg,
-            String direccionImagen) {
+            String direccionImagen,
+            IdEntidadGenericoNegocios idProveedor) {
         
         this.id = id;
         this.nombre = nombre;
@@ -95,6 +99,7 @@ public abstract class ProductoDTONegocios {
         this.precio = precio;
         this.pesoKg = pesoKg;
         this.direccionImagen = direccionImagen;
+        this.idProveedor = idProveedor;
     }
     
     /**
@@ -106,6 +111,7 @@ public abstract class ProductoDTONegocios {
      * @param precio                    Objeto Double que representa el precio del producto
      * @param pesoKg                    Objeto Double que representa el peso del producto en kilogramos
      * @param direccionImagen           Objeto String que representa la dirección de la imagen del producto
+     * @param idProveedor
      */
     public ProductoDTONegocios(
             String nombre, 
@@ -114,7 +120,8 @@ public abstract class ProductoDTONegocios {
             Integer milesSemillas, 
             Double precio,
             Double pesoKg,
-            String direccionImagen) {
+            String direccionImagen,
+            IdEntidadGenericoNegocios idProveedor) {
 
         this.nombre = nombre;
         this.variedad = variedad;
@@ -123,6 +130,7 @@ public abstract class ProductoDTONegocios {
         this.precio = precio;
         this.pesoKg = pesoKg;
         this.direccionImagen = direccionImagen;
+        this.idProveedor = idProveedor;
     }
     
 
@@ -190,15 +198,6 @@ public abstract class ProductoDTONegocios {
         return direccionImagen;
     }
 
-
-    public abstract List<IdEntidadGenericoNegocios> getIdsProductosInventario();
-    
-    public abstract List<IdEntidadGenericoNegocios> getIdsProductosCarrito();
-    
-    public abstract List<IdEntidadGenericoNegocios> getIdsProductosPedido();
-    
-    public abstract IdEntidadGenericoNegocios getIdProveedor();
-    
     /**
      * Método que permite establecer el ID del producto.
      * @param id Objeto Long que representa el ID del producto.
@@ -207,6 +206,10 @@ public abstract class ProductoDTONegocios {
         this.id = id;
     }
 
+    public IdEntidadGenericoNegocios getIdProveedor() {
+        return idProveedor;
+    }
+    
     /**
      * Método que permite obtener el hash code del producto, a partir de su ID
      * @return Dato int que representa el hash code del producto

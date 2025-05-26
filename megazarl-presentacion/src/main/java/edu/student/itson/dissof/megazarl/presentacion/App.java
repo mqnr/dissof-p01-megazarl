@@ -4,36 +4,31 @@ import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
 
 import edu.student.itson.dissof.megazarl.dto.negocios.AuxiliarVentasDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDatosCompletosRelacionesDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.GerenteVentasDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.PaqueteriaDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.PaqueteriaDatosCompletosRelacionesDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDatosCompletosRelacionesDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProductoInventarioDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProductoInventarioDatosCompletosRelacionesDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDatosCompletosRelacionesDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDatosCompletosRelacionesDTONegocios;
 import edu.student.itson.dissof.megazarl.objetosnegocio.AuxiliarVentas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Direccion;
-import edu.student.itson.dissof.megazarl.objetosnegocio.GerenteVentas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Paqueteria;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Producto;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Proveedor;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Sucursal;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.FormatoIdInvalidoNegocioException;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ParametroNuloNegocioException;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.RegistroInexistenteNegocioException;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ValorParametroInvalidoNegocioException;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -41,7 +36,9 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class App {
-    private static final Logger logger = Logger.getLogger(App.class.getName());
+
+    private static final Logger LOG = Logger.getLogger(App.class.getName());
+    private static final String MENSAJE_ERROR_INICIAR_APLICACION = "Ha ocurrido un error al iniciar la aplicación";
 
     public static void main(String[] args) {
         try {
@@ -62,7 +59,6 @@ public class App {
             System.out.println("1. Comprar");
             System.out.println("2. Registrar cliente");
             System.out.println("3. Registrar proveedor");
-            System.out.println("4. Realizar orden de compra");
             
             System.out.print("Ingresa el número de la opción: ");
             int opcion = scanner.nextInt();
@@ -77,7 +73,7 @@ public class App {
                                     "1586");
 
                     // Creación del DTO de cliente que ejecutará este caso de uso
-                    ClienteDTONegocios cliente = new ClienteDatosCompletosRelacionesDTONegocios(
+                    ClienteDTONegocios cliente = new ClienteDTONegocios(
                             "Juan",
                             "Pérez",
                             "López",
@@ -86,13 +82,15 @@ public class App {
                             direccionEnvioCliente
                     );
 
-                    // Se registra el cliente utilizando la clase envolvente Cliente
-                    Cliente.agregar(cliente);
-
-                    // Se registra la dirección de envío del cliente utilizando la clase
-                    // envolvente Direccion
-                    Direccion.agregar(direccionEnvioCliente);
-
+                {
+                    try {
+                        // Se registra el cliente utilizando la clase envolvente Cliente
+                        Cliente.agregar(cliente);
+                    } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException |
+                            ValorParametroInvalidoNegocioException | ParametroNuloNegocioException ex) {
+                        LOG.log(Level.SEVERE, "Ha ocurrido un error al iniciar la aplicación.");
+                    }
+                }
 
                     // Se crean los DTOs de las sucursales de la empresa y sus respectivas
                     // direcciones
@@ -103,10 +101,9 @@ public class App {
                                                     "1000"
                     );
 
-                    SucursalDTONegocios sucursal1 = new SucursalDatosCompletosRelacionesDTONegocios(
+                    SucursalDTONegocios sucursal1 = new SucursalDTONegocios(
                                                 true,
-                                                direccionSucursal1,
-                                                new LinkedList<>()
+                                                direccionSucursal1
                     );
 
                     DireccionDTONegocios direccionSucursal2 = new DireccionDTONegocios(
@@ -116,10 +113,9 @@ public class App {
                                                     "123"
                     );
 
-                    SucursalDTONegocios sucursal2 = new SucursalDatosCompletosRelacionesDTONegocios(
+                    SucursalDTONegocios sucursal2 = new SucursalDTONegocios(
                                                 false,
-                                                direccionSucursal2,
-                                                new LinkedList<>()
+                                                direccionSucursal2
                     );
 
                     DireccionDTONegocios direccionSucursal3 = new DireccionDTONegocios(
@@ -129,10 +125,9 @@ public class App {
                                                     "5695"
                    );
 
-                    SucursalDTONegocios sucursal3 = new SucursalDatosCompletosRelacionesDTONegocios(
+                    SucursalDTONegocios sucursal3 = new SucursalDTONegocios(
                                                 false, 
-                                                direccionSucursal3,
-                                                new LinkedList<>()
+                                                direccionSucursal3
                     );
 
                     DireccionDTONegocios direccionSucursal4 = new DireccionDTONegocios(
@@ -142,22 +137,22 @@ public class App {
                                                     "200"
                     );
 
-                    SucursalDTONegocios sucursal4 = new SucursalDatosCompletosRelacionesDTONegocios(
+                    SucursalDTONegocios sucursal4 = new SucursalDTONegocios(
                                                 false,
-                                                direccionSucursal4,
-                                                new LinkedList<>()
+                                                direccionSucursal4
                     );
 
                     // Se crea una lista con las sucursales creadas y se guardan utilizando la
                     // clase envolvente Sucursal
                     List<SucursalDTONegocios> listaSucursales = Arrays.asList(sucursal1, sucursal2, sucursal3, sucursal4);
-                    Sucursal.agregar(listaSucursales);
-
-                    // Las direcciones de las sucursales creadas también son almacenadas
-                    // utilizando la clase envolvente Direccion
-                    List<DireccionDTONegocios> listaDireccionesSucursales = Arrays.asList(direccionSucursal1, direccionSucursal2, direccionSucursal3, direccionSucursal4);
-                    Direccion.agregar(listaDireccionesSucursales);
-
+                    {
+                        try {
+                            Sucursal.agregar(listaSucursales);
+                        } catch (RegistroInexistenteNegocioException | FormatoIdInvalidoNegocioException | 
+                                ValorParametroInvalidoNegocioException | ParametroNuloNegocioException ex) {
+                            LOG.log(Level.SEVERE, MENSAJE_ERROR_INICIAR_APLICACION);
+                        }
+                    }
 
                     // Se crean los DTOs de los proveedores de la empresa junto con
                     // sus respectivas direcciones
@@ -167,12 +162,11 @@ public class App {
                                 "Jiquilpan",
                                 "3000");
 
-                    ProveedorDTONegocios proveedor1 = new ProveedorDatosCompletosRelacionesDTONegocios(
+                    ProveedorDTONegocios proveedor1 = new ProveedorDTONegocios(
                             "Seminis", 
                             "6441022785", 
                             "seminis@gmail.com",
-                            "/seminis.png", 
-                            new LinkedList<>(),
+                            "/seminis.png",
                             direccionProveedor1
                     );
 
@@ -183,12 +177,11 @@ public class App {
                                 "De Las Misiones Norte",
                                 "168");
 
-                    ProveedorDTONegocios proveedor2 = new ProveedorDatosCompletosRelacionesDTONegocios(
+                    ProveedorDTONegocios proveedor2 = new ProveedorDTONegocios(
                             "Harris Moran", 
                             "6442365984",
                             "hmoran@gmail.com",
                             "/harrisMoran.png", 
-                            new LinkedList<>(),
                             direccionProveedor2);
 
 
@@ -198,12 +191,11 @@ public class App {
                                 "Carretera Federal 15D",
                                 "450");
 
-                    ProveedorDTONegocios proveedor3 =  new ProveedorDatosCompletosRelacionesDTONegocios(
+                    ProveedorDTONegocios proveedor3 =  new ProveedorDTONegocios(
                             "Enza Zaden",
-                            "enzazaden@gmail.com",
                             "6442059876",
+                            "enzazaden@gmail.com",
                             "/enzaZaden.png",
-                            new LinkedList<>(),
                             direccionProveedor3);
 
 
@@ -213,12 +205,11 @@ public class App {
                                 "Paseos de Aura",
                                 "1485");
 
-                    ProveedorDTONegocios proveedor4 =  new ProveedorDatosCompletosRelacionesDTONegocios(
+                    ProveedorDTONegocios proveedor4 =  new ProveedorDTONegocios(
                             "Nunhems",
-                            "nunhmes@gmail.com",
                             "6447856986", 
+                            "nunhmes@gmail.com",
                             "/nunhems.png", 
-                            new LinkedList<>(),
                             direccionProveedor4);
 
                     DireccionDTONegocios direccionProveedor5 =
@@ -228,31 +219,30 @@ public class App {
                                 "Blvd. Campestre",
                                 "102");
 
-                    ProveedorDTONegocios proveedor5 =  new ProveedorDatosCompletosRelacionesDTONegocios(
+                    ProveedorDTONegocios proveedor5 =  new ProveedorDTONegocios(
                             "Lark Seeds",
-                            "larkseeds@gmail.com",
                             "6442326587", 
+                            "larkseeds@gmail.com",
                             "/larkSeeds.png", 
-                            new LinkedList<>(),
                             direccionProveedor5
                     );
 
                     // Se guarda la lista de proveedores utilizando la clase envolvente
                     // Proveedor
                     List<ProveedorDTONegocios> listaProveedores = Arrays.asList(proveedor1, proveedor2, proveedor3, proveedor4, proveedor5);     
-                    Proveedor.agregar(listaProveedores);
+                    {
+                        try {
+                            Proveedor.agregar(listaProveedores);
+                        } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException | 
+                                ValorParametroInvalidoNegocioException | ParametroNuloNegocioException ex) {
+                            LOG.log(Level.SEVERE, MENSAJE_ERROR_INICIAR_APLICACION);
+                            LOG.log(Level.SEVERE, ex.getMessage());
+                        }
+                    }
+                    
+                    List<ProveedorDTONegocios> listaProveedoresRegistrados = Proveedor.recuperarTodos();
 
-                    // Se guardan también sus direcciones con la clase envolvente Direccion
-                    List<DireccionDTONegocios> listaDireccionesProveedores = Arrays.asList(
-                            direccionProveedor1,
-                            direccionProveedor2, 
-                            direccionProveedor3, 
-                            direccionProveedor4,
-                            direccionProveedor5);
-                    Direccion.agregar(listaDireccionesProveedores);
-
-
-                    ProductoDTONegocios producto1 = new ProductoDatosCompletosRelacionesDTONegocios(
+                    ProductoDTONegocios producto1 = new ProductoDTONegocios(
                                 "Sandía",
                                 "Summer Breeze",
                                 """
@@ -264,12 +254,9 @@ public class App {
                                 9400d,
                                 1d,
                                 "/sandiaSummerBreeze.png",
-                                proveedor1,
-                                new LinkedList<>(),
-                                new LinkedList<>(),
-                                new LinkedList<>());
+                                listaProveedoresRegistrados.get(0).getId());
 
-                    ProductoDTONegocios producto2 = new ProductoDatosCompletosRelacionesDTONegocios(
+                    ProductoDTONegocios producto2 = new ProductoDTONegocios(
                                 "Chile Jalapeño",
                                 "Mixteco F1",
                                 """
@@ -281,12 +268,9 @@ public class App {
                                 24300d,
                                 0.7d,
                                 "/chileJalapenioMixtecoF1.png",
-                                proveedor2,
-                                new LinkedList<>(),
-                                new LinkedList<>(),
-                                new LinkedList<>());
+                                listaProveedoresRegistrados.get(1).getId());
 
-                    ProductoDTONegocios producto3 = new ProductoDatosCompletosRelacionesDTONegocios(
+                    ProductoDTONegocios producto3 = new ProductoDTONegocios(
                                 "Melón",
                                 "Cruiser F1", 
                                 """
@@ -299,12 +283,9 @@ public class App {
                                 7200d, 
                                 2d,
                                 "/melonCruiserF1.png",
-                                proveedor3,
-                                new LinkedList<>(),
-                                new LinkedList<>(),
-                                new LinkedList<>());
+                                listaProveedoresRegistrados.get(2).getId());
 
-                    ProductoDTONegocios producto4 =  new ProductoDatosCompletosRelacionesDTONegocios(
+                    ProductoDTONegocios producto4 = new ProductoDTONegocios(
                                 "Chile Ancho",
                                 "Commander",
                                 """
@@ -317,12 +298,9 @@ public class App {
                                 12000d,
                                 2.5d,
                                 "/chileAnchoCommander.png",
-                                proveedor3,
-                                new LinkedList<>(),
-                                new LinkedList<>(),
-                                new LinkedList<>());
+                                listaProveedoresRegistrados.get(2).getId());
 
-                    ProductoDTONegocios producto5 = new ProductoDatosCompletosRelacionesDTONegocios(
+                    ProductoDTONegocios producto5 = new ProductoDTONegocios(
                             "Lechuga Romana",
                             "Plutone",
                             """
@@ -334,12 +312,9 @@ public class App {
                             25000d,
                             3d,
                             "/lechugaRomanaPlutone.png",
-                            proveedor5,
-                            new LinkedList<>(),
-                            new LinkedList<>(),
-                            new LinkedList<>());
+                            listaProveedoresRegistrados.get(4).getId());
 
-                    ProductoDTONegocios producto6 = new ProductoDatosCompletosRelacionesDTONegocios(
+                    ProductoDTONegocios producto6 = new ProductoDTONegocios(
                             "Calabaza",
                             "Rocio F1",
                             """
@@ -351,12 +326,9 @@ public class App {
                             6500d,
                             1d,
                             "/calabazaRocioF1.png",
-                            proveedor4,
-                            new LinkedList<>(),
-                            new LinkedList<>(),
-                            new LinkedList<>());
+                            listaProveedoresRegistrados.get(3).getId());
 
-                    ProductoDTONegocios producto7 = new ProductoDatosCompletosRelacionesDTONegocios(
+                    ProductoDTONegocios producto7 = new ProductoDTONegocios(
                             "Tomate",
                             "Succesion",
                             """
@@ -369,12 +341,9 @@ public class App {
                             7000d,
                             1d,
                             "/tomateSuccession.png",
-                            proveedor1,
-                            new LinkedList<>(),
-                            new LinkedList<>(),
-                            new LinkedList<>());
+                            listaProveedoresRegistrados.get(0).getId());
 
-                    ProductoDTONegocios producto8 =  new ProductoDatosCompletosRelacionesDTONegocios(
+                    ProductoDTONegocios producto8 =  new ProductoDTONegocios(
                             "Rábano",
                             "Red Diamond F1",
                             """
@@ -387,12 +356,9 @@ public class App {
                             1890d,
                             0.45d,
                             "/rabanoRedDiamondF1.png",
-                            proveedor2,
-                            new LinkedList<>(),
-                            new LinkedList<>(),
-                            new LinkedList<>());
+                            listaProveedoresRegistrados.get(1).getId());
 
-                    ProductoDTONegocios producto9 = new ProductoDatosCompletosRelacionesDTONegocios(
+                    ProductoDTONegocios producto9 = new ProductoDTONegocios(
                             "Sandía",
                             "Warrior",
                             """
@@ -405,12 +371,9 @@ public class App {
                             9650d,
                             5d,
                             "/sandiaWarrior.png",
-                            proveedor4,
-                            new LinkedList<>(),
-                            new LinkedList<>(),
-                            new LinkedList<>());
+                            listaProveedoresRegistrados.get(3).getId());
 
-                    ProductoDTONegocios producto10 = new ProductoDatosCompletosRelacionesDTONegocios(
+                    ProductoDTONegocios producto10 = new ProductoDTONegocios(
                             "Sandía",
                             "Tailgate",
                             """
@@ -422,12 +385,9 @@ public class App {
                             9000d,
                             7d,
                             "/sandiaTailgate.png",
-                            proveedor1,
-                            new LinkedList<>(),
-                            new LinkedList<>(),
-                            new LinkedList<>());
+                            listaProveedoresRegistrados.get(0).getId());
 
-                    ProductoDTONegocios producto11 = new ProductoDatosCompletosRelacionesDTONegocios(
+                    ProductoDTONegocios producto11 = new ProductoDTONegocios(
                             "Brócoli",
                             "Kepler F1",
                             """
@@ -440,12 +400,9 @@ public class App {
                             3640d,
                             5d,
                             "/brocoliKeplerF1.png",
-                            proveedor2,
-                            new LinkedList<>(),
-                            new LinkedList<>(),
-                            new LinkedList<>());
+                            listaProveedoresRegistrados.get(1).getId());
 
-                    ProductoDTONegocios producto12 = new ProductoDatosCompletosRelacionesDTONegocios(
+                    ProductoDTONegocios producto12 = new ProductoDTONegocios(
                             "Melón",
                             "Saturno",
                             """
@@ -457,10 +414,7 @@ public class App {
                             10000d,
                             3d,
                             "/melonSaturno.png",
-                            proveedor1,
-                            new LinkedList<>(),
-                            new LinkedList<>(),
-                            new LinkedList<>());
+                            listaProveedoresRegistrados.get(0).getId());
 
 
                     List<ProductoDTONegocios> listaProductos = Arrays.asList(
@@ -478,72 +432,85 @@ public class App {
                             producto12
                     );
 
-                    Producto.agregar(listaProductos);
+                    {
+                        try {
 
+                            Producto.agregar(listaProductos);
+                        } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException | 
+                                ParametroNuloNegocioException | ValorParametroInvalidoNegocioException ex) {
+                            LOG.log(Level.SEVERE, MENSAJE_ERROR_INICIAR_APLICACION);
+                            LOG.log(Level.SEVERE, ex.getMessage());
+                        }
+                    }
+                    
+                    
 
+                    List<SucursalDTONegocios> listaSucursalesRegistradas = Sucursal.recuperarTodos();
+                    List<ProductoDTONegocios> listaProductosRegistrados = Producto.recuperarTodos();
                     // Se crean e insertan los DTOs de productos en inventario disponibles,
                     // se registran utilizando la clase envolvente ProductoInventario
 
-                    ProductoInventarioDTONegocios productoInventario1 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto1, sucursal1);
-                    ProductoInventarioDTONegocios productoInventario2 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto1, sucursal1);
+                    ProductoInventarioDTONegocios productoInventario1 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(0).getId(), listaSucursalesRegistradas.get(0).getId());
+                    ProductoInventarioDTONegocios productoInventario2 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(0).getId(), listaSucursalesRegistradas.get(0).getId());
 
-                    ProductoInventarioDTONegocios productoInventario3 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto2, sucursal1);
-                    ProductoInventarioDTONegocios productoInventario4 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto2, sucursal2);
-                    ProductoInventarioDTONegocios productoInventario5 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto2, sucursal3);
-                    ProductoInventarioDTONegocios productoInventario6 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto2, sucursal4);
+                    ProductoInventarioDTONegocios productoInventario3 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(1).getId(), listaSucursalesRegistradas.get(0).getId());
+                    ProductoInventarioDTONegocios productoInventario4 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(1).getId(), listaSucursalesRegistradas.get(1).getId());
+                    ProductoInventarioDTONegocios productoInventario5 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(1).getId(), listaSucursalesRegistradas.get(2).getId());
+                    ProductoInventarioDTONegocios productoInventario6 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(1).getId(), listaSucursalesRegistradas.get(3).getId());
 
-                    ProductoInventarioDTONegocios productoInventario8 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto3, sucursal2);
-                    ProductoInventarioDTONegocios productoInventario9 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto3, sucursal3);
-                    ProductoInventarioDTONegocios productoInventario10 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto3, sucursal4);
+                    ProductoInventarioDTONegocios productoInventario8 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(2).getId(), listaSucursalesRegistradas.get(1).getId());
+                    ProductoInventarioDTONegocios productoInventario9 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(2).getId(), listaSucursalesRegistradas.get(2).getId());
+                    ProductoInventarioDTONegocios productoInventario10 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(2).getId(), listaSucursalesRegistradas.get(3).getId());
 
-                    ProductoInventarioDTONegocios productoInventario11 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto4, sucursal2);
-                    ProductoInventarioDTONegocios productoInventario12 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto4, sucursal3);
-                    ProductoInventarioDTONegocios productoInventario13 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto4, sucursal3);
-                    ProductoInventarioDTONegocios productoInventario14 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto4, sucursal4);
-                    ProductoInventarioDTONegocios productoInventario15 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto4, sucursal4);
+                    ProductoInventarioDTONegocios productoInventario11 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(3).getId(), listaSucursalesRegistradas.get(1).getId());
+                    ProductoInventarioDTONegocios productoInventario12 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(3).getId(), listaSucursalesRegistradas.get(2).getId());
+                    ProductoInventarioDTONegocios productoInventario13 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(3).getId(), listaSucursalesRegistradas.get(2).getId());
+                    ProductoInventarioDTONegocios productoInventario14 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(3).getId(), listaSucursalesRegistradas.get(3).getId());
+                    ProductoInventarioDTONegocios productoInventario15 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(3).getId(), listaSucursalesRegistradas.get(3).getId());
 
-                    ProductoInventarioDTONegocios productoInventario16 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto5, sucursal1);
-                    ProductoInventarioDTONegocios productoInventario17 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto5, sucursal1);
-                    ProductoInventarioDTONegocios productoInventario18 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto5, sucursal1);
+                    ProductoInventarioDTONegocios productoInventario16 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(4).getId(), listaSucursalesRegistradas.get(0).getId());
+                    ProductoInventarioDTONegocios productoInventario17 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(4).getId(), listaSucursalesRegistradas.get(0).getId());
+                    ProductoInventarioDTONegocios productoInventario18 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(4).getId(), listaSucursalesRegistradas.get(0).getId());
 
-                    ProductoInventarioDTONegocios productoInventario19 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto6, sucursal3);
-                    ProductoInventarioDTONegocios productoInventario20 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto6, sucursal1);
+                    ProductoInventarioDTONegocios productoInventario19 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(5).getId(), listaSucursalesRegistradas.get(2).getId());
+                    ProductoInventarioDTONegocios productoInventario20 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(5).getId(), listaSucursalesRegistradas.get(0).getId());
 
-                    ProductoInventarioDTONegocios productoInventario21 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto7, sucursal1);
-                    ProductoInventarioDTONegocios productoInventario22 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto7, sucursal4);
-                    ProductoInventarioDTONegocios productoInventario23 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto7, sucursal4);
-                    ProductoInventarioDTONegocios productoInventario24 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto7, sucursal2);
-                    ProductoInventarioDTONegocios productoInventario25 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto7, sucursal3);
-                    ProductoInventarioDTONegocios productoInventario26 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto7, sucursal2);
-                    ProductoInventarioDTONegocios productoInventario27 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto7, sucursal2);
-                    ProductoInventarioDTONegocios productoInventario28 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto7, sucursal4);
+                    ProductoInventarioDTONegocios productoInventario21 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(6).getId(), listaSucursalesRegistradas.get(0).getId());
+                    ProductoInventarioDTONegocios productoInventario22 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(6).getId(), listaSucursalesRegistradas.get(3).getId());
+                    ProductoInventarioDTONegocios productoInventario23 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(6).getId(), listaSucursalesRegistradas.get(3).getId());
+                    ProductoInventarioDTONegocios productoInventario24 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(6).getId(), listaSucursalesRegistradas.get(1).getId());
+                    ProductoInventarioDTONegocios productoInventario25 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(6).getId(), listaSucursalesRegistradas.get(2).getId());
+                    ProductoInventarioDTONegocios productoInventario26 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(6).getId(), listaSucursalesRegistradas.get(1).getId());
+                    ProductoInventarioDTONegocios productoInventario27 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(6).getId(), listaSucursalesRegistradas.get(1).getId());
+                    ProductoInventarioDTONegocios productoInventario28 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(6).getId(), listaSucursalesRegistradas.get(3).getId());
 
-                    ProductoInventarioDTONegocios productoInventario29 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto8, sucursal1);
+                    ProductoInventarioDTONegocios productoInventario29 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(7).getId(), listaSucursalesRegistradas.get(0).getId());
 
-                    ProductoInventarioDTONegocios productoInventario30 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto9, sucursal1);
-                    ProductoInventarioDTONegocios productoInventario31 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto9, sucursal4);
-                    ProductoInventarioDTONegocios productoInventario32 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto9, sucursal4);
-                    ProductoInventarioDTONegocios productoInventario33 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto9, sucursal2);
+                    ProductoInventarioDTONegocios productoInventario30 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(8).getId(), listaSucursalesRegistradas.get(0).getId());
+                    ProductoInventarioDTONegocios productoInventario31 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(8).getId(), listaSucursalesRegistradas.get(3).getId());
+                    ProductoInventarioDTONegocios productoInventario32 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(8).getId(), listaSucursalesRegistradas.get(3).getId());
+                    ProductoInventarioDTONegocios productoInventario33 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(8).getId(), listaSucursalesRegistradas.get(1).getId());
 
-                    ProductoInventarioDTONegocios productoInventario34 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto10, sucursal1);
-                    ProductoInventarioDTONegocios productoInventario35 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto10, sucursal4);
-                    ProductoInventarioDTONegocios productoInventario36 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto10, sucursal4);
-                    ProductoInventarioDTONegocios productoInventario37 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto10, sucursal2);
-                    ProductoInventarioDTONegocios productoInventario38 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto10, sucursal3);
-                    ProductoInventarioDTONegocios productoInventario39 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto10, sucursal2);
-                    ProductoInventarioDTONegocios productoInventario40 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto10, sucursal1);
-                    ProductoInventarioDTONegocios productoInventario41 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto10, sucursal4);
-                    ProductoInventarioDTONegocios productoInventario42 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto10, sucursal3);
-                    ProductoInventarioDTONegocios productoInventario43 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto10, sucursal2);
-                    ProductoInventarioDTONegocios productoInventario44 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto10, sucursal1);
-                    ProductoInventarioDTONegocios productoInventario45 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto10, sucursal4);
+                    ProductoInventarioDTONegocios productoInventario34 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(9).getId(), listaSucursalesRegistradas.get(0).getId());
+                    ProductoInventarioDTONegocios productoInventario35 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(9).getId(), listaSucursalesRegistradas.get(3).getId());
+                    ProductoInventarioDTONegocios productoInventario36 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(9).getId(), listaSucursalesRegistradas.get(3).getId());
+                    ProductoInventarioDTONegocios productoInventario37 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(9).getId(), listaSucursalesRegistradas.get(1).getId());
+                    ProductoInventarioDTONegocios productoInventario38 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(9).getId(), listaSucursalesRegistradas.get(2).getId());
+                    ProductoInventarioDTONegocios productoInventario39 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(9).getId(), listaSucursalesRegistradas.get(1).getId());
+                    ProductoInventarioDTONegocios productoInventario40 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(9).getId(), listaSucursalesRegistradas.get(0).getId());
+                    ProductoInventarioDTONegocios productoInventario41 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(9).getId(), listaSucursalesRegistradas.get(3).getId());
+                    ProductoInventarioDTONegocios productoInventario42 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(9).getId(), listaSucursalesRegistradas.get(2).getId());
+                    ProductoInventarioDTONegocios productoInventario43 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(9).getId(), listaSucursalesRegistradas.get(1).getId());
+                    ProductoInventarioDTONegocios productoInventario44 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(9).getId(), listaSucursalesRegistradas.get(0).getId());
+                    ProductoInventarioDTONegocios productoInventario45 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(9).getId(), listaSucursalesRegistradas.get(3).getId());
 
-                    ProductoInventarioDTONegocios productoInventario46 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto11, sucursal2);
-                    ProductoInventarioDTONegocios productoInventario47 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto11, sucursal2);
-                    ProductoInventarioDTONegocios productoInventario48 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto11, sucursal2);
+                    ProductoInventarioDTONegocios productoInventario46 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(10).getId(), listaSucursalesRegistradas.get(1).getId());
+                    ProductoInventarioDTONegocios productoInventario47 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(10).getId(), listaSucursalesRegistradas.get(1).getId());
+                    ProductoInventarioDTONegocios productoInventario48 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(10).getId(), listaSucursalesRegistradas.get(1).getId());
 
-                    ProductoInventarioDTONegocios productoInventario49 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto12, sucursal1);
-                    ProductoInventarioDTONegocios productoInventario50 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto12, sucursal4);
+                    ProductoInventarioDTONegocios productoInventario49 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(11).getId(), listaSucursalesRegistradas.get(0).getId());
+                    ProductoInventarioDTONegocios productoInventario50 = new ProductoInventarioDTONegocios(false, listaProductosRegistrados.get(11).getId(), listaSucursalesRegistradas.get(3).getId());
+
 
 
                     List<ProductoInventarioDTONegocios> listaProductosInventario = Arrays.asList(
@@ -610,7 +577,15 @@ public class App {
                     );
 
 
-                    ProductoInventario.agregar(listaProductosInventario);
+                    {
+                        try {
+                            ProductoInventario.agregar(listaProductosInventario);
+                        } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException | 
+                                ParametroNuloNegocioException | ValorParametroInvalidoNegocioException ex) {
+                            
+                            LOG.log(Level.SEVERE, MENSAJE_ERROR_INICIAR_APLICACION);
+                        }
+                    }
 
 
                     DireccionDTONegocios direccionPaqueteria1 = new DireccionDTONegocios(
@@ -622,7 +597,7 @@ public class App {
                     
                     // Se crean los DTO de las paqueterías asociadas con la empresa y son almacenadas
                     // utilizando la clase envolvente Paqueteria.
-                    PaqueteriaDTONegocios paqueteria1 = new PaqueteriaDatosCompletosRelacionesDTONegocios(
+                    PaqueteriaDTONegocios paqueteria1 = new PaqueteriaDTONegocios(
                             "DHL", 
                             100F, 
                             150F, 
@@ -638,7 +613,7 @@ public class App {
                                 "257"
                     );
                     
-                    PaqueteriaDTONegocios paqueteria2 = new PaqueteriaDatosCompletosRelacionesDTONegocios( 
+                    PaqueteriaDTONegocios paqueteria2 = new PaqueteriaDTONegocios( 
                             "Fedex", 
                             120F, 
                             125F,
@@ -652,7 +627,7 @@ public class App {
                                     "Parroquia", 
                                     "659");
                     
-                    PaqueteriaDTONegocios paqueteria3 = new PaqueteriaDatosCompletosRelacionesDTONegocios(
+                    PaqueteriaDTONegocios paqueteria3 = new PaqueteriaDTONegocios(
                             "PCP",
                             90F, 
                             100F,
@@ -668,7 +643,7 @@ public class App {
                                 "708"
                     );
                     
-                    PaqueteriaDTONegocios paqueteria4  = new PaqueteriaDatosCompletosRelacionesDTONegocios( 
+                    PaqueteriaDTONegocios paqueteria4  = new PaqueteriaDTONegocios( 
                             "UPS", 
                             106F,
                             110F,
@@ -684,7 +659,7 @@ public class App {
                                 "1646"
                     );
 
-                    PaqueteriaDTONegocios paqueteria5 =  new PaqueteriaDatosCompletosRelacionesDTONegocios(
+                    PaqueteriaDTONegocios paqueteria5 =  new PaqueteriaDTONegocios(
                             "Estafeta", 
                             110F, 
                             105F,
@@ -700,21 +675,22 @@ public class App {
                             paqueteria4,
                             paqueteria5);
                     
-                    List<DireccionDTONegocios> listaDireccionesPaqueterias = Arrays.asList(
-                            direccionPaqueteria1, 
-                            direccionPaqueteria2, 
-                            direccionPaqueteria3,
-                            direccionPaqueteria4,
-                            dieccionPaqueteria5);
-
-                    Paqueteria.agregar(listaPaqueterias);
+                    try {
+                        Paqueteria.agregar(listaPaqueterias);
+                    } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException | 
+                            ParametroNuloNegocioException | ValorParametroInvalidoNegocioException ex) {
+                        LOG.log(Level.SEVERE, MENSAJE_ERROR_INICIAR_APLICACION);
+                        LOG.log(Level.SEVERE, ex.getMessage());
+                    }
                     
-                    Direccion.agregar(listaDireccionesPaqueterias);
-
                     // Se crea una instancia del control del caso de uso compra.
                     ControlCompra controlCompra = new ControlCompra();
 
-                    Object idCliente = cliente.getId().getId();
+                    
+                    List<ClienteDTONegocios> clientesRegistrados = Cliente.recuperarTodos();
+                    
+                    Object idCliente = clientesRegistrados.get(0).getId().getId();
+                    
                     // Se crean las vistas de la clase de presentación, del tipo de una interfaz definida.
                     IVista productosVenta = new ProductosVenta(controlCompra, idCliente);
                     IVista informacionProducto = new InformacionProducto(controlCompra, idCliente);
@@ -740,6 +716,13 @@ public class App {
                         controlCompra.iniciarCompra();
 
                     break;
+
+
+
+
+
+
+
                 case 2:
                     
                     System.out.println("Elige quien ejecutará el Caso de Uso:");
@@ -760,9 +743,15 @@ public class App {
                                 "González",
                                 "Juárez");
 
+                    try {
                         AuxiliarVentas.agregar(auxiliarVentas1);
+                    } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException |
+                            ValorParametroInvalidoNegocioException | ParametroNuloNegocioException ex) {
                         
-                        ClienteDTONegocios clienteRegistrado = new ClienteDatosCompletosRelacionesDTONegocios(
+                        LOG.log(Level.SEVERE, MENSAJE_ERROR_INICIAR_APLICACION);
+                    }
+                        
+                        ClienteDTONegocios clienteRegistrado = new ClienteDTONegocios(
                                 "Rodolfo Felix", 
                                 "González", 
                                 "Valle",
@@ -770,13 +759,18 @@ public class App {
                                 "rodolfoortiz@gmail.com",
                                 null);
                         
+                    try {
                         Cliente.agregar(clienteRegistrado);
+                    } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException | 
+                            ValorParametroInvalidoNegocioException | ParametroNuloNegocioException ex) {
+                        LOG.log(Level.SEVERE, MENSAJE_ERROR_INICIAR_APLICACION);
+                    }
                         
                         ControlRegistroCliente controlRegistroCliente = new ControlRegistroCliente(usuarioEsAuxiliarVentas);
                          
                         IVista registroCliente = new RegistroCliente(
                                 controlRegistroCliente, 
-                                auxiliarVentas1.getId(), 
+                                auxiliarVentas1.getId().getId(), 
                                 usuarioEsAuxiliarVentas);
                         
                         IMensaje mensajeRegistroUsuario = new Mensaje(); 
@@ -788,7 +782,7 @@ public class App {
                         
                     } else if (opcionActor == 2) {
 
-                        ClienteDTONegocios clienteRegistrado = new ClienteDatosCompletosRelacionesDTONegocios(
+                        ClienteDTONegocios clienteRegistrado = new ClienteDTONegocios(
                                 "Rodolfo Felix", 
                                 "González", 
                                 "Valle",
@@ -796,7 +790,13 @@ public class App {
                                 "rodolfoortiz@gmail.com",
                                 null);
                         
-                        Cliente.agregar(clienteRegistrado);
+                        try {
+                            Cliente.agregar(clienteRegistrado);
+                        } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException |
+                                ValorParametroInvalidoNegocioException | ParametroNuloNegocioException ex) {
+                            
+                            LOG.log(Level.SEVERE, MENSAJE_ERROR_INICIAR_APLICACION);
+                        }
                         
                         usuarioEsAuxiliarVentas = false;
                         
@@ -831,338 +831,12 @@ public class App {
                     controlRegistroProveedor.iniciarRegistroProveedor();
                     
                     break;
-                    
+                        
                 case 4:
-                    
-                    System.out.println("Ejecutando Registro de orden de compra");
-    
-                    GerenteVentasDTONegocios gerenteVentas1 = new GerenteVentasDTONegocios(
-                                "Andrés", 
-                                "Gutiérrez",
-                                "Mendoza");
-                        GerenteVentas.agregar(gerenteVentas1);
-                        
-                    DireccionDTONegocios direccionProveedor6 = new DireccionDTONegocios(
-                                "Sinaloa", 
-                                "Los Mochis", 
-                                "81255",
-                                "Zona Industrial",
-                                "Jiquilpan",
-                                "3000");
-                        
-                    ProveedorDTONegocios proveedor6 = new ProveedorDatosCompletosRelacionesDTONegocios(
-                            "Seminis", 
-                            "6441022785", 
-                            "seminis@gmail.com",
-                            "src/main/resources/seminis.png", 
-                            new LinkedList<>(),
-                            direccionProveedor6
-                    );
-
-                    DireccionDTONegocios direccionProveedor7 = new DireccionDTONegocios(
-                                "Baja California", 
-                                "Mexicali", 
-                                "21394",
-                                "Venustiano Carranza",
-                                "De las Misiones Norte",
-                                "168");
-
-                    ProveedorDTONegocios proveedor7 = new ProveedorDatosCompletosRelacionesDTONegocios(
-                            "Harris Moran", 
-                            "6442365984",
-                            "hmoran@gmail.com",
-                            "src/main/resources/harrisMoran.png", 
-                            new LinkedList<>(),
-                            direccionProveedor7);
-
-                    DireccionDTONegocios direccionProveedor8 = new DireccionDTONegocios(
-                                "Sinaloa", 
-                                "Culiacán", 
-                                "80393",
-                                "Parque Industrial El Trébol",
-                                "Carretera Federal 15D",
-                                "450");
-                    
-                    ProveedorDTONegocios proveedor8 =  new ProveedorDatosCompletosRelacionesDTONegocios(
-                            "Enza Zaden",
-                            "6442059876",
-                            "enzazaden@gmail.com",
-                            "src/main/resources/enzaZaden.png",
-                            new LinkedList<>(),
-                            direccionProveedor8);
-
-                    DireccionDTONegocios direccionProveedor9 = new DireccionDTONegocios(
-                                "Chihuahua", 
-                                "Chihuahua", 
-                                "31385",
-                                "Parque Industrial Chihuahua Sur",
-                                "Paseos de aura",
-                                "1458");
-                    
-                    ProveedorDTONegocios proveedor9 =  new ProveedorDatosCompletosRelacionesDTONegocios(
-                            "Nunhems",
-                            "6447856986",
-                            "nunhmes@gmail.com", 
-                            "src/main/resources/nunhems.png", 
-                            new LinkedList<>(),
-                            direccionProveedor9);
-                    
-                    DireccionDTONegocios direccionProveedor10 = new DireccionDTONegocios(
-                                "Guanajuato", 
-                                "León de los Aldama", 
-                                "37150",
-                                "Lomas del Campestre",
-                                "Blvd. Campestre",
-                                "102");
-
-                    ProveedorDTONegocios proveedor10 =  new ProveedorDatosCompletosRelacionesDTONegocios(
-                            "Lark Seeds",
-                            "6442326587",
-                            "larkseeds@gmail.com",  
-                            "src/main/resources/larkSeeds.png", 
-                            new LinkedList<>(),
-                            direccionProveedor10);
-                    
-                    List<ProveedorDTONegocios> listaProveedores2 = Arrays.asList(proveedor6, proveedor7, proveedor8, proveedor9, proveedor10);     
-                    Proveedor.agregar(listaProveedores2);
-                    
-                    List<DireccionDTONegocios> listaDireccionesProveedores2 = Arrays.asList(
-                            direccionProveedor6,
-                            direccionProveedor7, 
-                            direccionProveedor8, 
-                            direccionProveedor9,
-                            direccionProveedor10);
-                    Direccion.agregar(listaDireccionesProveedores2);
-                    
-                    DireccionDTONegocios direccionSucursal5 = new DireccionDTONegocios(
-                                                    "Sonora",
-                                                    "Hermosillo",
-                                                    "83118",
-                                                    "Parque Industrial Hermosillo Norte",
-                                                    "José Alberto Healy Noriega",
-                                                    "1000"
-                    );
-
-                    SucursalDTONegocios sucursal5 = new SucursalDatosCompletosRelacionesDTONegocios(
-                                                true,
-                                                direccionSucursal5,
-                                                new LinkedList<>()
-                    );
-                    
-                    DireccionDTONegocios direccionSucursal6 = new DireccionDTONegocios(
-                                                    "Sonora",
-                                                    "Puerto Peñasco",
-                                                    "83557",
-                                                    "San Rafael",
-                                                    "Río Mocorito",
-                                                    "123"
-                    );
-
-                    SucursalDTONegocios sucursal6 = new SucursalDatosCompletosRelacionesDTONegocios(
-                                                false,
-                                                direccionSucursal6,
-                                                new LinkedList<>()
-                    );
-                    
-                    DireccionDTONegocios direccionSucursal7 = new DireccionDTONegocios(
-                                                    "Sonora",
-                                                    "Agua Prieta",
-                                                    "84269",
-                                                    "Bicentenario",
-                                                    "44",
-                                                    "5695"
-                    );
-
-                    SucursalDTONegocios sucursal7 = new SucursalDatosCompletosRelacionesDTONegocios(
-                                                false,
-                                                direccionSucursal7,
-                                                new LinkedList<>()
-                    );
-                    
-                    ProductoDTONegocios producto13 = new ProductoDatosCompletosRelacionesDTONegocios(
-                                "Semillas de Sandía",
-                                "Summer Breeze",
-                                """
-                                    Summer Breeze es una Sandia Triploide o sin semilla de madurez 
-                                    intermedio precoz y buena capacidad y amarre de frutos de alta calidad 
-                                    para el mercado de exportación.
-                                """,
-                                5,
-                                9400d,
-                                5d,
-                                "src/main/resources/sandiaSummerBreeze.png",
-                                proveedor6,
-                                new LinkedList<>(),
-                                new LinkedList<>(),
-                                new LinkedList<>());
-
-                    ProductoDTONegocios producto14 = new ProductoDatosCompletosRelacionesDTONegocios(
-                                "Semillas de Sandía",
-                                "Fascination",
-                                """
-                                    Planta de porte vigoroso, potencial de rebrote que le brinda alto potencial de rendimiento. 
-                                    Forma de fruto ligeramente conca de color oscuro de 4 1/2 a 5 pulgada. Frutos de paredes gruesas 
-                                    con buen llenado. Variedad con alto potencial de rendimiento, resistencia a BLS y planta vigorosa.
-                                """,
-                                25,
-                                10200d,
-                                1d,
-                                "src/main/resources/sandiaFascination.png",
-                                proveedor7,
-                                new LinkedList<>(),
-                                new LinkedList<>(),
-                                new LinkedList<>());
-
-                    List<ProductoDTONegocios> listaProductos2 = Arrays.asList(
-                            producto13,
-                            producto14
-                    );
-                    Producto.agregar(listaProductos2);
-                    
-                    // Se crean e insertan los DTOs de productos en inventario disponibles,
-                    // se registran utilizando la clase envolvente ProductoInventario
-
-                    ProductoInventarioDTONegocios productoInventario51 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto13, sucursal5);
-                    ProductoInventarioDTONegocios productoInventario52 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto13, sucursal5);
-
-                    ProductoInventarioDTONegocios productoInventario53 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto14, sucursal5);
-                    ProductoInventarioDTONegocios productoInventario54 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto14, sucursal6);
-                    ProductoInventarioDTONegocios productoInventario55 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto14, sucursal7);
-                    ProductoInventarioDTONegocios productoInventario56 = new ProductoInventarioDatosCompletosRelacionesDTONegocios(false, producto14, sucursal7);
-
-                    List<ProductoInventarioDTONegocios> listaProductosInventario2 = Arrays.asList(
-                            productoInventario51,
-                            productoInventario52,
-
-                            productoInventario53,
-                            productoInventario54,
-                            productoInventario55,
-                            productoInventario56
-                    );
-
-
-                    ProductoInventario.agregar(listaProductosInventario2);
-
-
-                    DireccionDTONegocios direccionPaqueteria6 = new DireccionDTONegocios(
-                                "83240",
-                                "Fuentes del Mezquital", 
-                                "Las Ceibas", 
-                                "1247"
-                    );
-                    
-                    // Se crean los DTO de las paqueterías asociadas con la empresa y son almacenadas
-                    // utilizando la clase envolvente Paqueteria.
-                    PaqueteriaDTONegocios paqueteria6 = new PaqueteriaDatosCompletosRelacionesDTONegocios(
-                            "DHL", 
-                            100F, 
-                            150F, 
-                            "/dhl.png",
-                            direccionPaqueteria6
-                    );
-
-                    
-                    DireccionDTONegocios direccionPaqueteria7 = new DireccionDTONegocios(
-                                "83120",
-                                "Los Viñedos",
-                                "Cristobal Colón",
-                                "257"
-                    );
-                    
-                    PaqueteriaDTONegocios paqueteria7 = new PaqueteriaDatosCompletosRelacionesDTONegocios( 
-                            "Fedex", 
-                            120F, 
-                            125F,
-                            "/fedex.png",
-                            direccionPaqueteria7     
-                    );
-
-                    DireccionDTONegocios direccionPaqueteria8 = new DireccionDTONegocios(
-                                    "83200", 
-                                    "Villa Satélite", 
-                                    "Parroquia", 
-                                    "659");
-                    
-                    PaqueteriaDTONegocios paqueteria8 = new PaqueteriaDatosCompletosRelacionesDTONegocios(
-                            "PCP",
-                            90F, 
-                            100F,
-                            "/pcp.png",
-                            direccionPaqueteria8
-                    );
-
-                    
-                    DireccionDTONegocios direccionPaqueteria9 = new DireccionDTONegocios(
-                                "83288", 
-                                "La Verbena",
-                                "De los Panaderos",
-                                "708"
-                    );
-                    
-                    PaqueteriaDTONegocios paqueteria9  = new PaqueteriaDatosCompletosRelacionesDTONegocios( 
-                            "UPS", 
-                            106F,
-                            110F,
-                            "/ups.png",
-                            direccionPaqueteria9
-
-                    );
-                    
-                    DireccionDTONegocios dieccionPaqueteria10 = new DireccionDTONegocios(
-                                "83280",
-                                "La Candelaria",
-                                "Real de San Pablo",
-                                "1646"
-                    );
-
-                    PaqueteriaDTONegocios paqueteria10 =  new PaqueteriaDatosCompletosRelacionesDTONegocios(
-                            "Estafeta", 
-                            110F, 
-                            105F,
-                            "/estafeta.png",
-                            dieccionPaqueteria10
-
-                    );
-
-                    List<PaqueteriaDTONegocios> listaPaqueterias2 = Arrays.asList(
-                            paqueteria6,
-                            paqueteria7,
-                            paqueteria8,
-                            paqueteria9,
-                            paqueteria10);
-                    
-                    List<DireccionDTONegocios> listaDireccionesPaqueterias2 = Arrays.asList(
-                            direccionPaqueteria6, 
-                            direccionPaqueteria7, 
-                            direccionPaqueteria8,
-                            direccionPaqueteria9,
-                            dieccionPaqueteria10);
-
-                    Paqueteria.agregar(listaPaqueterias2);
-                    
-                    Direccion.agregar(listaDireccionesPaqueterias2);
-
-                    List<SucursalDTONegocios> listaSucursales2 = Arrays.asList(sucursal5, sucursal6, sucursal7);
-                    Sucursal.agregar(listaSucursales2);
-
-                    List<DireccionDTONegocios> listaDireccionesSucursales2 = Arrays.asList(direccionSucursal5, direccionSucursal6, direccionSucursal7);
-                    Direccion.agregar(listaDireccionesSucursales2);
-                    
-                    ControlOrdenCompra controlOrdenCompra = new ControlOrdenCompra();
-                    
-                    IVista ordenCompra = new OrdenCompra(controlOrdenCompra, gerenteVentas1.getId());
-                    
-                    IMensaje mensajeOrdenCompra = new Mensaje();
-                    
-                    controlOrdenCompra.setVistas(mensajeOrdenCompra, ordenCompra);
-                    
-                    controlOrdenCompra.iniciarOrdenCompra();
-                    
                     break;
                     
-                case 5:
-                    break;
                 default:
+                    
                     System.out.println("Opción no válida. Intenta de nuevo.");
             }
         
@@ -1178,13 +852,13 @@ public class App {
                 ConfiguracionApp.INSTANCIA.inicializar();
             }
             else if (bandera.valor.isEmpty()) { // Si se pasó la bandera sin argumento
-                logger.severe("La bandera \"" + bandera.forma + "\" necesita un argumento");
+                LOG.severe("La bandera \"" + bandera.forma + "\" necesita un argumento");
                 System.exit(1);
             } else {
                 ConfiguracionApp.INSTANCIA.inicializar(bandera.valor);
             }
         } catch (IOException e) {
-            logger.severe("No se pudo inicializar la configuración: " + e.getMessage());
+            LOG.severe("No se pudo inicializar la configuración: " + e.getMessage());
             System.exit(1);
         }
     }

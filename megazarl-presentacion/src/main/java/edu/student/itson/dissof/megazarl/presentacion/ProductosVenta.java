@@ -130,7 +130,7 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
                                 COLOR_FONDO_SEPARADOR,
                                 MARGEN_VERTICAL_COMPONENTES,
                                 MARGEN_HORIZONTAL_COMPONENTES, 
-                                (Long) informacionProductoInicio.get("Id"),
+                                informacionProductoInicio.get("Id"),
                                 (String) informacionProductoInicio.get("DireccionImagenProducto"),
                                 (String) informacionProductoInicio.get("Nombre"), 
                                 (String) informacionProductoInicio.get("Variedad"),
@@ -368,7 +368,7 @@ public class ProductosVenta extends JFrame implements IProductosVenta, IVista {
     }
 
     @Override
-    public void mostrarInformacionProducto(Long idProducto) {
+    public void mostrarInformacionProducto(Object idProducto) {
         this.control.mostrarInformacionProducto(idProducto, this);
     }
 

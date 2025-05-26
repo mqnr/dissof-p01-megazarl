@@ -24,13 +24,13 @@ public class SucursalDTODatos {
      */
     private DireccionDTODatos direccion;
     
-    private List<ProductoInventarioDTO> productosInventario;
+    private List<ProductoInventarioDTODatos> productosInventario;
     
     public SucursalDTODatos(
             IdEntidadGenericoDatos id,
             Boolean esMatriz,
             DireccionDTODatos direccion,
-            List<ProductoInventarioDTO> productosInventario){
+            List<ProductoInventarioDTODatos> productosInventario){
         
         this.id = id;
         this.esMatriz = esMatriz;
@@ -39,20 +39,35 @@ public class SucursalDTODatos {
     }
     
     public SucursalDTODatos(
+            IdEntidadGenericoDatos id,
             Boolean esMatriz,
-            DireccionDTODatos direccion,
-            List<ProductoInventarioDTO> productosInventario) {
+            DireccionDTODatos direccion){
+        
+        this.id = id;
+        this.esMatriz = esMatriz;
+        this.direccion = direccion;
+    }
+    
+    public SucursalDTODatos(
+            Boolean esMatriz,
+            DireccionDTODatos direccion) {
         
         this.esMatriz = esMatriz;
         this.direccion = direccion;
-        this.productosInventario = productosInventario;
+    }
+
+    public Boolean getEsMatriz() {
+        return esMatriz;
     }
     
-    public List<ProductoInventarioDTO> getProductosInventario(){
+    public List<ProductoInventarioDTODatos> getProductosInventario(){
         return productosInventario;
     }
 
-
+    public IdEntidadGenericoDatos getId() {
+        return id;
+    }
+    
     public DireccionDTODatos getDireccion() {
         return direccion;
     }

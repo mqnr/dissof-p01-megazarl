@@ -58,7 +58,7 @@ public class EncabezadoRegistroCliente extends JPanel{
     
     private final Font FUENTE_BOTONES = new Font("Segoe UI Emoji", Font.BOLD, 16);
     
-    private Long idUsuario;
+    private Object idUsuario;
     
     JButton btnSalir;
 
@@ -66,7 +66,7 @@ public class EncabezadoRegistroCliente extends JPanel{
 
     public EncabezadoRegistroCliente(
             ControlRegistroCliente control,
-            Long idUsuario, 
+            Object idUsuario, 
             IVista vistaPadre) {
         
         this.control = control;

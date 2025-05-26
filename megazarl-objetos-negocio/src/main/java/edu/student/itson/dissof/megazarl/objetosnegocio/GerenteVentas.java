@@ -1,13 +1,18 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio;
 
+import edu.student.itson.dissof.megazal.datos.FabricaSubsistemasAccesoDatos;
 import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
 import edu.student.itson.dissof.megazarl.dto.negocios.GerenteVentasDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdGerenteVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.FormatoIdInvalidoNegocioException;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ParametroNuloNegocioException;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.RegistroInexistenteNegocioException;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ValorParametroInvalidoNegocioException;
 import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioGerenteVentas;
-import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.memoria.RepositorioGerenteVentasEnMemoria;
+import edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.mongodb.RepositorioGerenteVentasEnMongodb;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Predicate;
+
 /**
  * GerenteVentas.java
  * 
@@ -21,24 +26,41 @@ public class GerenteVentas {
     
     static {
         repositorio = switch (ConfiguracionApp.INSTANCIA.fuentes().gerenteVentas()){
-            case MEMORIA -> new RepositorioGerenteVentasEnMemoria();
+            case MEMORIA -> new RepositorioGerenteVentasEnMongodb(FabricaSubsistemasAccesoDatos.obtenerAdministradorMongodb());
             default -> throw new UnsupportedOperationException("Not implemented");
         };
     }
     
-    public static GerenteVentasDTONegocios recuperarPorId(IdGerenteVentasDTONegocios idGerenteVentasDTO){
+    public static GerenteVentasDTONegocios recuperarPorId(IdGerenteVentasDTONegocios idGerenteVentasDTO) 
+            throws FormatoIdInvalidoNegocioException,
+            RegistroInexistenteNegocioException,
+            ParametroNuloNegocioException{
+        
         return repositorio.recuperarPorId(idGerenteVentasDTO);
     }
     
-    public static boolean existePorId(IdGerenteVentasDTONegocios idGerenteVentasDTO){
+    public static boolean existePorId(IdGerenteVentasDTONegocios idGerenteVentasDTO) 
+            throws ParametroNuloNegocioException,
+            FormatoIdInvalidoNegocioException{
+        
         return repositorio.existePorId(idGerenteVentasDTO);
     }
     
-    public static void agregar(GerenteVentasDTONegocios gerente){
+    public static void agregar(GerenteVentasDTONegocios gerente)
+            throws FormatoIdInvalidoNegocioException, 
+            RegistroInexistenteNegocioException,
+            ValorParametroInvalidoNegocioException,
+            ParametroNuloNegocioException{
+        
         repositorio.agregar(gerente);
     }
     
-    public static void agregar(Collection<GerenteVentasDTONegocios> gerentes){
+    public static void agregar(Collection<GerenteVentasDTONegocios> gerentes) 
+            throws FormatoIdInvalidoNegocioException, 
+            RegistroInexistenteNegocioException, 
+            ValorParametroInvalidoNegocioException,
+            ParametroNuloNegocioException{
+        
         repositorio.agregar(gerentes);
     }
     

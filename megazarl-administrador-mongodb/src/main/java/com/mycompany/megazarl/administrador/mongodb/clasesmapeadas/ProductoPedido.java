@@ -8,17 +8,16 @@ public class ProductoPedido {
     
     private ObjectId id;
     
-    private Producto producto;
+    private ObjectId idProducto;
     
     private Integer cantidad;
 
-    public ProductoPedido(Producto producto, Integer cantidad) {
-        this.producto = producto;
+    public ProductoPedido(ObjectId idProducto, Integer cantidad) {
+        this.idProducto = idProducto;
         this.cantidad = cantidad;
     }
 
-    public ProductoPedido() {
-    }
+    public ProductoPedido() {}
 
     public ObjectId getId() {
         return id;
@@ -28,12 +27,12 @@ public class ProductoPedido {
         this.id = id;
     }
 
-    public Producto getProducto() {
-        return producto;
+    public ObjectId getIdProducto() {
+        return idProducto;
     }
 
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public void setIdProducto(ObjectId idProducto) {
+        this.idProducto = idProducto;
     }
     
     public Integer getCantidad() {

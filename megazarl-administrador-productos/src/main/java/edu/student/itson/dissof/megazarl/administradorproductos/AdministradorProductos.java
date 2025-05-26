@@ -1,9 +1,11 @@
 package edu.student.itson.dissof.megazarl.administradorproductos;
 
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
+import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInventarioInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProveedorInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorproductos.utils.CadenasTextoUtils;
 import edu.student.itson.dissof.megazarl.administradorproductos.utils.Normalizador;
 import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionProductoInventarioDTONegocios;
@@ -12,12 +14,15 @@ import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProductoInventarioDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoInicioDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoDetalladaDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Producto;
 import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoInventario;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.FormatoIdInvalidoNegocioException;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ParametroNuloNegocioException;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.RegistroInexistenteNegocioException;
 
 
 import java.util.Comparator;
@@ -35,7 +40,9 @@ class AdministradorProductos implements IAdministradorProductos {
     }
     
     @Override
-    public int cosultarInventarioProducto(IdProductoDTONegocios idProductoDTO) throws ProductosIdProductoInvalidoException{
+    public int cosultarInventarioProducto(IdProductoDTONegocios idProductoDTO) 
+            throws ProductosIdProductoInvalidoException,
+            ProductosPersistenciaException{
         
         
         // Se valida el ID del producto.
@@ -43,7 +50,8 @@ class AdministradorProductos implements IAdministradorProductos {
             throw new ProductosIdProductoInvalidoException("El ID de producto es inválido.");
         }
 
-        ProductoDTONegocios producto = obtenerProducto(idProductoDTO);
+        ProductoDTONegocios producto;
+        producto = obtenerProducto(idProductoDTO);
 
         if (producto == null){
             throw new ProductosIdProductoInvalidoException("El ID de producto es inválido.");
@@ -52,23 +60,18 @@ class AdministradorProductos implements IAdministradorProductos {
         
         // Se obtiene la cantidad de objetos de tipo ProductoInventario de la lista
         // del objeto Producto con el ID del parámetro.
-        List<IdEntidadGenericoNegocios> idsProductosInventario = producto.getIdsProductosInventario();
+        List<ProductoInventarioDTONegocios> productosInventario;
+        try {
+            productosInventario = ProductoInventario.recuperarPorIdProducto(idProductoDTO);
+        } catch (ParametroNuloNegocioException ex) {
+            throw new ProductosPersistenciaException(ex.getMessage());
+        } catch (FormatoIdInvalidoNegocioException ex) {
+             throw new ProductosPersistenciaException(ex.getMessage());
+        }
         
         int disponibilidadProducto = 0;
 
-        for(IdEntidadGenericoNegocios idProductoInventario: idsProductosInventario){
-            
-            IdProductoInventarioDTONegocios idProductoInventarioDTO = new IdProductoInventarioDTONegocios(idProductoInventario);
-             
-            if(!validarProductoInventario(idProductoInventarioDTO)){
-                throw new ProductosIdProductoInvalidoException("El ID de producto en inventario es inválido.");
-            }
-            
-            ProductoInventarioDTONegocios productoInventario = obtenerProductoInventario(idProductoInventarioDTO);
-            
-            if(productoInventario == null){
-                throw new ProductosIdProductoInvalidoException("El ID de producto en inventario es inválido."); 
-            }
+        for(ProductoInventarioDTONegocios productoInventario: productosInventario){
             
             if(!productoInventario.getApartado()){
                 disponibilidadProducto++;
@@ -78,8 +81,6 @@ class AdministradorProductos implements IAdministradorProductos {
  
         return disponibilidadProducto;
     }
-    private static final Logger LOG = Logger.getLogger(AdministradorProductos.class.getName());
-
 
     @Override
     public List<InformacionProductoInicioDTONegocios> obtenerProductosVenta() {
@@ -113,7 +114,8 @@ class AdministradorProductos implements IAdministradorProductos {
     }
 
     @Override
-    public List<InformacionProductoInicioDTONegocios> obtenerProductosBusquedaNombreProducto(String nombreProducto){
+    public List<InformacionProductoInicioDTONegocios> obtenerProductosBusquedaNombreProducto(String nombreProducto) 
+            throws ProductosPersistenciaException{
 
         List<InformacionProductoInicioDTONegocios> listaProductoInicioDTO = new LinkedList<>();
 
@@ -130,10 +132,14 @@ class AdministradorProductos implements IAdministradorProductos {
             IdEntidadGenericoNegocios idProducto = producto.getId();
 
             int cantidadProducto = 0;
+
             try {
                 cantidadProducto = cosultarInventarioProducto(new IdProductoDTONegocios(idProducto));
-            } catch (ProductosIdProductoInvalidoException ex) {}
-            
+            } catch (ProductosIdProductoInvalidoException ex) {
+                throw new ProductosPersistenciaException(ex.getMessage());
+            }
+
+                
             String nombreProductoActualSinAcentos = Normalizador.quitarAcentosCadenaTexto(producto.getNombre());
                         
             String nombreProductoActualMinusculasSinEspacios = nombreProductoActualSinAcentos.toLowerCase().replaceAll("\\s", "");
@@ -165,7 +171,9 @@ class AdministradorProductos implements IAdministradorProductos {
     @Override
     public List<InformacionProductoInicioDTONegocios> obtenerProductosBusquedaNombreProductoVariedad(
             String nombreProducto, 
-            String variedadProducto){
+            String variedadProducto) 
+            
+            throws ProductosPersistenciaException{
         
         // Se eliminan los acentos del nombre del producto a buscar.
         String nombreProductoSinAcentos = Normalizador.quitarAcentosCadenaTexto(nombreProducto);
@@ -184,7 +192,9 @@ class AdministradorProductos implements IAdministradorProductos {
             int cantidadProducto = 0;
             try {
                 cantidadProducto = cosultarInventarioProducto(new IdProductoDTONegocios(idProducto));
-            } catch (ProductosIdProductoInvalidoException ex) {}
+            } catch (ProductosIdProductoInvalidoException ex) {
+                throw new ProductosPersistenciaException(ex.getMessage());
+            }
 
             String nombreProductoActualSinAcentos = Normalizador.quitarAcentosCadenaTexto(producto.getNombre());
             
@@ -217,7 +227,9 @@ class AdministradorProductos implements IAdministradorProductos {
     public List<InformacionProductoInicioDTONegocios> obtenerProductosBusquedaNombreProductoProveedor(
             String nombreProducto, 
             String proveedorProducto) 
-            throws ProductosIdProveedorInvalidoException{
+            
+            throws ProductosIdProveedorInvalidoException,
+            ProductosPersistenciaException{
 
         String nombreProductoSinAcentos = Normalizador.quitarAcentosCadenaTexto(nombreProducto);
         
@@ -236,7 +248,9 @@ class AdministradorProductos implements IAdministradorProductos {
             int cantidadProducto = 0;
             try {
                 cantidadProducto = cosultarInventarioProducto(new IdProductoDTONegocios(idProducto));
-            } catch (ProductosIdProductoInvalidoException ex) {}
+            } catch (ProductosIdProductoInvalidoException ex) {
+                throw new ProductosPersistenciaException(ex.getMessage());
+            }
 
             String nombreProductoActualSinAcentos = Normalizador.quitarAcentosCadenaTexto(producto.getNombre());
             
@@ -244,11 +258,21 @@ class AdministradorProductos implements IAdministradorProductos {
             
             IdProveedorDTONegocios idProveedorDTO = new IdProveedorDTONegocios(producto.getIdProveedor());
             
-            if(!administradorProveedores.validarProveedor(idProveedorDTO)){
-                throw new ProductosIdProveedorInvalidoException("El ID de proveedor es inválido");
+            try {
+                if(!administradorProveedores.validarProveedor(idProveedorDTO)){
+                    throw new ProductosIdProveedorInvalidoException("El ID de proveedor es inválido");
+                }
+            } catch (ProveedoresPersistenciaException ex) {
+                throw new ProductosPersistenciaException(ex.getMessage());
             }
+
             
-            ProveedorDTONegocios proveedorProductoActual = administradorProveedores.obtenerProveedor(idProveedorDTO);
+            ProveedorDTONegocios proveedorProductoActual;
+            try {
+                proveedorProductoActual = administradorProveedores.obtenerProveedor(idProveedorDTO);
+            } catch (ProveedoresPersistenciaException ex) {
+                throw new ProductosPersistenciaException(ex.getMessage());
+            }
             
             
             if(cantidadProducto > 0 
@@ -275,14 +299,16 @@ class AdministradorProductos implements IAdministradorProductos {
 
     @Override
     public InformacionProductoDetalladaDTONegocios obtenerInformacionProductoVenta(IdProductoDTONegocios idProductoDTO)
-            throws ProductosIdProductoInvalidoException{
+            throws ProductosIdProductoInvalidoException,
+            ProductosPersistenciaException{
         
         // Se valida el ID del Producto.
         if (!validarProducto(idProductoDTO)) {
             throw new ProductosIdProductoInvalidoException("El ID de producto es inválido.");
         }
 
-        ProductoDTONegocios productoRecuperado = obtenerProducto(idProductoDTO);
+        ProductoDTONegocios productoRecuperado;
+        productoRecuperado = obtenerProducto(idProductoDTO);
 
         if (productoRecuperado == null) {
             throw new ProductosIdProductoInvalidoException("El ID de producto es inválido.");
@@ -307,20 +333,31 @@ class AdministradorProductos implements IAdministradorProductos {
     
 
     @Override
-    public ProductoDTONegocios obtenerProducto(IdProductoDTONegocios idProductoDTO){
+    public ProductoDTONegocios obtenerProducto(IdProductoDTONegocios idProductoDTO) 
+            throws ProductosPersistenciaException{
         
-        return Producto.recuperarPorId(idProductoDTO);
+        try {
+            return Producto.recuperarPorId(idProductoDTO);
+        } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException | ParametroNuloNegocioException ex) {
+            throw new ProductosPersistenciaException(ex.getMessage());
+        }
     }
     
     @Override
-    public ProductoInventarioDTONegocios obtenerProductoInventario(IdProductoInventarioDTONegocios idProductoInventario) {
+    public ProductoInventarioDTONegocios obtenerProductoInventario(IdProductoInventarioDTONegocios idProductoInventario)
+            throws ProductosPersistenciaException{
         
-        return ProductoInventario.recuperarPorId(idProductoInventario);
+        try {
+            return ProductoInventario.recuperarPorId(idProductoInventario);
+        } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException | ParametroNuloNegocioException ex) {
+            throw new ProductosPersistenciaException(ex.getMessage());
+        }
     }
     
     @Override
     public void apartarProductoInventarioPedido(IdProductoInventarioDTONegocios idProductoInventarioDTO) 
-            throws ProductosIdProductoInventarioInvalidoException {
+            throws ProductosIdProductoInventarioInvalidoException,
+            ProductosPersistenciaException{
         
         if(!validarProductoInventario(idProductoInventarioDTO)){
             throw new ProductosIdProductoInventarioInvalidoException("El ID del producto en inventario es inválido.");
@@ -331,16 +368,25 @@ class AdministradorProductos implements IAdministradorProductos {
                     
         actualizacionProductoInventarioDTO.setApartado(true);
 
-        ProductoInventario.actualizar(actualizacionProductoInventarioDTO);
+        try {
+            ProductoInventario.actualizar(actualizacionProductoInventarioDTO);
+        } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException | ParametroNuloNegocioException ex) {
+            throw new ProductosPersistenciaException(ex.getMessage());
+        }
 
     }
     
     
     @Override
-    public boolean validarProducto(IdProductoDTONegocios idProductoDTO){
+    public boolean validarProducto(IdProductoDTONegocios idProductoDTO)
+            throws ProductosPersistenciaException{
         
-        if (idProductoDTO == null || idProductoDTO.getIdProducto() == null || !Producto.existePorId(idProductoDTO)) {
-            return false;
+        try {
+            if (idProductoDTO == null || idProductoDTO.getIdProducto() == null || !Producto.existePorId(idProductoDTO)) {
+                return false;
+            }
+        } catch (ParametroNuloNegocioException | FormatoIdInvalidoNegocioException ex) {
+            throw new ProductosPersistenciaException(ex.getMessage());
         }
         
         return true;
@@ -348,10 +394,31 @@ class AdministradorProductos implements IAdministradorProductos {
     }
     
     @Override
-    public boolean validarProductoInventario(IdProductoInventarioDTONegocios idProductoInventarioDTO) {
+    public boolean validarProductoInventario(IdProductoInventarioDTONegocios idProductoInventarioDTO) 
+            throws ProductosPersistenciaException{
         
-        return ProductoInventario.existePorId(idProductoInventarioDTO);
+        try {
+            return ProductoInventario.existePorId(idProductoInventarioDTO);
+        } catch (ParametroNuloNegocioException | FormatoIdInvalidoNegocioException ex) {
+            throw new ProductosPersistenciaException(ex.getMessage());
+        }
         
+    }
+
+    @Override
+    public List<ProductoInventarioDTONegocios> obtenerProductosInventarioIdProducto(IdProductoDTONegocios idProductoDTONegocios)
+            throws ProductosIdProductoInvalidoException,
+            ProductosPersistenciaException{
+        
+        if(!validarProducto(idProductoDTONegocios)){
+            throw new ProductosIdProductoInvalidoException("El ID del producto recibido es inválido.");
+        }
+        
+        try {
+            return ProductoInventario.recuperarPorIdProducto(idProductoDTONegocios);
+        } catch (ParametroNuloNegocioException | FormatoIdInvalidoNegocioException ex) {
+            throw new ProductosPersistenciaException(ex.getMessage());
+        }
     }
 
     

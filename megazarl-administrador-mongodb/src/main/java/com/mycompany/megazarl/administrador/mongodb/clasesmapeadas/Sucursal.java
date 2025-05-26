@@ -12,13 +12,15 @@ public class Sucursal {
     
     private Direccion direccion;
 
-    public Sucursal(ObjectId id, Boolean esMatriz) {
-        this.id = id;
+    public Sucursal(
+            Boolean esMatriz,
+            Direccion direccion) {
+        
         this.esMatriz = esMatriz;
+        this.direccion = direccion;
     }
 
-    public Sucursal() {
-    }
+    public Sucursal() {}
 
     public ObjectId getId() {
         return id;

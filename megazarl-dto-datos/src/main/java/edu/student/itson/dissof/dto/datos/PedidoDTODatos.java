@@ -1,7 +1,7 @@
 
 package edu.student.itson.dissof.dto.datos;
 
-import edu.student.itson.dissof.dto.datos.enumeradores.EstadoPedido;
+import edu.student.itson.dissof.dto.datos.enumeradores.EstadoPedidoDatos;
 import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenericoDatos;
 import java.util.List;
 
@@ -9,7 +9,7 @@ public class PedidoDTODatos{
     
     private IdEntidadGenericoDatos id;
 
-    private EstadoPedido estado;
+    private EstadoPedidoDatos estado;
     
     private IdEntidadGenericoDatos idCliente;
     
@@ -19,28 +19,24 @@ public class PedidoDTODatos{
 
     public PedidoDTODatos(
             IdEntidadGenericoDatos id,
-            EstadoPedido estado,
-            ClienteDTODatos cliente,
-            PaqueteriaDTODatos paqueteria,
-            IdEntidadGenericoDatos idCliente,
-            IdEntidadGenericoDatos idPaqueteria) {
-        
-        this.id = id;
-        this.estado = estado;
-        this.idCliente = idCliente;
-        this.idPaqueteria = idPaqueteria;
-    }
-    
-    public PedidoDTODatos(
-            IdEntidadGenericoDatos id,
-            EstadoPedido estado,
-            ClienteDTODatos cliente,
-            PaqueteriaDTODatos paqueteria,
+            EstadoPedidoDatos estado,
             IdEntidadGenericoDatos idCliente,
             IdEntidadGenericoDatos idPaqueteria,
             List<ProductoPedidoDTODatos> productosPedido) {
         
         this.id = id;
+        this.estado = estado;
+        this.idCliente = idCliente;
+        this.idPaqueteria = idPaqueteria;
+        this.productosPedido = productosPedido;
+    }
+    
+    public PedidoDTODatos(
+            EstadoPedidoDatos estado,
+            IdEntidadGenericoDatos idCliente,
+            IdEntidadGenericoDatos idPaqueteria,
+            List<ProductoPedidoDTODatos> productosPedido) {
+        
         this.estado = estado;
         this.idCliente = idCliente;
         this.idPaqueteria = idPaqueteria;
@@ -59,7 +55,7 @@ public class PedidoDTODatos{
         return id;
     }
 
-    public EstadoPedido getEstado() {
+    public EstadoPedidoDatos getEstado() {
         return estado;
     }
 
@@ -71,8 +67,5 @@ public class PedidoDTODatos{
         return idPaqueteria;
     }
 
-    public List<ProductoPedidoDTODatos> getIdsProductosPedido() {
-        return productosPedido;
-    }
     
 }

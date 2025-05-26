@@ -23,7 +23,7 @@ import java.util.Objects;
  * 
  */
 
-public abstract class ProductoInventarioDTONegocios {
+public class ProductoInventarioDTONegocios {
 
     /**
      * Objeto Long que representa el id del producto en inventario
@@ -31,6 +31,10 @@ public abstract class ProductoInventarioDTONegocios {
     private IdEntidadGenericoNegocios id;
     
     private Boolean apartado;
+    
+    private IdEntidadGenericoNegocios idProducto;
+    
+    private IdEntidadGenericoNegocios idSucursal;
 
     /**
      * Método que permite obtener el id del producto en inventario
@@ -40,22 +44,28 @@ public abstract class ProductoInventarioDTONegocios {
         return id;
     }
     
-    public ProductoInventarioDTONegocios(){
-    }
-    
-    public ProductoInventarioDTONegocios(IdEntidadGenericoNegocios id, Boolean apartado){
+    public ProductoInventarioDTONegocios(
+            IdEntidadGenericoNegocios id, 
+            Boolean apartado,
+            IdEntidadGenericoNegocios idProducto,
+            IdEntidadGenericoNegocios idSucursal){
+        
         this.id = id;
         this.apartado = apartado;
+        this.idProducto = idProducto;
+        this.idSucursal = idSucursal;
     }
     
-    public ProductoInventarioDTONegocios(Boolean apartado){
+    public ProductoInventarioDTONegocios(
+            Boolean apartado,
+            IdEntidadGenericoNegocios idProducto,
+            IdEntidadGenericoNegocios idSucursal){
+        
         this.apartado = apartado;
+        this.idProducto = idProducto;
+        this.idSucursal = idSucursal;
     }
-
-    public abstract IdEntidadGenericoNegocios getIdProducto();
-
-    public abstract IdEntidadGenericoNegocios getIdSucursal();
-
+    
     /**
      * Mètodo que permite establecer el ID del producto en inventario.
      * @param id Objeto Long que representa el ID del producto en inventario.
@@ -66,6 +76,14 @@ public abstract class ProductoInventarioDTONegocios {
 
     public Boolean getApartado() {
         return apartado;
+    }
+
+    public IdEntidadGenericoNegocios getIdProducto() {
+        return idProducto;
+    }
+
+    public IdEntidadGenericoNegocios getIdSucursal() {
+        return idSucursal;
     }
 
     /**

@@ -7,12 +7,27 @@ import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGeneric
 public class GerenteVentasDTONegocios {
     
     private IdEntidadGenericoNegocios id;
-    private String nombre;
+    private String nombres;
     private String apellidoPaterno;
     private String apellidoMaterno;
 
-    public GerenteVentasDTONegocios(String nombre, String apellidoPaterno, String apellidoMaterno) {
-        this.nombre = nombre;
+    public GerenteVentasDTONegocios(
+            IdEntidadGenericoNegocios id,
+            String nombre, 
+            String apellidoPaterno, 
+            String apellidoMaterno) {
+        
+        this.id = id;
+        this.nombres = nombres;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+    }
+    
+    public GerenteVentasDTONegocios(
+            String nombre, 
+            String apellidoPaterno, 
+            String apellidoMaterno) {
+        this.nombres = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
     }
@@ -24,12 +39,12 @@ public class GerenteVentasDTONegocios {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombres() {
+        return nombres;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombres(String nombre) {
+        this.nombres = nombre;
     }
 
     public String getApellidoPaterno() {

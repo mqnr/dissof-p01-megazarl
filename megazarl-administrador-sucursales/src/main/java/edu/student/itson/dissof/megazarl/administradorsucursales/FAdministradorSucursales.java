@@ -3,6 +3,7 @@ package edu.student.itson.dissof.megazarl.administradorsucursales;
 
 import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdDireccionInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdSucursalInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesPersistenciaException;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTONegocios;
@@ -47,7 +48,9 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
      * @return true si el ID de la sucursal es válido y existe en el sistema, false en caso contrario.
      */
     @Override
-    public boolean validarSucursal(IdSucursalDTONegocios idSucursalDTONegocios) {
+    public boolean validarSucursal(IdSucursalDTONegocios idSucursalDTONegocios) 
+            throws SucursalesPersistenciaException {
+        
         return administradorSucursales.validarSucursal(idSucursalDTONegocios);
     }
 
@@ -70,7 +73,8 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
     @Override
     public String obtenerCodigoPostal(IdSucursalDTONegocios idSucursalDTONegocios) 
             throws SucursalesIdSucursalInvalidoException,
-            SucursalesIdDireccionInvalidoException {
+            SucursalesIdDireccionInvalidoException,
+            SucursalesPersistenciaException {
         
         return administradorSucursales.obtenerCodigoPostal(idSucursalDTONegocios);
     }
@@ -85,7 +89,8 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
     @Override
     public String obtenerCalle(IdSucursalDTONegocios idSucursalDTO)
             throws SucursalesIdSucursalInvalidoException,
-            SucursalesIdDireccionInvalidoException{
+            SucursalesIdDireccionInvalidoException,
+            SucursalesPersistenciaException{
         
         return administradorSucursales.obtenerCalle(idSucursalDTO);
     }
@@ -100,7 +105,8 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
     @Override
     public String obtenerNumero(IdSucursalDTONegocios idSucursalDTO)
             throws SucursalesIdSucursalInvalidoException,
-            SucursalesIdDireccionInvalidoException {
+            SucursalesIdDireccionInvalidoException,
+            SucursalesPersistenciaException {
         
         return administradorSucursales.obtenerNumero(idSucursalDTO);
     }
@@ -111,7 +117,8 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
      * de la empresa.
      */
     @Override
-    public SucursalDTONegocios obtenerSucursalMatriz() {
+    public SucursalDTONegocios obtenerSucursalMatriz() throws SucursalesPersistenciaException {
+        
         return administradorSucursales.obtenerSucursalMatriz();
     }
 
@@ -122,7 +129,9 @@ public class FAdministradorSucursales implements IAdministradorSucursales {
      * o null si no se encuentra una sucursal con ese ID.
      */
     @Override
-    public SucursalDTONegocios obtenerSucursal(IdSucursalDTONegocios idSucursalDTONegocios) {
+    public SucursalDTONegocios obtenerSucursal(IdSucursalDTONegocios idSucursalDTONegocios)
+            throws SucursalesPersistenciaException {
+        
         return administradorSucursales.obtenerSucursal(idSucursalDTONegocios);
     }
 

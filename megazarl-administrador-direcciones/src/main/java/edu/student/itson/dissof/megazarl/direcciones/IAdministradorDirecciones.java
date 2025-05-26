@@ -28,14 +28,6 @@ import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDirec
  */
 public interface IAdministradorDirecciones {
     
-    public abstract DireccionDTONegocios obtenerDireccion(IdDireccionDTONegocios idDireccionDTONegocios);
-    
-    public abstract boolean validarDireccion(IdDireccionDTONegocios idDireccionDTONegocios);
-    
-    public abstract DireccionDTONegocios registrarDireccion(DireccionDTONegocios direccionDTONegocios) 
-            throws DireccionesAccesoArchivoCodigosPostalesFallidoException,
-            DireccionesArchivoCodigosPostalesVacioException;
-    
     /**
      * Método que permite obtener el Estado, Ciudad y Colonia asociados al Código Postal del parámetro.
      * @param codigoPostalDTONegocios Objeto CodigoPostalDTONegocios que representa el Código Postal a buscar.

@@ -1,17 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mycompany.megazarl.administrador.mongodb.clasesmapeadas;
 
 import org.bson.types.ObjectId;
 
 /**
- *
- * @author Laboratorios
+ * Clase que representa un producto en el catálogo registrado en el sistema.
+ * 
+ * @author Yuri Germán García López
+ * ID: 00000252583
+ * @author Manuel Romo López
+ * ID: 00000253080
+ * 
  */
+
 public class Producto {
-    
     
     private ObjectId id;
 
@@ -29,16 +31,28 @@ public class Producto {
     
     private String direccionImagen;
     
-    private Proveedor proveedor;
+    private ObjectId idProveedor;
 
-    public Producto(String nombre, String variedad, Integer milesSemillas, Double precio, Double pesoKg, String direccionImagen, Proveedor proveedor) {
+    public Producto(){}
+    
+    public Producto(
+            String nombre, 
+            String variedad, 
+            String descripcion,
+            Integer milesSemillas, 
+            Double precio,
+            Double pesoKg, 
+            String direccionImagen, 
+            ObjectId idProveedor) {
+        
         this.nombre = nombre;
         this.variedad = variedad;
+        this.descripcion = descripcion;
         this.milesSemillas = milesSemillas;
         this.precio = precio;
         this.pesoKg = pesoKg;
         this.direccionImagen = direccionImagen;
-        this.proveedor = proveedor;
+        this.idProveedor = idProveedor;
     }
 
     public ObjectId getId() {
@@ -105,15 +119,12 @@ public class Producto {
         this.direccionImagen = direccionImagen;
     }
 
-    public Proveedor getProveedor() {
-        return proveedor;
+    public ObjectId getIdProveedor() {
+        return idProveedor;
     }
 
-    public void setProveedor(Proveedor proveedor) {
-        this.proveedor = proveedor;
+    public void setIdProveedor(ObjectId idProveedor) {
+        this.idProveedor = idProveedor;
     }
-            
-    
-    
     
 }

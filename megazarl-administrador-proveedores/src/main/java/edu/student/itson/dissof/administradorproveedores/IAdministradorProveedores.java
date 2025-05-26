@@ -2,10 +2,11 @@
 package edu.student.itson.dissof.administradorproveedores;
 
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
+import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresPersistenciaException;
 
-import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProveedorInicioDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
 import java.util.List;
 
 /**
@@ -39,7 +40,9 @@ public interface IAdministradorProveedores {
      * @throws ProveedoresIdProveedorInvalidoException Se lanza si se comprueba que el ID
      * del proveedor es inválido, dentro de este subsistema.
      */
-    public abstract String obtenerDireccionImagenProveedor(IdProveedorDTONegocios idProveedorDTO) throws ProveedoresIdProveedorInvalidoException;
+    public abstract String obtenerDireccionImagenProveedor(IdProveedorDTONegocios idProveedorDTO)
+            throws ProveedoresIdProveedorInvalidoException,
+            ProveedoresPersistenciaException;
 
     /**
      * Método que permite obtener el nombre de un proveedor específico identificado por su ID.
@@ -49,7 +52,9 @@ public interface IAdministradorProveedores {
      * @throws ProveedoresIdProveedorInvalidoException Se lanza si se comprueba que el ID
      * del proveedor es inválido, dentro de este subsistema.
      */
-    public abstract String obtenerNombreProveedor(IdProveedorDTONegocios idProveedorDTO) throws ProveedoresIdProveedorInvalidoException;
+    public abstract String obtenerNombreProveedor(IdProveedorDTONegocios idProveedorDTO) 
+            throws ProveedoresIdProveedorInvalidoException,
+            ProveedoresPersistenciaException;
 
     /**
      * Método que permite obtener un proveedor específico identificado por su ID.
@@ -57,7 +62,7 @@ public interface IAdministradorProveedores {
      * @param idProveedorDTO Objeto IdProveedorDTONegocios que representa el ID del proveedor a obtener.
      * @return Objeto Proveedor que representa el proveedor con el ID especificado.
      */
-    public abstract ProveedorDTONegocios obtenerProveedor(IdProveedorDTONegocios idProveedorDTO);
+    public abstract ProveedorDTONegocios obtenerProveedor(IdProveedorDTONegocios idProveedorDTO) throws ProveedoresPersistenciaException;
     
     /**
      * Método que permite verificar si el ID de un proveedor es válido.
@@ -65,7 +70,7 @@ public interface IAdministradorProveedores {
      * @param idProveedorDTO Objeto IdProveedorDTONegocios que contiene el ID del proveedor a validar.
      * @return true si el ID del proveedor es válido, false en caso contrario.
      */
-    public abstract boolean validarProveedor(IdProveedorDTONegocios idProveedorDTO);
+    public abstract boolean validarProveedor(IdProveedorDTONegocios idProveedorDTO) throws ProveedoresPersistenciaException;
 
     /**
      * Método que permite obtener la lista de todos los proveedores registrados en el sistema.

@@ -4,9 +4,7 @@ import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAcce
 import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
 import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigoPostalDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTONegocios;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Direccion;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -18,20 +16,6 @@ import java.util.LinkedList;
 import java.util.List;
 class AdministradorDirecciones implements IAdministradorDirecciones {
     
-    @Override
-    public DireccionDTONegocios obtenerDireccion(IdDireccionDTONegocios idDireccionDTONegocios) {
-        return Direccion.recuperarPorId(idDireccionDTONegocios);
-    }
-
-    @Override
-    public boolean validarDireccion(IdDireccionDTONegocios idDireccionDTONegocios) {
-        
-        if (idDireccionDTONegocios == null || idDireccionDTONegocios.getIdDireccion()== null || !Direccion.existePorId(idDireccionDTONegocios)) {
-            return false;
-        }
-        
-        return true;
-    }
     
     @Override
     public InformacionDerivadaCPDireccionDTONegocios obtenerDatosDireccionDerivados(CodigoPostalDTONegocios codigoPostalDTONegocios)
@@ -112,28 +96,6 @@ class AdministradorDirecciones implements IAdministradorDirecciones {
             throw new DireccionesAccesoArchivoCodigosPostalesFallidoException("No se pudo acceder al archivo que contiene la información relacionada"
                     + "con los Códigos Postales");
         }
-    }
-    
-    @Override
-    public DireccionDTONegocios registrarDireccion(DireccionDTONegocios direccionDTO) 
-            throws DireccionesAccesoArchivoCodigosPostalesFallidoException,
-            DireccionesArchivoCodigosPostalesVacioException{
-        
-        String codigoPostalNuevaDireccion = direccionDTO.getCodigoPostal();
-        
-        InformacionDerivadaCPDireccionDTONegocios informacionDerivadaCPDireccionDTO
-                = obtenerDatosDireccionDerivados(new CodigoPostalDTONegocios(codigoPostalNuevaDireccion));
-        
-        String estadoDireccion = informacionDerivadaCPDireccionDTO.getEstado();
-        String ciudadDireccion = informacionDerivadaCPDireccionDTO.getCiudad();
-        
-        direccionDTO.setEstado(estadoDireccion);
-        direccionDTO.setCiudad(ciudadDireccion);
-        
-        Direccion.agregar(direccionDTO);
-        
-        return direccionDTO;
-        
     }
 
 }

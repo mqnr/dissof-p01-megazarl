@@ -1,13 +1,19 @@
 package edu.student.itson.dissof.administradorproveedores;
 
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
+import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresPersistenciaException;
 
 import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProveedorInicioDTONegocios;
-import edu.student.itson.dissof.megazarl.objetosnegocio.Proveedor;import java.util.Comparator;
+import edu.student.itson.dissof.megazarl.objetosnegocio.Proveedor;import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.FormatoIdInvalidoNegocioException;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ParametroNuloNegocioException;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.RegistroInexistenteNegocioException;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 ;
 
 
@@ -19,14 +25,21 @@ class AdministradorProveedores implements IAdministradorProveedores {
     }
     
     @Override
-    public ProveedorDTONegocios obtenerProveedor(IdProveedorDTONegocios idProveedorDTO){
+    public ProveedorDTONegocios obtenerProveedor(IdProveedorDTONegocios idProveedorDTONegocios) 
+            throws ProveedoresPersistenciaException{
         
-        return Proveedor.recuperarPorId(idProveedorDTO);
+        try {
+            return Proveedor.recuperarPorId(idProveedorDTONegocios);
+        } catch (FormatoIdInvalidoNegocioException | ParametroNuloNegocioException | RegistroInexistenteNegocioException ex) {
+            throw new ProveedoresPersistenciaException(ex.getMessage());
+        }
 
     }
 
     @Override
-    public String obtenerDireccionImagenProveedor(IdProveedorDTONegocios idProveedorDTO) throws ProveedoresIdProveedorInvalidoException{
+    public String obtenerDireccionImagenProveedor(IdProveedorDTONegocios idProveedorDTO) 
+            throws ProveedoresIdProveedorInvalidoException,
+            ProveedoresPersistenciaException{
         
         // Se valida el ID del proevedor.
         if (!validarProveedor(idProveedorDTO)) {
@@ -45,14 +58,16 @@ class AdministradorProveedores implements IAdministradorProveedores {
     
 
     @Override
-    public String obtenerNombreProveedor(IdProveedorDTONegocios idProveedorDTO) throws ProveedoresIdProveedorInvalidoException{
+    public String obtenerNombreProveedor(IdProveedorDTONegocios idProveedorDTONegocios) 
+            throws ProveedoresIdProveedorInvalidoException,
+            ProveedoresPersistenciaException{
         
         // Se valida el ID del proevedor.
-        if (!validarProveedor(idProveedorDTO)) {
+        if (!validarProveedor(idProveedorDTONegocios)) {
             throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor es inválido.");
         }
 
-        ProveedorDTONegocios proveedor = obtenerProveedor(idProveedorDTO);
+        ProveedorDTONegocios proveedor = obtenerProveedor(idProveedorDTONegocios);
 
         if (proveedor == null) {
             throw new ProveedoresIdProveedorInvalidoException("El ID de proveedor es inválido.");
@@ -63,10 +78,15 @@ class AdministradorProveedores implements IAdministradorProveedores {
     }
     
     @Override
-    public boolean validarProveedor(IdProveedorDTONegocios idProveedorDTO){
+    public boolean validarProveedor(IdProveedorDTONegocios idProveedorDTO) 
+            throws ProveedoresPersistenciaException{
         
-        if (idProveedorDTO == null || idProveedorDTO.getIdProveedor() == null || !Proveedor.existePorId(idProveedorDTO)) {
-            return false;
+        try {
+            if (idProveedorDTO == null || idProveedorDTO.getIdProveedor() == null || !Proveedor.existePorId(idProveedorDTO)) {
+                return false;
+            }
+        } catch (ParametroNuloNegocioException | FormatoIdInvalidoNegocioException ex) {
+            throw new ProveedoresPersistenciaException(ex.getMessage());
         }
         
         return true;

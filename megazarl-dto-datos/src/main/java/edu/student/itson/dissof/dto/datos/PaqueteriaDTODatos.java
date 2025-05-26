@@ -60,6 +60,21 @@ public class PaqueteriaDTODatos{
         this.direccionImagen = direccionImagen;
         this.direccion = direccion;
     }
+    
+    public PaqueteriaDTODatos(
+            String nombre,
+            Float cobroKg, 
+            Float cobroHora, 
+            String direccionImagen,
+            DireccionDTODatos direccion) {
+        
+        this.nombre = nombre;
+        this.cobroKg = cobroKg;
+        this.cobroHora = cobroHora;
+        this.direccionImagen = direccionImagen;
+        this.direccion = direccion;
+    }
+    
 
     public IdEntidadGenericoDatos getId() {
         return id;

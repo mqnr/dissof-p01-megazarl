@@ -2,6 +2,7 @@
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
 
+import edu.student.itson.dissof.megazarl.dto.negocios.enumeradores.EstadoPedidoNegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +26,7 @@ import java.util.Objects;
  * ID: 00000251923
  *
  */
-public abstract class PedidoDTONegocios {
+public class PedidoDTONegocios {
 
     /**
      * Objeto Long que representa el ID del pedido.
@@ -36,29 +37,49 @@ public abstract class PedidoDTONegocios {
     /**
      * Objeto String que representa el estado actual del pedido.
      */
-    private String estado;
+    private EstadoPedidoNegocios estado;
+    
+    private IdEntidadGenericoNegocios idCliente;
+    
+    private IdEntidadGenericoNegocios idPaqueteria;
+    
+    private List<ProductoPedidoDTONegocios> productosPedido;
 
     /**
      * Constructor que permite instanciar un objeto de tipo PedidoDTO.
      * @param id                      Objeto Long que representa el ID del pedido.
      *                                que representa los productos en inventario requeridos por el pedido.
-     * @param estado                  Objeto EstadoPedido que representa el estado actual del pedido
+     * @param estado                  Objeto EstadoPedidoNegocios que representa el estado actual del pedido
+     * @param idCliente
+     * @param idPaqueteria
+     * @param productosPedido
      */
     public PedidoDTONegocios(
             IdEntidadGenericoNegocios id, 
-            String estado) {
+            EstadoPedidoNegocios estado,
+            IdEntidadGenericoNegocios idCliente,
+            IdEntidadGenericoNegocios idPaqueteria,
+            List<ProductoPedidoDTONegocios> productosPedido) {
         
         this.id = id;
         this.estado = estado;
+        this.idCliente = idCliente;
+        this.idPaqueteria = idPaqueteria;
+        this.productosPedido = productosPedido;
+        
     }
     
-    /**
-     * Constructor que permite instanciar un objeto de tipo PedidoDTO.
-     * @param estado                  Objeto EstadoPedido que representa el estado actual del pedido.
-     */
-    public PedidoDTONegocios(String estado) {
+    public PedidoDTONegocios(
+            EstadoPedidoNegocios estado,
+            IdEntidadGenericoNegocios idCliente,
+            IdEntidadGenericoNegocios idPaqueteria,
+            List<ProductoPedidoDTONegocios> productosPedido) {
         
         this.estado = estado;
+        this.idCliente = idCliente;
+        this.idPaqueteria = idPaqueteria;
+        this.productosPedido = productosPedido;
+        
     }
 
     /**
@@ -80,23 +101,23 @@ public abstract class PedidoDTONegocios {
     
     /**
      * Método que permite obtener el estado actual del pedido.
-     * @return Objeto EstadoPedido que representa el estado actual del pedido.
+     * @return Objeto EstadoPedidoNegocios que representa el estado actual del pedido.
      */
-    public String getEstado() {
+    public EstadoPedidoNegocios getEstado() {
         return estado;
     }
-    
-    /**
-     * Método que permite obtener el ID del cliente que realiza el pedido.
-     * @return Objeto Long que representa el ID del cliente que realiza el pedido.
-     */
-    public abstract IdEntidadGenericoNegocios getIdCliente();
 
-    public abstract IdEntidadGenericoNegocios getIdPaqueteria();
-    
-    public abstract List<IdEntidadGenericoNegocios> getIdsProductosPedido();
-    
-    public abstract void setIdCliente(IdEntidadGenericoNegocios idClienteDTO);
+    public IdEntidadGenericoNegocios getIdCliente() {
+        return idCliente;
+    }
+
+    public IdEntidadGenericoNegocios getIdPaqueteria() {
+        return idPaqueteria;
+    }
+
+    public List<ProductoPedidoDTONegocios> getProductosPedido() {
+        return productosPedido;
+    }
     
     
     

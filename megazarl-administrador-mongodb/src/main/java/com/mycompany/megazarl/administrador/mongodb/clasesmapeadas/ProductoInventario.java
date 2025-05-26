@@ -8,16 +8,22 @@ public class ProductoInventario {
     
     private ObjectId id;
     
-    private Producto producto;
+    private ObjectId idProducto;
     
-    private Sucursal sucursal;
+    private ObjectId idSucursal;
+    
+    private Boolean apartado;
 
-    public ProductoInventario() {
-    }
+    public ProductoInventario() {}
     
-    public ProductoInventario(Producto producto, Sucursal sucursal) {
-        this.producto = producto;
-        this.sucursal = sucursal;
+    public ProductoInventario(
+            ObjectId idProducto, 
+            ObjectId idSucursal,
+            Boolean apartado) {
+        
+        this.idProducto = idProducto;
+        this.idSucursal = idSucursal;
+        this.apartado = apartado;
     }
 
     public ObjectId getId() {
@@ -28,22 +34,28 @@ public class ProductoInventario {
         this.id = id;
     }
     
-    public Producto getProducto() {
-        return producto;
+    public ObjectId getIdProducto() {
+        return idProducto;
     }
 
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public void setIdProducto(ObjectId idProducto) {
+        this.idProducto = idProducto;
     }
 
-    public Sucursal getSucursal() {
-        return sucursal;
+    public ObjectId getIdSucursal() {
+        return idSucursal;
     }
 
-    public void setSucursal(Sucursal sucursal) {
-        this.sucursal = sucursal;
+    public void setIdSucursal(ObjectId idSucursal) {
+        this.idSucursal = idSucursal;
     }
-    
-    
+
+    public Boolean getApartado() {
+        return apartado;
+    }
+
+    public void setApartado(Boolean apartado) {
+        this.apartado = apartado;
+    }
     
 }

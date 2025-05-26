@@ -33,23 +33,6 @@ public class FAdministradorDirecciones implements IAdministradorDirecciones{
     public FAdministradorDirecciones(){
         this.administradorDirecciones = new AdministradorDirecciones();
     }
-   
-    @Override
-    public DireccionDTONegocios obtenerDireccion(IdDireccionDTONegocios idDireccionDTONegocios) {
-        return administradorDirecciones.obtenerDireccion(idDireccionDTONegocios);
-    }
-
-    @Override
-    public boolean validarDireccion(IdDireccionDTONegocios idDireccionDTONegocios) {
-        return administradorDirecciones.validarDireccion(idDireccionDTONegocios);
-    }
-
-    @Override
-    public DireccionDTONegocios registrarDireccion(DireccionDTONegocios direccionDTONegocios) 
-            throws DireccionesAccesoArchivoCodigosPostalesFallidoException, 
-            DireccionesArchivoCodigosPostalesVacioException {
-        return administradorDirecciones.registrarDireccion(direccionDTONegocios);
-    }
     
     /**
      * Implementación del método obtenerDatosDireccionDerivados() de la interfaz {@link IAdministradorDirecciones},

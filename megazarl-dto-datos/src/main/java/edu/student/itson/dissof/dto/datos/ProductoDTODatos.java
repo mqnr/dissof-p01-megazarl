@@ -78,8 +78,7 @@ public class ProductoDTODatos{
             Double precio,
             Double pesoKg, 
             String direccionImagen,
-            IdEntidadGenericoDatos idProveedor,
-            List<IdEntidadGenericoDatos> idsProductosInventario) {
+            IdEntidadGenericoDatos idProveedor) {
         
         this.id = id;
         this.nombre = nombre;
@@ -90,7 +89,6 @@ public class ProductoDTODatos{
         this.pesoKg = pesoKg;
         this.direccionImagen = direccionImagen;
         this.idProveedor = idProveedor;
-        this.idsProductosInventario = idsProductosInventario;
 
     }
     
@@ -102,8 +100,7 @@ public class ProductoDTODatos{
             Double precio,
             Double pesoKg, 
             String direccionImagen,
-            IdEntidadGenericoDatos idProveedor,
-            List<IdEntidadGenericoDatos> idsProductosInventario) {
+            IdEntidadGenericoDatos idProveedor) {
         
         this.nombre = nombre;
         this.variedad = variedad;
@@ -113,10 +110,73 @@ public class ProductoDTODatos{
         this.pesoKg = pesoKg;
         this.direccionImagen = direccionImagen;
         this.idProveedor = idProveedor;
-        this.idsProductosInventario = idsProductosInventario;
 
     }
-    
+
+    public IdEntidadGenericoDatos getId() {
+        return id;
+    }
+
+    public void setId(IdEntidadGenericoDatos id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getVariedad() {
+        return variedad;
+    }
+
+    public void setVariedad(String variedad) {
+        this.variedad = variedad;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Integer getMilesSemillas() {
+        return milesSemillas;
+    }
+
+    public void setMilesSemillas(Integer milesSemillas) {
+        this.milesSemillas = milesSemillas;
+    }
+
+    public Double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
+    }
+
+    public Double getPesoKg() {
+        return pesoKg;
+    }
+
+    public void setPesoKg(Double pesoKg) {
+        this.pesoKg = pesoKg;
+    }
+
+    public String getDireccionImagen() {
+        return direccionImagen;
+    }
+
+    public void setDireccionImagen(String direccionImagen) {
+        this.direccionImagen = direccionImagen;
+    }
+ 
     public List<IdEntidadGenericoDatos> getIdsProductosInventario(){
         return idsProductosInventario;
     }

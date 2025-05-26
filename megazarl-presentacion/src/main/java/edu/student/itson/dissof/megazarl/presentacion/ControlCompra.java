@@ -2,17 +2,20 @@ package edu.student.itson.dissof.megazarl.presentacion;
 
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
+import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesAccesoArchivoCodigosPostalesFallidoException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesArchivoCodigosPostalesVacioException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdDireccionInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProveedorInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosPersistenciaException;
 import edu.student.itson.dissof.megazarl.carritocompras.IAdministradorCarritoCompras;
-import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasAccesoDatosException;
+import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasPersistenciaException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasCarritoSinProductoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasCarritoVacioException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasClienteSinCarritoVigenteException;
@@ -92,13 +95,27 @@ public class ControlCompra {
     private Double montoMinimoEnvioGratuito;
     private DireccionDTONegocios direccionDefectoPaquetería;
 
-    private Color COLOR_MENSAJE_EXITOSO = new Color(204, 255, 190);
-    private Color COLOR_MENSAJE_ERROR = new Color(255, 195, 195);
-    private Color COLOR_MENSAJE_ADVERTENCIA = new Color(255, 253, 222);
+    private final Color COLOR_MENSAJE_EXITOSO = new Color(204, 255, 190);
+    private final Color COLOR_MENSAJE_ERROR = new Color(255, 195, 195);
+    private final Color COLOR_MENSAJE_ADVERTENCIA = new Color(255, 253, 222);
     
-    private String MENSAJE_EXCEPCION_SESION_USUARIO = "Ha ocurrido un error con su sesión";
-    private String MENSAJE_EXCEPCION_REALIZAR_PEDIDO = "Ha ocurrido un error al realizar su pedido";
-    private String MENSAJE_EXCEPCION_SELECCIONAR_PAQUETERIA = "Ha ocurrido un error al asignar la paquetería a su carrito";
+    private final String MENSAJE_ACTUALIZACION_DIRECCION_ENVIO_EXITOSA = "Se ha actualizado su dirección de envío";
+    private final String MENSAJE_REGISTRO_PEDIDO_EXITOSO = "Se ha registrado su pedido";
+    
+    private final String MENSAJE_SIN_PRODUCTOS_CARRITO = "No se han agregado productos al carrito";
+    
+    private final String MENSAJE_EXCEPCION_SESION_USUARIO = "Ha ocurrido un error con su sesión";
+    private final String MENSAJE_EXCEPCION_REALIZAR_PEDIDO = "Ha ocurrido un error al realizar su pedido";
+    private final String MENSAJE_EXCEPCION_SELECCIONAR_PAQUETERIA = "Ha ocurrido un error al asignar la paquetería a su carrito";
+    private final String MENSJAE_EXCEPCION_BUSQUEDA_PRODUCTOS = "Ha ocurrido un error al mostrar los productos buscados";
+    private final String MENSAJE_EXCEPCION_MOSTRAR_INFORMACION_PRODUCTO = "Ha ocurrido un error al mostrar la información del producto";
+    private final String MENSAJE_EXCEPCION_MOSTRAR_PRODUCTOS_CARRITO = "Ha ocurrido un error al mostrar los productos de su carrito";
+    private final String MENSAJE_EXCEPCION_VERIFCAR_EXISTENCIAS_PRODUCTO = "Ha ocurrido un error al verificar las existencias del producto";
+    private final String MENSAJE_EXCEPCION_AGREGAR_PRODUCTO_CARRITO = "Ha ocurrido un error al agregar el producto al carrito";
+    private final String MENSAJE_EXCEPCION_ELIMINAR_PRODUCTO_CARRITO = "Ha ocurrido un error al eliminar el poducto del carrito";
+    private final String MENSAJE_EXCECPCION_MOSTRAR_COSTO_ENVIO_PAQUETERIA = "Ha ocurrido un error al mostrar el costo de envío de la paquetería";
+    
+    private final String MENSAJE_EXCEPCION_ACTUALIZAR_DIRECCION_ENVIO = "Ha ocurrido un error al actualiar su dirección de envío";
     
     private static final Logger LOG = Logger.getLogger(ControlCompra.class.getName());
 
@@ -206,34 +223,43 @@ public class ControlCompra {
         
         IAdministradorProductos administradorProductos = FabricaSubsistemas.obtenerAdministradorProductos();
         
-        List<InformacionProductoInicioDTONegocios> listaProductoInicioDTO 
-                = administradorProductos.obtenerProductosBusquedaNombreProducto(nombreProductoBuscado);
+        List<InformacionProductoInicioDTONegocios> listaProductoInicioDTO;
+        try {
+            listaProductoInicioDTO = administradorProductos.obtenerProductosBusquedaNombreProducto(nombreProductoBuscado);
+        
+            List<Map<String, Object>> listaInformacionProductosBusqueda = new LinkedList<>();
 
-        List<Map<String, Object>> listaInformacionProductosBusqueda = new LinkedList<>();
+            for (InformacionProductoInicioDTONegocios informacionProductoInicioDTO : listaProductoInicioDTO) {
+                Map<String, Object> mapaInformacionProductoInicio = new HashMap<>();
+                mapaInformacionProductoInicio.put("Id", informacionProductoInicioDTO.getIdProducto().getId());
+                mapaInformacionProductoInicio.put("Nombre", informacionProductoInicioDTO.getNombreProducto());
+                mapaInformacionProductoInicio.put("Variedad", informacionProductoInicioDTO.getVariedadProducto());
+                mapaInformacionProductoInicio.put("Precio", informacionProductoInicioDTO.getPrecioProducto());
+                mapaInformacionProductoInicio.put("MilesSemillas", informacionProductoInicioDTO.getMilesSemillasProducto());
+                mapaInformacionProductoInicio.put("DireccionImagenProducto", informacionProductoInicioDTO.getDireccionImagenProducto());
 
-        for (InformacionProductoInicioDTONegocios informacionProductoInicioDTO : listaProductoInicioDTO) {
-            Map<String, Object> mapaInformacionProductoInicio = new HashMap<>();
-            mapaInformacionProductoInicio.put("Id", informacionProductoInicioDTO.getIdProducto().getId());
-            mapaInformacionProductoInicio.put("Nombre", informacionProductoInicioDTO.getNombreProducto());
-            mapaInformacionProductoInicio.put("Variedad", informacionProductoInicioDTO.getVariedadProducto());
-            mapaInformacionProductoInicio.put("Precio", informacionProductoInicioDTO.getPrecioProducto());
-            mapaInformacionProductoInicio.put("MilesSemillas", informacionProductoInicioDTO.getMilesSemillasProducto());
-            mapaInformacionProductoInicio.put("DireccionImagenProducto", informacionProductoInicioDTO.getDireccionImagenProducto());
-            
-            String direccionImagenProveedor = obtenerDireccionImagenProveedor(informacionProductoInicioDTO.getIdProveedor().getId()); 
-            informacionProductoInicioDTO.setDireccionImagenProveedor(direccionImagenProveedor);
-            
-            mapaInformacionProductoInicio.put("DireccionImagenProveedor", direccionImagenProveedor);
-            
-            String nombreProveedor = obtenerNombreProveedor(informacionProductoInicioDTO.getIdProveedor().getId());
-            informacionProductoInicioDTO.setProveedorProducto(nombreProveedor);
-            
-            mapaInformacionProductoInicio.put("NombreProveedor", nombreProveedor);
+                String direccionImagenProveedor = obtenerDireccionImagenProveedor(informacionProductoInicioDTO.getIdProveedor().getId()); 
+                informacionProductoInicioDTO.setDireccionImagenProveedor(direccionImagenProveedor);
 
-            listaInformacionProductosBusqueda.add(mapaInformacionProductoInicio);
+                mapaInformacionProductoInicio.put("DireccionImagenProveedor", direccionImagenProveedor);
+
+                String nombreProveedor = obtenerNombreProveedor(informacionProductoInicioDTO.getIdProveedor().getId());
+                informacionProductoInicioDTO.setProveedorProducto(nombreProveedor);
+
+                mapaInformacionProductoInicio.put("NombreProveedor", nombreProveedor);
+
+                listaInformacionProductosBusqueda.add(mapaInformacionProductoInicio);
+            }
+            
+            return listaInformacionProductosBusqueda;
+        
+        } catch (ProductosPersistenciaException ex) {
+            mostrarMensaje(MENSJAE_EXCEPCION_BUSQUEDA_PRODUCTOS, COLOR_MENSAJE_ERROR);
+            LOG.log(Level.SEVERE, ex.getMessage());
         }
-
-        return listaInformacionProductosBusqueda;
+        
+        return null;
+        
     }
 
     /**
@@ -262,29 +288,37 @@ public class ControlCompra {
         
         IAdministradorProductos administradorProductos = FabricaSubsistemas.obtenerAdministradorProductos();
         
-        List<InformacionProductoInicioDTONegocios> listaProductoInicioDTO
-                = administradorProductos.obtenerProductosBusquedaNombreProductoVariedad(nombreProductoBuscado, nombreVariedadBuscado);
+        List<InformacionProductoInicioDTONegocios> listaProductoInicioDTO;
+        try {
+            listaProductoInicioDTO = administradorProductos.obtenerProductosBusquedaNombreProductoVariedad(nombreProductoBuscado, nombreVariedadBuscado);
+        
+            List<Map<String, Object>> listaInformacionProductosBusqueda = new LinkedList<>();
 
-        List<Map<String, Object>> listaInformacionProductosBusqueda = new LinkedList<>();
+            for (InformacionProductoInicioDTONegocios productoInicioDTO : listaProductoInicioDTO) {
+                Map<String, Object> mapaInformacionProductoInicio = new HashMap<>();
+                mapaInformacionProductoInicio.put("Id", productoInicioDTO.getIdProveedor().getId());
+                mapaInformacionProductoInicio.put("Nombre", productoInicioDTO.getNombreProducto());
+                mapaInformacionProductoInicio.put("Variedad", productoInicioDTO.getVariedadProducto());
+                mapaInformacionProductoInicio.put("Precio", productoInicioDTO.getPrecioProducto());
+                mapaInformacionProductoInicio.put("MilesSemillas", productoInicioDTO.getMilesSemillasProducto());
+                mapaInformacionProductoInicio.put("DireccionImagenProducto", productoInicioDTO.getDireccionImagenProducto());
 
-        for (InformacionProductoInicioDTONegocios productoInicioDTO : listaProductoInicioDTO) {
-            Map<String, Object> mapaInformacionProductoInicio = new HashMap<>();
-            mapaInformacionProductoInicio.put("Id", productoInicioDTO.getIdProveedor().getId());
-            mapaInformacionProductoInicio.put("Nombre", productoInicioDTO.getNombreProducto());
-            mapaInformacionProductoInicio.put("Variedad", productoInicioDTO.getVariedadProducto());
-            mapaInformacionProductoInicio.put("Precio", productoInicioDTO.getPrecioProducto());
-            mapaInformacionProductoInicio.put("MilesSemillas", productoInicioDTO.getMilesSemillasProducto());
-            mapaInformacionProductoInicio.put("DireccionImagenProducto", productoInicioDTO.getDireccionImagenProducto());
-              
-            String direccionImagenProveedor = obtenerDireccionImagenProveedor(productoInicioDTO.getIdProveedor().getId()); 
-            productoInicioDTO.setDireccionImagenProveedor(direccionImagenProveedor); 
+                String direccionImagenProveedor = obtenerDireccionImagenProveedor(productoInicioDTO.getIdProveedor().getId()); 
+                productoInicioDTO.setDireccionImagenProveedor(direccionImagenProveedor); 
+
+                mapaInformacionProductoInicio.put("DireccionImagenProveedor", direccionImagenProveedor);
+
+                listaInformacionProductosBusqueda.add(mapaInformacionProductoInicio);
+            }
             
-            mapaInformacionProductoInicio.put("DireccionImagenProveedor", direccionImagenProveedor);
-
-            listaInformacionProductosBusqueda.add(mapaInformacionProductoInicio);
+            return listaInformacionProductosBusqueda;
+            
+        } catch (ProductosPersistenciaException ex) {
+            mostrarMensaje(MENSJAE_EXCEPCION_BUSQUEDA_PRODUCTOS, COLOR_MENSAJE_ERROR);
+            LOG.log(Level.SEVERE, ex.getMessage());
         }
 
-        return listaInformacionProductosBusqueda;
+        return null;
     }
     
     /**
@@ -342,8 +376,8 @@ public class ControlCompra {
 
             return listaInformacionProductosBusqueda;
             
-        } catch (ProductosIdProveedorInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al obtener la información de los productos del proveedor", COLOR_MENSAJE_ERROR);
+        } catch (ProductosIdProveedorInvalidoException | ProductosPersistenciaException ex) {
+            mostrarMensaje(MENSJAE_EXCEPCION_BUSQUEDA_PRODUCTOS, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
         }
         
@@ -396,7 +430,7 @@ public class ControlCompra {
      * @param vistaActual Objeto que implementa la interfaz IVista, representa
      * la ventana actual que será cerrada.
      */
-    public void mostrarInformacionProducto(Long idProducto, IVista vistaActual) {
+    public void mostrarInformacionProducto(Object idProducto, IVista vistaActual) {
         
         Map<String, Object> mapaInformacionProducto = obtenerInformacionProducto(idProducto);
         informacionProducto.actualizarDatosEncabezado();
@@ -416,7 +450,7 @@ public class ControlCompra {
      * @return Objeto {@literal Map<String, Object>}, representa la información detallada
      * del producto a mostrar.
      */
-    public Map<String, Object> obtenerInformacionProducto(Long idProducto) {
+    public Map<String, Object> obtenerInformacionProducto(Object idProducto) {
 
         IAdministradorProductos administradorProductos = FabricaSubsistemas.obtenerAdministradorProductos();
         
@@ -446,11 +480,12 @@ public class ControlCompra {
             
             return mapaInformacionProducto;
             
-        } catch (ProductosIdProductoInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al mostrar la información del producto", COLOR_MENSAJE_ERROR);
-            
-            return null;
+        } catch (ProductosIdProductoInvalidoException | ProductosPersistenciaException ex) {
+            mostrarMensaje(MENSAJE_EXCEPCION_MOSTRAR_INFORMACION_PRODUCTO, COLOR_MENSAJE_ERROR);
+            LOG.log(Level.SEVERE, ex.getMessage());
         }
+        
+        return null;
     }
 
     
@@ -493,7 +528,7 @@ public class ControlCompra {
             ((ICarrito)carrito).setProductos(listaInformacionProductosCarrito);
             carrito.hacerVisible(true);  
         } else{
-            mostrarMensaje("No se han agregado productos al carrito.", COLOR_MENSAJE_ADVERTENCIA);
+            mostrarMensaje(MENSAJE_SIN_PRODUCTOS_CARRITO, COLOR_MENSAJE_ADVERTENCIA);
         }
             
     }
@@ -556,10 +591,12 @@ public class ControlCompra {
                 listaInformacionProductosCarrito.add(mapaInformacionProductoCarrito);
             }
         } catch (CarritoComprasIdClienteInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
+            mostrarMensaje(MENSAJE_EXCEPCION_SESION_USUARIO, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
-        } catch (ProductosIdProductoInvalidoException | CarritoComprasIdProductoInvalidoException | CarritoComprasIdProductoCarritoInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al mostrar los productos del carrito.", COLOR_MENSAJE_ADVERTENCIA);
+        } catch (ProductosIdProductoInvalidoException | CarritoComprasIdProductoInvalidoException | 
+                CarritoComprasIdProductoCarritoInvalidoException | CarritoComprasPersistenciaException | 
+                ProductosPersistenciaException ex) {
+            mostrarMensaje(MENSAJE_EXCEPCION_MOSTRAR_PRODUCTOS_CARRITO, COLOR_MENSAJE_ADVERTENCIA);
             LOG.log(Level.SEVERE, ex.getMessage());
         }
         
@@ -579,10 +616,12 @@ public class ControlCompra {
         String direccionImagenProveedor = null;
         try {
             IAdministradorProveedores administradorProveedores = FabricaSubsistemas.obtenerAdministradorProveedores();
-            direccionImagenProveedor = administradorProveedores.obtenerDireccionImagenProveedor(new IdProveedorDTONegocios(new IdEntidadGenericoNegocios(idProveedor)));
+            direccionImagenProveedor = administradorProveedores.obtenerDireccionImagenProveedor(
+                    new IdProveedorDTONegocios(new IdEntidadGenericoNegocios(idProveedor)));
             
-        } catch (ProveedoresIdProveedorInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al obtener la información del proveedor.", COLOR_MENSAJE_ERROR);
+        } catch (ProveedoresIdProveedorInvalidoException | ProveedoresPersistenciaException ex) {
+            mostrarMensaje(MENSAJE_EXCEPCION_MOSTRAR_INFORMACION_PRODUCTO, COLOR_MENSAJE_ERROR);
+            LOG.log(Level.SEVERE, ex.getMessage());
         }
         
         return direccionImagenProveedor;
@@ -603,8 +642,9 @@ public class ControlCompra {
             IAdministradorProveedores administradorProveedores = FabricaSubsistemas.obtenerAdministradorProveedores();   
             return administradorProveedores.obtenerNombreProveedor((new IdProveedorDTONegocios(new IdEntidadGenericoNegocios(idProveedor))));
             
-        } catch (ProveedoresIdProveedorInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al obtener la información del proveedor.", COLOR_MENSAJE_ERROR);
+        } catch (ProveedoresIdProveedorInvalidoException | ProveedoresPersistenciaException ex) {
+            mostrarMensaje(MENSAJE_EXCEPCION_MOSTRAR_INFORMACION_PRODUCTO, COLOR_MENSAJE_ERROR);
+            LOG.log(Level.SEVERE, ex.getMessage());
         }
         
         return null;
@@ -617,15 +657,16 @@ public class ControlCompra {
      * @return Objeto Integer que representa el número de productos en inventario
      * disponibles del Producto con el ID del parámetro.
      */
-    public Integer verificarExistenciasProducto(Long idProducto){
+    public Integer verificarExistenciasProducto(Object idProducto){
         
         try {
             
             IAdministradorProductos administradorProductos = FabricaSubsistemas.obtenerAdministradorProductos();
             return administradorProductos.cosultarInventarioProducto(new IdProductoDTONegocios(new IdEntidadGenericoNegocios(idProducto)));
             
-        } catch (ProductosIdProductoInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al verificar las exisencias de los productos.", COLOR_MENSAJE_ERROR);
+        } catch (ProductosIdProductoInvalidoException | ProductosPersistenciaException ex) {
+            mostrarMensaje(MENSAJE_EXCEPCION_VERIFCAR_EXISTENCIAS_PRODUCTO, COLOR_MENSAJE_ERROR);
+            LOG.log(Level.SEVERE, ex.getMessage());
         }
         return null;
     }
@@ -669,13 +710,13 @@ public class ControlCompra {
             mostrarCarritoCompras(idCliente, vistaActual);
                         
         } catch (CarritoComprasIdClienteInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error con su sesión", COLOR_MENSAJE_ERROR);
+            mostrarMensaje(MENSAJE_EXCEPCION_SESION_USUARIO, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
-        } catch (CarritoComprasIdProductoInvalidoException | CarritoComprasIdProductoCarritoInvalidoException | CarritoComprasAccesoDatosException ex) {
-            mostrarMensaje("Ha ocurrido un error al agregar el producto a su carrito", COLOR_MENSAJE_ERROR);
+        } catch (CarritoComprasIdProductoInvalidoException | CarritoComprasIdProductoCarritoInvalidoException | CarritoComprasPersistenciaException ex) {
+            mostrarMensaje(MENSAJE_EXCEPCION_AGREGAR_PRODUCTO_CARRITO, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
         } catch (CarritoComprasProductoSinInventarioException ex) {
-            mostrarMensaje("No hay disponibilidad del producto seleccionado", COLOR_MENSAJE_ERROR);
+            mostrarMensaje(MENSAJE_EXCEPCION_VERIFCAR_EXISTENCIAS_PRODUCTO, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
         }
         
@@ -714,10 +755,13 @@ public class ControlCompra {
             mostrarMensaje(MENSAJE_EXCEPCION_SESION_USUARIO, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
         } catch (CarritoComprasIdProductoInvalidoException | CarritoComprasCarritoSinProductoException | CarritoComprasIdProductoCarritoInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al eliminar el producto que seleccionó", COLOR_MENSAJE_ERROR);
-        } catch (CarritoComprasClienteSinCarritoVigenteException ex) {
-            mostrarMensaje("Su carrito de compras está vacío", COLOR_MENSAJE_ERROR);
+            mostrarMensaje(MENSAJE_EXCEPCION_ELIMINAR_PRODUCTO_CARRITO, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
+        } catch (CarritoComprasClienteSinCarritoVigenteException ex) {
+            mostrarMensaje(MENSAJE_SIN_PRODUCTOS_CARRITO, COLOR_MENSAJE_ERROR);
+            LOG.log(Level.SEVERE, ex.getMessage());
+        } catch (CarritoComprasPersistenciaException ex) {
+            
         }
         
         return productoEliminado;
@@ -738,13 +782,15 @@ public class ControlCompra {
             
             IAdministradorCarritoCompras administradorCarritoCompras 
                     = FabricaSubsistemas.obtenerAdministradorCarritoCompras(montoMinimoEnvioGratuito, direccionDefectoPaquetería);
-            numeroProductosCarrito = administradorCarritoCompras.obtenerNumeroProductos(new IdClienteDTONegocios(new IdEntidadGenericoNegocios(idCliente)));
+            
+            numeroProductosCarrito 
+                    = administradorCarritoCompras.obtenerNumeroProductos(new IdClienteDTONegocios(new IdEntidadGenericoNegocios(idCliente)));
             
         } catch (CarritoComprasIdClienteInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
+            mostrarMensaje(MENSAJE_EXCEPCION_SESION_USUARIO, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
-        } catch (CarritoComprasIdProductoCarritoInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al obtener los productos de carrito", COLOR_MENSAJE_ERROR);
+        } catch (CarritoComprasIdProductoCarritoInvalidoException | CarritoComprasPersistenciaException ex) {
+            mostrarMensaje(MENSAJE_EXCEPCION_MOSTRAR_PRODUCTOS_CARRITO, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
         }
 
@@ -775,11 +821,12 @@ public class ControlCompra {
             return informacionMontoEnvioGratuito;
             
         } catch (CarritoComprasIdClienteInvalidoException | CarritoComprasIdProductoInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
-        } catch (CarritoComprasClienteSinCarritoVigenteException ex) {
-            mostrarMensaje("Ha ocurrido un error al obtener el carrito del cliente", COLOR_MENSAJE_ERROR);
-        } catch (CarritoComprasIdProductoCarritoInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al obtener la información de los productos en el carrito", COLOR_MENSAJE_ERROR);
+            mostrarMensaje(MENSAJE_EXCEPCION_SESION_USUARIO, COLOR_MENSAJE_ERROR);
+            LOG.log(Level.SEVERE, ex.getMessage());
+        } catch (CarritoComprasClienteSinCarritoVigenteException | CarritoComprasIdProductoCarritoInvalidoException |
+                CarritoComprasPersistenciaException ex) {
+            mostrarMensaje(MENSAJE_EXCEPCION_MOSTRAR_PRODUCTOS_CARRITO, COLOR_MENSAJE_ERROR);
+            LOG.log(Level.SEVERE, ex.getMessage());
         }
         
         return null;
@@ -799,12 +846,16 @@ public class ControlCompra {
         try {
             
             IAdministradorClientes administradorClientes = FabricaSubsistemas.obtenerAdministradorClientes();
-            nombreApellidoClienteDTO = administradorClientes.obtenerNombresApellidoCliente(new IdClienteDTONegocios(new IdEntidadGenericoNegocios(idCliente)));
+            nombreApellidoClienteDTO 
+                    = administradorClientes.obtenerNombresApellidoCliente(new IdClienteDTONegocios(new IdEntidadGenericoNegocios(idCliente)));
             String[] nombreApellidoCliente = {nombreApellidoClienteDTO.getNombresCliente(), nombreApellidoClienteDTO.getApellidoMaternoCliente()};
             return nombreApellidoCliente;
             
         } catch (ClientesIdClienteInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
+            mostrarMensaje(MENSAJE_EXCEPCION_SESION_USUARIO, COLOR_MENSAJE_ERROR);
+            LOG.log(Level.SEVERE, ex.getMessage());
+        } catch (ClientesPersistenciaException ex) {
+            mostrarMensaje(MENSAJE_EXCEPCION_SESION_USUARIO, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
         }
         
@@ -838,25 +889,28 @@ public class ControlCompra {
             }
             
         } catch (CarritoComprasClienteSinCarritoVigenteException ex) {
-            mostrarMensaje("Ha ocurrido un error al obtener la información de su carrito de compras", COLOR_MENSAJE_ERROR);
-             LOG.log(Level.SEVERE, ex.getMessage());
+            mostrarMensaje(MENSAJE_EXCEPCION_MOSTRAR_PRODUCTOS_CARRITO, COLOR_MENSAJE_ERROR);
+            LOG.log(Level.SEVERE, ex.getMessage());
         } catch (CarritoComprasIdClienteInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error en la sesión del usuario", COLOR_MENSAJE_ERROR);
-             LOG.log(Level.SEVERE, ex.getMessage());
+            mostrarMensaje(MENSAJE_EXCEPCION_SESION_USUARIO, COLOR_MENSAJE_ERROR);
+            LOG.log(Level.SEVERE, ex.getMessage());
         } catch (CarritoComprasIdProveedorInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al obtener la información de proveedor", COLOR_MENSAJE_ERROR);
-             LOG.log(Level.SEVERE, ex.getMessage());
+            mostrarMensaje(MENSAJE_EXCEPCION_MOSTRAR_PRODUCTOS_CARRITO, COLOR_MENSAJE_ERROR);
+            LOG.log(Level.SEVERE, ex.getMessage());
         } catch (CarritoComprasIdSucursalInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al obtenre la información de sucursal", COLOR_MENSAJE_ERROR);
-             LOG.log(Level.SEVERE, ex.getMessage());
+            mostrarMensaje(MENSAJE_EXCEPCION_MOSTRAR_PRODUCTOS_CARRITO, COLOR_MENSAJE_ERROR);
+            LOG.log(Level.SEVERE, ex.getMessage());
         } catch (CarritoComprasIdProductoInvalidoException | 
                 CarritoComprasIdProductoCarritoInvalidoException | 
                 CarritoComprasIdProductoInventarioInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al obtener la información de los productos de su carrito de compras", COLOR_MENSAJE_ERROR);
-             LOG.log(Level.SEVERE, ex.getMessage());
+            mostrarMensaje(MENSAJE_EXCEPCION_MOSTRAR_PRODUCTOS_CARRITO, COLOR_MENSAJE_ERROR);
+            LOG.log(Level.SEVERE, ex.getMessage());
         } catch (CarritoComprasIdDireccionInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al obtener la fecha estimada de preparación de los productos en su carrito", COLOR_MENSAJE_ERROR);
-             LOG.log(Level.SEVERE, ex.getMessage());
+            mostrarMensaje(MENSAJE_EXCEPCION_MOSTRAR_PRODUCTOS_CARRITO, COLOR_MENSAJE_ERROR);
+            LOG.log(Level.SEVERE, ex.getMessage());
+        } catch (CarritoComprasPersistenciaException ex) {
+            mostrarMensaje(MENSAJE_EXCEPCION_MOSTRAR_PRODUCTOS_CARRITO, COLOR_MENSAJE_ERROR);
+            LOG.log(Level.SEVERE, ex.getMessage());
         }
         return null;
         
@@ -921,11 +975,8 @@ public class ControlCompra {
             
             return datosDireccionCliente;
             
-        } catch (ClientesIdClienteInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
-            LOG.log(Level.SEVERE, ex.getMessage());
-        } catch (ClientesIdDireccionInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al obtener su dirección", COLOR_MENSAJE_ERROR);
+        } catch (ClientesIdClienteInvalidoException | ClientesIdDireccionInvalidoException | ClientesPersistenciaException ex) {
+            mostrarMensaje(MENSAJE_EXCEPCION_SESION_USUARIO, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
         }
         
@@ -978,15 +1029,17 @@ public class ControlCompra {
             costoEnvioPaqueteria = administradorCarritoCompras.obtenerCostoEnvioProductos(idClientePaqueteriaCalculoCostoEnvioDTO);
 
         } catch (CarritoComprasIdClienteInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
+            mostrarMensaje(MENSAJE_EXCEPCION_SESION_USUARIO, COLOR_MENSAJE_ERROR);
+            LOG.log(Level.SEVERE, ex.getMessage());
+            
         } catch (CarritoComprasIdPaqueteriaInvalidoException | CarritoComprasClienteSinCarritoVigenteException 
                 | CarritoComprasIdSucursalInvalidoException | CarritoComprasIdProveedorInvalidoException 
-                | CarritoComprasIdDireccionInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al mostrar el costo de envío", COLOR_MENSAJE_ERROR);
+                | CarritoComprasIdDireccionInvalidoException | CarritoComprasIdProductoInvalidoException | 
+                CarritoComprasIdProductoInventarioInvalidoException | CarritoComprasIdProductoCarritoInvalidoException | 
+                CarritoComprasPersistenciaException ex) {
+            
+            mostrarMensaje(MENSAJE_EXCECPCION_MOSTRAR_COSTO_ENVIO_PAQUETERIA, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
-        } catch (CarritoComprasIdProductoInvalidoException | CarritoComprasIdProductoInventarioInvalidoException 
-                | CarritoComprasIdProductoCarritoInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al obtener la información de los productos", COLOR_MENSAJE_ERROR);
         }
         
         return costoEnvioPaqueteria;
@@ -1029,11 +1082,8 @@ public class ControlCompra {
             direccion.actualizarDatosEncabezado();
             direccion.hacerVisible(true);
             
-        } catch (ClientesIdClienteInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error con la sesión de usuario", COLOR_MENSAJE_ERROR);
-            LOG.log(Level.SEVERE, ex.getMessage());
-        } catch (ClientesIdDireccionInvalidoException ex) {
-            mostrarMensaje("Ha ocurrido un error al obtener su dirección", COLOR_MENSAJE_ERROR);
+        } catch (ClientesIdClienteInvalidoException | ClientesIdDireccionInvalidoException | ClientesPersistenciaException ex) {
+            mostrarMensaje(MENSAJE_EXCEPCION_SESION_USUARIO, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
         }
     }
@@ -1096,13 +1146,16 @@ public class ControlCompra {
             IAdministradorClientes administradorClientes = FabricaSubsistemas.obtenerAdministradorClientes();
             administradorClientes.actualizarDireccionCliente(informacionDireccionEnvioActualizadaClienteDTO);
             mostrarProductosVenta(vistaActual);
-            mostrarMensaje("Se ha actualizado su dirección", COLOR_MENSAJE_EXITOSO);
+            mostrarMensaje(MENSAJE_ACTUALIZACION_DIRECCION_ENVIO_EXITOSA, COLOR_MENSAJE_EXITOSO);
+            
         } catch (ClientesIdClienteInvalidoException | 
                 ClientesAccesoArchivoCodigosPostalesFallidoException | 
                 ClientesArchivoCodigosPostalesVacioException ex) {
             
-            mostrarMensaje("Ha ocurrido un error al momento de actualizar su dirección", COLOR_MENSAJE_ERROR);
+            mostrarMensaje(MENSAJE_EXCEPCION_ACTUALIZAR_DIRECCION_ENVIO, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
+        } catch (ClientesPersistenciaException ex) {
+            Logger.getLogger(ControlCompra.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -1125,7 +1178,10 @@ public class ControlCompra {
         try {
             
             IAdministradorCarritoCompras administradorCarritoCompras 
-                    = FabricaSubsistemas.obtenerAdministradorCarritoCompras(montoMinimoEnvioGratuito, direccionDefectoPaquetería);
+                    = FabricaSubsistemas.obtenerAdministradorCarritoCompras(
+                            montoMinimoEnvioGratuito, 
+                            direccionDefectoPaquetería);
+            
             administradorCarritoCompras.asignarPaqueteriaCarritoCliente(new IdClientePaqueteriaDTONegocios(
                     new IdEntidadGenericoNegocios(idCliente), new IdEntidadGenericoNegocios(idPaqueteria)));
             
@@ -1136,7 +1192,7 @@ public class ControlCompra {
             
             LOG.log(Level.SEVERE, ex.getMessage());
         } catch (CarritoComprasIdPaqueteriaInvalidoException | CarritoComprasClienteSinCarritoVigenteException |
-                FormatoIdInvalidoNegocioException | CarritoComprasAccesoDatosException ex) {
+                FormatoIdInvalidoNegocioException | CarritoComprasPersistenciaException ex) {
             
             mostrarMensaje(MENSAJE_EXCEPCION_SELECCIONAR_PAQUETERIA, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
@@ -1165,7 +1221,7 @@ public class ControlCompra {
                 CarritoComprasCarritoVacioException | CarritoComprasIdSucursalInvalidoException
                 | CarritoComprasIdDireccionInvalidoException | CarritoComprasIdProductoInvalidoException
                 | CarritoComprasIdProductoInventarioInvalidoException | CarritoComprasIdProductoCarritoInvalidoException 
-                | CarritoComprasAccesoDatosException ex) {
+                | CarritoComprasPersistenciaException ex) {
             
             mostrarMensaje(MENSAJE_EXCEPCION_REALIZAR_PEDIDO, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
@@ -1203,7 +1259,7 @@ public class ControlCompra {
      * Método que permite mostrar la confirmación de realización de un pedido.
      */
     public void mostrarConfirmacionPedido() {
-        mostrarMensaje("Se ha registrado su pedido", COLOR_MENSAJE_EXITOSO);
+        mostrarMensaje(MENSAJE_REGISTRO_PEDIDO_EXITOSO, COLOR_MENSAJE_EXITOSO);
     }
     
     /**

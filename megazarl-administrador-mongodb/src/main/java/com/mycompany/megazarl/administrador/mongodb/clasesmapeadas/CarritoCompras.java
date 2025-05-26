@@ -26,13 +26,28 @@ public class CarritoCompras {
     
     private List<ProductoCarrito> productosCarrito;
 
-    public CarritoCompras(Boolean esVigente, ObjectId cliente, ObjectId paqueteria) {
+    public CarritoCompras() {}
+    
+    public CarritoCompras(
+            Boolean esVigente, 
+            ObjectId cliente, 
+            ObjectId paqueteria,
+            List<ProductoCarrito> productosCarrito) {
+        
         this.esVigente = esVigente;
         this.idCliente = cliente;
         this.idPaqueteria = paqueteria;
+        this.productosCarrito = productosCarrito;
     }
-
-    public CarritoCompras() {
+    
+    public CarritoCompras(
+            Boolean esVigente, 
+            ObjectId cliente, 
+            List<ProductoCarrito> productosCarrito) {
+        
+        this.esVigente = esVigente;
+        this.idCliente = cliente;
+        this.productosCarrito = productosCarrito;
     }
 
     public ObjectId getId() {

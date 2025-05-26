@@ -4,7 +4,6 @@ import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorCli
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorpedidos.IAdministradorPedidos;
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
-import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasAccesoDatosException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdProductoInvalidoException;
@@ -17,6 +16,7 @@ import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoCompr
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdProductoInventarioInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasIdSucursalInvalidoException;
+import edu.student.itson.dissof.megazarl.carritocompras.excepciones.CarritoComprasPersistenciaException;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClientePaqueteriaDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoCarritoDTONegocios;
@@ -84,7 +84,8 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
     public List<InformacionProductoCarritoDTONegocios> obtenerProductos(IdClienteDTONegocios idClienteDTO)
             throws CarritoComprasIdClienteInvalidoException, 
             CarritoComprasIdProductoInvalidoException,
-            CarritoComprasIdProductoCarritoInvalidoException {
+            CarritoComprasIdProductoCarritoInvalidoException,
+            CarritoComprasPersistenciaException {
         
         return administradorCarritoCompras.obtenerProductos(idClienteDTO);
     }
@@ -111,7 +112,7 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
             CarritoComprasIdProductoInvalidoException,
             CarritoComprasProductoSinInventarioException,
             CarritoComprasIdProductoCarritoInvalidoException,
-            CarritoComprasAccesoDatosException {
+            CarritoComprasPersistenciaException {
         
         administradorCarritoCompras.agregarProducto(informacionProductoAgregarCarritoDTONegocios);
     }
@@ -139,7 +140,8 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
             CarritoComprasIdProductoInvalidoException,
             CarritoComprasCarritoSinProductoException,
             CarritoComprasClienteSinCarritoVigenteException,
-            CarritoComprasIdProductoCarritoInvalidoException {
+            CarritoComprasIdProductoCarritoInvalidoException,
+            CarritoComprasPersistenciaException {
         
         administradorCarritoCompras.eliminarProducto(informacionProductoEliminarCarritoDTO);
     }
@@ -158,7 +160,9 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
     @Override
     public Integer obtenerNumeroProductos(IdClienteDTONegocios idClienteDTO)
             throws CarritoComprasIdClienteInvalidoException, 
-            CarritoComprasIdProductoCarritoInvalidoException {
+            CarritoComprasIdProductoCarritoInvalidoException,
+            CarritoComprasPersistenciaException {
+        
         return administradorCarritoCompras.obtenerNumeroProductos(idClienteDTO);
     }
 
@@ -183,7 +187,8 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
             CarritoComprasIdProductoInvalidoException,
             CarritoComprasIdProductoCarritoInvalidoException,
             CarritoComprasIdProductoInventarioInvalidoException,
-            CarritoComprasIdDireccionInvalidoException{
+            CarritoComprasIdDireccionInvalidoException,
+            CarritoComprasPersistenciaException{
         
         return administradorCarritoCompras.obtenerTiempoEstimadoPreparacionProductos(idClienteDTO);
     }
@@ -204,7 +209,8 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
         throws CarritoComprasIdClienteInvalidoException, 
         CarritoComprasClienteSinCarritoVigenteException,
         CarritoComprasIdProductoInvalidoException,
-        CarritoComprasIdProductoCarritoInvalidoException{
+        CarritoComprasIdProductoCarritoInvalidoException,
+        CarritoComprasPersistenciaException{
         
         return administradorCarritoCompras.obtenerInformacionMontoEnvioMinimoGratuito(idClienteDTO);
     }
@@ -234,7 +240,8 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
             CarritoComprasIdProveedorInvalidoException,
             CarritoComprasIdDireccionInvalidoException,
             CarritoComprasIdProductoInventarioInvalidoException,
-            CarritoComprasIdProductoCarritoInvalidoException {
+            CarritoComprasIdProductoCarritoInvalidoException,
+            CarritoComprasPersistenciaException {
         
         return administradorCarritoCompras.obtenerCostoEnvioProductos(idClientePaqueteriaDTO);
     }
@@ -258,7 +265,7 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
             CarritoComprasIdPaqueteriaInvalidoException, 
             CarritoComprasClienteSinCarritoVigenteException,
             FormatoIdInvalidoNegocioException,
-            CarritoComprasAccesoDatosException {
+            CarritoComprasPersistenciaException {
         
         administradorCarritoCompras.asignarPaqueteriaCarritoCliente(idClientePaqueteriaDTO);
     }
@@ -287,18 +294,22 @@ public class FAdministradorCarritoCompras implements IAdministradorCarritoCompra
             CarritoComprasIdDireccionInvalidoException,
             CarritoComprasIdProductoInventarioInvalidoException,
             CarritoComprasIdProductoCarritoInvalidoException,
-            CarritoComprasAccesoDatosException {
+            CarritoComprasPersistenciaException {
         
         administradorCarritoCompras.crearPedidoProductosCarritoCliente(idClienteDTO);
     }
 
     @Override
-    public boolean validarProductoCarrito(IdProductoCarritoDTONegocios idProductoCarritoDTO) {
+    public boolean validarProductoCarrito(IdProductoCarritoDTONegocios idProductoCarritoDTO) 
+            throws CarritoComprasPersistenciaException {
+        
         return administradorCarritoCompras.validarProductoCarrito(idProductoCarritoDTO);
     }
 
     @Override
-    public ProductoCarritoDTONegocios obtenerProductoCarrito(IdProductoCarritoDTONegocios idProductoCarritoDTO) {
+    public ProductoCarritoDTONegocios obtenerProductoCarrito(IdProductoCarritoDTONegocios idProductoCarritoDTO) 
+            throws CarritoComprasPersistenciaException {
+        
         return administradorCarritoCompras.obtenerProductoCarrito(idProductoCarritoDTO);
     }
 

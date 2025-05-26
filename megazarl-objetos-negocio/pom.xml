@@ -33,9 +33,14 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.mycompany</groupId>
-      <artifactId>megazarl-administrador-mongodb</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>megazal-datos</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>megazarl-dto-datos</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 </project>

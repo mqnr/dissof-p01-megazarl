@@ -30,8 +30,6 @@ public class ActualizacionCarritoComprasDTODatos {
      */
     private IdEntidadGenericoDatos idPaqueteria;
     
-    private List<ProductoCarritoDTODatos> productosCarrito;
-
     /**
      * Constructor de la clase que recibe el ID del carrito de compras a actualizar.
      * @param id Objeto Long que representa el ID del carrito de compras a actualizar.
@@ -66,10 +64,6 @@ public class ActualizacionCarritoComprasDTODatos {
     public void setIdPaqueteria(IdEntidadGenericoDatos idPaqueteria) {
         this.idPaqueteria = idPaqueteria;
     }
-
-    public void setListaIdsProductosCarrito(List<ProductoCarritoDTODatos> productosCarrito) {
-        this.productosCarrito = productosCarrito;
-    }
     
     public Boolean getEsVigente() {
         return esVigente;
@@ -79,9 +73,6 @@ public class ActualizacionCarritoComprasDTODatos {
         this.esVigente = esVigente;
     }
 
-    public List<ProductoCarritoDTODatos> getIdsProductosCarrito() {
-        return productosCarrito;
-    }
     
     /**
      * Método que permite determinar si este objeto DTO tiene paqueteria.
@@ -96,9 +87,6 @@ public class ActualizacionCarritoComprasDTODatos {
         return esVigente != null;
     }
     
-    public boolean tieneIdsProductosCarrito(){
-        return productosCarrito != null;
-    }
     
     
 }

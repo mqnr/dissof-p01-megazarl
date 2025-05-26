@@ -12,8 +12,7 @@ public class ProductoCarrito {
     
     private Integer cantidad;
 
-    public ProductoCarrito() {
-    }
+    public ProductoCarrito() {}
 
     public ProductoCarrito(ObjectId idProducto, Integer cantidad) {
         this.idProducto = idProducto;

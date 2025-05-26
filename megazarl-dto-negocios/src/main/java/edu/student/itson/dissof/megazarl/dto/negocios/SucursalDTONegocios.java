@@ -7,7 +7,7 @@ import java.util.Objects;
 
 /**
  * 
- * SucursalDTONegocios.java
+ * SucursalDTO.java
 
  Clase DTO que representa una sucursal física de la empresa en el sistema,
  con su dirección completa y datos de identificación para la gestión de inventario.
@@ -24,10 +24,9 @@ import java.util.Objects;
  * ID: 00000251923
  *
  */
-public abstract class SucursalDTONegocios {
-    
+public class SucursalDTONegocios {
     /**
-     * Objeto Long que representa el ID de la sucursal
+     * Objeto IdEntidadGenericoNegocios que representa el ID de la sucursal
      */
     private IdEntidadGenericoNegocios id;
     
@@ -36,28 +35,36 @@ public abstract class SucursalDTONegocios {
      */
     private Boolean esMatriz;
     
+    private DireccionDTONegocios direccion;
+    
     
     /**
      * Constructor que permite instanciar un objeto de tipo SucursalDTO.
      * @param id           Objeto IdEntidadGenericoNegocios que representa el ID de la sucursal.
      * @param esMatriz     Objeto Boolean que indica si la sucursal es la Matriz.
+     * @param direccion
      */
     public SucursalDTONegocios(
             IdEntidadGenericoNegocios id,
-            Boolean esMatriz) {
+            Boolean esMatriz,
+            DireccionDTONegocios direccion) {
         
         this.id = id;
         this.esMatriz = esMatriz;
+        this.direccion = direccion;
     }
     
     /**
      * Constructor que permite instanciar un objeto de tipo SucursalDTO, sin ID
      * @param esMatriz     Objeto Boolean que indica si la sucursal es la Matriz.
+     * @param direccion
      */
     public SucursalDTONegocios(
-            Boolean esMatriz) {
+            Boolean esMatriz,
+            DireccionDTONegocios direccion) {
         
         this.esMatriz = esMatriz;
+        this.direccion = direccion;
     }
     
     /**
@@ -69,24 +76,21 @@ public abstract class SucursalDTONegocios {
     }
     
     /**
-     * Método que permite obtener si la sucursal es la Matriz.
-     * @return Objeto Boolean que indica si la sucursal es la Matriz.
-     */
-    public Boolean esMatriz() {
-        return esMatriz;
-    }
-
-    
-    public abstract List<IdEntidadGenericoNegocios> getIdsProductosInventario();
-    public abstract IdEntidadGenericoNegocios getIdDireccion();
-
-    /**
      * Método que permite establecer el ID de la sucursal.
      * @param id Objeto Long que representa el ID de la sucursal.
      */
     public void setId(IdEntidadGenericoNegocios id) {
         this.id = id;
     }
+
+    public Boolean getEsMatriz() {
+        return esMatriz;
+    }
+
+    public DireccionDTONegocios getDireccion() {
+        return direccion;
+    }
+
     
     /**
      * Método que permite obtener el hash code de la sucursal, a partir de su ID.
@@ -120,6 +124,5 @@ public abstract class SucursalDTONegocios {
         final SucursalDTONegocios other = (SucursalDTONegocios) obj;
         return Objects.equals(this.id, other.id);
     }
-    
     
 }

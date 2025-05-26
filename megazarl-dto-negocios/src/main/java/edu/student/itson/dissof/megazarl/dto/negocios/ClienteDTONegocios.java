@@ -1,14 +1,14 @@
+
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
 import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * 
- * ClienteDTONegocios.java
- 
+ * ClienteDTO.java
+
  Clase DTO que representa los datos de un cliente de la empresa.
  * 
  * @author Yuri Germán García López
@@ -23,10 +23,9 @@ import java.util.Objects;
  * ID: 00000251923
  * 
  */
-public abstract class ClienteDTONegocios{
-    
+public class ClienteDTONegocios{
     /**
-     * Objeto Long que representa el ID del cliente.
+     * Objeto IdEntidadGenericoNegocios que representa el ID del cliente.
      */
     private IdEntidadGenericoNegocios id;
     
@@ -54,6 +53,8 @@ public abstract class ClienteDTONegocios{
      * Objeto String que representa el correo electrónico del cliente.
      */
     private String correoElectronico;
+    
+    private DireccionDTONegocios direccionEnvio;
 
     /**
      * Consutructor que permite instanciar un objeto de tipo ClienteDTO, que recibe
@@ -64,6 +65,7 @@ public abstract class ClienteDTONegocios{
      * @param apellidoMaterno       Objeto String que representa el apellido materno del cliente.
      * @param telefono              Objeto String que representa el telefono del cliente.
      * @param correoElectronico     Objeto String que representa el correo electrónico del cliente.
+     * @param direccionEnvio
      */
     public ClienteDTONegocios(
             IdEntidadGenericoNegocios id,
@@ -71,12 +73,14 @@ public abstract class ClienteDTONegocios{
             String apellidoPaterno, 
             String apellidoMaterno,
             String telefono, 
-            String correoElectronico) {
+            String correoElectronico,
+            DireccionDTONegocios direccionEnvio) {
         
         this.id = id;
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;;
+        this.apellidoMaterno = apellidoMaterno;
+        this.direccionEnvio = direccionEnvio;
     }
     
     /**
@@ -86,19 +90,22 @@ public abstract class ClienteDTONegocios{
      * @param apellidoMaterno       Objeto String que representa el apellido materno del cliente.
      * @param telefono              Objeto String que representa el telefono del cliente.
      * @param correoElectronico     Objeto String que representa el correo electrónico del cliente.
+     * @param direccion
      */
     public ClienteDTONegocios(
             String nombres,
             String apellidoPaterno, 
             String apellidoMaterno,
             String telefono, 
-            String correoElectronico) {
+            String correoElectronico,
+            DireccionDTONegocios direccionEnvio) {
         
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
+        this.direccionEnvio = direccionEnvio;
     }
 
     /**
@@ -149,10 +156,6 @@ public abstract class ClienteDTONegocios{
         return correoElectronico;
     }
 
-    public abstract IdEntidadGenericoNegocios getIdDireccionEnvio();
-
-    public abstract List<IdEntidadGenericoNegocios> getIdsCarritosCompras();
-
     /**
      * Mètodo que permite establecer el ID del cliente.
      * @param id Objeto Long que representa el ID del cliente.
@@ -160,6 +163,12 @@ public abstract class ClienteDTONegocios{
     public void setId(IdEntidadGenericoNegocios id) {
         this.id = id;
     }
+
+    public DireccionDTONegocios getDireccionEnvio() {
+        return direccionEnvio;
+    }
+    
+    
 
     /**
      * Método que permite obtener el hash code del cliente, a partir de su ID.
@@ -193,5 +202,4 @@ public abstract class ClienteDTONegocios{
         final ClienteDTONegocios other = (ClienteDTONegocios) obj;
         return Objects.equals(this.id, other.id);
     }
-
 }

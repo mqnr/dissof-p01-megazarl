@@ -23,16 +23,16 @@ import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenericoDa
 public class IdClienteDTODatos {
     
     /**
-     * Objeto Long que representa el ID del cliente.
+     * Objeto IdEntidadGenericoDatos que representa el ID del cliente.
      */
     private IdEntidadGenericoDatos idCliente;
 
     /**
      * Constructor de la clase que recibe el ID del cliente.
-     * @param idCliente Objeto Long que representa el ID del cliente.
+     * @param id Objeto IdEntidadGenericoDatos que representa el ID del cliente.
      */
-    public IdClienteDTODatos(IdEntidadGenericoDatos idCliente) {
-        this.idCliente = idCliente;
+    public IdClienteDTODatos(IdEntidadGenericoDatos id) {
+        this.idCliente = id;
     }
 
     /**

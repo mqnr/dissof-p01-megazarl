@@ -20,7 +20,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGeneric
  * ID: 00000251923
  *
  */
-public abstract class ProductoCarritoDTONegocios {
+public class ProductoCarritoDTONegocios {
     
     /**
      * Objeto Long que representa el ID del producto en el carrito.
@@ -32,28 +32,41 @@ public abstract class ProductoCarritoDTONegocios {
      */
     private Integer cantidad;
     
+    private IdEntidadGenericoNegocios idProducto;
+    
+    private IdEntidadGenericoNegocios idCliente;
+    
 
     /**
      * Constructor de la clase que recibe los valores de todos sus atributos.
      * @param id Objeto Long que representa el ID del producto en carrito.
+     * @param idProducto
      * @param cantidad Objeto Integer que representa la cantidad del producto en el carrito.
      */
     public ProductoCarritoDTONegocios(
             IdEntidadGenericoNegocios id, 
+            IdEntidadGenericoNegocios idProducto,
             Integer cantidad) {
         
         this.id = id;
+        this.idProducto = idProducto;
         this.cantidad = cantidad;
     }
     
     /**
      * Constructor de la clase que recibe los valores de todos sus atributos, excepto el ID.
+     * @param idProducto
      * @param cantidad Objeto Integer que representa la cantidad del producto en el carrito.
+     * @param idCarritoCompras
      */
     public ProductoCarritoDTONegocios(
-            Integer cantidad) {
+            IdEntidadGenericoNegocios idProducto,
+            Integer cantidad,
+            IdEntidadGenericoNegocios idCliente) {
         
+        this.idProducto = idProducto;
         this.cantidad = cantidad;
+        this.idCliente = idCliente;
     }
     
 
@@ -73,11 +86,6 @@ public abstract class ProductoCarritoDTONegocios {
         return cantidad;
     }
 
-
-    public abstract IdEntidadGenericoNegocios getIdCarritoCompras();
-
-    public abstract IdEntidadGenericoNegocios getIdProducto();
-
     /**
      * Método que permite obtener el ID del producto en carrito.
      * @param id Objeto Long que representa el ID del producto en carrito.
@@ -85,6 +93,16 @@ public abstract class ProductoCarritoDTONegocios {
     public void setId(IdEntidadGenericoNegocios id) {
         this.id = id;
     }
+
+    public IdEntidadGenericoNegocios getIdProducto() {
+        return idProducto;
+    }
+
+    public IdEntidadGenericoNegocios getIdCliente() {
+        return idCliente;
+    }
+    
+    
     
     
     

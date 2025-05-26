@@ -4,7 +4,7 @@ package com.mycompany.megazarl.administrador.mongodb.clasesmapeadas;
 import org.bson.types.ObjectId;
 
 /**
- * Clase que representa un cliente en el sistema.
+ * Clase que representa un cliente registrado en el sistema.
  * 
  * @author Yuri Germán García López
  * ID: 00000252583
@@ -28,11 +28,16 @@ public class Cliente {
     
     private Direccion direccionEnvio;
 
-    public Cliente() {
-        
-    }
+    public Cliente() {}
      
-    public Cliente(String nombres, String apellidoMaterno, String apellidoPaterno, String telefono, String correoElectronico, Direccion direccionEnvio) {
+    public Cliente(
+            String nombres, 
+            String apellidoMaterno, 
+            String apellidoPaterno, 
+            String telefono, 
+            String correoElectronico, 
+            Direccion direccionEnvio) {
+        
         this.nombres = nombres;
         this.apellidoMaterno = apellidoMaterno;
         this.apellidoPaterno = apellidoPaterno;
@@ -93,7 +98,7 @@ public class Cliente {
         return direccionEnvio;
     }
 
-    public void setIdDireccionEnvio(Direccion direccionEnvio) {
+    public void setDireccionEnvio(Direccion direccionEnvio) {
         this.direccionEnvio = direccionEnvio;
     }
    

@@ -369,7 +369,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
 
         panelDetalles.add(panelBotones);
 
-        this.idProducto = (Long) informacionProducto.get("Id");
+        this.idProducto = informacionProducto.get("Id");
 
         botonVolver.addActionListener(new ActionListener() {
             @Override
@@ -392,7 +392,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
     
     private void actualizarBtnSumar(Map<String, Object> informacionProducto){
         
-        int disponibilidadProducto = control.verificarExistenciasProducto((Long) informacionProducto.get("Id"));
+        int disponibilidadProducto = control.verificarExistenciasProducto(informacionProducto.get("Id"));
         int cantidadTexto = Integer.parseInt(cantidadLabel.getText());
         
         if((cantidadTexto > disponibilidadProducto)){
@@ -448,7 +448,7 @@ public class InformacionProducto extends JFrame implements IInformacionProducto,
         
         actualizarCantidad(1);
         
-        int disponibilidadProducto = control.verificarExistenciasProducto((Long) informacionProducto.get("Id"));
+        int disponibilidadProducto = control.verificarExistenciasProducto(informacionProducto.get("Id"));
         
         int cantidadTexto = Integer.parseInt(cantidadLabel.getText());
         

@@ -2,6 +2,7 @@
 package edu.student.itson.dissof.administradorproveedores;
 
 import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresIdProveedorInvalidoException;
+import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresPersistenciaException;
 
 import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
@@ -46,8 +47,10 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      * @return true si existe un objeto Proveedor con el ID del parámetro, false en caso contrario.
      */
     @Override
-    public boolean validarProveedor(IdProveedorDTONegocios idProveedorDTO) {
-        return administradorProveedores.validarProveedor(idProveedorDTO);
+    public boolean validarProveedor(IdProveedorDTONegocios idProveedorDTONegocios) 
+            throws ProveedoresPersistenciaException {
+        
+        return administradorProveedores.validarProveedor(idProveedorDTONegocios);
     }
 
     /**
@@ -60,8 +63,10 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      * o null si no se encuentra un proveedor con ese ID.
      */
     @Override
-    public ProveedorDTONegocios obtenerProveedor(IdProveedorDTONegocios idProveedorDTO) {
-        return administradorProveedores.obtenerProveedor(idProveedorDTO);
+    public ProveedorDTONegocios obtenerProveedor(IdProveedorDTONegocios idProveedorDTONegocios) 
+            throws ProveedoresPersistenciaException {
+        
+        return administradorProveedores.obtenerProveedor(idProveedorDTONegocios);
     }
 
     /**
@@ -75,8 +80,11 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      * del proveedor es inválido o no existe en el sistema.
      */
     @Override
-    public String obtenerDireccionImagenProveedor(IdProveedorDTONegocios idProveedorDTO) throws ProveedoresIdProveedorInvalidoException {
-        return administradorProveedores.obtenerDireccionImagenProveedor(idProveedorDTO);
+    public String obtenerDireccionImagenProveedor(IdProveedorDTONegocios idProveedorDTONegocios) 
+            throws ProveedoresIdProveedorInvalidoException,
+            ProveedoresPersistenciaException {
+        
+        return administradorProveedores.obtenerDireccionImagenProveedor(idProveedorDTONegocios);
     }
 
     /**
@@ -90,8 +98,11 @@ public class FAdministradorProveedores implements IAdministradorProveedores{
      * del proveedor es inválido o no existe en el sistema.
      */
     @Override
-    public String obtenerNombreProveedor(IdProveedorDTONegocios idProveedorDTO) throws ProveedoresIdProveedorInvalidoException {
-        return administradorProveedores.obtenerNombreProveedor(idProveedorDTO);
+    public String obtenerNombreProveedor(IdProveedorDTONegocios idProveedorDTONegocios) 
+            throws ProveedoresIdProveedorInvalidoException, 
+            ProveedoresPersistenciaException {
+        
+        return administradorProveedores.obtenerNombreProveedor(idProveedorDTONegocios);
     }
 
     /**

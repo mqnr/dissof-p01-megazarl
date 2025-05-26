@@ -68,7 +68,7 @@ public class RegistroCliente extends JFrame implements IVista, IRegistroCliente{
 
     private EncabezadoRegistroCliente encabezado;
     private ControlRegistroCliente control;
-    private Long idUsuario;
+    private Object idUsuario;
 
     private String nombres;
     private String apellidoPaterno;
@@ -93,7 +93,7 @@ public class RegistroCliente extends JFrame implements IVista, IRegistroCliente{
     
     public RegistroCliente(
             ControlRegistroCliente control,
-            Long idUsuario,
+            Object idUsuario,
             boolean usuarioEsAuxiliarVentas) {
         
         this.control = control;
@@ -520,8 +520,7 @@ public class RegistroCliente extends JFrame implements IVista, IRegistroCliente{
 
     public void guardarDatosCliente() {
         control.registrarCliente(
-                Arrays.asList(nombres, apellidoPaterno, apellidoMaterno, telefono, correoElectronico),
-                this);
+                Arrays.asList(nombres, apellidoPaterno, apellidoMaterno, telefono, correoElectronico));
     }
 
     

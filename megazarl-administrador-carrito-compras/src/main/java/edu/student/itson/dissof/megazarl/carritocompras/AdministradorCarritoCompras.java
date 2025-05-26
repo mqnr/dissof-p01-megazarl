@@ -1,7 +1,9 @@
 package edu.student.itson.dissof.megazarl.carritocompras;
 
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
+import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
+import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.IAdministradorPedidos;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdDireccionInvalidoException;
@@ -10,13 +12,14 @@ import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.Pedido
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProductoInventarioInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdSucursalInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosPersistenciaException;
 import edu.student.itson.dissof.megazarl.carritocompras.excepciones.*;
 import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionCarritoComprasDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionProductoCarritoDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.CarritoComprasDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.CarritoComprasDatosCompletosRelacionesDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.PaqueteriaDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProductoCarritoDTONegocios;
@@ -29,7 +32,6 @@ import edu.student.itson.dissof.megazarl.dto.negocios.IdClientePaqueteriaDTONego
 import edu.student.itson.dissof.megazarl.dto.negocios.IdPaqueteriaDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoCarritoDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProductoCarritoDatosCompletosRelacionesDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionPedidoClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionCrearPedidoDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoAgregarCarritoDTONegocios;
@@ -37,19 +39,16 @@ import edu.student.itson.dissof.megazarl.dto.negocios.InformacionProductoElimina
 import edu.student.itson.dissof.megazarl.dto.negocios.MontoMinimoEnvioGratuitoDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 import edu.student.itson.dissof.megazarl.objetosnegocio.CarritoCompras;
-import edu.student.itson.dissof.megazarl.objetosnegocio.ProductoCarrito;
-import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.AgregarInformacionNulaNegocioException;
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.FormatoIdInvalidoNegocioException;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ParametroNuloNegocioException;
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.RegistroInexistenteNegocioException;
-
-
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ValorParametroInvalidoNegocioException;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
     
@@ -79,11 +78,16 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
     public List<InformacionProductoCarritoDTONegocios> obtenerProductos(IdClienteDTONegocios idClienteDTO)
             throws CarritoComprasIdClienteInvalidoException,
             CarritoComprasIdProductoInvalidoException,
-            CarritoComprasIdProductoCarritoInvalidoException{
+            CarritoComprasIdProductoCarritoInvalidoException,
+            CarritoComprasPersistenciaException{
         
-        // Se valida el ID del Cliente recibido.
-        if (!administradorClientes.validarCliente(idClienteDTO)) {
-            throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
+        try {
+            // Se valida el ID del Cliente recibido.
+            if (!administradorClientes.validarCliente(idClienteDTO)) {
+                throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
+            }
+        } catch (ClientesPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
         }
 
         List<InformacionProductoCarritoDTONegocios> listaInformacionProductoCarritoDTO = new LinkedList<>();
@@ -94,22 +98,18 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         // Se crean las DTOs con la información del id de los productos y su cantidad.
         if (carritoComprasCliente != null) {
             
-            List<IdEntidadGenericoNegocios> listaIdsProductosCarrito = carritoComprasCliente.getIdsProductosCarrito();
+            List<ProductoCarritoDTONegocios> listaProductosCarrito = carritoComprasCliente.getProductosCarrito();
 
-            for (IdEntidadGenericoNegocios idProductoCarrito: listaIdsProductosCarrito) {
+            for (ProductoCarritoDTONegocios productoCarrito: listaProductosCarrito) {
                     
-                IdProductoCarritoDTONegocios idProductoCarritoDTO = new IdProductoCarritoDTONegocios(idProductoCarrito);
-                
-                if(!validarProductoCarrito(idProductoCarritoDTO)){
-                    throw new CarritoComprasIdProductoCarritoInvalidoException("El ID del producto en carrito es inválido.");
-                }
-                
-                ProductoCarritoDTONegocios productoCarrito = obtenerProductoCarrito(idProductoCarritoDTO);
-                
                 IdProductoDTONegocios idProductoDTO = new IdProductoDTONegocios(productoCarrito.getIdProducto());
                     
-                if(!administradorProductos.validarProducto(idProductoDTO)){
-                    throw new CarritoComprasIdProductoInvalidoException("El ID de producto es inválido.");
+                try {
+                    if(!administradorProductos.validarProducto(idProductoDTO)){
+                        throw new CarritoComprasIdProductoInvalidoException("El ID de producto es inválido.");
+                    }
+                } catch (ProductosPersistenciaException ex) {
+                    throw new CarritoComprasPersistenciaException(ex.getMessage());
                 }
                 
                 Integer cantidadProductoCarrito = productoCarrito.getCantidad();
@@ -133,31 +133,50 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             CarritoComprasIdProductoInvalidoException,
             CarritoComprasProductoSinInventarioException,
             CarritoComprasIdProductoCarritoInvalidoException,
-            CarritoComprasAccesoDatosException{
-        
+            CarritoComprasPersistenciaException{
+
         IdEntidadGenericoNegocios idCliente = informacionProductoAgregarCarrito.getIdCliente();
         IdClienteDTONegocios idClienteDTO = new IdClienteDTONegocios(idCliente);
         
-        // Se valida el ID del Cliente recibido.
-        if (!administradorClientes.validarCliente(idClienteDTO)) {
-            throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
+        try {
+            // Se valida el ID del Cliente recibido.
+            if (!administradorClientes.validarCliente(idClienteDTO)) {
+                throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
+            }
+        } catch (ClientesPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
         }
+
         
-        ClienteDTONegocios clienteCarrito = administradorClientes.obtenerCliente(idClienteDTO);
+        ClienteDTONegocios clienteCarrito;
+        try {
+            clienteCarrito = administradorClientes.obtenerCliente(idClienteDTO);
+        } catch (ClientesPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
+        }
 
         if (clienteCarrito == null) {
             throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
         }
-
+        
         // Se valida el ID del Producto recibido.
         IdEntidadGenericoNegocios idProducto = informacionProductoAgregarCarrito.getIdProducto();
         IdProductoDTONegocios idProductoDTO = new IdProductoDTONegocios(idProducto);
         
-        if (!administradorProductos.validarProducto(idProductoDTO)) {
-            throw new CarritoComprasIdProductoInvalidoException("El ID de producto es inválido.");
+        try {
+            if (!administradorProductos.validarProducto(idProductoDTO)) {
+                throw new CarritoComprasIdProductoInvalidoException("El ID de producto es inválido.");
+            }
+        } catch (ProductosPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
         }
 
-        ProductoDTONegocios productoAgregar = administradorProductos.obtenerProducto(idProductoDTO);
+        ProductoDTONegocios productoAgregar;
+        try {
+            productoAgregar = administradorProductos.obtenerProducto(idProductoDTO);
+        } catch (ProductosPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
+        }
 
         if (productoAgregar == null) {
             throw new CarritoComprasIdProductoInvalidoException("El ID de producto es inválido.");
@@ -170,41 +189,37 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         // Se crea un nuevo carrito si el cliente no tenía uno.
         if (carritoComprasCliente == null) {
             
-            carritoComprasCliente = new CarritoComprasDatosCompletosRelacionesDTONegocios(true, clienteCarrito, new LinkedList<>());
+            carritoComprasCliente = new CarritoComprasDTONegocios(true, clienteCarrito.getId(), new LinkedList<>());
             
             try {
+                
                 CarritoCompras.agregar(carritoComprasCliente);
-            } catch (AgregarInformacionNulaNegocioException | FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException ex) {
-                throw new CarritoComprasAccesoDatosException(ex.getMessage());
+                
+            } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException |
+                    ValorParametroInvalidoNegocioException | ParametroNuloNegocioException ex) {
+                
+                throw new CarritoComprasPersistenciaException(ex.getMessage());
             }
             
-            ProductoCarritoDTONegocios productoCarrito = new ProductoCarritoDatosCompletosRelacionesDTONegocios(
+            ProductoCarritoDTONegocios productoCarrito = new ProductoCarritoDTONegocios(
+                    productoAgregar.getId(),
                     cantidad, 
-                    carritoComprasCliente, 
-                    productoAgregar);
+                    clienteCarrito.getId());
             
-            ProductoCarrito.agregar(productoCarrito);
+            try {
+                CarritoCompras.agregarProductoCarrito(productoCarrito);
+            } catch (ParametroNuloNegocioException | RegistroInexistenteNegocioException | FormatoIdInvalidoNegocioException ex) {
+                throw new CarritoComprasPersistenciaException(ex.getMessage());
+            }
 
                     
         } else {
             // Si ya tenía uno, se determina si ya contenía el producto del parámetro para agregarlo con cantidad de 0.
-            List<IdEntidadGenericoNegocios> listaIdsProductosCarrito = carritoComprasCliente.getIdsProductosCarrito();
+            List<ProductoCarritoDTONegocios> listaProductosCarrito = carritoComprasCliente.getProductosCarrito();
             
             ProductoCarritoDTONegocios productoCarritoEncontrado = null;
             
-            for(IdEntidadGenericoNegocios idProductoCarrito: listaIdsProductosCarrito){
-                
-                IdProductoCarritoDTONegocios idProductoCarritoDTO = new IdProductoCarritoDTONegocios(idProductoCarrito);
-                
-                if(!validarProductoCarrito(idProductoCarritoDTO)){
-                    throw new CarritoComprasIdProductoCarritoInvalidoException("El ID de producto en carrito es inválido.");
-                }
-                
-                ProductoCarritoDTONegocios productoCarrito = obtenerProductoCarrito(idProductoCarritoDTO);
-                
-                if(productoCarrito == null){
-                    throw new CarritoComprasIdProductoCarritoInvalidoException("El ID de producto en carrito es inválido.");
-                }
+            for(ProductoCarritoDTONegocios productoCarrito: listaProductosCarrito){
                 
                 if(productoCarrito.getIdProducto().equals(productoAgregar.getId())){
                     productoCarritoEncontrado = productoCarrito;
@@ -215,12 +230,16 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
 
             if (productoCarritoEncontrado == null) {
                 
-                ProductoCarritoDTONegocios productoCarrito = new ProductoCarritoDatosCompletosRelacionesDTONegocios(
-                        cantidad, 
-                        carritoComprasCliente, 
-                        productoAgregar);
+                ProductoCarritoDTONegocios productoCarrito = new ProductoCarritoDTONegocios(
+                        productoAgregar.getId(),
+                        cantidad,  
+                        carritoComprasCliente.getId());
             
-                ProductoCarrito.agregar(productoCarrito);
+                try {
+                    CarritoCompras.agregarProductoCarrito(productoCarrito);
+                } catch (ParametroNuloNegocioException | RegistroInexistenteNegocioException | FormatoIdInvalidoNegocioException ex) {
+                    throw new CarritoComprasPersistenciaException(ex.getMessage());
+                }
                 
             } else {
                 
@@ -232,12 +251,19 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
                 
                 actualizacaionProductoCarritoDTO.setCantidad(cantidadPreviaProductos + cantidad);
                 
-                ProductoCarrito.actualizar(actualizacaionProductoCarritoDTO);
+                try {
+                    CarritoCompras.actualizarProductoCarrito(actualizacaionProductoCarritoDTO);
+                } catch (RegistroInexistenteNegocioException | ParametroNuloNegocioException | FormatoIdInvalidoNegocioException |
+                        ValorParametroInvalidoNegocioException ex) {
+                    
+                    throw new CarritoComprasPersistenciaException(ex.getMessage());
+                }
 
             }
         }
 
     }
+    private static final Logger LOG = Logger.getLogger(AdministradorCarritoCompras.class.getName());
     
     
 
@@ -247,17 +273,27 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             CarritoComprasIdProductoInvalidoException,
             CarritoComprasCarritoSinProductoException,
             CarritoComprasClienteSinCarritoVigenteException,
-            CarritoComprasIdProductoCarritoInvalidoException{
+            CarritoComprasIdProductoCarritoInvalidoException,
+            CarritoComprasPersistenciaException{
 
         IdEntidadGenericoNegocios idCliente = informacionProductoEliminarCarritoDTO.getIdCliente();
         IdClienteDTONegocios idClienteDTO = new IdClienteDTONegocios(idCliente);
         
-        // Se valida el ID del Cliente recibido.
-        if (!administradorClientes.validarCliente(idClienteDTO)) {
-            throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
+        try {
+            // Se valida el ID del Cliente recibido.
+            if (!administradorClientes.validarCliente(idClienteDTO)) {
+                throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
+            }
+        } catch (ClientesPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
         }
 
-        ClienteDTONegocios clienteCarrito = administradorClientes.obtenerCliente(idClienteDTO);
+        ClienteDTONegocios clienteCarrito;
+        try {
+            clienteCarrito = administradorClientes.obtenerCliente(idClienteDTO);
+        } catch (ClientesPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
+        }
 
         if (clienteCarrito == null) {
             throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
@@ -275,34 +311,31 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         
         IdProductoDTONegocios idProductoDTO = new IdProductoDTONegocios(idProducto);
         
-        if (!administradorProductos.validarProducto(idProductoDTO)) {
-            throw new CarritoComprasIdProductoInvalidoException("El ID de producto es inválido.");
+        try {
+            if (!administradorProductos.validarProducto(idProductoDTO)) {
+                throw new CarritoComprasIdProductoInvalidoException("El ID de producto es inválido.");
+            }
+        } catch (ProductosPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
         }
 
-        ProductoDTONegocios productoCarritoEliminar = administradorProductos.obtenerProducto(idProductoDTO);
+        ProductoDTONegocios productoCarritoEliminar;
+        try {
+            productoCarritoEliminar = administradorProductos.obtenerProducto(idProductoDTO);
+        } catch (ProductosPersistenciaException ex) {
+             throw new CarritoComprasPersistenciaException(ex.getMessage());
+        }
 
         if (productoCarritoEliminar == null) {
             throw new CarritoComprasIdProductoInvalidoException("El ID de producto es inválido.");
         }
 
-        List<IdEntidadGenericoNegocios> listaIdsProductosCarrito = carritoComprasCliente.getIdsProductosCarrito();
+        List<ProductoCarritoDTONegocios> listaProductosCarrito = carritoComprasCliente.getProductosCarrito();
         
         
         ProductoCarritoDTONegocios productoCarritoEncontrado = null;
             
-        for(IdEntidadGenericoNegocios idProductoCarrito: listaIdsProductosCarrito){
-
-            IdProductoCarritoDTONegocios idProductoCarritoDTO = new IdProductoCarritoDTONegocios(idProductoCarrito);
-            
-            if(!validarProductoCarrito(idProductoCarritoDTO)){
-                throw new CarritoComprasIdProductoCarritoInvalidoException("El ID de producto en carrito es inválido.");
-            }
-
-            ProductoCarritoDTONegocios productoCarrito = obtenerProductoCarrito(idProductoCarritoDTO);
-
-            if(productoCarrito == null){
-                throw new CarritoComprasIdProductoCarritoInvalidoException("El ID de producto en carrito es inválido.");
-            }
+        for(ProductoCarritoDTONegocios productoCarrito: listaProductosCarrito){
 
             if(productoCarrito.getIdProducto().equals(productoCarritoEliminar.getId())){
                 productoCarritoEncontrado = productoCarrito;
@@ -331,17 +364,29 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
 
             if(nuevaCantidad == 0){
                 
-                ProductoCarrito.removerPorId(new IdProductoCarritoDTONegocios(productoCarritoEncontrado.getId()));
+                try {
+                    CarritoCompras.removerProductoCarritoPorId(new IdProductoCarritoDTONegocios(productoCarritoEncontrado.getId()));
+                } catch (ParametroNuloNegocioException ex) {
+                    throw new CarritoComprasPersistenciaException(ex.getMessage());
+                } catch (FormatoIdInvalidoNegocioException ex) {
+                    throw new CarritoComprasPersistenciaException(ex.getMessage());
+                }
 
             } else{
-                
                 
                 ActualizacionProductoCarritoDTONegocios actualizacaionProductoCarritoDTO
                         = new ActualizacionProductoCarritoDTONegocios(productoCarritoEncontrado.getId());
                 
                 actualizacaionProductoCarritoDTO.setCantidad(nuevaCantidad);
                 
-                ProductoCarrito.actualizar(actualizacaionProductoCarritoDTO);
+                try {
+                    CarritoCompras.actualizarProductoCarrito(actualizacaionProductoCarritoDTO);
+                    
+                } catch (RegistroInexistenteNegocioException | ParametroNuloNegocioException |
+                        FormatoIdInvalidoNegocioException | ValorParametroInvalidoNegocioException ex) {
+                    
+                    throw new CarritoComprasPersistenciaException(ex.getMessage());
+                }
                 
             }
             
@@ -351,11 +396,16 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
     @Override
     public Integer obtenerNumeroProductos(IdClienteDTONegocios idClienteDTO)
             throws CarritoComprasIdClienteInvalidoException,
-            CarritoComprasIdProductoCarritoInvalidoException{
+            CarritoComprasIdProductoCarritoInvalidoException,
+            CarritoComprasPersistenciaException{
 
-        // Se valida el ID del Cliente recibido.
-        if (!administradorClientes.validarCliente(idClienteDTO)) {
-            throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
+        try {
+            // Se valida el ID del Cliente recibido.
+            if (!administradorClientes.validarCliente(idClienteDTO)) {
+                throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
+            }
+        } catch (ClientesPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
         }
 
         int numeroProductos = 0;
@@ -368,19 +418,12 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         }
 
         // Se suman las cantidades de productos en el carrito si el cliente tiene uno.
-        List<IdEntidadGenericoNegocios> listaIdsProductosCarrito = carritoComprasCliente.getIdsProductosCarrito();
+        List<ProductoCarritoDTONegocios> listaProductosCarrito = carritoComprasCliente.getProductosCarrito();
 
-        for (IdEntidadGenericoNegocios iProductoCarrito : listaIdsProductosCarrito) {
-            
-            IdProductoCarritoDTONegocios idProductoCarritoDTO = new IdProductoCarritoDTONegocios(iProductoCarrito);
-            
-            if(!validarProductoCarrito(idProductoCarritoDTO)){
-                throw new CarritoComprasIdProductoCarritoInvalidoException("El ID del producto en carrito es inválido.");
-            }
-            
-            ProductoCarritoDTONegocios productoCarrito = obtenerProductoCarrito(idProductoCarritoDTO);
-            
+        for (ProductoCarritoDTONegocios productoCarrito : listaProductosCarrito) {
+
             numeroProductos += productoCarrito.getCantidad();
+            
         }
         return numeroProductos;
     }
@@ -394,11 +437,16 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             CarritoComprasIdProductoInvalidoException,
             CarritoComprasIdProductoCarritoInvalidoException,
             CarritoComprasIdProductoInventarioInvalidoException,
-            CarritoComprasIdDireccionInvalidoException{
+            CarritoComprasIdDireccionInvalidoException,
+            CarritoComprasPersistenciaException{
         
-        // Se valida el ID del Cliente recibido.
-        if (!administradorClientes.validarCliente(idClienteDTO)) {
-            throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
+        try {
+            // Se valida el ID del Cliente recibido.
+            if (!administradorClientes.validarCliente(idClienteDTO)) {
+                throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
+            }
+        } catch (ClientesPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
         }
 
         CarritoComprasDTONegocios carritoComprasCliente = obtenerCarritoComprasCliente(idClienteDTO);
@@ -412,23 +460,11 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
 
         List<IdProductoCantidadCarritoDTONegocios> listaInformacionProductoCalculoTiempoPreparacionDTO = new LinkedList<>();
 
-        List<IdEntidadGenericoNegocios> listaIdsProductoCarrito = carritoComprasCliente.getIdsProductosCarrito();
+        List<ProductoCarritoDTONegocios> listaProductoCarrito = carritoComprasCliente.getProductosCarrito();
 
         // Se crean las DTOs TiempoEstimadoPreparacionEnvioPedidoDTONegocios, que contienen cada par ID de producto
         // y cantidad, del carrito del Cliente.
-        for (IdEntidadGenericoNegocios idProductoCarrito: listaIdsProductoCarrito) {
-            
-            IdProductoCarritoDTONegocios idProductoCarritoDTO = new IdProductoCarritoDTONegocios(idProductoCarrito);
-            
-            if(!validarProductoCarrito(idProductoCarritoDTO)){
-                throw new CarritoComprasIdProductoCarritoInvalidoException("El ID del producto en carrito es inválido.");
-            }
-            
-            ProductoCarritoDTONegocios productoCarrito = obtenerProductoCarrito(idProductoCarritoDTO);
-            
-            if(productoCarrito == null){
-                throw new CarritoComprasIdProductoCarritoInvalidoException("El ID del producto en carrito es inválido.");
-            }
+        for (ProductoCarritoDTONegocios productoCarrito: listaProductoCarrito) {
 
             listaInformacionProductoCalculoTiempoPreparacionDTO.add(new IdProductoCantidadCarritoDTONegocios(
                             productoCarrito.getIdProducto(),
@@ -453,6 +489,10 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             throw new CarritoComprasIdProductoInventarioInvalidoException(ex.getMessage());
         } catch (PedidosIdDireccionInvalidoException ex) {
             throw new CarritoComprasIdDireccionInvalidoException(ex.getMessage());
+        } catch (PedidosPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
+        } catch (PaqueteriasPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
         }
 
         // Se calcula el tiempo en días.
@@ -470,11 +510,16 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             throws CarritoComprasIdClienteInvalidoException,
             CarritoComprasClienteSinCarritoVigenteException,
             CarritoComprasIdProductoInvalidoException,
-            CarritoComprasIdProductoCarritoInvalidoException{
+            CarritoComprasIdProductoCarritoInvalidoException,
+            CarritoComprasPersistenciaException {
         
-        // Se valida el ID del Cliente recibido.
-        if (!administradorClientes.validarCliente(idClienteDTO)) {
-            throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
+        try {
+            // Se valida el ID del Cliente recibido.
+            if (!administradorClientes.validarCliente(idClienteDTO)) {
+                throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
+            }
+        } catch (ClientesPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
         }
         
         double montoTotal = 0;
@@ -490,29 +535,26 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
 
         // Se suma el costo de cada producto registrado dentro del carrito si
         // el Cliente lo tiene.
-        List<IdEntidadGenericoNegocios> listaProductosCarrito = carritoCompras.getIdsProductosCarrito();
+        List<ProductoCarritoDTONegocios> listaProductosCarrito = carritoCompras.getProductosCarrito();
 
-        for (IdEntidadGenericoNegocios idProductoCarrito : listaProductosCarrito) {
-            
-            IdProductoCarritoDTONegocios idProductoCarritoDTO = new IdProductoCarritoDTONegocios(idProductoCarrito);
-            
-            if(!validarProductoCarrito(idProductoCarritoDTO)){
-                throw new CarritoComprasIdProductoCarritoInvalidoException("El ID del producto en carrito es inválido.");
-            }
-            
-            ProductoCarritoDTONegocios productoCarrito = obtenerProductoCarrito(idProductoCarritoDTO);
-            
-            if(productoCarrito == null){
-                throw new CarritoComprasIdProductoCarritoInvalidoException("El ID del producto en carrito es inválido.");
-            }
+        for (ProductoCarritoDTONegocios productoCarrito : listaProductosCarrito) {
             
             IdProductoDTONegocios idProductoDTO = new IdProductoDTONegocios(productoCarrito.getIdProducto());
             
-            if (!administradorProductos.validarProducto(idProductoDTO)) {
-                throw new CarritoComprasIdProductoInvalidoException("El ID de producto es inválido.");
+            try {
+                if (!administradorProductos.validarProducto(idProductoDTO)) {
+                    throw new CarritoComprasIdProductoInvalidoException("El ID de producto es inválido.");
+                }
+            } catch (ProductosPersistenciaException ex) {
+                throw new CarritoComprasPersistenciaException(ex.getMessage());
             }
             
-            ProductoDTONegocios producto = administradorProductos.obtenerProducto(idProductoDTO);
+            ProductoDTONegocios producto;
+            try {
+                producto = administradorProductos.obtenerProducto(idProductoDTO);
+            } catch (ProductosPersistenciaException ex) {
+                throw new CarritoComprasPersistenciaException(ex.getMessage());
+            }
             
             if(producto == null){
                 throw new CarritoComprasIdProductoInvalidoException("El ID de producto es inválido.");
@@ -534,7 +576,8 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             throws CarritoComprasIdClienteInvalidoException,
             CarritoComprasClienteSinCarritoVigenteException,
             CarritoComprasIdProductoInvalidoException,
-            CarritoComprasIdProductoCarritoInvalidoException{
+            CarritoComprasIdProductoCarritoInvalidoException,
+            CarritoComprasPersistenciaException{
         
         // Se crea un objeto MontoMinimoEnvioGratuitoDTONegocios con la información del monto
         // actual del carrito y del monto mínimo necesario.
@@ -551,22 +594,31 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             CarritoComprasIdProveedorInvalidoException,
             CarritoComprasIdDireccionInvalidoException,
             CarritoComprasIdProductoInventarioInvalidoException,
-            CarritoComprasIdProductoCarritoInvalidoException{
+            CarritoComprasIdProductoCarritoInvalidoException,
+            CarritoComprasPersistenciaException{
 
         IdEntidadGenericoNegocios idCliente = idClientePaqueteriaCalculoCostoEnvioDTO.getIdCliente();
         IdClienteDTONegocios idClienteDTO = new IdClienteDTONegocios(idCliente);
         
-        // Se valida el ID del Cliente.
-        if (!administradorClientes.validarCliente(idClienteDTO)) {
-            throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
+        try {
+            // Se valida el ID del Cliente.
+            if (!administradorClientes.validarCliente(idClienteDTO)) {
+                throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
+            }
+        } catch (ClientesPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
         }
 
         IdEntidadGenericoNegocios idPaqueteria = idClientePaqueteriaCalculoCostoEnvioDTO.getIdPaqueteria();
         // Se valida el ID de la Paquetería.
         IdPaqueteriaDTONegocios idPaqueteriaDTO = new IdPaqueteriaDTONegocios(idPaqueteria);
 
-        if (!administradorPaqueterias.validarPaqueteria(idPaqueteriaDTO)) {
-            throw new CarritoComprasIdPaqueteriaInvalidoException("El ID de paquetería es inválido.");
+        try {
+            if (!administradorPaqueterias.validarPaqueteria(idPaqueteriaDTO)) {
+                throw new CarritoComprasIdPaqueteriaInvalidoException("El ID de paquetería es inválido.");
+            }
+        } catch (PaqueteriasPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
         }
 
         // Se verifica que el Cliente tiene un Carrito de compras.
@@ -576,7 +628,7 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             throw new CarritoComprasClienteSinCarritoVigenteException("El cliente con el ID: " + idCliente + " no cuenta con un carrito de compras.");
         }
 
-        List<IdEntidadGenericoNegocios> listaProductosCarrito = carritoComprasCliente.getIdsProductosCarrito();
+        List<ProductoCarritoDTONegocios> listaProductosCarrito = carritoComprasCliente.getProductosCarrito();
 
         // Si el carrito no tiene productos, se devuelve 0 como monto.
         if(listaProductosCarrito.isEmpty()){
@@ -587,24 +639,16 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         // carrito, en vez de los propios Productos.
         HashMap<IdEntidadGenericoNegocios, Integer> mapaIdsProductosCantidadCliente = new HashMap<>();
 
-        for (IdEntidadGenericoNegocios idProductoCarrito: listaProductosCarrito) {
-            
-            IdProductoCarritoDTONegocios idProductoCarritoDTO = new IdProductoCarritoDTONegocios(idProductoCarrito);
-            
-            if(!validarProductoCarrito(idProductoCarritoDTO)){
-                throw new CarritoComprasIdProductoCarritoInvalidoException("El ID de producto en carrito es inválido.");
-            }
-            
-            ProductoCarritoDTONegocios productoCarrito = obtenerProductoCarrito(idProductoCarritoDTO);
-            
-            if(productoCarrito == null){
-                throw new CarritoComprasIdProductoCarritoInvalidoException("El ID de producto en carrito es inválido."); 
-            }
+        for (ProductoCarritoDTONegocios productoCarrito: listaProductosCarrito) {
             
             IdProductoDTONegocios idProductoDTO = new IdProductoDTONegocios(productoCarrito.getIdProducto());
             
-            if(!administradorProductos.validarProducto(idProductoDTO)){
-                throw new CarritoComprasIdProductoInvalidoException("El ID de producto es inválido.");
+            try {
+                if(!administradorProductos.validarProducto(idProductoDTO)){
+                    throw new CarritoComprasIdProductoInvalidoException("El ID de producto es inválido.");
+                }
+            } catch (ProductosPersistenciaException ex) {
+                throw new CarritoComprasPersistenciaException(ex.getMessage());
             }
               
             Integer cantidad = productoCarrito.getCantidad();
@@ -634,6 +678,8 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             throw new CarritoComprasIdDireccionInvalidoException(ex.getMessage());
         } catch (PedidosIdProductoInventarioInvalidoException ex) {
             throw new CarritoComprasIdProductoInventarioInvalidoException(ex.getMessage());
+        } catch (PedidosPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
         }
     }
 
@@ -643,20 +689,29 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             CarritoComprasIdPaqueteriaInvalidoException,
             CarritoComprasClienteSinCarritoVigenteException,
             FormatoIdInvalidoNegocioException,
-            CarritoComprasAccesoDatosException{
+            CarritoComprasPersistenciaException{
 
         IdEntidadGenericoNegocios idCliente = idClientePaqueteriaDTO.getIdCliente();
         IdClienteDTONegocios idClienteDTO = new IdClienteDTONegocios(idCliente);
         
-        // Se valida el ID del Cliente.
-        if (!administradorClientes.validarCliente(idClienteDTO)) {
-            throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
+        try {
+            // Se valida el ID del Cliente.
+            if (!administradorClientes.validarCliente(idClienteDTO)) {
+                throw new CarritoComprasIdClienteInvalidoException("El ID de cliente es inválido.");
+            }
+        } catch (ClientesPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
         }
 
         IdEntidadGenericoNegocios idPaqueteria = idClientePaqueteriaDTO.getIdPaqueteria();
         IdPaqueteriaDTONegocios idPaqueteriaDTO = new IdPaqueteriaDTONegocios(idPaqueteria);
         
-        PaqueteriaDTONegocios paqueteriaAsignar = administradorPaqueterias.obtenerPaqueteria(idPaqueteriaDTO);
+        PaqueteriaDTONegocios paqueteriaAsignar;
+        try {
+            paqueteriaAsignar = administradorPaqueterias.obtenerPaqueteria(idPaqueteriaDTO);
+        } catch (PaqueteriasPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
+        }
         if (paqueteriaAsignar == null) {
             throw new CarritoComprasIdPaqueteriaInvalidoException("El ID de paquetería: " + idPaqueteria + " es inválido.");
         }
@@ -674,8 +729,8 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         
         try {
             CarritoCompras.actualizar(actualizacionCarritoComprasDTO);
-        } catch (AgregarInformacionNulaNegocioException | RegistroInexistenteNegocioException ex) {
-            throw new CarritoComprasAccesoDatosException(ex.getMessage());
+        } catch (RegistroInexistenteNegocioException | ValorParametroInvalidoNegocioException | ParametroNuloNegocioException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
         }
         
     }
@@ -690,11 +745,15 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             CarritoComprasIdDireccionInvalidoException,
             CarritoComprasIdProductoInventarioInvalidoException,
             CarritoComprasIdProductoCarritoInvalidoException,
-            CarritoComprasAccesoDatosException{
+            CarritoComprasPersistenciaException{
 
-        // Se valida el ID del Cliente.
-        if (!administradorClientes.validarCliente(idClienteDTO)) {
-            throw new CarritoComprasIdClienteInvalidoException("El ID de cliente: es inválido.");
+        try {
+            // Se valida el ID del Cliente.
+            if (!administradorClientes.validarCliente(idClienteDTO)) {
+                throw new CarritoComprasIdClienteInvalidoException("El ID de cliente: es inválido.");
+            }
+        } catch (ClientesPersistenciaException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
         }
 
         IdEntidadGenericoNegocios idCliente = idClienteDTO.getIdCliente();
@@ -706,10 +765,10 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
             throw new CarritoComprasClienteSinCarritoVigenteException("El cliente con el ID: " + idCliente + " no cuenta con un carrito de compras.");
         }
 
-        List<IdEntidadGenericoNegocios> listaIdsProductosCarritoDTO = carritoComprasCliente.getIdsProductosCarrito();
+        List<ProductoCarritoDTONegocios> listaProductosCarritoDTO = carritoComprasCliente.getProductosCarrito();
 
         // Si el carrito no tiene productos, se devuelve 0 como monto.
-        if (listaIdsProductosCarritoDTO.isEmpty()) {
+        if (listaProductosCarritoDTO.isEmpty()) {
             throw new CarritoComprasCarritoVacioException("El carrito de compras del cliente con el ID: " + idCliente + " no contiene productos.");
         }
 
@@ -720,24 +779,16 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         // carrito, en vez de los propios Productos.
         HashMap<IdEntidadGenericoNegocios, Integer> mapaIdsProductosCantidadCliente = new HashMap<>();
 
-        for (IdEntidadGenericoNegocios idProductoCarrito: listaIdsProductosCarritoDTO) {
-            
-            IdProductoCarritoDTONegocios idProductoCarritoDTO = new IdProductoCarritoDTONegocios(idProductoCarrito);
-            
-            if(!validarProductoCarrito(idProductoCarritoDTO)){
-                throw new CarritoComprasIdProductoCarritoInvalidoException("El ID de producto en inventario es inválido.");
-            }
-            
-            ProductoCarritoDTONegocios productoCarrito = obtenerProductoCarrito(idProductoCarritoDTO);
-            
-            if(productoCarrito == null){
-                throw new CarritoComprasIdProductoCarritoInvalidoException("El ID de producto en inventario es inválido.");
-            }
+        for (ProductoCarritoDTONegocios productoCarrito: listaProductosCarritoDTO) {
             
             IdProductoDTONegocios IdProductoDTO = new IdProductoDTONegocios(productoCarrito.getIdProducto());
             
-            if(!administradorProductos.validarProducto(IdProductoDTO)){
-                throw new CarritoComprasIdProductoInvalidoException("El ID de producto es inválido.");
+            try {
+                if(!administradorProductos.validarProducto(IdProductoDTO)){
+                    throw new CarritoComprasIdProductoInvalidoException("El ID de producto es inválido.");
+                }
+            } catch (ProductosPersistenciaException ex) {
+                throw new CarritoComprasPersistenciaException(ex.getMessage());
             }
             
             Integer cantidad = productoCarrito.getCantidad();
@@ -749,31 +800,32 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
                 new InformacionCrearPedidoDTONegocios(idCliente, 
                         idPaqueteriaDTO.getIdPaqueteria(), mapaIdsProductosCantidadCliente);
 
+
         try {
-            try {
-                // Se realiza el pedido utilizando el método realziarPedido(), del subsistema administradorPedidos.
-                administradorPedidos.realizarPedido(informacionCrearPedidoDTO);
-                
-                ActualizacionCarritoComprasDTONegocios actualizacionCarritoComprasDTO  
-                        = new ActualizacionCarritoComprasDTONegocios(carritoComprasCliente.getId());
-                
-                actualizacionCarritoComprasDTO.setEsVigente(false);
-                
-                try {
-                    CarritoCompras.actualizar(actualizacionCarritoComprasDTO);
-                } catch (AgregarInformacionNulaNegocioException | RegistroInexistenteNegocioException | FormatoIdInvalidoNegocioException ex) {
-                    throw new CarritoComprasAccesoDatosException(ex.getMessage());
-                }
-                
-            } catch (PedidosIdProductoInventarioInvalidoException ex) {
-                throw new CarritoComprasIdProductoInvalidoException(ex.getMessage());
-            } catch (PedidosIdSucursalInvalidoException ex) {
-                throw new CarritoComprasIdSucursalInvalidoException(ex.getMessage());
-            } catch (PedidosIdDireccionInvalidoException ex) {
-                throw new CarritoComprasIdDireccionInvalidoException(ex.getMessage());
-            }
+            // Se realiza el pedido utilizando el método realziarPedido(), del subsistema administradorPedidos.
+            administradorPedidos.realizarPedido(informacionCrearPedidoDTO);
+
+            ActualizacionCarritoComprasDTONegocios actualizacionCarritoComprasDTO  
+                    = new ActualizacionCarritoComprasDTONegocios(carritoComprasCliente.getId());
+
+            actualizacionCarritoComprasDTO.setEsVigente(false);
+
+
+            CarritoCompras.actualizar(actualizacionCarritoComprasDTO);
+
+
+        } catch (PedidosIdProductoInventarioInvalidoException ex) {
+            throw new CarritoComprasIdProductoInventarioInvalidoException(ex.getMessage());
+        } catch (PedidosIdSucursalInvalidoException ex) {
+            throw new CarritoComprasIdSucursalInvalidoException(ex.getMessage());
+        } catch (PedidosIdDireccionInvalidoException ex) {
+            throw new CarritoComprasIdDireccionInvalidoException(ex.getMessage());
         } catch (PedidosIdProductoInvalidoException | ProductosIdProductoInvalidoException ex) {
             throw new CarritoComprasIdProductoInvalidoException(ex.getMessage());
+        } catch (PedidosPersistenciaException | FormatoIdInvalidoNegocioException | 
+                RegistroInexistenteNegocioException | ValorParametroInvalidoNegocioException | 
+                ParametroNuloNegocioException ex) {
+           throw new CarritoComprasPersistenciaException(ex.getMessage());
         }
     }
 
@@ -792,22 +844,31 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         return carritoComprasRecuperado;
        
     }
-    private static final Logger LOG = Logger.getLogger(AdministradorCarritoCompras.class.getName());
-    
-    
 
     @Override
-    public boolean validarProductoCarrito(IdProductoCarritoDTONegocios idProductoCarritoDTO) {
-        if (idProductoCarritoDTO == null || idProductoCarritoDTO.getIdProductoCarrito() == null || !ProductoCarrito.existePorId(idProductoCarritoDTO)) {
-            return false;
+    public boolean validarProductoCarrito(IdProductoCarritoDTONegocios idProductoCarritoDTO) 
+            throws CarritoComprasPersistenciaException{
+        try {
+            if (idProductoCarritoDTO == null || idProductoCarritoDTO.getIdProductoCarrito() == null
+                    || !CarritoCompras.existeProductoCarritoPorId(idProductoCarritoDTO)) {
+                return false;
+            }
+        } catch (ParametroNuloNegocioException | FormatoIdInvalidoNegocioException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
         }
         
         return true;
     }
 
     @Override
-    public ProductoCarritoDTONegocios obtenerProductoCarrito(IdProductoCarritoDTONegocios idProductoCarritoDTO) {
-        return ProductoCarrito.recuperarPorId(idProductoCarritoDTO);
+    public ProductoCarritoDTONegocios obtenerProductoCarrito(IdProductoCarritoDTONegocios idProductoCarritoDTO) 
+            throws CarritoComprasPersistenciaException{
+        
+        try {
+            return CarritoCompras.recuperarProductoCarritoPorId(idProductoCarritoDTO);
+        } catch (RegistroInexistenteNegocioException | ParametroNuloNegocioException | FormatoIdInvalidoNegocioException ex) {
+            throw new CarritoComprasPersistenciaException(ex.getMessage());
+        }
     }
 
 

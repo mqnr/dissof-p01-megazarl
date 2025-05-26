@@ -3,6 +3,7 @@ package edu.student.itson.dissof.megazarl.administradorpedidos;
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
+import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdDireccionInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProductoInvalidoException;
@@ -10,6 +11,7 @@ import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.Pedido
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProductoInventarioInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdSucursalInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
@@ -79,7 +81,9 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
             PedidosIdProveedorInvalidoException,
             PedidosIdSucursalInvalidoException,
             PedidosIdProductoInventarioInvalidoException,
-            PedidosIdDireccionInvalidoException {
+            PedidosIdDireccionInvalidoException,
+            PedidosPersistenciaException,
+            PaqueteriasPersistenciaException {
         
         return administradorPedidos.obtenerTiempoEstimadoPreparacion(listaIdProductoCantidadCarritoDTO);
     }
@@ -106,7 +110,8 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
             PedidosIdSucursalInvalidoException,
             PedidosIdProveedorInvalidoException,
             PedidosIdDireccionInvalidoException,
-            PedidosIdProductoInventarioInvalidoException {
+            PedidosIdProductoInventarioInvalidoException,
+            PedidosPersistenciaException {
         
         return administradorPedidos.calcularCostoEnvioProductosPaqueteria(informacionCalculoCostoPedidoDTO);
     }
@@ -131,7 +136,8 @@ public class FAdministradorPedidos implements IAdministradorPedidos {
             ProductosIdProductoInvalidoException,
             PedidosIdProductoInventarioInvalidoException,
             PedidosIdSucursalInvalidoException,
-            PedidosIdDireccionInvalidoException {
+            PedidosIdDireccionInvalidoException,
+            PedidosPersistenciaException {
         
         return administradorPedidos.realizarPedido(informacionCrearPedidoDTO);
     }

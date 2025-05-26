@@ -4,27 +4,8 @@ package edu.student.itson.dissof.megazarl.dto.negocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 import java.util.List;
 
-/**
- * 
- * ProveedorDTONegocios.java
 
- Clase DTO que representa un proveedor de semillas registrado en el sistema,
- con su información de identificación y logotipo asociado.
- *
- * @author Yuri Germán García López
- * ID: 00000252583
- * @author Luis Rafael Lagarda Encinas
- * ID: 00000252607
- * @author Vladimir Iván Mendoza Baypoli
- * ID: 00000252758
- * @author Manuel Romo López
- * ID: 00000253080
- * @author Martín Zamorano Acuña
- * ID: 00000251923
- *
- */
-public abstract class ProveedorDTONegocios {
-
+public class ProveedorDTONegocios {
     /**
      * Objeto Long que representa el ID del proveedor.
      */
@@ -50,6 +31,8 @@ public abstract class ProveedorDTONegocios {
      */
     private String direccionImagen;
     
+    private DireccionDTONegocios direccion;
+    
 
     /**
      * Constructor que permite instanciar un objeto de tipo ProveedorDTO
@@ -58,6 +41,7 @@ public abstract class ProveedorDTONegocios {
      * @param telefono                  Objeto String que representa el teléfono del proveedor.
      * @param correoElectronico         Objeto String que representa el correo electrónico del proveedor.
      * @param direccionImagen           Objeto String que representa la dirección de la imagen del proveedor.
+     * @param direccion
      * 
     */
     public ProveedorDTONegocios(
@@ -65,13 +49,15 @@ public abstract class ProveedorDTONegocios {
             String nombre,
             String telefono,
             String correoElectronico,
-            String direccionImagen) {
+            String direccionImagen,
+            DireccionDTONegocios direccion) {
         
         this.id = id;
         this.nombre = nombre;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
         this.direccionImagen = direccionImagen;
+        this.direccion = direccion;
     }
     
     /**
@@ -80,18 +66,21 @@ public abstract class ProveedorDTONegocios {
      * @param telefono                  Objeto String que representa el teléfono del proveedor.
      * @param correoElectronico         Objeto String que representa el correo electrónico del proveedor.
      * @param direccionImagen           Objeto String que representa la dirección de la imagen del proveedor.
+     * @param direccion
      * 
     */
     public ProveedorDTONegocios(
             String nombre,
             String telefono,
             String correoElectronico,
-            String direccionImagen) {
+            String direccionImagen,
+            DireccionDTONegocios direccion) {
         
         this.nombre = nombre;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
         this.direccionImagen = direccionImagen;
+        this.direccion = direccion;
     }
 
     /**
@@ -133,12 +122,6 @@ public abstract class ProveedorDTONegocios {
     public String getDireccionImagen() {
         return direccionImagen;
     }
-
-
-    public abstract List<IdEntidadGenericoNegocios> getListaIdsProductosOfrecidos();
-
-
-    public abstract IdEntidadGenericoNegocios getIdDireccion();
     
     /**
      * Métdo que permite establecer el ID del proveedor.
@@ -147,8 +130,10 @@ public abstract class ProveedorDTONegocios {
     public void setId(IdEntidadGenericoNegocios id) {
         this.id = id;
     }
-    
-    
+
+    public DireccionDTONegocios getDireccion() {
+        return direccion;
+    }
     
     /**
     * Método que permite obtener el hash code del proveedor, a partir de su ID

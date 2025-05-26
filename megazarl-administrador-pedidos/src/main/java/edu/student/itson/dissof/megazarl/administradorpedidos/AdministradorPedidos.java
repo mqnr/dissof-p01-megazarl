@@ -1,14 +1,16 @@
 package edu.student.itson.dissof.megazarl.administradorpedidos;
 
 import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedores;
+import edu.student.itson.dissof.administradorproveedores.excepciones.ProveedoresPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorClientes;
+import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.IAdministradorPaqueterias;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdDireccionInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdSucursalInvalidoException;
-import edu.student.itson.dissof.megazarl.administradorpedidos.enumeradores.EstadoPedido;
+import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdDireccionInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdPaqueteriaInvalidoException;
@@ -16,10 +18,13 @@ import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.Pedido
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProductoInventarioInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdSucursalInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorproductos.IAdministradorProductos;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInventarioInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
+import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesPersistenciaException;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.infraestructura.DatosTiempoTrasladoUbicacionesDTO;
@@ -41,14 +46,17 @@ import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProveedorDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdSucursalDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.PedidoDatosCompletosRelacionesDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProductoPedidoDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.ProductoPedidoDatosCompletosRelacionesDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoProveedorMatrizDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionEnvioProductoSucursalMatrizDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.enumeradores.EstadoPedidoNegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 import edu.student.itson.dissof.megazarl.mapas.IAdministradorMapas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Pedido;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.FormatoIdInvalidoNegocioException;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ParametroNuloNegocioException;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.RegistroInexistenteNegocioException;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ValorParametroInvalidoNegocioException;
 import java.util.ArrayList;
 
 import java.util.Collections;
@@ -58,6 +66,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class AdministradorPedidos implements IAdministradorPedidos {
     
@@ -109,7 +119,9 @@ class AdministradorPedidos implements IAdministradorPedidos {
             PedidosIdProveedorInvalidoException,
             PedidosIdProductoInventarioInvalidoException,
             PedidosIdDireccionInvalidoException,
-            PedidosIdSucursalInvalidoException{
+            PedidosIdSucursalInvalidoException,
+            PedidosPersistenciaException,
+            PaqueteriasPersistenciaException{
         
         float tiempoPreparacionEstimado = 0;
 
@@ -118,37 +130,48 @@ class AdministradorPedidos implements IAdministradorPedidos {
             IdEntidadGenericoNegocios idProducto = idProductoCantidadCarritoDTO.getIdProducto();
             
             IdProductoDTONegocios idProductoDTO = new IdProductoDTONegocios(idProducto);
-            if (!administradorProductos.validarProducto(idProductoDTO)) {
-                throw new PedidosIdProductoInvalidoException("El ID de producto es inválido.");
+            try {
+                if (!administradorProductos.validarProducto(idProductoDTO)) {
+                    throw new PedidosIdProductoInvalidoException("El ID de producto es inválido.");
+                }
+            } catch (ProductosPersistenciaException ex) {
+                throw new PedidosPersistenciaException(ex.getMessage());
             }
             
-            ProductoDTONegocios producto = administradorProductos.obtenerProducto(idProductoDTO);
+            ProductoDTONegocios producto;
+            try {
+                producto = administradorProductos.obtenerProducto(idProductoDTO);
+            } catch (ProductosPersistenciaException ex) {
+                throw new PedidosPersistenciaException(ex.getMessage());
+            }
             
             if(producto == null){
                 throw new PedidosIdProductoInvalidoException("El ID de producto es inválido.");
             }
                     
-            List<IdEntidadGenericoNegocios> listaIdsProductosInventario = producto.getIdsProductosInventario();
+            List<ProductoInventarioDTONegocios> listaProductosInventario;
+            try {
+                listaProductosInventario = administradorProductos.obtenerProductosInventarioIdProducto(idProductoDTO);
+            } catch (ProductosIdProductoInvalidoException ex) {
+                throw new PedidosIdProductoInvalidoException(ex.getMessage());
+            } catch (ProductosPersistenciaException ex) {
+                throw new PedidosPersistenciaException(ex.getMessage());
+            }
  
             // Se crea un hashMap para almacenar los productos en inventario del producto
             // como clave, y su tiempo de traslado a matriz como valor
             HashMap<ProductoInventarioDTONegocios, Float> mapaProductoInventarioTiempoTrasladoMatriz = new HashMap<>();
             
             // Se obtienen los datos de la dirección de la sucursal
-            SucursalDTONegocios sucursalMatriz = administradorSucursales.obtenerSucursalMatriz();
-            
-            IdDireccionDTONegocios idDireccionSucursalMatriz = new IdDireccionDTONegocios(sucursalMatriz.getIdDireccion());
-            
-            if(!administradorDirecciones.validarDireccion(idDireccionSucursalMatriz)){
-                throw new PedidosIdDireccionInvalidoException("El ID de dirección de Matriz es inválido.");
+            SucursalDTONegocios sucursalMatriz;
+            try {
+                sucursalMatriz = administradorSucursales.obtenerSucursalMatriz();
+            } catch (SucursalesPersistenciaException ex) {
+                throw new PedidosPersistenciaException(ex.getMessage());
             }
             
-            DireccionDTONegocios direccionMatriz = administradorDirecciones.obtenerDireccion(idDireccionSucursalMatriz);
-            
-            if(direccionMatriz == null){
-                throw new PedidosIdDireccionInvalidoException("El ID de dirección de Matriz es inválido."); 
-            }
-            
+            DireccionDTONegocios direccionMatriz = sucursalMatriz.getDireccion();
+
             String codigoPostalMatriz = direccionMatriz.getCodigoPostal();
             String coloniaMatriz = direccionMatriz.getColonia();
             String calleMatriz = direccionMatriz.getCalle();
@@ -156,44 +179,28 @@ class AdministradorPedidos implements IAdministradorPedidos {
             
             boolean todosProductosDisponibles = true;
                     
-            for(IdEntidadGenericoNegocios idProductoInventario: listaIdsProductosInventario){
+            for(ProductoInventarioDTONegocios productoInventario: listaProductosInventario){
                 
-                IdProductoInventarioDTONegocios idProductoInventarioDTO = new IdProductoInventarioDTONegocios(idProductoInventario);
-                
-                if(!administradorProductos.validarProductoInventario(idProductoInventarioDTO)){
-                    throw new PedidosIdProductoInventarioInvalidoException("El ID de producto en inventario es inválido.");
-                }
-                
-                ProductoInventarioDTONegocios productoInventario = administradorProductos.obtenerProductoInventario(idProductoInventarioDTO);
-                
-                if(productoInventario == null){
-                    throw new PedidosIdProductoInventarioInvalidoException("El ID de producto en inventario es inválido.");
-                }
                 
                 // Se obtienen los datos de la dirección de cada producto en inventario
                 IdSucursalDTONegocios idSucursalProductoInventario = new IdSucursalDTONegocios(productoInventario.getIdSucursal());
                 
-                if(!administradorSucursales.validarSucursal(idSucursalProductoInventario)){
-                    throw new PedidosIdSucursalInvalidoException("El ID de la sucursal del producto en inventario es inválido.");
+                try {
+                    if(!administradorSucursales.validarSucursal(idSucursalProductoInventario)){
+                        throw new PedidosIdSucursalInvalidoException("El ID de la sucursal del producto en inventario es inválido.");
+                    }
+                } catch (SucursalesPersistenciaException ex) {
+                    throw new PedidosPersistenciaException(ex.getMessage());
                 }
      
-                SucursalDTONegocios sucursalProductoInventario = administradorSucursales.obtenerSucursal(idSucursalProductoInventario);
-                
-                if(sucursalProductoInventario == null){
-                    throw new PedidosIdSucursalInvalidoException("El ID de la sucursal del producto en inventario es inválido.");
+                SucursalDTONegocios sucursalProductoInventario;
+                try {
+                    sucursalProductoInventario = administradorSucursales.obtenerSucursal(idSucursalProductoInventario);
+                } catch (SucursalesPersistenciaException ex) {
+                    throw new PedidosPersistenciaException(ex.getMessage());
                 }
                 
-                IdDireccionDTONegocios idDireccionSucursalProductoInventario = new IdDireccionDTONegocios(sucursalProductoInventario.getIdDireccion());
-                
-                if(!administradorDirecciones.validarDireccion(idDireccionSucursalProductoInventario)){
-                    throw new PedidosIdDireccionInvalidoException("El ID de la dirección de la sucursal del producto en inventario es inválido.");
-                }
-                
-                DireccionDTONegocios direccionSucursalProductoInventario = administradorDirecciones.obtenerDireccion(idDireccionSucursalMatriz);
-                
-                if(direccionSucursalProductoInventario == null){
-                    throw new PedidosIdDireccionInvalidoException("El ID de la dirección de la sucursal del producto en inventario es inválido.");
-                }
+                DireccionDTONegocios direccionSucursalProductoInventario = sucursalProductoInventario.getDireccion();
                 
                 String codigoPostalSucursalProductoInventario = direccionSucursalProductoInventario.getCodigoPostal();
                 String coloniaSucursalProductoInventario = direccionSucursalProductoInventario.getColonia();
@@ -264,8 +271,12 @@ class AdministradorPedidos implements IAdministradorPedidos {
 
                 IdProveedorDTONegocios idProveedorDTO = new IdProveedorDTONegocios(producto.getIdProveedor());
                 
-                if(!administradorProveedores.validarProveedor(idProveedorDTO)){  
-                    throw new PedidosIdProveedorInvalidoException("El ID de proveedor es inválido.");    
+                try {
+                    if(!administradorProveedores.validarProveedor(idProveedorDTO)){    
+                        throw new PedidosIdProveedorInvalidoException("El ID de proveedor es inválido.");
+                    }
+                } catch (ProveedoresPersistenciaException ex) {
+                    throw new PedidosPersistenciaException(ex.getMessage());
                 }
                 
                 float tiempoEnvioMatrizMayor = 0;
@@ -313,27 +324,42 @@ class AdministradorPedidos implements IAdministradorPedidos {
             PedidosIdSucursalInvalidoException,
             PedidosIdProveedorInvalidoException,
             PedidosIdDireccionInvalidoException,
-            PedidosIdProductoInventarioInvalidoException{
+            PedidosIdProductoInventarioInvalidoException,
+            PedidosPersistenciaException,
+            PedidosIdProductoInvalidoException{
 
         IdEntidadGenericoNegocios idCliente = informacionPedidoClienteDTO.getIdCliente();
         
         IdClienteDTONegocios idClienteDTO = new IdClienteDTONegocios(idCliente);
         
-        // Se valida el ID del cliente
-        if (!administradorClientes.validarCliente(idClienteDTO)) {
-            throw new PedidosIdClienteInvalidoException("El ID de cliente es inválido.");
+        try {
+            // Se valida el ID del cliente
+            if (!administradorClientes.validarCliente(idClienteDTO)) {
+                throw new PedidosIdClienteInvalidoException("El ID de cliente es inválido.");
+            }
+        } catch (ClientesPersistenciaException ex) {
+            throw new PedidosPersistenciaException(ex.getMessage());
         }
 
         IdEntidadGenericoNegocios idPaqueteria = informacionPedidoClienteDTO.getIdPaqueteria();
         
         IdPaqueteriaDTONegocios idPaqueteriaDTO = new IdPaqueteriaDTONegocios(idPaqueteria);
 
-        // Se valida el ID de la paquetería
-        if (!administradorPaqueterias.validarPaqueteria(idPaqueteriaDTO)) {
-            throw new PedidosIdPaqueteriaInvalidoException("El ID de paqueteria es inválido.");
+        try {
+            // Se valida el ID de la paquetería
+            if (!administradorPaqueterias.validarPaqueteria(idPaqueteriaDTO)) {
+                throw new PedidosIdPaqueteriaInvalidoException("El ID de paqueteria es inválido.");
+            }
+        } catch (PaqueteriasPersistenciaException ex) {
+            throw new PedidosPersistenciaException(ex.getMessage());
         }
         
-        PaqueteriaDTONegocios paqueteria = administradorPaqueterias.obtenerPaqueteria(idPaqueteriaDTO);
+        PaqueteriaDTONegocios paqueteria;
+        try {
+            paqueteria = administradorPaqueterias.obtenerPaqueteria(idPaqueteriaDTO);
+        } catch (PaqueteriasPersistenciaException ex) {
+            throw new PedidosPersistenciaException(ex.getMessage());
+        }
         
         if(paqueteria == null){
             throw new PedidosIdPaqueteriaInvalidoException("El ID de paqueteria es inválido.");
@@ -344,27 +370,29 @@ class AdministradorPedidos implements IAdministradorPedidos {
         
         // Se validan los IDs de los productos
         for (IdEntidadGenericoNegocios idProducto: mapaProductosCantidades.keySet()) {
-            if (!administradorProductos.validarProducto(new IdProductoDTONegocios(idProducto))) {
-                throw new PedidosIdProductoInvalidoException("El ID de producto es inválido.");
+            
+            try {
+                if (!administradorProductos.validarProducto(new IdProductoDTONegocios(idProducto))) {
+                    throw new PedidosIdProductoInvalidoException("El ID de producto es inválido.");
+                }
+            } catch (ProductosPersistenciaException ex) {
+                throw new PedidosPersistenciaException(ex.getMessage());
             }
             
         }
 
 
         // Se obtiene la dirección de la sucursal Matriz
-        SucursalDTONegocios sucursalMatriz = administradorSucursales.obtenerSucursalMatriz();
-        
-        IdDireccionDTONegocios idDireccionDTO = new IdDireccionDTONegocios(sucursalMatriz.getIdDireccion());
-        
-        if(!administradorDirecciones.validarDireccion(idDireccionDTO)){ 
-            throw new PedidosIdDireccionInvalidoException("El ID de la dirección de la sucursal matriz es inválido.");
+        SucursalDTONegocios sucursalMatriz;
+        try {
+            sucursalMatriz = administradorSucursales.obtenerSucursalMatriz();
+        } catch (SucursalesPersistenciaException ex) {
+            throw new PedidosPersistenciaException(ex.getMessage());
         }
         
-        DireccionDTONegocios direccionMatriz = administradorDirecciones.obtenerDireccion(idDireccionDTO);
+        DireccionDTONegocios direccionMatriz = sucursalMatriz.getDireccion();
         
-        if(direccionMatriz == null){
-            throw new PedidosIdDireccionInvalidoException("El ID de la dirección de la sucursal matriz es inválido.");
-        }
+
 
         String codigoPostalMatriz = direccionMatriz.getCodigoPostal();
         String coloniaMatriz = direccionMatriz.getColonia();
@@ -383,19 +411,32 @@ class AdministradorPedidos implements IAdministradorPedidos {
         // Se calcula el costo de envio de productos a matriz:
         for (IdEntidadGenericoNegocios idProducto: mapaProductosCantidades.keySet()) {
 
-            // Se valida el ID del producto
-            if(!administradorProductos.validarProducto(new IdProductoDTONegocios(idProducto))){
-                throw new PedidosIdProductoInvalidoException("El ID de producto es inválido.");
+            try {
+                // Se valida el ID del producto
+                if(!administradorProductos.validarProducto(new IdProductoDTONegocios(idProducto))){
+                    throw new PedidosIdProductoInvalidoException("El ID de producto es inválido.");
+                }
+            } catch (ProductosPersistenciaException ex) {
+                throw new PedidosPersistenciaException(ex.getMessage());
             }
             
-            ProductoDTONegocios producto = administradorProductos.obtenerProducto(new IdProductoDTONegocios(idProducto));
+            ProductoDTONegocios producto;
+            try {
+                producto = administradorProductos.obtenerProducto(new IdProductoDTONegocios(idProducto));
+            } catch (ProductosPersistenciaException ex) {
+                throw new PedidosPersistenciaException(ex.getMessage());
+            }
             
             
             // Se valida el ID del proveedor
             IdProveedorDTONegocios idProveedorDTO = new IdProveedorDTONegocios(producto.getIdProveedor());
             
-            if(!administradorProveedores.validarProveedor(idProveedorDTO)){
-                throw new PedidosIdProductoInvalidoException("El ID de proveedor es inválido.");
+            try {
+                if(!administradorProveedores.validarProveedor(idProveedorDTO)){
+                    throw new PedidosIdProductoInvalidoException("El ID de proveedor es inválido.");
+                }
+            } catch (ProveedoresPersistenciaException ex) {
+                throw new PedidosPersistenciaException(ex.getMessage());
             }
 
             int cantidadProductoDisponible;
@@ -403,6 +444,8 @@ class AdministradorPedidos implements IAdministradorPedidos {
                 cantidadProductoDisponible = administradorProductos.cosultarInventarioProducto(new IdProductoDTONegocios(idProducto));
             } catch (ProductosIdProductoInvalidoException ex) {
                 throw new PedidosIdProductoInvalidoException(ex.getMessage());
+            } catch (ProductosPersistenciaException ex) {
+                throw new PedidosPersistenciaException(ex.getMessage());
             }
             int cantidadProductoRequerido = mapaProductosCantidades.get(idProducto);
 
@@ -410,38 +453,40 @@ class AdministradorPedidos implements IAdministradorPedidos {
 
             // Se obtiene la lista de productos en inventario asociados al 
             // producto actual
-            List<IdEntidadGenericoNegocios> listaIdsProductosInventario = producto.getIdsProductosInventario();
+            List<ProductoInventarioDTONegocios> listaProductosInventario;
+            try {
+                listaProductosInventario = administradorProductos.obtenerProductosInventarioIdProducto(new IdProductoDTONegocios(idProducto));
+            } catch (ProductosIdProductoInvalidoException ex) {
+                throw new PedidosIdProductoInvalidoException(ex.getMessage());
+            } catch (ProductosPersistenciaException ex) {
+                throw new PedidosPersistenciaException(ex.getMessage());
+            }
 
-            for(IdEntidadGenericoNegocios idProductoInventario: listaIdsProductosInventario){
-                
-                IdProductoInventarioDTONegocios idProductoInventarioDTO = new IdProductoInventarioDTONegocios(idProductoInventario);
-                
-                if(!administradorProductos.validarProductoInventario(idProductoInventarioDTO)){
-                    throw new PedidosIdProductoInventarioInvalidoException("El del producto en inventario es inválido.");
-                }
-                
-                ProductoInventarioDTONegocios productoInventario = administradorProductos.obtenerProductoInventario(idProductoInventarioDTO);
+            for(ProductoInventarioDTONegocios productoInventario: listaProductosInventario){
 
                 // Se obtiene la dirección de la sucursal Matriz
                 IdSucursalDTONegocios idSucursalProductoInventario = new IdSucursalDTONegocios(productoInventario.getIdSucursal());
                 
-                if(!administradorSucursales.validarSucursal(idSucursalProductoInventario)){
-                    throw new PedidosIdSucursalInvalidoException("El ID de la sucursal es inválido.");
+                try {
+                    if(!administradorSucursales.validarSucursal(idSucursalProductoInventario)){
+                        throw new PedidosIdSucursalInvalidoException("El ID de la sucursal es inválido.");
+                    }
+                } catch (SucursalesPersistenciaException ex) {
+                    throw new PedidosPersistenciaException(ex.getMessage());
                 }
                 
-                SucursalDTONegocios sucursalProductoInventario = administradorSucursales.obtenerSucursal(idSucursalProductoInventario);
+                SucursalDTONegocios sucursalProductoInventario;
+                try {
+                    sucursalProductoInventario = administradorSucursales.obtenerSucursal(idSucursalProductoInventario);
+                } catch (SucursalesPersistenciaException ex) {
+                    throw new PedidosPersistenciaException(ex.getMessage());
+                }
                 
                 if(sucursalProductoInventario == null){
                     throw new PedidosIdSucursalInvalidoException("El ID de la sucursal es inválido.");
                 }
                 
-                IdDireccionDTONegocios idDireccionSucursalProductoInventario = new IdDireccionDTONegocios(sucursalProductoInventario.getIdDireccion());
-                
-                if(!administradorDirecciones.validarDireccion(idDireccionSucursalProductoInventario)){
-                    throw new PedidosIdDireccionInvalidoException("El ID de la dirección de la sucursal del producto en inventario es inválido.");
-                }
-                
-                DireccionDTONegocios direccionSucursalProductoInventario = administradorDirecciones.obtenerDireccion(idDireccionSucursalProductoInventario);
+                DireccionDTONegocios direccionSucursalProductoInventario = sucursalProductoInventario.getDireccion();
                 
                 if(direccionSucursalProductoInventario == null){
                     throw new PedidosIdDireccionInvalidoException("El ID de la dirección de la sucursal del producto en inventario es inválido.");
@@ -524,11 +569,20 @@ class AdministradorPedidos implements IAdministradorPedidos {
                 // Se obtiene la dirección de la sucursal Matriz
                 IdSucursalDTONegocios idSucursalProductoInventario = new IdSucursalDTONegocios(productoInventario.getIdSucursal());
                 
-                if(!administradorSucursales.validarSucursal(idSucursalProductoInventario)){
-                    throw new PedidosIdSucursalInvalidoException("El Id de la sucursal del producto en inventario es inválido.");
+                try {
+                    if(!administradorSucursales.validarSucursal(idSucursalProductoInventario)){
+                        throw new PedidosIdSucursalInvalidoException("El Id de la sucursal del producto en inventario es inválido.");
+                    }
+                } catch (SucursalesPersistenciaException ex) {
+                    throw new PedidosPersistenciaException(ex.getMessage());
                 }
                 
-                SucursalDTONegocios sucursalProductoInventario = administradorSucursales.obtenerSucursal(idSucursalProductoInventario);
+                SucursalDTONegocios sucursalProductoInventario;
+                try {
+                    sucursalProductoInventario = administradorSucursales.obtenerSucursal(idSucursalProductoInventario);
+                } catch (SucursalesPersistenciaException ex) {
+                    throw new PedidosPersistenciaException(ex.getMessage());
+                }
                 
                 if(sucursalProductoInventario == null){
                     throw new PedidosIdSucursalInvalidoException("El Id de la sucursal del producto en inventario es inválido.");
@@ -587,6 +641,8 @@ class AdministradorPedidos implements IAdministradorPedidos {
                     throw new PedidosIdProveedorInvalidoException(ex.getMessage());
                 }catch (PaqueteriasIdDireccionInvalidoException ex) {
                         throw new PedidosIdDireccionInvalidoException(ex.getMessage());
+                } catch (PaqueteriasPersistenciaException ex) {
+                    throw new PedidosPersistenciaException(ex.getMessage());
                 }
 
                 costoTotalEnvio += costoProductosComprar;
@@ -616,9 +672,12 @@ class AdministradorPedidos implements IAdministradorPedidos {
 
                 float costoEnvioProductosSucursalMatriz;
                 try {
-                    costoEnvioProductosSucursalMatriz = administradorPaqueterias.obtenerCostoEnvioSucursalMatriz(informacionEnvioProductoSucursalMatriz);
+                    costoEnvioProductosSucursalMatriz
+                            = administradorPaqueterias.obtenerCostoEnvioSucursalMatriz(informacionEnvioProductoSucursalMatriz);
                 } catch (PaqueteriasIdDireccionInvalidoException ex) {
                     throw new PedidosIdDireccionInvalidoException(ex.getMessage());
+                } catch (PaqueteriasPersistenciaException ex) {
+                    throw new PedidosPersistenciaException(ex.getMessage());
                 }
 
                 costoTotalEnvio += costoEnvioProductosSucursalMatriz;
@@ -649,6 +708,8 @@ class AdministradorPedidos implements IAdministradorPedidos {
                             = administradorPaqueterias.obtenerCostoEnvioMatrizCliente(informacionEnvioProductoPaqueteriaDTO);
                 } catch (PaqueteriasIdDireccionInvalidoException ex) {
                     throw new PedidosIdDireccionInvalidoException(ex.getMessage());
+                } catch (PaqueteriasPersistenciaException ex) {
+                    throw new PedidosPersistenciaException(ex.getMessage());
                 }
                 
             } catch (PaqueteriasIdPaqueteriaInvalidoException ex) {
@@ -674,17 +735,27 @@ class AdministradorPedidos implements IAdministradorPedidos {
             ProductosIdProductoInvalidoException,
             PedidosIdProductoInventarioInvalidoException,
             PedidosIdSucursalInvalidoException,
-            PedidosIdDireccionInvalidoException{
+            PedidosIdDireccionInvalidoException,
+            PedidosPersistenciaException{
 
         IdEntidadGenericoNegocios idCliente = informacionCrearPedidoDTO.getIdCliente();
 
         IdClienteDTONegocios idClienteDTO = new IdClienteDTONegocios(idCliente);
         
-        if (!administradorClientes.validarCliente(idClienteDTO)) {
-            throw new PedidosIdProductoInvalidoException("El ID de cliente es inválido.");
+        try {
+            if (!administradorClientes.validarCliente(idClienteDTO)) {
+                throw new PedidosIdProductoInvalidoException("El ID de cliente es inválido.");
+            }
+        } catch (ClientesPersistenciaException ex) {
+            throw new PedidosPersistenciaException(ex.getMessage());
         }
         
-        ClienteDTONegocios cliente = administradorClientes.obtenerCliente(idClienteDTO);
+        ClienteDTONegocios cliente;
+        try {
+            cliente = administradorClientes.obtenerCliente(idClienteDTO);
+        } catch (ClientesPersistenciaException ex) {
+            throw new PedidosPersistenciaException(ex.getMessage());
+        }
         
         if(cliente == null){
             throw new PedidosIdProductoInvalidoException("El ID de cliente es inválido.");
@@ -694,7 +765,13 @@ class AdministradorPedidos implements IAdministradorPedidos {
         
         IdPaqueteriaDTONegocios idPaqueteriaDTO = new IdPaqueteriaDTONegocios(idPaqueteria);
 
-        PaqueteriaDTONegocios paqueteria = administradorPaqueterias.obtenerPaqueteria(idPaqueteriaDTO);
+        PaqueteriaDTONegocios paqueteria;
+        try {
+            paqueteria = administradorPaqueterias.obtenerPaqueteria(idPaqueteriaDTO);
+        } catch (PaqueteriasPersistenciaException ex) {
+            throw new PedidosPersistenciaException(ex.getMessage());
+        }
+        
         if (paqueteria == null) {
             throw new PedidosIdProductoInvalidoException("El ID de paquetería: " + idPaqueteria + " es inválido.");
         }
@@ -703,8 +780,12 @@ class AdministradorPedidos implements IAdministradorPedidos {
         HashMap<IdEntidadGenericoNegocios,Integer> mapaProductosCantidadPedido = informacionCrearPedidoDTO.getMapaIdsProductosCantidad();
 
         for (IdEntidadGenericoNegocios idProducto: mapaProductosCantidadPedido.keySet()) {
-            if (!administradorProductos.validarProducto(new IdProductoDTONegocios(idProducto))) {
-                throw new PedidosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
+            try {
+                if (!administradorProductos.validarProducto(new IdProductoDTONegocios(idProducto))) {
+                    throw new PedidosIdProductoInvalidoException("El ID de producto: " + idProducto + " es inválido.");
+                }
+            } catch (ProductosPersistenciaException ex) {
+                throw new PedidosPersistenciaException(ex.getMessage());
             }
         }
 
@@ -712,57 +793,57 @@ class AdministradorPedidos implements IAdministradorPedidos {
 
         for (IdEntidadGenericoNegocios idProducto: mapaProductosCantidadPedido.keySet()) {
 
-            ProductoDTONegocios producto = administradorProductos.obtenerProducto(new IdProductoDTONegocios(idProducto));
+            try {
+                ProductoDTONegocios producto = administradorProductos.obtenerProducto(new IdProductoDTONegocios(idProducto));
+            } catch (ProductosPersistenciaException ex) {
+                throw new PedidosPersistenciaException(ex.getMessage());
+            }
 
-            List<IdEntidadGenericoNegocios> listaIdsProductosInventario = producto.getIdsProductosInventario();
+            List<ProductoInventarioDTONegocios> listaProductosInventario;
+            try {
+                listaProductosInventario
+                        = administradorProductos.obtenerProductosInventarioIdProducto(new IdProductoDTONegocios(idProducto));
+            } catch (ProductosPersistenciaException ex) {
+                throw new PedidosPersistenciaException(ex.getMessage());
+            }
 
-            for (IdEntidadGenericoNegocios idProductoInventario: listaIdsProductosInventario) {
-                
-                IdProductoInventarioDTONegocios idProductoInventarioDTO = new IdProductoInventarioDTONegocios(idProductoInventario);
-                
-                if(!administradorProductos.validarProductoInventario(idProductoInventarioDTO)){
-                    throw new PedidosIdProductoInventarioInvalidoException("El ID de producto en inventario es inválido.");
-                }
-                
-                ProductoInventarioDTONegocios productoInventario = administradorProductos.obtenerProductoInventario(idProductoInventarioDTO);
-                
-                if(productoInventario == null){
-                    throw new PedidosIdProductoInventarioInvalidoException("El ID de producto en inventario es inválido."); 
-                }
+            for (ProductoInventarioDTONegocios productoInventario: listaProductosInventario) {
                 
                 IdSucursalDTONegocios idSucursalDTO = new IdSucursalDTONegocios(productoInventario.getIdSucursal());
                 
-                if(!administradorSucursales.validarSucursal(idSucursalDTO)){
-                    throw new PedidosIdSucursalInvalidoException("El ID de la sucursal del producto en inventario es inválido.");
+                try {
+                    if(!administradorSucursales.validarSucursal(idSucursalDTO)){
+                        throw new PedidosIdSucursalInvalidoException("El ID de la sucursal del producto en inventario es inválido.");
+                    }
+                } catch (SucursalesPersistenciaException ex) {
+                    throw new PedidosPersistenciaException(ex.getMessage());
                 }
                 
-                SucursalDTONegocios sucursalProductoInventario = administradorSucursales.obtenerSucursal(idSucursalDTO);
+                SucursalDTONegocios sucursalProductoInventario;
+                try {
+                    sucursalProductoInventario = administradorSucursales.obtenerSucursal(idSucursalDTO);
+                } catch (SucursalesPersistenciaException ex) {
+                    throw new PedidosPersistenciaException(ex.getMessage());
+                }
                 
                 if(sucursalProductoInventario == null){
                     throw new PedidosIdSucursalInvalidoException("El ID de la sucursal del producto en inventario es inválido.");
                 }
                 
-                IdDireccionDTONegocios idDireccionSucursalProductoInventario = new IdDireccionDTONegocios(sucursalProductoInventario.getIdDireccion());
-                
-                if(!administradorDirecciones.validarDireccion(idDireccionSucursalProductoInventario)){
-                    throw new PedidosIdDireccionInvalidoException("El ID de la dirección de la sucursal del producto en inventario es inválido.");
-                }
-                
-                DireccionDTONegocios direccionSucursalProductoInventario = administradorDirecciones.obtenerDireccion(idDireccionSucursalProductoInventario);
+                DireccionDTONegocios direccionSucursalProductoInventario = sucursalProductoInventario.getDireccion();
                 
                 if(direccionSucursalProductoInventario == null){
                     throw new PedidosIdDireccionInvalidoException("El ID de la dirección de la sucursal del producto en inventario es inválido.");
                 }
                 
-                SucursalDTONegocios sucursalMatriz = administradorSucursales.obtenerSucursalMatriz();
-                
-                IdDireccionDTONegocios idDireccionSucursalMatriz = new IdDireccionDTONegocios(sucursalMatriz.getIdDireccion());
-                
-                if(!administradorDirecciones.validarDireccion(idDireccionSucursalMatriz)){
-                    throw new PedidosIdDireccionInvalidoException("El ID de la dirección de la Matriz es inválido.");
+                SucursalDTONegocios sucursalMatriz;
+                try {
+                    sucursalMatriz = administradorSucursales.obtenerSucursalMatriz();
+                } catch (SucursalesPersistenciaException ex) {
+                    throw new PedidosPersistenciaException(ex.getMessage());
                 }
                 
-                DireccionDTONegocios direccionSucursalMatriz = administradorDirecciones.obtenerDireccion(idDireccionSucursalMatriz);
+                DireccionDTONegocios direccionSucursalMatriz = sucursalMatriz.getDireccion();
                 
                 if(direccionSucursalMatriz == null){
                     throw new PedidosIdDireccionInvalidoException("El ID de la dirección de la Matriz es inválido.");
@@ -807,7 +888,12 @@ class AdministradorPedidos implements IAdministradorPedidos {
         
         for(Map.Entry<IdEntidadGenericoNegocios, Integer> productoRequerido : mapaProductosCantidadPedido.entrySet()){
            
-            ProductoDTONegocios producto = administradorProductos.obtenerProducto(new IdProductoDTONegocios(productoRequerido.getKey()));
+            ProductoDTONegocios producto;
+            try {
+                producto = administradorProductos.obtenerProducto(new IdProductoDTONegocios(productoRequerido.getKey()));
+            } catch (ProductosPersistenciaException ex) {
+                throw new PedidosPersistenciaException(ex.getMessage());
+            }
             
             int cantidadProductoSolicitado = productoRequerido.getValue();
             
@@ -825,6 +911,8 @@ class AdministradorPedidos implements IAdministradorPedidos {
                         
                     } catch (ProductosIdProductoInventarioInvalidoException ex) {
                         throw new PedidosIdProductoInventarioInvalidoException(ex.getMessage());
+                    } catch (ProductosPersistenciaException ex) {
+                        throw new PedidosPersistenciaException(ex.getMessage());
                     }
                     
                 }
@@ -832,27 +920,31 @@ class AdministradorPedidos implements IAdministradorPedidos {
                 if(cantidadProductoDisponible >= cantidadProductoSolicitado){
                     break;
                 }
-                  
-                    
+  
             }
             
-            listaProductosPedido.add(new ProductoPedidoDatosCompletosRelacionesDTONegocios( 
-                            cantidadProductoSolicitado,
-                            producto));
-            
+            listaProductosPedido.add(new ProductoPedidoDTONegocios(
+                            producto.getId(),
+                            cantidadProductoSolicitado));
 
         }
         
         // Se crea el objeto PedidoDTONegocios
-        PedidoDTONegocios pedido = new PedidoDatosCompletosRelacionesDTONegocios(
-                EstadoPedido.PENDIENTE.toString(),
-                cliente,
-                paqueteria,
+        PedidoDTONegocios pedido = new PedidoDTONegocios(
+                EstadoPedidoNegocios.PENDIENTE,
+                cliente.getId(),
+                paqueteria.getId(),
                 listaProductosPedido
         );
         
         
-        Pedido.agregar(pedido);
+        try {
+            Pedido.agregar(pedido);
+        } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException | 
+                ParametroNuloNegocioException | ValorParametroInvalidoNegocioException ex) {
+            
+            throw new PedidosPersistenciaException(ex.getMessage());
+        }
         
         return pedido;
     }

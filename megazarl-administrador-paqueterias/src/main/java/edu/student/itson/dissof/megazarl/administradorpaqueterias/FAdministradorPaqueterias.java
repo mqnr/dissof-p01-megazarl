@@ -8,6 +8,7 @@ import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.Pa
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdPaqueteriaInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasIdSucursalInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.IAdministradorSucursales;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
@@ -69,8 +70,11 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
      * o null si no se encuentra una paquetería con ese ID.
      */
     @Override
-    public PaqueteriaDTONegocios obtenerPaqueteria(IdPaqueteriaDTONegocios idPaqueteriaDTONegocios) {
+    public PaqueteriaDTONegocios obtenerPaqueteria(IdPaqueteriaDTONegocios idPaqueteriaDTONegocios) 
+            throws PaqueteriasPersistenciaException {
+        
         return administradorPaqueterias.obtenerPaqueteria(idPaqueteriaDTONegocios);
+        
     }
 
     /**
@@ -101,7 +105,8 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
     public float obtenerCostoEnvioSucursalMatriz(InformacionEnvioProductoSucursalMatrizDTONegocios informacionEnvioProductoSucursalMatrizDTONegocios)
             throws PaqueteriasIdPaqueteriaInvalidoException,
             PaqueteriasIdSucursalInvalidoException,
-            PaqueteriasIdDireccionInvalidoException{
+            PaqueteriasIdDireccionInvalidoException,
+            PaqueteriasPersistenciaException{
         
         return administradorPaqueterias.obtenerCostoEnvioSucursalMatriz(informacionEnvioProductoSucursalMatrizDTONegocios);
         
@@ -121,7 +126,8 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
     public float obtenerCostoEnvioMatrizCliente(InformacionEnvioProductoMatrizClienteDTONegocios informacionEnvioProductoMatrizClienteDTONegocios) 
             throws PaqueteriasIdPaqueteriaInvalidoException,
             PaqueteriasIdClienteInvalidoException,
-            PaqueteriasIdDireccionInvalidoException{
+            PaqueteriasIdDireccionInvalidoException,
+            PaqueteriasPersistenciaException{
         
         return administradorPaqueterias.obtenerCostoEnvioMatrizCliente(informacionEnvioProductoMatrizClienteDTONegocios);
     }
@@ -139,7 +145,8 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
     public float obtenerCostoEnvioProveedorMatriz(InformacionEnvioProductoProveedorMatrizDTONegocios informacionEnvioProductoProveedorMatrizDTONegocios) 
             throws PaqueteriasIdPaqueteriaInvalidoException,
             PaqueteriasIdProveedorInvalidoException,
-            PaqueteriasIdDireccionInvalidoException{
+            PaqueteriasIdDireccionInvalidoException,
+            PaqueteriasPersistenciaException{
         
         return administradorPaqueterias.obtenerCostoEnvioProveedorMatriz(informacionEnvioProductoProveedorMatrizDTONegocios);
         
@@ -157,7 +164,8 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
     @Override
     public Float obtenerTiempoEnvioMatrizEstimado(IdProveedorDTONegocios idProveedorDTONegocios) 
             throws PaqueteriasIdProveedorInvalidoException, 
-            PaqueteriasIdDireccionInvalidoException {
+            PaqueteriasIdDireccionInvalidoException,
+            PaqueteriasPersistenciaException {
         
         return administradorPaqueterias.obtenerTiempoEnvioMatrizEstimado(idProveedorDTONegocios);
     }
@@ -168,7 +176,7 @@ public class FAdministradorPaqueterias implements IAdministradorPaqueterias{
      * @return true si el ID de la paquetería es válido y existe en el sistema, false en caso contrario.
      */
     @Override
-    public boolean validarPaqueteria(IdPaqueteriaDTONegocios idPaqueteriaDTONegocios) {
+    public boolean validarPaqueteria(IdPaqueteriaDTONegocios idPaqueteriaDTONegocios) throws PaqueteriasPersistenciaException {
         return administradorPaqueterias.validarPaqueteria(idPaqueteriaDTONegocios);
     }
 

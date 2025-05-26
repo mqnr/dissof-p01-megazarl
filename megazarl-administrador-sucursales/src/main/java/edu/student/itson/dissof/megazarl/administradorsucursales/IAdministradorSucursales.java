@@ -2,6 +2,7 @@ package edu.student.itson.dissof.megazarl.administradorsucursales;
 
 import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdDireccionInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesIdSucursalInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorsucursales.excepciones.SucursalesPersistenciaException;
 
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.CodigosSucursalesDTONegocios;
@@ -50,7 +51,8 @@ public interface IAdministradorSucursales {
      */
     public abstract String obtenerCodigoPostal(IdSucursalDTONegocios idSucursalDTONegocios) 
             throws SucursalesIdSucursalInvalidoException,
-            SucursalesIdDireccionInvalidoException;
+            SucursalesIdDireccionInvalidoException,
+            SucursalesPersistenciaException;
 
     /**
      * Método que permite obtener la calle donde se ubica una sucursal específica.
@@ -62,7 +64,8 @@ public interface IAdministradorSucursales {
      */
     public abstract String obtenerCalle(IdSucursalDTONegocios idSucursalDTONegocios)
             throws SucursalesIdSucursalInvalidoException,
-            SucursalesIdDireccionInvalidoException;
+            SucursalesIdDireccionInvalidoException,
+            SucursalesPersistenciaException;
 
     /**
      * Método que permite obtener el número de domicilio de una sucursal específica.
@@ -74,13 +77,14 @@ public interface IAdministradorSucursales {
      */
     public abstract String obtenerNumero(IdSucursalDTONegocios idSucursalDTONegocios) 
             throws SucursalesIdSucursalInvalidoException,
-            SucursalesIdDireccionInvalidoException;
+            SucursalesIdDireccionInvalidoException,
+            SucursalesPersistenciaException;
 
     /**
      * Método que permite obtener un objetoDTO con la información de la sucursal matriz
      * @return Objeto SucursalDTO que contiene la información de la sucursal matriz
      */
-    public abstract SucursalDTONegocios obtenerSucursalMatriz();
+    public abstract SucursalDTONegocios obtenerSucursalMatriz() throws SucursalesPersistenciaException;
 
     /**
      * Método que permite obtener una sucursal específica a partir de su ID.
@@ -88,7 +92,7 @@ public interface IAdministradorSucursales {
      * @param idSucursalDTO Objeto IdSucursalDTO que contiene el ID de la sucursal a obtener.
      * @return Objeto Sucursal que representa la sucursal con el ID especificado.
      */
-    public abstract SucursalDTONegocios obtenerSucursal(IdSucursalDTONegocios idSucursalDTO);
+    public abstract SucursalDTONegocios obtenerSucursal(IdSucursalDTONegocios idSucursalDTO) throws SucursalesPersistenciaException;
     
     /**
      * Método que permite verificar si el ID de una sucursal es válido.
@@ -97,7 +101,8 @@ public interface IAdministradorSucursales {
      * @return true si el ID de la sucursal es válido, false en caso contrario.
      */
 
-    public abstract boolean validarSucursal(IdSucursalDTONegocios idSucursalDTONegocios);
+    public abstract boolean validarSucursal(IdSucursalDTONegocios idSucursalDTONegocios) 
+            throws SucursalesPersistenciaException;
     
     /**
      * Método que permite obtener la lista de todas las sucursales registradas en el sistema.

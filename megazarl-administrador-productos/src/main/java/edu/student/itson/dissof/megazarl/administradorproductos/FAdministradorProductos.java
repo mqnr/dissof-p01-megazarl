@@ -4,6 +4,7 @@ import edu.student.itson.dissof.administradorproveedores.IAdministradorProveedor
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInventarioInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProveedorInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosPersistenciaException;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoInventarioDTONegocios;
@@ -52,7 +53,10 @@ public class FAdministradorProductos implements IAdministradorProductos {
  que el ID del ProductoDTONegocios es inválido, dentro de este subsistema.
      */
     @Override
-    public int cosultarInventarioProducto(IdProductoDTONegocios idProductoDTO) throws ProductosIdProductoInvalidoException {
+    public int cosultarInventarioProducto(IdProductoDTONegocios idProductoDTO) 
+            throws ProductosIdProductoInvalidoException, 
+            ProductosPersistenciaException {
+        
         return administradorProductos.cosultarInventarioProducto(idProductoDTO);
     }
 
@@ -65,7 +69,9 @@ public class FAdministradorProductos implements IAdministradorProductos {
      * @return true si existe un objeto ProductoDTONegocios con el ID del parámetro, false en caso contrario.
      */
     @Override
-    public boolean validarProducto(IdProductoDTONegocios idProductoDTO) {
+    public boolean validarProducto(IdProductoDTONegocios idProductoDTO) 
+            throws ProductosPersistenciaException {
+        
         return  administradorProductos.validarProducto(idProductoDTO);
     }
 
@@ -90,7 +96,8 @@ public class FAdministradorProductos implements IAdministradorProductos {
      * DTOs con la información de los productos a mostrar.
      */
     @Override
-    public List<InformacionProductoInicioDTONegocios> obtenerProductosBusquedaNombreProducto(String nombreProducto) {
+    public List<InformacionProductoInicioDTONegocios> obtenerProductosBusquedaNombreProducto(String nombreProducto) 
+            throws ProductosPersistenciaException {
         return  administradorProductos.obtenerProductosBusquedaNombreProducto(nombreProducto);
     }
 
@@ -105,7 +112,9 @@ public class FAdministradorProductos implements IAdministradorProductos {
      * DTOs con la información de los productos a mostrar.
      */
     @Override
-    public List<InformacionProductoInicioDTONegocios> obtenerProductosBusquedaNombreProductoVariedad(String nombreProducto, String variedadProducto) {
+    public List<InformacionProductoInicioDTONegocios> obtenerProductosBusquedaNombreProductoVariedad(String nombreProducto, String variedadProducto) 
+            throws ProductosPersistenciaException {
+        
         return  administradorProductos.obtenerProductosBusquedaNombreProductoVariedad(nombreProducto, variedadProducto);
     }
     
@@ -122,7 +131,10 @@ public class FAdministradorProductos implements IAdministradorProductos {
     @Override
     public List<InformacionProductoInicioDTONegocios> obtenerProductosBusquedaNombreProductoProveedor(
             String nombreProducto,
-            String proveedorProducto) throws ProductosIdProveedorInvalidoException {
+            String proveedorProducto) 
+            
+            throws ProductosIdProveedorInvalidoException, 
+            ProductosPersistenciaException {
         
         return  administradorProductos.obtenerProductosBusquedaNombreProductoProveedor(nombreProducto, proveedorProducto);
     }
@@ -141,7 +153,9 @@ public class FAdministradorProductos implements IAdministradorProductos {
      */
     @Override
     public InformacionProductoDetalladaDTONegocios obtenerInformacionProductoVenta(IdProductoDTONegocios idProductoDTO)
-            throws ProductosIdProductoInvalidoException {
+            throws ProductosIdProductoInvalidoException, 
+            ProductosPersistenciaException {
+        
         return  administradorProductos.obtenerInformacionProductoVenta(idProductoDTO);
     }
 
@@ -153,12 +167,17 @@ public class FAdministradorProductos implements IAdministradorProductos {
      * @return Objeto de tipo ProductoDTONegocios cuyo ID es igual al ID del parámetro.
      */
     @Override
-    public ProductoDTONegocios obtenerProducto(IdProductoDTONegocios idProductoDTO) {
+    public ProductoDTONegocios obtenerProducto(IdProductoDTONegocios idProductoDTO) 
+            throws ProductosPersistenciaException {
+        
         return administradorProductos.obtenerProducto(idProductoDTO);
     }
 
     @Override
-    public void apartarProductoInventarioPedido(IdProductoInventarioDTONegocios idProductoInventarioDTO) throws ProductosIdProductoInventarioInvalidoException {
+    public void apartarProductoInventarioPedido(IdProductoInventarioDTONegocios idProductoInventarioDTO) 
+            throws ProductosIdProductoInventarioInvalidoException, 
+            ProductosPersistenciaException {
+        
         administradorProductos.apartarProductoInventarioPedido(idProductoInventarioDTO);
     }
     
@@ -173,13 +192,23 @@ public class FAdministradorProductos implements IAdministradorProductos {
      * parámetro, false en caso contrario.
      */
     @Override
-    public boolean validarProductoInventario(IdProductoInventarioDTONegocios idProductoInventarioDTO) {
+    public boolean validarProductoInventario(IdProductoInventarioDTONegocios idProductoInventarioDTO) throws ProductosPersistenciaException {
+        
         return  administradorProductos.validarProductoInventario(idProductoInventarioDTO);
     }
 
     @Override
-    public ProductoInventarioDTONegocios obtenerProductoInventario(IdProductoInventarioDTONegocios idProductoInventario) {
+    public ProductoInventarioDTONegocios obtenerProductoInventario(IdProductoInventarioDTONegocios idProductoInventario) 
+            throws ProductosPersistenciaException {
         return administradorProductos.obtenerProductoInventario(idProductoInventario);
+    }
+
+    @Override
+    public List<ProductoInventarioDTONegocios> obtenerProductosInventarioIdProducto(IdProductoDTONegocios idProductoDTONegocios) 
+            throws ProductosIdProductoInvalidoException, 
+            ProductosPersistenciaException {
+        
+            return administradorProductos.obtenerProductosInventarioIdProducto(idProductoDTONegocios);
     }
 
     

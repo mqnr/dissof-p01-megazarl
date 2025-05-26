@@ -28,9 +28,9 @@
     <module>megazarl-negocios</module>
     <module>megazarl-servicios</module>
     <module>megazarl-administrador-auxiliares-ventas</module>
-    <module>megazarl-administrador-gerente-ventas</module>
     <module>megazarl-dto-datos</module>
     <module>megazarl-administrador-mongodb</module>
+    <module>megazal-datos</module>
   </modules>
 
   <properties>

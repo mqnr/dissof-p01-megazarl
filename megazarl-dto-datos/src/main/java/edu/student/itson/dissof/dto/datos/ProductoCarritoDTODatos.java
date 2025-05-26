@@ -20,11 +20,12 @@ public class ProductoCarritoDTODatos {
      * Objeto ProductoDTO que representa el producto dentro del carrito.
      */
     private IdEntidadGenericoDatos idProducto;
+    
+    private IdEntidadGenericoDatos idCliente;
 
     public ProductoCarritoDTODatos(
             IdEntidadGenericoDatos id, 
             Integer cantidad,
-            CarritoComprasDTODatos carritoCompras,
             IdEntidadGenericoDatos idProducto) {
         
         this.id = id;
@@ -33,12 +34,12 @@ public class ProductoCarritoDTODatos {
 
     }
     
+    
     public ProductoCarritoDTODatos(
-            IdEntidadGenericoDatos id, 
             Integer cantidad,
+            IdEntidadGenericoDatos idCarritoCompras,
             IdEntidadGenericoDatos idProducto) {
         
-        this.id = id;
         this.cantidad = cantidad;
         this.idProducto = idProducto;
 
@@ -64,7 +65,10 @@ public class ProductoCarritoDTODatos {
     public Integer getCantidad() {
         return cantidad;
     }
-    
+
+    public IdEntidadGenericoDatos getIdCliente() {
+        return idCliente;
+    }
     
 
 }

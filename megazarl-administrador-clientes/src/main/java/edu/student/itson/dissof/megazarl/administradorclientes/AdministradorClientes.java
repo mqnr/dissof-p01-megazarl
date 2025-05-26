@@ -5,21 +5,23 @@ import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.Clien
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesCorreoElectronicoYaExisteException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdDireccionInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesTelefonoNuevoClienteYaExisteException;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
-import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesAccesoArchivoCodigosPostalesFallidoException;
-import edu.student.itson.dissof.megazarl.direcciones.excepciones.DireccionesArchivoCodigosPostalesVacioException;
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.IdDireccionDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioActualizadaClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.FormatoIdInvalidoNegocioException;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ParametroNuloNegocioException;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.RegistroInexistenteNegocioException;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ValorParametroInvalidoNegocioException;
 import java.util.List;
 
 
@@ -33,8 +35,12 @@ class AdministradorClientes implements IAdministradorClientes {
     }
 
     @Override
-    public ClienteDTONegocios obtenerCliente(IdClienteDTONegocios idClienteDTO) {
-        return Cliente.recuperarPorId(idClienteDTO);
+    public ClienteDTONegocios obtenerCliente(IdClienteDTONegocios idClienteDTONegocios) throws ClientesPersistenciaException {
+        try {
+            return Cliente.recuperarPorId(idClienteDTONegocios);
+        } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException | ParametroNuloNegocioException ex) {
+            throw new ClientesPersistenciaException(ex.getMessage());
+        }
     }
     
 
@@ -42,7 +48,8 @@ class AdministradorClientes implements IAdministradorClientes {
     public void actualizarDireccionCliente(InformacionDireccionEnvioActualizadaClienteDTONegocios informacionDireccionEnvioActualizadaClienteDTO)
             throws ClientesIdClienteInvalidoException,
             ClientesAccesoArchivoCodigosPostalesFallidoException,
-            ClientesArchivoCodigosPostalesVacioException{
+            ClientesArchivoCodigosPostalesVacioException,
+            ClientesPersistenciaException {
         
         IdEntidadGenericoNegocios idCliente = informacionDireccionEnvioActualizadaClienteDTO.getIdCliente();
         
@@ -57,50 +64,46 @@ class AdministradorClientes implements IAdministradorClientes {
         String nuevaColonia = informacionDireccionEnvioActualizadaClienteDTO.getColonia();
         String nuevoCodigoPostal = informacionDireccionEnvioActualizadaClienteDTO.getCodigoPostal();
         
+        DireccionDTONegocios nuevoDireccionEnvioCliente = new DireccionDTONegocios(
+                                            nuevoCodigoPostal, 
+                                            nuevaColonia, 
+                                            nuevaCalle, 
+                                            nuevoNumero);
+
+        actualizacionClienteDTO.setDireccionEnvio(nuevoDireccionEnvioCliente);
+
         try {
-            DireccionDTONegocios nuevaDireccionCliente = administradorDirecciones.registrarDireccion(new DireccionDTONegocios(
-                    nuevoCodigoPostal, 
-                    nuevaColonia, 
-                    nuevaCalle, 
-                    nuevoNumero));
-            
-            actualizacionClienteDTO.setDireccionEnvio(nuevaDireccionCliente);
-            
             Cliente.actualizar(actualizacionClienteDTO);
+        } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException | 
+                ValorParametroInvalidoNegocioException | ParametroNuloNegocioException ex) {
             
-        
-        } catch (DireccionesAccesoArchivoCodigosPostalesFallidoException ex) {
-            throw new ClientesAccesoArchivoCodigosPostalesFallidoException(ex.getMessage());
-        }
-        catch (DireccionesArchivoCodigosPostalesVacioException ex) {
-            throw new ClientesArchivoCodigosPostalesVacioException(ex.getMessage());
-        }
+            throw new ClientesPersistenciaException(ex.getMessage());
+        }       
+
     }   
     
     @Override
-    public InformacionNoDerivadaCPDireccionDTONegocios obtenerInformacionNoDerivadaCPDireccionEnvio(IdClienteDTONegocios idClienteDTO) 
+    public InformacionNoDerivadaCPDireccionDTONegocios obtenerInformacionNoDerivadaCPDireccionEnvio(IdClienteDTONegocios IdClienteDTONegocios) 
             throws ClientesIdClienteInvalidoException,
-            ClientesIdDireccionInvalidoException{
+            ClientesIdDireccionInvalidoException,
+            ClientesPersistenciaException{
         
-        if(!validarCliente(idClienteDTO)){
+        if(!validarCliente(IdClienteDTONegocios)){
             throw new ClientesIdClienteInvalidoException("El ID de cliente es inválido.");
         }
         
-        ClienteDTONegocios cliente = obtenerCliente(idClienteDTO);
+        ClienteDTONegocios cliente;
+        try {
+            cliente = obtenerCliente(IdClienteDTONegocios);
+        } catch (ClientesPersistenciaException ex) {
+            throw new ClientesPersistenciaException(ex.getMessage());
+        }
         
         if(cliente == null){
             throw new ClientesIdClienteInvalidoException("El ID de cliente es inválido.");
         }
         
-        IdEntidadGenericoNegocios idDireccionEnvioCliente = cliente.getIdDireccionEnvio();
-        
-        IdDireccionDTONegocios idDireccionDTO = new IdDireccionDTONegocios(idDireccionEnvioCliente);
-        
-        if(!administradorDirecciones.validarDireccion(new IdDireccionDTONegocios(idDireccionEnvioCliente))){
-            throw new ClientesIdDireccionInvalidoException("El ID de la dirección de envío del cliente es inválido.");
-        }
-        
-        DireccionDTONegocios direccionEnvioCliente = administradorDirecciones.obtenerDireccion(idDireccionDTO);
+        DireccionDTONegocios direccionEnvioCliente = cliente.getDireccionEnvio();
         
         
 
@@ -115,31 +118,29 @@ class AdministradorClientes implements IAdministradorClientes {
     }
     
     @Override
-    public InformacionDerivadaCPDireccionDTONegocios obtenerInformacionDerivadaCPDireccionEnvio(IdClienteDTONegocios idClienteDTO)
+    public InformacionDerivadaCPDireccionDTONegocios obtenerInformacionDerivadaCPDireccionEnvio(IdClienteDTONegocios idClienteDTONegocios)
             throws ClientesIdClienteInvalidoException,
-            ClientesIdDireccionInvalidoException {
+            ClientesIdDireccionInvalidoException,
+            ClientesPersistenciaException{
         
         
         // Se valida que el ID del cliente.
-        if(!validarCliente(idClienteDTO)){
+        if(!validarCliente(idClienteDTONegocios)){
             throw new ClientesIdClienteInvalidoException("El ID de cliente es inválido.");
         }
         
-        ClienteDTONegocios cliente = obtenerCliente(idClienteDTO);
+        ClienteDTONegocios cliente;
+        try {
+            cliente = obtenerCliente(idClienteDTONegocios);
+        } catch (ClientesPersistenciaException ex) {
+            throw new ClientesPersistenciaException(ex.getMessage());
+        }
         
         if(cliente == null){
             throw new ClientesIdClienteInvalidoException("El ID de cliente es inválido.");
         }
 
-        IdEntidadGenericoNegocios idDireccionEnvioCliente = cliente.getIdDireccionEnvio();
-        
-        IdDireccionDTONegocios idDireccionDTO = new IdDireccionDTONegocios(idDireccionEnvioCliente);
-        
-        if(!administradorDirecciones.validarDireccion(idDireccionDTO)){
-            throw new ClientesIdDireccionInvalidoException("El ID de la dirección del cliente es inválido.");
-        }
-        
-        DireccionDTONegocios direccionEnvioCliente = administradorDirecciones.obtenerDireccion(idDireccionDTO);
+        DireccionDTONegocios direccionEnvioCliente = cliente.getDireccionEnvio();
         
         if(direccionEnvioCliente == null){
             throw new ClientesIdDireccionInvalidoException("El ID de la dirección del cliente es inválido.");
@@ -154,14 +155,15 @@ class AdministradorClientes implements IAdministradorClientes {
     }
 
     @Override
-    public NombresApellidoClienteDTONegocios obtenerNombresApellidoCliente(IdClienteDTONegocios idClienteDTO)
-            throws ClientesIdClienteInvalidoException {
+    public NombresApellidoClienteDTONegocios obtenerNombresApellidoCliente(IdClienteDTONegocios idClienteDTONegocios)
+            throws ClientesIdClienteInvalidoException,
+            ClientesPersistenciaException{
         
-        if(!validarCliente(idClienteDTO)){
+        if(!validarCliente(idClienteDTONegocios)){
             throw new ClientesIdClienteInvalidoException("El ID de cliente es inválido.");
         }
         
-        ClienteDTONegocios cliente = obtenerCliente(idClienteDTO);
+        ClienteDTONegocios cliente = obtenerCliente(idClienteDTONegocios);
         
         if(cliente == null){
             throw new ClientesIdClienteInvalidoException("El ID de cliente es inválido.");
@@ -175,10 +177,14 @@ class AdministradorClientes implements IAdministradorClientes {
     
     
     @Override
-    public boolean validarCliente(IdClienteDTONegocios idClienteDTO) {
+    public boolean validarCliente(IdClienteDTONegocios idClienteDTONegocios) throws ClientesPersistenciaException{
         
-        if (idClienteDTO == null || idClienteDTO.getIdCliente() == null || !Cliente.existePorId(idClienteDTO)) {
-            return false;
+        try {
+            if (idClienteDTONegocios == null || idClienteDTONegocios.getIdCliente() == null || !Cliente.existePorId(idClienteDTONegocios)) {
+                return false;
+            }
+        } catch (ParametroNuloNegocioException | FormatoIdInvalidoNegocioException ex) {
+            throw new ClientesPersistenciaException(ex.getMessage());
         }
         
         return true;
@@ -187,7 +193,8 @@ class AdministradorClientes implements IAdministradorClientes {
     @Override
     public void registrarCliente(ClienteDTONegocios nuevoCliente)
             throws ClientesTelefonoNuevoClienteYaExisteException,
-            ClientesCorreoElectronicoYaExisteException{
+            ClientesCorreoElectronicoYaExisteException,
+            ClientesPersistenciaException{
         
         List<ClienteDTONegocios> clientesRegistrados = Cliente.recuperarTodos();
         
@@ -201,10 +208,13 @@ class AdministradorClientes implements IAdministradorClientes {
                 throw new ClientesCorreoElectronicoYaExisteException("Ya existe un cliente registrado con el mismo correo electrónico");
             }
             
-            
         }
         
-        Cliente.agregar(nuevoCliente);
+        try {
+            Cliente.agregar(nuevoCliente);
+        } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException | ValorParametroInvalidoNegocioException | ParametroNuloNegocioException ex) {
+            throw new ClientesPersistenciaException(ex.getMessage());
+        }
         
     }
 

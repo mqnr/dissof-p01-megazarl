@@ -25,6 +25,8 @@ public class AuxiliarVentasDTODatos {
      * Objeto String que representa el apellido materno del Auxiliar de ventas.
      */
     private String apellidoMaterno;
+    
+    private IdEntidadGenericoDatos idSucursal;
 
     /**
      * Constructor de la clase que recibe valores para todos los atributos.
@@ -32,16 +34,20 @@ public class AuxiliarVentasDTODatos {
      * @param nombres           Objeto String que representa el o lo nombres del Auxiliar de ventas.
      * @param apellidoPaterno   Objeto String que representa el apellido paterno del Auxiliar de ventas.
      * @param apellidoMaterno   Objeto String que representa el apellido materno del Auxiliar de ventas.
+     * @param idSucursal
      */
     public AuxiliarVentasDTODatos(
             IdEntidadGenericoDatos id,
             String nombres,
             String apellidoPaterno, 
-            String apellidoMaterno) {
+            String apellidoMaterno,
+            IdEntidadGenericoDatos idSucursal) {
+        
         this.id = id;
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
+        this.idSucursal = idSucursal;
     }
     
     /**
@@ -98,7 +104,10 @@ public class AuxiliarVentasDTODatos {
     public void setId(IdEntidadGenericoDatos id) {
         this.id = id;
     }
-    
+
+    public IdEntidadGenericoDatos getIdSucursal() {
+        return idSucursal;
+    }
     
     
     

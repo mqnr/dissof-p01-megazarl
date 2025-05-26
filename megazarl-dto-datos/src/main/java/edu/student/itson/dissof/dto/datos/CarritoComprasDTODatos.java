@@ -54,7 +54,16 @@ public class CarritoComprasDTODatos{
         this.idPaqueteria = idPaqueteria;
         this.productosCarrito = productosCarrito;
     }
-    
+
+    public CarritoComprasDTODatos(
+            Boolean esVigente,
+            IdEntidadGenericoDatos idCliente,
+            List<ProductoCarritoDTODatos> productosCarrito) {
+        
+        this.esVigente = esVigente;
+        this.idCliente = idCliente;
+        this.productosCarrito = productosCarrito;
+    }    
 
     public void setIdPaqueteria(IdEntidadGenericoDatos idPaqueteria){
         this.idPaqueteria = idPaqueteria;

@@ -4,6 +4,7 @@ import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.Clien
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesCorreoElectronicoYaExisteException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdDireccionInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesTelefonoNuevoClienteYaExisteException;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTONegocios;
@@ -46,8 +47,9 @@ public class FAdministradorClientes implements IAdministradorClientes{
      * @return true, si el ID del cliente es válido, false en caso contrario.
      */
     @Override
-    public boolean validarCliente(IdClienteDTONegocios idClienteDTO) {
-        return administradorClientes.validarCliente(idClienteDTO);
+    public boolean validarCliente(IdClienteDTONegocios idClienteDTONegocios) throws ClientesPersistenciaException {
+        
+        return administradorClientes.validarCliente(idClienteDTONegocios);
     }
 
     /**
@@ -57,8 +59,8 @@ public class FAdministradorClientes implements IAdministradorClientes{
      * @return Objeto Cliente que representa al cliente con el ID del parémetro.
      */
     @Override
-    public ClienteDTONegocios obtenerCliente(IdClienteDTONegocios idClienteDTO) {
-        return administradorClientes.obtenerCliente(idClienteDTO);
+    public ClienteDTONegocios obtenerCliente(IdClienteDTONegocios idClienteDTONegocios) throws ClientesPersistenciaException {
+        return administradorClientes.obtenerCliente(idClienteDTONegocios);
     }
 
     /**
@@ -73,7 +75,8 @@ public class FAdministradorClientes implements IAdministradorClientes{
     public void actualizarDireccionCliente(InformacionDireccionEnvioActualizadaClienteDTONegocios informacionDireccionEnvioActualizadaClienteDTO) 
             throws ClientesIdClienteInvalidoException,
             ClientesAccesoArchivoCodigosPostalesFallidoException, 
-            ClientesArchivoCodigosPostalesVacioException {
+            ClientesArchivoCodigosPostalesVacioException,
+            ClientesPersistenciaException {
         
         administradorClientes.actualizarDireccionCliente(informacionDireccionEnvioActualizadaClienteDTO);
     }
@@ -88,11 +91,12 @@ public class FAdministradorClientes implements IAdministradorClientes{
      * del Cliente es inválido, en este subsistema.
      */
     @Override
-    public InformacionNoDerivadaCPDireccionDTONegocios obtenerInformacionNoDerivadaCPDireccionEnvio(IdClienteDTONegocios idClienteDTO) 
+    public InformacionNoDerivadaCPDireccionDTONegocios obtenerInformacionNoDerivadaCPDireccionEnvio(IdClienteDTONegocios idClienteDTONegocios) 
             throws ClientesIdClienteInvalidoException,
-            ClientesIdDireccionInvalidoException{
+            ClientesIdDireccionInvalidoException,
+            ClientesPersistenciaException{
         
-        return administradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(idClienteDTO);
+        return administradorClientes.obtenerInformacionNoDerivadaCPDireccionEnvio(idClienteDTONegocios);
         
     }
 
@@ -105,24 +109,29 @@ public class FAdministradorClientes implements IAdministradorClientes{
      * es inválido, en este subsistema.
      */
     @Override
-    public NombresApellidoClienteDTONegocios obtenerNombresApellidoCliente(IdClienteDTONegocios idClienteDTO) throws ClientesIdClienteInvalidoException {
-        return administradorClientes.obtenerNombresApellidoCliente(idClienteDTO);
+    public NombresApellidoClienteDTONegocios obtenerNombresApellidoCliente(IdClienteDTONegocios idClienteDTONegocios)
+            throws ClientesIdClienteInvalidoException, 
+            ClientesPersistenciaException {
+        
+        return administradorClientes.obtenerNombresApellidoCliente(idClienteDTONegocios);
     }
 
     @Override
-    public InformacionDerivadaCPDireccionDTONegocios obtenerInformacionDerivadaCPDireccionEnvio(IdClienteDTONegocios idClienteDTO) 
+    public InformacionDerivadaCPDireccionDTONegocios obtenerInformacionDerivadaCPDireccionEnvio(IdClienteDTONegocios idClienteDTONegocios) 
             throws ClientesIdClienteInvalidoException,
-            ClientesIdDireccionInvalidoException {
+            ClientesIdDireccionInvalidoException,
+            ClientesPersistenciaException {
         
-        return administradorClientes.obtenerInformacionDerivadaCPDireccionEnvio(idClienteDTO);
+        return administradorClientes.obtenerInformacionDerivadaCPDireccionEnvio(idClienteDTONegocios);
         
     }
 
     @Override
-    public void registrarCliente(ClienteDTONegocios clienteDTO) 
+    public void registrarCliente(ClienteDTONegocios clienteDTONegocios) 
             throws ClientesTelefonoNuevoClienteYaExisteException,
-            ClientesCorreoElectronicoYaExisteException{
+            ClientesCorreoElectronicoYaExisteException,
+            ClientesPersistenciaException{
         
-        administradorClientes.registrarCliente(clienteDTO);
+        administradorClientes.registrarCliente(clienteDTONegocios);
     }
 }

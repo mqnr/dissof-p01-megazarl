@@ -11,7 +11,7 @@ public class BotonInformacionProducto extends JButton {
     private final int ANCHO_BOTON;
     private final int MARGEN_VERTICAL_COMPONENTES;
     private final int MARGEN_HORIZONTAL_COMPONENTES;
-    private final Long ID_PRODUCTO;
+    private final Object ID_PRODUCTO;
     private final String DIRECCION_IMAGEN_PRODUCTO;
     private final String NOMBRE_PRODUCTO;
     private final String VARIEDAD_PRODUCTO;
@@ -37,7 +37,7 @@ public class BotonInformacionProducto extends JButton {
             Color colorFondoSeparador,
             int margenVerticalComponentes, 
             int margenHorizontalComponentes, 
-            Long idProducto, 
+            Object idProducto, 
             String direccionImagenProducto,
             String nombreProducto,
             String variedadProducto, 
@@ -242,7 +242,7 @@ public class BotonInformacionProducto extends JButton {
 
     }
 
-    public Long getIdProducto() {
+    public Object getIdProducto() {
         return ID_PRODUCTO;
     }
 }

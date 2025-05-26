@@ -2,26 +2,28 @@
 package edu.student.itson.dissof.megazarl.objetosnegocio.repositorios.mongodb;
 
 import com.mycompany.megazarl.administrador.mongodb.IAdministradorMongodb;
-import com.mycompany.megazarl.administrador.mongodb.excepciones.AgregarInformacionNulaException;
-import com.mycompany.megazarl.administrador.mongodb.excepciones.FormatoInvalidoIdConversionException;
+import com.mycompany.megazarl.administrador.mongodb.excepciones.FormatoIdInvalidoException;
 import com.mycompany.megazarl.administrador.mongodb.excepciones.ParametroNuloException;
 import com.mycompany.megazarl.administrador.mongodb.excepciones.RegistroInexistenteException;
+import com.mycompany.megazarl.administrador.mongodb.excepciones.ValorParametroInvalidoException;
 import edu.student.itson.dissof.dto.datos.ActualizacionCarritoComprasDTODatos;
+import edu.student.itson.dissof.dto.datos.ActualizacionProductoCarritoDTODatos;
 import edu.student.itson.dissof.dto.datos.CarritoComprasDTODatos;
 import edu.student.itson.dissof.dto.datos.IdCarritoComprasDTODatos;
+import edu.student.itson.dissof.dto.datos.IdProductoCarritoDTODatos;
 import edu.student.itson.dissof.dto.datos.ProductoCarritoDTODatos;
 import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenericoDatos;
 import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionCarritoComprasDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionProductoCarritoDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.CarritoComprasDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.CarritoComprasDatosCompletosRelacionesDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.CarritoComprasIdsRelacionesDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdCarritoComprasDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoCarritoDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProductoCarritoDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
-import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.AgregarInformacionNulaNegocioException;
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.FormatoIdInvalidoNegocioException;
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ParametroNuloNegocioException;
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.RegistroInexistenteNegocioException;
+import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ValorParametroInvalidoNegocioException;
 import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioCarritoCompras;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -39,7 +41,7 @@ public class RepositorioCarritoComprasEnMongodb implements RepositorioCarritoCom
     }
     
     @Override
-    public CarritoComprasIdsRelacionesDTONegocios recuperarPorId(IdCarritoComprasDTONegocios idCarritoComprasDTONegocios) 
+    public CarritoComprasDTONegocios recuperarPorId(IdCarritoComprasDTONegocios idCarritoComprasDTONegocios) 
             throws FormatoIdInvalidoNegocioException,
             RegistroInexistenteNegocioException,
             ParametroNuloNegocioException{
@@ -53,23 +55,29 @@ public class RepositorioCarritoComprasEnMongodb implements RepositorioCarritoCom
             
             carritoComprasDTODatos = administradorMongodb.recuperarCarritoComprasPorId(idCarritoComprasDTODatos);
             
-             List<IdEntidadGenericoNegocios> listaIdsProductosCarrito = new LinkedList<>();
+            List<ProductoCarritoDTONegocios> listaProductosCarritoDTONegocios = new LinkedList<>();
         
             for(ProductoCarritoDTODatos productoCarritoDTODatos: carritoComprasDTODatos.getProductosCarrito()){
-                listaIdsProductosCarrito.add(new IdEntidadGenericoNegocios(productoCarritoDTODatos.getIdProducto().getId()));
+                listaProductosCarritoDTONegocios.add(
+                        new ProductoCarritoDTONegocios(
+                                new IdEntidadGenericoNegocios(productoCarritoDTODatos.getIdProducto().getId()),
+                                new IdEntidadGenericoNegocios(productoCarritoDTODatos.getIdProducto().getId()),
+                                productoCarritoDTODatos.getCantidad())
+                        
+                );
             }
 
-            CarritoComprasIdsRelacionesDTONegocios carritoComprasIdsRelacionesDTONegocios 
-                    = new CarritoComprasIdsRelacionesDTONegocios(
+            CarritoComprasDTONegocios carritoComprasDTONegocios 
+                    = new CarritoComprasDTONegocios(
                             new IdEntidadGenericoNegocios(carritoComprasDTODatos.getId().getId()), 
                             carritoComprasDTODatos.getEsVigente(),
                             new IdEntidadGenericoNegocios(carritoComprasDTODatos.getIdCliente().getId()),
                             new IdEntidadGenericoNegocios(carritoComprasDTODatos.getIdPaqueteria().getId()),
-                            listaIdsProductosCarrito);
+                            listaProductosCarritoDTONegocios);
 
-            return carritoComprasIdsRelacionesDTONegocios;
+            return carritoComprasDTONegocios;
         
-        } catch (FormatoInvalidoIdConversionException ex) {
+        } catch (FormatoIdInvalidoException ex) {
             throw new FormatoIdInvalidoNegocioException(ex.getMessage());     
         } catch (RegistroInexistenteException ex) {
             throw new RegistroInexistenteNegocioException(ex.getMessage());
@@ -83,23 +91,29 @@ public class RepositorioCarritoComprasEnMongodb implements RepositorioCarritoCom
 
     @Override
     public boolean existePorId(IdCarritoComprasDTONegocios idCarritoComprasDTONegocios) 
-            throws ParametroNuloException,
-            ParametroNuloException,
-            FormatoInvalidoIdConversionException {
+            throws ParametroNuloNegocioException,
+            FormatoIdInvalidoNegocioException {
         
         IdCarritoComprasDTODatos idCarritoComprasDTODatos = 
                 new IdCarritoComprasDTODatos(
                         new IdEntidadGenericoDatos(idCarritoComprasDTONegocios.getIdCarritoCompras().getId()));
         
-        return administradorMongodb.existeCarritoComprasPorId(idCarritoComprasDTODatos);
+        try {
+            return administradorMongodb.existeCarritoComprasPorId(idCarritoComprasDTODatos);
+        } catch (ParametroNuloException ex) {
+            throw new ParametroNuloNegocioException(ex.getMessage());
+        } catch (FormatoIdInvalidoException ex) {
+            throw new FormatoIdInvalidoNegocioException(ex.getMessage());
+        }
         
     }
     
     @Override
     public CarritoComprasDTONegocios actualizar(ActualizacionCarritoComprasDTONegocios actualizacionCarritoComprasDTONegocios) 
-            throws AgregarInformacionNulaNegocioException,
-            FormatoIdInvalidoNegocioException,
-            RegistroInexistenteNegocioException{
+            throws FormatoIdInvalidoNegocioException,
+            RegistroInexistenteNegocioException,
+            ValorParametroInvalidoNegocioException,
+            ParametroNuloNegocioException{
         
         ActualizacionCarritoComprasDTODatos actualizacionCarritoComprasDTODatos 
                 = new ActualizacionCarritoComprasDTODatos(new IdEntidadGenericoDatos(actualizacionCarritoComprasDTONegocios.getId()));
@@ -113,28 +127,39 @@ public class RepositorioCarritoComprasEnMongodb implements RepositorioCarritoCom
             
             carritoComprasDTODatos = administradorMongodb.actualizarCarritoCompras(actualizacionCarritoComprasDTODatos);
             
-            List<IdEntidadGenericoNegocios> listaIdsProductosCarrito = new LinkedList<>();
+            List<ProductoCarritoDTONegocios> listaProductosCarritoDTONegocios = new LinkedList<>();
         
             for(ProductoCarritoDTODatos productoCarritoDTODatos: carritoComprasDTODatos.getProductosCarrito()){
-                listaIdsProductosCarrito.add(new IdEntidadGenericoNegocios(productoCarritoDTODatos.getIdProducto().getId()));
+                
+                listaProductosCarritoDTONegocios.add(
+                        new ProductoCarritoDTONegocios(
+                                new IdEntidadGenericoNegocios(productoCarritoDTODatos.getIdProducto().getId()),
+                                new IdEntidadGenericoNegocios(productoCarritoDTODatos.getIdProducto().getId()),
+                                productoCarritoDTODatos.getCantidad())
+                        
+                );
+                
             }
-
-            CarritoComprasIdsRelacionesDTONegocios carritoComprasIdsRelacionesDTONegocios 
-                    = new CarritoComprasIdsRelacionesDTONegocios(
-                            new IdEntidadGenericoNegocios(carritoComprasDTODatos.getId()), 
-                            carritoComprasDTODatos.getEsVigente(), 
-                            new IdEntidadGenericoNegocios(carritoComprasDTODatos.getIdCliente().getId()), 
+            
+            CarritoComprasDTONegocios carritoComprasDTONegocios 
+                    = new CarritoComprasDTONegocios(
+                            new IdEntidadGenericoNegocios(carritoComprasDTODatos.getId().getId()), 
+                            carritoComprasDTODatos.getEsVigente(),
+                            new IdEntidadGenericoNegocios(carritoComprasDTODatos.getIdCliente().getId()),
                             new IdEntidadGenericoNegocios(carritoComprasDTODatos.getIdPaqueteria().getId()),
-                            listaIdsProductosCarrito);
+                            listaProductosCarritoDTONegocios);
 
-            return carritoComprasIdsRelacionesDTONegocios;
+
+            return carritoComprasDTONegocios;
         
-        } catch (AgregarInformacionNulaException ex) {
-            throw new AgregarInformacionNulaNegocioException(ex.getMessage());
-        } catch (FormatoInvalidoIdConversionException ex) {
+        } catch (FormatoIdInvalidoException ex) {
             throw new FormatoIdInvalidoNegocioException(ex.getMessage());
         } catch (RegistroInexistenteException ex) {
             throw new RegistroInexistenteNegocioException(ex.getMessage());
+        } catch (ValorParametroInvalidoException ex) {
+            throw new ValorParametroInvalidoNegocioException(ex.getMessage());
+        } catch (ParametroNuloException ex) {
+            throw new ParametroNuloNegocioException(ex.getMessage());
         }
         
         
@@ -143,58 +168,74 @@ public class RepositorioCarritoComprasEnMongodb implements RepositorioCarritoCom
 
     @Override
     public void agregar(CarritoComprasDTONegocios carritoCompras) 
-            throws AgregarInformacionNulaNegocioException, 
-            FormatoIdInvalidoNegocioException, 
-            RegistroInexistenteNegocioException{
+            throws FormatoIdInvalidoNegocioException, 
+            RegistroInexistenteNegocioException,
+            ValorParametroInvalidoNegocioException,
+            ParametroNuloNegocioException{
        
         List<ProductoCarritoDTODatos> listaProductosCarritoDTODatos = new LinkedList<>();
         
-        for(ProductoCarritoDTONegocios productoCarritoDTONegocios: 
-                ((CarritoComprasDatosCompletosRelacionesDTONegocios)carritoCompras).getProductosCarrito()){
+        for(ProductoCarritoDTONegocios productoCarritoDTONegocios: carritoCompras.getProductosCarrito()){
         
             listaProductosCarritoDTODatos.add(
                     new ProductoCarritoDTODatos(
                             productoCarritoDTONegocios.getCantidad(),
-                            new IdEntidadGenericoDatos(productoCarritoDTONegocios.getIdProducto())));   
+                            new IdEntidadGenericoDatos(productoCarritoDTONegocios.getId().getId())));
             
         }
         
-        CarritoComprasDTODatos carritoComprasDTODatos = new CarritoComprasDTODatos(
+        CarritoComprasDTODatos carritoComprasDTODatos;
+        if(carritoCompras.getIdPaqueteria() == null){
+            
+            carritoComprasDTODatos = new CarritoComprasDTODatos(
+                carritoCompras.getEsVigente(), 
+                new IdEntidadGenericoDatos(carritoCompras.getIdCliente().getId()),
+                listaProductosCarritoDTODatos);
+            
+        } else{
+            carritoComprasDTODatos = new CarritoComprasDTODatos(
                 carritoCompras.getEsVigente(), 
                 new IdEntidadGenericoDatos(carritoCompras.getIdCliente().getId()),
                 new IdEntidadGenericoDatos(carritoCompras.getIdPaqueteria().getId()), 
                 listaProductosCarritoDTODatos);
+        }
+        
+        
+        
         
         try {
             administradorMongodb.agregarCarritoCompras(carritoComprasDTODatos);
-        } catch (AgregarInformacionNulaException ex) {
-            throw new AgregarInformacionNulaNegocioException(ex.getMessage());
-        } catch (FormatoInvalidoIdConversionException ex) {
+        } catch (FormatoIdInvalidoException ex) {
             throw new FormatoIdInvalidoNegocioException(ex.getMessage());
         } catch (RegistroInexistenteException ex) {
             throw new RegistroInexistenteNegocioException(ex.getMessage());
+        } catch (ValorParametroInvalidoException ex) {
+            throw new ValorParametroInvalidoNegocioException(ex.getMessage());
+        } catch (ParametroNuloException ex) {
+            throw new ParametroNuloNegocioException(ex.getMessage());
         }
         
     }
 
     @Override
     public void agregar(Collection<CarritoComprasDTONegocios> carritosCompras) 
-            throws AgregarInformacionNulaNegocioException,
-            FormatoIdInvalidoNegocioException, 
-            RegistroInexistenteNegocioException{
+            throws FormatoIdInvalidoNegocioException, 
+            RegistroInexistenteNegocioException,
+            ParametroNuloNegocioException,
+            ValorParametroInvalidoNegocioException{
         
         List<CarritoComprasDTODatos> listaCarritosCompraAgregar = new LinkedList<>();
         
         for(CarritoComprasDTONegocios carritoCompras: carritosCompras){
+            
             List<ProductoCarritoDTODatos> listaProductosCarritoDTODatos = new LinkedList<>();
-
-            for(ProductoCarritoDTONegocios productoCarritoDTONegocios: 
-                    ((CarritoComprasDatosCompletosRelacionesDTONegocios)carritoCompras).getProductosCarrito()){
+        
+            for(ProductoCarritoDTONegocios productoCarritoDTONegocios: carritoCompras.getProductosCarrito()){
 
                 listaProductosCarritoDTODatos.add(
                         new ProductoCarritoDTODatos(
                                 productoCarritoDTONegocios.getCantidad(),
-                                new IdEntidadGenericoDatos(productoCarritoDTONegocios.getIdProducto())));   
+                                new IdEntidadGenericoDatos(productoCarritoDTONegocios.getId().getId())));
 
             }
 
@@ -210,12 +251,14 @@ public class RepositorioCarritoComprasEnMongodb implements RepositorioCarritoCom
         
         try {
             administradorMongodb.agregarColeccionCarritosCompra(listaCarritosCompraAgregar);
-        } catch (AgregarInformacionNulaException ex) {
-            throw new AgregarInformacionNulaNegocioException(ex.getMessage());
-        } catch (FormatoInvalidoIdConversionException ex) {
+        } catch (FormatoIdInvalidoException ex) {
             throw new FormatoIdInvalidoNegocioException(ex.getMessage());
         } catch (RegistroInexistenteException ex) {
             throw new RegistroInexistenteNegocioException(ex.getMessage());
+        } catch (ParametroNuloException ex) {
+            throw new ParametroNuloNegocioException(ex.getMessage());
+        } catch (ValorParametroInvalidoException ex) {
+            throw new ValorParametroInvalidoNegocioException(ex.getMessage());
         }
             
     }
@@ -229,24 +272,217 @@ public class RepositorioCarritoComprasEnMongodb implements RepositorioCarritoCom
         
         for(CarritoComprasDTODatos carritoComprasDTODatos: listaCarritosComprasDTODatos){
             
-            List<IdEntidadGenericoNegocios> listaIdsProductosCarrito = new LinkedList<>();
+            List<ProductoCarritoDTONegocios> listaProductosCarritoDTONegocios = new LinkedList<>();
         
             for(ProductoCarritoDTODatos productoCarritoDTODatos: carritoComprasDTODatos.getProductosCarrito()){
-                listaIdsProductosCarrito.add(new IdEntidadGenericoNegocios(productoCarritoDTODatos.getIdProducto().getId()));
+                
+                listaProductosCarritoDTONegocios.add(
+                        new ProductoCarritoDTONegocios(
+                                new IdEntidadGenericoNegocios(productoCarritoDTODatos.getIdProducto().getId()),
+                                new IdEntidadGenericoNegocios(productoCarritoDTODatos.getIdProducto().getId()),
+                                productoCarritoDTODatos.getCantidad())
+                        
+                );
             }
         
-            listaCarritosComprasDTONegocios.add(
-                    new CarritoComprasIdsRelacionesDTONegocios(
-                            new IdEntidadGenericoNegocios(carritoComprasDTODatos.getId().getId()),
+            CarritoComprasDTONegocios carritoComprasDTONegocios 
+                    = new CarritoComprasDTONegocios(
+                            new IdEntidadGenericoNegocios(carritoComprasDTODatos.getId().getId()), 
                             carritoComprasDTODatos.getEsVigente(),
                             new IdEntidadGenericoNegocios(carritoComprasDTODatos.getIdCliente().getId()),
-                            carritoComprasDTODatos.getIdPaqueteria() == null ? null : new IdEntidadGenericoNegocios(carritoComprasDTODatos.getIdPaqueteria().getId()),
-                            listaIdsProductosCarrito
-            ));
+                            carritoComprasDTODatos.getIdPaqueteria() != null ? new IdEntidadGenericoNegocios(carritoComprasDTODatos.getIdPaqueteria().getId()): null,
+                            listaProductosCarritoDTONegocios);
+            
+            listaCarritosComprasDTONegocios.add(carritoComprasDTONegocios);
             
         }
         
         return listaCarritosComprasDTONegocios;
+        
+    }
+
+    @Override
+    public ProductoCarritoDTONegocios recuperarProductoCarritoPorId(IdProductoCarritoDTONegocios idProductoCarritoDTONegocios) 
+            throws RegistroInexistenteNegocioException, 
+            ParametroNuloNegocioException, 
+            FormatoIdInvalidoNegocioException {
+        
+        
+        IdProductoCarritoDTODatos idProductoCarritoDTODatos 
+                = new IdProductoCarritoDTODatos(new IdEntidadGenericoDatos(idProductoCarritoDTONegocios.getIdProductoCarrito().getId()));
+
+        
+        ProductoCarritoDTODatos productoCarritoDTODatos;
+        try {
+            productoCarritoDTODatos = administradorMongodb.recuperarProductoCarritoPorId(idProductoCarritoDTODatos);
+        } catch (RegistroInexistenteException ex) {
+            throw new RegistroInexistenteNegocioException(ex.getMessage());
+        } catch (ParametroNuloException ex) {
+            throw new ParametroNuloNegocioException(ex.getMessage());
+        } catch (FormatoIdInvalidoException ex) {
+            throw new FormatoIdInvalidoNegocioException(ex.getMessage());
+        }
+        
+        ProductoCarritoDTONegocios productoCarritoDTONegocios = new ProductoCarritoDTONegocios(
+                new IdEntidadGenericoNegocios(productoCarritoDTODatos.getId().getId()),
+                 new IdEntidadGenericoNegocios(productoCarritoDTODatos.getIdProducto().getId()),
+                productoCarritoDTODatos.getCantidad());
+        
+        return productoCarritoDTONegocios;
+        
+    }
+
+    @Override
+    public boolean existeProductoCarritoPorId(IdProductoCarritoDTONegocios idProductoCarritoDTONegocios) 
+            throws ParametroNuloNegocioException,
+            FormatoIdInvalidoNegocioException {
+        
+        IdProductoCarritoDTODatos idProductoCarritoDTODatos 
+                = new IdProductoCarritoDTODatos(new IdEntidadGenericoDatos(idProductoCarritoDTONegocios.getIdProductoCarrito().getId()));
+        
+        try {
+            return administradorMongodb.existeProductoCarritoPorId(idProductoCarritoDTODatos);
+        } catch (ParametroNuloException ex) {
+            throw new ParametroNuloNegocioException(ex.getMessage());
+        } catch (FormatoIdInvalidoException ex) {
+            throw new FormatoIdInvalidoNegocioException(ex.getMessage());
+        }
+        
+    }
+
+    @Override
+    public ProductoCarritoDTONegocios actualizarProductoCarrito(ActualizacionProductoCarritoDTONegocios actualizacionProductoCarritoDTONegocios) 
+            throws RegistroInexistenteNegocioException, 
+            ParametroNuloNegocioException,
+            FormatoIdInvalidoNegocioException,
+            ValorParametroInvalidoNegocioException {
+        
+        ActualizacionProductoCarritoDTODatos actualizacionProductoCarritoDTODatos 
+                = new ActualizacionProductoCarritoDTODatos(
+                        new IdEntidadGenericoDatos(actualizacionProductoCarritoDTONegocios.getId()));
+        
+        actualizacionProductoCarritoDTODatos.setCantidad(actualizacionProductoCarritoDTONegocios.getCantidad());
+        
+        try {
+            ProductoCarritoDTODatos productoCarritoDTODatos = administradorMongodb.actualizarProductoCarrito(actualizacionProductoCarritoDTODatos);
+            
+            ProductoCarritoDTONegocios productoCarritoDTONegocios =  new ProductoCarritoDTONegocios(
+                    new IdEntidadGenericoNegocios(productoCarritoDTODatos.getId().getId()),
+                    new IdEntidadGenericoNegocios(productoCarritoDTODatos.getIdProducto().getId()),
+                    productoCarritoDTODatos.getCantidad()
+            );
+            
+            return productoCarritoDTONegocios;
+            
+            
+        } catch (RegistroInexistenteException ex) {
+            throw new RegistroInexistenteNegocioException(ex.getMessage());
+        } catch (ParametroNuloException ex) {
+            throw new ParametroNuloNegocioException(ex.getMessage());
+        } catch (FormatoIdInvalidoException ex) {
+            throw new FormatoIdInvalidoNegocioException(ex.getMessage());
+        } catch (ValorParametroInvalidoException ex) {
+            throw new ValorParametroInvalidoNegocioException(ex.getMessage());
+        }
+        
+    }
+
+    @Override
+    public void removerProductoCarritoPorId(IdProductoCarritoDTONegocios idProdutoCarritoDTONegocios) 
+            throws ParametroNuloNegocioException, 
+            FormatoIdInvalidoNegocioException {
+        
+        IdProductoCarritoDTODatos idProductoCarritoDTODatos = new IdProductoCarritoDTODatos(
+                new IdEntidadGenericoDatos(idProdutoCarritoDTONegocios.getIdProductoCarrito().getId())
+        );
+        
+        try {
+            administradorMongodb.removerProductoCarritoPorId(idProductoCarritoDTODatos);
+        } catch (ParametroNuloException ex) {
+            throw new ParametroNuloNegocioException(ex.getMessage());
+        } catch (FormatoIdInvalidoException ex) {
+            throw new FormatoIdInvalidoNegocioException(ex.getMessage());
+        }
+       
+    }
+
+    @Override
+    public void agregarProductoCarrito(ProductoCarritoDTONegocios nuevoProductoCarritoNegocios) 
+            throws ParametroNuloNegocioException,
+            RegistroInexistenteNegocioException, 
+            FormatoIdInvalidoNegocioException {
+        
+        
+        ProductoCarritoDTODatos productoCarritoDTODatos = 
+                new ProductoCarritoDTODatos(
+                        new IdEntidadGenericoDatos(nuevoProductoCarritoNegocios.getIdProducto().getId()),
+                        nuevoProductoCarritoNegocios.getCantidad(),
+                        new IdEntidadGenericoDatos(nuevoProductoCarritoNegocios.getIdCliente().getId()));
+        
+        try {
+            administradorMongodb.agregarProductoCarrito(productoCarritoDTODatos);
+        } catch (ParametroNuloException ex) {
+            throw new ParametroNuloNegocioException(ex.getMessage());
+        } catch (RegistroInexistenteException ex) {
+            throw new RegistroInexistenteNegocioException(ex.getMessage());
+        } catch (FormatoIdInvalidoException ex) {
+            throw new FormatoIdInvalidoNegocioException(ex.getMessage());
+        }
+
+    }
+
+    @Override
+    public void agregarProductosCarrito(Collection<ProductoCarritoDTONegocios> nuevosProductosCarrito) 
+            throws ParametroNuloNegocioException, 
+            RegistroInexistenteNegocioException, 
+            FormatoIdInvalidoNegocioException {
+        
+        
+        List<ProductoCarritoDTODatos> listaProductosCarritoDTODatos = new LinkedList<>();
+        
+        for(ProductoCarritoDTONegocios productoCarritoDTONegocios: nuevosProductosCarrito){
+            
+            ProductoCarritoDTODatos productoCarritoDTODatos = 
+                new ProductoCarritoDTODatos(
+                        new IdEntidadGenericoDatos(productoCarritoDTONegocios.getIdProducto().getId()),
+                        productoCarritoDTONegocios.getCantidad(),
+                        new IdEntidadGenericoDatos(productoCarritoDTONegocios.getIdCliente().getId()));
+            
+            listaProductosCarritoDTODatos.add(productoCarritoDTODatos);
+            
+        }
+        
+        try {
+            administradorMongodb.agregarProductosCarrito(listaProductosCarritoDTODatos);
+        } catch (ParametroNuloException ex) {
+            throw new ParametroNuloNegocioException(ex.getMessage());
+        } catch (RegistroInexistenteException ex) {
+            throw new RegistroInexistenteNegocioException(ex.getMessage());
+        } catch (FormatoIdInvalidoException ex) {
+            throw new FormatoIdInvalidoNegocioException(ex.getMessage());
+        }
+        
+     
+    }
+
+    @Override
+    public List<ProductoCarritoDTONegocios> recuperarTodosProductosCarrito() {
+        
+        List<ProductoCarritoDTODatos> listaProductosCarritoDTODatos = administradorMongodb.recuperarTodosProductosCarrito();
+        
+        List<ProductoCarritoDTONegocios> listaProductosCarritoDTONegocios = new LinkedList<>();
+        
+        for(ProductoCarritoDTODatos productoCarritoDTODatos: listaProductosCarritoDTODatos){
+            
+            ProductoCarritoDTONegocios productoCarritoDTONegocios = new ProductoCarritoDTONegocios(
+                new IdEntidadGenericoNegocios(productoCarritoDTODatos.getId().getId()),
+                 new IdEntidadGenericoNegocios(productoCarritoDTODatos.getIdProducto().getId()),
+                productoCarritoDTODatos.getCantidad());
+            
+            listaProductosCarritoDTONegocios.add(productoCarritoDTONegocios);
+        }
+        
+        return listaProductosCarritoDTONegocios;
         
     }
     

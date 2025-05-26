@@ -1,6 +1,7 @@
 package edu.student.itson.dissof.megazarl.administradorpedidos;
 
 
+import edu.student.itson.dissof.megazarl.administradorpaqueterias.excepciones.PaqueteriasPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdClienteInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdDireccionInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdPaqueteriaInvalidoException;
@@ -8,6 +9,7 @@ import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.Pedido
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProductoInventarioInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdProveedorInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosIdSucursalInvalidoException;
+import edu.student.itson.dissof.megazarl.administradorpedidos.excepciones.PedidosPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorproductos.excepciones.ProductosIdProductoInvalidoException;
 import edu.student.itson.dissof.megazarl.dto.negocios.PedidoDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdProductoCantidadCarritoDTONegocios;
@@ -56,7 +58,9 @@ public interface IAdministradorPedidos {
             PedidosIdProveedorInvalidoException,
             PedidosIdProductoInventarioInvalidoException,
             PedidosIdDireccionInvalidoException,
-            PedidosIdSucursalInvalidoException;
+            PedidosIdSucursalInvalidoException,
+            PedidosPersistenciaException,
+            PaqueteriasPersistenciaException;
     
     /**
      * Método que permite obtener el costot total del envío de productos tomando en cuenta una Paquetería.
@@ -81,7 +85,9 @@ public interface IAdministradorPedidos {
             PedidosIdSucursalInvalidoException,
             PedidosIdProveedorInvalidoException,
             PedidosIdDireccionInvalidoException,
-            PedidosIdProductoInventarioInvalidoException;
+            PedidosIdProductoInventarioInvalidoException,
+            PedidosPersistenciaException,
+            PedidosIdProductoInvalidoException;
 
     /**
      * Método que permite realizar un pedido con los productos especificados,
@@ -105,5 +111,6 @@ public interface IAdministradorPedidos {
             ProductosIdProductoInvalidoException,
             PedidosIdProductoInventarioInvalidoException,
             PedidosIdSucursalInvalidoException,
-            PedidosIdDireccionInvalidoException;
+            PedidosIdDireccionInvalidoException,
+            PedidosPersistenciaException;
 }

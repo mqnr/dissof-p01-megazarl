@@ -18,14 +18,21 @@ public class Proveedor {
     
     private Direccion direccion;
 
-    public Proveedor() {
-    }
+    public Proveedor() {}
 
-    public Proveedor(String nombre, String telefono, String direccionImagen, Direccion direccion) {
+    public Proveedor(
+            String nombre,
+            String telefono,
+            String correoElectronico,
+            String direccionImagen,
+            Direccion direccion) {
+        
         this.nombre = nombre;
         this.telefono = telefono;
+        this.correoElectronico = correoElectronico;
         this.direccionImagen = direccionImagen;
         this.direccion = direccion;
+        
     }
 
     public ObjectId getId() {

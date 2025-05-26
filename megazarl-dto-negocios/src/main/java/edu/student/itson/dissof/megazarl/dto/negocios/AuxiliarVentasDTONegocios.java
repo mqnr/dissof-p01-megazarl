@@ -1,13 +1,15 @@
 
 package edu.student.itson.dissof.megazarl.dto.negocios;
 
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
+
 
 public class AuxiliarVentasDTONegocios {
     
     /**
      * Objeto Long que representa el ID del Auxiliar de ventas.
      */
-    private Long id;
+    private IdEntidadGenericoNegocios id;
     
     /**
      * Objeto String que representa el o lo nombres del Auxiliar de ventas.
@@ -26,16 +28,17 @@ public class AuxiliarVentasDTONegocios {
 
     /**
      * Constructor de la clase que recibe valores para todos los atributos.
-     * @param id                Objeto Long que representa el ID del Auxiliar de ventas.
+     * @param id                Objeto IdEntidadGenericoNegocios que representa el ID del Auxiliar de ventas.
      * @param nombres           Objeto String que representa el o lo nombres del Auxiliar de ventas.
      * @param apellidoPaterno   Objeto String que representa el apellido paterno del Auxiliar de ventas.
      * @param apellidoMaterno   Objeto String que representa el apellido materno del Auxiliar de ventas.
      */
     public AuxiliarVentasDTONegocios(
-            Long id,
+            IdEntidadGenericoNegocios id,
             String nombres,
             String apellidoPaterno, 
             String apellidoMaterno) {
+        
         this.id = id;
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
@@ -59,9 +62,9 @@ public class AuxiliarVentasDTONegocios {
 
     /**
      * Método que permite obtener el ID del Auxiliar de ventas.
-     * @return Objeto Long que representa el ID del Auxiliar de ventas.
+     * @return Objeto IdEntidadGenericoNegocios que representa el ID del Auxiliar de ventas.
      */
-    public Long getId() {
+    public IdEntidadGenericoNegocios getId() {
         return id;
     }
 
@@ -91,9 +94,9 @@ public class AuxiliarVentasDTONegocios {
 
     /**
      * Método que permite establecer el ID del Auxiliar de ventas.
-     * @param id Objeto Long que representa el nuevo ID del Auxiliar de ventas.
+     * @param id Objeto IdEntidadGenericoNegocios que representa el nuevo ID del Auxiliar de ventas.
      */
-    public void setId(Long id) {
+    public void setId(IdEntidadGenericoNegocios id) {
         this.id = id;
     }
     

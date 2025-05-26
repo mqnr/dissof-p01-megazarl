@@ -4,21 +4,31 @@ package edu.student.itson.dissof.megazarl.dto.negocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 
 
-public abstract class ProductoPedidoDTONegocios {
+public class ProductoPedidoDTONegocios {
     
-    protected IdEntidadGenericoNegocios id;
+    private IdEntidadGenericoNegocios id;
     
-    protected Integer cantidadRequerida; 
+    private IdEntidadGenericoNegocios idProducto;
+    
+    private IdEntidadGenericoNegocios idPedido;
+    
+    private Integer cantidadRequerida; 
 
     public ProductoPedidoDTONegocios(
             IdEntidadGenericoNegocios id,
+            IdEntidadGenericoNegocios idProducto,
             Integer cantidadRequerida) {
+        
         this.id = id;
+        this.idProducto = idProducto;
         this.cantidadRequerida = cantidadRequerida;
     }
     
     public ProductoPedidoDTONegocios(
+            IdEntidadGenericoNegocios idProducto,
             Integer cantidadRequerida) {
+        
+        this.idProducto = idProducto;
         this.cantidadRequerida = cantidadRequerida;
     }
 
@@ -33,12 +43,13 @@ public abstract class ProductoPedidoDTONegocios {
     public void setId(IdEntidadGenericoNegocios id) {
         this.id = id;
     }
-    
-    public abstract IdEntidadGenericoNegocios getIdProducto();
-    
-    public abstract IdEntidadGenericoNegocios getIdPedido();
 
+    public IdEntidadGenericoNegocios getIdProducto() {
+        return idProducto;
+    }
     
-
+    public IdEntidadGenericoNegocios getIdPedido() {
+        return idPedido;
+    }
     
 }
