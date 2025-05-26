@@ -7,6 +7,7 @@ import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.Clien
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesIdDireccionInvalidoException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesTelefonoNuevoClienteYaExisteException;
+import edu.student.itson.dissof.megazarl.administradorclientes.utils.HashesUtils;
 import edu.student.itson.dissof.megazarl.direcciones.IAdministradorDirecciones;
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
@@ -16,6 +17,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioA
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.NuevoClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.FormatoIdInvalidoNegocioException;
@@ -23,16 +25,23 @@ import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ParametroNul
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.RegistroInexistenteNegocioException;
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ValorParametroInvalidoNegocioException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
 class AdministradorClientes implements IAdministradorClientes {
 
+    private final String MENSAJE_TELEFONO_DUPLICADO = "Ya existe un cliente registrado con el mismo teléfono";
+    private final String MENSAJE_CORREO_ELECTRONICO_DUPLICADO = "Ya existe un cliente registrado con el mismo correo electrónico";
+    
+    
     private final IAdministradorDirecciones administradorDirecciones;
     
     public AdministradorClientes(IAdministradorDirecciones administradorDirecciones){
         this.administradorDirecciones = administradorDirecciones;
     }
+    
 
     @Override
     public ClienteDTONegocios obtenerCliente(IdClienteDTONegocios idClienteDTONegocios) throws ClientesPersistenciaException {
@@ -191,32 +200,45 @@ class AdministradorClientes implements IAdministradorClientes {
     }
 
     @Override
-    public void registrarCliente(ClienteDTONegocios nuevoCliente)
+    public void registrarCliente(NuevoClienteDTONegocios nuevoClienteDTONegocios)
             throws ClientesTelefonoNuevoClienteYaExisteException,
             ClientesCorreoElectronicoYaExisteException,
             ClientesPersistenciaException{
         
         List<ClienteDTONegocios> clientesRegistrados = Cliente.recuperarTodos();
         
+        String hashContrasenia = null;
+        
         for(ClienteDTONegocios cliente: clientesRegistrados){
             
-            if(cliente.getTelefono().equals(nuevoCliente.getTelefono())){
-                throw new ClientesTelefonoNuevoClienteYaExisteException("Ya existe un cliente registrado con el mismo teléfono");
+            if(cliente.getTelefono().equals(nuevoClienteDTONegocios.getTelefono())){
+                throw new ClientesTelefonoNuevoClienteYaExisteException(MENSAJE_TELEFONO_DUPLICADO);
             }
             
-            if(cliente.getCorreoElectronico().equals(nuevoCliente.getCorreoElectronico())){
-                throw new ClientesCorreoElectronicoYaExisteException("Ya existe un cliente registrado con el mismo correo electrónico");
+            if(cliente.getCorreoElectronico().equals(nuevoClienteDTONegocios.getCorreoElectronico())){
+                throw new ClientesCorreoElectronicoYaExisteException(MENSAJE_CORREO_ELECTRONICO_DUPLICADO);
             }
+            
             
         }
         
+        hashContrasenia = HashesUtils.hashearContrasenia(nuevoClienteDTONegocios.getContrasenia());
+        
+        ClienteDTONegocios clienteDTONegocios = new ClienteDTONegocios(
+                    nuevoClienteDTONegocios.getNombres(), 
+                    nuevoClienteDTONegocios.getApellidoPaterno(),
+                    nuevoClienteDTONegocios.getApellidoMaterno(),
+                    nuevoClienteDTONegocios.getTelefono(),
+                    nuevoClienteDTONegocios.getCorreoElectronico(),
+                    hashContrasenia);
+       
         try {
-            Cliente.agregar(nuevoCliente);
+            
+            Cliente.agregar(clienteDTONegocios);
+            
         } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException | ValorParametroInvalidoNegocioException | ParametroNuloNegocioException ex) {
             throw new ClientesPersistenciaException(ex.getMessage());
         }
         
     }
-
-
 }

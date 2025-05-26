@@ -54,7 +54,15 @@ public class ClienteDTONegocios{
      */
     private String correoElectronico;
     
+    /**
+     * Objeto DireccionDTONegocios que representa la dirección de envío de cliente.
+     */
     private DireccionDTONegocios direccionEnvio;
+    
+    /**
+     * Objeto String que representa el hash de la contraseña del usuario.
+     */
+    private String hashContrasenia;
 
     /**
      * Consutructor que permite instanciar un objeto de tipo ClienteDTO, que recibe
@@ -65,7 +73,7 @@ public class ClienteDTONegocios{
      * @param apellidoMaterno       Objeto String que representa el apellido materno del cliente.
      * @param telefono              Objeto String que representa el telefono del cliente.
      * @param correoElectronico     Objeto String que representa el correo electrónico del cliente.
-     * @param direccionEnvio
+     * @param direccionEnvio        Objeto DireccionDTONegocios que representa el correo electrónico del cliente.
      */
     public ClienteDTONegocios(
             IdEntidadGenericoNegocios id,
@@ -80,17 +88,19 @@ public class ClienteDTONegocios{
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
+        this.telefono = telefono;
+        this.correoElectronico = correoElectronico;
         this.direccionEnvio = direccionEnvio;
     }
     
     /**
-     * Consutructor que permite instanciar un objeto de tipo ClienteDTO.
+     * Consutructor que permite instanciar un objeto sin ID.
      * @param nombres               Objeto String que representa los nombres del cliente.
      * @param apellidoPaterno       Objeto String que representa el apellido paterno del cliente.
      * @param apellidoMaterno       Objeto String que representa el apellido materno del cliente.
      * @param telefono              Objeto String que representa el telefono del cliente.
      * @param correoElectronico     Objeto String que representa el correo electrónico del cliente.
-     * @param direccion
+     * @param direccionEnvio        Objeto DireccionDTONegocios que representa el correo electrónico del cliente.
      */
     public ClienteDTONegocios(
             String nombres,
@@ -106,6 +116,32 @@ public class ClienteDTONegocios{
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
         this.direccionEnvio = direccionEnvio;
+    }
+    
+    /**
+     * Consutructor que permite instanciar un objeto sin ID, direccion y con hash de contraseña.
+     * @param nombres               Objeto String que representa los nombres del cliente.
+     * @param apellidoPaterno       Objeto String que representa el apellido paterno del cliente.
+     * @param apellidoMaterno       Objeto String que representa el apellido materno del cliente.
+     * @param telefono              Objeto String que representa el telefono del cliente.
+     * @param correoElectronico     Objeto String que representa el correo electrónico del cliente.
+     * @param hashContrasenia       Objeto String que representa el hash de la contraseña del cliente.
+     * 
+     */
+    public ClienteDTONegocios(
+            String nombres,
+            String apellidoPaterno, 
+            String apellidoMaterno,
+            String telefono, 
+            String correoElectronico,
+            String hashContrasenia) {
+        
+        this.nombres = nombres;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.telefono = telefono;
+        this.correoElectronico = correoElectronico;
+        this.hashContrasenia = hashContrasenia;
     }
 
     /**
@@ -164,42 +200,22 @@ public class ClienteDTONegocios{
         this.id = id;
     }
 
+    /**
+     * Método que permite obtener la dirección de envío del cliente.
+     * @return  Objeto DireccionDTONegocios que representa la dirección de envío del cliente.
+     */
     public DireccionDTONegocios getDireccionEnvio() {
         return direccionEnvio;
     }
-    
-    
 
     /**
-     * Método que permite obtener el hash code del cliente, a partir de su ID.
-     * @return Dato int que representa el hash code del cliente.
+     * Método que permite obtener el hash de la contraseña del cliente.
+     * @return Objeto String que representa el hash de la contraseña del cliente.
      */
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 79 * hash + Objects.hashCode(this.id);
-        return hash;
+    public String getHashContrasenia() {
+        return hashContrasenia;
     }
-
-    /**
-     * Método que permite verificar si el objeto del parámetro es igual 
-     * a este cliente, basándose en su ID.
-     * @param obj Objeto a determinar si es igual a este cliente.
-     * @return Dato boolean, true si el objeto es igual al cliente, false en
-     * caso contrario.
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final ClienteDTONegocios other = (ClienteDTONegocios) obj;
-        return Objects.equals(this.id, other.id);
-    }
+    
+    
+    
 }

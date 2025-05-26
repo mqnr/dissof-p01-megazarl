@@ -13,6 +13,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDirec
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioActualizadaClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.NuevoClienteDTONegocios;
 
 /**
  * FAdministradorClientes.java
@@ -127,11 +128,11 @@ public class FAdministradorClientes implements IAdministradorClientes{
     }
 
     @Override
-    public void registrarCliente(ClienteDTONegocios clienteDTONegocios) 
+    public void registrarCliente(NuevoClienteDTONegocios nuevoClienteDTONegocios) 
             throws ClientesTelefonoNuevoClienteYaExisteException,
             ClientesCorreoElectronicoYaExisteException,
             ClientesPersistenciaException{
         
-        administradorClientes.registrarCliente(clienteDTONegocios);
+        administradorClientes.registrarCliente(nuevoClienteDTONegocios);
     }
 }

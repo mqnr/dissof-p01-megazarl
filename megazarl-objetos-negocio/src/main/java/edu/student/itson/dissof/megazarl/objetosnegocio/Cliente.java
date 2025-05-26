@@ -5,6 +5,7 @@ import edu.student.itson.dissof.megazarl.configuracion.ConfiguracionApp;
 import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.NuevoClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.FormatoIdInvalidoNegocioException;
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ParametroNuloNegocioException;
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.RegistroInexistenteNegocioException;
@@ -50,13 +51,13 @@ public class Cliente {
         return repositorio.actualizar(actualizacionClienteDTO);
     }
 
-    public static void agregar(ClienteDTONegocios clienteDTO)
+    public static void agregar(ClienteDTONegocios clienteDTONegocios)
             throws FormatoIdInvalidoNegocioException,
             RegistroInexistenteNegocioException, 
             ValorParametroInvalidoNegocioException,
             ParametroNuloNegocioException {
         
-        repositorio.agregar(clienteDTO);
+        repositorio.agregar(clienteDTONegocios);
     }
 
     public static void agregar(Collection<ClienteDTONegocios> clientes) 

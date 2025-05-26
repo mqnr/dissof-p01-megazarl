@@ -6,17 +6,12 @@ import edu.student.itson.dissof.megazarl.administradorclientes.IAdministradorCli
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesCorreoElectronicoYaExisteException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesPersistenciaException;
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesTelefonoNuevoClienteYaExisteException;
-import edu.student.itson.dissof.megazarl.dto.negocios.AuxiliarVentasDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdAuxiliarVentasDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoAuxiliarVentasDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.NuevoClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 import edu.student.itson.dissof.megazarl.negocios.FabricaSubsistemas;
-import edu.student.itson.dissof.megazarl.objetosnegocio.AuxiliarVentas;
-import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.FormatoIdInvalidoNegocioException;
-import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ParametroNuloNegocioException;
-import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.RegistroInexistenteNegocioException;
-import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ValorParametroInvalidoNegocioException;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IMensaje;
 import edu.student.itson.dissof.megazarl.presentacion.interfaces.IVista;
 import java.awt.Color;
@@ -84,23 +79,6 @@ public class ControlRegistroCliente {
      */
     public void iniciarRegistroCliente(boolean usuarioAuxiliarVentas){
         
-        if(usuarioAuxiliarVentas){
-            
-            AuxiliarVentasDTONegocios auxiliarVentas1 = new AuxiliarVentasDTONegocios(
-                    "María", 
-                    "González",
-                    "Juárez");
-            
-            try {
-                AuxiliarVentas.agregar(auxiliarVentas1);
-            } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException | 
-                    ValorParametroInvalidoNegocioException | ParametroNuloNegocioException ex) {
-                mostrarMensaje(MENSAJE_ERROR_INICIO_CASO_USO, COLOR_MENSAJE_ERROR);
-                LOG.log(Level.SEVERE, ex.getMessage());
-            }
-         
-            
-        }
         registroCliente.hacerVisible(true);
         registroCliente.actualizarDatosEncabezado();
         
@@ -120,14 +98,15 @@ public class ControlRegistroCliente {
         String apellidoMaterno = (String)datosCliente.get(2);
         String telefono = (String)datosCliente.get(3);
         String correoElectronico = (String)datosCliente.get(4);
+        char[] contrasenia = (char[])datosCliente.get(5);
         
-        ClienteDTONegocios nuevoCliente = new ClienteDTONegocios(
+        NuevoClienteDTONegocios nuevoClienteDTO = new NuevoClienteDTONegocios(
                 nombres, 
                 apellidoPaterno,
                 apellidoMaterno, 
                 telefono, 
                 correoElectronico, 
-                null);
+                contrasenia);
         
         IAdministradorClientes administradorClientes = FabricaSubsistemas.obtenerAdministradorClientes();
         
@@ -138,7 +117,8 @@ public class ControlRegistroCliente {
         }
        
         try {
-            administradorClientes.registrarCliente(nuevoCliente);
+            administradorClientes.registrarCliente(nuevoClienteDTO);
+            
         } catch (ClientesTelefonoNuevoClienteYaExisteException ex) {
             
             mostrarMensaje(MENSAJE_NUMERO_TELEFONO_EN_USO, COLOR_MENSAJE_ADVERTENCIA);

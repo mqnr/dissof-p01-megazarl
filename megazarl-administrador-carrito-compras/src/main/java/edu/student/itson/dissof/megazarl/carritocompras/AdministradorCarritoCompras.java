@@ -99,7 +99,7 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         if (carritoComprasCliente != null) {
             
             List<ProductoCarritoDTONegocios> listaProductosCarrito = carritoComprasCliente.getProductosCarrito();
-
+            
             for (ProductoCarritoDTONegocios productoCarrito: listaProductosCarrito) {
                     
                 IdProductoDTONegocios idProductoDTO = new IdProductoDTONegocios(productoCarrito.getIdProducto());
@@ -121,6 +121,7 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
                 );
             }
         }
+        
 
         return listaInformacionProductoCarritoDTO;
     }
@@ -835,7 +836,9 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         
         CarritoComprasDTONegocios carritoComprasRecuperado = null;
         
+
         for(CarritoComprasDTONegocios carritoCompras: CarritoCompras.recuperarTodos()){
+;
             if(carritoCompras.getIdCliente().equals(idCliente) &&  carritoCompras.getEsVigente()){
                 carritoComprasRecuperado = carritoCompras;
             }

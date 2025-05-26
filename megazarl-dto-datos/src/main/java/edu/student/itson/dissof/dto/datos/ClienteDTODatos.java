@@ -14,6 +14,7 @@ public class ClienteDTODatos {
     private String telefono;
     private String correoElectronico;
     private DireccionDTODatos direccionEnvio;
+    private String hashContrasenia;
 
     public ClienteDTODatos(
             IdEntidadGenericoDatos id, 
@@ -35,6 +36,24 @@ public class ClienteDTODatos {
     
     public ClienteDTODatos(
             String nombres, 
+            String apellidoPaterno, 
+            String apellidoMaterno, 
+            String telefono, 
+            String correoElectronico,
+            String hashContrasenia,
+            DireccionDTODatos direccionEnvio) {
+        
+        this.nombres = nombres;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.telefono = telefono;
+        this.correoElectronico = correoElectronico;
+        this.hashContrasenia = hashContrasenia;
+        this.direccionEnvio = direccionEnvio;
+    }
+    
+    public ClienteDTODatos(
+            String nombres, 
             String apellidoPaterno,
             String apellidoMaterno,
             String telefono, 
@@ -47,6 +66,22 @@ public class ClienteDTODatos {
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
         this.direccionEnvio = direccionEnvio;
+    }
+    
+    public ClienteDTODatos(
+            String nombres, 
+            String apellidoPaterno,
+            String apellidoMaterno,
+            String telefono, 
+            String correoElectronico,
+            String hashContrasenia) {
+        
+        this.nombres = nombres;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.telefono = telefono;
+        this.correoElectronico = correoElectronico;
+        this.hashContrasenia = hashContrasenia;
     }
 
     public ClienteDTODatos(
@@ -90,6 +125,13 @@ public class ClienteDTODatos {
     public DireccionDTODatos getDireccionEnvio() {
         return direccionEnvio;
     }
+
+    public String getHashContrasenia() {
+        return hashContrasenia;
+    }
+
+    
+    
     
     
 

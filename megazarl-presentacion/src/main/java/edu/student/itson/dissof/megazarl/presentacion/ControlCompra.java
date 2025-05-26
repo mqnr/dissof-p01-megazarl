@@ -508,7 +508,7 @@ public class ControlCompra {
             carrito.hacerVisible(true);      
         } else{
             mostrarProductosVenta(vistaActual);
-            mostrarMensaje("No se han agregado productos al carrito.", COLOR_MENSAJE_ADVERTENCIA);        
+            mostrarMensaje(MENSAJE_SIN_PRODUCTOS_CARRITO, COLOR_MENSAJE_ADVERTENCIA);        
         }
         
     }
@@ -715,6 +715,7 @@ public class ControlCompra {
         } catch (CarritoComprasIdProductoInvalidoException | CarritoComprasIdProductoCarritoInvalidoException | CarritoComprasPersistenciaException ex) {
             mostrarMensaje(MENSAJE_EXCEPCION_AGREGAR_PRODUCTO_CARRITO, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
+            
         } catch (CarritoComprasProductoSinInventarioException ex) {
             mostrarMensaje(MENSAJE_EXCEPCION_VERIFCAR_EXISTENCIAS_PRODUCTO, COLOR_MENSAJE_ERROR);
             LOG.log(Level.SEVERE, ex.getMessage());
@@ -1189,7 +1190,6 @@ public class ControlCompra {
             
         } catch (CarritoComprasIdClienteInvalidoException ex) {
             mostrarMensaje(MENSAJE_EXCEPCION_SESION_USUARIO, COLOR_MENSAJE_ERROR);
-            
             LOG.log(Level.SEVERE, ex.getMessage());
         } catch (CarritoComprasIdPaqueteriaInvalidoException | CarritoComprasClienteSinCarritoVigenteException |
                 FormatoIdInvalidoNegocioException | CarritoComprasPersistenciaException ex) {

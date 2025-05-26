@@ -3,11 +3,15 @@ package edu.student.itson.dissof.megazarl.dto.negocios;
 
 import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 
-
+/**
+ * AuxiliarVentasDTONegocios.java
+ * 
+ * @author Manuel Romo López
+ */
 public class AuxiliarVentasDTONegocios {
     
     /**
-     * Objeto Long que representa el ID del Auxiliar de ventas.
+     * Objeto IdEntidadGenericoNegocios que representa el ID del Auxiliar de ventas.
      */
     private IdEntidadGenericoNegocios id;
     
@@ -25,6 +29,11 @@ public class AuxiliarVentasDTONegocios {
      * Objeto String que representa el apellido materno del Auxiliar de ventas.
      */
     private String apellidoMaterno;
+    
+    /**
+     * Objeto IdEntidadGenericoNegocios que representa el ID de la sucursal a la que está asociado el Auxiliar de Ventas.
+     */
+    private IdEntidadGenericoNegocios idSucursal;
 
     /**
      * Constructor de la clase que recibe valores para todos los atributos.
@@ -32,14 +41,17 @@ public class AuxiliarVentasDTONegocios {
      * @param nombres           Objeto String que representa el o lo nombres del Auxiliar de ventas.
      * @param apellidoPaterno   Objeto String que representa el apellido paterno del Auxiliar de ventas.
      * @param apellidoMaterno   Objeto String que representa el apellido materno del Auxiliar de ventas.
+     * @param idSucursal        Objeto IdEntidadGenericoNegocios que representa el ID de la sucursal a la que está asociado el Auxiliar de Ventas.
      */
     public AuxiliarVentasDTONegocios(
             IdEntidadGenericoNegocios id,
             String nombres,
             String apellidoPaterno, 
-            String apellidoMaterno) {
+            String apellidoMaterno,
+            IdEntidadGenericoNegocios idSucursal) {
         
         this.id = id;
+        this.idSucursal = idSucursal;
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -50,14 +62,18 @@ public class AuxiliarVentasDTONegocios {
      * @param nombres           Objeto String que representa el o lo nombres del Auxiliar de ventas.
      * @param apellidoPaterno   Objeto String que representa el apellido paterno del Auxiliar de ventas.
      * @param apellidoMaterno   Objeto String que representa el apellido materno del Auxiliar de ventas.
+     * @param idSucursal        Objeto IdEntidadGenericoNegocios que representa el ID de la sucursal a la que está asociado el Auxiliar de Ventas.
      */
     public AuxiliarVentasDTONegocios(
             String nombres, 
             String apellidoPaterno, 
-            String apellidoMaterno) {
+            String apellidoMaterno,
+            IdEntidadGenericoNegocios idSucursal) {
+        
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
+        this.idSucursal = idSucursal;
     }
 
     /**
@@ -100,7 +116,13 @@ public class AuxiliarVentasDTONegocios {
         this.id = id;
     }
     
-    
-    
+    /**
+     * Método que permite obtener el ID de la sucursal de este auxiliar de ventas.
+     * @return Objeto IdEntidadGenericoNegocios que representa el ID de la sucursal de este auxiliar de ventas.
+     */
+    public IdEntidadGenericoNegocios getIdSucursal() {
+        return idSucursal;
+    }
+
     
 }

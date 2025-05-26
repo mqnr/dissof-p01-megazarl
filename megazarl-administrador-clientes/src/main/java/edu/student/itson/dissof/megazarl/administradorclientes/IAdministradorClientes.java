@@ -13,6 +13,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDireccionEnvioA
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionDerivadaCPDireccionDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.InformacionNoDerivadaCPDireccionDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.NombresApellidoClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.NuevoClienteDTONegocios;
 
 /**
  * IAdministradorClientes.java
@@ -103,7 +104,7 @@ public interface IAdministradorClientes {
             ClientesPersistenciaException;
     
     
-    public abstract void registrarCliente(ClienteDTONegocios clienteDTONegocios)
+    public abstract void registrarCliente(NuevoClienteDTONegocios nuevoClienteDTONegocios)
             throws ClientesTelefonoNuevoClienteYaExisteException,
             ClientesCorreoElectronicoYaExisteException,
             ClientesPersistenciaException;

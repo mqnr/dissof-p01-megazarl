@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -110,15 +112,10 @@ public class AuxiliaresVentasDAO {
             ValorParametroInvalidoException, 
             ParametroNuloException {
         
-        if (nuevoAuxiliarVentas == null || nuevoAuxiliarVentas.getId() == null){
+        if (nuevoAuxiliarVentas == null){
             throw new ParametroNuloException(MENSAJE_DTO_ID_NULO);
         }
 
-        if(nuevoAuxiliarVentas.getId().getId() == null){
-            throw new ParametroNuloException(String.format(MENSAJE_PARAMETRO_NULO, "id", NOMBRE_ENTIDAD_AUXILIAR_VENTAS));
-        }
-
-        
         validarCamposObligatorios(nuevoAuxiliarVentas);
         ObjectId idSucursalRegistrada = obtenerIdSucursalRegistrada(nuevoAuxiliarVentas.getIdSucursal());
 
@@ -133,7 +130,9 @@ public class AuxiliaresVentasDAO {
         MongoCollection coleccionAuxiliaresVentas = baseDatos.getCollection(COLECCION_AUXILIARES_VENTAS, AuxiliarVentas.class);
         
         coleccionAuxiliaresVentas.insertOne(auxiliarVentas);
+        
     }
+    
     
     public void agregar(Collection<AuxiliarVentasDTODatos> nuevosAuxiliaresVentas) 
             throws FormatoIdInvalidoException, 
@@ -251,7 +250,9 @@ public class AuxiliaresVentasDAO {
     }
     
     private ObjectId obtenerIdSucursalRegistrada(IdEntidadGenericoDatos idSucursal) 
-        throws FormatoIdInvalidoException, RegistroInexistenteException, ParametroNuloException {
+            throws FormatoIdInvalidoException, 
+            RegistroInexistenteException, 
+            ParametroNuloException {
         
         if (idSucursal == null || idSucursal.getId() == null) {
             throw new ParametroNuloException(String.format(MENSAJE_PARAMETRO_NULO, "idSucursal", NOMBRE_ENTIDAD_SUCURSAL));
@@ -262,7 +263,7 @@ public class AuxiliaresVentasDAO {
             ObjectId idSucursalRegistrada = new ObjectId((String) idSucursal.getId());
             MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
             
-            if (baseDatos.getCollection(COLECCION_SUCURSALES).countDocuments(eq(CAMPO_ID, idSucursal.getId())) == 0) {
+            if (baseDatos.getCollection(COLECCION_SUCURSALES).countDocuments(eq(CAMPO_ID, idSucursalRegistrada)) == 0) {
                 throw new RegistroInexistenteException(
                     String.format(MENSAJE_REGISTRO_INEXISTENTE, NOMBRE_ENTIDAD_SUCURSAL, idSucursal.getId())
                 );

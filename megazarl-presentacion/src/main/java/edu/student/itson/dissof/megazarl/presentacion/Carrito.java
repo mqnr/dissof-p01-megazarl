@@ -407,7 +407,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
             JLabel cantidadLabel, 
             JLabel avisoMaximoProductos){
         
-        int disponibilidadProducto = control.verificarExistenciasProducto((Long) informacionProducto.get("Id"));
+        int disponibilidadProducto = control.verificarExistenciasProducto(informacionProducto.get("Id"));
         int cantidadTexto = Integer.parseInt(cantidadLabel.getText());
             
         if(cantidadTexto > disponibilidadProducto){
@@ -451,7 +451,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
         
         control.agregarProductoCarrito(idCliente, informacionProducto.get("Id"), 1, Carrito.this);
         
-        int disponibilidadProducto = control.verificarExistenciasProducto((Long) informacionProducto.get("Id"));
+        int disponibilidadProducto = control.verificarExistenciasProducto( informacionProducto.get("Id"));
         int cantidadTexto = Integer.parseInt(cantidadLabel.getText());
             
         if(cantidadTexto > disponibilidadProducto){
@@ -483,7 +483,7 @@ public class Carrito extends JFrame implements ICarrito, IVista {
         int cantidadTexto = Integer.parseInt(cantidadLabel.getText());
         
         if(cantidadTexto > 0){
-            control.eliminarProductoCarrito(idCliente, (Long) informacionProducto.get("Id"), 1);
+            control.eliminarProductoCarrito(idCliente, informacionProducto.get("Id"), 1);
             btnMenos.setEnabled(true);
         } else{
             btnMenos.setEnabled(false);

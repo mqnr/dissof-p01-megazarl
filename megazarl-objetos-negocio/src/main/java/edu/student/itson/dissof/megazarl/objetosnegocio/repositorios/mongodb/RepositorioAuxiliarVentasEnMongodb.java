@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 public class RepositorioAuxiliarVentasEnMongodb implements RepositorioAuxiliarVentas{
 
     private final IAdministradorMongodb administradorMongodb;
@@ -54,7 +53,8 @@ public class RepositorioAuxiliarVentasEnMongodb implements RepositorioAuxiliarVe
                             new IdEntidadGenericoNegocios(auxiliarVentasDTODatos.getId().getId()), 
                             auxiliarVentasDTODatos.getNombres(),
                             auxiliarVentasDTODatos.getApellidoPaterno(),
-                            auxiliarVentasDTODatos.getApellidoMaterno());
+                            auxiliarVentasDTODatos.getApellidoMaterno(),
+                            new IdEntidadGenericoNegocios(auxiliarVentasDTODatos.getIdSucursal().getId()));
 
             return auxiliarVentasDTONegocios;
         
@@ -95,10 +95,18 @@ public class RepositorioAuxiliarVentasEnMongodb implements RepositorioAuxiliarVe
         AuxiliarVentasDTODatos auxiliarVentasDTODatos = new AuxiliarVentasDTODatos(
                 auxiliarVentasDTONegocios.getNombres(),
                 auxiliarVentasDTONegocios.getApellidoPaterno(),
-                auxiliarVentasDTONegocios.getApellidoMaterno());
+                auxiliarVentasDTONegocios.getApellidoMaterno(),
+                new IdEntidadGenericoDatos(auxiliarVentasDTONegocios.getIdSucursal().getId()));
         
         try {
             administradorMongodb.agregarAuxiliarVentas(auxiliarVentasDTODatos);
+            
+            LOG.log(Level.SEVERE, "pasadadadasdasdasdasdas");
+            LOG.log(Level.SEVERE, "pasadadadasdasdasdasdas");
+            LOG.log(Level.SEVERE, "pasadadadasdasdasdasdas");
+            LOG.log(Level.SEVERE, "pasadadadasdasdasdasdas");
+            LOG.log(Level.SEVERE, "pasadadadasdasdasdasdas");
+            LOG.log(Level.SEVERE, "pasadadadasdasdasdasdas");
             
         } catch (FormatoIdInvalidoException ex) {
             throw new FormatoIdInvalidoNegocioException(ex.getMessage());
@@ -111,6 +119,12 @@ public class RepositorioAuxiliarVentasEnMongodb implements RepositorioAuxiliarVe
         }
         
     }
+    private static final Logger LOG = Logger.getLogger(RepositorioAuxiliarVentasEnMongodb.class.getName());
+    
+    
+    
+    
+    
 
     @Override
     public void agregar(Collection<AuxiliarVentasDTONegocios> auxiliaresVentas) 
@@ -126,7 +140,8 @@ public class RepositorioAuxiliarVentasEnMongodb implements RepositorioAuxiliarVe
             AuxiliarVentasDTODatos auxiliarVentasDTODatos = new AuxiliarVentasDTODatos(
                     auxiliarVentas.getNombres(),
                     auxiliarVentas.getApellidoPaterno(),
-                    auxiliarVentas.getApellidoMaterno());
+                    auxiliarVentas.getApellidoMaterno(),
+                    new IdEntidadGenericoDatos(auxiliarVentas.getIdSucursal().getId()));
             
             listaAuxiliaresVentasAgregar.add(auxiliarVentasDTODatos);
             
@@ -160,7 +175,8 @@ public class RepositorioAuxiliarVentasEnMongodb implements RepositorioAuxiliarVe
                             new IdEntidadGenericoNegocios(auxiliarVentasDTODatos.getId().getId()),
                             auxiliarVentasDTODatos.getNombres(),
                             auxiliarVentasDTODatos.getApellidoPaterno(),
-                            auxiliarVentasDTODatos.getApellidoMaterno()
+                            auxiliarVentasDTODatos.getApellidoMaterno(),
+                            new IdEntidadGenericoNegocios(auxiliarVentasDTODatos.getIdSucursal().getId())
                             
             ));
             

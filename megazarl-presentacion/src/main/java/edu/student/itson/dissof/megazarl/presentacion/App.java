@@ -10,6 +10,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.ProductoDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProductoInventarioDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ProveedorDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.SucursalDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 import edu.student.itson.dissof.megazarl.objetosnegocio.AuxiliarVentas;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Cliente;
 import edu.student.itson.dissof.megazarl.objetosnegocio.Paqueteria;
@@ -737,19 +738,46 @@ public class App {
                     if (opcionActor == 1) {
                         usuarioEsAuxiliarVentas = true;
                         
+                        DireccionDTONegocios direccionSucursalAuxiliarVentas = new DireccionDTONegocios(
+                                                    "83118",
+                                                    "Parque Industrial Hermosillo Norte",
+                                                    "José Alberto Healy Noriega",
+                                                    "1000"
+                        );
+
+                        SucursalDTONegocios sucursalAuxiliarVentas = new SucursalDTONegocios(
+                                                    true,
+                                                    direccionSucursalAuxiliarVentas
+                        );
+                        
+                        try {
+                            Sucursal.agregar(sucursalAuxiliarVentas);
+                        } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException | 
+                                ValorParametroInvalidoNegocioException | ParametroNuloNegocioException ex) {
+                            
+                            LOG.log(Level.SEVERE, MENSAJE_ERROR_INICIAR_APLICACION);
+                            LOG.log(Level.SEVERE, ex.getMessage());
+                        }
+                        
+                        List<SucursalDTONegocios> listaSucursalDTONegocios = Sucursal.recuperarTodos();
     
                         AuxiliarVentasDTONegocios auxiliarVentas1 = new AuxiliarVentasDTONegocios(
                                 "María", 
                                 "González",
-                                "Juárez");
-
-                    try {
-                        AuxiliarVentas.agregar(auxiliarVentas1);
-                    } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException |
-                            ValorParametroInvalidoNegocioException | ParametroNuloNegocioException ex) {
+                                "Juárez",
+                                new IdEntidadGenericoNegocios(listaSucursalDTONegocios.get(0).getId().getId())
+                        );
                         
-                        LOG.log(Level.SEVERE, MENSAJE_ERROR_INICIAR_APLICACION);
-                    }
+                        try {
+                            AuxiliarVentas.agregar(auxiliarVentas1);
+                        } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException | 
+                                ValorParametroInvalidoNegocioException | ParametroNuloNegocioException ex) {
+                            LOG.log(Level.SEVERE, MENSAJE_ERROR_INICIAR_APLICACION);
+                            LOG.log(Level.SEVERE, ex.getMessage());
+                        }
+                        
+                        List<AuxiliarVentasDTONegocios> listaAuxiliaresVentasRegistrados = AuxiliarVentas.recuperarTodos();
+                        
                         
                         ClienteDTONegocios clienteRegistrado = new ClienteDTONegocios(
                                 "Rodolfo Felix", 
@@ -757,7 +785,8 @@ public class App {
                                 "Valle",
                                 "6441234567", 
                                 "rodolfoortiz@gmail.com",
-                                null);
+                                "d8ee21560dbae03bfdd530710caf7d0358b6814efbf6b0b36293986edc80eacb");
+                        
                         
                     try {
                         Cliente.agregar(clienteRegistrado);
@@ -770,7 +799,7 @@ public class App {
                          
                         IVista registroCliente = new RegistroCliente(
                                 controlRegistroCliente, 
-                                auxiliarVentas1.getId().getId(), 
+                                listaAuxiliaresVentasRegistrados.get(0).getId().getId(), 
                                 usuarioEsAuxiliarVentas);
                         
                         IMensaje mensajeRegistroUsuario = new Mensaje(); 
@@ -788,7 +817,7 @@ public class App {
                                 "Valle",
                                 "6441234567", 
                                 "rodolfoortiz@gmail.com",
-                                null);
+                                "d8ee21560dbae03bfdd530710caf7d0358b6814efbf6b0b36293986edc80eacb");
                         
                         try {
                             Cliente.agregar(clienteRegistrado);

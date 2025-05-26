@@ -15,6 +15,7 @@ import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionClienteDTONeg
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.NuevoClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.FormatoIdInvalidoNegocioException;
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ParametroNuloNegocioException;
@@ -103,17 +104,14 @@ public class RepositorioClienteEnMongodb implements RepositorioCliente{
             ValorParametroInvalidoNegocioException,
             ParametroNuloNegocioException{
         
-        ClienteDTODatos clienteDTODatos = new ClienteDTODatos(
-                clienteDTONegocios.getNombres(),
-                clienteDTONegocios.getApellidoPaterno(),
-                clienteDTONegocios.getApellidoMaterno(),
-                clienteDTONegocios.getTelefono(),
-                clienteDTONegocios.getCorreoElectronico(),
-                new DireccionDTODatos(
-                        clienteDTONegocios.getDireccionEnvio().getCodigoPostal(),
-                        clienteDTONegocios.getDireccionEnvio().getColonia(),
-                        clienteDTONegocios.getDireccionEnvio().getCalle(),
-                        clienteDTONegocios.getDireccionEnvio().getNumero()));
+            ClienteDTODatos clienteDTODatos = new ClienteDTODatos(
+                    clienteDTONegocios.getNombres(),
+                    clienteDTONegocios.getApellidoPaterno(),
+                    clienteDTONegocios.getApellidoMaterno(),
+                    clienteDTONegocios.getTelefono(),
+                    clienteDTONegocios.getCorreoElectronico(),
+                    clienteDTONegocios.getHashContrasenia());
+                
         
         try {
             administradorMongodb.agregarCliente(clienteDTODatos);
@@ -146,6 +144,7 @@ public class RepositorioClienteEnMongodb implements RepositorioCliente{
                 clienteDTONegocios.getApellidoMaterno(),
                 clienteDTONegocios.getTelefono(),
                 clienteDTONegocios.getCorreoElectronico(),
+                clienteDTONegocios.getHashContrasenia(),
                 new DireccionDTODatos(
                         clienteDTONegocios.getDireccionEnvio().getCodigoPostal(),
                         clienteDTONegocios.getDireccionEnvio().getColonia(),
@@ -245,13 +244,13 @@ public class RepositorioClienteEnMongodb implements RepositorioCliente{
                             clienteDTODatos.getApellidoMaterno(),
                             clienteDTODatos.getTelefono(),
                             clienteDTODatos.getCorreoElectronico(),
-                            new DireccionDTONegocios(
+                            clienteDTODatos.getDireccionEnvio() != null ? new DireccionDTONegocios(
                                     new IdEntidadGenericoNegocios(clienteDTODatos.getDireccionEnvio().getId()),
                                     clienteDTODatos.getDireccionEnvio().getCodigoPostal(),
                                     clienteDTODatos.getDireccionEnvio().getColonia(),
                                     clienteDTODatos.getDireccionEnvio().getCalle(),
                                     clienteDTODatos.getDireccionEnvio().getNumero()
-                            )
+                            ) : null
                     )
             );
         }

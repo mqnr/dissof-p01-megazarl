@@ -52,6 +52,9 @@ public class ClientesDAO {
     private final String MENSAJE_FORMATO_APELLIDO_MATERNO_INVALIDO_CADENA_VACIA = "El apellido materno del cliente es una cadena vacía";
     private final String MENSAJE_FORMATO_APELLIDO_MATERNO_INVALIDO_MAS_CINCUENTA_CARACTERES = "El apellido materno del cliente tiene más de cincuenta caracteres";
     
+    private final String MENSAJE_FORMATO_CONTRASENIA_CADENA_VACIA = "La cadena del hash de contraseña del usuario está vacía.";
+    private final String MENSAJE_FORMATO_CONTRASENIA_NUMERO_CARACTERES = "La cadena del hash de la contraseña debe tener 64 caracteres.";
+    
     private final String REGEX_DIEZ_DIGITOS = "\\d{10}";
     
     private final String MENSAJE_FORMATO_TELEFONO_INVALIDO = "El teléfono del cliente no se compone de diez dígitos.";
@@ -65,6 +68,7 @@ public class ClientesDAO {
     // Mensajes para validación de dirección
     private final String REGEX_CINCO_DIGITOS = "\\d{5}";
     private final String REGEX_MAS_UN_DIGITO = "\\d+";
+    private final String REGEX_SESENTA_Y_CUATRO_DIGITOS_HEXADECIMALES = "^[0-9A-Fa-f]{64}$";
     
     private final String MENSAJE_FORMATO_CODIGO_POSTAL_INVALIDO = "El Código Postal de dirección se se compone de 5 dígitos.";
    
@@ -229,7 +233,8 @@ public class ClientesDAO {
                         nuevoCliente.getDireccionEnvio().getColonia(),
                         nuevoCliente.getDireccionEnvio().getCalle(),
                         nuevoCliente.getDireccionEnvio().getNumero()
-                ) : null
+                ) : null,
+            nuevoCliente.getHashContrasenia()
         );
 
         MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
@@ -271,7 +276,8 @@ public class ClientesDAO {
                             nuevoCliente.getDireccionEnvio().getColonia(),
                             nuevoCliente.getDireccionEnvio().getCalle(),
                             nuevoCliente.getDireccionEnvio().getNumero()
-                    ) : null
+                    ) : null,
+                nuevoCliente.getHashContrasenia()
             );
 
             clientes.add(cliente);
@@ -463,12 +469,26 @@ public class ClientesDAO {
             throw new ValorParametroInvalidoException(MENSAJE_FORMATO_CORREO_INVALIDO_MAS_TRESCIENTOS_VEINTE_CARACTERES);
         }
 
-        // Validar que el correo electrónico cumpla con el formato especificado
         if (!correoElectronico.matches(REGEX_EMAIL_VALIDO)) {
             throw new ValorParametroInvalidoException(MENSAJE_FORMATO_CORREO_INVALIDO);
         }
         
-        validarCamposDireccion(clienteDTODatos.getDireccionEnvio());
+        // Validación de contraseña
+        String hashContrasenia = clienteDTODatos.getHashContrasenia();
+        
+        if (hashContrasenia == null) {
+            throw new ParametroNuloException(
+                String.format(MENSAJE_PARAMETRO_NULO, "hash de contrasenia", NOMBRE_ENTIDAD_CLIENTE));
+        }
+
+        if (!hashContrasenia.matches(REGEX_SESENTA_Y_CUATRO_DIGITOS_HEXADECIMALES)) {
+            throw new ValorParametroInvalidoException(MENSAJE_FORMATO_CONTRASENIA_NUMERO_CARACTERES);
+        }
+
+        if(clienteDTODatos.getDireccionEnvio() != null){
+            validarCamposDireccion(clienteDTODatos.getDireccionEnvio());
+        }
+       
     }
     
     private void validarCamposDireccion(DireccionDTODatos direccionDTODatos) 

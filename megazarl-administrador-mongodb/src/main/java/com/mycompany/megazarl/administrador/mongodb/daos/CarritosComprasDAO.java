@@ -8,6 +8,7 @@ import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.model.ReturnDocument;
 import com.mongodb.client.model.Updates;
+import com.mongodb.client.result.UpdateResult;
 import com.mycompany.megazarl.administrador.mongodb.clasesmapeadas.CarritoCompras;
 import com.mycompany.megazarl.administrador.mongodb.clasesmapeadas.ProductoCarrito;
 import com.mycompany.megazarl.administrador.mongodb.excepciones.AgregarInformacionNulaException;
@@ -32,6 +33,8 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.bson.conversions.Bson;
 
@@ -370,7 +373,7 @@ public class CarritosComprasDAO {
 
             ObjectId idProducto = new ObjectId((String) productoDTO.getIdProducto().getId());
 
-
+            
             ProductoCarrito producto = new ProductoCarrito(idProducto, productoDTO.getCantidad());
 
 
@@ -392,7 +395,8 @@ public class CarritosComprasDAO {
         return productos.stream()
             .map(productoCarrito -> new ProductoCarritoDTODatos(
                 productoCarrito.getCantidad(),
-                new IdEntidadGenericoDatos(productoCarrito.getId().toHexString())
+                new IdEntidadGenericoDatos(productoCarrito.getId().toHexString()),
+                new IdEntidadGenericoDatos(productoCarrito.getIdProducto().toHexString())
                 
             ))
             .collect(Collectors.toList());
@@ -685,12 +689,8 @@ public class CarritosComprasDAO {
             RegistroInexistenteException,
             FormatoIdInvalidoException{
         
-        if (nuevoProductoCarrito == null || nuevoProductoCarrito.getId() == null){
+        if (nuevoProductoCarrito == null){
             throw new ParametroNuloException(String.format(MENSAJE_DTO_ID_NULO, NOMBRE_ENTIDAD_PRODUCTO_CARRITO));
-        }
-        
-        if(nuevoProductoCarrito.getId().getId() == null){
-            throw new ParametroNuloException(String.format(MENSAJE_PARAMETRO_NULO, "id", NOMBRE_ENTIDAD_PRODUCTO_CARRITO));
         }
         
         if (nuevoProductoCarrito.getIdCliente() == null) {
@@ -702,9 +702,10 @@ public class CarritosComprasDAO {
         }
         
         ObjectId idCliente = new ObjectId((String)nuevoProductoCarrito.getIdCliente().getId());
+        ObjectId idProducto = new ObjectId((String)nuevoProductoCarrito.getIdProducto().getId());
 
         ProductoCarrito productoCarrito = new ProductoCarrito(
-            new ObjectId((String)nuevoProductoCarrito.getIdProducto().getId()),
+            idProducto,
             nuevoProductoCarrito.getCantidad()
         );
         
@@ -717,7 +718,18 @@ public class CarritosComprasDAO {
             Updates.push(CAMPO_PRODUCTOS_CARRITO, productoCarrito)
         );
         
+        LOG.log(Level.SEVERE,"Campos modificados");
+        LOG.log(Level.SEVERE,String.valueOf(idCliente.toHexString()));
+        LOG.log(Level.SEVERE,String.valueOf(idCliente.toHexString()));
+        LOG.log(Level.SEVERE,String.valueOf(idCliente.toHexString()));
+        LOG.log(Level.SEVERE,String.valueOf(idCliente.toHexString()));
+        LOG.log(Level.SEVERE,String.valueOf(idCliente.toHexString()));
+        LOG.log(Level.SEVERE,String.valueOf(idCliente.toHexString()));
+        LOG.log(Level.SEVERE,String.valueOf(idCliente.toHexString()));
+        
+        
     }
+    private static final Logger LOG = Logger.getLogger(CarritosComprasDAO.class.getName());
     
     public void agregarProductosCarrito(Collection<ProductoCarritoDTODatos> nuevosProductosCarrito) 
             throws ParametroNuloException,
@@ -736,12 +748,8 @@ public class CarritosComprasDAO {
         
         for (ProductoCarritoDTODatos nuevoProductoCarrito : nuevosProductosCarrito) {            
 
-            if (nuevoProductoCarrito == null || nuevoProductoCarrito.getId() == null){
+            if (nuevoProductoCarrito == null){
                 throw new ParametroNuloException(String.format(MENSAJE_DTO_ID_NULO, NOMBRE_ENTIDAD_PRODUCTO_CARRITO));
-            }
-
-            if(nuevoProductoCarrito.getId().getId() == null){
-                throw new ParametroNuloException(String.format(MENSAJE_PARAMETRO_NULO, "id", NOMBRE_ENTIDAD_PRODUCTO_CARRITO));
             }
 
             if (nuevoProductoCarrito.getIdCliente() == null) {

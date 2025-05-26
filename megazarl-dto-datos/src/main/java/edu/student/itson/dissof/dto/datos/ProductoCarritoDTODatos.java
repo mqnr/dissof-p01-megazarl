@@ -37,10 +37,11 @@ public class ProductoCarritoDTODatos {
     
     public ProductoCarritoDTODatos(
             Integer cantidad,
-            IdEntidadGenericoDatos idCarritoCompras,
+            IdEntidadGenericoDatos idCliente,
             IdEntidadGenericoDatos idProducto) {
         
         this.cantidad = cantidad;
+        this.idCliente = idCliente;
         this.idProducto = idProducto;
 
     }

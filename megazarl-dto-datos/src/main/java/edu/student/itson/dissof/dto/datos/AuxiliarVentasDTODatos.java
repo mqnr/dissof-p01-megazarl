@@ -7,7 +7,7 @@ import edu.student.itson.dissof.megazarl.dto.datos.identidad.IdEntidadGenericoDa
 public class AuxiliarVentasDTODatos {
     
     /**
-     * Objeto Long que representa el ID del Auxiliar de ventas.
+     * Objeto IdEntidadGenericoDatos que representa el ID del Auxiliar de ventas.
      */
     private IdEntidadGenericoDatos id;
     
@@ -26,6 +26,9 @@ public class AuxiliarVentasDTODatos {
      */
     private String apellidoMaterno;
     
+    /**
+     * Objeto IdEntidadGenericoDatos que representa el ID de la sucursal del auxiliar de ventas.
+     */
     private IdEntidadGenericoDatos idSucursal;
 
     /**
@@ -34,7 +37,7 @@ public class AuxiliarVentasDTODatos {
      * @param nombres           Objeto String que representa el o lo nombres del Auxiliar de ventas.
      * @param apellidoPaterno   Objeto String que representa el apellido paterno del Auxiliar de ventas.
      * @param apellidoMaterno   Objeto String que representa el apellido materno del Auxiliar de ventas.
-     * @param idSucursal
+     * @param idSucursal        Objeto IdEntidadGenericoDatos que representa el ID de la sucursal del auxiliar de ventas.
      */
     public AuxiliarVentasDTODatos(
             IdEntidadGenericoDatos id,
@@ -55,14 +58,18 @@ public class AuxiliarVentasDTODatos {
      * @param nombres           Objeto String que representa el o lo nombres del Auxiliar de ventas.
      * @param apellidoPaterno   Objeto String que representa el apellido paterno del Auxiliar de ventas.
      * @param apellidoMaterno   Objeto String que representa el apellido materno del Auxiliar de ventas.
+     * @param idSucursal        Objeto IdEntidadGenericoDatos que representa el ID de la sucursal del auxiliar de ventas.
      */
     public AuxiliarVentasDTODatos(
             String nombres, 
             String apellidoPaterno, 
-            String apellidoMaterno) {
+            String apellidoMaterno,
+            IdEntidadGenericoDatos idSucursal) {
+        
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
+        this.idSucursal = idSucursal;
     }
 
     /**
@@ -105,10 +112,13 @@ public class AuxiliarVentasDTODatos {
         this.id = id;
     }
 
+    /**
+     * Método que permite establecer el ID de la sucursal del auxiliar de ventas.
+     * @return Objeto IdEntidadGenericoDatos que representa el ID de la sucursal.
+     */
     public IdEntidadGenericoDatos getIdSucursal() {
         return idSucursal;
     }
-    
     
     
 }

@@ -22,6 +22,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
@@ -50,20 +51,23 @@ public class RegistroCliente extends JFrame implements IVista, IRegistroCliente{
     private JLabel etqApellidoMaterno;
     private JLabel etqTelefono;
     private JLabel etqCorreoElectronico;
+    private JLabel etqContrasenia;
 
     private JLabel etqMensajeValidacionNombres;
     private JLabel etqMensajeValidacionApellidoPaterno;
     private JLabel etqMensajeValidacionApellidoMaterno;
     private JLabel etqMensajeValidacionTelefono;
     private JLabel etqMensajeValidacionCorreoElectronico;
+    private JLabel etqMensajeValidacionContrasenia;
     
     private JTextField txtNombres;
     private JTextField txtApellidoPaterno;
     private JTextField txtApellidoMaterno;
     private JTextField txtTelefono;
     private JTextField txtCorreoElectronico;
+    private JPasswordField txtContrasenia;
 
-    private JButton btnCancelar;
+    private JButton btnSalir;
     private JButton btnGuardar;
 
     private EncabezadoRegistroCliente encabezado;
@@ -75,12 +79,14 @@ public class RegistroCliente extends JFrame implements IVista, IRegistroCliente{
     private String apellidoMaterno;
     private String telefono;
     private String correoElectronico;
+    private char[] contrasenia;
     
     private boolean nombresValido;
     private boolean apellidoPaternoValido;
     private boolean apellidoMaternoValido;
     private boolean telefonoValido;
     private boolean correoElectronicoValido;
+    private boolean contraseniaValida;
     
     private boolean usuarioEsAuxiliarVentas;
 
@@ -91,6 +97,12 @@ public class RegistroCliente extends JFrame implements IVista, IRegistroCliente{
     
     private String REGEX_EMAIL_VALIDO = "[A-Za-z0-9._]+@[A-Za-z0-9._]+\\.[A-Za-z]{2,}$";
     
+    /**
+     * Constructor de la clase que recibe el control, el ID del usuario y si este es un auxiliar de ventas o no.
+     * @param control Objeto ControlRegistroCliente que representa el control de este Caso de Uso.
+     * @param idUsuario Objeto Object que representa el ID del usuario en este Caso de Uso.
+     * @param usuarioEsAuxiliarVentas Valor boolean que determina si el usuario es un auxiliar de ventas o no.
+     */
     public RegistroCliente(
             ControlRegistroCliente control,
             Object idUsuario,
@@ -153,21 +165,21 @@ public class RegistroCliente extends JFrame implements IVista, IRegistroCliente{
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 0));
         panelBotones.setOpaque(false);
 
-        btnCancelar = new JButton("Cancelar");
-        btnCancelar.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        btnCancelar.setBackground(new Color(246, 255, 197));
+        btnSalir = new JButton("Salir");
+        btnSalir.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnSalir.setBackground(new Color(246, 255, 197));
 
         btnGuardar = new JButton("Guardar");
         btnGuardar.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnGuardar.setBackground(new Color(246, 255, 197));
         btnGuardar.setEnabled(false);
 
-        panelBotones.add(btnCancelar);
+        panelBotones.add(btnSalir);
         panelBotones.add(btnGuardar);
 
         panelContenedorFormulario.add(panelBotones);
         
-        btnCancelar.addActionListener(new ActionListener() {
+        btnSalir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 control.finalizarCasoUso(RegistroCliente.this);
@@ -186,6 +198,7 @@ public class RegistroCliente extends JFrame implements IVista, IRegistroCliente{
         configurarCampoTextoApellidoMaterno();
         configurarCampoTextoTelefono();
         configurarCampoTextoCorreoElectronico();
+        configurarCampoTextoContrasenia();
     }
     
     private void crearComponentesPanelDatos() {
@@ -323,6 +336,33 @@ public class RegistroCliente extends JFrame implements IVista, IRegistroCliente{
         panelMensajeCorreoElectronico.add(etqMensajeValidacionCorreoElectronico);
         
         panelDatosCliente.add(panelMensajeCorreoElectronico);
+        
+        // Contraseña
+        JPanel panelContrasenia = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panelContrasenia.setOpaque(false);
+
+        etqContrasenia = new JLabel("Contraseña:");
+        etqContrasenia.setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+        txtContrasenia = new JPasswordField(20);
+        txtContrasenia.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+
+        panelContrasenia.add(etqContrasenia);
+        panelContrasenia.add(txtContrasenia);
+
+        panelDatosCliente.add(panelContrasenia);
+
+        // Mensaje validación contraseña
+        JPanel panelMensajeContrasenia = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panelMensajeContrasenia.setOpaque(false);
+
+        etqMensajeValidacionContrasenia = new JLabel(" ");
+        etqMensajeValidacionContrasenia.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        etqMensajeValidacionContrasenia.setForeground(Color.RED);
+
+        panelMensajeContrasenia.add(etqMensajeValidacionContrasenia);
+        
+        panelDatosCliente.add(panelMensajeContrasenia);
 
     }
 
@@ -350,7 +390,13 @@ public class RegistroCliente extends JFrame implements IVista, IRegistroCliente{
                     etqMensajeValidacionNombres.setText("Este campo es obligatorio");
                     btnGuardar.setEnabled(false);
                     nombresValido = false;
-                } else{
+                    
+                } else if(nuevoNombres.length() > 50) {
+                    etqMensajeValidacionNombres.setText("No puede tener más de 50 caracteres.");
+                    btnGuardar.setEnabled(false);
+                    nombresValido = false;
+                    
+                }else{
                     etqMensajeValidacionNombres.setText(" ");
                     nombresValido = true;
                     nombres = txtNombres.getText();
@@ -383,6 +429,10 @@ public class RegistroCliente extends JFrame implements IVista, IRegistroCliente{
 
                 if(nuevoApellidoPaterno.isBlank()) {
                     etqMensajeValidacionApellidoPaterno.setText("Este campo es obligatorio");
+                    btnGuardar.setEnabled(false);
+                    apellidoPaternoValido = false;
+                } else if(nuevoApellidoPaterno.length() > 50) {
+                    etqMensajeValidacionApellidoPaterno.setText("No puede tener más de 50 caracteres.");
                     btnGuardar.setEnabled(false);
                     apellidoPaternoValido = false;
                 } else{
@@ -419,6 +469,12 @@ public class RegistroCliente extends JFrame implements IVista, IRegistroCliente{
                     etqMensajeValidacionApellidoMaterno.setText("Este campo es obligatorio");
                     btnGuardar.setEnabled(false);
                     apellidoMaternoValido = false;
+                    
+                }else if(nuevoApellidoMaterno.length() > 50) {
+                    etqMensajeValidacionApellidoMaterno.setText("No puede tener más de 50 caracteres.");
+                    btnGuardar.setEnabled(false);
+                    apellidoMaternoValido = false;
+                        
                 } else{
                     etqMensajeValidacionApellidoMaterno.setText(" ");
                     apellidoMaternoValido = true;
@@ -498,7 +554,10 @@ public class RegistroCliente extends JFrame implements IVista, IRegistroCliente{
                     etqMensajeValidacionCorreoElectronico.setText("El correo debe tener el formato ejemplo@dominio.com");
                     btnGuardar.setEnabled(false);
                     correoElectronicoValido = false;
-                    
+                } else if(nuevoCorreoElectronico.length() > 320){   
+                    etqMensajeValidacionCorreoElectronico.setText("El correo no debe tener más de 320 caracteres");
+                    btnGuardar.setEnabled(false);
+                    correoElectronicoValido = false;                   
                 } else {
                     txtCorreoElectronico.setForeground(Color.BLACK);
                     etqMensajeValidacionCorreoElectronico.setText(" ");
@@ -509,9 +568,51 @@ public class RegistroCliente extends JFrame implements IVista, IRegistroCliente{
             }
         });
     }
+    
+    public void configurarCampoTextoContrasenia() {
+        txtContrasenia.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validarContrasenia();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validarContrasenia();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                validarContrasenia();
+            }
+
+            private void validarContrasenia() {
+                char[] nuevaContrasenia = txtContrasenia.getPassword();
+
+                if(nuevaContrasenia.length <= 0) {
+                    etqMensajeValidacionContrasenia.setText("Este campo es obligatorio");
+                    btnGuardar.setEnabled(false);
+                    contraseniaValida = false;
+                } else if(nuevaContrasenia.length < 8){
+                    etqMensajeValidacionContrasenia.setText("Debe tener al menos 8 caracteres");
+                    btnGuardar.setEnabled(false);
+                    contraseniaValida = false; 
+                } else if(nuevaContrasenia.length > 50){
+                    etqMensajeValidacionContrasenia.setText("No puede superar los 50 caracteres");
+                    btnGuardar.setEnabled(false);
+                    contraseniaValida = false; 
+                } else{
+                    etqMensajeValidacionContrasenia.setText(" ");
+                    contraseniaValida = true;
+                    contrasenia = txtContrasenia.getPassword();
+                }
+                habilitarBotonGuardar();
+            }
+        });
+    }
 
     private void habilitarBotonGuardar() {
-        if(nombresValido && apellidoPaternoValido && apellidoMaternoValido && telefonoValido && correoElectronicoValido) {
+        if(nombresValido && apellidoPaternoValido && apellidoMaternoValido && telefonoValido && correoElectronicoValido && contraseniaValida) {
             btnGuardar.setEnabled(true);
         } else {
             btnGuardar.setEnabled(false);
@@ -520,7 +621,7 @@ public class RegistroCliente extends JFrame implements IVista, IRegistroCliente{
 
     public void guardarDatosCliente() {
         control.registrarCliente(
-                Arrays.asList(nombres, apellidoPaterno, apellidoMaterno, telefono, correoElectronico));
+                Arrays.asList(nombres, apellidoPaterno, apellidoMaterno, telefono, correoElectronico, contrasenia));
     }
 
     
@@ -542,7 +643,9 @@ public class RegistroCliente extends JFrame implements IVista, IRegistroCliente{
         encabezado.ocultarBtnSalir();
     }
 
-    
+    /**
+     * Clase que representa un panel con bordes redondeados
+     */
     class PanelRedondeado extends JPanel {
         private int radioEsquinas;
         private Color colorFondo;

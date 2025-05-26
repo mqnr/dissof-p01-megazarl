@@ -276,6 +276,7 @@ public class RepositorioCarritoComprasEnMongodb implements RepositorioCarritoCom
         
             for(ProductoCarritoDTODatos productoCarritoDTODatos: carritoComprasDTODatos.getProductosCarrito()){
                 
+                
                 listaProductosCarritoDTONegocios.add(
                         new ProductoCarritoDTONegocios(
                                 new IdEntidadGenericoNegocios(productoCarritoDTODatos.getIdProducto().getId()),
@@ -359,7 +360,7 @@ public class RepositorioCarritoComprasEnMongodb implements RepositorioCarritoCom
         
         ActualizacionProductoCarritoDTODatos actualizacionProductoCarritoDTODatos 
                 = new ActualizacionProductoCarritoDTODatos(
-                        new IdEntidadGenericoDatos(actualizacionProductoCarritoDTONegocios.getId()));
+                        new IdEntidadGenericoDatos(actualizacionProductoCarritoDTONegocios.getId().getId()));
         
         actualizacionProductoCarritoDTODatos.setCantidad(actualizacionProductoCarritoDTONegocios.getCantidad());
         
@@ -412,12 +413,11 @@ public class RepositorioCarritoComprasEnMongodb implements RepositorioCarritoCom
             RegistroInexistenteNegocioException, 
             FormatoIdInvalidoNegocioException {
         
-        
         ProductoCarritoDTODatos productoCarritoDTODatos = 
                 new ProductoCarritoDTODatos(
-                        new IdEntidadGenericoDatos(nuevoProductoCarritoNegocios.getIdProducto().getId()),
                         nuevoProductoCarritoNegocios.getCantidad(),
-                        new IdEntidadGenericoDatos(nuevoProductoCarritoNegocios.getIdCliente().getId()));
+                        new IdEntidadGenericoDatos(nuevoProductoCarritoNegocios.getIdCliente().getId()),
+                        new IdEntidadGenericoDatos(nuevoProductoCarritoNegocios.getIdProducto().getId()));
         
         try {
             administradorMongodb.agregarProductoCarrito(productoCarritoDTODatos);
@@ -430,6 +430,7 @@ public class RepositorioCarritoComprasEnMongodb implements RepositorioCarritoCom
         }
 
     }
+    
 
     @Override
     public void agregarProductosCarrito(Collection<ProductoCarritoDTONegocios> nuevosProductosCarrito) 

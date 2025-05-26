@@ -3,6 +3,7 @@ package edu.student.itson.dissof.megazarl.objetosnegocio.interfaces;
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTONegocios;
+import edu.student.itson.dissof.megazarl.dto.negocios.NuevoClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.FormatoIdInvalidoNegocioException;
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ParametroNuloNegocioException;
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.RegistroInexistenteNegocioException;
@@ -27,7 +28,7 @@ public interface RepositorioCliente {
             ValorParametroInvalidoNegocioException,
             ParametroNuloNegocioException;
     
-    public abstract void agregar(ClienteDTONegocios clienteDTO)
+    public abstract void agregar(ClienteDTONegocios clienteDTONegocios)
             throws FormatoIdInvalidoNegocioException,
             RegistroInexistenteNegocioException,
             ValorParametroInvalidoNegocioException,

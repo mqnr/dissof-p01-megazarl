@@ -27,6 +27,8 @@ public class Cliente {
     private String correoElectronico;
     
     private Direccion direccionEnvio;
+    
+    private String hashContrasenia;
 
     public Cliente() {}
      
@@ -36,7 +38,8 @@ public class Cliente {
             String apellidoPaterno, 
             String telefono, 
             String correoElectronico, 
-            Direccion direccionEnvio) {
+            Direccion direccionEnvio,
+            String hashContrasenia) {
         
         this.nombres = nombres;
         this.apellidoMaterno = apellidoMaterno;
@@ -44,6 +47,7 @@ public class Cliente {
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
         this.direccionEnvio = direccionEnvio;
+        this.hashContrasenia = hashContrasenia;
     }
 
     public ObjectId getId() {
@@ -100,6 +104,14 @@ public class Cliente {
 
     public void setDireccionEnvio(Direccion direccionEnvio) {
         this.direccionEnvio = direccionEnvio;
+    }
+
+    public String getHashContrasenia() {
+        return hashContrasenia;
+    }
+
+    public void setHashContrasenia(String hashContrasenia) {
+        this.hashContrasenia = hashContrasenia;
     }
    
 }
