@@ -60,7 +60,7 @@ public class RepositorioCarritoComprasEnMongodb implements RepositorioCarritoCom
             for(ProductoCarritoDTODatos productoCarritoDTODatos: carritoComprasDTODatos.getProductosCarrito()){
                 listaProductosCarritoDTONegocios.add(
                         new ProductoCarritoDTONegocios(
-                                new IdEntidadGenericoNegocios(productoCarritoDTODatos.getIdProducto().getId()),
+                                new IdEntidadGenericoNegocios(productoCarritoDTODatos.getId().getId()),
                                 new IdEntidadGenericoNegocios(productoCarritoDTODatos.getIdProducto().getId()),
                                 productoCarritoDTODatos.getCantidad())
                         
@@ -279,7 +279,7 @@ public class RepositorioCarritoComprasEnMongodb implements RepositorioCarritoCom
                 
                 listaProductosCarritoDTONegocios.add(
                         new ProductoCarritoDTONegocios(
-                                new IdEntidadGenericoNegocios(productoCarritoDTODatos.getIdProducto().getId()),
+                                new IdEntidadGenericoNegocios(productoCarritoDTODatos.getId().getId()),
                                 new IdEntidadGenericoNegocios(productoCarritoDTODatos.getIdProducto().getId()),
                                 productoCarritoDTODatos.getCantidad())
                         

@@ -264,9 +264,6 @@ class AdministradorCarritoCompras implements IAdministradorCarritoCompras {
         }
 
     }
-    private static final Logger LOG = Logger.getLogger(AdministradorCarritoCompras.class.getName());
-    
-    
 
     @Override
     public void eliminarProducto(InformacionProductoEliminarCarritoDTONegocios informacionProductoEliminarCarritoDTO)

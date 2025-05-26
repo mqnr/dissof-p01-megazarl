@@ -5,7 +5,6 @@ import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.eq;
 import com.mycompany.megazarl.administrador.mongodb.clasesmapeadas.Cliente;
 import com.mycompany.megazarl.administrador.mongodb.clasesmapeadas.Direccion;
-import com.mycompany.megazarl.administrador.mongodb.excepciones.AgregarInformacionNulaException;
 import com.mycompany.megazarl.administrador.mongodb.excepciones.FormatoIdInvalidoException;
 import com.mycompany.megazarl.administrador.mongodb.excepciones.ParametroNuloException;
 import com.mycompany.megazarl.administrador.mongodb.excepciones.RegistroInexistenteException;
@@ -25,7 +24,12 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 
 /**
- * Clase de acceso a datos para operaciones con clientes.
+ * ClientesDAO.java
+ * 
+ * Clase DAO para operaciones CRUD de clientes en MongoDB. Maneja validaciones de datos,
+ * conversiones DTO-entidad y lanza excepciones específicas para errores de negocio.
+ * 
+ * @author Manuel Romo López
  */
 public class ClientesDAO {
 
@@ -92,15 +96,12 @@ public class ClientesDAO {
     private final int CANTIDAD_MAXIMA_DIGITOS_NUMERO_DIRECCION = 5;
 
     /**
-     * Método que permite determinar si exite un registro de carrito de compras 
-     * almacenado a partir de su ID.
-     * @param idClienteDTODatos Objeto IdClienteDTODatos que contiene
-     * el ID de carrito de compras a buscar.
-     * @return Valor booleano, true si el registro de carrito existe, false en caso contrario.
-     * @throws ParametroNuloException Se lanza si se determina que uno de los
-     * parámetros recibidos es nulo.
-     * @throws FormatoIdInvalidoException Se lanza si se determia que
-     * el formato de ID recibido es inválido.
+     * Verifica la existencia de un cliente por su ID.
+     * 
+     * @param idClienteDTODatos DTO con el identificador del cliente
+     * @return true si el cliente existe, false en caso contrario
+     * @throws ParametroNuloException Si el DTO o ID son nulos
+     * @throws FormatoIdInvalidoException Si el formato del ID es incorrecto
      */
     public boolean existePorId(IdClienteDTODatos idClienteDTODatos) 
         throws ParametroNuloException,
@@ -127,6 +128,15 @@ public class ClientesDAO {
         }
     }
 
+    /**
+     * Recupera un cliente completo por su ID.
+     * 
+     * @param idClienteDTODatos DTO con el identificador del cliente
+     * @return DTO con todos los datos del cliente
+     * @throws FormatoIdInvalidoException Si el formato del ID es incorrecto
+     * @throws RegistroInexistenteException Si no se encuentra el cliente
+     * @throws ParametroNuloException Si el DTO o ID son nulos
+     */
     public ClienteDTODatos recuperarPorId(IdClienteDTODatos idClienteDTODatos) 
         throws FormatoIdInvalidoException, 
             RegistroInexistenteException, 
@@ -163,6 +173,16 @@ public class ClientesDAO {
         }
     }
 
+    /**
+     * Actualiza los datos de un cliente existente.
+     * 
+     * @param actualizacionClienteDTODatos DTO con datos actualizados y ID del cliente
+     * @return DTO con los datos actualizados del cliente
+     * @throws FormatoIdInvalidoException Si el formato del ID es incorrecto
+     * @throws RegistroInexistenteException Si no se encuentra el cliente
+     * @throws ParametroNuloException Si el DTO o campos requeridos son nulos
+     * @throws ValorParametroInvalidoException Si los datos de dirección son inválidos
+     */
     public ClienteDTODatos actualizar(ActualizacionClienteDTODatos actualizacionClienteDTODatos) 
         throws FormatoIdInvalidoException, 
                RegistroInexistenteException,
@@ -177,7 +197,7 @@ public class ClientesDAO {
             throw new ParametroNuloException(String.format(MENSAJE_PARAMETRO_NULO, "id", NOMBRE_ENTIDAD_CLIENTE));
         }
 
-        String idClienteString = validarIdActualizacion(actualizacionClienteDTODatos.getId().getId());
+        String idClienteString = (String)(actualizacionClienteDTODatos.getId().getId());
         ObjectId idCliente = new ObjectId(idClienteString);
 
         MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
@@ -213,6 +233,15 @@ public class ClientesDAO {
         return convertirClienteADTO(cliente);
     }
 
+    /**
+     * Registra un nuevo cliente en la base de datos.
+     * 
+     * @param nuevoCliente DTO con los datos del nuevo cliente
+     * @throws FormatoIdInvalidoException Si hay problemas con IDs generados
+     * @throws RegistroInexistenteException Si hay referencias a registros inexistentes
+     * @throws ValorParametroInvalidoException Si los datos del cliente son inválidos
+     * @throws ParametroNuloException Si el DTO o campos obligatorios son nulos
+     */
     public void agregar(ClienteDTODatos nuevoCliente) 
         throws FormatoIdInvalidoException, 
                RegistroInexistenteException,
@@ -239,11 +268,20 @@ public class ClientesDAO {
 
         MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
         
-        MongoCollection<Cliente> coleccioClientes = baseDatos.getCollection(COLECCION_CLIENTES, Cliente.class);
-        
-        coleccioClientes.insertOne(cliente);
+        MongoCollection<Cliente> coleccionClientes = baseDatos.getCollection(COLECCION_CLIENTES, Cliente.class);
+   
+        coleccionClientes.insertOne(cliente);
     }
     
+    /**
+     * Registra múltiples clientes en lote.
+     * 
+     * @param nuevosClientes Colección de DTOs de nuevos clientes
+     * @throws FormatoIdInvalidoException Si hay problemas con IDs generados
+     * @throws RegistroInexistenteException Si hay referencias a registros inexistentes
+     * @throws ValorParametroInvalidoException Si los datos de algún cliente son inválidos
+     * @throws ParametroNuloException Si la colección es nula o vacía
+     */
     public void agregar(Collection<ClienteDTODatos> nuevosClientes) 
             throws FormatoIdInvalidoException, 
                    RegistroInexistenteException,
@@ -292,6 +330,11 @@ public class ClientesDAO {
     }
     
     
+    /**
+     * Recupera todos los clientes registrados en la base de datos.
+     * 
+     * @return Lista de DTOs con todos los clientes
+     */
     public List<ClienteDTODatos> recuperarTodos() {
         MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
         MongoCollection<Cliente> coleccionClientes = baseDatos.getCollection(COLECCION_CLIENTES, Cliente.class);
@@ -303,20 +346,6 @@ public class ClientesDAO {
             .collect(Collectors.toList());
     }
 
-
-    private String validarIdActualizacion(Object id) throws FormatoIdInvalidoException {
-        
-        try {
-            
-            return new ObjectId((String) id).toHexString();
-            
-        } catch (IllegalArgumentException e) {
-            
-            throw new FormatoIdInvalidoException(
-                String.format(MENSAJE_ID_FORMATO_INVALIDO, NOMBRE_ENTIDAD_CLIENTE));
-            
-        }
-    }
 
     private void verificarExistenciaCliente(ObjectId idCliente, MongoCollection<Cliente> coleccionClientes) 
         throws RegistroInexistenteException {

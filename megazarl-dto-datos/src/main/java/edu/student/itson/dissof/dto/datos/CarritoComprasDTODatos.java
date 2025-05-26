@@ -22,13 +22,13 @@ public class CarritoComprasDTODatos{
             Boolean esVigente,
             IdEntidadGenericoDatos idCliente,
             IdEntidadGenericoDatos idPaqueteria,
-            List<ProductoCarritoDTODatos> idsProductosCarrito) {
+            List<ProductoCarritoDTODatos> productosCarrito) {
         
         this.id = id;
         this.esVigente = esVigente;
         this.idCliente = idCliente;
         this.idPaqueteria = idPaqueteria;
-        this.productosCarrito = idsProductosCarrito;
+        this.productosCarrito = productosCarrito;
     }
     
     public CarritoComprasDTODatos(

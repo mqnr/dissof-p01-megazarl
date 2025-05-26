@@ -6,6 +6,7 @@ import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
+import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.ReturnDocument;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.UpdateResult;
@@ -394,8 +395,8 @@ public class CarritosComprasDAO {
     private List<ProductoCarritoDTODatos> convertirProductosEntidad(List<ProductoCarrito> productos) {
         return productos.stream()
             .map(productoCarrito -> new ProductoCarritoDTODatos(
-                productoCarrito.getCantidad(),
                 new IdEntidadGenericoDatos(productoCarrito.getId().toHexString()),
+                productoCarrito.getCantidad(),
                 new IdEntidadGenericoDatos(productoCarrito.getIdProducto().toHexString())
                 
             ))
@@ -619,22 +620,33 @@ public class CarritosComprasDAO {
         
         MongoDatabase baseDatos = ManejadorConexiones.obtenerBaseDatos();
         
-        MongoCollection<ProductoCarrito> coleccionCarritosCompras = baseDatos.getCollection(COLECCION_CARRITOS, ProductoCarrito.class);
+        MongoCollection<CarritoCompras> coleccionCarritosCompras = baseDatos.getCollection(COLECCION_CARRITOS, CarritoCompras.class);
 
         Bson filtro = Filters.elemMatch(CAMPO_PRODUCTOS_CARRITO, Filters.eq(CAMPO_ID, idProductoCarritoObjectId));
         Bson actualizacion = Updates.set(CAMPO_PRODUCTOS_CARRITO + ".$.cantidad", actualizacionProductoCarritoDTODatos.getCantidad());
         
-        ProductoCarrito productoCarrito = coleccionCarritosCompras.findOneAndUpdate(
-            filtro, 
-            actualizacion, 
-            new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
-        );
+        FindOneAndUpdateOptions opciones = new FindOneAndUpdateOptions()
+            .returnDocument(ReturnDocument.AFTER)
+            .projection(Projections.fields(
+                Projections.elemMatch(CAMPO_PRODUCTOS_CARRITO, Filters.eq(CAMPO_ID, idProductoCarritoObjectId))
+        ));
+
+
+        CarritoCompras carritoActualizado = coleccionCarritosCompras.findOneAndUpdate(filtro, actualizacion, opciones);
+
         
-        if (productoCarrito == null) {
+        ProductoCarrito productoCarrito = null;
+        if (carritoActualizado != null && carritoActualizado.getProductosCarrito() != null
+                && !carritoActualizado.getProductosCarrito().isEmpty()) {
+            
+            productoCarrito = carritoActualizado.getProductosCarrito().get(0);
+            
+        } else {
             throw new RegistroInexistenteException(
-                String.format(MENSAJE_REGISTRO_INEXISTENTE, NOMBRE_ENTIDAD_PRODUCTO_CARRITO, idProductoCarritoString)
+                String.format(MENSAJE_REGISTRO_INEXISTENTE, NOMBRE_ENTIDAD_PRODUCTO_CARRITO, idProductoCarritoObjectId.toHexString())
             );
         }
+
         
         ProductoCarritoDTODatos productoCarritoDTODatos = new ProductoCarritoDTODatos(
                 new IdEntidadGenericoDatos(productoCarrito.getId().toHexString()),
@@ -643,6 +655,7 @@ public class CarritosComprasDAO {
         
         return productoCarritoDTODatos;
     }
+    private static final Logger LOG = Logger.getLogger(CarritosComprasDAO.class.getName());
     
     
     public void removerProductoCarritoPorId(IdProductoCarritoDTODatos idProdutoCarritoDTODatos) 
@@ -718,19 +731,8 @@ public class CarritosComprasDAO {
             Updates.push(CAMPO_PRODUCTOS_CARRITO, productoCarrito)
         );
         
-        LOG.log(Level.SEVERE,"Campos modificados");
-        LOG.log(Level.SEVERE,String.valueOf(idCliente.toHexString()));
-        LOG.log(Level.SEVERE,String.valueOf(idCliente.toHexString()));
-        LOG.log(Level.SEVERE,String.valueOf(idCliente.toHexString()));
-        LOG.log(Level.SEVERE,String.valueOf(idCliente.toHexString()));
-        LOG.log(Level.SEVERE,String.valueOf(idCliente.toHexString()));
-        LOG.log(Level.SEVERE,String.valueOf(idCliente.toHexString()));
-        LOG.log(Level.SEVERE,String.valueOf(idCliente.toHexString()));
-        
-        
     }
-    private static final Logger LOG = Logger.getLogger(CarritosComprasDAO.class.getName());
-    
+
     public void agregarProductosCarrito(Collection<ProductoCarritoDTODatos> nuevosProductosCarrito) 
             throws ParametroNuloException,
             RegistroInexistenteException,
@@ -795,7 +797,6 @@ public class CarritosComprasDAO {
             Aggregates.replaceRoot("$" + CAMPO_PRODUCTOS_CARRITO)
         );
 
-        // Aquí usamos aggregate con el pipeline y mapeamos el resultado directamente a ProductoCarritoDTONegocios.
         List<ProductoCarritoDTODatos> productosCarrito = coleccionCarritos.aggregate(tuberia, ProductoCarritoDTODatos.class).into(new ArrayList<>());
 
         return productosCarrito;

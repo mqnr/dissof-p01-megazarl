@@ -80,18 +80,20 @@ public class App {
                             "López",
                             "6441234567",
                             "juanperez@gmail.com",
+                            "2a3c4e67b5198610d43fe9ab07cbd4ec8a6f1d203e47bfa2176cf9eb0345acde",
                             direccionEnvioCliente
                     );
 
-                {
+
                     try {
                         // Se registra el cliente utilizando la clase envolvente Cliente
                         Cliente.agregar(cliente);
                     } catch (FormatoIdInvalidoNegocioException | RegistroInexistenteNegocioException |
                             ValorParametroInvalidoNegocioException | ParametroNuloNegocioException ex) {
-                        LOG.log(Level.SEVERE, "Ha ocurrido un error al iniciar la aplicación.");
+                        LOG.log(Level.SEVERE, MENSAJE_ERROR_INICIAR_APLICACION);
+                        LOG.log(Level.SEVERE, ex.getMessage());
                     }
-                }
+                    
 
                     // Se crean los DTOs de las sucursales de la empresa y sus respectivas
                     // direcciones
@@ -154,7 +156,10 @@ public class App {
                             LOG.log(Level.SEVERE, MENSAJE_ERROR_INICIAR_APLICACION);
                         }
                     }
-
+                    
+                    
+                    List<SucursalDTONegocios> listaSucursalesRegistradas = Sucursal.recuperarTodos();
+                   
                     // Se crean los DTOs de los proveedores de la empresa junto con
                     // sus respectivas direcciones
                     DireccionDTONegocios direccionProveedor1 = new DireccionDTONegocios(
@@ -444,10 +449,8 @@ public class App {
                         }
                     }
                     
-                    
-
-                    List<SucursalDTONegocios> listaSucursalesRegistradas = Sucursal.recuperarTodos();
                     List<ProductoDTONegocios> listaProductosRegistrados = Producto.recuperarTodos();
+
                     // Se crean e insertan los DTOs de productos en inventario disponibles,
                     // se registran utilizando la clase envolvente ProductoInventario
 
@@ -689,6 +692,7 @@ public class App {
 
                     
                     List<ClienteDTONegocios> clientesRegistrados = Cliente.recuperarTodos();
+                    
                     
                     Object idCliente = clientesRegistrados.get(0).getId().getId();
                     

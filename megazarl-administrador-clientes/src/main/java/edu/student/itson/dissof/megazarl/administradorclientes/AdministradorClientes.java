@@ -1,3 +1,4 @@
+
 package edu.student.itson.dissof.megazarl.administradorclientes;
 
 import edu.student.itson.dissof.megazarl.administradorclientes.excepciones.ClientesAccesoArchivoCodigosPostalesFallidoException;
@@ -25,25 +26,39 @@ import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ParametroNul
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.RegistroInexistenteNegocioException;
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ValorParametroInvalidoNegocioException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-
-
-class AdministradorClientes implements IAdministradorClientes {
+/**
+ * AdministradorClientes.java
+ * 
+ * Clase que proporciona métodos para administrar clientes, incluyendo operaciones
+ * de recuperación, actualización, validación y registro. Maneja excepciones específicas
+ * relacionadas con la persistencia y validación de datos de clientes.
+ * 
+ * @author Manuel Romo López
+ */
+class AdministradorClientes {
 
     private final String MENSAJE_TELEFONO_DUPLICADO = "Ya existe un cliente registrado con el mismo teléfono";
     private final String MENSAJE_CORREO_ELECTRONICO_DUPLICADO = "Ya existe un cliente registrado con el mismo correo electrónico";
     
-    
     private final IAdministradorDirecciones administradorDirecciones;
     
+    /**
+     * Constructor que inicializa el administrador de clientes con un administrador de direcciones.
+     * 
+     * @param administradorDirecciones Instancia de IAdministradorDirecciones para gestionar direcciones.
+     */
     public AdministradorClientes(IAdministradorDirecciones administradorDirecciones){
         this.administradorDirecciones = administradorDirecciones;
     }
     
-
-    @Override
+    /**
+     * Recupera un cliente por su identificador.
+     * 
+     * @param idClienteDTONegocios DTO con el identificador del cliente.
+     * @return DTO con la información del cliente encontrado.
+     * @throws ClientesPersistenciaException Si ocurre un error al acceder a la persistencia.
+     */
     public ClienteDTONegocios obtenerCliente(IdClienteDTONegocios idClienteDTONegocios) throws ClientesPersistenciaException {
         try {
             return Cliente.recuperarPorId(idClienteDTONegocios);
@@ -52,8 +67,15 @@ class AdministradorClientes implements IAdministradorClientes {
         }
     }
     
-
-    @Override
+    /**
+     * Actualiza la dirección de envío de un cliente.
+     * 
+     * @param informacionDireccionEnvioActualizadaClienteDTO DTO con la nueva información de dirección.
+     * @throws ClientesIdClienteInvalidoException Si el ID del cliente es inválido.
+     * @throws ClientesAccesoArchivoCodigosPostalesFallidoException Si falla el acceso al archivo de códigos postales.
+     * @throws ClientesArchivoCodigosPostalesVacioException Si el archivo de códigos postales está vacío.
+     * @throws ClientesPersistenciaException Si ocurre un error al actualizar la información.
+     */
     public void actualizarDireccionCliente(InformacionDireccionEnvioActualizadaClienteDTONegocios informacionDireccionEnvioActualizadaClienteDTO)
             throws ClientesIdClienteInvalidoException,
             ClientesAccesoArchivoCodigosPostalesFallidoException,
@@ -91,7 +113,15 @@ class AdministradorClientes implements IAdministradorClientes {
 
     }   
     
-    @Override
+    /**
+     * Obtiene la información no derivada de la dirección de envío de un cliente (número, calle, colonia, código postal).
+     * 
+     * @param IdClienteDTONegocios DTO con el identificador del cliente.
+     * @return DTO con la información no derivada de la dirección.
+     * @throws ClientesIdClienteInvalidoException Si el ID del cliente es inválido.
+     * @throws ClientesIdDireccionInvalidoException Si el ID de la dirección es inválido.
+     * @throws ClientesPersistenciaException Si ocurre un error al recuperar la información.
+     */
     public InformacionNoDerivadaCPDireccionDTONegocios obtenerInformacionNoDerivadaCPDireccionEnvio(IdClienteDTONegocios IdClienteDTONegocios) 
             throws ClientesIdClienteInvalidoException,
             ClientesIdDireccionInvalidoException,
@@ -126,7 +156,15 @@ class AdministradorClientes implements IAdministradorClientes {
        return informacionNoDerivadaCPDireccionDTO;
     }
     
-    @Override
+    /**
+     * Obtiene la información derivada de la dirección de envío de un cliente (estado, ciudad).
+     * 
+     * @param idClienteDTONegocios DTO con el identificador del cliente.
+     * @return DTO con la información derivada de la dirección.
+     * @throws ClientesIdClienteInvalidoException Si el ID del cliente es inválido.
+     * @throws ClientesIdDireccionInvalidoException Si el ID de la dirección es inválido.
+     * @throws ClientesPersistenciaException Si ocurre un error al recuperar la información.
+     */
     public InformacionDerivadaCPDireccionDTONegocios obtenerInformacionDerivadaCPDireccionEnvio(IdClienteDTONegocios idClienteDTONegocios)
             throws ClientesIdClienteInvalidoException,
             ClientesIdDireccionInvalidoException,
@@ -163,7 +201,14 @@ class AdministradorClientes implements IAdministradorClientes {
         return informacionDerivadaCPDireccionDTO;
     }
 
-    @Override
+    /**
+     * Obtiene los nombres y apellido de un cliente.
+     * 
+     * @param idClienteDTONegocios DTO con el identificador del cliente.
+     * @return DTO con los nombres y apellido del cliente.
+     * @throws ClientesIdClienteInvalidoException Si el ID del cliente es inválido.
+     * @throws ClientesPersistenciaException Si ocurre un error al recuperar la información.
+     */
     public NombresApellidoClienteDTONegocios obtenerNombresApellidoCliente(IdClienteDTONegocios idClienteDTONegocios)
             throws ClientesIdClienteInvalidoException,
             ClientesPersistenciaException{
@@ -184,8 +229,13 @@ class AdministradorClientes implements IAdministradorClientes {
         );
     }
     
-    
-    @Override
+    /**
+     * Valida si un cliente existe en la persistencia.
+     * 
+     * @param idClienteDTONegocios DTO con el identificador del cliente.
+     * @return true si el cliente es válido, false en caso contrario.
+     * @throws ClientesPersistenciaException Si ocurre un error al validar el cliente.
+     */
     public boolean validarCliente(IdClienteDTONegocios idClienteDTONegocios) throws ClientesPersistenciaException{
         
         try {
@@ -199,7 +249,14 @@ class AdministradorClientes implements IAdministradorClientes {
         return true;
     }
 
-    @Override
+    /**
+     * Registra un nuevo cliente verificando duplicados de teléfono y correo electrónico.
+     * 
+     * @param nuevoClienteDTONegocios DTO con la información del nuevo cliente.
+     * @throws ClientesTelefonoNuevoClienteYaExisteException Si el teléfono ya está registrado.
+     * @throws ClientesCorreoElectronicoYaExisteException Si el correo electrónico ya está registrado.
+     * @throws ClientesPersistenciaException Si ocurre un error al registrar el cliente.
+     */
     public void registrarCliente(NuevoClienteDTONegocios nuevoClienteDTONegocios)
             throws ClientesTelefonoNuevoClienteYaExisteException,
             ClientesCorreoElectronicoYaExisteException,

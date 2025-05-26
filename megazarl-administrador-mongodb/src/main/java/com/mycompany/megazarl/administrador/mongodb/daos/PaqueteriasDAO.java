@@ -224,6 +224,7 @@ public class PaqueteriasDAO {
 
     private DireccionDTODatos convertirDireccionADTO(Direccion direccion) {
         return direccion == null ? null : new DireccionDTODatos(
+            new IdEntidadGenericoDatos(direccion.getId()),
             direccion.getCodigoPostal(),
             direccion.getColonia(),
             direccion.getCalle(),

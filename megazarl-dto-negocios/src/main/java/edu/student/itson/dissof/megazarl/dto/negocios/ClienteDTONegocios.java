@@ -119,6 +119,34 @@ public class ClienteDTONegocios{
     }
     
     /**
+     * Consutructor que permite instanciar un objeto sin ID, con hash de contraseña y dirección
+     * @param nombres               Objeto String que representa los nombres del cliente.
+     * @param apellidoPaterno       Objeto String que representa el apellido paterno del cliente.
+     * @param apellidoMaterno       Objeto String que representa el apellido materno del cliente.
+     * @param telefono              Objeto String que representa el telefono del cliente.
+     * @param correoElectronico     Objeto String que representa el correo electrónico del cliente.
+     * @param hashContrasenia       Objeto String que representa el hash de la contraseña del cliente.
+     * @param direccionEnvio        Objeto DireccionDTONegocios que representa el correo electrónico del cliente.
+     */
+    public ClienteDTONegocios(
+            String nombres,
+            String apellidoPaterno, 
+            String apellidoMaterno,
+            String telefono, 
+            String correoElectronico,
+            String hashContrasenia,
+            DireccionDTONegocios direccionEnvio) {
+        
+        this.nombres = nombres;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.telefono = telefono;
+        this.correoElectronico = correoElectronico;
+        this.hashContrasenia = hashContrasenia;
+        this.direccionEnvio = direccionEnvio;
+    }
+    
+    /**
      * Consutructor que permite instanciar un objeto sin ID, direccion y con hash de contraseña.
      * @param nombres               Objeto String que representa los nombres del cliente.
      * @param apellidoPaterno       Objeto String que representa el apellido paterno del cliente.

@@ -15,7 +15,6 @@ import edu.student.itson.dissof.megazarl.dto.negocios.ActualizacionClienteDTONeg
 import edu.student.itson.dissof.megazarl.dto.negocios.ClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.DireccionDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.IdClienteDTONegocios;
-import edu.student.itson.dissof.megazarl.dto.negocios.NuevoClienteDTONegocios;
 import edu.student.itson.dissof.megazarl.dto.negocios.identidad.IdEntidadGenericoNegocios;
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.FormatoIdInvalidoNegocioException;
 import edu.student.itson.dissof.megazarl.objetosnegocio.excepciones.ParametroNuloNegocioException;
@@ -25,6 +24,8 @@ import edu.student.itson.dissof.megazarl.objetosnegocio.interfaces.RepositorioCl
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RepositorioClienteEnMongodb implements RepositorioCliente{
 
@@ -110,7 +111,14 @@ public class RepositorioClienteEnMongodb implements RepositorioCliente{
                     clienteDTONegocios.getApellidoMaterno(),
                     clienteDTONegocios.getTelefono(),
                     clienteDTONegocios.getCorreoElectronico(),
-                    clienteDTONegocios.getHashContrasenia());
+                    clienteDTONegocios.getHashContrasenia(),
+                    clienteDTONegocios.getDireccionEnvio() != null ? new DireccionDTODatos(
+                            clienteDTONegocios.getDireccionEnvio().getCodigoPostal(),
+                            clienteDTONegocios.getDireccionEnvio().getColonia(),
+                            clienteDTONegocios.getDireccionEnvio().getCalle(),
+                            clienteDTONegocios.getDireccionEnvio().getNumero()) : null
+                            
+            );
                 
         
         try {
@@ -126,6 +134,7 @@ public class RepositorioClienteEnMongodb implements RepositorioCliente{
             throw new ParametroNuloNegocioException(ex.getMessage());
         }
     }
+    private static final Logger LOG = Logger.getLogger(RepositorioClienteEnMongodb.class.getName());
     
     @Override
     public void agregar(Collection<ClienteDTONegocios> clientes)
@@ -180,8 +189,7 @@ public class RepositorioClienteEnMongodb implements RepositorioCliente{
                 = new ActualizacionClienteDTODatos(new IdEntidadGenericoDatos(actualizacionClienteDTONegocios.getId()));
         
         actualizacionClienteDTODatos.setDireccionEnvio(
-                new DireccionDTODatos(
-                        new IdEntidadGenericoDatos(actualizacionClienteDTONegocios.getDireccionEnvio().getId()), 
+                new DireccionDTODatos( 
                         actualizacionClienteDTONegocios.getDireccionEnvio().getCodigoPostal(),
                         actualizacionClienteDTONegocios.getDireccionEnvio().getColonia(),
                         actualizacionClienteDTONegocios.getDireccionEnvio().getCalle(),

@@ -43,6 +43,9 @@ public class PaqueteriaDTODatos{
      */
     protected String direccionImagen;
     
+    /**
+     * Objeto DireccionDTODatos que representa la dirección de la paquetería.
+     */
     private DireccionDTODatos direccion;
 
     public PaqueteriaDTODatos(
@@ -96,8 +99,6 @@ public class PaqueteriaDTODatos{
         return direccionImagen;
     }
 
-    
-    
     public DireccionDTODatos getDireccion() {
         return direccion;
     }
